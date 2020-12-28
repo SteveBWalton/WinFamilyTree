@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Family Tree Viewer</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FamilyTree.Viewer</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>Family Tree Viewer.xml</DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <DocumentationFile>Family Tree Viewer.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\FTObjects\FTObjects.csproj">
+      <Name>FTObjects</Name>
+      <Project>{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <None Include="Resources\Tick.png" />
+    <None Include="Resources\Save.png" />
+    <None Include="Resources\Font.png" />
+    <None Include="Resources\OK %2802%29.png" />
+    <None Include="Resources\Cancel %2802%29.png" />
+    <None Include="Resources\Plus.png" />
+    <None Include="Resources\gear.png" />
+    <None Include="Resources\delete 02.png" />
+    <None Include="Resources\Plus 02.png" />
+    <Content Include="Notes.txt" />
+    <None Include="Resources\refresh %2802%29.png" />
+    <None Include="Resources\Earth.png" />
+    <None Include="Resources\picture.png" />
+    <None Include="Resources\Arrow Blue Left.png" />
+    <None Include="Resources\Arrow Blue Up.png" />
+    <None Include="Resources\Arrow Blue Down.png" />
+    <None Include="Resources\Arrow Blue Right.png" />
+    <None Include="Resources\Magnify %2801%29 Plus.png" />
+    <None Include="Resources\Magnify %2801%29 Minus.png" />
+    <None Include="Resources\OneHundredPercent.png" />
+    <Content Include="Resources\Tree.ico" />
+    <None Include="Resources\web.png" />
+    <None Include="Resources\Wrench.png" />
+    <Compile Include="..\..\..\Innoval Technology Ltd\Shared\clsDataPaths.cs">
+      <Link>Innoval\clsDataPaths.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Innoval Technology Ltd\Shared\clsFileList.cs">
+      <Link>Innoval\clsFileList.cs</Link>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClipboardMetafileHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="clsReport.cs" />
+    <Compile Include="clsTreeConnection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="clsTreeDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="clsTreeOptions.cs" />
+    <Compile Include="clsTreePerson.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="clsTreeRule.cs" />
+    <Compile Include="clsUserOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmAge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAge.Designer.cs">
+      <DependentUpon>frmAge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBirthday.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBirthday.Designer.cs">
+      <DependentUpon>frmBirthday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditCensus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditMedia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditMedia.Designer.cs">
+      <DependentUpon>frmEditMedia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditPerson.Designer.cs">
+      <DependentUpon>frmEditPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditSources.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditSources.Designer.cs">
+      <DependentUpon>frmEditSources.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGedcomOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGedcomOptions.Designer.cs">
+      <DependentUpon>frmGedcomOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSelectLocation.Designer.cs">
+      <DependentUpon>frmSelectLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelectPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTreeOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTreeOptions.Designer.cs">
+      <DependentUpon>frmTreeOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUserOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUserOptions.Designer.cs">
+      <DependentUpon>frmUserOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditPlace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditPlace.Designer.cs">
+      <DependentUpon>frmEditPlace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewTree.Designer.cs">
+      <DependentUpon>frmViewTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ucDate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucPerson.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucRelationship.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmAge.resx">
+      <DependentUpon>frmAge.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBirthday.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmBirthday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditCensus.resx">
+      <DependentUpon>frmEditCensus.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditMedia.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEditMedia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditPerson.resx">
+      <DependentUpon>frmEditPerson.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditSources.resx">
+      <DependentUpon>frmEditSources.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGedcomOptions.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmGedcomOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSelectLocation.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSelectLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSelectPerson.resx">
+      <DependentUpon>frmSelectPerson.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTreeOptions.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmTreeOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUserOptions.resx">
+      <DependentUpon>frmUserOptions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewTree.resx">
+      <DependentUpon>frmViewTree.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditPlace.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEditPlace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucDate.resx">
+      <DependentUpon>ucDate.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucPerson.resx">
+      <DependentUpon>ucPerson.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucRelationship.resx">
+      <DependentUpon>ucRelationship.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
