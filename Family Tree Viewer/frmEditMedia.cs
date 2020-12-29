@@ -40,7 +40,7 @@ namespace FamilyTree.Viewer
         /// <param name="nMediaID">Specifies the ID of an existing media object.</param>
         public frmEditMedia
             (
-            clsDatabase oDb,
+            Database oDb,
             int nMediaID
             )
         {
@@ -55,7 +55,7 @@ namespace FamilyTree.Viewer
             {
                 m_oMedia = new clsMedia(oDb);
             }
-            m_sMediaDirectory = oDb.GetMediaDirectory();
+            m_sMediaDirectory = oDb.getMediaDirectory();
 
             m_txtTitle.Text  = m_oMedia.Title;
             m_txtFilename.Text = m_oMedia.Filename;
@@ -65,13 +65,13 @@ namespace FamilyTree.Viewer
 
             // Populate the list of people combo box
             int[] oAttachedPeople = m_oMedia.GetAttachedPeople();
-            clsIDName[] oPeople = oDb.GetPeople(enumChooseSex.Either,enumSortOrder.Date);
-            foreach(clsIDName oPerson in oPeople)
+            IndexName[] oPeople = oDb.getPeople(ChooseSex.EITHER,enumSortOrder.Date);
+            foreach(IndexName oPerson in oPeople)
             {
                 m_cboPeople.Items.Add(oPerson);
                 foreach(int nAttachedID in oAttachedPeople)
                 {
-                    if(nAttachedID == oPerson.ID)
+                    if(nAttachedID == oPerson.index)
                     {
                         m_lstPeople.Items.Add(oPerson);
                     }
@@ -85,7 +85,7 @@ namespace FamilyTree.Viewer
         /// <param name="oDb">Specifies the database to add the media object to.</param>
         public frmEditMedia
             (
-            clsDatabase oDb
+            Database oDb
             ) : this(oDb,0)
         {
         }
@@ -166,9 +166,9 @@ namespace FamilyTree.Viewer
 
             // Update the attached people
             m_oMedia.RemoveAllPeople();
-            foreach(clsIDName oPerson in m_lstPeople.Items)
+            foreach(IndexName oPerson in m_lstPeople.Items)
             {
-                m_oMedia.AddPerson(oPerson.ID);
+                m_oMedia.AddPerson(oPerson.index);
             }
 
             // Save this media object
@@ -214,7 +214,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void cmdAddPerson_Click(object sender,EventArgs e)
         {
-            clsIDName oPerson = (clsIDName)m_cboPeople.SelectedItem;
+            IndexName oPerson = (IndexName)m_cboPeople.SelectedItem;
             if(oPerson != null)
             {
                 m_lstPeople.Items.Add(oPerson);

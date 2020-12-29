@@ -98,21 +98,21 @@ namespace FamilyTree.Objects
 			if(drMarriage.Read())
 			{
                 When = Innoval.clsDatabase.GetDateTime(drMarriage,"WhenMarried",DateTime.Now);
-				Location = clsDatabase.GetString(drMarriage,"Location","");
-				GroomName = clsDatabase.GetString(drMarriage,"GroomName","");
-				GroomAge = clsDatabase.GetString(drMarriage,"GroomAge","");
-				GroomOccupation = clsDatabase.GetString(drMarriage,"GroomOccupation","");
-				GroomLiving = clsDatabase.GetString(drMarriage,"GroomLiving","");
-				GroomFather = clsDatabase.GetString(drMarriage,"GroomFather","");
-				GroomFatherOccupation = clsDatabase.GetString(drMarriage,"GroomFatherOccupation","");
-				BrideName = clsDatabase.GetString(drMarriage,"BrideName","");
-				BrideAge = clsDatabase.GetString(drMarriage,"BrideAge","");
-				BrideOccupation = clsDatabase.GetString(drMarriage,"BrideOccupation","");
-				BrideLiving = clsDatabase.GetString(drMarriage,"BrideLiving","");
-				BrideFather = clsDatabase.GetString(drMarriage,"BrideFather","");
-				BrideFatherOccupation = clsDatabase.GetString(drMarriage,"BrideFatherOccupation","");
-				Witness = clsDatabase.GetString(drMarriage,"Witness","");
-                GroReference = clsDatabase.GetString(drMarriage,"GroReference","");
+				Location = Database.GetString(drMarriage,"Location","");
+				GroomName = Database.GetString(drMarriage,"GroomName","");
+				GroomAge = Database.GetString(drMarriage,"GroomAge","");
+				GroomOccupation = Database.GetString(drMarriage,"GroomOccupation","");
+				GroomLiving = Database.GetString(drMarriage,"GroomLiving","");
+				GroomFather = Database.GetString(drMarriage,"GroomFather","");
+				GroomFatherOccupation = Database.GetString(drMarriage,"GroomFatherOccupation","");
+				BrideName = Database.GetString(drMarriage,"BrideName","");
+				BrideAge = Database.GetString(drMarriage,"BrideAge","");
+				BrideOccupation = Database.GetString(drMarriage,"BrideOccupation","");
+				BrideLiving = Database.GetString(drMarriage,"BrideLiving","");
+				BrideFather = Database.GetString(drMarriage,"BrideFather","");
+				BrideFatherOccupation = Database.GetString(drMarriage,"BrideFatherOccupation","");
+				Witness = Database.GetString(drMarriage,"Witness","");
+                GroReference = Database.GetString(drMarriage,"GroReference","");
 			}
 			drMarriage.Close();
         }
@@ -126,7 +126,7 @@ namespace FamilyTree.Objects
 		/// <returns>True for success, false otherwise.</returns>
 		public bool Save
 			(
-			clsDatabase oDb
+			Database oDb
 			)
 		{
 			// Validate the ID
@@ -137,22 +137,22 @@ namespace FamilyTree.Objects
 
 			// Write the record into the database
 			string sSql = "UPDATE tbl_MarriageCertificates SET "+
-                "GroReference="+clsDatabase.ToDb(GroReference)+","+
-                "WhenMarried=" + clsDatabase.ToDb(When) + "," +
-				"Location="+clsDatabase.ToDb(Location)
-				+",GroomName="+clsDatabase.ToDb(GroomName)
-				+",GroomAge="+clsDatabase.ToDb(GroomAge)
-				+",GroomOccupation="+clsDatabase.ToDb(GroomOccupation)
-				+",GroomLiving="+clsDatabase.ToDb(GroomLiving)
-				+",GroomFather="+clsDatabase.ToDb(GroomFather)
-				+",GroomFatherOccupation="+clsDatabase.ToDb(GroomFatherOccupation)
-				+",BrideName="+clsDatabase.ToDb(BrideName)
-				+",BrideAge="+clsDatabase.ToDb(BrideAge)
-				+",BrideOccupation="+clsDatabase.ToDb(BrideOccupation)
-				+",BrideLiving="+clsDatabase.ToDb(BrideLiving)
-				+",BrideFather="+clsDatabase.ToDb(BrideFather)
-				+",BrideFatherOccupation="+clsDatabase.ToDb(BrideFatherOccupation)
-				+",Witness="+clsDatabase.ToDb(Witness)
+                "GroReference="+Database.ToDb(GroReference)+","+
+                "WhenMarried=" + Database.ToDb(When) + "," +
+				"Location="+Database.ToDb(Location)
+				+",GroomName="+Database.ToDb(GroomName)
+				+",GroomAge="+Database.ToDb(GroomAge)
+				+",GroomOccupation="+Database.ToDb(GroomOccupation)
+				+",GroomLiving="+Database.ToDb(GroomLiving)
+				+",GroomFather="+Database.ToDb(GroomFather)
+				+",GroomFatherOccupation="+Database.ToDb(GroomFatherOccupation)
+				+",BrideName="+Database.ToDb(BrideName)
+				+",BrideAge="+Database.ToDb(BrideAge)
+				+",BrideOccupation="+Database.ToDb(BrideOccupation)
+				+",BrideLiving="+Database.ToDb(BrideLiving)
+				+",BrideFather="+Database.ToDb(BrideFather)
+				+",BrideFatherOccupation="+Database.ToDb(BrideFatherOccupation)
+				+",Witness="+Database.ToDb(Witness)
 				+" WHERE ID="+m_nID.ToString()+";";
 			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cnDB);
 			int nNumRows = oSql.ExecuteNonQuery();
@@ -160,22 +160,22 @@ namespace FamilyTree.Objects
 			{
                 sSql = "INSERT INTO tbl_MarriageCertificates (ID,GroReference,WhenMarried,Location,GroomName,GroomAge,GroomOccupation,GroomLiving,GroomFather,GroomFatherOccupation,BrideName,BrideAge,BrideOccupation,BrideLiving,BrideFather,BrideFatherOccupation,Witness) VALUES ("+
 					m_nID.ToString()+","+
-                    clsDatabase.ToDb(GroReference)+","+
-                    clsDatabase.ToDb(When)+","+
-					clsDatabase.ToDb(Location)
-					+","+clsDatabase.ToDb(GroomName)
-					+","+clsDatabase.ToDb(GroomAge)
-					+","+clsDatabase.ToDb(GroomOccupation)
-					+","+clsDatabase.ToDb(GroomLiving)
-					+","+clsDatabase.ToDb(GroomFather)
-					+","+clsDatabase.ToDb(GroomFatherOccupation)
-					+","+clsDatabase.ToDb(BrideName)
-					+","+clsDatabase.ToDb(BrideAge)
-					+","+clsDatabase.ToDb(BrideOccupation)
-					+","+clsDatabase.ToDb(BrideLiving)
-					+","+clsDatabase.ToDb(BrideFather)
-					+","+clsDatabase.ToDb(BrideFatherOccupation)
-					+","+clsDatabase.ToDb(Witness)
+                    Database.ToDb(GroReference)+","+
+                    Database.ToDb(When)+","+
+					Database.ToDb(Location)
+					+","+Database.ToDb(GroomName)
+					+","+Database.ToDb(GroomAge)
+					+","+Database.ToDb(GroomOccupation)
+					+","+Database.ToDb(GroomLiving)
+					+","+Database.ToDb(GroomFather)
+					+","+Database.ToDb(GroomFatherOccupation)
+					+","+Database.ToDb(BrideName)
+					+","+Database.ToDb(BrideAge)
+					+","+Database.ToDb(BrideOccupation)
+					+","+Database.ToDb(BrideLiving)
+					+","+Database.ToDb(BrideFather)
+					+","+Database.ToDb(BrideFatherOccupation)
+					+","+Database.ToDb(Witness)
 					+");";
 				oSql = new OleDbCommand(sSql,oDb.cnDB);
 				oSql.ExecuteNonQuery();
@@ -193,7 +193,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Returns the marriage certificate information in html format.</summary>
         /// <returns>A description of the marriage certificate in html format.</returns>
-        public string ToHtml            (            clsDatabase oDb            )
+        public string ToHtml            (            Database oDb            )
         {
             // Initialise the Html description.
             StringBuilder sbHtml = new StringBuilder();
@@ -241,7 +241,7 @@ namespace FamilyTree.Objects
         /// <summary>Returns the marriarge certificate information in the webtrees format.</summary>
         /// <param name="oDb">Specifies a connection to the database.</param>
         /// <returns>A description of the marriage certificate in webtrees format.</returns>
-        public string ToWebtrees(clsDatabase oDb)
+        public string ToWebtrees(Database oDb)
         {
             // Initialise the Html description.
             StringBuilder sbHtml = new StringBuilder();

@@ -88,7 +88,7 @@ namespace FamilyTree.Viewer
 			m_sName = oPerson.GetName(false,true);
 			m_sDescription = oPerson.ShortDescription(false);
             m_sNameWithYears = oPerson.GetName(true,true);
-			m_bMale = oPerson.Male;
+			m_bMale = oPerson.isMale;
 		}
 
 		#endregion
@@ -504,7 +504,7 @@ namespace FamilyTree.Viewer
 
             // Add the partners to the person
             enumConMainPerson nType;
-            if(oPerson.Male)
+            if(oPerson.isMale)
             {
                 nType = enumConMainPerson.Father;
             }
@@ -527,7 +527,7 @@ namespace FamilyTree.Viewer
                 }
                 m_oDescendants[nI] = new clsTreeConnection(m_oTree, this, nType, nI);
                 m_oTree.AddFamily(m_oDescendants[nI]);
-                if(oPerson.Male)
+                if(oPerson.isMale)
                 {
                     clsTreePerson oMother = new clsTreePerson(m_oTree, oRelationships[nIndex].PartnerID);
                     m_oDescendants[nI].AddMother(oMother);
@@ -814,7 +814,7 @@ namespace FamilyTree.Viewer
         {
             clsPerson oPerson = new clsPerson(m_nPersonID, m_oTree.Database);
             clsPerson oOtherPerson = new clsPerson(nPersonID, m_oTree.Database);
-            if(oPerson.DoB.Date < oOtherPerson.DoB.Date)
+            if(oPerson.dob.Date < oOtherPerson.dob.Date)
             {
                 return true;
             }

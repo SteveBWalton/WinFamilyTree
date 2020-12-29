@@ -59,7 +59,7 @@ namespace FamilyTree.Objects
 			{
 				int nIndex = m_oChildren.Count-1;
 				clsPerson oInsert = (clsPerson)m_oChildren[nIndex];
-				if(oChild.DoB.Date>oInsert.DoB.Date)
+				if(oChild.dob.Date>oInsert.dob.Date)
 				{
 					// Add the child to the end of the list
 					m_oChildren.Add(oChild);			
@@ -68,7 +68,7 @@ namespace FamilyTree.Objects
 				{
 					nIndex = 0;
 					oInsert = (clsPerson)m_oChildren[nIndex];
-					if(oChild.DoB.Date<oInsert.DoB.Date)
+					if(oChild.dob.Date<oInsert.dob.Date)
 					{
 						// Add the child to the start of the list
 						m_oChildren.Insert(nIndex,oChild);
@@ -76,7 +76,7 @@ namespace FamilyTree.Objects
 					else
 					{
 						// Find the existing child to add this child in front of.
-						while(oChild.DoB.Date>oInsert.DoB.Date)
+						while(oChild.dob.Date>oInsert.dob.Date)
 						{
 							nIndex++;
 							oInsert = (clsPerson)m_oChildren[nIndex];
@@ -93,7 +93,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oFile">Specifies the Gedcom file to write the details into.</param>
 		/// <param name="oDb">Specifies the database to fetch additional information from.</param>
-        public void WriteGedcom(StreamWriter oFile, clsDatabase oDb, clsGedcomOptions oOptions)
+        public void WriteGedcom(StreamWriter oFile, Database oDb, clsGedcomOptions oOptions)
         {
             // Create a list of the sources
             ArrayList oFamilySources = new ArrayList();

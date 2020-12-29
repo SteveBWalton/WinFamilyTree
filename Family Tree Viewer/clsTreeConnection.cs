@@ -131,7 +131,7 @@ namespace FamilyTree.Viewer
 
                 case enumConMainPerson.Child:
                     clsPerson oMainPerson = new clsPerson(oPerson.PersonID,m_oTree.Database);
-                    m_bMale = oMainPerson.Male;
+                    m_bMale = oMainPerson.isMale;
                     break;
 
                 }

@@ -16,7 +16,7 @@ namespace FamilyTree.Viewer
         /// <summary>
         /// The database that the control is attached to.
         /// </summary>
-        private clsDatabase m_oDb;
+        private Database m_oDb;
 
         // The location selected by the control.
         /// <summary>
@@ -30,7 +30,7 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oDb">Specifies the database to fetch locations from.</param>
         /// <param name="sInitialValue">Specifies the initial value of the control.</param>
-        public frmSelectLocation(clsDatabase oDb,string sInitialValue)
+        public frmSelectLocation(Database oDb,string sInitialValue)
         {
             InitializeComponent();
 

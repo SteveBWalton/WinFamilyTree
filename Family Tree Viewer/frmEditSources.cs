@@ -17,7 +17,7 @@ namespace FamilyTree.Viewer
 		#region Member Variables
 
 		/// <summary>Database that to edit the sources in.</summary>
-		private clsDatabase m_oDb;
+		private Database m_oDb;
 
 		/// <summary>The source that we are currently editing.</summary>
 		private clsSource m_ActiveSource;
@@ -36,7 +36,7 @@ namespace FamilyTree.Viewer
 		/// </summary>
         /// <param name="oDb">Specify the database to show the sources from.</param>
         /// <param name="nSourceID">Specify the ID of the source to edit initially.</param>
-        public frmEditSources(clsDatabase oDb, int nSourceID)
+        public frmEditSources(Database oDb, int nSourceID)
         {
             // Required for Windows Form Designer support
             InitializeComponent();
@@ -45,15 +45,15 @@ namespace FamilyTree.Viewer
             m_oDb = oDb;
 
             // Show the additional information types
-            clsIDName[] oSources = m_oDb.GetSourceAdditionalTypes();
-            foreach(clsIDName oAdditional in oSources)
+            IndexName[] oSources = m_oDb.GetSourceAdditionalTypes();
+            foreach(IndexName oAdditional in oSources)
             {
                 m_cboAdditionalInfo.Items.Add(oAdditional);
             }
 
             // Add the repositories
             oSources = m_oDb.GetRepositories();
-            foreach(clsIDName oRepository in oSources)
+            foreach(IndexName oRepository in oSources)
             {
                 m_cboRepository.Items.Add(oRepository);
             }
@@ -63,9 +63,9 @@ namespace FamilyTree.Viewer
             oSources = oDb.GetSources(enumSortOrder.Date);
             for(int nI = 0; nI < oSources.Length; nI++)
             {
-                clsSource oSource = new clsSource(m_oDb, oSources[nI].ID);
+                clsSource oSource = new clsSource(m_oDb, oSources[nI].index);
                 m_lstSources.Items.Add(oSource);
-                if(oSources[nI].ID == nSourceID)
+                if(oSources[nI].index == nSourceID)
                 {
                     oSelected = oSource;
                 }
@@ -88,7 +88,7 @@ namespace FamilyTree.Viewer
         /// <param name="oDb">Specify the database to show the sources from.</param>
         public frmEditSources
         (
-            clsDatabase oDb
+            Database oDb
         ) : this(oDb,0)
         {
         }
@@ -521,8 +521,8 @@ namespace FamilyTree.Viewer
 				return;
 			}
 
-			clsIDName oType = (clsIDName)m_cboAdditionalInfo.SelectedItem;
-			m_ActiveSource.AdditionalInfoTypeID = oType.ID;		
+			IndexName oType = (IndexName)m_cboAdditionalInfo.SelectedItem;
+			m_ActiveSource.AdditionalInfoTypeID = oType.index;		
 
 			ShowAdditionalInfo();
         }
@@ -705,8 +705,8 @@ namespace FamilyTree.Viewer
 				return;
 			}
 
-			clsIDName oRepository = (clsIDName)this.m_cboRepository.SelectedItem;
-			m_ActiveSource.Repository = oRepository.ID;
+			IndexName oRepository = (IndexName)this.m_cboRepository.SelectedItem;
+			m_ActiveSource.Repository = oRepository.index;
         }
 
         #endregion

@@ -65,11 +65,11 @@ namespace FamilyTree.Viewer
             this.m_dateDoD = new FamilyTree.Viewer.ucDate();
             this.m_txtComments = new System.Windows.Forms.TextBox();
             this.m_chkChildrenKnown = new System.Windows.Forms.CheckBox();
-            this.m_cboSex = new System.Windows.Forms.ComboBox();
+            this.cboSex_ = new System.Windows.Forms.ComboBox();
             this.m_labMaidenName = new System.Windows.Forms.Label();
             this.m_txtMaidenName = new System.Windows.Forms.TextBox();
             this.m_txtForename = new System.Windows.Forms.TextBox();
-            this.m_txtSurname = new System.Windows.Forms.TextBox();
+            this.txtSurname_ = new System.Windows.Forms.TextBox();
             this.m_cboRelationshipType = new System.Windows.Forms.ComboBox();
             this.m_cboTerminated = new System.Windows.Forms.ComboBox();
             this.m_txtRelationComments = new System.Windows.Forms.TextBox();
@@ -150,11 +150,11 @@ namespace FamilyTree.Viewer
             tabBasic.Controls.Add(label6);
             tabBasic.Controls.Add(label5);
             tabBasic.Controls.Add(label4);
-            tabBasic.Controls.Add(this.m_cboSex);
+            tabBasic.Controls.Add(this.cboSex_);
             tabBasic.Controls.Add(this.m_labMaidenName);
             tabBasic.Controls.Add(this.m_txtMaidenName);
             tabBasic.Controls.Add(this.m_txtForename);
-            tabBasic.Controls.Add(this.m_txtSurname);
+            tabBasic.Controls.Add(this.txtSurname_);
             tabBasic.Controls.Add(label2);
             tabBasic.Controls.Add(label1);
             tabBasic.ImageIndex = 6;
@@ -248,16 +248,16 @@ namespace FamilyTree.Viewer
             // 
             // m_cboSex
             // 
-            this.m_cboSex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboSex.Items.AddRange(new object[] {
+            this.cboSex_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSex_.Items.AddRange(new object[] {
             "Male",
             "Female"});
-            this.m_cboSex.Location = new System.Drawing.Point(112, 80);
-            this.m_cboSex.Name = "m_cboSex";
-            this.m_cboSex.Size = new System.Drawing.Size(128, 21);
-            this.m_cboSex.TabIndex = 25;
-            this.m_cboSex.Enter += new System.EventHandler(this.cboSex_Enter);
-            this.m_cboSex.SelectedValueChanged += new System.EventHandler(this.cboSex_SelectedValueChanged);
+            this.cboSex_.Location = new System.Drawing.Point(112, 80);
+            this.cboSex_.Name = "m_cboSex";
+            this.cboSex_.Size = new System.Drawing.Size(128, 21);
+            this.cboSex_.TabIndex = 25;
+            this.cboSex_.Enter += new System.EventHandler(this.cboSex_Enter);
+            this.cboSex_.SelectedValueChanged += new System.EventHandler(this.cboSex_SelectedValueChanged);
             // 
             // m_labMaidenName
             // 
@@ -290,13 +290,13 @@ namespace FamilyTree.Viewer
             // 
             // m_txtSurname
             // 
-            this.m_txtSurname.Location = new System.Drawing.Point(112, 8);
-            this.m_txtSurname.Name = "m_txtSurname";
-            this.m_txtSurname.Size = new System.Drawing.Size(128, 21);
-            this.m_txtSurname.TabIndex = 20;
-            this.m_txtSurname.Text = "txtSurname";
-            this.m_txtSurname.TextChanged += new System.EventHandler(this.txtSurname_TextChanged);
-            this.m_txtSurname.Enter += new System.EventHandler(this.Name_Enter);
+            this.txtSurname_.Location = new System.Drawing.Point(112, 8);
+            this.txtSurname_.Name = "m_txtSurname";
+            this.txtSurname_.Size = new System.Drawing.Size(128, 21);
+            this.txtSurname_.TabIndex = 20;
+            this.txtSurname_.Text = "txtSurname";
+            this.txtSurname_.TextChanged += new System.EventHandler(this.txtSurname_TextChanged);
+            this.txtSurname_.Enter += new System.EventHandler(this.Name_Enter);
             // 
             // label2
             // 
@@ -900,11 +900,11 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        private System.Windows.Forms.ComboBox m_cboSex;
+        private System.Windows.Forms.ComboBox cboSex_;
         private System.Windows.Forms.Label m_labMaidenName;
         private System.Windows.Forms.TextBox m_txtMaidenName;
         private System.Windows.Forms.TextBox m_txtForename;
-        private System.Windows.Forms.TextBox m_txtSurname;
+        private System.Windows.Forms.TextBox txtSurname_;
         private System.Windows.Forms.TabControl m_TabControl;
         private System.Windows.Forms.ComboBox m_cboFactType;
         private System.Windows.Forms.CheckBox m_chkChildrenKnown;

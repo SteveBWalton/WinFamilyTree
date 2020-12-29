@@ -14,10 +14,7 @@ using System.Collections;
 
 namespace FamilyTree.Objects
 {
-    // Class to represent a media object
-    /// <summary>
-    /// Class to represent a media object
-    /// </summary>
+    /// <summary>Class to represent a media object.</summary>
     public class clsMedia
     {
         #region Member Variables
@@ -26,7 +23,7 @@ namespace FamilyTree.Objects
         public int ID;
 
         /// <summary>The database that this media object is attached to.</summary>
-        private clsDatabase m_oDb;
+        private Database m_oDb;
 
         /// <summary>The human readable title for the the media object.</summary>
         public string Title;
@@ -62,7 +59,7 @@ namespace FamilyTree.Objects
         /// <summary>Empty class constructor in the specified database.
         /// </summary>
         /// <param name="oDb">Specifies the database that contains the media object.</param>
-        public clsMedia(clsDatabase oDb)
+        public clsMedia(Database oDb)
         {
             // Save the input parameters
             m_oDb = oDb;
@@ -83,7 +80,7 @@ namespace FamilyTree.Objects
         /// </summary>
         /// <param name="oDb">Specifies the database that contains the media object.</param>
         /// <param name="nMediaID">Specifies the ID of the media object.</param>
-        public clsMedia(clsDatabase oDb,int nMediaID)
+        public clsMedia(Database oDb,int nMediaID)
         {
             // Save the input parameters
             m_oDb = oDb;
@@ -109,10 +106,9 @@ namespace FamilyTree.Objects
 
         #endregion
 
-        // Writes this media object into the database.
-        /// <summary>
-        /// Writes this media object into the database.
-        /// </summary>
+
+
+        /// <summary>Writes this media object into the database.</summary>
         /// <returns></returns>
         public bool Save()
         {
@@ -193,6 +189,8 @@ namespace FamilyTree.Objects
             return !bErrors;
         }
 
+
+
         #region Sizing
 
         /// <summary>Returns the required width to keep the aspect ratio for the specified height.
@@ -227,10 +225,9 @@ namespace FamilyTree.Objects
 
         #endregion
 
-        // Returns a html description of the media object.
-        /// <summary>
-        /// Returns a html description of the media object.
-        /// </summary>
+
+
+        /// <summary>Returns a html description of the media object. </summary>
         /// <returns></returns>
         public string ToHtml()
         {
@@ -263,6 +260,8 @@ namespace FamilyTree.Objects
             // Return the html built
             return sbHtml.ToString();
         }
+
+
 
         #region Attached People
 
@@ -347,7 +346,7 @@ namespace FamilyTree.Objects
         {
             get
             {
-                string sFullFilename = m_oDb.GetMediaDirectory() + "\\" + Filename;
+                string sFullFilename = m_oDb.getMediaDirectory() + "\\" + Filename;
                 if(File.Exists(sFullFilename))
                 {
                     return sFullFilename;

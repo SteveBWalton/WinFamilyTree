@@ -18,7 +18,7 @@ namespace FamilyTree.Objects
 		#region Member Variables
 
 		/// <summary>Database that contains this source.</summary>
-		private clsDatabase m_oDb;
+		private Database m_oDb;
 
 		/// <summary>ID of the source in the database.</summary>
 		private int m_nID;
@@ -78,7 +78,7 @@ namespace FamilyTree.Objects
 		/// <param name="oDB">Specify the database containing the source.</param>
 		public clsSource
 			(
-			clsDatabase oDB
+			Database oDB
 			)
 		{
 			m_oDb = oDB;
@@ -101,7 +101,7 @@ namespace FamilyTree.Objects
 		/// <param name="nID">Specify the ID of the source.</param>
 		public clsSource
 			(
-			clsDatabase oDB,
+			Database oDB,
 			int nID
 			):this(oDB)
 		{
@@ -167,7 +167,7 @@ namespace FamilyTree.Objects
 				{
 					m_dtLastEditDate = drSource.GetDateTime(7);
 				}
-				m_nRepositoryID = clsDatabase.GetInt(drSource,"RepositoryID",0);
+				m_nRepositoryID = Database.GetInt(drSource,"RepositoryID",0);
 			}
 			drSource.Close();			
 		}
@@ -221,10 +221,10 @@ namespace FamilyTree.Objects
 				// Update the record
 				oSQL = new OleDbCommand
 					(
-					"UPDATE tbl_Sources SET Name="+clsDatabase.ToDb(m_sDescription)
-					+",TheDate="+clsDatabase.ToDb(m_dtTheDate)
+					"UPDATE tbl_Sources SET Name="+Database.ToDb(m_sDescription)
+					+",TheDate="+Database.ToDb(m_dtTheDate)
 					+",TheDateStatusID="+m_dtTheDate.Status.ToString()
-					+",Comments="+clsDatabase.ToDb(m_sComments)
+					+",Comments="+Database.ToDb(m_sComments)
 					+",AdditionalInfoTypeID="+m_nAdditionalInfoTypeID.ToString()
 					+",RepositoryID="+m_nRepositoryID.ToString()
 					+",LastEditBy='Steve Walton'"
@@ -444,7 +444,7 @@ namespace FamilyTree.Objects
 			{
 				int nIndex = GetReferenceIndex(oReferences,drReferences.GetInt32(0));
 				// Don't add the non specific references
-				if(clsDatabase.GetInt(drReferences,"FactID",0)!=0)
+				if(Database.GetInt(drReferences,"FactID",0)!=0)
 				{
 					((clsReferences)oReferences[nIndex]).AddReference(drReferences.GetString(1));
 				}

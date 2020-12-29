@@ -76,20 +76,20 @@ namespace FamilyTree.Objects
 			OleDbDataReader drDeath = oSql.ExecuteReader();
 			if(drDeath.Read())
 			{
-				RegistrationDistrict = clsDatabase.GetString(drDeath,"RegistrationDistrict","");
-                When = clsDatabase.GetString(drDeath,"WhenWhere","");
-                Place = clsDatabase.GetString(drDeath,"Place","");
-                Name = clsDatabase.GetString(drDeath,"Name","");
-				Sex = clsDatabase.GetString(drDeath,"Sex","");
-				DatePlaceOfBirth = clsDatabase.GetString(drDeath,"DatePlaceOfBirth","");
-				Occupation = clsDatabase.GetString(drDeath,"Occupation","");
-				UsualAddress = clsDatabase.GetString(drDeath,"UsualAddress","");
-				CauseOfDeath = clsDatabase.GetString(drDeath,"CauseOfDeath","");
-				Informant = clsDatabase.GetString(drDeath,"Informant","");
-				InformantDescription = clsDatabase.GetString(drDeath,"InformantDescription","");
-				InformantAddress = clsDatabase.GetString(drDeath,"InformantAddress","");
-				WhenRegistered = clsDatabase.GetString(drDeath,"WhenRegistered","");
-                GroReference = clsDatabase.GetString(drDeath,"GroReference","");
+				RegistrationDistrict = Database.GetString(drDeath,"RegistrationDistrict","");
+                When = Database.GetString(drDeath,"WhenWhere","");
+                Place = Database.GetString(drDeath,"Place","");
+                Name = Database.GetString(drDeath,"Name","");
+				Sex = Database.GetString(drDeath,"Sex","");
+				DatePlaceOfBirth = Database.GetString(drDeath,"DatePlaceOfBirth","");
+				Occupation = Database.GetString(drDeath,"Occupation","");
+				UsualAddress = Database.GetString(drDeath,"UsualAddress","");
+				CauseOfDeath = Database.GetString(drDeath,"CauseOfDeath","");
+				Informant = Database.GetString(drDeath,"Informant","");
+				InformantDescription = Database.GetString(drDeath,"InformantDescription","");
+				InformantAddress = Database.GetString(drDeath,"InformantAddress","");
+				WhenRegistered = Database.GetString(drDeath,"WhenRegistered","");
+                GroReference = Database.GetString(drDeath,"GroReference","");
 			}
 			drDeath.Close();
 		}
@@ -97,7 +97,7 @@ namespace FamilyTree.Objects
 		/// <summary>Writes the death certificate record into the specified database.</summary>
 		/// <param name="oDb">Specifies the database to write the birth certificate record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-		public bool Save			(			clsDatabase oDb			)
+		public bool Save			(			Database oDb			)
 		{
 			// Validate the ID
 			if(m_nID==0)
@@ -107,20 +107,20 @@ namespace FamilyTree.Objects
 
 			// Write the record into the database
             string sSql = "UPDATE tbl_DeathCertificates SET "
-                + "RegistrationDistrict=" + clsDatabase.ToDb(RegistrationDistrict)
-                + ",WhenWhere=" + clsDatabase.ToDb(When)
-                + ",Place=" + clsDatabase.ToDb(Place)
-                + ",Name=" + clsDatabase.ToDb(Name)
-                + ",Sex=" + clsDatabase.ToDb(Sex)
-                + ",DatePlaceOfBirth=" + clsDatabase.ToDb(DatePlaceOfBirth)
-                + ",Occupation=" + clsDatabase.ToDb(Occupation)
-                + ",UsualAddress=" + clsDatabase.ToDb(UsualAddress)
-                + ",CauseOfDeath=" + clsDatabase.ToDb(CauseOfDeath)
-                + ",Informant=" + clsDatabase.ToDb(Informant)
-                + ",InformantDescription=" + clsDatabase.ToDb(InformantDescription)
-                + ",InformantAddress=" + clsDatabase.ToDb(InformantAddress)
-                + ",WhenRegistered=" + clsDatabase.ToDb(WhenRegistered)
-                + ",GroReference=" + clsDatabase.ToDb(GroReference)
+                + "RegistrationDistrict=" + Database.ToDb(RegistrationDistrict)
+                + ",WhenWhere=" + Database.ToDb(When)
+                + ",Place=" + Database.ToDb(Place)
+                + ",Name=" + Database.ToDb(Name)
+                + ",Sex=" + Database.ToDb(Sex)
+                + ",DatePlaceOfBirth=" + Database.ToDb(DatePlaceOfBirth)
+                + ",Occupation=" + Database.ToDb(Occupation)
+                + ",UsualAddress=" + Database.ToDb(UsualAddress)
+                + ",CauseOfDeath=" + Database.ToDb(CauseOfDeath)
+                + ",Informant=" + Database.ToDb(Informant)
+                + ",InformantDescription=" + Database.ToDb(InformantDescription)
+                + ",InformantAddress=" + Database.ToDb(InformantAddress)
+                + ",WhenRegistered=" + Database.ToDb(WhenRegistered)
+                + ",GroReference=" + Database.ToDb(GroReference)
                 + " WHERE ID=" + m_nID.ToString() + ";";
 			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cnDB);
 			int nNumRows = oSql.ExecuteNonQuery();
@@ -128,19 +128,19 @@ namespace FamilyTree.Objects
 			{
 				sSql = "INSERT INTO tbl_DeathCertificates (ID,RegistrationDistrict,WhenWhere,Place,Name,Sex,DatePlaceOfBirth,Occupation,UsualAddress,CauseOfDeath,Informant,InformantDescription,InformantAddress,WhenRegistered) VALUES ("
 					+m_nID.ToString()
-					+","+clsDatabase.ToDb(RegistrationDistrict)
-					+","+clsDatabase.ToDb(When)
-					+","+clsDatabase.ToDb(Place)
-					+","+clsDatabase.ToDb(Name)
-					+","+clsDatabase.ToDb(Sex)
-					+","+clsDatabase.ToDb(DatePlaceOfBirth)
-					+","+clsDatabase.ToDb(Occupation)
-					+","+clsDatabase.ToDb(UsualAddress)
-					+","+clsDatabase.ToDb(CauseOfDeath)
-					+","+clsDatabase.ToDb(Informant)
-					+","+clsDatabase.ToDb(InformantDescription)
-					+","+clsDatabase.ToDb(InformantAddress)
-					+","+clsDatabase.ToDb(WhenRegistered)
+					+","+Database.ToDb(RegistrationDistrict)
+					+","+Database.ToDb(When)
+					+","+Database.ToDb(Place)
+					+","+Database.ToDb(Name)
+					+","+Database.ToDb(Sex)
+					+","+Database.ToDb(DatePlaceOfBirth)
+					+","+Database.ToDb(Occupation)
+					+","+Database.ToDb(UsualAddress)
+					+","+Database.ToDb(CauseOfDeath)
+					+","+Database.ToDb(Informant)
+					+","+Database.ToDb(InformantDescription)
+					+","+Database.ToDb(InformantAddress)
+					+","+Database.ToDb(WhenRegistered)
 					+");";
 				oSql = new OleDbCommand(sSql,oDb.cnDB);
 				oSql.ExecuteNonQuery();
@@ -152,7 +152,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Return the death certificate information in Html format.</summary>
         /// <returns>A description of the death certificate in Html format.</returns>
-        public string ToHtml            (            clsDatabase oDb            )
+        public string ToHtml            (            Database oDb            )
         {
             // Initialise the Html description
             StringBuilder sbHtml = new StringBuilder();
@@ -165,7 +165,7 @@ namespace FamilyTree.Objects
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Date Place of Birth</SPAN></TD><TD colspan=3>" + DatePlaceOfBirth + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Occupation</SPAN></TD><TD colspan=3>" + Occupation + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Usual Address</SPAN></TD><TD colspan=3>" + UsualAddress + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Cause of Death</SPAN></TD><TD colspan=3>"+ clsDatabase.HtmlString(CauseOfDeath) + "</TD></TR>");
+            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Cause of Death</SPAN></TD><TD colspan=3>"+ Database.HtmlString(CauseOfDeath) + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Informant</SPAN></TD><TD>"+ Informant + "</TD>");
             sbHtml.Append("<TD align=right><SPAN class=\"Death\">Informant Description</SPAN></TD><TD>"+ InformantDescription + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Informant Address</SPAN></TD><TD colspan=3>"+ InformantAddress + "</TD></TR>");
@@ -179,7 +179,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Returns the death certificate information format for a webtree's certificate..</summary>
         /// <returns>A description of the death certificate in webtree's format.</returns>
-        public string ToWebtrees(clsDatabase oDb)
+        public string ToWebtrees(Database oDb)
         {
             // Initialise the Html description
             StringBuilder sbHtml = new StringBuilder();
@@ -194,7 +194,7 @@ namespace FamilyTree.Objects
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Date Place of Birth&lt;/td&gt;&lt;td colspan=3>" + DatePlaceOfBirth + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Occupation&lt;/td&gt;&lt;td colspan=3>" + Occupation + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Usual Address&lt;/td&gt;&lt;td colspan=\"3\"&gt;" + UsualAddress + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Cause of Death&lt;/td&gt;&lt;td colspan=\"3\"&gt;"+ clsDatabase.HtmlString(CauseOfDeath) + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Cause of Death&lt;/td&gt;&lt;td colspan=\"3\"&gt;"+ Database.HtmlString(CauseOfDeath) + "&lt;/td&gt;&lt;/tr&gt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Informant&lt;/td&gt;&lt;TD>"+ Informant + "&lt;/td&gt;");
             sbHtml.Append("<TD align=right>Informant Description&lt;/td&gt;&lt;td&gt;"+ InformantDescription + "&lt;/td&gt;&lt;/tr&gt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Informant Address&lt;/td&gt;&lt;td class=\"data\" colspan=\"3\"&gt;"+ InformantAddress + "&lt;/td&gt;&lt;/tr&gt;<br/>");

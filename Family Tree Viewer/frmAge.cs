@@ -15,7 +15,7 @@ namespace FamilyTree.Viewer
 		#region Member Variables
 
 		/// <summary>Database that this form is attached to.  The person must come from this database.</summary>
-		private clsDatabase m_oDB;
+		private Database m_oDB;
 
 		/// <summary>Person to calculate the age of.</summary>
 		private clsPerson m_oPerson;
@@ -31,7 +31,7 @@ namespace FamilyTree.Viewer
 		/// <param name="nPersonID">Specify the person to calculate the age of.</param>
 		public frmAge
 			(
-			clsDatabase oDB,
+			Database oDB,
 			int nPersonID
 			)
 		{
@@ -41,11 +41,11 @@ namespace FamilyTree.Viewer
 			m_oDB = oDB;
 
 			// Load a list of all people into the combo box
-			clsIDName[] oPeople = oDB.GetPeople(enumChooseSex.Either,enumSortOrder.Date,0,3000);
+			IndexName[] oPeople = oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Date,0,3000);
 			for(int nI=0;nI<oPeople.Length;nI++)
 			{
 				this.cboPerson.Items.Add(oPeople[nI]);
-				if(oPeople[nI].ID==nPersonID)
+				if(oPeople[nI].index==nPersonID)
 				{
 					this.cboPerson.SelectedItem = oPeople[nI];
 				}			 
@@ -53,7 +53,7 @@ namespace FamilyTree.Viewer
 
 			// Find the current person
 			m_oPerson = new clsPerson(nPersonID,m_oDB);
-			this.labDoB.Text = m_oPerson.DoB.Format(DateFormat.FullLong);
+			this.labDoB.Text = m_oPerson.dob.Format(DateFormat.FullLong);
 
 			// Default date
 			this.ucDate1.Value = new clsDate(new DateTime(1901,3,31));
@@ -97,9 +97,9 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void cboPerson_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			clsIDName oPerson = (clsIDName)this.cboPerson.SelectedItem;
-			m_oPerson = new clsPerson(oPerson.ID,m_oDB);
-			labDoB.Text = m_oPerson.DoB.Format(DateFormat.FullLong);
+			IndexName oPerson = (IndexName)this.cboPerson.SelectedItem;
+			m_oPerson = new clsPerson(oPerson.index,m_oDB);
+			labDoB.Text = m_oPerson.dob.Format(DateFormat.FullLong);
 			labTheAge.Text = m_oPerson.Age(this.ucDate1.Value);
 		}
 

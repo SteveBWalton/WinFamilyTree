@@ -81,19 +81,19 @@ namespace FamilyTree.Objects
             OleDbDataReader drBirth = oSql.ExecuteReader();
             if(drBirth.Read())
             {
-                RegistrationDistrict = clsDatabase.GetString(drBirth, "RegistrationDistrict", "");
+                RegistrationDistrict = Database.GetString(drBirth, "RegistrationDistrict", "");
                 When = Innoval.clsDatabase.GetDateTime(drBirth, "WhenBorn", DateTime.Now);
-                WhenAndWhere = clsDatabase.GetString(drBirth, "WhenAndWhere", "");
-                Name = clsDatabase.GetString(drBirth, "Name", "");
-                Sex = clsDatabase.GetString(drBirth, "Sex", "");
-                Father = clsDatabase.GetString(drBirth, "Father", "");
-                Mother = clsDatabase.GetString(drBirth, "Mother", "");
-                MotherDetails = clsDatabase.GetString(drBirth, "MotherDetails", "");
-                FatherOccupation = clsDatabase.GetString(drBirth, "FatherOccupation", "");
-                Informant = clsDatabase.GetString(drBirth, "Informant", "");
-                InformantAddress = clsDatabase.GetString(drBirth, "InformantAddress", "");
-                WhenRegistered = clsDatabase.GetString(drBirth, "WhenRegistered", "");
-                GroReference = clsDatabase.GetString(drBirth, "GroReference", "");
+                WhenAndWhere = Database.GetString(drBirth, "WhenAndWhere", "");
+                Name = Database.GetString(drBirth, "Name", "");
+                Sex = Database.GetString(drBirth, "Sex", "");
+                Father = Database.GetString(drBirth, "Father", "");
+                Mother = Database.GetString(drBirth, "Mother", "");
+                MotherDetails = Database.GetString(drBirth, "MotherDetails", "");
+                FatherOccupation = Database.GetString(drBirth, "FatherOccupation", "");
+                Informant = Database.GetString(drBirth, "Informant", "");
+                InformantAddress = Database.GetString(drBirth, "InformantAddress", "");
+                WhenRegistered = Database.GetString(drBirth, "WhenRegistered", "");
+                GroReference = Database.GetString(drBirth, "GroReference", "");
             }
             drBirth.Close();
         }
@@ -183,7 +183,7 @@ namespace FamilyTree.Objects
         /// <summary>Writes the birth certificate record into the specified database.</summary>
 		/// <param name="oDb">Specifies the database to write the birth certificate record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool Save(clsDatabase oDb)
+        public bool Save(Database oDb)
         {
             // Validate the ID
             if(m_nID == 0)
@@ -193,19 +193,19 @@ namespace FamilyTree.Objects
 
             // Write the record into the database
             string sSql = "UPDATE tbl_BirthCertificates SET "
-                + "RegistrationDistrict=" + clsDatabase.ToDb(RegistrationDistrict)
+                + "RegistrationDistrict=" + Database.ToDb(RegistrationDistrict)
                 + ",WhenBorn=" + Innoval.clsDatabase.ToDb(When, Innoval.clsDatabase.enumDatabases.Access)
-                + ",WhenAndWhere=" + clsDatabase.ToDb(WhenAndWhere)
-                + ",Name=" + clsDatabase.ToDb(Name)
-                + ",Sex=" + clsDatabase.ToDb(Sex)
-                + ",Father=" + clsDatabase.ToDb(Father)
-                + ",Mother=" + clsDatabase.ToDb(Mother)
-                + ",MotherDetails=" + clsDatabase.ToDb(MotherDetails)
-                + ",FatherOccupation=" + clsDatabase.ToDb(FatherOccupation)
-                + ",Informant=" + clsDatabase.ToDb(Informant)
-                + ",InformantAddress=" + clsDatabase.ToDb(InformantAddress)
-                + ",WhenRegistered=" + clsDatabase.ToDb(WhenRegistered)
-                + ",GroReference=" + clsDatabase.ToDb(GroReference)
+                + ",WhenAndWhere=" + Database.ToDb(WhenAndWhere)
+                + ",Name=" + Database.ToDb(Name)
+                + ",Sex=" + Database.ToDb(Sex)
+                + ",Father=" + Database.ToDb(Father)
+                + ",Mother=" + Database.ToDb(Mother)
+                + ",MotherDetails=" + Database.ToDb(MotherDetails)
+                + ",FatherOccupation=" + Database.ToDb(FatherOccupation)
+                + ",Informant=" + Database.ToDb(Informant)
+                + ",InformantAddress=" + Database.ToDb(InformantAddress)
+                + ",WhenRegistered=" + Database.ToDb(WhenRegistered)
+                + ",GroReference=" + Database.ToDb(GroReference)
                 + " WHERE ID=" + m_nID.ToString() + ";";
             OleDbCommand oSql = new OleDbCommand(sSql, oDb.cnDB);
             int nNumRows = oSql.ExecuteNonQuery();
@@ -213,17 +213,17 @@ namespace FamilyTree.Objects
             {
                 sSql = "INSERT INTO tbl_BirthCertificates (ID,RegistrationDistrict,WhenBorn,WhenAndWhere,Name,Sex,Father,Mother,FatherOccupation,Informant,InformantAddress,WhenRegistered) VALUES ("
                     + m_nID.ToString()
-                    + "," + clsDatabase.ToDb(RegistrationDistrict)
+                    + "," + Database.ToDb(RegistrationDistrict)
                     + "," + Innoval.clsDatabase.ToDb(When, Innoval.clsDatabase.enumDatabases.Access)
-                    + "," + clsDatabase.ToDb(WhenAndWhere)
-                    + "," + clsDatabase.ToDb(Name)
-                    + "," + clsDatabase.ToDb(Sex)
-                    + "," + clsDatabase.ToDb(Father)
-                    + "," + clsDatabase.ToDb(Mother)
-                    + "," + clsDatabase.ToDb(FatherOccupation)
-                    + "," + clsDatabase.ToDb(Informant)
-                    + "," + clsDatabase.ToDb(InformantAddress)
-                    + "," + clsDatabase.ToDb(WhenRegistered)
+                    + "," + Database.ToDb(WhenAndWhere)
+                    + "," + Database.ToDb(Name)
+                    + "," + Database.ToDb(Sex)
+                    + "," + Database.ToDb(Father)
+                    + "," + Database.ToDb(Mother)
+                    + "," + Database.ToDb(FatherOccupation)
+                    + "," + Database.ToDb(Informant)
+                    + "," + Database.ToDb(InformantAddress)
+                    + "," + Database.ToDb(WhenRegistered)
                     + ");";
                 oSql = new OleDbCommand(sSql, oDb.cnDB);
                 oSql.ExecuteNonQuery();

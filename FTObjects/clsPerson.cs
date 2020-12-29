@@ -10,7 +10,7 @@ using System.Collections;
 using System.Data;
 using System.Data.OleDb;
 
- // File
+// File
 using System.IO;
 
 namespace FamilyTree.Objects
@@ -20,132 +20,132 @@ namespace FamilyTree.Objects
     /// Class to represent a person in a family tree database.
     /// </summary>
 	public class clsPerson
-	{
-		#region Member Variables
+    {
+        #region Member Variables
 
-		/// <summary>Connection to the database.</summary>
-		private clsDatabase m_oDb;
+        /// <summary>Connection to the database.</summary>
+        private Database database_;
 
-		/// <summary>ID of the person.</summary>
-		private int m_nID;
+        /// <summary>ID of the person.</summary>
+        private int personIndex_;
 
-		/// <summary>Surname of the person.</summary>
-		private string m_sSurname;	
+        /// <summary>Surname of the person.</summary>
+        private string personSurname_;
 
-		/// <summary>Forenames of the person.</summary>
-		private string m_sForenames;
+        /// <summary>Forenames of the person.</summary>
+        private string foreNames_;
 
-		/// <summary>Maiden name of the person.</summary>
-		private string m_sMaidenname;
+        /// <summary>Maiden name of the person.</summary>
+        private string maidenName_;
 
-		/// <summary>Date of the birth for the person.</summary>
-		private clsDate m_DoB;
+        /// <summary>Date of the birth for the person.</summary>
+        private clsDate dob_;
 
-		/// <summary>Date of death for the person.</summary>
-		private clsDate m_DoD;
+        /// <summary>Date of death for the person.</summary>
+        private clsDate dod_;
 
-		/// <summary>ID of the person's father.</summary>
-		private int m_nFatherID;
+        /// <summary>ID of the person's father.</summary>
+        private int fatherIndex_;
 
-		/// <summary>ID of the person's mother.</summary>
-		private int m_nMotherID;
+        /// <summary>ID of the person's mother.</summary>
+        private int motherIndex_;
 
-		/// <summary>True if the person is male.</summary>
-		private bool	m_bMale;
+        /// <summary>True if the person is male.</summary>
+        private bool isMale_;
 
-		/// <summary>True if all the children of the person are known.</summary>
-		private bool m_bAllChildren;
+        /// <summary>True if all the children of the person are known.</summary>
+        private bool isAllChildrenKnown_;
 
-		/// <summary>Index of the media object attached to this person.</summary>
-		private int m_nMediaID;
+        /// <summary>Index of the media object attached to this person.</summary>
+        private int mediaIndex;
 
-		/*
+        /*
 		/// <summary>Filename of an image for the person.  Not the full path.</summary>
 		private string m_sImageFilename;
 
 		/// <summary>Full filename of an image for the person.  This is not stored in the database.</summary>
 		private string m_sImagePath;
-         */ 
+         */
 
-		/// <summary>User comments for the person.</summary>
-		private string m_sComments;
+        /// <summary>User comments for the person.</summary>
+        private string comments_;
 
         // True if this person should be included in the gedcom file, false otherwise.
         /// <summary>
         /// True if this person should be included in the gedcom file, false otherwise.
         /// </summary>
-        private bool m_bIncludeGedcom;
+        private bool isIncludeGedcom_;
 
-		/// <summary>Short term comments / information for the person.  This is not saved in the database.</summary>
-		private string m_sTag;
+        /// <summary>Short term comments / information for the person.  This is not saved in the database.</summary>
+        private string tag_;
 
-		/// <summary>Array of facts about this person.</summary>
-		private ArrayList m_oFacts;
-		
-		/// <summary>Array of relationships for this person.</summary>
-		private ArrayList m_oRelationships;
-		
-		/// <summary>Sources for the name data.</summary>
-		private clsSources m_sourcesName;
+        /// <summary>Array of facts about this person.</summary>
+        private ArrayList facts_;
 
-		/// <summary>Sources for the date of birth data.</summary>
-		private clsSources m_sourcesDoB;
+        /// <summary>Array of relationships for this person.</summary>
+        private ArrayList relationships_;
 
-		/// <summary>Sources for the date of death data.</summary>
-		private clsSources m_sourcesDoD;
+        /// <summary>Sources for the name data.</summary>
+        private clsSources sourcesName_;
 
-		/// <summary>All sources for this person.  Including the sources for non specific facts.</summary>
-		private clsSources m_sourcesNonSpecific;
+        /// <summary>Sources for the date of birth data.</summary>
+        private clsSources sourcesDoB_;
 
-		/// <summary>Name of the user who wrote the last edit.</summary>
-		private string m_sLastEditBy;
+        /// <summary>Sources for the date of death data.</summary>
+        private clsSources sourcesDoD_;
 
-		/// <summary>Date and time of the last edit.</summary>
-		private DateTime m_dtLastEditDate;
+        /// <summary>All sources for this person.  Including the sources for non specific facts.</summary>
+        private clsSources sourcesNonSpecific_;
+
+        /// <summary>Name of the user who wrote the last edit.</summary>
+        private string lastEditBy_;
+
+        /// <summary>Date and time of the last edit.</summary>
+        private DateTime lastEditDate_;
 
         /// <summary>Collection of ToDo items about this person.</summary>
-        private ArrayList m_oToDo;
+        private ArrayList toDo_;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
         // Creates an empty person object.
         /// <summary>
         /// Creates an empty person object.
         /// </summary>
-		public clsPerson()
-		{
-			m_nFatherID = 0;
-			m_nMotherID = 0;
-			m_bAllChildren = false;
-			m_oFacts = null;
-			m_DoB = new clsDate();
-			m_DoD = new clsDate();
-            m_bIncludeGedcom = true;
-			m_sTag = "";
-//			m_sImageFilename = "";
-//			m_sImagePath = "";
-            m_oToDo = null;
+        public clsPerson()
+        {
+            fatherIndex_ = 0;
+            motherIndex_ = 0;
+            isAllChildrenKnown_ = false;
+            facts_ = null;
+            dob_ = new clsDate();
+            dod_ = new clsDate();
+            isIncludeGedcom_ = true;
+            tag_ = "";
+            //			m_sImageFilename = "";
+            //			m_sImagePath = "";
+            toDo_ = null;
 
-			m_oRelationships = null;
-			
-			m_sourcesName = null;
-			m_sourcesDoB = null;
-			m_sourcesDoD = null;
-			m_sourcesNonSpecific = null;
-            
-		}
+            relationships_ = null;
+
+            sourcesName_ = null;
+            sourcesDoB_ = null;
+            sourcesDoD_ = null;
+            sourcesNonSpecific_ = null;
+
+        }
 
         // Creates an empty person object in the specfied database.
         /// <summary>
         /// Creates an empty person object in the specfied database.
         /// </summary>
 		/// <param name="oDb">Specify the database to contain this person</param>
-        public clsPerson(clsDatabase oDb)
+        public clsPerson(Database oDb)
             : this() // This makes the program call the () constructor before the code is called.
         {
-            m_oDb = oDb;
+            database_ = oDb;
         }
 
         // Create a person object from the specified database record.
@@ -155,206 +155,206 @@ namespace FamilyTree.Objects
 		/// </summary>
 		/// <param name="nPersonID">Specify the ID of the person to load.</param>
 		/// <param name="oDb">Specify the family tree database to load the person from.</param>
-		public clsPerson			(			int nPersonID,			clsDatabase oDb			):this(oDb) // This makes the program call the (clsDatabase) constructor before the code is called.
+		public clsPerson(int nPersonID, Database oDb) : this(oDb) // This makes the program call the (clsDatabase) constructor before the code is called.
         {
             // Open the specified person			
             OleDbCommand oSql = new OleDbCommand("SELECT Surname,Forenames,MaidenName,Born,BornStatusID,Died,DiedStatusID,FatherID,MotherID,Sex,ChildrenKnown,GedCom,Comments,MediaID,LastEditBy,LastEditDate FROM tbl_People WHERE ID=" + nPersonID.ToString() + ";", oDb.cnDB);
             OleDbDataReader drPerson = oSql.ExecuteReader();
-            if(drPerson.Read())
+            if (drPerson.Read())
             {
-                m_nID = nPersonID;
-                if(drPerson.IsDBNull(0))
+                personIndex_ = nPersonID;
+                if (drPerson.IsDBNull(0))
                 {
-                    m_sSurname = "";
+                    personSurname_ = "";
                 }
                 else
                 {
-                    m_sSurname = drPerson.GetString(0);
+                    personSurname_ = drPerson.GetString(0);
                 }
-                if(drPerson.IsDBNull(1))
+                if (drPerson.IsDBNull(1))
                 {
-                    m_sForenames = "";
-                }
-                else
-                {
-                    m_sForenames = drPerson.GetString(1);
-                }
-                if(drPerson.IsDBNull(2))
-                {
-                    m_sMaidenname = "";
+                    foreNames_ = "";
                 }
                 else
                 {
-                    m_sMaidenname = drPerson.GetString(2);
+                    foreNames_ = drPerson.GetString(1);
                 }
-                if(drPerson.IsDBNull(3))
+                if (drPerson.IsDBNull(2))
                 {
-                    m_DoB.Status = clsDate.EMPTY;
+                    maidenName_ = "";
                 }
                 else
                 {
-                    m_DoB.Date = drPerson.GetDateTime(3);
-                    m_DoB.Status = drPerson.GetInt16(4);
+                    maidenName_ = drPerson.GetString(2);
+                }
+                if (drPerson.IsDBNull(3))
+                {
+                    dob_.Status = clsDate.EMPTY;
+                }
+                else
+                {
+                    dob_.Date = drPerson.GetDateTime(3);
+                    dob_.Status = drPerson.GetInt16(4);
                 }
 
-                if(drPerson.IsDBNull(5))
+                if (drPerson.IsDBNull(5))
                 {
-                    m_DoD.Status = clsDate.EMPTY;
+                    dod_.Status = clsDate.EMPTY;
                 }
                 else
                 {
-                    m_DoD.Date = drPerson.GetDateTime(5);
-                    m_DoD.Status = drPerson.GetInt16(6);
+                    dod_.Date = drPerson.GetDateTime(5);
+                    dod_.Status = drPerson.GetInt16(6);
                 }
-                if(drPerson.IsDBNull(7))
+                if (drPerson.IsDBNull(7))
                 {
-                    m_nFatherID = 0;
-                }
-                else
-                {
-                    m_nFatherID = drPerson.GetInt32(7);
-                }
-                if(drPerson.IsDBNull(8))
-                {
-                    m_nMotherID = 0;
+                    fatherIndex_ = 0;
                 }
                 else
                 {
-                    m_nMotherID = drPerson.GetInt32(8);
+                    fatherIndex_ = drPerson.GetInt32(7);
                 }
-                if(drPerson.IsDBNull(9))
+                if (drPerson.IsDBNull(8))
                 {
-                    m_bMale = true;
+                    motherIndex_ = 0;
                 }
                 else
                 {
-                    if(drPerson.GetString(9) == "M")
+                    motherIndex_ = drPerson.GetInt32(8);
+                }
+                if (drPerson.IsDBNull(9))
+                {
+                    isMale_ = true;
+                }
+                else
+                {
+                    if (drPerson.GetString(9) == "M")
                     {
-                        m_bMale = true;
+                        isMale_ = true;
                     }
                     else
                     {
-                        m_bMale = false;
+                        isMale_ = false;
                     }
                 }
 
-                m_bAllChildren = drPerson.GetBoolean(10);
-                m_bIncludeGedcom = Innoval.clsDatabase.GetBool(drPerson, "Gedcom", true);
-                m_sComments = clsDatabase.GetString(drPerson, "Comments", "");
-                m_nMediaID = clsDatabase.GetInt(drPerson, "MediaID", 0);
+                isAllChildrenKnown_ = drPerson.GetBoolean(10);
+                isIncludeGedcom_ = Innoval.clsDatabase.GetBool(drPerson, "Gedcom", true);
+                comments_ = Database.GetString(drPerson, "Comments", "");
+                mediaIndex = Database.GetInt(drPerson, "MediaID", 0);
                 //				m_sImageFilename = "";
-                m_sLastEditBy = clsDatabase.GetString(drPerson, "LastEditBy", "Steve Walton");
-                m_dtLastEditDate = clsDatabase.GetDateTime(drPerson, "LastEditDate", DateTime.Now);
+                lastEditBy_ = Database.GetString(drPerson, "LastEditBy", "Steve Walton");
+                lastEditDate_ = Database.GetDateTime(drPerson, "LastEditDate", DateTime.Now);
             }
             drPerson.Close();
         }
 
-		#endregion
+        #endregion
 
-		#region Save & GetName
-		
-		/// <summary>
-		/// Save the person into the database
-		/// </summary>
-		/// <returns>True for success, false otherwise.</returns>
+        #region Save & GetName
+
+        /// <summary>
+        /// Save the person into the database
+        /// </summary>
+        /// <returns>True for success, false otherwise.</returns>
         public bool Save()
         {
             // If you create a new record (ID changes from 0) then (does no harm in any case)			
             OleDbCommand oSql;
-            if(m_nID == 0)
+            if (personIndex_ == 0)
             {
                 // Find the new ID
-                oSql = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_People;", m_oDb.cnDB);
-                m_nID = (int)oSql.ExecuteScalar() + 1;
+                oSql = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_People;", database_.cnDB);
+                personIndex_ = (int)oSql.ExecuteScalar() + 1;
 
                 // Create a new person record
-                oSql = new OleDbCommand("INSERT INTO tbl_People (ID,Surname) VALUES (" + m_nID.ToString() + "," + clsDatabase.ToDb(m_sSurname) + ");", m_oDb.cnDB);
+                oSql = new OleDbCommand("INSERT INTO tbl_People (ID,Surname) VALUES (" + personIndex_.ToString() + "," + Database.ToDb(personSurname_) + ");", database_.cnDB);
                 oSql.ExecuteNonQuery();
 
                 // Update the related child records
-                if(m_sourcesName != null)
+                if (sourcesName_ != null)
                 {
-                    m_sourcesName.PersonID = m_nID;
+                    sourcesName_.PersonID = personIndex_;
                 }
-                if(m_sourcesDoB != null)
+                if (sourcesDoB_ != null)
                 {
-                    m_sourcesDoB.PersonID = m_nID;
+                    sourcesDoB_.PersonID = personIndex_;
                 }
-                if(m_sourcesDoD != null)
+                if (sourcesDoD_ != null)
                 {
-                    m_sourcesDoD.PersonID = m_nID;
+                    sourcesDoD_.PersonID = personIndex_;
                 }
-                if(m_sourcesNonSpecific != null)
+                if (sourcesNonSpecific_ != null)
                 {
-                    m_sourcesNonSpecific.PersonID = m_nID;
+                    sourcesNonSpecific_.PersonID = personIndex_;
                 }
             }
             else
             {
                 // Update the places associated with this person
-                m_oDb.PlaceDelink(1, m_nID);
+                database_.PlaceDelink(1, personIndex_);
             }
 
             // Update the existing record
             oSql = new OleDbCommand
                 (
                     "UPDATE tbl_People SET " +
-                    "Surname=" + clsDatabase.ToDb(m_sSurname) + "," +
-                    "Forenames=" + clsDatabase.ToDb(m_sForenames) + "," +
-                    "MaidenName=" + clsDatabase.ToDb(m_sMaidenname) + "," +
-                    "Born=" + clsDatabase.ToDb(m_DoB) + "," +
-                    "BornStatusID=" + m_DoB.Status.ToString() + "," +
-                    "Died=" + clsDatabase.ToDb(m_DoD) + "," +
-                    "DiedStatusID=" + m_DoD.Status.ToString() + "," +
-                    "ChildrenKnown=" + clsDatabase.ToDb(m_bAllChildren) + "," +
-                    "FatherID=" + clsDatabase.ToDb(m_nFatherID, 0) + "," +
-                    "MotherID=" + clsDatabase.ToDb(m_nMotherID, 0) + "," +
-                    "Sex=" + clsDatabase.Iif(m_bMale, "'M'", "'F'") + "," +
-                    "GedCom=" + Innoval.clsDatabase.ToDb(m_bIncludeGedcom) + "," +
-                    "MediaID=" + clsDatabase.ToDb(m_nMediaID, 0) + "," +
-                    "LastEditBy=" + clsDatabase.ToDb(m_sLastEditBy) + "," +
+                    "Surname=" + Database.ToDb(personSurname_) + "," +
+                    "Forenames=" + Database.ToDb(foreNames_) + "," +
+                    "MaidenName=" + Database.ToDb(maidenName_) + "," +
+                    "Born=" + Database.ToDb(dob_) + "," +
+                    "BornStatusID=" + dob_.Status.ToString() + "," +
+                    "Died=" + Database.ToDb(dod_) + "," +
+                    "DiedStatusID=" + dod_.Status.ToString() + "," +
+                    "ChildrenKnown=" + Database.ToDb(isAllChildrenKnown_) + "," +
+                    "FatherID=" + Database.ToDb(fatherIndex_, 0) + "," +
+                    "MotherID=" + Database.ToDb(motherIndex_, 0) + "," +
+                    "Sex=" + Database.Iif(isMale_, "'M'", "'F'") + "," +
+                    "GedCom=" + Innoval.clsDatabase.ToDb(isIncludeGedcom_) + "," +
+                    "MediaID=" + Database.ToDb(mediaIndex, 0) + "," +
+                    "LastEditBy=" + Database.ToDb(lastEditBy_) + "," +
                     "LastEditDate=#" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#," +
-                    "Comments=" + clsDatabase.ToDb(m_sComments) + " " +
-                    "WHERE ID=" + m_nID.ToString() + ";",
-                    m_oDb.cnDB
+                    "Comments=" + Database.ToDb(comments_) + " " +
+                    "WHERE ID=" + personIndex_.ToString() + ";",
+                    database_.cnDB
                 );
             oSql.ExecuteNonQuery();
 
             // Save the sources
-            if(m_sourcesName != null)
+            if (sourcesName_ != null)
             {
-                m_sourcesName.Save();
-                foreach(int nSourceID in m_sourcesName.Get())
+                sourcesName_.Save();
+                foreach (int nSourceID in sourcesName_.Get())
                 {
                     SourceNonSpecific.Add(nSourceID);
                 }
             }
-            if(m_sourcesDoB != null)
+            if (sourcesDoB_ != null)
             {
-                m_sourcesDoB.Save();
-                foreach(int nSourceID in m_sourcesDoB.Get())
+                sourcesDoB_.Save();
+                foreach (int nSourceID in sourcesDoB_.Get())
                 {
                     SourceNonSpecific.Add(nSourceID);
                 }
             }
-            if(m_sourcesDoD != null)
+            if (sourcesDoD_ != null)
             {
-                m_sourcesDoD.Save();
-                foreach(int nSourceID in m_sourcesDoD.Get())
+                sourcesDoD_.Save();
+                foreach (int nSourceID in sourcesDoD_.Get())
                 {
                     SourceNonSpecific.Add(nSourceID);
                 }
             }
 
             // Save the facts don't bother to attach them to the person. We are destroying the person object shortly
-            if(m_oFacts != null)
+            if (facts_ != null)
             {
-                foreach(clsFact oFact in m_oFacts)
+                foreach (clsFact oFact in facts_)
                 {
                     oFact.Save();
 
                     // Make sure that all the fact sources are included in the non specific sources for this person.
-                    foreach(int nSourceID in oFact.Sources.Get())
+                    foreach (int nSourceID in oFact.Sources.Get())
                     {
                         SourceNonSpecific.Add(nSourceID);
                     }
@@ -362,45 +362,45 @@ namespace FamilyTree.Objects
             }
 
             // Save the ToDo items
-            if(m_oToDo != null)
+            if (toDo_ != null)
             {
-                foreach(clsToDo oToDo in m_oToDo)
+                foreach (clsToDo oToDo in toDo_)
                 {
                     oToDo.Save(Database.cnDB);
                 }
             }
 
             // Save the relationship records
-            if(m_oRelationships != null)
+            if (relationships_ != null)
             {
-                foreach(clsRelationship oRelationship in m_oRelationships)
+                foreach (clsRelationship oRelationship in relationships_)
                 {
                     oRelationship.Save();
 
                     // Add the location of this relationship
-                    if(oRelationship.Location != "")
+                    if (oRelationship.Location != "")
                     {
-                        m_oDb.AddPlace(oRelationship.Location, 1, m_nID);
+                        database_.AddPlace(oRelationship.Location, 1, personIndex_);
                     }
 
                     // Make sure that all the relationship sources are included in the non specific source for this person.
-                    foreach(int nSourceID in oRelationship.SourcePartner.Get())
+                    foreach (int nSourceID in oRelationship.SourcePartner.Get())
                     {
                         SourceNonSpecific.Add(nSourceID);
                     }
-                    foreach(int nSourceID in oRelationship.SourceStart.Get())
+                    foreach (int nSourceID in oRelationship.SourceStart.Get())
                     {
                         SourceNonSpecific.Add(nSourceID);
                     }
-                    foreach(int nSourceID in oRelationship.SourceLocation.Get())
+                    foreach (int nSourceID in oRelationship.SourceLocation.Get())
                     {
                         SourceNonSpecific.Add(nSourceID);
                     }
-                    foreach(int nSourceID in oRelationship.SourceTerminated.Get())
+                    foreach (int nSourceID in oRelationship.SourceTerminated.Get())
                     {
                         SourceNonSpecific.Add(nSourceID);
                     }
-                    foreach(int nSourceID in oRelationship.SourceEnd.Get())
+                    foreach (int nSourceID in oRelationship.SourceEnd.Get())
                     {
                         SourceNonSpecific.Add(nSourceID);
                     }
@@ -409,87 +409,87 @@ namespace FamilyTree.Objects
 
             // Add the locations associated with this person
             string sBornLocation = BornLocation(false, "");
-            if(sBornLocation != "")
+            if (sBornLocation != "")
             {
-                m_oDb.AddPlace(sBornLocation, 1, m_nID);
+                database_.AddPlace(sBornLocation, 1, personIndex_);
             }
             string sDiedLocation = GetSimpleFact(90);
-            if(sDiedLocation != "")
+            if (sDiedLocation != "")
             {
-                m_oDb.AddPlace(sDiedLocation, 1, m_nID);
+                database_.AddPlace(sDiedLocation, 1, personIndex_);
             }
-            clsCensusPerson[] oNumCensus = m_oDb.CensusForPerson(m_nID);
-            foreach(clsCensusPerson oCensus in oNumCensus)
+            clsCensusPerson[] oNumCensus = database_.CensusForPerson(personIndex_);
+            foreach (clsCensusPerson oCensus in oNumCensus)
             {
-                m_oDb.AddPlace(oCensus.HouseholdName, 1, m_nID);
+                database_.AddPlace(oCensus.HouseholdName, 1, personIndex_);
             }
 
             // Save the non specifiic sources.  This list may have been added to in the above.
-            if(m_sourcesNonSpecific != null)
+            if (sourcesNonSpecific_ != null)
             {
-                m_sourcesNonSpecific.Save();
+                sourcesNonSpecific_.Save();
             }
 
             // Return success
             return true;
         }
 
-		/// <summary>
-		/// Returns the full name of the person.  If bShowYears is true then the birth and death year are shown in
-		/// brackets after the name.  If bBirthName is true, then for women the original name is shown otherwise the
-		/// married name with a nee is shown.
-		/// </summary>
-		/// <param name="bShowYears">Specify true for the DoB-DoD years to be added to the string.</param>
-		/// <param name="bBirthName">Specify true for the birth name.  False for nee maiden name.  For females only.</param>
-		/// <returns>The full name of the person.</returns>
+        /// <summary>
+        /// Returns the full name of the person.  If bShowYears is true then the birth and death year are shown in
+        /// brackets after the name.  If bBirthName is true, then for women the original name is shown otherwise the
+        /// married name with a nee is shown.
+        /// </summary>
+        /// <param name="bShowYears">Specify true for the DoB-DoD years to be added to the string.</param>
+        /// <param name="bBirthName">Specify true for the birth name.  False for nee maiden name.  For females only.</param>
+        /// <returns>The full name of the person.</returns>
         public string GetName
             (
             bool bShowYears,
             bool bBirthName
             )
         {
-            StringBuilder sbFullname = new StringBuilder(m_sForenames);
-            if(sbFullname.Length > 0)
+            StringBuilder sbFullname = new StringBuilder(foreNames_);
+            if (sbFullname.Length > 0)
             {
                 sbFullname.Append(" ");
             }
-            if(bBirthName)
+            if (bBirthName)
             {
-                if(m_sMaidenname == null)
+                if (maidenName_ == null)
                 {
-                    sbFullname.Append(m_sSurname);
+                    sbFullname.Append(personSurname_);
                 }
-                else if(m_sMaidenname.Length > 0)
+                else if (maidenName_.Length > 0)
                 {
-                    sbFullname.Append(m_sMaidenname);
+                    sbFullname.Append(maidenName_);
                 }
                 else
                 {
-                    sbFullname.Append(m_sSurname);
+                    sbFullname.Append(personSurname_);
                 }
             }
             else
             {
-                sbFullname.Append(m_sSurname);
-                if(m_sMaidenname != null)
+                sbFullname.Append(personSurname_);
+                if (maidenName_ != null)
                 {
-                    if(m_sMaidenname.Length > 0)
+                    if (maidenName_.Length > 0)
                     {
                         sbFullname.Append(" neé ");
-                        sbFullname.Append(m_sMaidenname);
+                        sbFullname.Append(maidenName_);
                     }
                 }
             }
 
             // Add the birth and death years
-            if(bShowYears)
+            if (bShowYears)
             {
                 sbFullname.Append(" (");
-                sbFullname.Append(m_DoB.Format(DateFormat.YearOnly,""));
-                if(!m_DoD.IsEmpty())
+                sbFullname.Append(dob_.Format(DateFormat.YearOnly, ""));
+                if (!dod_.IsEmpty())
                 {
                     sbFullname.Append("-");
-                    sbFullname.Append(m_DoD.Format(DateFormat.YearOnly,""));
+                    sbFullname.Append(dod_.Format(DateFormat.YearOnly, ""));
                 }
                 sbFullname.Append(")");
             }
@@ -498,69 +498,69 @@ namespace FamilyTree.Objects
             return sbFullname.ToString();
         }
 
-		#endregion
+        #endregion
 
-		#region Parents
+        #region Parents
 
-		/// <summary>
-		/// Gets a collection of clsIDName pairs representing the peiple who could possibly be the father of this person.
-		/// It is intended that this function will populate a list box.
-		/// </summary>
-		/// <returns>An array of clsIDName pairs representing people.</returns>
-		public clsIDName[] PossibleFathers()
-		{
-			int nStartYear = m_DoB.Date.Year - 100;
-			int nEndYear = m_DoB.Date.Year - 10;
-			return m_oDb.GetPeople(enumChooseSex.Male,enumSortOrder.Date,nStartYear,nEndYear);
-		}
+        /// <summary>
+        /// Gets a collection of clsIDName pairs representing the peiple who could possibly be the father of this person.
+        /// It is intended that this function will populate a list box.
+        /// </summary>
+        /// <returns>An array of clsIDName pairs representing people.</returns>
+        public IndexName[] PossibleFathers()
+        {
+            int startYear = dob_.Date.Year - 100;
+            int endYear = dob_.Date.Year - 10;
+            return database_.getPeople(ChooseSex.MALE, enumSortOrder.Date, startYear, endYear);
+        }
 
-		/// <summary>
-		/// Gets a collection of clsIDName pairs representing the peiple who could possibly be the father of this person.
-		/// It is intended that this function will populate a list box.
-		/// </summary>
-		/// <returns>An array of clsIDName pairs representing people.</returns>
-		public clsIDName[] PossibleMothers()
-		{
-			int nStartYear = m_DoB.Date.Year - 100;
-			int nEndYear = m_DoB.Date.Year - 10;
-			return m_oDb.GetPeople(enumChooseSex.Female,enumSortOrder.Date,nStartYear,nEndYear);
-		}
+        /// <summary>
+        /// Gets a collection of clsIDName pairs representing the peiple who could possibly be the father of this person.
+        /// It is intended that this function will populate a list box.
+        /// </summary>
+        /// <returns>An array of clsIDName pairs representing people.</returns>
+        public IndexName[] PossibleMothers()
+        {
+            int nStartYear = dob_.Date.Year - 100;
+            int nEndYear = dob_.Date.Year - 10;
+            return database_.getPeople(ChooseSex.FEMALE, enumSortOrder.Date, nStartYear, nEndYear);
+        }
 
-		#endregion
-		
-		#region Children
+        #endregion
+
+        #region Children
 
         // Returns an array of person IDs representing the children of this person.
         /// <summary>
         /// Returns an array of person IDs representing the children of this person.
         /// </summary>
-		/// <returns>An array of person ID representing the children of this person.</returns>
+        /// <returns>An array of person ID representing the children of this person.</returns>
         public int[] GetChildren()
-		{
-			// Start a list of the children
-			ArrayList oList = new ArrayList();
+        {
+            // Start a list of the children
+            ArrayList oList = new ArrayList();
 
-			// Open the list of children of this person
+            // Open the list of children of this person
             OleDbCommand oSql;
-            if(m_bMale)
-			{
-				oSql = new OleDbCommand("SELECT ID FROM tbl_People WHERE FatherID=" + m_nID.ToString() + " ORDER BY Born;",m_oDb.cnDB);
-			}
-			else
-			{
-				oSql = new OleDbCommand("SELECT ID FROM tbl_People WHERE MotherID=" + m_nID.ToString() + " ORDER BY Born;",m_oDb.cnDB);
-			}
-			
-			OleDbDataReader drChildren = oSql.ExecuteReader();
-			while(drChildren.Read())
-			{
-				oList.Add(drChildren.GetInt32(0));
-			}
-			drChildren.Close();
+            if (isMale_)
+            {
+                oSql = new OleDbCommand("SELECT ID FROM tbl_People WHERE FatherID=" + personIndex_.ToString() + " ORDER BY Born;", database_.cnDB);
+            }
+            else
+            {
+                oSql = new OleDbCommand("SELECT ID FROM tbl_People WHERE MotherID=" + personIndex_.ToString() + " ORDER BY Born;", database_.cnDB);
+            }
 
-			// Return the list as a integer array
-			return (int[])oList.ToArray(typeof(int));
-		}
+            OleDbDataReader drChildren = oSql.ExecuteReader();
+            while (drChildren.Read())
+            {
+                oList.Add(drChildren.GetInt32(0));
+            }
+            drChildren.Close();
+
+            // Return the list as a integer array
+            return (int[])oList.ToArray(typeof(int));
+        }
 
         // Returns true if the person has children, false otherwise.
         /// <summary>
@@ -571,7 +571,7 @@ namespace FamilyTree.Objects
         {
             StringBuilder sbSql = new StringBuilder();
             sbSql.Append("SELECT ID FROM tbl_People WHERE ");
-            if(m_bMale)
+            if (isMale_)
             {
                 sbSql.Append("FatherID");
             }
@@ -579,34 +579,34 @@ namespace FamilyTree.Objects
             {
                 sbSql.Append("MotherID");
             }
-            sbSql.Append("=" + m_nID.ToString() + ";");
-            OleDbCommand oSql = new OleDbCommand(sbSql.ToString(),m_oDb.cnDB);
+            sbSql.Append("=" + personIndex_.ToString() + ";");
+            OleDbCommand oSql = new OleDbCommand(sbSql.ToString(), database_.cnDB);
             Object oChildren = oSql.ExecuteScalar();
-            if(oChildren == null)
+            if (oChildren == null)
             {
                 return false;
             }
             return true;
         }
 
-		#endregion
+        #endregion
 
-		#region Siblings
+        #region Siblings
 
-		/// <summary>Returns an array of person ID represents the siblings of this person.
-		/// This includes half-siblings.
-		/// </summary>
-		/// <returns>An array of person ID represents the siblings of this person.</returns>
+        /// <summary>Returns an array of person ID represents the siblings of this person.
+        /// This includes half-siblings.
+        /// </summary>
+        /// <returns>An array of person ID represents the siblings of this person.</returns>
         public int[] GetSiblings()
         {
             // Initialise variables
             ArrayList oList = new ArrayList();
 
             // Open the list of siblings of this person
-            OleDbCommand oSql = new OleDbCommand("SELECT ID FROM tbl_People WHERE ID<>" + m_nID.ToString() + " AND (FatherID=" + m_nFatherID.ToString() + " OR MotherID=" + m_nMotherID.ToString() + ") ORDER BY Born;", m_oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand("SELECT ID FROM tbl_People WHERE ID<>" + personIndex_.ToString() + " AND (FatherID=" + fatherIndex_.ToString() + " OR MotherID=" + motherIndex_.ToString() + ") ORDER BY Born;", database_.cnDB);
 
             OleDbDataReader drSiblings = oSql.ExecuteReader();
-            while(drSiblings.Read())
+            while (drSiblings.Read())
             {
                 oList.Add(drSiblings.GetInt32(0));
             }
@@ -616,82 +616,82 @@ namespace FamilyTree.Objects
             return (int[])oList.ToArray(typeof(int));
         }
 
-		#endregion
+        #endregion
 
-		#region Relationships
-				
-		/// <summary>Gets a collection of clsIDName pairs representing the people who could possibly be in a relationship with the person.
-		/// It is intended that this function will populate a list box.
-		/// </summary>
-		/// <returns>An array clsIDName[] pairs representing people</returns>
-        public clsIDName[] PossiblePartners()
+        #region Relationships
+
+        /// <summary>Gets a collection of clsIDName pairs representing the people who could possibly be in a relationship with the person.
+        /// It is intended that this function will populate a list box.
+        /// </summary>
+        /// <returns>An array clsIDName[] pairs representing people</returns>
+        public IndexName[] PossiblePartners()
         {
-            enumChooseSex nSex = m_bMale ? enumChooseSex.Female : enumChooseSex.Male;
-            int nStartYear = m_DoB.Date.Year - m_oDb.RelationshipRange;
-            int nEndYear = m_DoB.Date.Year + m_oDb.RelationshipRange;
+            ChooseSex nSex = isMale_ ? ChooseSex.FEMALE : ChooseSex.MALE;
+            int nStartYear = dob_.Date.Year - database_.RelationshipRange;
+            int nEndYear = dob_.Date.Year + database_.RelationshipRange;
 
             // Return the collection of people
-            return m_oDb.GetPeople(nSex, enumSortOrder.Date, nStartYear, nEndYear);
+            return database_.getPeople(nSex, enumSortOrder.Date, nStartYear, nEndYear);
         }
 
-		/// <summary>Returns an array of clsRelationship objects representing the relationships for this person.
-		/// </summary>
-		/// <returns>An array of clsRelationships objects representing the relationships for this person.</returns>
+        /// <summary>Returns an array of clsRelationship objects representing the relationships for this person.
+        /// </summary>
+        /// <returns>An array of clsRelationships objects representing the relationships for this person.</returns>
         public clsRelationship[] GetRelationships()
         {
-            if(m_oRelationships == null)
+            if (relationships_ == null)
             {
                 LoadRelationships();
             }
 
             // Return the relationships as an array			
-            return (clsRelationship[])m_oRelationships.ToArray(typeof(clsRelationship));
+            return (clsRelationship[])relationships_.ToArray(typeof(clsRelationship));
         }
-		
-		/// <summary>Adds a relationship to the person.
-		/// </summary>
-		/// <param name="oRelationship">Specify the relationship to add to the collection of relationships/</param>
-		/// <returns>True for success, false otherwise.</returns>
+
+        /// <summary>Adds a relationship to the person.
+        /// </summary>
+        /// <param name="oRelationship">Specify the relationship to add to the collection of relationships/</param>
+        /// <returns>True for success, false otherwise.</returns>
         public bool AddRelationship(clsRelationship oRelationship)
         {
             // Load the existing relationships if required
-            if(m_oRelationships == null)
+            if (relationships_ == null)
             {
                 LoadRelationships();
             }
 
             // Add the new relationship
-            m_oRelationships.Add(oRelationship);
+            relationships_.Add(oRelationship);
 
             // Return success
             return true;
         }
-		
-		/// <summary>Loads the relationships for this person from the database.
-		/// </summary>
-		/// <returns>True for success, false otherwise.</returns>
+
+        /// <summary>Loads the relationships for this person from the database.
+        /// </summary>
+        /// <returns>True for success, false otherwise.</returns>
         private bool LoadRelationships()
         {
             // Initialise variables
-            m_oRelationships = new ArrayList();
+            relationships_ = new ArrayList();
 
             // Open the list of partners of this person
             OleDbCommand oSql = null;
-            if(m_bMale)
+            if (isMale_)
             {
-                oSql = new OleDbCommand("SELECT ID,FemaleID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE MaleID=" + m_nID.ToString() + " ORDER BY TheDate DESC;", m_oDb.cnDB);
+                oSql = new OleDbCommand("SELECT ID,FemaleID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE MaleID=" + personIndex_.ToString() + " ORDER BY TheDate DESC;", database_.cnDB);
             }
             else
             {
-                oSql = new OleDbCommand("SELECT ID,MaleID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE FemaleID=" + m_nID.ToString() + " ORDER BY TheDate DESC;", m_oDb.cnDB);
+                oSql = new OleDbCommand("SELECT ID,MaleID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE FemaleID=" + personIndex_.ToString() + " ORDER BY TheDate DESC;", database_.cnDB);
             }
 
             OleDbDataReader drPartners = oSql.ExecuteReader();
-            while(drPartners.Read())
+            while (drPartners.Read())
             {
                 clsRelationship oRelationship = new clsRelationship(drPartners.GetInt32(0), this, drPartners.GetInt32(1));
                 oRelationship.TerminatedID = drPartners.GetInt32(2);
-                if(drPartners.IsDBNull(3))
+                if (drPartners.IsDBNull(3))
                 {
                     oRelationship.Start.Status = clsDate.EMPTY;
                 }
@@ -700,7 +700,7 @@ namespace FamilyTree.Objects
                     oRelationship.Start.Date = drPartners.GetDateTime(3);
                     oRelationship.Start.Status = drPartners.GetInt16(4);
                 }
-                if(drPartners.IsDBNull(5))
+                if (drPartners.IsDBNull(5))
                 {
                     oRelationship.End.Status = clsDate.EMPTY;
                 }
@@ -709,7 +709,7 @@ namespace FamilyTree.Objects
                     oRelationship.End.Date = drPartners.GetDateTime(5);
                     oRelationship.End.Status = drPartners.GetInt16(6);
                 }
-                if(drPartners.IsDBNull(7))
+                if (drPartners.IsDBNull(7))
                 {
                     oRelationship.Location = "";
                 }
@@ -717,7 +717,7 @@ namespace FamilyTree.Objects
                 {
                     oRelationship.Location = drPartners.GetString(7);
                 }
-                if(drPartners.IsDBNull(8))
+                if (drPartners.IsDBNull(8))
                 {
                     oRelationship.Comments = "";
                 }
@@ -726,7 +726,7 @@ namespace FamilyTree.Objects
                     oRelationship.Comments = drPartners.GetString(8);
                 }
                 oRelationship.TypeID = drPartners.GetInt16(9);
-                if(drPartners.IsDBNull(10))
+                if (drPartners.IsDBNull(10))
                 {
                     oRelationship.LastEditBy = "Steve Walton";
                 }
@@ -734,7 +734,7 @@ namespace FamilyTree.Objects
                 {
                     oRelationship.LastEditBy = drPartners.GetString(10);
                 }
-                if(drPartners.IsDBNull(11))
+                if (drPartners.IsDBNull(11))
                 {
                     oRelationship.LastEditDate = DateTime.Now;
                 }
@@ -744,7 +744,7 @@ namespace FamilyTree.Objects
                 }
                 oRelationship.Dirty = false;
 
-                m_oRelationships.Add(oRelationship);
+                relationships_.Add(oRelationship);
             }
             drPartners.Close();
 
@@ -752,304 +752,304 @@ namespace FamilyTree.Objects
             return true;
         }
 
-		#endregion
+        #endregion
 
-		#region Facts
+        #region Facts
 
-		/// <summary>
-		/// Adds a fact to the list of facts for this person.
-		/// </summary>
-		/// <param name="oFact">Specifies the fact to add to this person.</param>
-		/// <returns>True for success.  False, otherwise.</returns>
+        /// <summary>
+        /// Adds a fact to the list of facts for this person.
+        /// </summary>
+        /// <param name="oFact">Specifies the fact to add to this person.</param>
+        /// <returns>True for success.  False, otherwise.</returns>
         public bool AddFact
             (
             clsFact oFact
             )
         {
             // Check if the facts array exists
-            if(m_oFacts == null)
+            if (facts_ == null)
             {
-                m_oFacts = new ArrayList();
+                facts_ = new ArrayList();
             }
 
             // Add to the list of facts
-            m_oFacts.Add(oFact);
+            facts_.Add(oFact);
 
             // Return success
             return true;
         }
-		
-		/// <summary>
-		/// Loads all the facts from the database.
-		/// </summary>
-		/// <returns>True for success.  False, otherwise.</returns>
-		private bool GetAllFacts()
-		{			
-			// Initailise the list of facts 
-			m_oFacts = new ArrayList();
 
-			// Get the list of facts from the database
-			OleDbCommand oSQL = new OleDbCommand("SELECT ID,TypeID,Rank,Information FROM tbl_Facts WHERE PersonID=" + m_nID.ToString() + " ORDER BY Rank;",m_oDb.cnDB);
-			OleDbDataReader drFact = oSQL.ExecuteReader();
-			int nRank = 0;
-			while(drFact.Read())
-			{
-				if(drFact.IsDBNull(2))
-				{
-					nRank++;
-				}
-				else
-				{
-					nRank = drFact.GetInt32(2);
-				}
-				clsFact oFact = new clsFact(drFact.GetInt32(0),this,drFact.GetInt32(1),nRank,drFact.GetString(3));
-				m_oFacts.Add(oFact);
-			}
-			drFact.Close();
+        /// <summary>
+        /// Loads all the facts from the database.
+        /// </summary>
+        /// <returns>True for success.  False, otherwise.</returns>
+        private bool GetAllFacts()
+        {
+            // Initailise the list of facts 
+            facts_ = new ArrayList();
 
-			// Return success
-			return true;		
-		}
-		
-		/// <summary>
-		/// Returns an array of facts of the specified type.
-		/// </summary>
-		/// <param name="nTypeID">Specify the type of fact.</param>
-		/// <returns>An array of facts of the required type.</returns>
-		public clsFact[] GetFacts
-			(
-			int nTypeID
-			)
-		{
-			// Check that some facts exist
-			if(m_oFacts==null)
-			{
-				// Open the facts
-				GetAllFacts();
-			}
+            // Get the list of facts from the database
+            OleDbCommand oSQL = new OleDbCommand("SELECT ID,TypeID,Rank,Information FROM tbl_Facts WHERE PersonID=" + personIndex_.ToString() + " ORDER BY Rank;", database_.cnDB);
+            OleDbDataReader drFact = oSQL.ExecuteReader();
+            int nRank = 0;
+            while (drFact.Read())
+            {
+                if (drFact.IsDBNull(2))
+                {
+                    nRank++;
+                }
+                else
+                {
+                    nRank = drFact.GetInt32(2);
+                }
+                clsFact oFact = new clsFact(drFact.GetInt32(0), this, drFact.GetInt32(1), nRank, drFact.GetString(3));
+                facts_.Add(oFact);
+            }
+            drFact.Close();
 
-			// Build a list of relivant facts
-			ArrayList oReturn = new ArrayList();
-			foreach(clsFact oFact in m_oFacts)
-			{
-				if(oFact.TypeID==nTypeID&&oFact.IsValid())
-				{
-					oReturn.Add(oFact);
-				}
-			}
-			
-			// Return the list of facts
-			return (clsFact[])(oReturn.ToArray(typeof(clsFact)));
-		}
-		/// <summary>
-		/// Returns all the facts.
-		/// </summary>
-		/// <returns>Array of all facts for this person.</returns>
-		public clsFact[] GetFacts()
-		{
-			// Check that some facts exist
-			if(m_oFacts==null)
-			{
-				// Open the facts
-				GetAllFacts();
-			}
+            // Return success
+            return true;
+        }
 
-			return (clsFact[])(m_oFacts.ToArray(typeof(clsFact)));
-		}
+        /// <summary>
+        /// Returns an array of facts of the specified type.
+        /// </summary>
+        /// <param name="nTypeID">Specify the type of fact.</param>
+        /// <returns>An array of facts of the required type.</returns>
+        public clsFact[] GetFacts
+            (
+            int nTypeID
+            )
+        {
+            // Check that some facts exist
+            if (facts_ == null)
+            {
+                // Open the facts
+                GetAllFacts();
+            }
 
-		/// <summary>
-		/// Returns the information field from the first fact of the specified type.
-		/// This is intended to be used where a fact type only has a single value.
-		/// </summary>
-		/// <param name="nTypeID">Specifies the type of fact to return.</param>
-		/// <returns>The information field as a string.</returns>
-		public string GetSimpleFact
-			(
-			int nTypeID
-			)
-		{
-			clsFact[] oFact = GetFacts(nTypeID);
-			if(oFact.Length==0)
-			{
-				return "";
-			}
-			return oFact[0].Information;
-		}
+            // Build a list of relivant facts
+            ArrayList oReturn = new ArrayList();
+            foreach (clsFact oFact in facts_)
+            {
+                if (oFact.TypeID == nTypeID && oFact.IsValid())
+                {
+                    oReturn.Add(oFact);
+                }
+            }
 
-		#endregion
+            // Return the list of facts
+            return (clsFact[])(oReturn.ToArray(typeof(clsFact)));
+        }
+        /// <summary>
+        /// Returns all the facts.
+        /// </summary>
+        /// <returns>Array of all facts for this person.</returns>
+        public clsFact[] GetFacts()
+        {
+            // Check that some facts exist
+            if (facts_ == null)
+            {
+                // Open the facts
+                GetAllFacts();
+            }
 
-		#region Description
+            return (clsFact[])(facts_.ToArray(typeof(clsFact)));
+        }
+
+        /// <summary>
+        /// Returns the information field from the first fact of the specified type.
+        /// This is intended to be used where a fact type only has a single value.
+        /// </summary>
+        /// <param name="nTypeID">Specifies the type of fact to return.</param>
+        /// <returns>The information field as a string.</returns>
+        public string GetSimpleFact
+            (
+            int nTypeID
+            )
+        {
+            clsFact[] oFact = GetFacts(nTypeID);
+            if (oFact.Length == 0)
+            {
+                return "";
+            }
+            return oFact[0].Information;
+        }
+
+        #endregion
+
+        #region Description
 
         // A long description of the person, covering most all of the facts about this person.
         /// <summary>
         /// A long description of the person, covering most all of the facts about this person.
         /// </summary>
-		/// <param name="bHtml">Specify true for a html string, false for a plain ASCII text string.</param>
-		/// <param name="bFootnotes">Specify true for footnotes that detail the sources.  (Really RTF only).</param>
+        /// <param name="bHtml">Specify true for a html string, false for a plain ASCII text string.</param>
+        /// <param name="bFootnotes">Specify true for footnotes that detail the sources.  (Really RTF only).</param>
         /// <param name="bShowImages">Specify true to show images in the description.  Only in html format output.</param>
-		/// <returns>A long description of the person.</returns>
+        /// <returns>A long description of the person.</returns>
         public string Description(bool bHtml, bool bFootnotes, bool bShowImages, bool bIncludePlaces, bool bIncludeToDo)
-		{
-			// Initialise a string to hold the result.
-			StringBuilder sbDescription = new StringBuilder();
+        {
+            // Initialise a string to hold the result.
+            StringBuilder sbDescription = new StringBuilder();
 
-			// Initialise the footnotes
-			clsIDName[] oSources=null;
-			char[] cFootnote=null;
-			StringBuilder sbFootnote=null;
-			char cNextChar='A';
-			if(bFootnotes)
-			{
-				cNextChar = 'A';
-				sbFootnote = new StringBuilder();
-				oSources = m_oDb.GetSources(enumSortOrder.Date);
-				cFootnote = new char[oSources.Length];
-				for(int nI=0;nI<oSources.Length;nI++)
-				{
-					cFootnote[nI] = ' ';
-				}
+            // Initialise the footnotes
+            IndexName[] oSources = null;
+            char[] cFootnote = null;
+            StringBuilder sbFootnote = null;
+            char cNextChar = 'A';
+            if (bFootnotes)
+            {
+                cNextChar = 'A';
+                sbFootnote = new StringBuilder();
+                oSources = database_.GetSources(enumSortOrder.Date);
+                cFootnote = new char[oSources.Length];
+                for (int nI = 0; nI < oSources.Length; nI++)
+                {
+                    cFootnote[nI] = ' ';
+                }
 
-				// Add the non specific footnotes now.  To get the requested order.
-				Footnote(this.SourceNonSpecific,oSources,cFootnote,sbFootnote,ref cNextChar);
-			}
-			
-			// Initialise the html            
-            if(bHtml && bIncludeToDo)
+                // Add the non specific footnotes now.  To get the requested order.
+                Footnote(this.SourceNonSpecific, oSources, cFootnote, sbFootnote, ref cNextChar);
+            }
+
+            // Initialise the html            
+            if (bHtml && bIncludeToDo)
             {
                 sbDescription.Append("<p>");
             }
 
-            if(bHtml)
+            if (bHtml)
             {
                 // Primary image
-                if(bShowImages)
+                if (bShowImages)
                 {
-                    if(m_nMediaID != 0)
+                    if (mediaIndex != 0)
                     {
-                        clsMedia oPrimaryMedia = new clsMedia(m_oDb,m_nMediaID);
-                        sbDescription.Append("<a href=\"media:" + m_nMediaID.ToString() + "\">");
+                        clsMedia oPrimaryMedia = new clsMedia(database_, mediaIndex);
+                        sbDescription.Append("<a href=\"media:" + mediaIndex.ToString() + "\">");
                         sbDescription.Append("<img align=\"right\" src=\"" + oPrimaryMedia.FullFilename + "\" border=\"no\" alt=\"" + oPrimaryMedia.Title + "\" height=\"" + oPrimaryMedia.HeightForSpecifiedWidth(150) + "\" width=\"150\" />");
                         sbDescription.Append("</a>");
                     }
                 }
             }
 
-			// Name
-            if(bHtml)
+            // Name
+            if (bHtml)
             {
-                sbDescription.Append("<a href=\"Person:" + m_nID.ToString() + "\">");
+                sbDescription.Append("<a href=\"Person:" + personIndex_.ToString() + "\">");
             }
             sbDescription.Append(GetName(false, true));
-            if(bHtml)
+            if (bHtml)
             {
                 sbDescription.Append("</a>");
             }
-            if(bFootnotes)
-			{
-				sbDescription.Append(Footnote(SourceName,oSources,cFootnote,sbFootnote,ref cNextChar));
-			}
+            if (bFootnotes)
+            {
+                sbDescription.Append(Footnote(SourceName, oSources, cFootnote, sbFootnote, ref cNextChar));
+            }
 
-			// Born
-			if(DoB.IsEmpty())
-			{
-				sbDescription.Append(" not known when " + ThirdPerson(false) + " was born");
-			}
-			else
-			{
-				sbDescription.Append(" was born ");
-                sbDescription.Append(DoB.Format(DateFormat.FullLong,clsDate.enumPrefix.OnInBeforeAfter));
-				if(bFootnotes)
-				{
-					sbDescription.Append(Footnote(SourceDoB,oSources,cFootnote,sbFootnote,ref cNextChar));
-				}
-			}
-            clsFact[] oFacts = GetFacts(10);
-			if(oFacts.Length>0)
-			{
-				sbDescription.Append(" in ");
-                if(bHtml)
+            // Born
+            if (dob.IsEmpty())
+            {
+                sbDescription.Append(" not known when " + ThirdPerson(false) + " was born");
+            }
+            else
+            {
+                sbDescription.Append(" was born ");
+                sbDescription.Append(dob.Format(DateFormat.FullLong, clsDate.enumPrefix.OnInBeforeAfter));
+                if (bFootnotes)
                 {
-                    sbDescription.Append(m_oDb.PlaceToHtml(oFacts[0].Information));
+                    sbDescription.Append(Footnote(SourceDoB, oSources, cFootnote, sbFootnote, ref cNextChar));
+                }
+            }
+            clsFact[] oFacts = GetFacts(10);
+            if (oFacts.Length > 0)
+            {
+                sbDescription.Append(" in ");
+                if (bHtml)
+                {
+                    sbDescription.Append(database_.PlaceToHtml(oFacts[0].Information));
                 }
                 else
                 {
                     sbDescription.Append(oFacts[0].Information);
                 }
-                if(bFootnotes)
-				{
-					sbDescription.Append(Footnote(oFacts[0].Sources,oSources,cFootnote,sbFootnote,ref cNextChar));
-				}							
-			}
-			sbDescription.Append(". ");
-
-			// Relationships			
-			clsRelationship[] oRelationships = GetRelationships();
-            for(int nI = oRelationships.Length - 1;nI >= 0;nI--)
-            {
-                if(oRelationships[nI].IsValid() && oRelationships[nI].IsMarried())
+                if (bFootnotes)
                 {
-                    clsPerson oRelation = m_oDb.GetPerson(oRelationships[nI].PartnerID);
-                    if(oRelationships[nI].Start.IsEmpty())
+                    sbDescription.Append(Footnote(oFacts[0].Sources, oSources, cFootnote, sbFootnote, ref cNextChar));
+                }
+            }
+            sbDescription.Append(". ");
+
+            // Relationships			
+            clsRelationship[] oRelationships = GetRelationships();
+            for (int nI = oRelationships.Length - 1; nI >= 0; nI--)
+            {
+                if (oRelationships[nI].IsValid() && oRelationships[nI].IsMarried())
+                {
+                    clsPerson oRelation = database_.getPerson(oRelationships[nI].PartnerID);
+                    if (oRelationships[nI].Start.IsEmpty())
                     {
                         sbDescription.Append(ThirdPerson(true));
                     }
                     else
                     {
-                        sbDescription.Append(oRelationships[nI].Start.Format(DateFormat.FullLong,clsDate.enumPrefix.OnInBeforeAfterCaptials));
-                        if(bFootnotes)
+                        sbDescription.Append(oRelationships[nI].Start.Format(DateFormat.FullLong, clsDate.enumPrefix.OnInBeforeAfterCaptials));
+                        if (bFootnotes)
                         {
-                            sbDescription.Append(Footnote(oRelationships[nI].SourceStart,oSources,cFootnote,sbFootnote,ref cNextChar));
+                            sbDescription.Append(Footnote(oRelationships[nI].SourceStart, oSources, cFootnote, sbFootnote, ref cNextChar));
                         }
-                        if(!this.DoB.IsEmpty())
+                        if (!this.dob.IsEmpty())
                         {
                             sbDescription.Append(" when " + ThirdPerson(false) + " was " + this.Age(oRelationships[nI].Start) + " old");
                         }
                         sbDescription.Append(", " + ThirdPerson(false));
                     }
                     sbDescription.Append(" married ");
-                    if(bHtml)
+                    if (bHtml)
                     {
                         sbDescription.Append("<a href=\"Person:" + oRelation.ID.ToString() + "\">");
                     }
                     sbDescription.Append(oRelation.GetName(false, true));
-                    if(bHtml)
+                    if (bHtml)
                     {
                         sbDescription.Append("</a>");
                     }
-                    if(bFootnotes)
+                    if (bFootnotes)
                     {
-                        sbDescription.Append(Footnote(oRelationships[nI].SourcePartner,oSources,cFootnote,sbFootnote,ref cNextChar));
+                        sbDescription.Append(Footnote(oRelationships[nI].SourcePartner, oSources, cFootnote, sbFootnote, ref cNextChar));
                     }
-                    if(oRelationships[nI].Location.Length > 0)
+                    if (oRelationships[nI].Location.Length > 0)
                     {
                         sbDescription.Append(" at ");
-                        if(bHtml)
+                        if (bHtml)
                         {
-                            sbDescription.Append(m_oDb.PlaceToHtml(oRelationships[nI].Location));
+                            sbDescription.Append(database_.PlaceToHtml(oRelationships[nI].Location));
                         }
                         else
                         {
                             sbDescription.Append(oRelationships[nI].Location);
                         }
 
-                        if(bFootnotes)
+                        if (bFootnotes)
                         {
-                            sbDescription.Append(Footnote(oRelationships[nI].SourceLocation,oSources,cFootnote,sbFootnote,ref cNextChar));
+                            sbDescription.Append(Footnote(oRelationships[nI].SourceLocation, oSources, cFootnote, sbFootnote, ref cNextChar));
                         }
                     }
 
                     sbDescription.Append(". ");
 
-                    if(oRelationships[nI].TerminatedID != 1)
+                    if (oRelationships[nI].TerminatedID != 1)
                     {
                         bool bTerminated = true;
-                        switch(oRelationships[nI].TerminatedID)
+                        switch (oRelationships[nI].TerminatedID)
                         {
                         case 2:
                             sbDescription.Append("They got divorced");
                             break;
                         case 3:
-                            if(m_bMale)
+                            if (isMale_)
                             {
                                 bTerminated = false;
                             }
@@ -1059,7 +1059,7 @@ namespace FamilyTree.Objects
                             }
                             break;
                         case 4:
-                            if(m_bMale)
+                            if (isMale_)
                             {
                                 sbDescription.Append("She died");
                             }
@@ -1069,19 +1069,19 @@ namespace FamilyTree.Objects
                             }
                             break;
                         }
-                        if(bTerminated)
+                        if (bTerminated)
                         {
-                            if(bFootnotes)
+                            if (bFootnotes)
                             {
-                                sbDescription.Append(Footnote(oRelationships[nI].SourceTerminated,oSources,cFootnote,sbFootnote,ref cNextChar));
+                                sbDescription.Append(Footnote(oRelationships[nI].SourceTerminated, oSources, cFootnote, sbFootnote, ref cNextChar));
                             }
 
-                            if(!oRelationships[nI].End.IsEmpty())
+                            if (!oRelationships[nI].End.IsEmpty())
                             {
-                                sbDescription.Append(" " + oRelationships[nI].End.Format(DateFormat.FullLong,clsDate.enumPrefix.OnInBeforeAfter));
-                                if(bFootnotes)
+                                sbDescription.Append(" " + oRelationships[nI].End.Format(DateFormat.FullLong, clsDate.enumPrefix.OnInBeforeAfter));
+                                if (bFootnotes)
                                 {
-                                    sbDescription.Append(Footnote(oRelationships[nI].SourceEnd,oSources,cFootnote,sbFootnote,ref cNextChar));
+                                    sbDescription.Append(Footnote(oRelationships[nI].SourceEnd, oSources, cFootnote, sbFootnote, ref cNextChar));
                                 }
                             }
 
@@ -1091,35 +1091,35 @@ namespace FamilyTree.Objects
                 }
             }
 
-			// Education
-            sbDescription.Append(ShowFacts(40," was educated at ","and",bHtml,bFootnotes,oSources,cFootnote,sbFootnote,ref cNextChar));
+            // Education
+            sbDescription.Append(ShowFacts(40, " was educated at ", "and", bHtml, bFootnotes, oSources, cFootnote, sbFootnote, ref cNextChar));
 
-			// Occupation
-            sbDescription.Append(ShowFacts(20," worked as a ","and",bHtml,bFootnotes,oSources,cFootnote,sbFootnote,ref cNextChar));
-		    
-			// Interests
-            sbDescription.Append(ShowFacts(30," was interested in ","",bHtml,bFootnotes,oSources,cFootnote,sbFootnote,ref cNextChar));
-		    
-			// Comments
-            sbDescription.Append(ShowFacts(100," ","",bHtml,bFootnotes,oSources,cFootnote,sbFootnote,ref cNextChar));
+            // Occupation
+            sbDescription.Append(ShowFacts(20, " worked as a ", "and", bHtml, bFootnotes, oSources, cFootnote, sbFootnote, ref cNextChar));
 
-			// Children
+            // Interests
+            sbDescription.Append(ShowFacts(30, " was interested in ", "", bHtml, bFootnotes, oSources, cFootnote, sbFootnote, ref cNextChar));
+
+            // Comments
+            sbDescription.Append(ShowFacts(100, " ", "", bHtml, bFootnotes, oSources, cFootnote, sbFootnote, ref cNextChar));
+
+            // Children
             // Don't display children information for people who are known be less than 14 years old.
             int nAge = 15;
-            if(!DoD.IsEmpty())
+            if (!DoD.IsEmpty())
             {
-                nAge = DoD.Date.Year - DoB.Date.Year;
+                nAge = DoD.Date.Year - dob.Date.Year;
             }
             else
             {
-                nAge = DateTime.Now.Year - DoB.Date.Year;
+                nAge = DateTime.Now.Year - dob.Date.Year;
             }
-            if(nAge > 14)
+            if (nAge > 14)
             {
                 int[] Children = GetChildren();
-                if(AllChildrenKnown)
+                if (AllChildrenKnown)
                 {
-                    switch(Children.Length)
+                    switch (Children.Length)
                     {
                     case 0:
                         sbDescription.Append(ThirdPerson(true) + " had no children. ");
@@ -1134,7 +1134,7 @@ namespace FamilyTree.Objects
                 }
                 else
                 {
-                    switch(Children.Length)
+                    switch (Children.Length)
                     {
                     case 0:
                         break;
@@ -1149,20 +1149,20 @@ namespace FamilyTree.Objects
             }
 
             // Census information.
-            clsCensusPerson[] oCensuses = m_oDb.CensusForPerson(m_nID);
+            clsCensusPerson[] oCensuses = database_.CensusForPerson(personIndex_);
             string sLastLocation = "";
-            foreach(clsCensusPerson oCensus in oCensuses)
-            {                
+            foreach (clsCensusPerson oCensus in oCensuses)
+            {
                 string sLocation = "";
-                if(bHtml)
+                if (bHtml)
                 {
-                    sLocation = m_oDb.PlaceToHtml(oCensus.HouseholdName);
+                    sLocation = database_.PlaceToHtml(oCensus.HouseholdName);
                 }
                 else
                 {
                     sLocation = oCensus.HouseholdName;
                 }
-                if(sLocation != sLastLocation)
+                if (sLocation != sLastLocation)
                 {
                     sbDescription.Append(ThirdPerson(true) + " lived at ");
                     sbDescription.Append(sLocation);
@@ -1170,88 +1170,88 @@ namespace FamilyTree.Objects
                 }
                 else
                 {
-                    sbDescription.Remove(sbDescription.Length - 2,2);
+                    sbDescription.Remove(sbDescription.Length - 2, 2);
                     sbDescription.Append(" and");
                 }
                 sbDescription.Append(" on " + oCensus.Date.ToString("d MMMM yyyy"));
-                if(bFootnotes)
+                if (bFootnotes)
                 {
-                    sbDescription.Append(Footnote(oCensus.HouseholdID,oSources,cFootnote,sbFootnote,ref cNextChar,true));
+                    sbDescription.Append(Footnote(oCensus.HouseholdID, oSources, cFootnote, sbFootnote, ref cNextChar, true));
                 }
                 sbDescription.Append(". ");
             }
 
-			// Died
-			if(!DoD.IsEmpty())
-			{
-				sbDescription.Append(ThirdPerson(true) + " died " + DoD.Format(DateFormat.FullLong,clsDate.enumPrefix.OnInBeforeAfter));
-				if(bFootnotes)
-				{
-                    sbDescription.Append(Footnote(SourceDoD,oSources,cFootnote,sbFootnote,ref cNextChar));
-				}
-				oFacts=GetFacts(90);
-				if(oFacts.Length>0)
-				{
-					sbDescription.Append(" in ");
-                    if(bHtml)
+            // Died
+            if (!DoD.IsEmpty())
+            {
+                sbDescription.Append(ThirdPerson(true) + " died " + DoD.Format(DateFormat.FullLong, clsDate.enumPrefix.OnInBeforeAfter));
+                if (bFootnotes)
+                {
+                    sbDescription.Append(Footnote(SourceDoD, oSources, cFootnote, sbFootnote, ref cNextChar));
+                }
+                oFacts = GetFacts(90);
+                if (oFacts.Length > 0)
+                {
+                    sbDescription.Append(" in ");
+                    if (bHtml)
                     {
-                        sbDescription.Append(m_oDb.PlaceToHtml(oFacts[0].Information));
+                        sbDescription.Append(database_.PlaceToHtml(oFacts[0].Information));
                     }
                     else
                     {
                         sbDescription.Append(oFacts[0].Information);
                     }
-					if(bFootnotes)
-					{
-						sbDescription.Append(Footnote(oFacts[0].Sources,oSources,cFootnote,sbFootnote,ref cNextChar));
-					}							
-				}
-				if(!DoB.IsEmpty())
-				{
-					sbDescription.Append(" when " + ThirdPerson(false) + " was " + Age(this.DoD) + " old");
-				}
-				sbDescription.Append(". ");
-			}
-            if(bHtml && bIncludeToDo)
+                    if (bFootnotes)
+                    {
+                        sbDescription.Append(Footnote(oFacts[0].Sources, oSources, cFootnote, sbFootnote, ref cNextChar));
+                    }
+                }
+                if (!dob.IsEmpty())
+                {
+                    sbDescription.Append(" when " + ThirdPerson(false) + " was " + Age(this.DoD) + " old");
+                }
+                sbDescription.Append(". ");
+            }
+            if (bHtml && bIncludeToDo)
             {
                 sbDescription.AppendLine("</p>");
             }
 
             // Display the comments
             // bIncludeToDo is not really the "correct" flag
-            if(bHtml && bIncludeToDo && m_sComments != string.Empty)
+            if (bHtml && bIncludeToDo && comments_ != string.Empty)
             {
-                sbDescription.AppendLine("<p class=\"Small\" style=\"line-height: 100%\"><strong>Private Comments</strong>: " + m_sComments + "</p>");
+                sbDescription.AppendLine("<p class=\"Small\" style=\"line-height: 100%\"><strong>Private Comments</strong>: " + comments_ + "</p>");
             }
 
             // Include the places 
-            if(bHtml && bIncludePlaces)
+            if (bHtml && bIncludePlaces)
             {
-                sbDescription.AppendLine(Places.GoogleMap(600,300));
+                sbDescription.AppendLine(Places.GoogleMap(600, 300));
             }
 
-			// Show the footnotes
-			if(bFootnotes)
-			{
-				if(sbFootnote.Length>0)
-				{
+            // Show the footnotes
+            if (bFootnotes)
+            {
+                if (sbFootnote.Length > 0)
+                {
                     sbDescription.AppendLine("<table cellpadding=\"3\" cellspacing=\"2\">");
                     sbDescription.AppendLine(sbFootnote.ToString());
                     sbDescription.AppendLine("</table> ");
-				}
+                }
                 sbDescription.AppendLine("<p align=\"left\"><span class=\"Small\">Last Edit by " + LastEditBy + " on " + LastEditDate.ToString("d-MMM-yyyy HH:mm:ss") + "</span></p>");
             }
 
             // Show all the non primary images
-            if(bHtml && bShowImages)
+            if (bHtml && bShowImages)
             {
                 int[] Media = GetMediaID(true);
-                if(Media.Length > 0)
+                if (Media.Length > 0)
                 {
-                    sbDescription.AppendLine("<table>");                 
-                    foreach(int nMediaID in Media)
+                    sbDescription.AppendLine("<table>");
+                    foreach (int nMediaID in Media)
                     {
-                        clsMedia oMedia = new clsMedia(m_oDb,nMediaID);
+                        clsMedia oMedia = new clsMedia(database_, nMediaID);
                         sbDescription.Append("<tr valign=\"top\">");
                         sbDescription.Append("<td>");
                         sbDescription.Append("<a href=\"media:" + nMediaID.ToString() + "\">");
@@ -1264,29 +1264,29 @@ namespace FamilyTree.Objects
                     sbDescription.AppendLine("</table>");
                 }
             }
-			
-			// Show the ToDo items
-            if(bHtml && bIncludeToDo)
+
+            // Show the ToDo items
+            if (bHtml && bIncludeToDo)
             {
                 clsToDo[] oToDo = this.GetToDo();
-                if(oToDo.Length > 0)
+                if (oToDo.Length > 0)
                 {
                     sbDescription.AppendLine("<p><b>To Do</b></p>");
                     sbDescription.AppendLine("<table cellpadding=\"3\" cellspacing=\"2\">");
-                    foreach(clsToDo oDo in oToDo)
+                    foreach (clsToDo oDo in oToDo)
                     {
                         sbDescription.Append("<tr bgcolor=\"silver\">");
                         sbDescription.Append("<td><span class=\"Small\">[" + oDo.Priority.ToString() + "]</span></td>");
                         sbDescription.Append("<td><span class=\"Small\">" + oDo.Description + "</span></td>");
                         sbDescription.AppendLine("</tr>");
                     }
-                    sbDescription.AppendLine("</table>");                 
+                    sbDescription.AppendLine("</table>");
                 }
             }
-            
-			// Return the description that has been built
-			return sbDescription.ToString();
-		}
+
+            // Return the description that has been built
+            return sbDescription.ToString();
+        }
 
         // Adds all the facts of the specified type to the description in human readable form.
         /// <summary>
@@ -1302,67 +1302,67 @@ namespace FamilyTree.Objects
 		/// <param name="sbFootnote">Footnote sources text for the bottom of the page.</param>
 		/// <param name="cNextChar">Character to use for the next footnote marker.</param>
 		/// <returns>Human readable string about the fact</returns>
-		private string ShowFacts			(			int nFactTypeID,			string sPrefix,			string sJoinWord,			bool bHtml,			bool bFootnotes,			clsIDName[] oSources,			char[] cFootnote,			StringBuilder sbFootnote,			ref char cNextChar			)
-		{
-			// Start to build a string to return as the result
-			StringBuilder	sbDescription = new StringBuilder();
+		private string ShowFacts(int nFactTypeID, string sPrefix, string sJoinWord, bool bHtml, bool bFootnotes, IndexName[] oSources, char[] cFootnote, StringBuilder sbFootnote, ref char cNextChar)
+        {
+            // Start to build a string to return as the result
+            StringBuilder sbDescription = new StringBuilder();
 
-			// Get the collection of facts and loop through them
-			clsFact[] oFacts = this.GetFacts(nFactTypeID);
-			bool bFirst = true;
-			bool bFullStop = false;			
-			for(int nFact=0;nFact<oFacts.Length;nFact++)
-			{
-				if(bFirst)
-				{
-					sbDescription.Append(this.ThirdPerson(true)+sPrefix+oFacts[nFact].Information);
-					if(nFact==oFacts.Length-1)
-					{
-						// This is already the last one
-						bFullStop = true;
-					}
-					else if(sJoinWord=="")
-					{
-						// Each fact has it's own sentense
-						bFullStop = true;
-					}
-					else
-					{
-						// Use the join word for subsequent facts
-						bFirst = false;
-					}
-				}
-				else
-				{
-					if(nFact==oFacts.Length-1)
-					{
-						// Last fact use the join word
-						sbDescription.Append(" "+sJoinWord+" "+oFacts[nFact].Information);
-						bFullStop = true;
-					}
-					else
-					{
-						// Imtermeadate fact just use a comma
-						sbDescription.Append(", "+oFacts[nFact].Information);
-					}
-				}
-				
-				// Add a footnote (if required)
-				if(bFootnotes)
-				{
-					sbDescription.Append(Footnote(oFacts[nFact].Sources,oSources,cFootnote,sbFootnote,ref cNextChar));					
-				}
+            // Get the collection of facts and loop through them
+            clsFact[] oFacts = this.GetFacts(nFactTypeID);
+            bool bFirst = true;
+            bool bFullStop = false;
+            for (int nFact = 0; nFact < oFacts.Length; nFact++)
+            {
+                if (bFirst)
+                {
+                    sbDescription.Append(this.ThirdPerson(true) + sPrefix + oFacts[nFact].Information);
+                    if (nFact == oFacts.Length - 1)
+                    {
+                        // This is already the last one
+                        bFullStop = true;
+                    }
+                    else if (sJoinWord == "")
+                    {
+                        // Each fact has it's own sentense
+                        bFullStop = true;
+                    }
+                    else
+                    {
+                        // Use the join word for subsequent facts
+                        bFirst = false;
+                    }
+                }
+                else
+                {
+                    if (nFact == oFacts.Length - 1)
+                    {
+                        // Last fact use the join word
+                        sbDescription.Append(" " + sJoinWord + " " + oFacts[nFact].Information);
+                        bFullStop = true;
+                    }
+                    else
+                    {
+                        // Imtermeadate fact just use a comma
+                        sbDescription.Append(", " + oFacts[nFact].Information);
+                    }
+                }
 
-				// Add a full stop after the last fact
-				if(bFullStop)
-				{
-					sbDescription.Append(". ");
-				}
-			}
+                // Add a footnote (if required)
+                if (bFootnotes)
+                {
+                    sbDescription.Append(Footnote(oFacts[nFact].Sources, oSources, cFootnote, sbFootnote, ref cNextChar));
+                }
 
-			// Return the string built
-			return sbDescription.ToString();
-		}
+                // Add a full stop after the last fact
+                if (bFullStop)
+                {
+                    sbDescription.Append(". ");
+                }
+            }
+
+            // Return the string built
+            return sbDescription.ToString();
+        }
 
         // Returns a footnote to include in the description.
         /// <summary>
@@ -1379,36 +1379,36 @@ namespace FamilyTree.Objects
 		/// <param name="sbFootnote">Returns the text to include at the bottom of the description.</param>
 		/// <param name="cNextChar">Returns the next character to use as footnote marker.</param>
 		/// <returns>The footnote to include in the description</returns>
-		private string Footnote			(			clsSources oSources,			clsIDName[] oAllSources,			char[] cFootnote,			StringBuilder sbFootnote,			ref char cNextChar			)
-		{
-			StringBuilder sbReturn = new StringBuilder();
-			int[] nSourceID = oSources.Get();
-			for(int nI=0;nI<nSourceID.Length;nI++)
-			{
-                sbReturn.Append(Footnote(nSourceID[nI],oAllSources,cFootnote,sbFootnote,ref cNextChar,false));
+		private string Footnote(clsSources oSources, IndexName[] oAllSources, char[] cFootnote, StringBuilder sbFootnote, ref char cNextChar)
+        {
+            StringBuilder sbReturn = new StringBuilder();
+            int[] nSourceID = oSources.Get();
+            for (int nI = 0; nI < nSourceID.Length; nI++)
+            {
+                sbReturn.Append(Footnote(nSourceID[nI], oAllSources, cFootnote, sbFootnote, ref cNextChar, false));
             }
 
-			if(sbReturn.Length==0)
-			{
-				return "";
-			}
+            if (sbReturn.Length == 0)
+            {
+                return "";
+            }
 
             return "<span class=\"superscript\">" + sbReturn.ToString() + "</span> ";
-		}
+        }
 
-        private string Footnote            (            int nSourceID,            clsIDName[] oAllSources,            char[] cFootnote,            StringBuilder sbFootnote,            ref char cNextChar,            bool bHtml            )
+        private string Footnote(int nSourceID, IndexName[] oAllSources, char[] cFootnote, StringBuilder sbFootnote, ref char cNextChar, bool bHtml)
         {
             int nIndex = 0;
-            for(nIndex = 0;oAllSources[nIndex].ID != nSourceID;nIndex++) ;
-            if(cFootnote[nIndex] == ' ')
+            for (nIndex = 0; oAllSources[nIndex].index != nSourceID; nIndex++) ;
+            if (cFootnote[nIndex] == ' ')
             {
                 cFootnote[nIndex] = cNextChar;
                 cNextChar++;
 
-                sbFootnote.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">" + cFootnote[nIndex].ToString() + "</span></td><td><a href=\"Source:" + oAllSources[nIndex].ID.ToString() + "\"><span class=\"Small\">" + oAllSources[nIndex].Name + "</span></a></td></tr>");
+                sbFootnote.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">" + cFootnote[nIndex].ToString() + "</span></td><td><a href=\"Source:" + oAllSources[nIndex].index.ToString() + "\"><span class=\"Small\">" + oAllSources[nIndex].name + "</span></a></td></tr>");
             }
 
-            if(bHtml)
+            if (bHtml)
             {
                 return "<span class=\"superscript\">" + cFootnote[nIndex].ToString() + "</span> ";
             }
@@ -1423,22 +1423,22 @@ namespace FamilyTree.Objects
 		/// <returns>A short description of the person</returns>
         public string ShortDescription(bool bAge)
         {
-            if(DoB.IsEmpty())
+            if (dob.IsEmpty())
             {
-                return DoB.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ") + DoD.Format(DateFormat.FullLong, "\nd. ");
+                return dob.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ") + DoD.Format(DateFormat.FullLong, "\nd. ");
             }
-            if(DoD.IsEmpty())
+            if (DoD.IsEmpty())
             {
-                if(DoB.Date.Year > DateTime.Now.Year - 110 && bAge)
+                if (dob.Date.Year > DateTime.Now.Year - 110 && bAge)
                 {
-                    return DoB.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ") + "\nage " + Age(DateTime.Now);
+                    return dob.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ") + "\nage " + Age(DateTime.Now);
                 }
                 else
                 {
-                    return DoB.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ");
+                    return dob.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ");
                 }
             }
-            return DoB.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ") + DoD.Format(DateFormat.FullShort, "\nd. ") + " (" + Age(DoD, false) + ")";
+            return dob.Format(DateFormat.FullLong, "b. ") + BornLocation(true, "\nb. ") + DoD.Format(DateFormat.FullShort, "\nd. ") + " (" + Age(DoD, false) + ")";
         }
 
         // Returns the age of the person on the specified date.
@@ -1453,41 +1453,41 @@ namespace FamilyTree.Objects
         public string Age(DateTime dtTheDate, bool bUnits)
         {
             // Find the number of years between the two dates
-            int nYears = dtTheDate.Year - m_DoB.Date.Year;
-            int nDayOfYearDiff = dtTheDate.DayOfYear - m_DoB.Date.DayOfYear;
+            int nYears = dtTheDate.Year - dob_.Date.Year;
+            int nDayOfYearDiff = dtTheDate.DayOfYear - dob_.Date.DayOfYear;
 
-            if(nDayOfYearDiff<-2)
+            if (nDayOfYearDiff < -2)
             {
                 nYears--;
             }
-            else if(nDayOfYearDiff > 2)
+            else if (nDayOfYearDiff > 2)
             {
             }
             else
             {
                 // Need an exact calculation here
-                if(dtTheDate.Month <= m_DoB.Date.Month && dtTheDate.Day < m_DoB.Date.Day)
+                if (dtTheDate.Month <= dob_.Date.Month && dtTheDate.Day < dob_.Date.Day)
                 {
                     nYears--;
                 }
             }
 
             // Return the duration as a string
-            if(nYears == 0)
+            if (nYears == 0)
             {
                 //if(bUnits)
                 //{
-                    TimeSpan oAge = dtTheDate - m_DoB.Date;
-                    return (oAge.Days+1).ToString() + " days";
+                TimeSpan oAge = dtTheDate - dob_.Date;
+                return (oAge.Days + 1).ToString() + " days";
                 //}
                 //else
                 //{
-                    //return "0";
+                //return "0";
                 //}
             }
             else
             {
-                if(bUnits)
+                if (bUnits)
                 {
                     return nYears.ToString() + " years";
                 }
@@ -1540,9 +1540,9 @@ namespace FamilyTree.Objects
 		/// <returns>Returns he or she according to the person's sex.</returns>
         public string ThirdPerson(bool bCaptialLetter)
         {
-            if(bCaptialLetter)
+            if (bCaptialLetter)
             {
-                if(m_bMale)
+                if (isMale_)
                 {
                     return "He";
                 }
@@ -1553,7 +1553,7 @@ namespace FamilyTree.Objects
             }
             else
             {
-                if(m_bMale)
+                if (isMale_)
                 {
                     return "he";
                 }
@@ -1574,7 +1574,7 @@ namespace FamilyTree.Objects
         public string BornLocation(bool bShort, string sPrefix)
         {
             string sLocation;
-            if(bShort)
+            if (bShort)
             {
                 sLocation = GetSimpleFact(11);
             }
@@ -1582,7 +1582,7 @@ namespace FamilyTree.Objects
             {
                 sLocation = GetSimpleFact(10);
             }
-            if(sLocation == "")
+            if (sLocation == "")
             {
                 return "";
             }
@@ -1602,11 +1602,11 @@ namespace FamilyTree.Objects
 
                 // Add the born place
                 clsFact[] oFacts = GetFacts(10);
-                if(oFacts.Length > 0)
+                if (oFacts.Length > 0)
                 {
                     string sBorn = oFacts[0].Information;
-                    clsPlace oPlace = m_oDb.GetPlace(sBorn);
-                    if(oPlace != null)
+                    clsPlace oPlace = database_.GetPlace(sBorn);
+                    if (oPlace != null)
                     {
                         oPlaces.AddPlace(oPlace);
                     }
@@ -1614,12 +1614,12 @@ namespace FamilyTree.Objects
 
                 // Add the married places
                 clsRelationship[] oRelationships = GetRelationships();
-                foreach(clsRelationship oRelatonship in oRelationships)
+                foreach (clsRelationship oRelatonship in oRelationships)
                 {
-                    if(oRelatonship.IsValid())
+                    if (oRelatonship.IsValid())
                     {
-                        clsPlace oMarried = m_oDb.GetPlace(oRelatonship.Location);
-                        if(oMarried != null)
+                        clsPlace oMarried = database_.GetPlace(oRelatonship.Location);
+                        if (oMarried != null)
                         {
                             oPlaces.AddPlace(oMarried);
                         }
@@ -1628,15 +1628,15 @@ namespace FamilyTree.Objects
 
                 // Add the location of born children
                 int[] nChildren = GetChildren();
-                foreach(int nChild in nChildren)
+                foreach (int nChild in nChildren)
                 {
-                    clsPerson oChild = new clsPerson(nChild, m_oDb);
-                    clsFact [] oChildFacts  = oChild.GetFacts(10);
-                    if(oChildFacts.Length > 0)
+                    clsPerson oChild = new clsPerson(nChild, database_);
+                    clsFact[] oChildFacts = oChild.GetFacts(10);
+                    if (oChildFacts.Length > 0)
                     {
                         string sChildBorn = oChildFacts[0].Information;
-                        clsPlace oPlace = m_oDb.GetPlace(sChildBorn);
-                        if(oPlace != null)
+                        clsPlace oPlace = database_.GetPlace(sChildBorn);
+                        if (oPlace != null)
                         {
                             oPlaces.AddPlace(oPlace);
                         }
@@ -1644,21 +1644,21 @@ namespace FamilyTree.Objects
                 }
 
                 // Add the census places
-                clsCensusPerson[] oCensuses = m_oDb.CensusForPerson(m_nID);
+                clsCensusPerson[] oCensuses = database_.CensusForPerson(personIndex_);
                 // string sLastLocation = "";
-                foreach(clsCensusPerson oCensus in oCensuses)
+                foreach (clsCensusPerson oCensus in oCensuses)
                 {
-                    clsPlace oHousehold = m_oDb.GetPlace(oCensus.HouseholdName);
+                    clsPlace oHousehold = database_.GetPlace(oCensus.HouseholdName);
                     oPlaces.AddPlace(oHousehold);
                 }
 
                 // Add the died place
                 oFacts = GetFacts(90);
-                if(oFacts.Length > 0)
+                if (oFacts.Length > 0)
                 {
                     string sDied = oFacts[0].Information;
-                    clsPlace oPlace = m_oDb.GetPlace(sDied);
-                    if(oPlace != null)
+                    clsPlace oPlace = database_.GetPlace(sDied);
+                    if (oPlace != null)
                     {
                         oPlaces.AddPlace(oPlace);
                     }
@@ -1669,7 +1669,7 @@ namespace FamilyTree.Objects
             }
         }
 
-		#endregion
+        #endregion
 
         #region Media
 
@@ -1685,22 +1685,22 @@ namespace FamilyTree.Objects
         {
             // Decide if to exclude the primary media object
             int nExcludeID = -1;
-            if(bExcludePrimary)
+            if (bExcludePrimary)
             {
-                nExcludeID = m_nMediaID;
+                nExcludeID = mediaIndex;
             }
 
             ArrayList oMedia = new ArrayList();
 
-            string sSql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + m_nID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+            string sSql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIndex_.ToString() + ";";
+            OleDbCommand oSql = new OleDbCommand(sSql, database_.cnDB);
             OleDbDataReader drMedia = oSql.ExecuteReader();
-            while(drMedia.Read())
+            while (drMedia.Read())
             {
-                int nMediaID = Innoval.clsDatabase.GetInt(drMedia,"MediaID",0);
-                if(nMediaID != 0 && nMediaID != nExcludeID)
+                int nMediaID = Innoval.clsDatabase.GetInt(drMedia, "MediaID", 0);
+                if (nMediaID != 0 && nMediaID != nExcludeID)
                 {
-                    oMedia.Add(nMediaID);                    
+                    oMedia.Add(nMediaID);
                 }
             }
             drMedia.Close();
@@ -1722,15 +1722,15 @@ namespace FamilyTree.Objects
             int[] nMediaIDs = GetMediaID(bExcludePrimary);
             clsMedia[] oReturn = new clsMedia[nMediaIDs.Length];
             int nI = 0;
-            foreach(int nMediaID in nMediaIDs)
+            foreach (int nMediaID in nMediaIDs)
             {
-                clsMedia oMedia = new clsMedia(m_oDb,nMediaID);
+                clsMedia oMedia = new clsMedia(database_, nMediaID);
                 oReturn[nI++] = oMedia;
             }
 
             return oReturn;
         }
-        
+
 
         #endregion
 
@@ -1743,12 +1743,12 @@ namespace FamilyTree.Objects
         public clsToDo[] GetToDo()
         {
             // Check if the ToDo array exists
-            if(m_oToDo == null)
+            if (toDo_ == null)
             {
                 LoadToDo();
             }
 
-            return (clsToDo[])m_oToDo.ToArray(typeof(clsToDo));
+            return (clsToDo[])toDo_.ToArray(typeof(clsToDo));
         }
 
         /// <summary>
@@ -1757,17 +1757,17 @@ namespace FamilyTree.Objects
         private void LoadToDo()
         {
             // Create a list to hold the ToDo items.
-            m_oToDo = new ArrayList();
+            toDo_ = new ArrayList();
 
             string sSql = "SELECT * FROM tbl_ToDo WHERE PersonID=" + this.ID + " ORDER BY Priority, ID;";
-            OleDbCommand oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand(sSql, database_.cnDB);
             OleDbDataReader drToDo = oSql.ExecuteReader();
-            while(drToDo.Read())
+            while (drToDo.Read())
             {
-                clsToDo oItem = new clsToDo(Innoval.clsDatabase.GetInt(drToDo,"ID",-1),ID,Innoval.clsDatabase.GetInt(drToDo,"Priority",0),Innoval.clsDatabase.GetString(drToDo,"Description",""));                
-                
+                clsToDo oItem = new clsToDo(Innoval.clsDatabase.GetInt(drToDo, "ID", -1), ID, Innoval.clsDatabase.GetInt(drToDo, "Priority", 0), Innoval.clsDatabase.GetString(drToDo, "Description", ""));
+
                 // Add this item to the collection.
-                m_oToDo.Add(oItem);
+                toDo_.Add(oItem);
             }
         }
 
@@ -1782,13 +1782,13 @@ namespace FamilyTree.Objects
             )
         {
             // Check if the ToDo array exists
-            if(m_oToDo == null)
+            if (toDo_ == null)
             {
                 LoadToDo();
             }
 
             // Add to the list of facts
-            m_oToDo.Add(oNew);            
+            toDo_.Add(oNew);
 
             // Return success
             return true;
@@ -1801,84 +1801,84 @@ namespace FamilyTree.Objects
         #region Image
 
         /// <summary>Index of the media object attached to this person.</summary>
-		public int MediaID { get { return m_nMediaID; } set { m_nMediaID = value; } }
+		public int MediaID { get { return mediaIndex; } set { mediaIndex = value; } }
 
-		/// <summary>Full filename for an image for the person.  Empty string if no image is specified or can not be found on the hard disk.</summary>
-		public string GetImageFilename()
-		{
+        /// <summary>Full filename for an image for the person.  Empty string if no image is specified or can not be found on the hard disk.</summary>
+        public string GetImageFilename()
+        {
             // Check that a media object is attached to this person
-            if(m_nMediaID == 0)
+            if (mediaIndex == 0)
             {
                 return "";
             }
 
             // Find the full filename of the media object
-            clsMedia oMedia = new clsMedia(m_oDb,m_nMediaID);
+            clsMedia oMedia = new clsMedia(database_, mediaIndex);
             return oMedia.FullFilename;
-		}
+        }
 
-		#endregion
-		
-		/// <summary>The ID of the person in the database.</summary>
-		public int ID { get { return m_nID; } set { m_nID = value;} }
+        #endregion
 
-		/// <summary>Database that this person is stored in.</summary>
-		public clsDatabase Database { get { return m_oDb; } }
+        /// <summary>The ID of the person in the database.</summary>
+        public int ID { get { return personIndex_; } set { personIndex_ = value; } }
 
-		/// <summary>
-		/// The surname this person had at birth.
-		/// </summary>
-		public string BirthSurname
-		{
-			get
-			{
-				if(m_bMale)
-				{
-					return m_sSurname;
-				}
-				else
-				{
-					if(m_sMaidenname=="")
-					{
-						return m_sSurname;
-					}
-					else
-					{
-						return m_sMaidenname;
-					}
-				}
-			}
-		}
-		
-		/// <summary>Surname of this person.</summary>
-		public string Surname { get { return m_sSurname; } set { m_sSurname = value; } }
+        /// <summary>Database that this person is stored in.</summary>
+        public Database Database { get { return database_; } }
 
-		/// <summary>First names of this person.</summary>
-		public string Forenames { get { return m_sForenames; } set { m_sForenames = value; } }
+        /// <summary>
+        /// The surname this person had at birth.
+        /// </summary>
+        public string BirthSurname
+        {
+            get
+            {
+                if (isMale_)
+                {
+                    return personSurname_;
+                }
+                else
+                {
+                    if (maidenName_ == "")
+                    {
+                        return personSurname_;
+                    }
+                    else
+                    {
+                        return maidenName_;
+                    }
+                }
+            }
+        }
 
-		/// <summary>Maiden name of this person.</summary>
-		public string Maidenname { get { return m_sMaidenname; } set { m_sMaidenname = value; } }
+        /// <summary>Surname of this person.</summary>
+        public string surname { get { return personSurname_; } set { personSurname_ = value; } }
 
-		/// <summary>Date of birth of this person.</summary>
-		public clsDate DoB { get { return m_DoB; } }
+        /// <summary>First names of this person.</summary>
+        public string forenames { get { return foreNames_; } set { foreNames_ = value; } }
 
-		/// <summary>Date of death of this person.</summary>
-		public clsDate DoD { get { return m_DoD; } }
+        /// <summary>Maiden name of this person.</summary>
+        public string maidenname { get { return maidenName_; } set { maidenName_ = value; } }
+
+        /// <summary>Date of birth of this person.</summary>
+        public clsDate dob { get { return dob_; } }
+
+        /// <summary>Date of death of this person.</summary>
+        public clsDate DoD { get { return dod_; } }
 
         // ID of the father of this person.
         /// <summary>
         /// ID of the father of this person.
         /// Zero is unknown father.
         /// </summary>
-		public int FatherID 
+		public int FatherID
         {
             get
             {
-                return m_nFatherID;
+                return fatherIndex_;
             }
             set
             {
-                m_nFatherID = value;
+                fatherIndex_ = value;
             }
         }
 
@@ -1891,28 +1891,21 @@ namespace FamilyTree.Objects
         {
             get
             {
-                return m_nMotherID;
+                return motherIndex_;
             }
             set
             {
-                m_nMotherID = value;
+                motherIndex_ = value;
             }
         }
 
-        // True if this person is male.  False, otherwise.
-        /// <summary>
-        /// True if this person is male.  False, otherwise.
-        /// </summary>
-        public bool Male
+
+
+        /// <summary>True if this person is male.  False, otherwise.</summary>
+        public bool isMale
         {
-            get
-            {
-                return m_bMale;
-            }
-            set
-            {
-                m_bMale = value;
-            }
+            get { return isMale_; }
+            set { isMale_ = value; }
         }
 
         // True if this person is female.  False, otherwise.
@@ -1923,16 +1916,16 @@ namespace FamilyTree.Objects
         {
             get
             {
-                return !m_bMale;
+                return !isMale_;
             }
             set
             {
-                m_bMale = !value;
+                isMale_ = !value;
             }
         }
 
-		/// <summary>True if all the children of this person are known.  False, otherwise.</summary>
-		public bool AllChildrenKnown { get { return m_bAllChildren; } set { m_bAllChildren = value; } }
+        /// <summary>True if all the children of this person are known.  False, otherwise.</summary>
+        public bool AllChildrenKnown { get { return isAllChildrenKnown_; } set { isAllChildrenKnown_ = value; } }
 
         // True if the person should be included in the gedcom file. False, otherwise.
         /// <summary>
@@ -1942,85 +1935,85 @@ namespace FamilyTree.Objects
         {
             get
             {
-                return m_bIncludeGedcom;
+                return isIncludeGedcom_;
             }
             set
             {
-                m_bIncludeGedcom = value;
+                isIncludeGedcom_ = value;
             }
         }
 
-		/// <summary>User comments for this person.</summary>
-		public string Comments { get { return m_sComments; } set { m_sComments = value; } }
+        /// <summary>User comments for this person.</summary>
+        public string Comments { get { return comments_; } set { comments_ = value; } }
 
         // A clsSources object for the person name.
         /// <summary>
         /// A clsSources object for the person name.
         /// </summary>
 		public clsSources SourceName
-		{
-			get
-			{
-				if(m_sourcesName==null)
-				{
-					m_sourcesName = new clsSources(m_nID,1,m_oDb);
-				}
-				return m_sourcesName;
-			}
-		}
+        {
+            get
+            {
+                if (sourcesName_ == null)
+                {
+                    sourcesName_ = new clsSources(personIndex_, 1, database_);
+                }
+                return sourcesName_;
+            }
+        }
 
-		/// <summary>A clsSources object for the person date of birth.</summary>
-		public clsSources SourceDoB
-		{
-			get
-			{
-				if(m_sourcesDoB==null)
-				{
-					m_sourcesDoB = new clsSources(m_nID,2,m_oDb);
-				}
-				return m_sourcesDoB;
-			}
-		}
+        /// <summary>A clsSources object for the person date of birth.</summary>
+        public clsSources SourceDoB
+        {
+            get
+            {
+                if (sourcesDoB_ == null)
+                {
+                    sourcesDoB_ = new clsSources(personIndex_, 2, database_);
+                }
+                return sourcesDoB_;
+            }
+        }
 
-		/// <summary>A clsSources object for the person date of death.</summary>
-		public clsSources SourceDoD
-		{
-			get
-			{
-				if(m_sourcesDoD==null)
-				{
-					m_sourcesDoD = new clsSources(m_nID,3,m_oDb);
-				}
-				return m_sourcesDoD;
-			}
-		}
+        /// <summary>A clsSources object for the person date of death.</summary>
+        public clsSources SourceDoD
+        {
+            get
+            {
+                if (sourcesDoD_ == null)
+                {
+                    sourcesDoD_ = new clsSources(personIndex_, 3, database_);
+                }
+                return sourcesDoD_;
+            }
+        }
 
-		/// <summary>A collection of all the sources used for this person.  Including the non specific sources.</summary>
-		public clsSources SourceNonSpecific
-		{
-			get
-			{
-				if(m_sourcesNonSpecific==null)
-				{
-					m_sourcesNonSpecific = new clsSources(m_nID,0,m_oDb);
-				}
-				return m_sourcesNonSpecific;
-			}
-		}
-		
-		/// <summary>Short term information about the person.  This is not saved in the database.</summary>
-		public string Tag
-		{
-			get { return m_sTag; }
-			set { m_sTag = value; }
-		}
+        /// <summary>A collection of all the sources used for this person.  Including the non specific sources.</summary>
+        public clsSources SourceNonSpecific
+        {
+            get
+            {
+                if (sourcesNonSpecific_ == null)
+                {
+                    sourcesNonSpecific_ = new clsSources(personIndex_, 0, database_);
+                }
+                return sourcesNonSpecific_;
+            }
+        }
 
-		/// <summary>Name of the user who wrote the last edit.</summary>
-        public string LastEditBy { get { return m_sLastEditBy; } set { m_sLastEditBy = value; } }
+        /// <summary>Short term information about the person.  This is not saved in the database.</summary>
+        public string Tag
+        {
+            get { return tag_; }
+            set { tag_ = value; }
+        }
 
-		/// <summary>Date and time of the last edit.</summary>
-		public DateTime LastEditDate { get { return m_dtLastEditDate; } set { m_dtLastEditDate = value; } }
+        /// <summary>Name of the user who wrote the last edit.</summary>
+        public string LastEditBy { get { return lastEditBy_; } set { lastEditBy_ = value; } }
 
-		#endregion
-	}
+        /// <summary>Date and time of the last edit.</summary>
+        public DateTime LastEditDate { get { return lastEditDate_; } set { lastEditDate_ = value; } }
+
+        #endregion
+    }
 }

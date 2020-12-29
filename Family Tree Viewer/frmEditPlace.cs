@@ -30,7 +30,7 @@ namespace FamilyTree.Viewer
         /// <summary>
         /// Class constructor
         /// </summary>
-        public frmEditPlace(int nPlaceID, clsDatabase oDb)
+        public frmEditPlace(int nPlaceID, Database oDb)
         {
             InitializeComponent();
 

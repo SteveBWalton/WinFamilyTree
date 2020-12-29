@@ -102,12 +102,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Innoval Technology Ltd\Shared\clsDatabase.cs">
-      <Link>Innoval\clsDatabase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Innoval Technology Ltd\Shared\clsXml.cs">
-      <Link>Innoval\clsXml.cs</Link>
-    </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,7 +114,7 @@
     <Compile Include="clsCensusPerson.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsDatabase.cs">
+    <Compile Include="Database.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsDate.cs">
@@ -142,7 +136,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsGedcomOptions.cs" />
-    <Compile Include="clsIDName.cs">
+    <Compile Include="IndexName.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsMarriageCertificate.cs">
@@ -167,6 +161,8 @@
     </Compile>
     <Compile Include="clsMedia.cs" />
     <Compile Include="clsToDo.cs" />
+    <Compile Include="Innoval\clsDatabase.cs" />
+    <Compile Include="Innoval\clsXml.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

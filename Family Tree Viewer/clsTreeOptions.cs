@@ -178,7 +178,7 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oDb">Specifies the database to look up human readable information from.</param>
         /// <returns>A html representation of the rules.</returns>
-        public string RulesToHtml(clsDatabase oDb)
+        public string RulesToHtml(Database oDb)
         {
             StringBuilder sbHtml = new StringBuilder("<table>");
             bool bEven = true;

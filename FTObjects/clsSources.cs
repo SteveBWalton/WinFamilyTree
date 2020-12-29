@@ -113,7 +113,7 @@ namespace FamilyTree.Objects
 		private int m_nCensusHouseholdID;
 		
 		/// <summary>Database that these sources are attached to.</summary>
-		private clsDatabase m_oDB;
+		private Database m_oDB;
 		
 		/// <summary>Source for the fact.</summary>
 		private ArrayList m_oSources;
@@ -130,7 +130,7 @@ namespace FamilyTree.Objects
 		public clsSources
 			(
 			int nFactID,
-			clsDatabase oDB
+			Database oDB
 			)
 		{
 			m_SourceTable = enumSourceTable.tbl_FactsToSources;
@@ -150,7 +150,7 @@ namespace FamilyTree.Objects
 			(
 			int nPersonID,
 			int nFactID,
-			clsDatabase oDB
+			Database oDB
 			)
 		{
 			m_SourceTable = enumSourceTable.tbl_PeopleToSources;
@@ -168,7 +168,7 @@ namespace FamilyTree.Objects
 		/// <param name="oDB">Specify the database that these sources are attached to</param>
 		public clsSources
 			(						
-			clsDatabase oDB,
+			Database oDB,
 			int nRelationshipID,
 			int nFactID
 			)
@@ -188,7 +188,7 @@ namespace FamilyTree.Objects
 		public clsSources
 			(
 			clsCensusPerson oCensus,
-			clsDatabase oDb
+			Database oDb
 			)
 		{
 			m_SourceTable = enumSourceTable.tbl_CensusRecords;

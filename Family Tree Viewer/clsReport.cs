@@ -21,7 +21,7 @@ namespace FamilyTree.Viewer
         /// <summary>
         /// Database that contains the person and their relations.
         /// </summary>
-        clsDatabase m_oDb;
+        Database m_oDb;
 
         // User options to use to build this report.
         /// <summary>
@@ -41,7 +41,7 @@ namespace FamilyTree.Viewer
 		/// <param name="nPersonID">Specify the ID of the person to build the document about</param>
 		/// <param name="oDB">Specify the database from which to gather the information</param>
 		/// <param name="oOptions">Specify the user option to use when building the document</param>
-        public clsReport(int nPersonID, clsDatabase oDB, clsUserOptions oOptions)
+        public clsReport(int nPersonID, Database oDB, clsUserOptions oOptions)
         {
             // Record the construction parameters
             m_nPersonID = nPersonID;
@@ -67,7 +67,7 @@ namespace FamilyTree.Viewer
         {
             // Add this person at their date of birth date specified.
             // Modify the time if the dates clash because we don't care about the time.
-            DateTime oDate = oPerson.DoB.Date;
+            DateTime oDate = oPerson.dob.Date;
             bool bTryAgain = true;
             while(bTryAgain)
             {
@@ -147,7 +147,7 @@ namespace FamilyTree.Viewer
             for(int nChild = 0; nChild < Siblings.Length; nChild++)
             {
                 clsPerson oChild = new clsPerson(Siblings[nChild], m_oDb);
-                if(oChild.Male)
+                if(oChild.isMale)
                 {
                     oChild.Tag = "Brother";
                 }
@@ -174,7 +174,7 @@ namespace FamilyTree.Viewer
 
             // Add the base person
             clsPerson oPerson = new clsPerson(m_nPersonID, m_oDb);
-            oPeople.Add(oPerson.DoB.Date, oPerson);
+            oPeople.Add(oPerson.dob.Date, oPerson);
 
             // Add the parents
             AddForebears(oPerson, ref oPeople);

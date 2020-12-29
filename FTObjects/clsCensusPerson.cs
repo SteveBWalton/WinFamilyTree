@@ -76,7 +76,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oDb">Specifies the database to write the record into.</param>
 		/// <returns></returns>
-        public bool Save(clsDatabase oDb)
+        public bool Save(Database oDb)
         {
             return oDb.CensusSavePerson(this);
         }
@@ -87,7 +87,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oDb">Specifies the database containing the household.</param>
 		/// <returns>A human readable string desribing the other members of the household.</returns>
-        public string LivingWith(clsDatabase oDb)
+        public string LivingWith(Database oDb)
         {
             return oDb.CensusLivingWith(this);
         }
@@ -119,7 +119,7 @@ namespace FamilyTree.Objects
 		/// </summary>
 		/// <param name="oDb">Specifies the database to read the sources from.</param>
 		/// <returns>A clsSources object containing all the sources for this piece of information.</returns>
-        public clsSources GetSources(clsDatabase oDb)
+        public clsSources GetSources(Database oDb)
         {
             return new clsSources(this, oDb);
         }

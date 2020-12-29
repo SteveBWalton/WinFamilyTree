@@ -161,12 +161,6 @@
     <Content Include="Resources\Tree.ico" />
     <None Include="Resources\web.png" />
     <None Include="Resources\Wrench.png" />
-    <Compile Include="..\..\..\Innoval Technology Ltd\Shared\clsDataPaths.cs">
-      <Link>Innoval\clsDataPaths.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Innoval Technology Ltd\Shared\clsFileList.cs">
-      <Link>Innoval\clsFileList.cs</Link>
-    </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -266,6 +260,8 @@
     <Compile Include="frmViewTree.Designer.cs">
       <DependentUpon>frmViewTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="Innoval\clsDataPaths.cs" />
+    <Compile Include="Innoval\clsFileList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

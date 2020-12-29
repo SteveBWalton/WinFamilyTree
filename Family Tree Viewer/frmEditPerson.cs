@@ -9,96 +9,93 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-	/// <summary>
-	/// Form to allow a person to be edited.
-	/// </summary>
+    /// <summary>Form to allow a person to be edited.</summary>
     public partial class frmEditPerson : System.Windows.Forms.Form
     {
-		#region Member Variables
+        #region Member Variables
 
-		/// <summary>Person object to edit.</summary>
-		private clsPerson m_oPerson;
+        /// <summary>Person object to edit.</summary>
+        private clsPerson person_;
 
-		/// <summary>Active sources.</summary>
-		private clsSources m_oSources;
+        /// <summary>Active sources.</summary>
+        private clsSources sources_;
 
-		/// <summary>Active relationship.</summary>
-		private clsRelationship m_oActiveRelationship;
+        /// <summary>Active relationship.</summary>
+        private clsRelationship activeRelationship_;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-        /// Initialises the edit person dialog with the specified person in the specified database.
-        /// <summary>
-        /// Initialises the edit person dialog with the specified person in the specified database.
-        /// </summary>
-		/// <param name="nPersonID">ID of the person to edit.</param>
-		/// <param name="oDB">Database to save the person into.</param>
-        public frmEditPerson(int nPersonID, clsDatabase oDB)
+
+
+        /// <summary>Initialises the edit person dialog with the specified person in the specified database.</summary>
+        /// <param name="personIndex">ID of the person to edit.</param>
+        /// <param name="database">Database to save the person into.</param>
+        public frmEditPerson(int personIndex, Database database)
         {
             // Required for Windows Form Designer support
             InitializeComponent();
 
             // Initialise the form
-            clsFactType[] oFactTypes = oDB.GetFactTypes();
-            for(int nI = 0; nI < oFactTypes.Length; nI++)
+            clsFactType[] oFactTypes = database.GetFactTypes();
+            for (int nI = 0; nI < oFactTypes.Length; nI++)
             {
                 m_cboFactType.Items.Add(oFactTypes[nI]);
             }
-            clsIDName[] oSources = oDB.GetSources(enumSortOrder.Date);
-            for(int nI = 0; nI < oSources.Length; nI++)
+            IndexName[] oSources = database.GetSources(enumSortOrder.Date);
+            for (int nI = 0; nI < oSources.Length; nI++)
             {
                 m_cboSources.Items.Add(oSources[nI]);
             }
 
-            // Create the person object to edit
-            if(nPersonID == 0)
+            // Create the person object to edit.
+            if (personIndex == 0)
             {
-                m_oPerson = new clsPerson(oDB);
+                person_ = new clsPerson(database);
             }
             else
             {
-                m_oPerson = oDB.GetPerson(nPersonID);
+                person_ = database.getPerson(personIndex);
             }
 
-            // Update the values in the dialog
-            if(m_oPerson.Male)
+            // Update the values in the dialog.
+            if (person_.isMale)
             {
-                m_cboSex.SelectedIndex = 0;
+                cboSex_.SelectedIndex = 0;
             }
             else
             {
-                m_cboSex.SelectedIndex = 1;
+                cboSex_.SelectedIndex = 1;
             }
-            m_txtSurname.Text = m_oPerson.Surname;
-            m_txtForename.Text = m_oPerson.Forenames;
-            m_txtMaidenName.Text = m_oPerson.Maidenname;
-            m_dateDoB.Value = m_oPerson.DoB;
-            m_dateDoD.Value = m_oPerson.DoD;
-            m_chkChildrenKnown.Checked = m_oPerson.AllChildrenKnown;
-            m_txtComments.Text = m_oPerson.Comments;
+            txtSurname_.Text = person_.surname;
+            m_txtForename.Text = person_.forenames;
+            m_txtMaidenName.Text = person_.maidenname;
+            m_dateDoB.Value = person_.dob;
+            m_dateDoD.Value = person_.DoD;
+            m_chkChildrenKnown.Checked = person_.AllChildrenKnown;
+            m_txtComments.Text = person_.Comments;
             // m_labEditor.Text = "Last Edit by "+m_oPerson.LastEditBy+" on "+m_oPerson.LastEditDate.ToString("d-MMM-yyyy HH:mm:ss");
 
             // Initialise the sources grid
-            RefreshSources(m_oPerson.SourceName, "Name");
+            RefreshSources(person_.SourceName, "Name");
 
             // Initialise the facts grid
             PopulateFactsGrid();
 
             // Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
 
             // Initialise the relationships tab
-            clsRelationship[] oRelationships = m_oPerson.GetRelationships();
-            for(int nI = 0; nI < oRelationships.Length; nI++)
+            clsRelationship[] oRelationships = person_.GetRelationships();
+            for (int nI = 0; nI < oRelationships.Length; nI++)
             {
                 m_lstRelationships.Items.Add(oRelationships[nI]);
             }
 
             // Add the possible people to the relationship combo box
-            clsIDName[] oPossiblePartners = m_oPerson.PossiblePartners();
-            for(int nI = 0; nI < oPossiblePartners.Length; nI++)
+            IndexName[] oPossiblePartners = person_.PossiblePartners();
+            for (int nI = 0; nI < oPossiblePartners.Length; nI++)
             {
                 m_cboAddPartner.Items.Add(oPossiblePartners[nI]);
             }
@@ -109,27 +106,27 @@ namespace FamilyTree.Viewer
         /// Initialise the edit person dialog with a new person.
         /// </summary>
 		/// <param name="oDB"></param>
-		public frmEditPerson			(			clsDatabase oDB			):this((int)0,oDB)
-		{
-		}
+		public frmEditPerson(Database oDB) : this((int)0, oDB)
+        {
+        }
 
         /// Clean up any resources being used.
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+		protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#endregion
+        #endregion
 
         #region Supporting Functions
 
@@ -139,7 +136,7 @@ namespace FamilyTree.Viewer
         /// <returns>The ID of the person on the form.</returns>
         public int GetPersonID()
         {
-            return m_oPerson.ID;
+            return person_.ID;
         }
 
         /// <summary>
@@ -149,7 +146,7 @@ namespace FamilyTree.Viewer
         private bool PopulateFactsGrid()
         {
             // Populate the grid with data
-            m_gridFacts.SetDataBinding(m_oPerson.GetFacts(),"");
+            m_gridFacts.SetDataBinding(person_.GetFacts(), "");
 
             // Creates two DataGridTableStyle objects, one for the Machine
             // array, and one for the Parts ArrayList.
@@ -228,8 +225,8 @@ namespace FamilyTree.Viewer
         private void RefreshSources(clsSources oSources)
         {
             clsSource[] oListSources;
-            m_oSources = oSources;
-            if(oSources == null)
+            sources_ = oSources;
+            if (oSources == null)
             {
                 oListSources = new clsSource[0];
                 m_gridSources.SetDataBinding(oListSources, "");
@@ -261,7 +258,7 @@ namespace FamilyTree.Viewer
         {
             // Define a style to apply to the ToDo grid
             DataGridTableStyle oToDoTableStyle = new DataGridTableStyle();
-            
+
             // Sets the MappingName to the class name plus brackets.    
             oToDoTableStyle.MappingName = "clsToDo[]";
 
@@ -290,7 +287,7 @@ namespace FamilyTree.Viewer
             m_gridToDo.TableStyles.Add(oToDoTableStyle);
             m_gridToDo.ReadOnly = false;
         }
-        
+
         /// <summary>
         /// Create the style for the sources grid
         /// </summary>
@@ -332,106 +329,106 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-		#region Message Handlers
+        #region Message Handlers
 
-		#region Form Events
+        #region Form Events
 
-		/// <summary>
-		/// Message handler for the Form load event.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+        /// <summary>
+        /// Message handler for the Form load event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmEditPerson_Load(object sender, System.EventArgs e)
-		{
-			// Label for the dialog
-			Text = m_oPerson.GetName(true,false);
-		}
+        {
+            // Label for the dialog
+            Text = person_.GetName(true, false);
+        }
 
         /// <summary>
         /// Message handler for the form shown event.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void frmEditPerson_Shown(object sender,EventArgs e)
+        private void frmEditPerson_Shown(object sender, EventArgs e)
         {
             // Initialise the editor combo with the possible editors
-            string[] sEditors = m_oPerson.Database.GetEditors();
-            foreach(string sEditor in sEditors)
+            string[] sEditors = person_.Database.GetEditors();
+            foreach (string sEditor in sEditors)
             {
                 m_cboEditor.Items.Add(sEditor);
-                if(sEditor == "Steve Walton")
+                if (sEditor == "Steve Walton")
                 {
                     m_cboEditor.SelectedIndex = m_cboEditor.Items.Count - 1;
                 }
-            }            
+            }
         }
 
-		/// <summary>
-		/// This is called when the user clicks the OK button.
-		/// It saves the data on the form into a person record.
-		/// If does not handle closing the form that is handled by .NET
-		/// </summary>
-		private void cmdOK_Click(object sender, System.EventArgs e)
-		{
-			// Save the record to the database
-            m_oPerson.LastEditBy = m_cboEditor.SelectedItem.ToString();
-			m_oPerson.Save();
-		}
+        /// <summary>
+        /// This is called when the user clicks the OK button.
+        /// It saves the data on the form into a person record.
+        /// If does not handle closing the form that is handled by .NET
+        /// </summary>
+        private void cmdOK_Click(object sender, System.EventArgs e)
+        {
+            // Save the record to the database
+            person_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+            person_.Save();
+        }
 
-		/// <summary>
-		/// This is called when the user clicks the add source button
-		/// This adds a source to the active soruce collection.
-		/// The active source is defined when each control adds it source to the dialog.  The last source is active
-		/// </summary>
-		private void cmdAddSource_Click(object sender, System.EventArgs e)
-		{
-			// Check that a source is selected
-			if(m_cboSources.SelectedIndex<0)
-			{
-				return;
-			}
+        /// <summary>
+        /// This is called when the user clicks the add source button
+        /// This adds a source to the active soruce collection.
+        /// The active source is defined when each control adds it source to the dialog.  The last source is active
+        /// </summary>
+        private void cmdAddSource_Click(object sender, System.EventArgs e)
+        {
+            // Check that a source is selected
+            if (m_cboSources.SelectedIndex < 0)
+            {
+                return;
+            }
 
-			// Check that a sources object is available
-			if(m_oSources==null)
-			{
-				return;
-			}
+            // Check that a sources object is available
+            if (sources_ == null)
+            {
+                return;
+            }
 
-			// Find the SourceID
-			clsIDName oSource = (clsIDName)m_cboSources.Items[m_cboSources.SelectedIndex];
+            // Find the SourceID
+            IndexName oSource = (IndexName)m_cboSources.Items[m_cboSources.SelectedIndex];
 
-			// Add the source to this fact
-			m_oSources.Add(oSource.ID);
+            // Add the source to this fact
+            sources_.Add(oSource.index);
 
-			// Update the display
-			RefreshSources(m_oSources);
-			m_cboSources.SelectedIndex = -1;
-		}
+            // Update the display
+            RefreshSources(sources_);
+            m_cboSources.SelectedIndex = -1;
+        }
 
-		private void cmdDeleteSource_Click(object sender, System.EventArgs e)
-		{
-			// Validate the active cell
-			if(m_gridSources.CurrentCell.RowNumber<0)
-			{
-				return;
-			}
+        private void cmdDeleteSource_Click(object sender, System.EventArgs e)
+        {
+            // Validate the active cell
+            if (m_gridSources.CurrentCell.RowNumber < 0)
+            {
+                return;
+            }
 
-			// Mark the source as deleted
-			m_oSources.Delete(m_gridSources.CurrentCell.RowNumber);
+            // Mark the source as deleted
+            sources_.Delete(m_gridSources.CurrentCell.RowNumber);
 
-			// Update the display
-			RefreshSources(m_oSources);
-		}
+            // Update the display
+            RefreshSources(sources_);
+        }
 
         /// <summary>
         /// Message handler for a drag-drop object passing over the window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void frmEditPerson_DragEnter(object sender,System.Windows.Forms.DragEventArgs e)
+        private void frmEditPerson_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             // If the data is a file, display the copy cursor.
-            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -441,7 +438,7 @@ namespace FamilyTree.Viewer
             }
         }
 
-		#endregion
+        #endregion
 
         #region Controls that apply to all tabs
 
@@ -452,9 +449,9 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void evtNonSpecificSource(object sender,System.EventArgs e)
+        private void evtNonSpecificSource(object sender, System.EventArgs e)
         {
-            RefreshSources(m_oPerson.SourceNonSpecific,"Non Specific");
+            RefreshSources(person_.SourceNonSpecific, "Non Specific");
         }
 
         // Message handler for the sources grid losing the focus.
@@ -464,25 +461,25 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void gridSources_Leave(object sender,System.EventArgs e)
+        private void gridSources_Leave(object sender, System.EventArgs e)
         {
-            if(m_oSources != null)
+            if (sources_ != null)
             {
                 // Loop through the sources on the grid	
                 clsSource[] oSources = (clsSource[])m_gridSources.DataSource;
-                for(int nIndex = 0;nIndex < oSources.Length;nIndex++)
+                for (int nIndex = 0; nIndex < oSources.Length; nIndex++)
                 {
-                    if(oSources[nIndex] != null)
+                    if (oSources[nIndex] != null)
                     {
                         int nNewRanking = oSources[nIndex].Ranking;
 
-                        if(m_oSources.GetRanking(nIndex) != nNewRanking)
+                        if (sources_.GetRanking(nIndex) != nNewRanking)
                         {
                             // Show the message on the screen.
                             // MessageBox.Show(this,nIndex.ToString()+" = "+nNewRanking.ToString());		
 
                             // Change the ranking on this source		
-                            m_oSources.ChangeRanking(nIndex,nNewRanking);
+                            sources_.ChangeRanking(nIndex, nNewRanking);
                         }
                     }
                 }
@@ -498,13 +495,13 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void tabControl1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            switch(m_TabControl.SelectedIndex)
+            switch (m_TabControl.SelectedIndex)
             {
             case 1:
                 // Force the focus on the first spouse on the relationship tab
-                if(m_lstRelationships.Items.Count > 0)
+                if (m_lstRelationships.Items.Count > 0)
                 {
-                    if(m_lstRelationships.SelectedIndex < 0)
+                    if (m_lstRelationships.SelectedIndex < 0)
                     {
                         m_lstRelationships.SelectedIndex = 0;
                     }
@@ -513,51 +510,51 @@ namespace FamilyTree.Viewer
 
             case 3:
                 // Populate the advance tab
-                if(m_cboFather.Items.Count == 0)
+                if (m_cboFather.Items.Count == 0)
                 {
-                    clsIDName[] oPossibleFathers = m_oPerson.PossibleFathers();
-                    for(int nI = 0; nI < oPossibleFathers.Length; nI++)
+                    IndexName[] oPossibleFathers = person_.PossibleFathers();
+                    for (int nI = 0; nI < oPossibleFathers.Length; nI++)
                     {
                         m_cboFather.Items.Add(oPossibleFathers[nI]);
-                        if(oPossibleFathers[nI].ID == m_oPerson.FatherID)
+                        if (oPossibleFathers[nI].index == person_.FatherID)
                         {
                             m_cboFather.SelectedItem = oPossibleFathers[nI];
                         }
                     }
                 }
-                if(m_cboMother.Items.Count == 0)
+                if (m_cboMother.Items.Count == 0)
                 {
-                    clsIDName[] oPossibleMothers = m_oPerson.PossibleMothers();
-                    for(int nI = 0; nI < oPossibleMothers.Length; nI++)
+                    IndexName[] oPossibleMothers = person_.PossibleMothers();
+                    for (int nI = 0; nI < oPossibleMothers.Length; nI++)
                     {
                         m_cboMother.Items.Add(oPossibleMothers[nI]);
-                        if(oPossibleMothers[nI].ID == m_oPerson.MotherID)
+                        if (oPossibleMothers[nI].index == person_.MotherID)
                         {
                             m_cboMother.SelectedItem = oPossibleMothers[nI];
                         }
                     }
                 }
 
-                if(m_cboMainImage.Items.Count == 0)
+                if (m_cboMainImage.Items.Count == 0)
                 {
-                    clsMedia[] oMedias = m_oPerson.GetMedia(false);
-                    foreach(clsMedia oMedia in oMedias)
+                    clsMedia[] oMedias = person_.GetMedia(false);
+                    foreach (clsMedia oMedia in oMedias)
                     {
                         m_cboMainImage.Items.Add(oMedia);
-                        if(oMedia.ID == m_oPerson.MediaID)
+                        if (oMedia.ID == person_.MediaID)
                         {
                             m_cboMainImage.SelectedIndex = m_cboMainImage.Items.Count - 1;
                         }
                     }
                 }
-                m_chkGedcom.Checked = m_oPerson.IncludeInGedcom;
+                m_chkGedcom.Checked = person_.IncludeInGedcom;
                 break;
 
             case 4:
                 //Populate the ToDo List                
-                if(m_gridToDo.DataSource == null)
+                if (m_gridToDo.DataSource == null)
                 {
-                    m_gridToDo.SetDataBinding(m_oPerson.GetToDo(), "");
+                    m_gridToDo.SetDataBinding(person_.GetToDo(), "");
                     CreateToDoGridStyle();
                 }
                 break;
@@ -575,9 +572,9 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void Name_Enter(object sender, System.EventArgs e)
-		{
-			RefreshSources(m_oPerson.SourceName,"Name");
-		}
+        {
+            RefreshSources(person_.SourceName, "Name");
+        }
 
         // Update the sources when the sex field is active.
         /// <summary>
@@ -586,9 +583,9 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void cboSex_Enter(object sender, System.EventArgs e)
-		{
+        {
             RefreshSources();
-		}
+        }
 
         // Update the sources when the DoB field is active.
         /// <summary>
@@ -597,9 +594,9 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void dateDoB_Enter(object sender, System.EventArgs e)
-		{
-			RefreshSources(m_oPerson.SourceDoB,"Date of Birth");
-		}
+        {
+            RefreshSources(person_.SourceDoB, "Date of Birth");
+        }
 
         // Update the sources when the DoD field is active.
         /// <summary>
@@ -608,9 +605,9 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void dateDoD_Enter(object sender, System.EventArgs e)
-		{
-			RefreshSources(m_oPerson.SourceDoD,"Date of Death");
-		}
+        {
+            RefreshSources(person_.SourceDoD, "Date of Death");
+        }
 
         // Message handler for the surname changing.
         /// <summary>
@@ -620,12 +617,12 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void txtSurname_TextChanged(object sender, System.EventArgs e)
-		{
-			m_oPerson.Surname = this.m_txtSurname.Text;
+        {
+            person_.surname = this.txtSurname_.Text;
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the forename changing.
         /// <summary>
@@ -635,12 +632,12 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void txtForename_TextChanged(object sender, System.EventArgs e)
-		{
-			m_oPerson.Forenames = this.m_txtForename.Text;
+        {
+            person_.forenames = this.m_txtForename.Text;
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the maiden name changing.
         /// <summary>
@@ -650,12 +647,12 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>		
 		private void txtMaidenName_TextChanged(object sender, System.EventArgs e)
-		{
-			m_oPerson.Maidenname = this.m_txtMaidenName.Text;
+        {
+            person_.maidenname = this.m_txtMaidenName.Text;
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the sex of the person changing.
         /// <summary>
@@ -665,23 +662,23 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void cboSex_SelectedValueChanged(object sender, System.EventArgs e)
-		{
-			if(m_cboSex.SelectedIndex==0)
-			{
-				m_oPerson.Male = true;
+        {
+            if (cboSex_.SelectedIndex == 0)
+            {
+                person_.isMale = true;
                 m_labMaidenName.Visible = false;
                 m_txtMaidenName.Visible = false;
             }
-			else
-			{
-				m_oPerson.Female = true;
+            else
+            {
+                person_.Female = true;
                 m_labMaidenName.Visible = true;
                 m_txtMaidenName.Visible = true;
-			}
+            }
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the all children known check box changing value.
         /// <summary>
@@ -691,12 +688,12 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void chkChildrenKnown_CheckedChanged(object sender, System.EventArgs e)
-		{
-			m_oPerson.AllChildrenKnown = this.m_chkChildrenKnown.Checked;
+        {
+            person_.AllChildrenKnown = this.m_chkChildrenKnown.Checked;
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the date of birth control changing value.
         /// <summary>
@@ -705,13 +702,13 @@ namespace FamilyTree.Viewer
 		/// </summary>
 		/// <param name="oSender"></param>
 		private void dateDoB_evtValueChanged(object oSender)
-		{
-			m_oPerson.DoB.Date = m_dateDoB.GetDate();
-			m_oPerson.DoB.Status = m_dateDoB.GetStatus();
+        {
+            person_.dob.Date = m_dateDoB.GetDate();
+            person_.dob.Status = m_dateDoB.GetStatus();
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the date of death control changing value.
         /// <summary>
@@ -720,13 +717,13 @@ namespace FamilyTree.Viewer
 		/// </summary>
 		/// <param name="oSender"></param>
 		private void dateDoD_evtValueChanged(object oSender)
-		{
-			m_oPerson.DoD.Date = m_dateDoD.GetDate();
-			m_oPerson.DoD.Status = m_dateDoD.GetStatus();
+        {
+            person_.DoD.Date = m_dateDoD.GetDate();
+            person_.DoD.Status = m_dateDoD.GetStatus();
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
         // Message handler for the comments text box contents changing.
         /// <summary>
@@ -736,59 +733,59 @@ namespace FamilyTree.Viewer
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void txtComments_TextChanged(object sender, System.EventArgs e)
-		{
-			m_oPerson.Comments = this.m_txtComments.Text;
-		}
+        {
+            person_.Comments = this.m_txtComments.Text;
+        }
 
-		#endregion
+        #endregion
 
-		#region Controls on the Facts Tab
+        #region Controls on the Facts Tab
 
-		/// <summary>
-		/// This is called when the current cell changes within the facts grid and when the grid first gets the focus
-		/// </summary>
-		private void gridFacts_CurrentCellChanged(object sender, System.EventArgs e)
-		{			
-			clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource; 
-			RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].Sources,oFacts[m_gridFacts.CurrentCell.RowNumber].Information);
+        /// <summary>
+        /// This is called when the current cell changes within the facts grid and when the grid first gets the focus
+        /// </summary>
+        private void gridFacts_CurrentCellChanged(object sender, System.EventArgs e)
+        {
+            clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
+            RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].Sources, oFacts[m_gridFacts.CurrentCell.RowNumber].Information);
 
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
 
-		/// <summary>
-		/// This is called when the user clicks the Add Fact button.
-		/// This adds a fact to the form control (not the person)
-		/// </summary>
-		private void cmdAddFact_Click(object sender, System.EventArgs e)
-		{
-			// Check that a fact type is selected
-			if(m_cboFactType.SelectedIndex<0)
-			{
-				return;
-			}
+        /// <summary>
+        /// This is called when the user clicks the Add Fact button.
+        /// This adds a fact to the form control (not the person)
+        /// </summary>
+        private void cmdAddFact_Click(object sender, System.EventArgs e)
+        {
+            // Check that a fact type is selected
+            if (m_cboFactType.SelectedIndex < 0)
+            {
+                return;
+            }
 
-			// Find the fact type
-			clsFactType oFactType = (clsFactType)m_cboFactType.Items[m_cboFactType.SelectedIndex];
-			
-			// Count the number of existing facts to get an initial rank for the new fact
-			clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
-			int nNewRank = oFacts.Length+1;
-			
-			// Create the new fact			
-			clsFact oFact = new clsFact(0,m_oPerson,oFactType.ID,nNewRank,"Empty");
+            // Find the fact type
+            clsFactType oFactType = (clsFactType)m_cboFactType.Items[m_cboFactType.SelectedIndex];
 
-			// Add the fact	to the person
-			m_oPerson.AddFact(oFact);
+            // Count the number of existing facts to get an initial rank for the new fact
+            clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
+            int nNewRank = oFacts.Length + 1;
 
-			// Update the display
-			PopulateFactsGrid();
-		}
+            // Create the new fact			
+            clsFact oFact = new clsFact(0, person_, oFactType.ID, nNewRank, "Empty");
 
-        private void cmdDeleteFact_Click(object sender,System.EventArgs e)
+            // Add the fact	to the person
+            person_.AddFact(oFact);
+
+            // Update the display
+            PopulateFactsGrid();
+        }
+
+        private void cmdDeleteFact_Click(object sender, System.EventArgs e)
         {
             // Check that a fact is selected in the grid
-            if(m_gridFacts.CurrentCell.RowNumber < 0)
+            if (m_gridFacts.CurrentCell.RowNumber < 0)
             {
                 return;
             }
@@ -801,9 +798,9 @@ namespace FamilyTree.Viewer
             PopulateFactsGrid();
         }
 
-		#endregion
+        #endregion
 
-		#region Controls on the Relationships tab
+        #region Controls on the Relationships tab
 
         /// <summary>
         /// Message handler for the marriage terminated combo box getting the focus.
@@ -811,15 +808,15 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cboTerminated_Enter(object sender,System.EventArgs e)
+        private void cboTerminated_Enter(object sender, System.EventArgs e)
         {
-            if(m_oActiveRelationship == null)
+            if (activeRelationship_ == null)
             {
                 RefreshSources();
             }
             else
             {
-                RefreshSources(m_oActiveRelationship.SourceTerminated,"Relationship End Type");
+                RefreshSources(activeRelationship_.SourceTerminated, "Relationship End Type");
             }
         }
 
@@ -828,13 +825,13 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cboTerminated_SelectedIndexChanged(object sender,System.EventArgs e)
+        private void cboTerminated_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Update the active relationship
-            if(m_oActiveRelationship != null)
+            if (activeRelationship_ != null)
             {
-                m_oActiveRelationship.TerminatedID = this.m_cboTerminated.SelectedIndex + 1;
-                m_oActiveRelationship.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.TerminatedID = this.m_cboTerminated.SelectedIndex + 1;
+                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
             }
         }
 
@@ -844,13 +841,13 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cboRelationshipType_SelectedIndexChanged(object sender,System.EventArgs e)
+        private void cboRelationshipType_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Update the active relationship
-            if(m_oActiveRelationship != null)
+            if (activeRelationship_ != null)
             {
-                m_oActiveRelationship.TypeID = m_cboRelationshipType.SelectedIndex + 1;
-                m_oActiveRelationship.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.TypeID = m_cboRelationshipType.SelectedIndex + 1;
+                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
             }
         }
 
@@ -860,229 +857,229 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void m_cboRelationshipType_Enter(object sender,System.EventArgs e)
+        private void m_cboRelationshipType_Enter(object sender, System.EventArgs e)
         {
             RefreshSources();
         }
 
-		private void lstRelationships_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Validate the selected index
-			if(this.m_lstRelationships.SelectedIndex<0)
-			{				
-				m_oActiveRelationship = null;				
-				return;
-			}
+        private void lstRelationships_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Validate the selected index
+            if (this.m_lstRelationships.SelectedIndex < 0)
+            {
+                activeRelationship_ = null;
+                return;
+            }
 
-			// Get the selected relationship
-			m_oActiveRelationship = (clsRelationship)this.m_lstRelationships.SelectedItem;
+            // Get the selected relationship
+            activeRelationship_ = (clsRelationship)this.m_lstRelationships.SelectedItem;
 
-			// Update the form
-			m_dateRelationStart.Value = m_oActiveRelationship.Start;
-//			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
-			m_cboTerminated.SelectedIndex = m_oActiveRelationship.TerminatedID-1;
-			m_txtRelationLocation.Text = m_oActiveRelationship.Location;
-			m_dateRelationEnd.Value = m_oActiveRelationship.End;
-			m_txtRelationComments.Text = m_oActiveRelationship.Comments;
-			m_cboRelationshipType.SelectedIndex = m_oActiveRelationship.TypeID-1;
+            // Update the form
+            m_dateRelationStart.Value = activeRelationship_.Start;
+            //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
+            m_cboTerminated.SelectedIndex = activeRelationship_.TerminatedID - 1;
+            m_txtRelationLocation.Text = activeRelationship_.Location;
+            m_dateRelationEnd.Value = activeRelationship_.End;
+            m_txtRelationComments.Text = activeRelationship_.Comments;
+            m_cboRelationshipType.SelectedIndex = activeRelationship_.TypeID - 1;
 
-			RefreshSources(m_oActiveRelationship.SourcePartner,"Relationship Partner");		
-		}
+            RefreshSources(activeRelationship_.SourcePartner, "Relationship Partner");
+        }
 
-		private void dateRelationStart_Enter(object sender, System.EventArgs e)
-		{
-			if(m_oActiveRelationship==null)
-			{
-				RefreshSources();		
-			}
-			else
-			{
-				RefreshSources(m_oActiveRelationship.SourceStart,"Relationship Start Date");		
-			}
-		}
+        private void dateRelationStart_Enter(object sender, System.EventArgs e)
+        {
+            if (activeRelationship_ == null)
+            {
+                RefreshSources();
+            }
+            else
+            {
+                RefreshSources(activeRelationship_.SourceStart, "Relationship Start Date");
+            }
+        }
 
-		private void chkTerminated_Enter(object sender, System.EventArgs e)
-		{
-			if(m_oActiveRelationship==null)
-			{
-				RefreshSources();		
-			}
-			else
-			{
-				RefreshSources(m_oActiveRelationship.SourceTerminated,"Relationship Termination Status");		
-			}				
-		}
+        private void chkTerminated_Enter(object sender, System.EventArgs e)
+        {
+            if (activeRelationship_ == null)
+            {
+                RefreshSources();
+            }
+            else
+            {
+                RefreshSources(activeRelationship_.SourceTerminated, "Relationship Termination Status");
+            }
+        }
 
-		private void txtRelationLocation_Enter(object sender, System.EventArgs e)
-		{
-			if(m_oActiveRelationship==null)
-			{
-				RefreshSources();		
-			}
-			else
-			{
-				RefreshSources(m_oActiveRelationship.SourceLocation,"Relationship Location");		
-			}		
-		}
+        private void txtRelationLocation_Enter(object sender, System.EventArgs e)
+        {
+            if (activeRelationship_ == null)
+            {
+                RefreshSources();
+            }
+            else
+            {
+                RefreshSources(activeRelationship_.SourceLocation, "Relationship Location");
+            }
+        }
 
-		private void dateRelationEnd_Enter(object sender, System.EventArgs e)
-		{
-			if(m_oActiveRelationship==null)
-			{
-				RefreshSources();		
-			}
-			else
-			{
-				RefreshSources(m_oActiveRelationship.SourceEnd,"Relationship End Date");		
-			}		
-		}
+        private void dateRelationEnd_Enter(object sender, System.EventArgs e)
+        {
+            if (activeRelationship_ == null)
+            {
+                RefreshSources();
+            }
+            else
+            {
+                RefreshSources(activeRelationship_.SourceEnd, "Relationship End Date");
+            }
+        }
 
-		private void lstRelationships_Enter(object sender, System.EventArgs e)
-		{
-			if(m_oActiveRelationship==null)
-			{
-				RefreshSources();		
-			}
-			else
-			{
-				RefreshSources(m_oActiveRelationship.SourcePartner,"Relationship Partner");		
-			}				
-		}
+        private void lstRelationships_Enter(object sender, System.EventArgs e)
+        {
+            if (activeRelationship_ == null)
+            {
+                RefreshSources();
+            }
+            else
+            {
+                RefreshSources(activeRelationship_.SourcePartner, "Relationship Partner");
+            }
+        }
 
-		private void txtRelationLocation_TextChanged(object sender, System.EventArgs e)
-		{
-			// Update the active relationship
-			if(m_oActiveRelationship!=null)
-			{
-				m_oActiveRelationship.Location = this.m_txtRelationLocation.Text;
-                m_oActiveRelationship.LastEditBy = m_cboEditor.SelectedItem.ToString();
+        private void txtRelationLocation_TextChanged(object sender, System.EventArgs e)
+        {
+            // Update the active relationship
+            if (activeRelationship_ != null)
+            {
+                activeRelationship_.Location = this.m_txtRelationLocation.Text;
+                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
 
-				// Update the description
-                m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-			}		
-		}
+                // Update the description
+                m_labDescription.Text = person_.Description(false, false, false, false, false);
+            }
+        }
 
         private void dateRelationStart_evtValueChanged(object oSender)
         {
             // Update the active relationship
-            if(m_oActiveRelationship != null)
+            if (activeRelationship_ != null)
             {
-                m_oActiveRelationship.Start.Date = m_dateRelationStart.GetDate();
-                m_oActiveRelationship.Start.Status = m_dateRelationStart.GetStatus();
-                m_oActiveRelationship.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.Start.Date = m_dateRelationStart.GetDate();
+                activeRelationship_.Start.Status = m_dateRelationStart.GetStatus();
+                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
-                m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
+                m_labDescription.Text = person_.Description(false, false, false, false, false);
             }
         }
 
-		private void dateRelationEnd_evtValueChanged(object oSender)
-		{
-			// Update the active relationship
-			if(m_oActiveRelationship!=null)
-			{
-				m_oActiveRelationship.End.Date = m_dateRelationEnd.GetDate();
-				m_oActiveRelationship.End.Status = m_dateRelationEnd.GetStatus();
-                m_oActiveRelationship.LastEditBy = m_cboEditor.SelectedItem.ToString();
+        private void dateRelationEnd_evtValueChanged(object oSender)
+        {
+            // Update the active relationship
+            if (activeRelationship_ != null)
+            {
+                activeRelationship_.End.Date = m_dateRelationEnd.GetDate();
+                activeRelationship_.End.Status = m_dateRelationEnd.GetStatus();
+                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
 
-				// Update the description
-                m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-			}						
-		}
-
-		private void txtRelationComments_TextChanged(object sender, System.EventArgs e)
-		{
-			// Update the active relationship
-			if(m_oActiveRelationship!=null)
-			{
-				m_oActiveRelationship.Comments = this.m_txtRelationComments.Text;
-                m_oActiveRelationship.LastEditBy = m_cboEditor.SelectedItem.ToString();
-			}								
-		}
-		
-		private void AddRelationship_Click(object sender, System.EventArgs e)
-		{
-			// Check that a person is selected
-			if(m_cboAddPartner.SelectedIndex==-1)
-			{
-				return;
-			}
-
-			// Find the person that is selected
-			clsIDName oPartner = (clsIDName)m_cboAddPartner.SelectedItem;
-
-			// Create a relationship object
-			clsRelationship oRelationship = new clsRelationship(m_oPerson,oPartner.ID);
-
-			// Add the relationship to the persons collection
-			m_oPerson.AddRelationship(oRelationship);
-
-			// Add the partner to the list box
-			m_lstRelationships.Items.Add(oRelationship);			
-
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
-
-		private void cmdDeleteRelationship_Click(object sender, System.EventArgs e)
-		{
-			// Get the selected relationship
-			if(m_oActiveRelationship==null)
-			{
-				return;
-			}
-
-			// Mark the active relationship for deletion
-			m_oActiveRelationship.Delete();			
-
-			// Remove the relationship from the listbox
-			this.m_lstRelationships.Items.Remove(m_oActiveRelationship);
-
-			// No selection any more
-			m_oActiveRelationship = null;
-
-			// Update the description
-            m_labDescription.Text = m_oPerson.Description(false, false, false, false, false);
-		}
-
-		#endregion
-
-		#region Controls on the Advance tab
-
-		/// <summary>
-		/// Message handler for the father combo box changing value.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-        private void cboFather_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Find the ID of the selected father
-			clsIDName oFather = (clsIDName)m_cboFather.SelectedItem;
-
-			// Save the ID in the person object
-			m_oPerson.FatherID = oFather.ID;
-		}
-
-		/// <summary>
-		/// Message handler for the mother combo box changing value.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-        private void cboMother_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-            // Find the ID the selected mother
-            clsIDName oMother = (clsIDName)m_cboMother.SelectedItem;
-
-            // Save the ID in the person object
-            m_oPerson.MotherID = oMother.ID;
+                // Update the description
+                m_labDescription.Text = person_.Description(false, false, false, false, false);
+            }
         }
 
-		/// <summary>
-		/// Update the image on the advance tab.
-		/// </summary>
+        private void txtRelationComments_TextChanged(object sender, System.EventArgs e)
+        {
+            // Update the active relationship
+            if (activeRelationship_ != null)
+            {
+                activeRelationship_.Comments = this.m_txtRelationComments.Text;
+                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+            }
+        }
+
+        private void AddRelationship_Click(object sender, System.EventArgs e)
+        {
+            // Check that a person is selected
+            if (m_cboAddPartner.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            // Find the person that is selected
+            IndexName oPartner = (IndexName)m_cboAddPartner.SelectedItem;
+
+            // Create a relationship object
+            clsRelationship oRelationship = new clsRelationship(person_, oPartner.index);
+
+            // Add the relationship to the persons collection
+            person_.AddRelationship(oRelationship);
+
+            // Add the partner to the list box
+            m_lstRelationships.Items.Add(oRelationship);
+
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
+
+        private void cmdDeleteRelationship_Click(object sender, System.EventArgs e)
+        {
+            // Get the selected relationship
+            if (activeRelationship_ == null)
+            {
+                return;
+            }
+
+            // Mark the active relationship for deletion
+            activeRelationship_.Delete();
+
+            // Remove the relationship from the listbox
+            this.m_lstRelationships.Items.Remove(activeRelationship_);
+
+            // No selection any more
+            activeRelationship_ = null;
+
+            // Update the description
+            m_labDescription.Text = person_.Description(false, false, false, false, false);
+        }
+
+        #endregion
+
+        #region Controls on the Advance tab
+
+        /// <summary>
+        /// Message handler for the father combo box changing value.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboFather_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Find the ID of the selected father
+            IndexName oFather = (IndexName)m_cboFather.SelectedItem;
+
+            // Save the ID in the person object
+            person_.FatherID = oFather.index;
+        }
+
+        /// <summary>
+        /// Message handler for the mother combo box changing value.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboMother_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Find the ID the selected mother
+            IndexName oMother = (IndexName)m_cboMother.SelectedItem;
+
+            // Save the ID in the person object
+            person_.MotherID = oMother.index;
+        }
+
+        /// <summary>
+        /// Update the image on the advance tab.
+        /// </summary>
         private void ShowImage()
-		{
-            if(m_cboMainImage.SelectedItem == null)
+        {
+            if (m_cboMainImage.SelectedItem == null)
             {
                 // Nothing to display
                 m_Image.Image = null;
@@ -1101,7 +1098,7 @@ namespace FamilyTree.Viewer
                 {
                     oImage = null;
                 }
-                if(oImage == null)
+                if (oImage == null)
                 {
                     // Can't display this image
                     m_Image.Image = null;
@@ -1111,20 +1108,20 @@ namespace FamilyTree.Viewer
                 // Display this image
                 m_Image.Image = oImage;
             }
-		}
+        }
 
         /// <summary>
         /// Message handler for the main image combo box changing value.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cboMainImage_SelectedIndexChanged(object sender,EventArgs e)
+        private void cboMainImage_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Find the ID the selected media
             clsMedia oMedia = (clsMedia)m_cboMainImage.SelectedItem;
 
             // Save the ID in the person object
-            m_oPerson.MediaID = oMedia.ID;
+            person_.MediaID = oMedia.ID;
 
             // Display the image on the form
             ShowImage();
@@ -1138,37 +1135,37 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void chkGedcom_CheckedChanged(object sender, EventArgs e)
         {
-            m_oPerson.IncludeInGedcom = m_chkGedcom.Checked;
+            person_.IncludeInGedcom = m_chkGedcom.Checked;
         }
 
         #endregion
 
-        private void cmdAddToDo_Click(object sender,EventArgs e)
+        private void cmdAddToDo_Click(object sender, EventArgs e)
         {
             clsToDo oNew = new clsToDo();
-            oNew.PersonID = m_oPerson.ID;
+            oNew.PersonID = person_.ID;
             oNew.Priority = 50;
             oNew.Description = "New ToDo item.";
 
-            m_oPerson.AddToDo(oNew);
+            person_.AddToDo(oNew);
 
-            m_gridToDo.SetDataBinding(m_oPerson.GetToDo(),"");                
+            m_gridToDo.SetDataBinding(person_.GetToDo(), "");
         }
 
-        private void cmdDeleteToDo_Click(object sender,System.EventArgs e)
+        private void cmdDeleteToDo_Click(object sender, System.EventArgs e)
         {
             // Check that a fact is selected in the grid
-            if(m_gridToDo.CurrentCell.RowNumber < 0)
+            if (m_gridToDo.CurrentCell.RowNumber < 0)
             {
                 return;
             }
 
             // Find the fact
             clsToDo oToDo = ((clsToDo[])m_gridToDo.DataSource)[m_gridToDo.CurrentCell.RowNumber];
-            oToDo.Delete();            
+            oToDo.Delete();
 
             // Update the display
-            m_gridToDo.SetDataBinding(m_oPerson.GetToDo(),"");                
+            m_gridToDo.SetDataBinding(person_.GetToDo(), "");
         }
 
 
@@ -1182,12 +1179,12 @@ namespace FamilyTree.Viewer
 
         private void menuEditLocation_Click(object sender, EventArgs e)
         {
-            if(oHitTestInfo == null)
+            if (oHitTestInfo == null)
             {
                 return;
             }
 
-            if(oHitTestInfo.Row < 0)
+            if (oHitTestInfo.Row < 0)
             {
                 return;
             }
@@ -1195,8 +1192,8 @@ namespace FamilyTree.Viewer
             // Find the fact
             clsFact oFact = ((clsFact[])m_gridFacts.DataSource)[oHitTestInfo.Row];
 
-            frmSelectLocation oDialog = new frmSelectLocation(m_oPerson.Database, oFact.Information);
-            if(oDialog.ShowDialog(this) == DialogResult.OK)
+            frmSelectLocation oDialog = new frmSelectLocation(person_.Database, oFact.Information);
+            if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 oFact.Information = oDialog.LocationName;
                 m_gridFacts.Refresh();
@@ -1212,7 +1209,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void m_gridFacts_MouseUp(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
                 oHitTestInfo = m_gridFacts.HitTest(e.X, e.Y);
             }
@@ -1226,8 +1223,8 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void cmdRelationshipAddress_Click(object sender, EventArgs e)
         {
-            frmSelectLocation oDialog = new frmSelectLocation(m_oPerson.Database, m_txtRelationLocation.Text);
-            if(oDialog.ShowDialog(this) == DialogResult.OK)
+            frmSelectLocation oDialog = new frmSelectLocation(person_.Database, m_txtRelationLocation.Text);
+            if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 m_txtRelationLocation.Text = oDialog.LocationName;
             }

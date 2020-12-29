@@ -38,7 +38,7 @@ namespace FamilyTree.Viewer
 		#region Member Variables
 
 		/// <summary>Database that this person is attached to.</summary>
-		private clsDatabase m_oDb;
+		private Database m_oDb;
 
         /// <summary>The options for this tree.</summary>
         private clsTreeOptions m_oOptions;
@@ -112,7 +112,7 @@ namespace FamilyTree.Viewer
 		/// <param name="oDb">Specify the database to work from.</param>
 		/// <param name="oUserOptions">Specify the user options to initialise the tree with.</param>
 		/// <param name="nPersonID">Specify the person to draw a tree for.</param>
-        public clsTreeDocument(clsDatabase oDb,clsUserOptions oUserOptions,int nPersonID)
+        public clsTreeDocument(Database oDb,clsUserOptions oUserOptions,int nPersonID)
         {
             // Save the input parameters
             m_oDb = oDb;
@@ -149,7 +149,7 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oDb">Specifies the database to work from.</param>
         /// <param name="oTreeOptions">Specifies the .tree file to load the options from.</param>
-        public clsTreeDocument(clsDatabase oDb,Innoval.clsXmlDocument oTreeOptions)
+        public clsTreeDocument(Database oDb,Innoval.clsXmlDocument oTreeOptions)
         {
             // Save the input parameters
             m_oDb = oDb;
@@ -408,7 +408,7 @@ namespace FamilyTree.Viewer
         /// <summary>
         /// The database that this tree is attached to.
         /// </summary>
-		public clsDatabase Database
+		public Database Database
         {
             get
             {

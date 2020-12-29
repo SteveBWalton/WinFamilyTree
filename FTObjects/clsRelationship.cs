@@ -82,7 +82,7 @@ namespace FamilyTree.Objects
 		private clsSources m_sourcesPartner;
 
 		/// <summary>The source database.  This is probably null.</summary>
-		private clsDatabase m_oDb;
+		private Database m_oDb;
 
         // Type of relationship. 1- Religious, 2-Civil, 3-CoHabit.
         /// <summary>
@@ -143,7 +143,7 @@ namespace FamilyTree.Objects
             m_bDelete = false;
             m_oOwner = oOwner;
             m_nPartnerID = nPartnerID;
-            if(m_oOwner.Male)
+            if(m_oOwner.isMale)
             {
                 m_nMaleID = m_oOwner.ID;
                 m_nFemaleID = nPartnerID;
@@ -245,21 +245,21 @@ namespace FamilyTree.Objects
             StringBuilder sbSql = new StringBuilder();
             sbSql.Append("UPDATE tbl_Relationships SET ");
             sbSql.Append("RelationshipID=" + m_nTypeID.ToString() + "," );
-            sbSql.Append("TheDate=" + clsDatabase.ToDb(m_dtStart) + "," );
+            sbSql.Append("TheDate=" + Database.ToDb(m_dtStart) + "," );
             sbSql.Append("StartStatusID=" + m_dtStart.Status.ToString() + "," );
             sbSql.Append("TerminatedID=" + m_nTerminated.ToString() + "," );
-            sbSql.Append("TerminateDate=" + clsDatabase.ToDb(m_dtEnd) + "," );
+            sbSql.Append("TerminateDate=" + Database.ToDb(m_dtEnd) + "," );
             sbSql.Append("TerminateStatusID=" + m_dtEnd.Status.ToString() + "," );
-            sbSql.Append("Location=" + clsDatabase.ToDb(m_sLocation) + "," );
+            sbSql.Append("Location=" + Database.ToDb(m_sLocation) + "," );
                 
             // Not really sure that the data has changed so don't update the written by record.
             if(m_bDirty)
             {
-                sbSql.Append("LastEditBy=" + clsDatabase.ToDb(m_sLastEditBy) + ",");
+                sbSql.Append("LastEditBy=" + Database.ToDb(m_sLastEditBy) + ",");
                 sbSql.Append("LastEditDate=#" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#,");
                 m_bDirty = false;
             }
-            sbSql.Append("Comments=" + clsDatabase.ToDb(m_sComments) + " ");
+            sbSql.Append("Comments=" + Database.ToDb(m_sComments) + " ");
             sbSql.Append("WHERE ID=" + m_nID.ToString() + ";");
 
             // Update the relationship in the database
@@ -306,7 +306,7 @@ namespace FamilyTree.Objects
         /// Sets the database that this relationship is attached to.
         /// </summary>
 		/// <param name="oDb">Specifies the clsDatabase object that this relationship belongs to.</param>
-        public void SetDb(clsDatabase oDb)
+        public void SetDb(Database oDb)
         {
             m_oDb = oDb;
             ;
@@ -345,7 +345,7 @@ namespace FamilyTree.Objects
 		/// <returns></returns>
 		public override string ToString()
 		{
-			clsPerson oPartner = m_oOwner.Database.GetPerson(m_nPartnerID);
+			clsPerson oPartner = m_oOwner.Database.getPerson(m_nPartnerID);
 			return oPartner.GetName(false,true);
 		}
 

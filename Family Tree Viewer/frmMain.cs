@@ -124,7 +124,7 @@ namespace FamilyTree.Viewer
 		private Innoval.clsXmlDocument m_oConfig;
 		
 		/// <summary>Current family tree database.</summary>
-		private clsDatabase m_oDb;
+		private Database m_oDb;
 
 		/// <summary>User options.</summary>
 		private clsUserOptions m_oOptions;
@@ -293,7 +293,7 @@ namespace FamilyTree.Viewer
             // Check that we are on the UI thread.
             if(InvokeRequired)
             {
-                Invoke(new dgtVoid(CursorDefault));
+                Invoke(new funcVoid(CursorDefault));
                 return;
             }
 
@@ -314,7 +314,7 @@ namespace FamilyTree.Viewer
             // Check that we are on the UI thread.
             if(InvokeRequired)
             {
-                Invoke(new dgtVoid(CursorWait));
+                Invoke(new funcVoid(CursorWait));
                 return;
             }
 
@@ -350,7 +350,7 @@ namespace FamilyTree.Viewer
             // Check that we are no the UI thread
             if(InvokeRequired)
             {
-                Invoke(new dgtVoid(ProgressBarPerformStep));
+                Invoke(new funcVoid(ProgressBarPerformStep));
                 return;
             }
 
@@ -491,7 +491,7 @@ namespace FamilyTree.Viewer
                 {
                     for(int nI = Marriages.Length - 1; nI >= 0; nI--)
                     {
-                        clsPerson oRelation = m_oDb.GetPerson(Marriages[nI].PartnerID);
+                        clsPerson oRelation = m_oDb.getPerson(Marriages[nI].PartnerID);
 
                         // Create a person control to show the partner
                         m_psnPartners[nI] = new FamilyTree.Viewer.ucPerson();
@@ -528,11 +528,11 @@ namespace FamilyTree.Viewer
             // Draw the marriages if male
             if(Marriages.Length > 0)
             {
-                if(oPerson.Male)
+                if(oPerson.isMale)
                 {
                     for(int nI = 0; nI < Marriages.Length; nI++)
                     {
-                        clsPerson oRelation = m_oDb.GetPerson(Marriages[nI].PartnerID);
+                        clsPerson oRelation = m_oDb.getPerson(Marriages[nI].PartnerID);
 
                         // Create a relationship control to show the relationship to the partner
                         m_marPartners[nI] = new FamilyTree.Viewer.ucRelationship();
@@ -664,7 +664,7 @@ namespace FamilyTree.Viewer
             m_oPanelTree.Visible = true;
 
             // Show the specified person
-            clsPerson oPerson = m_oDb.GetPerson(nID);
+            clsPerson oPerson = m_oDb.getPerson(nID);
             Text = oPerson.GetName(true, false) + " - Family Tree Viewer";
 
             // Build the rich text file description of the person
@@ -688,7 +688,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                clsPerson oFather = m_oDb.GetPerson(oPerson.FatherID);
+                clsPerson oFather = m_oDb.getPerson(oPerson.FatherID);
                 m_psnFather.Width = m_PersonSize.x;
                 m_psnFather.Height = m_PersonSize.y;
                 m_psnFather.SetPerson(oFather);
@@ -703,7 +703,7 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    clsPerson oGrandFather = m_oDb.GetPerson(oFather.FatherID);
+                    clsPerson oGrandFather = m_oDb.getPerson(oFather.FatherID);
                     m_psnFatherFather.Width = m_PersonSize.x;
                     m_psnFatherFather.Height = m_PersonSize.y;
                     m_psnFatherFather.SetPerson(oGrandFather);
@@ -719,7 +719,7 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    clsPerson oGrandMother = m_oDb.GetPerson(oFather.MotherID);
+                    clsPerson oGrandMother = m_oDb.getPerson(oFather.MotherID);
                     m_psnFatherMother.Width = m_PersonSize.x;
                     m_psnFatherMother.Height = m_PersonSize.y;
                     m_psnFatherMother.SetPerson(oGrandMother);
@@ -751,7 +751,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                clsPerson oMother = m_oDb.GetPerson(oPerson.MotherID);
+                clsPerson oMother = m_oDb.getPerson(oPerson.MotherID);
                 m_psnMother.Width = m_PersonSize.x;
                 m_psnMother.Height = m_PersonSize.y;
                 m_psnMother.SetPerson(oMother);
@@ -766,7 +766,7 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    clsPerson oGrandFather = m_oDb.GetPerson(oMother.FatherID);
+                    clsPerson oGrandFather = m_oDb.getPerson(oMother.FatherID);
                     m_psnMotherFather.Width = m_PersonSize.x;
                     m_psnMotherFather.Height = m_PersonSize.y;
                     m_psnMotherFather.SetPerson(oGrandFather);
@@ -782,7 +782,7 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    clsPerson oGrandMother = m_oDb.GetPerson(oMother.MotherID);
+                    clsPerson oGrandMother = m_oDb.getPerson(oMother.MotherID);
                     m_psnMotherMother.Width = m_PersonSize.x;
                     m_psnMotherMother.Height = m_PersonSize.y;
                     m_psnMotherMother.SetPerson(oGrandMother);
@@ -813,7 +813,7 @@ namespace FamilyTree.Viewer
             m_labPersonDates.Text = oPerson.ShortDescription(true);
             m_labPersonDates.Width = m_labPerson.Width;
             m_labPersonDates.Height = m_PersonSize.y - 23;
-            if(oPerson.Male)
+            if(oPerson.isMale)
             {
                 m_labPerson.BackColor = m_rgbBackgroundBoy;
             }
@@ -842,10 +842,10 @@ namespace FamilyTree.Viewer
 
                 for(nI = 0; nI < Siblings.Length; nI++)
                 {
-                    oRelation = m_oDb.GetPerson(Siblings[nI]);
+                    oRelation = m_oDb.getPerson(Siblings[nI]);
 
                     // Show the person if he is older than the current sibling (and not already shown)
-                    if(oPerson.DoB.Date < oRelation.DoB.Date && !bShownPerson)
+                    if(oPerson.dob.Date < oRelation.dob.Date && !bShownPerson)
                     {
                         DrawMainPerson(ref oPerson, ref Marriages, ref nPos, oFont);
                         bShownPerson = true;
@@ -853,7 +853,7 @@ namespace FamilyTree.Viewer
 
                     // Show the sibling
                     m_psnSiblings[nI] = new FamilyTree.Viewer.ucPerson();
-                    if(oRelation.Male)
+                    if(oRelation.isMale)
                     {
                         m_psnSiblings[nI].BackColor = m_rgbBackgroundBoy;
                     }
@@ -917,7 +917,7 @@ namespace FamilyTree.Viewer
             // Show the children
             int[] Children = oPerson.GetChildren();
             int nHeight = m_labPerson.Top + m_PersonSize.y + m_Padding.y;
-            if(oPerson.Male)
+            if(oPerson.isMale)
             {
                 nPos = m_labPerson.Left;
             }
@@ -939,10 +939,10 @@ namespace FamilyTree.Viewer
 
                 for(nI = 0; nI < Children.Length; nI++)
                 {
-                    oRelation = m_oDb.GetPerson(Children[nI]);
+                    oRelation = m_oDb.getPerson(Children[nI]);
 
                     m_psnChildren[nI] = new FamilyTree.Viewer.ucPerson();
-                    if(oRelation.Male)
+                    if(oRelation.isMale)
                     {
                         m_psnChildren[nI].BackColor = m_rgbBackgroundBoy;
                     }
@@ -1310,7 +1310,7 @@ namespace FamilyTree.Viewer
 				case enumRelatedPerson.Child:
 					oNewPerson = new clsPerson(nNewPersonID,m_oDb);
                     oPerson = new clsPerson(Current.ID,m_oDb);
-					if(oPerson.Male)
+					if(oPerson.isMale)
 					{
                         oNewPerson.FatherID = Current.ID;
 					}
@@ -1582,7 +1582,7 @@ namespace FamilyTree.Viewer
             }
 
             // Open the new database
-            m_oDb = new clsDatabase(sFilename);
+            m_oDb = new Database(sFilename);
 
             // Update the recent files
             m_oRecentFiles.OpenFile(sFilename);
@@ -1724,11 +1724,11 @@ namespace FamilyTree.Viewer
             clsFamilies oFamilies = new clsFamilies();
 
             // Write the individuals
-            clsIDName[] oAllPeople = m_oDb.GetPeople();
+            IndexName[] oAllPeople = m_oDb.getPeople();
             for(int nI = 0; nI < oAllPeople.Length; nI++)
             {
                 // Create an object for this person.
-                clsPerson oPerson = m_oDb.GetPerson(oAllPeople[nI].ID);
+                clsPerson oPerson = m_oDb.getPerson(oAllPeople[nI].index);
 
                 // Check that this person is included in the gedcom file.
                 // The person will also need to be excluded from any families that try to reference him.
@@ -1741,8 +1741,8 @@ namespace FamilyTree.Viewer
                     ArrayList oPersonSources = new ArrayList();
                     oPerson.SourceNonSpecific.GedcomAdd(oPersonSources);
 
-                    oFile.WriteLine("1 NAME " + oPerson.Forenames + " /" + oPerson.BirthSurname + "/");
-                    oFile.WriteLine("2 GIVN " + oPerson.Forenames);
+                    oFile.WriteLine("1 NAME " + oPerson.forenames + " /" + oPerson.BirthSurname + "/");
+                    oFile.WriteLine("2 GIVN " + oPerson.forenames);
                     oFile.WriteLine("2 SURN " + oPerson.BirthSurname);
                     // oPerson.SourceName.WriteGedcom(2,oFile,null);
                     oPerson.SourceName.GedcomAdd(oPersonSources);
@@ -1770,7 +1770,7 @@ namespace FamilyTree.Viewer
                     }
 
                     oFile.Write("1 SEX ");
-                    if(oPerson.Male)
+                    if(oPerson.isMale)
                     {
                         oFile.WriteLine("M");
                     }
@@ -1779,7 +1779,7 @@ namespace FamilyTree.Viewer
                         oFile.WriteLine("F");
                     }
                     oFile.WriteLine("1 BIRT");
-                    oFile.WriteLine("2 DATE " + oPerson.DoB.Format(DateFormat.Gedcom));
+                    oFile.WriteLine("2 DATE " + oPerson.dob.Format(DateFormat.Gedcom));
                     m_oDb.WriteGedcomPlace(oFile, 2, oPerson.GetSimpleFact(10), oOptions);
 
                     // oPerson.SourceDoB.WriteGedcom(2,oFile,null);
@@ -1825,10 +1825,10 @@ namespace FamilyTree.Viewer
                     int[] nChildren = oPerson.GetChildren();
                     for(int nJ = 0; nJ < nChildren.Length; nJ++)
                     {
-                        clsPerson oChild = m_oDb.GetPerson(nChildren[nJ]);
+                        clsPerson oChild = m_oDb.getPerson(nChildren[nJ]);
 
                         // Check that the childs parent is already a partner
-                        if(oPerson.Male)
+                        if(oPerson.isMale)
                         {
                             if(!oPartners.Contains(oChild.MotherID))
                             {
@@ -2028,21 +2028,25 @@ namespace FamilyTree.Viewer
 
                     for(int nI = 0;nI < m_psnSiblings.Length;nI++)
                     {
-                        if((int)m_psnSiblings[nI].Tag == nType)
+                        // TODO: Check this.  This was crashing.
+                        if (m_psnSiblings[nI] != null)
                         {
-                            bDrawBar = true;
-
-                            nPos = m_psnSiblings[nI].Left + m_psnSiblings[nI].Width / 2;
-                            if(nPos < nMin)
+                            if ((int)m_psnSiblings[nI].Tag == nType)
                             {
-                                nMin = nPos;
-                            }
-                            if(nPos > nMax)
-                            {
-                                nMax = nPos;
-                            }
+                                bDrawBar = true;
 
-                            e.Graphics.DrawLine(oPen,nPos,m_labPerson.Top,nPos,nBarHeight);
+                                nPos = m_psnSiblings[nI].Left + m_psnSiblings[nI].Width / 2;
+                                if (nPos < nMin)
+                                {
+                                    nMin = nPos;
+                                }
+                                if (nPos > nMax)
+                                {
+                                    nMax = nPos;
+                                }
+
+                                e.Graphics.DrawLine(oPen, nPos, m_labPerson.Top, nPos, nBarHeight);
+                            }
                         }
                     }
 
@@ -2073,7 +2077,7 @@ namespace FamilyTree.Viewer
                 // Draw a line down for the siblings with descendants
                 for(int nI = 0;nI < m_psnSiblings.Length;nI++)
                 {
-                    clsPerson oSibling = m_oDb.GetPerson(m_psnSiblings[nI].GetPersonID());
+                    clsPerson oSibling = m_oDb.getPerson(m_psnSiblings[nI].GetPersonID());
                     if(oSibling.HasChildren())
                     {
                         e.Graphics.DrawLine(oPen,m_psnSiblings[nI].Left + m_psnSiblings[nI].Width / 2,m_psnSiblings[nI].Top + m_psnSiblings[nI].Height,m_psnSiblings[nI].Left + m_psnSiblings[nI].Width / 2,m_psnSiblings[nI].Top + m_psnSiblings[nI].Height + 3);
@@ -2168,7 +2172,7 @@ namespace FamilyTree.Viewer
                 // Draw a line down from the children who have descendants
                 for(int nI = 0;nI < m_psnChildren.Length;nI++)
                 {
-                    clsPerson oChild = m_oDb.GetPerson(m_psnChildren[nI].GetPersonID());
+                    clsPerson oChild = m_oDb.getPerson(m_psnChildren[nI].GetPersonID());
                     if(oChild.HasChildren())
                     {
                         e.Graphics.DrawLine(oPen,m_psnChildren[nI].Left + m_psnChildren[nI].Width / 2,m_psnChildren[nI].Top + m_psnChildren[nI].Height,m_psnChildren[nI].Left + m_psnChildren[nI].Width / 2,m_psnChildren[nI].Top + m_psnChildren[nI].Height + 5);

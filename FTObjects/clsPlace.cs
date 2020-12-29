@@ -15,7 +15,7 @@ namespace FamilyTree.Objects
         #region Member Variables
 
         /// <summary>Database that this place is attached to.</summary>
-        private clsDatabase m_oDb;
+        private Database m_oDb;
 
         /// <summary>ID of this place in the database.</summary>
         private int m_nID;
@@ -63,7 +63,7 @@ namespace FamilyTree.Objects
 
         #region Constructors and Database
 
-        public clsPlace(OleDbDataReader drPlace,clsDatabase oDb)
+        public clsPlace(OleDbDataReader drPlace,Database oDb)
         {
             m_oDb = oDb;            
             Read(drPlace);            
@@ -76,7 +76,7 @@ namespace FamilyTree.Objects
         /// </summary>
         /// <param name="nID">Specifies the ID of the place.</param>
         /// <param name="oDb">Specifies the database that contains the place.</param>
-        public clsPlace(int nID, clsDatabase oDb)
+        public clsPlace(int nID, Database oDb)
         {
             m_oDb = oDb;
             m_nID = nID;
@@ -132,10 +132,10 @@ namespace FamilyTree.Objects
 
         private void Read(OleDbDataReader drPlace)
         {
-            m_nID = clsDatabase.GetInt(drPlace, "ID", 0);
-            m_sName = clsDatabase.GetString(drPlace, "Name", "Error");
-            m_nParentID = clsDatabase.GetInt(drPlace, "ParentID", 0);
-            m_nStatus = clsDatabase.GetInt(drPlace, "Status", 0);
+            m_nID = Database.GetInt(drPlace, "ID", 0);
+            m_sName = Database.GetString(drPlace, "Name", "Error");
+            m_nParentID = Database.GetInt(drPlace, "ParentID", 0);
+            m_nStatus = Database.GetInt(drPlace, "Status", 0);
             m_dLongitude = Innoval.clsDatabase.GetFloat(drPlace, "Longitude", -999);
             m_dLatitude = Innoval.clsDatabase.GetFloat(drPlace, "Latitude", -999);
             m_nGoogleZoom = Innoval.clsDatabase.GetInt(drPlace, "GoogleZoom", 10);
@@ -377,7 +377,7 @@ namespace FamilyTree.Objects
                 sbHtml.Append("<a href=\"place:" + drChildren.GetInt32(0).ToString() + "\">");
                 sbHtml.Append(drChildren.GetString(1));
                 sbHtml.Append("</a>");
-                if(clsDatabase.GetInt(drChildren, "Status", 0) == 0)
+                if(Database.GetInt(drChildren, "Status", 0) == 0)
                 {
                     sbHtml.Append(" (Place)");
                 }

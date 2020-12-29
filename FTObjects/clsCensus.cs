@@ -20,7 +20,7 @@ namespace FamilyTree.Objects
 		private int m_nID;
 
         /// <summary>The source database for this census record.</summary>
-        private clsDatabase m_oDb;
+        private Database m_oDb;
 
 		/// <summary>The date of this census record.  In pratice all the census data from a particular year will be taken on the same date.</summary>
         public DateTime CensusDate;
@@ -65,7 +65,7 @@ namespace FamilyTree.Objects
 		public clsCensus
 			(
 			int nID,
-			clsDatabase oDb
+			Database oDb
 			) : this(nID)
 		{
             m_oDb = oDb;
@@ -95,7 +95,7 @@ namespace FamilyTree.Objects
         /// <summary>Writes the census record into the specified database.</summary>
 		/// <param name="oDb">Specifies the database to write the census record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-		public bool Save			(			clsDatabase oDb			)
+		public bool Save			(			Database oDb			)
 		{
 			// Validate the ID
 			if(m_nID==0)

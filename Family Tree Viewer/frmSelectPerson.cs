@@ -16,7 +16,7 @@ namespace FamilyTree.Viewer
 		#region Member Variables
 
 		/// <summary>Database that this dialog can select from.</summary>
-		private	clsDatabase m_oDB;
+		private	Database m_oDB;
 
 		private System.Windows.Forms.Button cmdOK;
 		private System.Windows.Forms.Button cmdCancel;
@@ -58,14 +58,14 @@ namespace FamilyTree.Viewer
 		public int SelectPerson
 			(
 			IWin32Window	oOwner,
-			clsDatabase		oDB
+			Database		oDB
 			)
 		{
 			// Store the parameters
 			m_oDB = oDB;
 
 			// Load a list of all people into the listbox
-			clsIDName[] oPeople = oDB.GetPeople(enumChooseSex.Either,enumSortOrder.Date,0,9999);
+			IndexName[] oPeople = oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Date,0,9999);
 
 			// Populate the list box
 			for(int nI=0;nI<oPeople.Length;nI++)
@@ -86,13 +86,13 @@ namespace FamilyTree.Viewer
 			}
 
 			// Find the selected person
-			clsIDName oSelected = (clsIDName)this.lstPeople.SelectedItem;
+			IndexName oSelected = (IndexName)this.lstPeople.SelectedItem;
 
 			// Close the form
 			this.Dispose();
 
 			// Return the selected person
-			return oSelected.ID;
+			return oSelected.index;
 		}
 
 		// *******************************************************************************************************************
@@ -216,7 +216,7 @@ namespace FamilyTree.Viewer
 			if(this.radioDate.Checked)
 			{
 				// Load a list of all people into the listbox
-				clsIDName[] oPeople = m_oDB.GetPeople(enumChooseSex.Either,enumSortOrder.Date,0,3000);
+				IndexName[] oPeople = m_oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Date,0,3000);
 
 				// Populate the list box
 				this.lstPeople.Items.Clear();
@@ -232,7 +232,7 @@ namespace FamilyTree.Viewer
 			if(this.radioAlpha.Checked)
 			{
 				// Load a list of all people into the listbox
-				clsIDName[] oPeople = m_oDB.GetPeople(enumChooseSex.Either,enumSortOrder.Alphabetical,0,3000);
+				IndexName[] oPeople = m_oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Alphabetical,0,3000);
 
 				// Populate the list box
 				this.lstPeople.Items.Clear();

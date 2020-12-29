@@ -8,164 +8,164 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-	/// <summary>
-	/// Summary description for frmEditCensus.
-	/// </summary>
-	public class frmEditCensus : System.Windows.Forms.Form
-	{
-		/// <summary>Connection to the database.</summary>
-		private clsDatabase m_oDb;
+    /// <summary>
+    /// Summary description for frmEditCensus.
+    /// </summary>
+    public class frmEditCensus : System.Windows.Forms.Form
+    {
+        /// <summary>Connection to the database.</summary>
+        private Database m_oDb;
 
-		private System.Windows.Forms.ComboBox m_cboYear;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox m_cboYear;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox m_cboAddress;
-		private System.Windows.Forms.ImageList imageList16x16;
-		private System.Windows.Forms.Button m_cmdCreate;
-		private System.Windows.Forms.ComboBox comboBox1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.DataGrid m_PeopleGrid;
+        private System.Windows.Forms.ImageList imageList16x16;
+        private System.Windows.Forms.Button m_cmdCreate;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGrid m_PeopleGrid;
         private System.Windows.Forms.GroupBox m_grpPerson;
         private System.Windows.Forms.ComboBox m_cboPerson;
         private Button m_cmdRemovePerson;
         private Button m_cmdAddPerson;
-		private System.ComponentModel.IContainer components;
+        private System.ComponentModel.IContainer components;
 
-		/// <summary>
-		/// Class constructor.
-		/// Estabishes the connection to the specified database.
-		/// </summary>
-		/// <param name="oDb">Specifies the database to read the census data from.</param>
-		/// <param name="nInitialRecord">Specifies the ID of the initial record to display.  Or 0 for nothing.</param>	
-		public frmEditCensus
-			(
-			clsDatabase oDb,
-			int nInitialRecord
-			)
-		{
-			// Required for Windows Form Designer support
-			InitializeComponent();
+        /// <summary>
+        /// Class constructor.
+        /// Estabishes the connection to the specified database.
+        /// </summary>
+        /// <param name="oDb">Specifies the database to read the census data from.</param>
+        /// <param name="nInitialRecord">Specifies the ID of the initial record to display.  Or 0 for nothing.</param>	
+        public frmEditCensus
+            (
+            Database oDb,
+            int nInitialRecord
+            )
+        {
+            // Required for Windows Form Designer support
+            InitializeComponent();
 
-			// Initialise member variables
-			m_oDb = oDb;
+            // Initialise member variables
+            m_oDb = oDb;
 
-			// Intialise the grid to display CensusPerson objects
-			// Create a DataGridTabkeStyle object for the facts
-			DataGridTableStyle oMembersTable = new DataGridTableStyle();
-			oMembersTable.MappingName= "clsCensusPerson[]";
+            // Intialise the grid to display CensusPerson objects
+            // Create a DataGridTabkeStyle object for the facts
+            DataGridTableStyle oMembersTable = new DataGridTableStyle();
+            oMembersTable.MappingName = "clsCensusPerson[]";
 
-			// Sets the AlternatingBackColor so you can see the difference.
-			oMembersTable.AlternatingBackColor= System.Drawing.Color.LightBlue;
+            // Sets the AlternatingBackColor so you can see the difference.
+            oMembersTable.AlternatingBackColor = System.Drawing.Color.LightBlue;
 
-			// Creates a column for the person
-			DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
-			columnPerson.MappingName= "PersonName";
-			columnPerson.HeaderText= "DB Name";
-			columnPerson.ReadOnly = true;
-			columnPerson.Width = 150;
+            // Creates a column for the person
+            DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
+            columnPerson.MappingName = "PersonName";
+            columnPerson.HeaderText = "DB Name";
+            columnPerson.ReadOnly = true;
+            columnPerson.Width = 150;
 
-			DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
-			columnName.MappingName= "CensusName";
-			columnName.HeaderText= "Entered Name";
-			columnName.Width = 150;
+            DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
+            columnName.MappingName = "CensusName";
+            columnName.HeaderText = "Entered Name";
+            columnName.Width = 150;
 
-			// Create a column for the Relation
-			DataGridTextBoxColumn columnRelation = new DataGridTextBoxColumn();
-			columnRelation.MappingName= "RelationToHead";
-			columnRelation.HeaderText= "Relation";
-			columnRelation.Width = 50;
+            // Create a column for the Relation
+            DataGridTextBoxColumn columnRelation = new DataGridTextBoxColumn();
+            columnRelation.MappingName = "RelationToHead";
+            columnRelation.HeaderText = "Relation";
+            columnRelation.Width = 50;
 
-			// Create a column for the age
-			DataGridTextBoxColumn columnAge = new DataGridTextBoxColumn();
-			columnAge.MappingName= "Age";
-			columnAge.HeaderText= "Age";
-			columnAge.Width = 50;
+            // Create a column for the age
+            DataGridTextBoxColumn columnAge = new DataGridTextBoxColumn();
+            columnAge.MappingName = "Age";
+            columnAge.HeaderText = "Age";
+            columnAge.Width = 50;
 
-			// Create a column for the Occupation
-			DataGridTextBoxColumn columnOccupation = new DataGridTextBoxColumn();
-			columnOccupation.MappingName= "Occupation";
-			columnOccupation.HeaderText= "Occupation";
-			columnOccupation.Width = 100;
+            // Create a column for the Occupation
+            DataGridTextBoxColumn columnOccupation = new DataGridTextBoxColumn();
+            columnOccupation.MappingName = "Occupation";
+            columnOccupation.HeaderText = "Occupation";
+            columnOccupation.Width = 100;
 
-			// Create a column for the BornLocation
-			DataGridTextBoxColumn columnBorn = new DataGridTextBoxColumn();
-			columnBorn.MappingName= "BornLocation";
-			columnBorn.HeaderText= "Born";
-			columnBorn.Width = 150;
+            // Create a column for the BornLocation
+            DataGridTextBoxColumn columnBorn = new DataGridTextBoxColumn();
+            columnBorn.MappingName = "BornLocation";
+            columnBorn.HeaderText = "Born";
+            columnBorn.Width = 150;
 
-			// Adds the column styles to the grid table style.
-			oMembersTable.GridColumnStyles.Add(columnPerson);
-			oMembersTable.GridColumnStyles.Add(columnName);
-			oMembersTable.GridColumnStyles.Add(columnRelation);
-			oMembersTable.GridColumnStyles.Add(columnAge);
-			oMembersTable.GridColumnStyles.Add(columnOccupation);
-			oMembersTable.GridColumnStyles.Add(columnBorn);
+            // Adds the column styles to the grid table style.
+            oMembersTable.GridColumnStyles.Add(columnPerson);
+            oMembersTable.GridColumnStyles.Add(columnName);
+            oMembersTable.GridColumnStyles.Add(columnRelation);
+            oMembersTable.GridColumnStyles.Add(columnAge);
+            oMembersTable.GridColumnStyles.Add(columnOccupation);
+            oMembersTable.GridColumnStyles.Add(columnBorn);
 
-			// Add the table style to the collection, but clear the collection first.
-			m_PeopleGrid.TableStyles.Clear();
-			m_PeopleGrid.TableStyles.Add(oMembersTable);			
+            // Add the table style to the collection, but clear the collection first.
+            m_PeopleGrid.TableStyles.Clear();
+            m_PeopleGrid.TableStyles.Add(oMembersTable);
 
-			// Move to the initial record if specified
-			if(nInitialRecord!=0)
-			{
-				// Find the initial object
-				clsCensus oCensus = new clsCensus(nInitialRecord,m_oDb);
-				
-				// Move to the specified year
-				string sYear = oCensus.CensusDate.Year.ToString();
-				foreach(string sItem in m_cboYear.Items)
-				{
-					if(sItem==sYear)
-					{
-						this.m_cboYear.SelectedItem = sItem;
-					}
-				}
+            // Move to the initial record if specified
+            if (nInitialRecord != 0)
+            {
+                // Find the initial object
+                clsCensus oCensus = new clsCensus(nInitialRecord, m_oDb);
 
-				// Show the options in the address combo box
-				foreach(clsIDName oAddress in m_cboAddress.Items)
-				{
-					if(oAddress.ID==nInitialRecord)
-					{
-						m_cboAddress.SelectedItem = oAddress;
-					}
-				}
-			}
-		}
+                // Move to the specified year
+                string sYear = oCensus.CensusDate.Year.ToString();
+                foreach (string sItem in m_cboYear.Items)
+                {
+                    if (sItem == sYear)
+                    {
+                        this.m_cboYear.SelectedItem = sItem;
+                    }
+                }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+                // Show the options in the address combo box
+                foreach (IndexName oAddress in m_cboAddress.Items)
+                {
+                    if (oAddress.index == nInitialRecord)
+                    {
+                        m_cboAddress.SelectedItem = oAddress;
+                    }
+                }
+            }
+        }
 
-		private bool Save()
-		{
-			clsCensusPerson [] oMembers = (clsCensusPerson[])m_PeopleGrid.DataSource;
-			foreach(clsCensusPerson oPerson in oMembers)
-			{
-				oPerson.Save(m_oDb);
-			}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-			// Return success
-			return true;
-		}
+        private bool Save()
+        {
+            clsCensusPerson[] oMembers = (clsCensusPerson[])m_PeopleGrid.DataSource;
+            foreach (clsCensusPerson oPerson in oMembers)
+            {
+                oPerson.Save(m_oDb);
+            }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            // Return success
+            return true;
+        }
+
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Button cmdOK;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditCensus));
@@ -413,140 +413,140 @@ namespace FamilyTree.Viewer
             this.m_grpPerson.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
-		#endregion
+        }
+        #endregion
 
-		/// <summary>
-		/// Message handler for the year combo value changing.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cboYear_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Find the selected year
-			int nYear = int.Parse(m_cboYear.Text);
+        /// <summary>
+        /// Message handler for the year combo value changing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboYear_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Find the selected year
+            int nYear = int.Parse(m_cboYear.Text);
 
-			clsIDName [] oHouseholds = m_oDb.CenusGetHouseholds(nYear);
-			
-			// Add the available options to the address combo
-			m_cboAddress.Items.Clear();
-			foreach(clsIDName oHousehold in oHouseholds)
-			{
-				m_cboAddress.Items.Add(oHousehold);
-			}
-			
-			// Populate the list of people combo
-			clsIDName [] oPeople = m_oDb.GetPeople(enumChooseSex.Either,enumSortOrder.Alphabetical,nYear);
-			m_cboPerson.Items.Clear();
-			foreach(clsIDName oPerson in oPeople)
-			{
-				m_cboPerson.Items.Add(oPerson);
-			}
-		}
+            IndexName[] oHouseholds = m_oDb.CenusGetHouseholds(nYear);
 
-		/// <summary>
-		/// Message handler for the text in the household address combo changing.
-		/// If the text if the from the combo box then display the contents of the existing census household.
-		/// Otherwise, enable the creation of a new census household.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cboAddress_TextChanged(object sender, System.EventArgs e)
-		{
-			if(m_cboAddress.SelectedIndex>=0)
-			{
-				// Disable the creation of new households.  This one already exists.
-				m_cmdCreate.Enabled = false;
+            // Add the available options to the address combo
+            m_cboAddress.Items.Clear();
+            foreach (IndexName oHousehold in oHouseholds)
+            {
+                m_cboAddress.Items.Add(oHousehold);
+            }
 
-				m_cboPerson.Enabled = true;
-				m_cmdAddPerson.Enabled = true;
-				m_cmdRemovePerson.Enabled = true;
+            // Populate the list of people combo
+            IndexName[] oPeople = m_oDb.GetPeople(ChooseSex.EITHER, enumSortOrder.Alphabetical, nYear);
+            m_cboPerson.Items.Clear();
+            foreach (IndexName oPerson in oPeople)
+            {
+                m_cboPerson.Items.Add(oPerson);
+            }
+        }
 
-				// Find the ID of the household
-				clsIDName oAddress = (clsIDName)m_cboAddress.SelectedItem;
-				int nHouseholdID = oAddress.ID;
+        /// <summary>
+        /// Message handler for the text in the household address combo changing.
+        /// If the text if the from the combo box then display the contents of the existing census household.
+        /// Otherwise, enable the creation of a new census household.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboAddress_TextChanged(object sender, System.EventArgs e)
+        {
+            if (m_cboAddress.SelectedIndex >= 0)
+            {
+                // Disable the creation of new households.  This one already exists.
+                m_cmdCreate.Enabled = false;
 
-				// Display the members of this household
-				m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(nHouseholdID),"");
-			}
-			else
-			{
-				// Disable the editing of the people.  This household does not exist yet.
-				m_cmdCreate.Enabled = true;
+                m_cboPerson.Enabled = true;
+                m_cmdAddPerson.Enabled = true;
+                m_cmdRemovePerson.Enabled = true;
 
-				m_cboPerson.Enabled = false;
-				m_cmdAddPerson.Enabled = false;
-				m_cmdRemovePerson.Enabled = false;
-				
-			}
-		}
+                // Find the ID of the household
+                IndexName oAddress = (IndexName)m_cboAddress.SelectedItem;
+                int nHouseholdID = oAddress.index;
 
-		/// <summary>
-		/// Message handler for the save button.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cmdSave_Click(object sender, System.EventArgs e)
-		{
-			Save();
-		}
+                // Display the members of this household
+                m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(nHouseholdID), "");
+            }
+            else
+            {
+                // Disable the editing of the people.  This household does not exist yet.
+                m_cmdCreate.Enabled = true;
 
-		/// <summary>
-		/// Message handler for the add person to the census button.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cmdAddPerson_Click(object sender, System.EventArgs e)
-		{
-			// Find the ID of the person selected
-			if(m_cboPerson.SelectedItem==null)
-			{
-				// No one is selected
-				return;
-			}
-			clsIDName oLookup = (clsIDName)m_cboPerson.SelectedItem;
+                m_cboPerson.Enabled = false;
+                m_cmdAddPerson.Enabled = false;
+                m_cmdRemovePerson.Enabled = false;
 
-			// Find the ID of the current household
-			if(m_cboAddress.SelectedIndex<0)
-			{
-				// No Household is selected
-				return;
-			}
-			clsIDName oHousehold = (clsIDName)m_cboAddress.SelectedItem;
+            }
+        }
 
-			// Load the person to get his name
-			clsPerson oPerson = new clsPerson(oLookup.ID,m_oDb);
-			
-			// Create a new object to add to the list box
-			clsCensusPerson oMember = new clsCensusPerson();
-			oMember.ID = 0;
-			oMember.HouseholdID = oHousehold.ID;
-			oMember.PersonID = oPerson.ID;
-			oMember.PersonName = oPerson.GetName(true,true);
-			oMember.CensusName = oPerson.GetName(false,true);
+        /// <summary>
+        /// Message handler for the save button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmdSave_Click(object sender, System.EventArgs e)
+        {
+            Save();
+        }
 
-			oMember.Save(m_oDb);
+        /// <summary>
+        /// Message handler for the add person to the census button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmdAddPerson_Click(object sender, System.EventArgs e)
+        {
+            // Find the ID of the person selected
+            if (m_cboPerson.SelectedItem == null)
+            {
+                // No one is selected
+                return;
+            }
+            IndexName oLookup = (IndexName)m_cboPerson.SelectedItem;
 
-			// Display the members of this household
-			m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(oHousehold.ID),"");
-		}
+            // Find the ID of the current household
+            if (m_cboAddress.SelectedIndex < 0)
+            {
+                // No Household is selected
+                return;
+            }
+            IndexName oHousehold = (IndexName)m_cboAddress.SelectedItem;
 
-		private void cmdRemovePerson_Click(object sender, System.EventArgs e)
-		{
-			// Check that a person is selected in the grid
-			if(m_PeopleGrid.CurrentCell.RowNumber<0)			
-			{
-				return;
-			}
+            // Load the person to get his name
+            clsPerson oPerson = new clsPerson(oLookup.index, m_oDb);
 
-			// Find the fact
-			clsCensusPerson oMember = ((clsCensusPerson[])m_PeopleGrid.DataSource)[m_PeopleGrid.CurrentCell.RowNumber];
-			int nHouseholdID = oMember.HouseholdID;
-			oMember.Delete();			
-			Save();			
+            // Create a new object to add to the list box
+            clsCensusPerson oMember = new clsCensusPerson();
+            oMember.ID = 0;
+            oMember.HouseholdID = oHousehold.index;
+            oMember.PersonID = oPerson.ID;
+            oMember.PersonName = oPerson.GetName(true, true);
+            oMember.CensusName = oPerson.GetName(false, true);
 
-			// Display the members of this household
-			m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(nHouseholdID),"");
-		}
-	}
+            oMember.Save(m_oDb);
+
+            // Display the members of this household
+            m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(oHousehold.index), "");
+        }
+
+        private void cmdRemovePerson_Click(object sender, System.EventArgs e)
+        {
+            // Check that a person is selected in the grid
+            if (m_PeopleGrid.CurrentCell.RowNumber < 0)
+            {
+                return;
+            }
+
+            // Find the fact
+            clsCensusPerson oMember = ((clsCensusPerson[])m_PeopleGrid.DataSource)[m_PeopleGrid.CurrentCell.RowNumber];
+            int nHouseholdID = oMember.HouseholdID;
+            oMember.Delete();
+            Save();
+
+            // Display the members of this household
+            m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(nHouseholdID), "");
+        }
+    }
 }

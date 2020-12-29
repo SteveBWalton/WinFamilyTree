@@ -91,7 +91,7 @@ namespace FamilyTree.Objects
 		/// <param name="oFile">Specifies the Gedcom file to write the data into.</param>
 		/// <param name="oDb">Specifies the database to fetch additional information from.</param>
         /// <param name="lpfnProgressBar">Specifies a function to call to perform step the progress bar.</param>        
-        public void WriteGedcom(StreamWriter oFile, clsDatabase oDb, dgtVoid lpfnProgressBar,clsGedcomOptions oOptions)
+        public void WriteGedcom(StreamWriter oFile, Database oDb, funcVoid lpfnProgressBar,clsGedcomOptions oOptions)
         {
             foreach(clsFamily oFamily in m_oCollection)
             {
