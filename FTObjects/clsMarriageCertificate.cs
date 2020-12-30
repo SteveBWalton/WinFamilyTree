@@ -154,7 +154,7 @@ namespace FamilyTree.Objects
 				+",BrideFatherOccupation="+Database.ToDb(BrideFatherOccupation)
 				+",Witness="+Database.ToDb(Witness)
 				+" WHERE ID="+m_nID.ToString()+";";
-			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cnDB);
+			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cndb);
 			int nNumRows = oSql.ExecuteNonQuery();
 			if(nNumRows==0)
 			{
@@ -177,7 +177,7 @@ namespace FamilyTree.Objects
 					+","+Database.ToDb(BrideFatherOccupation)
 					+","+Database.ToDb(Witness)
 					+");";
-				oSql = new OleDbCommand(sSql,oDb.cnDB);
+				oSql = new OleDbCommand(sSql,oDb.cndb);
 				oSql.ExecuteNonQuery();
 			}
 

@@ -142,7 +142,7 @@
     <Compile Include="clsMarriageCertificate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsPerson.cs">
+    <Compile Include="Person.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsPlace.cs" />
@@ -160,7 +160,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsMedia.cs" />
-    <Compile Include="clsToDo.cs" />
+    <Compile Include="ToDo.cs" />
     <Compile Include="Innoval\clsDatabase.cs" />
     <Compile Include="Innoval\clsXml.cs" />
   </ItemGroup>

@@ -86,7 +86,7 @@ namespace FamilyTree.Objects
             m_oDb = oDb;
 
             // Open the specified media object
-            OleDbCommand oSql = new OleDbCommand("SELECT * FROM tbl_Media WHERE ID=" + nMediaID.ToString() + ";",oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand("SELECT * FROM tbl_Media WHERE ID=" + nMediaID.ToString() + ";",oDb.cndb);
             OleDbDataReader drMedia = oSql.ExecuteReader();
             if(drMedia.Read())
             {
@@ -136,7 +136,7 @@ namespace FamilyTree.Objects
             {
                 // Find the ID for the new Media object
                 sSql = "SELECT MAX(ID) AS NewID FROM tbl_Media;";
-                oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+                oSql = new OleDbCommand(sSql,m_oDb.cndb);
                 ID = 1 + int.Parse(oSql.ExecuteScalar().ToString());
 
                 // Insert a new media object
@@ -149,7 +149,7 @@ namespace FamilyTree.Objects
                 sbSql.Append(Innoval.clsDatabase.ToDb(Primary) + ",");
                 sbSql.Append(Innoval.clsDatabase.ToDb(Thumbnail) + ");");
             }
-            oSql = new OleDbCommand(sbSql.ToString(),m_oDb.cnDB);
+            oSql = new OleDbCommand(sbSql.ToString(),m_oDb.cndb);
             try
             {
                 oSql.ExecuteNonQuery();
@@ -165,7 +165,7 @@ namespace FamilyTree.Objects
             {
                 // Remove all the previous people
                 sSql = "DELETE FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + ID.ToString() + ";";
-                oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+                oSql = new OleDbCommand(sSql,m_oDb.cndb);
                 oSql.ExecuteNonQuery();
 
                 // Attach the new people
@@ -173,7 +173,7 @@ namespace FamilyTree.Objects
                 foreach(int nPersonID in oPeople)
                 {
                     sSql = "INSERT INTO tbl_AdditionalMediaForPeople (PersonID,MediaID) VALUES ("+nPersonID.ToString()+","+ID.ToString()+");";
-                    oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+                    oSql = new OleDbCommand(sSql,m_oDb.cndb);
                     try
                     {
                         oSql.ExecuteNonQuery();
@@ -244,7 +244,7 @@ namespace FamilyTree.Objects
                 sbHtml.Append("<table>");
                 foreach(int nPersonID in oPeople)
                 {
-                    clsPerson oPerson = new clsPerson(nPersonID,m_oDb);
+                    Person oPerson = new Person(nPersonID,m_oDb);
                     sbHtml.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">");
                     sbHtml.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
                     sbHtml.Append(oPerson.GetName(true,false));
@@ -272,7 +272,7 @@ namespace FamilyTree.Objects
         {
             // Find the people attached to this media object
             m_oAttachedPeople = new ArrayList();
-            OleDbCommand oSql = new OleDbCommand("SELECT PersonID FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + ID.ToString() + ";",m_oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand("SELECT PersonID FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + ID.ToString() + ";",m_oDb.cndb);
             OleDbDataReader drPeople = oSql.ExecuteReader();
             while(drPeople.Read())
             {

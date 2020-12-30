@@ -108,10 +108,10 @@ namespace FamilyTree.Objects
         /// <summary>Returns the person object specified by nPersonID.</summary>
         /// <param name="personIndex">Specifies the ID of the person required</param>
         /// <returns>The person objects co-responding the the ID specified by nPersonID</returns>
-        public clsPerson getPerson(int personIndex)
+        public Person getPerson(int personIndex)
         {
             // Open the specified person ID.
-            clsPerson person = new clsPerson(personIndex, this);
+            Person person = new Person(personIndex, this);
 
             // Return the person object.
             return person;
@@ -339,7 +339,7 @@ namespace FamilyTree.Objects
             int nFemaleID
             )
         {
-            OleDbCommand oSQL = new OleDbCommand("SELECT ID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE MaleID=" + nMaleID.ToString() + " AND FemaleID=" + nFemaleID.ToString() + " ORDER BY TheDate DESC;", cnDB);
+            OleDbCommand oSQL = new OleDbCommand("SELECT ID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE MaleID=" + nMaleID.ToString() + " AND FemaleID=" + nFemaleID.ToString() + " ORDER BY TheDate DESC;", cndb);
             OleDbDataReader drRelationship = oSQL.ExecuteReader();
             clsRelationship oRelationship = null;
             if (drRelationship.Read())
@@ -1807,142 +1807,136 @@ namespace FamilyTree.Objects
 
         #endregion
 
-        // Returns a list of the editors on this database.
-        /// <summary>
-        /// Returns a list of the editors on this database.
-        /// </summary>
+        /// <summary>Returns a list of the editors on this database.</summary>
         /// <returns>A list of the editors on this database.</returns>
-        public string[] GetEditors()
+        public string[] getEditors()
         {
             // Open a dataset of editors
-            string sSql = "SELECT Name FROM tbl_Editors ORDER BY Name;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drEditors = oSql.ExecuteReader();
+            string sql = "SELECT Name FROM tbl_Editors ORDER BY Name;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
 
             // Create an array list of the editors
-            ArrayList oEditors = new ArrayList();
-            while (drEditors.Read())
+            ArrayList editors = new ArrayList();
+            while (dataReader.Read())
             {
-                oEditors.Add(drEditors.GetString(0));
+                editors.Add(dataReader.GetString(0));
             }
 
             // Return the list of editors
-            return (string[])oEditors.ToArray(typeof(string));
+            return (string[])editors.ToArray(typeof(string));
         }
 
-        // Returns a html description of the ToDo items.
-        /// <summary>
-        /// Returns a html description of the ToDo items.
-        /// </summary>
+
+
+        /// <summary>Returns a html description of the ToDo items.</summary>
         /// <returns>A html description of the ToDo items.</returns>
-        public string GetToDoAsHtml()
+        public string getToDoAsHtml()
         {
             // Create a data adapter to load the information.
-            string sSql = "SELECT Description, Priority, PersonID, ID FROM tbl_ToDo ORDER BY Priority, ID;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drChanges = oSql.ExecuteReader();
+            string sql = "SELECT Description, Priority, PersonID, ID FROM tbl_ToDo ORDER BY Priority, ID;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
 
-            // Create a html document to return
-            StringBuilder sbHtml = new StringBuilder();
-            sbHtml.Append("<h1>To Do List</h1>");
-            sbHtml.Append("<table cellpadding=\"3\" cellspacing=\"2\">");
+            // Create a html document to return.
+            StringBuilder html = new StringBuilder();
+            html.Append("<h1>To Do List</h1>");
+            html.Append("<table cellpadding=\"3\" cellspacing=\"2\">");
 
-            while (drChanges.Read())
+            while (dataReader.Read())
             {
-                sbHtml.Append("<tr bgcolor=\"silver\">");
-                sbHtml.Append("<td><span class=\"Small\">");
-                int nPersonID = GetInt(drChanges, "PersonID", 0);
-                sbHtml.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
-                clsPerson oPerson = new clsPerson(nPersonID, this);
-                sbHtml.Append(oPerson.GetName(true, true));
-                sbHtml.Append("</a>");
-                sbHtml.Append("</span></td>");
+                html.Append("<tr bgcolor=\"silver\">");
+                html.Append("<td><span class=\"Small\">");
+                int nPersonID = GetInt(dataReader, "PersonID", 0);
+                html.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
+                Person oPerson = new Person(nPersonID, this);
+                html.Append(oPerson.GetName(true, true));
+                html.Append("</a>");
+                html.Append("</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetInt(drChanges,"Priority",0).ToString() + "</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"Description","") + "</span></td>");
-                sbHtml.Append("<td align=\"right\">" + GetInt(drChanges, "Priority", 0).ToString() + "</td>");
-                sbHtml.Append("<td>" + GetString(drChanges, "Description", "") + "</td>");
-                sbHtml.Append("</tr>");
+                html.Append("<td align=\"right\">" + GetInt(dataReader, "Priority", 0).ToString() + "</td>");
+                html.Append("<td>" + GetString(dataReader, "Description", "") + "</td>");
+                html.Append("</tr>");
             }
-            drChanges.Close();
-            sbHtml.Append("</table>");
+            dataReader.Close();
+            html.Append("</table>");
 
-            // Return the html that has been built
-            return sbHtml.ToString();
+            // Return the html that has been built.
+            return html.ToString();
         }
 
-        // Returns a html description of the recent changes.
-        /// <summary>
-        /// Returns a html description of the recent changes.
-        /// </summary>
+
+
+        /// <summary>Returns a html description of the recent changes.</summary>
 		/// <returns>A html description of the recent changes.</returns>
-		public string GetRecentChangesAsHtml()
+		public string getRecentChangesAsHtml()
         {
             // Create a data adapter to load the information.
-            string sSql = "SELECT Format(LastEditDate,'d-mmm-yyyy hh:mm:ss') AS EditDate,LastEditBy,Type,Name,ID FROM ("
-                + "SELECT tbl_Relationships.LastEditDate, tbl_Relationships.LastEditBy, 'Relationship' AS Type, tbl_People.Forenames+' '+ tbl_People.Surname+' & '+ tbl_People_1.Forenames+' '+ tbl_People_1.Surname AS Name, tbl_Relationships.ID "
+            string sql = "SELECT Format(LastEditDate, 'd-mmm-yyyy hh:mm:ss') AS EditDate,LastEditBy,Type,Name,ID FROM ("
+                + "SELECT tbl_Relationships.LastEditDate, tbl_Relationships.LastEditBy, 'Relationship' AS Type, tbl_People.Forenames + ' ' + tbl_People.Surname + ' & ' + tbl_People_1.Forenames + ' ' + tbl_People_1.Surname AS Name, tbl_Relationships.ID "
                 + "FROM (tbl_People INNER JOIN tbl_Relationships ON tbl_People.ID = tbl_Relationships.MaleID) INNER JOIN tbl_People AS tbl_People_1 ON tbl_Relationships.FemaleID = tbl_People_1.ID "
                 + "UNION "
                 + "SELECT LastEditDate, LastEditBy, 'Person' AS Type, Forenames +' '+Surname AS Name, ID FROM tbl_People "
                 + ")"
                 + "ORDER BY LastEditDate DESC;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drChanges = oSql.ExecuteReader();
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader drChanges = sqlCommand.ExecuteReader();
 
             // Create a html document to return
-            StringBuilder sbHtml = new StringBuilder();
+            StringBuilder html = new StringBuilder();
 
-            sbHtml.Append("<h1>Recent Changes</h1>");
-            sbHtml.Append("<table cellpadding=\"3\" cellspacing=\"2\">");
+            html.Append("<h1>Recent Changes</h1>");
+            html.Append("<table cellpadding=\"3\" cellspacing=\"2\">");
 
             while (drChanges.Read())
             {
-                sbHtml.Append("<tr bgcolor=\"silver\">");
+                html.Append("<tr bgcolor=\"silver\">");
                 /*
                 sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"EditDate","") + "</span></td>");
                 sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"LastEditBy","") + "</span></td>");
                 sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"Type","") + "</span></td>");
                 sbHtml.Append("<td><span class=\"Small\">");
                  */
-                sbHtml.Append("<td>" + GetString(drChanges, "EditDate", "") + "</td>");
-                sbHtml.Append("<td>" + GetString(drChanges, "LastEditBy", "") + "</td>");
-                sbHtml.Append("<td>" + GetString(drChanges, "Type", "") + "</td>");
-                sbHtml.Append("<td>");
+                html.Append("<td>" + GetString(drChanges, "EditDate", "") + "</td>");
+                html.Append("<td>" + GetString(drChanges, "LastEditBy", "") + "</td>");
+                html.Append("<td>" + GetString(drChanges, "Type", "") + "</td>");
+                html.Append("<td>");
                 switch (GetString(drChanges, "Type", ""))
                 {
                 case "Person":
-                    sbHtml.Append("<a href=\"person:" + GetInt(drChanges, "ID", 0) + "\">");
+                    html.Append("<a href=\"person:" + GetInt(drChanges, "ID", 0) + "\">");
                     break;
                 }
-                sbHtml.Append(GetString(drChanges, "Name", ""));
+                html.Append(GetString(drChanges, "Name", ""));
                 switch (GetString(drChanges, "Type", ""))
                 {
                 case "Person":
-                    sbHtml.Append("</a>");
+                    html.Append("</a>");
                     break;
                 }
 
-                sbHtml.Append("</td>");
-                sbHtml.Append("</tr>");
+                html.Append("</td>");
+                html.Append("</tr>");
             }
             drChanges.Close();
-            sbHtml.Append("</table>");
+            html.Append("</table>");
 
             // Return the html that has been built
-            return sbHtml.ToString();
+            return html.ToString();
         }
 
-        // Returns the input string with Html linebreaks as required.
-        /// <summary>
-        /// Returns the input string with Html linebreaks as required.
-        /// </summary>
-        /// <param name="sText">Specifies the input string.</param>
-        /// <returns>The specified input string with Html linebreaks.</returns>
-        public static string HtmlString(string sText)
-        {
-            StringBuilder sbHtml = new StringBuilder(sText);
-            sbHtml.Replace("\n", "<br />");
 
-            return sbHtml.ToString();
+
+        /// <summary>Returns the input string with Html linebreaks as required.</summary>
+        /// <param name="text">Specifies the input string.</param>
+        /// <returns>The specified input string with Html linebreaks.</returns>
+        public static string htmlString(string text)
+        {
+            StringBuilder html = new StringBuilder(text);
+            html.Replace("\n", "<br />");
+
+            return html.ToString();
         }
 
 
@@ -2169,81 +2163,79 @@ namespace FamilyTree.Objects
         #region Public Properties
 
         /// <summary>Connection to the database.</summary>
-        internal OleDbConnection cnDB { get { return cndb_; } }
+        internal OleDbConnection cndb { get { return cndb_; } }
 
         /// <summary>Range of differing ages to present people as possible marriage partners.</summary>
-        public int RelationshipRange { get { return marriedRange_; } set { marriedRange_ = value; } }
+        public int relationshipRange { get { return marriedRange_; } set { marriedRange_ = value; } }
 
         /// <summary>The filename of the source database file.</summary>
-        public string Filename { get { return fileName_; } }
+        public string fileName { get { return fileName_; } }
 
         #endregion
 
-        // Writes SQL script into the specified file
-        /// <summary>
-        /// Writes SQL script into the specified file
-        /// </summary>
-        /// <param name="sFilename">Specifies the filename of the SQL Script file to create.</param>
-        public void WriteSQL(string sFilename)
-        {
-            // Open the output file
-            StreamWriter oFile = new StreamWriter(sFilename, false);
 
-            // Write the table of people
-            oFile.WriteLine("--");
-            oFile.WriteLine("-- Insert the table of people.");
-            oFile.WriteLine("--");
-            oFile.WriteLine("DROP TABLE IF EXISTS PEOPLE;");
-            oFile.WriteLine("CREATE TABLE PEOPLE ('ID' INTEGER PRIMARY KEY,'SURNAME' TEXT,'FORENAMES' TEXT,'MAIDEN_NAME' TEXT);");
-            oFile.WriteLine("BEGIN TRANSACTION;");
-            // Get the list of people
+
+        /// <summary>Writes SQL script into the specified file.</summary>
+        /// <param name="fileName">Specifies the filename of the SQL Script file to create.</param>
+        public void writeSql(string fileName)
+        {
+            // Open the output file.
+            StreamWriter file = new StreamWriter(fileName, false);
+
+            // Write the table of people.
+            file.WriteLine("--");
+            file.WriteLine("-- Insert the table of people.");
+            file.WriteLine("--");
+            file.WriteLine("DROP TABLE IF EXISTS PEOPLE;");
+            file.WriteLine("CREATE TABLE PEOPLE ('ID' INTEGER PRIMARY KEY,'SURNAME' TEXT,'FORENAMES' TEXT,'MAIDEN_NAME' TEXT);");
+            file.WriteLine("BEGIN TRANSACTION;");
+            // Get the list of people.
             string sSql = "SELECT * FROM tbl_People ORDER BY ID;";
             OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
             OleDbDataReader drPlaces = oSql.ExecuteReader();
             while (drPlaces.Read())
             {
-                oFile.Write("INSERT INTO PEOPLE (ID,SURNAME,FORENAMES,MAIDEN_NAME) VALUES(");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(drPlaces, "ID", 0), 0) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "Surname", "")) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "Forenames", "")) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "MaidenName", "")) + "");
-                oFile.WriteLine(");");
+                file.Write("INSERT INTO PEOPLE (ID,SURNAME,FORENAMES,MAIDEN_NAME) VALUES(");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(drPlaces, "ID", 0), 0) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "Surname", "")) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "Forenames", "")) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "MaidenName", "")) + "");
+                file.WriteLine(");");
             }
             drPlaces.Close();
-            oFile.WriteLine("END TRANSACTION;");
-            oFile.WriteLine();
+            file.WriteLine("END TRANSACTION;");
+            file.WriteLine();
 
-            // Write the table of places
-            oFile.WriteLine("--");
-            oFile.WriteLine("-- Insert the table of places.");
-            oFile.WriteLine("--");
-            oFile.WriteLine("DROP TABLE IF EXISTS PLACES;");
-            oFile.WriteLine("CREATE TABLE PLACES ('ID' INTEGER PRIMARY KEY,'NAME' TEXT,'PARENT_ID' INTEGER,'STATUS' INTEGER,'LONGITUDE' REAL,'LATITUDE' REAL,'GOOGLE_ZOOM' INTEGER,'USE_PARENT_LOCATION' INTEGER,'PRIVATE_COMMENTS' TEXT);");
-            oFile.WriteLine("BEGIN TRANSACTION;");
-            // Get the list of places
+            // Write the table of places.
+            file.WriteLine("--");
+            file.WriteLine("-- Insert the table of places.");
+            file.WriteLine("--");
+            file.WriteLine("DROP TABLE IF EXISTS PLACES;");
+            file.WriteLine("CREATE TABLE PLACES ('ID' INTEGER PRIMARY KEY,'NAME' TEXT,'PARENT_ID' INTEGER,'STATUS' INTEGER,'LONGITUDE' REAL,'LATITUDE' REAL,'GOOGLE_ZOOM' INTEGER,'USE_PARENT_LOCATION' INTEGER,'PRIVATE_COMMENTS' TEXT);");
+            file.WriteLine("BEGIN TRANSACTION;");
+            // Get the list of places.
             sSql = "SELECT ID,Name,ParentID,Status,Longitude,Latitude,GoogleZoom,UseParentLocation,PrivateComments FROM tbl_Places ORDER BY ID;";
             oSql = new OleDbCommand(sSql, cndb_);
             drPlaces = oSql.ExecuteReader();
             while (drPlaces.Read())
             {
-                oFile.Write("INSERT INTO PLACES (ID,NAME,PARENT_ID,STATUS,LONGITUDE,LATITUDE,GOOGLE_ZOOM,USE_PARENT_LOCATION,PRIVATE_COMMENTS) VALUES(");
-                oFile.Write(ToDb(drPlaces.GetInt32(0), 0) + ",");
-                oFile.Write(ToDb(drPlaces.GetString(1)) + ",");
-                oFile.Write(ToDb(drPlaces.GetInt32(2), 0) + ",");
-                oFile.Write(drPlaces.GetInt32(3).ToString() + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(drPlaces, "Longitude", -999f), -999f) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(drPlaces, "Latitude", -999f), -999f) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(drPlaces, "GoogleZoom", 0), 0) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetBool(drPlaces, "UseParentLocation", false)) + ",");
-                oFile.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "PrivateComments", "")));
-                oFile.WriteLine(");");
+                file.Write("INSERT INTO PLACES (ID,NAME,PARENT_ID,STATUS,LONGITUDE,LATITUDE,GOOGLE_ZOOM,USE_PARENT_LOCATION,PRIVATE_COMMENTS) VALUES(");
+                file.Write(ToDb(drPlaces.GetInt32(0), 0) + ",");
+                file.Write(ToDb(drPlaces.GetString(1)) + ",");
+                file.Write(ToDb(drPlaces.GetInt32(2), 0) + ",");
+                file.Write(drPlaces.GetInt32(3).ToString() + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(drPlaces, "Longitude", -999f), -999f) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(drPlaces, "Latitude", -999f), -999f) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(drPlaces, "GoogleZoom", 0), 0) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetBool(drPlaces, "UseParentLocation", false)) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "PrivateComments", "")));
+                file.WriteLine(");");
             }
             drPlaces.Close();
-            oFile.Write("END TRANSACTION;");
+            file.Write("END TRANSACTION;");
 
             // Close the output file
-            oFile.Close();
+            file.Close();
         }
-
     }
 }

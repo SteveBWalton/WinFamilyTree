@@ -59,7 +59,7 @@ namespace FamilyTree.Viewer
             m_Centre.Y = 0;
 
             // Initialise the form
-            FamilyTree.Objects.clsPerson oPerson = new FamilyTree.Objects.clsPerson(oTree.BasePersonID, oTree.Database);
+            FamilyTree.Objects.Person oPerson = new FamilyTree.Objects.Person(oTree.BasePersonID, oTree.Database);
             Text = oPerson.GetName(true, true) + " - Tree";
 
             // Initialise the print document
@@ -112,7 +112,7 @@ namespace FamilyTree.Viewer
                 // Save the main person in the tree
                 Innoval.clsXmlNode oTree = oSave.GetNode("tree");
                 oTree.SetAttributeValue("mainperson",m_oTree.BasePersonID);
-                oTree.SetAttributeValue("document",m_oTree.Database.Filename);
+                oTree.SetAttributeValue("document",m_oTree.Database.fileName);
 
                 // Save the options on the tree
                 m_oTree.Options.Save(oSave);

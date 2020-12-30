@@ -15,7 +15,7 @@ namespace FamilyTree.Viewer
         #region Member Variables
 
         /// <summary>Person object to edit.</summary>
-        private clsPerson person_;
+        private Person person_;
 
         /// <summary>Active sources.</summary>
         private clsSources sources_;
@@ -52,7 +52,7 @@ namespace FamilyTree.Viewer
             // Create the person object to edit.
             if (personIndex == 0)
             {
-                person_ = new clsPerson(database);
+                person_ = new Person(database);
             }
             else
             {
@@ -352,7 +352,7 @@ namespace FamilyTree.Viewer
         private void frmEditPerson_Shown(object sender, EventArgs e)
         {
             // Initialise the editor combo with the possible editors
-            string[] sEditors = person_.Database.GetEditors();
+            string[] sEditors = person_.Database.getEditors();
             foreach (string sEditor in sEditors)
             {
                 m_cboEditor.Items.Add(sEditor);
@@ -372,7 +372,7 @@ namespace FamilyTree.Viewer
         {
             // Save the record to the database
             person_.LastEditBy = m_cboEditor.SelectedItem.ToString();
-            person_.Save();
+            person_.save();
         }
 
         /// <summary>
@@ -671,7 +671,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                person_.Female = true;
+                person_.isFemale = true;
                 m_labMaidenName.Visible = true;
                 m_txtMaidenName.Visible = true;
             }
@@ -747,7 +747,7 @@ namespace FamilyTree.Viewer
         private void gridFacts_CurrentCellChanged(object sender, System.EventArgs e)
         {
             clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
-            RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].Sources, oFacts[m_gridFacts.CurrentCell.RowNumber].Information);
+            RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].Sources, oFacts[m_gridFacts.CurrentCell.RowNumber].information);
 
             // Update the description
             m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -1142,8 +1142,8 @@ namespace FamilyTree.Viewer
 
         private void cmdAddToDo_Click(object sender, EventArgs e)
         {
-            clsToDo oNew = new clsToDo();
-            oNew.PersonID = person_.ID;
+            ToDo oNew = new ToDo();
+            oNew.personIndex_ = person_.ID;
             oNew.Priority = 50;
             oNew.Description = "New ToDo item.";
 
@@ -1161,7 +1161,7 @@ namespace FamilyTree.Viewer
             }
 
             // Find the fact
-            clsToDo oToDo = ((clsToDo[])m_gridToDo.DataSource)[m_gridToDo.CurrentCell.RowNumber];
+            ToDo oToDo = ((ToDo[])m_gridToDo.DataSource)[m_gridToDo.CurrentCell.RowNumber];
             oToDo.Delete();
 
             // Update the display
@@ -1192,10 +1192,10 @@ namespace FamilyTree.Viewer
             // Find the fact
             clsFact oFact = ((clsFact[])m_gridFacts.DataSource)[oHitTestInfo.Row];
 
-            frmSelectLocation oDialog = new frmSelectLocation(person_.Database, oFact.Information);
+            frmSelectLocation oDialog = new frmSelectLocation(person_.Database, oFact.information);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
-                oFact.Information = oDialog.LocationName;
+                oFact.information = oDialog.LocationName;
                 m_gridFacts.Refresh();
             }
         }

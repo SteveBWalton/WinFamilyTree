@@ -233,7 +233,7 @@ namespace FamilyTree.Objects
 				sSql = "SELECT ID,SourceID FROM tbl_RelationshipsToSources WHERE RelationshipID=" + m_nRelationID.ToString() + " AND FactID=" + m_nFactID.ToString() + " ORDER BY Rank;";
 				break;
 			}
-			OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cnDB);
+			OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cndb);
 
 			// Read the list of sources from the database
 			int nRanking = 0;
@@ -272,17 +272,17 @@ namespace FamilyTree.Objects
 						switch(m_SourceTable)
 						{
 						case enumSourceTable.tbl_FactsToSources:
-							oSQL = new OleDbCommand("DELETE FROM tbl_FactsToSources WHERE ID="+oQSource.ID.ToString()+";",m_oDB.cnDB);
+							oSQL = new OleDbCommand("DELETE FROM tbl_FactsToSources WHERE ID="+oQSource.ID.ToString()+";",m_oDB.cndb);
 							oSQL.ExecuteNonQuery();
 							break;
 
 						case enumSourceTable.tbl_PeopleToSources:
-							oSQL = new OleDbCommand("DELETE FROM tbl_PeopleToSources WHERE ID="+oQSource.ID.ToString()+";",m_oDB.cnDB);
+							oSQL = new OleDbCommand("DELETE FROM tbl_PeopleToSources WHERE ID="+oQSource.ID.ToString()+";",m_oDB.cndb);
 							oSQL.ExecuteNonQuery();
 							break;
 
 						case enumSourceTable.tbl_RelationshipsToSources:
-							oSQL = new OleDbCommand("DELETE FROM tbl_RelationshipsToSources WHERE ID="+oQSource.ID.ToString()+";",m_oDB.cnDB);
+							oSQL = new OleDbCommand("DELETE FROM tbl_RelationshipsToSources WHERE ID="+oQSource.ID.ToString()+";",m_oDB.cndb);
 							oSQL.ExecuteNonQuery();
 							break;
 						}
@@ -296,31 +296,31 @@ namespace FamilyTree.Objects
 						switch(m_SourceTable)
 						{
 						case enumSourceTable.tbl_FactsToSources:
-							oSQL = new OleDbCommand("INSERT INTO tbl_FactsToSources (FactID,Rank,SourceID) VALUES ("+m_nFactID.ToString()+","+oQSource.Ranking.ToString()+","+oQSource.SourceID.ToString()+");",m_oDB.cnDB);
+							oSQL = new OleDbCommand("INSERT INTO tbl_FactsToSources (FactID,Rank,SourceID) VALUES ("+m_nFactID.ToString()+","+oQSource.Ranking.ToString()+","+oQSource.SourceID.ToString()+");",m_oDB.cndb);
 							oSQL.ExecuteNonQuery();
 
-							oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_FactsToSources;",m_oDB.cnDB);
+							oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_FactsToSources;",m_oDB.cndb);
 							oQSource.ID = (int)oSQL.ExecuteScalar();
 							break;
 						case enumSourceTable.tbl_PeopleToSources:
-							oSQL = new OleDbCommand("INSERT INTO tbl_PeopleToSources (PersonID,FactID,Rank,SourceID) VALUES ("+m_nPersonID.ToString()+","+m_nFactID.ToString()+","+oQSource.Ranking.ToString()+","+oQSource.SourceID.ToString()+");",m_oDB.cnDB);
+							oSQL = new OleDbCommand("INSERT INTO tbl_PeopleToSources (PersonID,FactID,Rank,SourceID) VALUES ("+m_nPersonID.ToString()+","+m_nFactID.ToString()+","+oQSource.Ranking.ToString()+","+oQSource.SourceID.ToString()+");",m_oDB.cndb);
 							oSQL.ExecuteNonQuery();
 
-							oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_PeopleToSources;",m_oDB.cnDB);
+							oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_PeopleToSources;",m_oDB.cndb);
 							oQSource.ID = (int)oSQL.ExecuteScalar();
 							break;
 
 						case enumSourceTable.tbl_RelationshipsToSources:
-							oSQL = new OleDbCommand("INSERT INTO tbl_RelationshipsToSources (RelationshipID,FactID,Rank,SourceID) VALUES ("+m_nRelationID.ToString()+","+m_nFactID.ToString()+","+oQSource.Ranking.ToString()+","+oQSource.SourceID.ToString()+");",m_oDB.cnDB);
+							oSQL = new OleDbCommand("INSERT INTO tbl_RelationshipsToSources (RelationshipID,FactID,Rank,SourceID) VALUES ("+m_nRelationID.ToString()+","+m_nFactID.ToString()+","+oQSource.Ranking.ToString()+","+oQSource.SourceID.ToString()+");",m_oDB.cndb);
 							oSQL.ExecuteNonQuery();
 
-							oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_RelationshipsToSources;",m_oDB.cnDB);
+							oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_RelationshipsToSources;",m_oDB.cndb);
 							oQSource.ID = (int)oSQL.ExecuteScalar();
 							break;
 						}
 
 						// Update the actual source with last used date
-						oSQL = new OleDbCommand("UPDATE tbl_Sources SET LastUsed=Now() WHERE ID="+oQSource.SourceID.ToString()+";",m_oDB.cnDB);
+						oSQL = new OleDbCommand("UPDATE tbl_Sources SET LastUsed=Now() WHERE ID="+oQSource.SourceID.ToString()+";",m_oDB.cndb);
 						oSQL.ExecuteNonQuery();					
 					}
 					else
@@ -344,7 +344,7 @@ namespace FamilyTree.Objects
 						}
 						if(sSql!="")
 						{
-							OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cnDB);
+							OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cndb);
 							oSql.ExecuteNonQuery();
 						}
 					}
@@ -563,7 +563,7 @@ namespace FamilyTree.Objects
 				{
 					// Check that the source is Gedcom enabled.
 					string sSql = "SELECT Gedcom FROM tbl_Sources WHERE ID="+nID[nI].ToString()+";";
-					OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cnDB);
+					OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cndb);
 					bInclude = bool.Parse(oSql.ExecuteScalar().ToString());
 				}
 				if(bInclude)
@@ -585,7 +585,7 @@ namespace FamilyTree.Objects
 			)
 		{
 			string sSql = "SELECT Gedcom FROM tbl_Sources WHERE ID="+nSourceID.ToString()+";";
-			OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cnDB);
+			OleDbCommand oSql = new OleDbCommand(sSql,m_oDB.cndb);
 			return bool.Parse(oSql.ExecuteScalar().ToString());
 		}
 

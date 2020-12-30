@@ -130,7 +130,7 @@ namespace FamilyTree.Viewer
                     break;
 
                 case enumConMainPerson.Child:
-                    clsPerson oMainPerson = new clsPerson(oPerson.PersonID,m_oTree.Database);
+                    Person oMainPerson = new Person(oPerson.PersonID,m_oTree.Database);
                     m_bMale = oMainPerson.isMale;
                     break;
 

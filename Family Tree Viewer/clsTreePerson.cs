@@ -84,7 +84,7 @@ namespace FamilyTree.Viewer
 			m_Connection = enumConnection.cnBoth;
 			
 			// Get the information required from the database
-			clsPerson oPerson = new clsPerson(nPersonID,m_oTree.Database);
+			Person oPerson = new Person(nPersonID,m_oTree.Database);
 			m_sName = oPerson.GetName(false,true);
 			m_sDescription = oPerson.ShortDescription(false);
             m_sNameWithYears = oPerson.GetName(true,true);
@@ -500,7 +500,7 @@ namespace FamilyTree.Viewer
             }
 
             // Get this person
-            clsPerson oPerson = new clsPerson(m_nPersonID, m_oTree.Database);
+            Person oPerson = new Person(m_nPersonID, m_oTree.Database);
 
             // Add the partners to the person
             enumConMainPerson nType;
@@ -529,13 +529,13 @@ namespace FamilyTree.Viewer
                 m_oTree.AddFamily(m_oDescendants[nI]);
                 if(oPerson.isMale)
                 {
-                    clsTreePerson oMother = new clsTreePerson(m_oTree, oRelationships[nIndex].PartnerID);
+                    clsTreePerson oMother = new clsTreePerson(m_oTree, oRelationships[nIndex].partnerIndex);
                     m_oDescendants[nI].AddMother(oMother);
                     m_oTree.AddPerson(oMother);
                 }
                 else
                 {
-                    clsTreePerson oFather = new clsTreePerson(m_oTree, oRelationships[nIndex].PartnerID);
+                    clsTreePerson oFather = new clsTreePerson(m_oTree, oRelationships[nIndex].partnerIndex);
                     m_oDescendants[nI].AddFather(oFather);
                     m_oTree.AddPerson(oFather);
                 }
@@ -593,7 +593,7 @@ namespace FamilyTree.Viewer
             }
 
             // Create the child person object
-            clsPerson oChild = new clsPerson(nChildID, m_oTree.Database);
+            Person oChild = new Person(nChildID, m_oTree.Database);
 
             // Search for the connection that matches with this person
             for(int nI = 0; nI < m_oDescendants.Length; nI++)
@@ -653,7 +653,7 @@ namespace FamilyTree.Viewer
         public void AddAncestors(bool bPrimaryPerson, clsTreeRule[] oRules)
         {
             // Get this person
-            clsPerson oPerson = new clsPerson(m_nPersonID, m_oTree.Database);
+            Person oPerson = new Person(m_nPersonID, m_oTree.Database);
             if(oPerson.FatherID == 0 && oPerson.MotherID == 0)
             {
                 // Nothing to do
@@ -727,7 +727,7 @@ namespace FamilyTree.Viewer
                 clsTreePerson oSibling = new clsTreePerson(m_oTree, Siblings[nIndex]);
                 m_oTree.AddPerson(oSibling);
 
-                clsPerson oHalfSibling = new clsPerson(Siblings[nIndex], m_oTree.Database);
+                Person oHalfSibling = new Person(Siblings[nIndex], m_oTree.Database);
                 if(oHalfSibling.FatherID != oPerson.FatherID)
                 {
                     oSibling.Connection = enumConnection.cnMother;
@@ -812,8 +812,8 @@ namespace FamilyTree.Viewer
         /// <returns>True if the person is older than the specified person, false otherwise.</returns>
         public bool IsOlder(int nPersonID)
         {
-            clsPerson oPerson = new clsPerson(m_nPersonID, m_oTree.Database);
-            clsPerson oOtherPerson = new clsPerson(nPersonID, m_oTree.Database);
+            Person oPerson = new Person(m_nPersonID, m_oTree.Database);
+            Person oOtherPerson = new Person(nPersonID, m_oTree.Database);
             if(oPerson.dob.Date < oOtherPerson.dob.Date)
             {
                 return true;

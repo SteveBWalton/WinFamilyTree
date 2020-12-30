@@ -11,7 +11,7 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmMain : System.Windows.Forms.Form
+    public partial class MainWindow : System.Windows.Forms.Form
     {
         /// <summary>
         /// Required designer variable.
@@ -42,7 +42,7 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.ToolStripMenuItem menuRecentChanges;
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
             System.Windows.Forms.ImageList oImageList16x16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             System.Windows.Forms.ToolStripMenuItem menuAddMedia;
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
@@ -91,22 +91,22 @@ namespace FamilyTree.Viewer
             this.m_menuRecentFile4 = new System.Windows.Forms.ToolStripMenuItem();
             this.m_menuImage = new System.Windows.Forms.ToolStripMenuItem();
             this.m_menuLocation = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_tslabStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.m_tsProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.m_labPerson = new System.Windows.Forms.Label();
-            this.m_labPersonDates = new System.Windows.Forms.Label();
+            this.tslabStatus_ = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsProgressBar_ = new System.Windows.Forms.ToolStripProgressBar();
+            this.labPerson_ = new System.Windows.Forms.Label();
+            this.labPersonDates_ = new System.Windows.Forms.Label();
             this.m_OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.m_SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.m_oPanelTree = new System.Windows.Forms.Panel();
+            this.panelTree_ = new System.Windows.Forms.Panel();
             this.m_marMotherParents = new FamilyTree.Viewer.ucRelationship();
             this.m_marFatherParents = new FamilyTree.Viewer.ucRelationship();
             this.m_marParents = new FamilyTree.Viewer.ucRelationship();
-            this.m_psnFatherFather = new FamilyTree.Viewer.ucPerson();
-            this.m_psnMother = new FamilyTree.Viewer.ucPerson();
-            this.m_psnMotherMother = new FamilyTree.Viewer.ucPerson();
-            this.m_psnFather = new FamilyTree.Viewer.ucPerson();
-            this.m_psnFatherMother = new FamilyTree.Viewer.ucPerson();
-            this.m_psnMotherFather = new FamilyTree.Viewer.ucPerson();
+            this.psnFatherFather_ = new FamilyTree.Viewer.ucPerson();
+            this.psnMother_ = new FamilyTree.Viewer.ucPerson();
+            this.psnMotherMother_ = new FamilyTree.Viewer.ucPerson();
+            this.psnFather_ = new FamilyTree.Viewer.ucPerson();
+            this.psnFatherMother_ = new FamilyTree.Viewer.ucPerson();
+            this.psnMotherFather_ = new FamilyTree.Viewer.ucPerson();
             this.m_oWebBrowser = new System.Windows.Forms.WebBrowser();
             menuExportGedcom = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
@@ -163,7 +163,7 @@ namespace FamilyTree.Viewer
             oToolStrip.SuspendLayout();
             oMainMenu.SuspendLayout();
             oStatusStrip.SuspendLayout();
-            this.m_oPanelTree.SuspendLayout();
+            this.panelTree_.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuExportGedcom
@@ -717,8 +717,8 @@ namespace FamilyTree.Viewer
             // oStatusStrip
             // 
             oStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.m_tslabStatus,
-            this.m_tsProgressBar,
+            this.tslabStatus_,
+            this.tsProgressBar_,
             tslabUserName});
             oStatusStrip.Location = new System.Drawing.Point(0, 465);
             oStatusStrip.Name = "oStatusStrip";
@@ -728,20 +728,20 @@ namespace FamilyTree.Viewer
             // 
             // m_tslabStatus
             // 
-            this.m_tslabStatus.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
-            this.m_tslabStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.m_tslabStatus.Name = "m_tslabStatus";
-            this.m_tslabStatus.Size = new System.Drawing.Size(697, 20);
-            this.m_tslabStatus.Spring = true;
-            this.m_tslabStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tslabStatus_.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.tslabStatus_.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tslabStatus_.Name = "m_tslabStatus";
+            this.tslabStatus_.Size = new System.Drawing.Size(697, 20);
+            this.tslabStatus_.Spring = true;
+            this.tslabStatus_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // m_tsProgressBar
             // 
-            this.m_tsProgressBar.Name = "m_tsProgressBar";
-            this.m_tsProgressBar.Size = new System.Drawing.Size(200, 19);
-            this.m_tsProgressBar.Step = 1;
-            this.m_tsProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.m_tsProgressBar.Visible = false;
+            this.tsProgressBar_.Name = "m_tsProgressBar";
+            this.tsProgressBar_.Size = new System.Drawing.Size(200, 19);
+            this.tsProgressBar_.Step = 1;
+            this.tsProgressBar_.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.tsProgressBar_.Visible = false;
             // 
             // tslabUserName
             // 
@@ -756,45 +756,45 @@ namespace FamilyTree.Viewer
             // 
             // m_labPerson
             // 
-            this.m_labPerson.BackColor = System.Drawing.Color.LightPink;
-            this.m_labPerson.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labPerson.Location = new System.Drawing.Point(3, 151);
-            this.m_labPerson.Name = "m_labPerson";
-            this.m_labPerson.Size = new System.Drawing.Size(312, 23);
-            this.m_labPerson.TabIndex = 3;
-            this.m_labPerson.Text = "label1";
-            this.m_labPerson.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.m_labPerson.Paint += new System.Windows.Forms.PaintEventHandler(this.labPerson_Paint);
+            this.labPerson_.BackColor = System.Drawing.Color.LightPink;
+            this.labPerson_.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labPerson_.Location = new System.Drawing.Point(3, 151);
+            this.labPerson_.Name = "m_labPerson";
+            this.labPerson_.Size = new System.Drawing.Size(312, 23);
+            this.labPerson_.TabIndex = 3;
+            this.labPerson_.Text = "label1";
+            this.labPerson_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labPerson_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPerson_Paint);
             // 
             // m_labPersonDates
             // 
-            this.m_labPersonDates.BackColor = System.Drawing.Color.LightPink;
-            this.m_labPersonDates.Location = new System.Drawing.Point(3, 174);
-            this.m_labPersonDates.Name = "m_labPersonDates";
-            this.m_labPersonDates.Size = new System.Drawing.Size(312, 41);
-            this.m_labPersonDates.TabIndex = 5;
-            this.m_labPersonDates.Text = "label1";
-            this.m_labPersonDates.Paint += new System.Windows.Forms.PaintEventHandler(this.labPersonDates_Paint);
+            this.labPersonDates_.BackColor = System.Drawing.Color.LightPink;
+            this.labPersonDates_.Location = new System.Drawing.Point(3, 174);
+            this.labPersonDates_.Name = "m_labPersonDates";
+            this.labPersonDates_.Size = new System.Drawing.Size(312, 41);
+            this.labPersonDates_.TabIndex = 5;
+            this.labPersonDates_.Text = "label1";
+            this.labPersonDates_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPersonDates_Paint);
             // 
             // m_oPanelTree
             // 
-            this.m_oPanelTree.Controls.Add(this.m_labPersonDates);
-            this.m_oPanelTree.Controls.Add(this.m_marMotherParents);
-            this.m_oPanelTree.Controls.Add(this.m_labPerson);
-            this.m_oPanelTree.Controls.Add(this.m_marFatherParents);
-            this.m_oPanelTree.Controls.Add(this.m_marParents);
-            this.m_oPanelTree.Controls.Add(this.m_psnFatherFather);
-            this.m_oPanelTree.Controls.Add(this.m_psnMother);
-            this.m_oPanelTree.Controls.Add(this.m_psnMotherMother);
-            this.m_oPanelTree.Controls.Add(this.m_psnFather);
-            this.m_oPanelTree.Controls.Add(this.m_psnFatherMother);
-            this.m_oPanelTree.Controls.Add(this.m_psnMotherFather);
-            this.m_oPanelTree.Dock = System.Windows.Forms.DockStyle.Top;
-            this.m_oPanelTree.Location = new System.Drawing.Point(0, 49);
-            this.m_oPanelTree.Name = "m_oPanelTree";
-            this.m_oPanelTree.Size = new System.Drawing.Size(804, 338);
-            this.m_oPanelTree.TabIndex = 16;
-            this.m_oPanelTree.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTree_Paint);
+            this.panelTree_.Controls.Add(this.labPersonDates_);
+            this.panelTree_.Controls.Add(this.m_marMotherParents);
+            this.panelTree_.Controls.Add(this.labPerson_);
+            this.panelTree_.Controls.Add(this.m_marFatherParents);
+            this.panelTree_.Controls.Add(this.m_marParents);
+            this.panelTree_.Controls.Add(this.psnFatherFather_);
+            this.panelTree_.Controls.Add(this.psnMother_);
+            this.panelTree_.Controls.Add(this.psnMotherMother_);
+            this.panelTree_.Controls.Add(this.psnFather_);
+            this.panelTree_.Controls.Add(this.psnFatherMother_);
+            this.panelTree_.Controls.Add(this.psnMotherFather_);
+            this.panelTree_.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTree_.Location = new System.Drawing.Point(0, 49);
+            this.panelTree_.Name = "m_oPanelTree";
+            this.panelTree_.Size = new System.Drawing.Size(804, 338);
+            this.panelTree_.TabIndex = 16;
+            this.panelTree_.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTree_Paint);
             // 
             // m_marMotherParents
             // 
@@ -819,63 +819,63 @@ namespace FamilyTree.Viewer
             // 
             // m_psnFatherFather
             // 
-            this.m_psnFatherFather.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.m_psnFatherFather.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_psnFatherFather.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_psnFatherFather.Location = new System.Drawing.Point(6, 3);
-            this.m_psnFatherFather.Name = "m_psnFatherFather";
-            this.m_psnFatherFather.Size = new System.Drawing.Size(150, 59);
-            this.m_psnFatherFather.TabIndex = 10;
+            this.psnFatherFather_.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.psnFatherFather_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.psnFatherFather_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.psnFatherFather_.Location = new System.Drawing.Point(6, 3);
+            this.psnFatherFather_.Name = "m_psnFatherFather";
+            this.psnFatherFather_.Size = new System.Drawing.Size(150, 59);
+            this.psnFatherFather_.TabIndex = 10;
             // 
             // m_psnMother
             // 
-            this.m_psnMother.BackColor = System.Drawing.Color.LightPink;
-            this.m_psnMother.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_psnMother.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_psnMother.Location = new System.Drawing.Point(160, 79);
-            this.m_psnMother.Name = "m_psnMother";
-            this.m_psnMother.Size = new System.Drawing.Size(150, 59);
-            this.m_psnMother.TabIndex = 2;
+            this.psnMother_.BackColor = System.Drawing.Color.LightPink;
+            this.psnMother_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.psnMother_.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.psnMother_.Location = new System.Drawing.Point(160, 79);
+            this.psnMother_.Name = "m_psnMother";
+            this.psnMother_.Size = new System.Drawing.Size(150, 59);
+            this.psnMother_.TabIndex = 2;
             // 
             // m_psnMotherMother
             // 
-            this.m_psnMotherMother.BackColor = System.Drawing.Color.LightPink;
-            this.m_psnMotherMother.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_psnMotherMother.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_psnMotherMother.Location = new System.Drawing.Point(482, 3);
-            this.m_psnMotherMother.Name = "m_psnMotherMother";
-            this.m_psnMotherMother.Size = new System.Drawing.Size(150, 59);
-            this.m_psnMotherMother.TabIndex = 13;
+            this.psnMotherMother_.BackColor = System.Drawing.Color.LightPink;
+            this.psnMotherMother_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.psnMotherMother_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.psnMotherMother_.Location = new System.Drawing.Point(482, 3);
+            this.psnMotherMother_.Name = "m_psnMotherMother";
+            this.psnMotherMother_.Size = new System.Drawing.Size(150, 59);
+            this.psnMotherMother_.TabIndex = 13;
             // 
             // m_psnFather
             // 
-            this.m_psnFather.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.m_psnFather.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_psnFather.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_psnFather.Location = new System.Drawing.Point(4, 79);
-            this.m_psnFather.Name = "m_psnFather";
-            this.m_psnFather.Size = new System.Drawing.Size(150, 59);
-            this.m_psnFather.TabIndex = 1;
+            this.psnFather_.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.psnFather_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.psnFather_.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.psnFather_.Location = new System.Drawing.Point(4, 79);
+            this.psnFather_.Name = "m_psnFather";
+            this.psnFather_.Size = new System.Drawing.Size(150, 59);
+            this.psnFather_.TabIndex = 1;
             // 
             // m_psnFatherMother
             // 
-            this.m_psnFatherMother.BackColor = System.Drawing.Color.LightPink;
-            this.m_psnFatherMother.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_psnFatherMother.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_psnFatherMother.Location = new System.Drawing.Point(160, 3);
-            this.m_psnFatherMother.Name = "m_psnFatherMother";
-            this.m_psnFatherMother.Size = new System.Drawing.Size(150, 59);
-            this.m_psnFatherMother.TabIndex = 11;
+            this.psnFatherMother_.BackColor = System.Drawing.Color.LightPink;
+            this.psnFatherMother_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.psnFatherMother_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.psnFatherMother_.Location = new System.Drawing.Point(160, 3);
+            this.psnFatherMother_.Name = "m_psnFatherMother";
+            this.psnFatherMother_.Size = new System.Drawing.Size(150, 59);
+            this.psnFatherMother_.TabIndex = 11;
             // 
             // m_psnMotherFather
             // 
-            this.m_psnMotherFather.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.m_psnMotherFather.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_psnMotherFather.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_psnMotherFather.Location = new System.Drawing.Point(326, 3);
-            this.m_psnMotherFather.Name = "m_psnMotherFather";
-            this.m_psnMotherFather.Size = new System.Drawing.Size(150, 59);
-            this.m_psnMotherFather.TabIndex = 12;
+            this.psnMotherFather_.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.psnMotherFather_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.psnMotherFather_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.psnMotherFather_.Location = new System.Drawing.Point(326, 3);
+            this.psnMotherFather_.Name = "m_psnMotherFather";
+            this.psnMotherFather_.Size = new System.Drawing.Size(150, 59);
+            this.psnMotherFather_.TabIndex = 12;
             // 
             // m_oWebBrowser
             // 
@@ -892,7 +892,7 @@ namespace FamilyTree.Viewer
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(804, 490);
             this.Controls.Add(this.m_oWebBrowser);
-            this.Controls.Add(this.m_oPanelTree);
+            this.Controls.Add(this.panelTree_);
             this.Controls.Add(oToolStrip);
             this.Controls.Add(oMainMenu);
             this.Controls.Add(oStatusStrip);
@@ -910,7 +910,7 @@ namespace FamilyTree.Viewer
             oMainMenu.PerformLayout();
             oStatusStrip.ResumeLayout(false);
             oStatusStrip.PerformLayout();
-            this.m_oPanelTree.ResumeLayout(false);
+            this.panelTree_.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -918,19 +918,19 @@ namespace FamilyTree.Viewer
         #endregion
 
         private System.Windows.Forms.OpenFileDialog m_OpenFileDialog;
-        private System.Windows.Forms.Label m_labPerson;
-        private System.Windows.Forms.Label m_labPersonDates;
-        private FamilyTree.Viewer.ucPerson m_psnFather;
-        private FamilyTree.Viewer.ucPerson m_psnMother;
-        private FamilyTree.Viewer.ucPerson m_psnFatherFather;
-        private FamilyTree.Viewer.ucPerson m_psnFatherMother;
-        private FamilyTree.Viewer.ucPerson m_psnMotherFather;
-        private FamilyTree.Viewer.ucPerson m_psnMotherMother;
+        private System.Windows.Forms.Label labPerson_;
+        private System.Windows.Forms.Label labPersonDates_;
+        private FamilyTree.Viewer.ucPerson psnFather_;
+        private FamilyTree.Viewer.ucPerson psnMother_;
+        private FamilyTree.Viewer.ucPerson psnFatherFather_;
+        private FamilyTree.Viewer.ucPerson psnFatherMother_;
+        private FamilyTree.Viewer.ucPerson psnMotherFather_;
+        private FamilyTree.Viewer.ucPerson psnMotherMother_;
         private FamilyTree.Viewer.ucRelationship m_marParents;
         private FamilyTree.Viewer.ucRelationship m_marFatherParents;
         private FamilyTree.Viewer.ucRelationship m_marMotherParents;
         private System.Windows.Forms.SaveFileDialog m_SaveFileDialog;
-        private Panel m_oPanelTree;
+        private Panel panelTree_;
         private WebBrowser m_oWebBrowser;
         private ToolStripMenuItem m_menuRecentFile1;
         private ToolStripMenuItem m_menuRecentFile2;
@@ -941,8 +941,8 @@ namespace FamilyTree.Viewer
         private ToolStripButton m_tsbBack;
         private ToolStripButton m_tsbForward;
         private ToolStripDropDownButton m_tsddbForward;
-        private ToolStripStatusLabel m_tslabStatus;
-        private ToolStripProgressBar m_tsProgressBar;
+        private ToolStripStatusLabel tslabStatus_;
+        private ToolStripProgressBar tsProgressBar_;
         private ToolStripMenuItem m_menuLocation;
         private ToolStripButton m_tsbLocation;
         private ToolStripButton m_tsbImage;

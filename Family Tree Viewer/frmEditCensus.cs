@@ -515,7 +515,7 @@ namespace FamilyTree.Viewer
             IndexName oHousehold = (IndexName)m_cboAddress.SelectedItem;
 
             // Load the person to get his name
-            clsPerson oPerson = new clsPerson(oLookup.index, m_oDb);
+            Person oPerson = new Person(oLookup.index, m_oDb);
 
             // Create a new object to add to the list box
             clsCensusPerson oMember = new clsCensusPerson();

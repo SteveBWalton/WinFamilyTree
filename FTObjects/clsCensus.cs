@@ -73,7 +73,7 @@ namespace FamilyTree.Objects
 			if(m_nID!=0)
 			{
 				string sSql = "SELECT CensusDate,Address,Series,Piece,Folio,Page FROM tbl_CensusHouseholds WHERE ID="+m_nID.ToString()+";";
-				OleDbCommand oSql = new OleDbCommand(sSql,oDb.cnDB);
+				OleDbCommand oSql = new OleDbCommand(sSql,oDb.cndb);
 				OleDbDataReader drCensus = oSql.ExecuteReader();
 				if(drCensus.Read())
 				{
@@ -110,7 +110,7 @@ namespace FamilyTree.Objects
                 "Folio="+Innoval.clsDatabase.ToDb(Folio)+","+
                 "Page="+Innoval.clsDatabase.ToDb(Page)+" "+
                 "WHERE ID="+m_nID.ToString()+";";
-			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cnDB);
+			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cndb);
 			int nNumRows = oSql.ExecuteNonQuery();
 			if(nNumRows==0)
 			{
@@ -119,7 +119,7 @@ namespace FamilyTree.Objects
                     Innoval.clsDatabase.ToDb(Piece) + "," +
                     Innoval.clsDatabase.ToDb(Folio) + "," +
                     Innoval.clsDatabase.ToDb(Page) + ");";
-				oSql = new OleDbCommand(sSql,oDb.cnDB);
+				oSql = new OleDbCommand(sSql,oDb.cndb);
 				oSql.ExecuteNonQuery();
 			}
 

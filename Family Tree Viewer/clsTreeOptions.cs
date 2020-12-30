@@ -197,7 +197,7 @@ namespace FamilyTree.Viewer
                 sbHtml.Append("<td>");
                 sbHtml.Append(clsTreeRule.ActionToString(oRule.Action));
                 sbHtml.Append("</td><td>");
-                clsPerson oPerson = new clsPerson(oRule.PersonID, oDb);
+                Person oPerson = new Person(oRule.PersonID, oDb);
                 sbHtml.Append(oPerson.GetName(true, true));
                 sbHtml.Append("</td><td>");
                 sbHtml.Append(oRule.Parameter);

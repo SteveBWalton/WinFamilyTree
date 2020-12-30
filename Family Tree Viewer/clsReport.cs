@@ -63,7 +63,7 @@ namespace FamilyTree.Viewer
         /// </remarks>
         /// <param name="oPerson">Specifies the person to add to the collection of people</param>
         /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddPerson            (            clsPerson oPerson,            ref SortedList oPeople            )
+        private void AddPerson            (            Person oPerson,            ref SortedList oPeople            )
         {
             // Add this person at their date of birth date specified.
             // Modify the time if the dates clash because we don't care about the time.
@@ -88,12 +88,12 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oPerson">Specifies the person to add the forebears of</param>
         /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddForebears            (            clsPerson oPerson,            ref SortedList oPeople            )
+        private void AddForebears            (            Person oPerson,            ref SortedList oPeople            )
         {
             // Add the father to the list
             if(oPerson.FatherID != 0)
             {
-                clsPerson oFather = new clsPerson(oPerson.FatherID, m_oDb);
+                Person oFather = new Person(oPerson.FatherID, m_oDb);
                 oFather.Tag = oPerson.Tag + "F";
                 AddPerson(oFather, ref oPeople);
 
@@ -104,7 +104,7 @@ namespace FamilyTree.Viewer
             // Add the mother to the list
             if(oPerson.MotherID != 0)
             {
-                clsPerson oMother = new clsPerson(oPerson.MotherID, m_oDb);
+                Person oMother = new Person(oPerson.MotherID, m_oDb);
                 oMother.Tag = oPerson.Tag + "M";
                 AddPerson(oMother, ref oPeople);
 
@@ -118,12 +118,12 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oPerson">Specifies the person to add the descendants of</param>
         /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddDescendants            (            clsPerson oPerson,            ref SortedList oPeople            )
+        private void AddDescendants            (            Person oPerson,            ref SortedList oPeople            )
         {
             int[] Children = oPerson.GetChildren();
             for(int nChild = 0; nChild < Children.Length; nChild++)
             {
-                clsPerson oChild = new clsPerson(Children[nChild], m_oDb);
+                Person oChild = new Person(Children[nChild], m_oDb);
                 oChild.Tag = oPerson.Tag + (nChild + 1).ToString() + ".";
                 AddPerson(oChild, ref oPeople);
 
@@ -139,14 +139,14 @@ namespace FamilyTree.Viewer
         /// <param name="oPeople">Specifies the collection of people to add to</param>
         private void AddSiblings
             (
-            clsPerson oPerson,
+            Person oPerson,
             ref SortedList oPeople
             )
         {
             int[] Siblings = oPerson.GetSiblings();
             for(int nChild = 0; nChild < Siblings.Length; nChild++)
             {
-                clsPerson oChild = new clsPerson(Siblings[nChild], m_oDb);
+                Person oChild = new Person(Siblings[nChild], m_oDb);
                 if(oChild.isMale)
                 {
                     oChild.Tag = "Brother";
@@ -173,7 +173,7 @@ namespace FamilyTree.Viewer
             SortedList oPeople = new SortedList();
 
             // Add the base person
-            clsPerson oPerson = new clsPerson(m_nPersonID, m_oDb);
+            Person oPerson = new Person(m_nPersonID, m_oDb);
             oPeople.Add(oPerson.dob.Date, oPerson);
 
             // Add the parents
@@ -189,7 +189,7 @@ namespace FamilyTree.Viewer
             StringBuilder sbHtml = new StringBuilder();
             for(int nI = 0; nI < oPeople.Count; nI++)
             {
-                oPerson = (clsPerson)oPeople.GetByIndex(nI);
+                oPerson = (Person)oPeople.GetByIndex(nI);
 
                 sbHtml.Append("<p>");
                 if(oPerson.Tag != "")

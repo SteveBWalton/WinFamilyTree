@@ -63,7 +63,7 @@ namespace FamilyTree.Viewer
 		/// <returns>True for success, false otherwise.</returns>
 		public bool SetPerson
 			(
-			clsPerson oPerson
+			Person oPerson
 			)
 		{
 			m_nPersonID = oPerson.ID;

@@ -122,7 +122,7 @@ namespace FamilyTree.Objects
                 + ",WhenRegistered=" + Database.ToDb(WhenRegistered)
                 + ",GroReference=" + Database.ToDb(GroReference)
                 + " WHERE ID=" + m_nID.ToString() + ";";
-			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cnDB);
+			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cndb);
 			int nNumRows = oSql.ExecuteNonQuery();
 			if(nNumRows==0)
 			{
@@ -142,7 +142,7 @@ namespace FamilyTree.Objects
 					+","+Database.ToDb(InformantAddress)
 					+","+Database.ToDb(WhenRegistered)
 					+");";
-				oSql = new OleDbCommand(sSql,oDb.cnDB);
+				oSql = new OleDbCommand(sSql,oDb.cndb);
 				oSql.ExecuteNonQuery();
 			}
 
@@ -165,7 +165,7 @@ namespace FamilyTree.Objects
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Date Place of Birth</SPAN></TD><TD colspan=3>" + DatePlaceOfBirth + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Occupation</SPAN></TD><TD colspan=3>" + Occupation + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Usual Address</SPAN></TD><TD colspan=3>" + UsualAddress + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Cause of Death</SPAN></TD><TD colspan=3>"+ Database.HtmlString(CauseOfDeath) + "</TD></TR>");
+            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Cause of Death</SPAN></TD><TD colspan=3>"+ Database.htmlString(CauseOfDeath) + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Informant</SPAN></TD><TD>"+ Informant + "</TD>");
             sbHtml.Append("<TD align=right><SPAN class=\"Death\">Informant Description</SPAN></TD><TD>"+ InformantDescription + "</TD></TR>");
             sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Informant Address</SPAN></TD><TD colspan=3>"+ InformantAddress + "</TD></TR>");
@@ -194,7 +194,7 @@ namespace FamilyTree.Objects
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Date Place of Birth&lt;/td&gt;&lt;td colspan=3>" + DatePlaceOfBirth + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Occupation&lt;/td&gt;&lt;td colspan=3>" + Occupation + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Usual Address&lt;/td&gt;&lt;td colspan=\"3\"&gt;" + UsualAddress + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Cause of Death&lt;/td&gt;&lt;td colspan=\"3\"&gt;"+ Database.HtmlString(CauseOfDeath) + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Cause of Death&lt;/td&gt;&lt;td colspan=\"3\"&gt;"+ Database.htmlString(CauseOfDeath) + "&lt;/td&gt;&lt;/tr&gt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Informant&lt;/td&gt;&lt;TD>"+ Informant + "&lt;/td&gt;");
             sbHtml.Append("<TD align=right>Informant Description&lt;/td&gt;&lt;td&gt;"+ InformantDescription + "&lt;/td&gt;&lt;/tr&gt;<br/>");
             sbHtml.Append("&lt;tr&gt;&lt;td&gt;Informant Address&lt;/td&gt;&lt;td class=\"data\" colspan=\"3\"&gt;"+ InformantAddress + "&lt;/td&gt;&lt;/tr&gt;<br/>");

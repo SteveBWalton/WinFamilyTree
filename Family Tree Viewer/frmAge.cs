@@ -18,7 +18,7 @@ namespace FamilyTree.Viewer
 		private Database m_oDB;
 
 		/// <summary>Person to calculate the age of.</summary>
-		private clsPerson m_oPerson;
+		private Person m_oPerson;
 
 		#endregion
 
@@ -52,7 +52,7 @@ namespace FamilyTree.Viewer
 			}
 
 			// Find the current person
-			m_oPerson = new clsPerson(nPersonID,m_oDB);
+			m_oPerson = new Person(nPersonID,m_oDB);
 			this.labDoB.Text = m_oPerson.dob.Format(DateFormat.FullLong);
 
 			// Default date
@@ -98,7 +98,7 @@ namespace FamilyTree.Viewer
 		private void cboPerson_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			IndexName oPerson = (IndexName)this.cboPerson.SelectedItem;
-			m_oPerson = new clsPerson(oPerson.index,m_oDB);
+			m_oPerson = new Person(oPerson.index,m_oDB);
 			labDoB.Text = m_oPerson.dob.Format(DateFormat.FullLong);
 			labTheAge.Text = m_oPerson.Age(this.ucDate1.Value);
 		}

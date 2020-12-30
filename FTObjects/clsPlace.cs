@@ -82,7 +82,7 @@ namespace FamilyTree.Objects
             m_nID = nID;
 
             string sSql = "SELECT ID,Name,ParentID,Status,Longitude,Latitude,GoogleZoom,UseParentLocation,PrivateComments FROM tbl_Places WHERE ID=" + m_nID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand(sSql, oDb.cndb);
             OleDbDataReader drPlace = oSql.ExecuteReader();
             if(drPlace.Read())
             {
@@ -122,7 +122,7 @@ namespace FamilyTree.Objects
                 sbSql.Append("UseParentLocation=" + Innoval.clsDatabase.ToDb(m_bUseParentLocation) + ",");
                 sbSql.Append("PrivateComments=" + Innoval.clsDatabase.ToDb(m_sPrivateComments) + " ");
                 sbSql.Append("WHERE ID=" + m_nID.ToString() + ";");
-                OleDbCommand oSql = new OleDbCommand(sbSql.ToString(), m_oDb.cnDB);
+                OleDbCommand oSql = new OleDbCommand(sbSql.ToString(), m_oDb.cndb);
                 oSql.ExecuteNonQuery();
             }
 
@@ -360,7 +360,7 @@ namespace FamilyTree.Objects
 
             // Show the child places from this place.
             string sSql = "SELECT ID,Name,Status FROM tbl_Places WHERE ParentID=" + m_nID.ToString() + " ORDER BY Status, Name;";
-            OleDbCommand oSql = new OleDbCommand(sSql, m_oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand(sSql, m_oDb.cndb);
             OleDbDataReader drChildren = oSql.ExecuteReader();
             bool bFirst = true;
             while(drChildren.Read())
@@ -401,7 +401,7 @@ namespace FamilyTree.Objects
                 "FROM tbl_ToPlaces INNER JOIN tbl_People ON tbl_ToPlaces.ObjectID = tbl_People.ID " +
                 "WHERE (((tbl_ToPlaces.PlaceID)=" + m_nID.ToString() + ") AND ((tbl_ToPlaces.TypeID)=1)) " +
                 "ORDER BY tbl_People.Born;";
-            oSql = new OleDbCommand(sSql, m_oDb.cnDB);
+            oSql = new OleDbCommand(sSql, m_oDb.cndb);
             OleDbDataReader drPeople = oSql.ExecuteReader();
             bFirst = true;
             while(drPeople.Read())
@@ -465,7 +465,7 @@ namespace FamilyTree.Objects
                 "FROM tbl_ToPlaces INNER JOIN tbl_Sources ON tbl_ToPlaces.ObjectID = tbl_Sources.ID " +
                 "WHERE (((tbl_ToPlaces.PlaceID)=" + m_nID.ToString() + ") AND ((tbl_ToPlaces.TypeID)=2)) " +
                 "ORDER BY tbl_Sources.Name;";
-            oSql = new OleDbCommand(sSql, m_oDb.cnDB);
+            oSql = new OleDbCommand(sSql, m_oDb.cndb);
             OleDbDataReader drSources = oSql.ExecuteReader();
             bFirst = true;
             while(drSources.Read())

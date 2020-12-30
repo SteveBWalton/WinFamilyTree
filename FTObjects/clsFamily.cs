@@ -46,7 +46,7 @@ namespace FamilyTree.Objects
 		/// <param name="oChild">Specifies the child to add to this family.</param>
 		public void AddChild
 			(
-			clsPerson oChild
+			Person oChild
 			)
 		{
 			if(m_oChildren==null)
@@ -58,7 +58,7 @@ namespace FamilyTree.Objects
 			else
 			{
 				int nIndex = m_oChildren.Count-1;
-				clsPerson oInsert = (clsPerson)m_oChildren[nIndex];
+				Person oInsert = (Person)m_oChildren[nIndex];
 				if(oChild.dob.Date>oInsert.dob.Date)
 				{
 					// Add the child to the end of the list
@@ -67,7 +67,7 @@ namespace FamilyTree.Objects
 				else
 				{
 					nIndex = 0;
-					oInsert = (clsPerson)m_oChildren[nIndex];
+					oInsert = (Person)m_oChildren[nIndex];
 					if(oChild.dob.Date<oInsert.dob.Date)
 					{
 						// Add the child to the start of the list
@@ -79,7 +79,7 @@ namespace FamilyTree.Objects
 						while(oChild.dob.Date>oInsert.dob.Date)
 						{
 							nIndex++;
-							oInsert = (clsPerson)m_oChildren[nIndex];
+							oInsert = (Person)m_oChildren[nIndex];
 						}
 						m_oChildren.Insert(nIndex,oChild);
 					}
@@ -182,7 +182,7 @@ namespace FamilyTree.Objects
 
             if(m_oChildren != null)
             {
-                foreach(clsPerson oChild in m_oChildren)
+                foreach(Person oChild in m_oChildren)
                 {
                     oFile.WriteLine("1 CHIL @I" + oChild.ID.ToString("0000") + "@");
                 }

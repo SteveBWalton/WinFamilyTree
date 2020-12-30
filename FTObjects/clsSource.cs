@@ -106,7 +106,7 @@ namespace FamilyTree.Objects
 			):this(oDB)
 		{
 			// Open the database and get the source details			
-			OleDbCommand oSQL = new OleDbCommand("SELECT Name,LastUsed,TheDate,TheDateStatusID,Comments,AdditionalInfoTypeID,LastEditBy,LastEditDate,RepositoryID FROM tbl_Sources WHERE ID=" + nID.ToString() + ";",m_oDb.cnDB);
+			OleDbCommand oSQL = new OleDbCommand("SELECT Name,LastUsed,TheDate,TheDateStatusID,Comments,AdditionalInfoTypeID,LastEditBy,LastEditDate,RepositoryID FROM tbl_Sources WHERE ID=" + nID.ToString() + ";",m_oDb.cndb);
 			OleDbDataReader drSource = oSQL.ExecuteReader();
 			if(drSource.Read())
 			{
@@ -195,7 +195,7 @@ namespace FamilyTree.Objects
 					// Delete the sources that contain this source
 
 					// Delete this source
-					oSQL = new OleDbCommand("DELETE FROM tbl_Sources WHERE ID="+m_nID+";",m_oDb.cnDB);
+					oSQL = new OleDbCommand("DELETE FROM tbl_Sources WHERE ID="+m_nID+";",m_oDb.cndb);
 					oSQL.ExecuteNonQuery();
 				}
 
@@ -210,11 +210,11 @@ namespace FamilyTree.Objects
 				if(m_nID==0)
 				{
 					// Create a new record
-					oSQL = new OleDbCommand("INSERT INTO tbl_Sources (LastUsed) VALUES(Now());",m_oDb.cnDB);
+					oSQL = new OleDbCommand("INSERT INTO tbl_Sources (LastUsed) VALUES(Now());",m_oDb.cndb);
 					oSQL.ExecuteNonQuery();
 
 					// Get the ID of the new record
-					oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Sources;",m_oDb.cnDB);
+					oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Sources;",m_oDb.cndb);
 					m_nID = (int)oSQL.ExecuteScalar();
 				}
 
@@ -230,7 +230,7 @@ namespace FamilyTree.Objects
 					+",LastEditBy='Steve Walton'"
 					+",LastEditDate=Now()"
 					+" WHERE ID=" + m_nID.ToString() +";"
-					,m_oDb.cnDB
+					,m_oDb.cndb
 					);			
 				oSQL.ExecuteNonQuery();								
 				m_bDirty = false;
@@ -438,7 +438,7 @@ namespace FamilyTree.Objects
                 "FROM tbl_People INNER JOIN (tbl_PeopleToSources INNER JOIN tlk_PeopleInfo ON tbl_PeopleToSources.FactID = tlk_PeopleInfo.ID) ON tbl_People.ID = tbl_PeopleToSources.PersonID " +
                 "WHERE (((tbl_PeopleToSources.SourceID)=" + m_nID.ToString() + ")) " +
                 "ORDER BY tbl_People.Born;";
-			OleDbCommand oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+			OleDbCommand oSql = new OleDbCommand(sSql,m_oDb.cndb);
 			OleDbDataReader drReferences = oSql.ExecuteReader();
 			while(drReferences.Read())
 			{
@@ -453,7 +453,7 @@ namespace FamilyTree.Objects
 
 			// Get all the references in the fact objects
 			sSql = "SELECT tbl_Facts.PersonID, tlk_FactTypes.Name FROM tlk_FactTypes INNER JOIN (tbl_Facts INNER JOIN tbl_FactsToSources ON tbl_Facts.ID = tbl_FactsToSources.FactID) ON tlk_FactTypes.ID = tbl_Facts.TypeID WHERE (((tbl_FactsToSources.SourceID)="+m_nID.ToString()+"));";
-			oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+			oSql = new OleDbCommand(sSql,m_oDb.cndb);
 			drReferences = oSql.ExecuteReader();
 			while(drReferences.Read())
 			{
@@ -464,7 +464,7 @@ namespace FamilyTree.Objects
 
 			// Get all the references in the relationship objects
 			sSql = "SELECT tbl_Relationships.MaleID, tbl_Relationships.FemaleID, tlk_RelationshipInfo.Name FROM tbl_Relationships INNER JOIN (tbl_RelationshipsToSources INNER JOIN tlk_RelationshipInfo ON tbl_RelationshipsToSources.FactID = tlk_RelationshipInfo.ID) ON tbl_Relationships.ID = tbl_RelationshipsToSources.RelationshipID WHERE (((tbl_RelationshipsToSources.SourceID)="+m_nID.ToString()+"));";
-			oSql = new OleDbCommand(sSql,m_oDb.cnDB);
+			oSql = new OleDbCommand(sSql,m_oDb.cndb);
 			drReferences = oSql.ExecuteReader();
 			while(drReferences.Read())
 			{
@@ -479,7 +479,7 @@ namespace FamilyTree.Objects
 			for(int nIndex=0;nIndex<oReferences.Count;nIndex++)
 			{
 				clsReferences oReference = (clsReferences)oReferences[nIndex];
-				clsPerson oPerson = new clsPerson(oReference.PersonID,m_oDb);
+				Person oPerson = new Person(oReference.PersonID,m_oDb);
 				oReference.PersonName = oPerson.GetName(true,false);
 			}
 
@@ -582,7 +582,7 @@ namespace FamilyTree.Objects
 			{
 				if(m_oAdditionMarriage==null)
 				{
-					m_oAdditionMarriage = new clsMarriageCertificate(m_nID,m_oDb.cnDB);
+					m_oAdditionMarriage = new clsMarriageCertificate(m_nID,m_oDb.cndb);
 				}
 				return m_oAdditionMarriage;
 			}
@@ -598,7 +598,7 @@ namespace FamilyTree.Objects
 			{
 				if(m_oAdditionalBirth==null)
 				{
-					m_oAdditionalBirth = new clsBirthCertificate(m_nID,m_oDb.cnDB);
+					m_oAdditionalBirth = new clsBirthCertificate(m_nID,m_oDb.cndb);
 				}
 				return m_oAdditionalBirth;
 			}
@@ -614,7 +614,7 @@ namespace FamilyTree.Objects
 			{
 				if(m_oAdditionalDeath==null)
 				{
-					m_oAdditionalDeath = new clsDeathCertificate(m_nID,m_oDb.cnDB);
+					m_oAdditionalDeath = new clsDeathCertificate(m_nID,m_oDb.cndb);
 				}
 				return m_oAdditionalDeath;
 			}

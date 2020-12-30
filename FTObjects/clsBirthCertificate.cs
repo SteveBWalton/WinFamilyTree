@@ -207,7 +207,7 @@ namespace FamilyTree.Objects
                 + ",WhenRegistered=" + Database.ToDb(WhenRegistered)
                 + ",GroReference=" + Database.ToDb(GroReference)
                 + " WHERE ID=" + m_nID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, oDb.cnDB);
+            OleDbCommand oSql = new OleDbCommand(sSql, oDb.cndb);
             int nNumRows = oSql.ExecuteNonQuery();
             if(nNumRows == 0)
             {
@@ -225,7 +225,7 @@ namespace FamilyTree.Objects
                     + "," + Database.ToDb(InformantAddress)
                     + "," + Database.ToDb(WhenRegistered)
                     + ");";
-                oSql = new OleDbCommand(sSql, oDb.cnDB);
+                oSql = new OleDbCommand(sSql, oDb.cndb);
                 oSql.ExecuteNonQuery();
             }
 
