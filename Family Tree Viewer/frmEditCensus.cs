@@ -152,7 +152,7 @@ namespace FamilyTree.Viewer
             clsCensusPerson[] oMembers = (clsCensusPerson[])m_PeopleGrid.DataSource;
             foreach (clsCensusPerson oPerson in oMembers)
             {
-                oPerson.Save(m_oDb);
+                oPerson.save(m_oDb);
             }
 
             // Return success
@@ -426,7 +426,7 @@ namespace FamilyTree.Viewer
             // Find the selected year
             int nYear = int.Parse(m_cboYear.Text);
 
-            IndexName[] oHouseholds = m_oDb.CenusGetHouseholds(nYear);
+            IndexName[] oHouseholds = m_oDb.cenusGetHouseholds(nYear);
 
             // Add the available options to the address combo
             m_cboAddress.Items.Clear();
@@ -436,7 +436,7 @@ namespace FamilyTree.Viewer
             }
 
             // Populate the list of people combo
-            IndexName[] oPeople = m_oDb.GetPeople(ChooseSex.EITHER, enumSortOrder.Alphabetical, nYear);
+            IndexName[] oPeople = m_oDb.GetPeople(ChooseSex.EITHER, Objects.SortOrder.ALPHABETICAL, nYear);
             m_cboPerson.Items.Clear();
             foreach (IndexName oPerson in oPeople)
             {
@@ -467,7 +467,7 @@ namespace FamilyTree.Viewer
                 int nHouseholdID = oAddress.index;
 
                 // Display the members of this household
-                m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(nHouseholdID), "");
+                m_PeopleGrid.SetDataBinding(m_oDb.censusHouseholdMembers(nHouseholdID), "");
             }
             else
             {
@@ -519,16 +519,16 @@ namespace FamilyTree.Viewer
 
             // Create a new object to add to the list box
             clsCensusPerson oMember = new clsCensusPerson();
-            oMember.ID = 0;
-            oMember.HouseholdID = oHousehold.index;
-            oMember.PersonID = oPerson.ID;
-            oMember.PersonName = oPerson.GetName(true, true);
-            oMember.CensusName = oPerson.GetName(false, true);
+            oMember.index = 0;
+            oMember.houseHoldIndex = oHousehold.index;
+            oMember.personIndex = oPerson.index;
+            oMember.personName = oPerson.getName(true, true);
+            oMember.censusName = oPerson.getName(false, true);
 
-            oMember.Save(m_oDb);
+            oMember.save(m_oDb);
 
             // Display the members of this household
-            m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(oHousehold.index), "");
+            m_PeopleGrid.SetDataBinding(m_oDb.censusHouseholdMembers(oHousehold.index), "");
         }
 
         private void cmdRemovePerson_Click(object sender, System.EventArgs e)
@@ -541,12 +541,12 @@ namespace FamilyTree.Viewer
 
             // Find the fact
             clsCensusPerson oMember = ((clsCensusPerson[])m_PeopleGrid.DataSource)[m_PeopleGrid.CurrentCell.RowNumber];
-            int nHouseholdID = oMember.HouseholdID;
-            oMember.Delete();
+            int nHouseholdID = oMember.houseHoldIndex;
+            oMember.delete();
             Save();
 
             // Display the members of this household
-            m_PeopleGrid.SetDataBinding(m_oDb.CensusHouseholdMembers(nHouseholdID), "");
+            m_PeopleGrid.SetDataBinding(m_oDb.censusHouseholdMembers(nHouseholdID), "");
         }
     }
 }

@@ -25,8 +25,8 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage tabBasic;
-            FamilyTree.Objects.clsDate clsDate1 = new FamilyTree.Objects.clsDate();
-            FamilyTree.Objects.clsDate clsDate2 = new FamilyTree.Objects.clsDate();
+            FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
+            FamilyTree.Objects.CompoundDate clsDate2 = new FamilyTree.Objects.CompoundDate();
             System.Windows.Forms.Label label7;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
@@ -40,8 +40,8 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Label label8;
             System.Windows.Forms.Button cmdDeleteRelationship;
             System.Windows.Forms.Button AddRelationship;
-            FamilyTree.Objects.clsDate clsDate3 = new FamilyTree.Objects.clsDate();
-            FamilyTree.Objects.clsDate clsDate4 = new FamilyTree.Objects.clsDate();
+            FamilyTree.Objects.CompoundDate clsDate3 = new FamilyTree.Objects.CompoundDate();
+            FamilyTree.Objects.CompoundDate clsDate4 = new FamilyTree.Objects.CompoundDate();
             System.Windows.Forms.ImageList oImageList16x16;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditPerson));
             System.Windows.Forms.TabPage tabFacts;
@@ -172,8 +172,8 @@ namespace FamilyTree.Viewer
             this.m_dateDoB.Name = "m_dateDoB";
             this.m_dateDoB.Size = new System.Drawing.Size(144, 24);
             this.m_dateDoB.TabIndex = 36;
-            clsDate1.Date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate1.Status = 0;
+            clsDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            clsDate1.status = 0;
             this.m_dateDoB.Value = clsDate1;
             this.m_dateDoB.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoB_evtValueChanged);
             this.m_dateDoB.Enter += new System.EventHandler(this.dateDoB_Enter);
@@ -184,8 +184,8 @@ namespace FamilyTree.Viewer
             this.m_dateDoD.Name = "m_dateDoD";
             this.m_dateDoD.Size = new System.Drawing.Size(144, 24);
             this.m_dateDoD.TabIndex = 35;
-            clsDate2.Date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate2.Status = 0;
+            clsDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            clsDate2.status = 0;
             this.m_dateDoD.Value = clsDate2;
             this.m_dateDoD.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoD_evtValueChanged);
             this.m_dateDoD.Enter += new System.EventHandler(this.dateDoD_Enter);
@@ -464,8 +464,8 @@ namespace FamilyTree.Viewer
             this.m_dateRelationEnd.Name = "m_dateRelationEnd";
             this.m_dateRelationEnd.Size = new System.Drawing.Size(144, 24);
             this.m_dateRelationEnd.TabIndex = 15;
-            clsDate3.Date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate3.Status = 0;
+            clsDate3.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            clsDate3.status = 0;
             this.m_dateRelationEnd.Value = clsDate3;
             this.m_dateRelationEnd.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateRelationEnd_evtValueChanged);
             // 
@@ -475,8 +475,8 @@ namespace FamilyTree.Viewer
             this.m_dateRelationStart.Name = "m_dateRelationStart";
             this.m_dateRelationStart.Size = new System.Drawing.Size(144, 24);
             this.m_dateRelationStart.TabIndex = 14;
-            clsDate4.Date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate4.Status = 0;
+            clsDate4.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            clsDate4.status = 0;
             this.m_dateRelationStart.Value = clsDate4;
             this.m_dateRelationStart.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateRelationStart_evtValueChanged);
             this.m_dateRelationStart.Enter += new System.EventHandler(this.dateRelationStart_Enter);

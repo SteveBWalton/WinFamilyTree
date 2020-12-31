@@ -64,7 +64,7 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCensusAddress;
             System.Windows.Forms.Button cmdCensusOpen;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditSources));
-            FamilyTree.Objects.clsDate clsDate1 = new FamilyTree.Objects.clsDate();
+            FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
             this.m_lstSources = new System.Windows.Forms.ListBox();
             this.imageList16x16 = new System.Windows.Forms.ImageList(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -671,8 +671,8 @@ namespace FamilyTree.Viewer
             this.dateTheDate.Name = "dateTheDate";
             this.dateTheDate.Size = new System.Drawing.Size(144, 24);
             this.dateTheDate.TabIndex = 24;
-            clsDate1.Date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate1.Status = 0;
+            clsDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            clsDate1.status = 0;
             this.dateTheDate.Value = clsDate1;
             this.dateTheDate.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateTheDate_evtValueChanged);
             // 

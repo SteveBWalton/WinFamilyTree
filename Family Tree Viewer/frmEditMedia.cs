@@ -65,7 +65,7 @@ namespace FamilyTree.Viewer
 
             // Populate the list of people combo box
             int[] oAttachedPeople = m_oMedia.GetAttachedPeople();
-            IndexName[] oPeople = oDb.getPeople(ChooseSex.EITHER,enumSortOrder.Date);
+            IndexName[] oPeople = oDb.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE);
             foreach(IndexName oPerson in oPeople)
             {
                 m_cboPeople.Items.Add(oPerson);

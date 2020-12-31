@@ -117,7 +117,7 @@
     <Compile Include="Database.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsDate.cs">
+    <Compile Include="CompoundDate.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsDeathCertificate.cs">
@@ -153,10 +153,10 @@
     <Compile Include="clsRelationship.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsSource.cs">
+    <Compile Include="Source.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsSources.cs">
+    <Compile Include="Sources.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsMedia.cs" />

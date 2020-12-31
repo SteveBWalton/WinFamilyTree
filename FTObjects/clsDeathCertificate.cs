@@ -76,20 +76,20 @@ namespace FamilyTree.Objects
 			OleDbDataReader drDeath = oSql.ExecuteReader();
 			if(drDeath.Read())
 			{
-				RegistrationDistrict = Database.GetString(drDeath,"RegistrationDistrict","");
-                When = Database.GetString(drDeath,"WhenWhere","");
-                Place = Database.GetString(drDeath,"Place","");
-                Name = Database.GetString(drDeath,"Name","");
-				Sex = Database.GetString(drDeath,"Sex","");
-				DatePlaceOfBirth = Database.GetString(drDeath,"DatePlaceOfBirth","");
-				Occupation = Database.GetString(drDeath,"Occupation","");
-				UsualAddress = Database.GetString(drDeath,"UsualAddress","");
-				CauseOfDeath = Database.GetString(drDeath,"CauseOfDeath","");
-				Informant = Database.GetString(drDeath,"Informant","");
-				InformantDescription = Database.GetString(drDeath,"InformantDescription","");
-				InformantAddress = Database.GetString(drDeath,"InformantAddress","");
-				WhenRegistered = Database.GetString(drDeath,"WhenRegistered","");
-                GroReference = Database.GetString(drDeath,"GroReference","");
+				RegistrationDistrict = Database.getString(drDeath,"RegistrationDistrict","");
+                When = Database.getString(drDeath,"WhenWhere","");
+                Place = Database.getString(drDeath,"Place","");
+                Name = Database.getString(drDeath,"Name","");
+				Sex = Database.getString(drDeath,"Sex","");
+				DatePlaceOfBirth = Database.getString(drDeath,"DatePlaceOfBirth","");
+				Occupation = Database.getString(drDeath,"Occupation","");
+				UsualAddress = Database.getString(drDeath,"UsualAddress","");
+				CauseOfDeath = Database.getString(drDeath,"CauseOfDeath","");
+				Informant = Database.getString(drDeath,"Informant","");
+				InformantDescription = Database.getString(drDeath,"InformantDescription","");
+				InformantAddress = Database.getString(drDeath,"InformantAddress","");
+				WhenRegistered = Database.getString(drDeath,"WhenRegistered","");
+                GroReference = Database.getString(drDeath,"GroReference","");
 			}
 			drDeath.Close();
 		}
@@ -107,20 +107,20 @@ namespace FamilyTree.Objects
 
 			// Write the record into the database
             string sSql = "UPDATE tbl_DeathCertificates SET "
-                + "RegistrationDistrict=" + Database.ToDb(RegistrationDistrict)
-                + ",WhenWhere=" + Database.ToDb(When)
-                + ",Place=" + Database.ToDb(Place)
-                + ",Name=" + Database.ToDb(Name)
-                + ",Sex=" + Database.ToDb(Sex)
-                + ",DatePlaceOfBirth=" + Database.ToDb(DatePlaceOfBirth)
-                + ",Occupation=" + Database.ToDb(Occupation)
-                + ",UsualAddress=" + Database.ToDb(UsualAddress)
-                + ",CauseOfDeath=" + Database.ToDb(CauseOfDeath)
-                + ",Informant=" + Database.ToDb(Informant)
-                + ",InformantDescription=" + Database.ToDb(InformantDescription)
-                + ",InformantAddress=" + Database.ToDb(InformantAddress)
-                + ",WhenRegistered=" + Database.ToDb(WhenRegistered)
-                + ",GroReference=" + Database.ToDb(GroReference)
+                + "RegistrationDistrict=" + Database.toDb(RegistrationDistrict)
+                + ",WhenWhere=" + Database.toDb(When)
+                + ",Place=" + Database.toDb(Place)
+                + ",Name=" + Database.toDb(Name)
+                + ",Sex=" + Database.toDb(Sex)
+                + ",DatePlaceOfBirth=" + Database.toDb(DatePlaceOfBirth)
+                + ",Occupation=" + Database.toDb(Occupation)
+                + ",UsualAddress=" + Database.toDb(UsualAddress)
+                + ",CauseOfDeath=" + Database.toDb(CauseOfDeath)
+                + ",Informant=" + Database.toDb(Informant)
+                + ",InformantDescription=" + Database.toDb(InformantDescription)
+                + ",InformantAddress=" + Database.toDb(InformantAddress)
+                + ",WhenRegistered=" + Database.toDb(WhenRegistered)
+                + ",GroReference=" + Database.toDb(GroReference)
                 + " WHERE ID=" + m_nID.ToString() + ";";
 			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cndb);
 			int nNumRows = oSql.ExecuteNonQuery();
@@ -128,19 +128,19 @@ namespace FamilyTree.Objects
 			{
 				sSql = "INSERT INTO tbl_DeathCertificates (ID,RegistrationDistrict,WhenWhere,Place,Name,Sex,DatePlaceOfBirth,Occupation,UsualAddress,CauseOfDeath,Informant,InformantDescription,InformantAddress,WhenRegistered) VALUES ("
 					+m_nID.ToString()
-					+","+Database.ToDb(RegistrationDistrict)
-					+","+Database.ToDb(When)
-					+","+Database.ToDb(Place)
-					+","+Database.ToDb(Name)
-					+","+Database.ToDb(Sex)
-					+","+Database.ToDb(DatePlaceOfBirth)
-					+","+Database.ToDb(Occupation)
-					+","+Database.ToDb(UsualAddress)
-					+","+Database.ToDb(CauseOfDeath)
-					+","+Database.ToDb(Informant)
-					+","+Database.ToDb(InformantDescription)
-					+","+Database.ToDb(InformantAddress)
-					+","+Database.ToDb(WhenRegistered)
+					+","+Database.toDb(RegistrationDistrict)
+					+","+Database.toDb(When)
+					+","+Database.toDb(Place)
+					+","+Database.toDb(Name)
+					+","+Database.toDb(Sex)
+					+","+Database.toDb(DatePlaceOfBirth)
+					+","+Database.toDb(Occupation)
+					+","+Database.toDb(UsualAddress)
+					+","+Database.toDb(CauseOfDeath)
+					+","+Database.toDb(Informant)
+					+","+Database.toDb(InformantDescription)
+					+","+Database.toDb(InformantAddress)
+					+","+Database.toDb(WhenRegistered)
 					+");";
 				oSql = new OleDbCommand(sSql,oDb.cndb);
 				oSql.ExecuteNonQuery();

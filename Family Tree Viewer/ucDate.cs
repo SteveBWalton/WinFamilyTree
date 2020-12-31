@@ -61,7 +61,7 @@ namespace FamilyTree.Viewer
 		/// <summary>
 		/// The date and status that the control is displaying
 		/// </summary>
-		public clsDate Value
+		public CompoundDate Value
 		{
 			set
 			{
@@ -69,7 +69,7 @@ namespace FamilyTree.Viewer
 				m_bAllowChangeEvents = false;
 
                 // Deal with the month / quarters status
-                if((value.Status & clsDate.QUARTER) == 0)
+                if((value.status & CompoundDate.QUARTER) == 0)
                 {
                     if(m_tsmQuarter.Checked)
                     {
@@ -87,21 +87,21 @@ namespace FamilyTree.Viewer
                 }                
 
 				// Deal with the date
-                m_txtWholeThing.Text = value.Format(DateFormat.FullShort);
-				m_nudDay.Value = value.Date.Day;
+                m_txtWholeThing.Text = value.format(DateFormat.FULL_SHORT);
+				m_nudDay.Value = value.date.Day;
                 if(IsQuarter)
                 {
-                    m_cboMonth.SelectedIndex = (value.Date.Month - 1) / 3;
+                    m_cboMonth.SelectedIndex = (value.date.Month - 1) / 3;
                 }
                 else
                 {
-                    m_cboMonth.SelectedIndex = value.Date.Month - 1;
+                    m_cboMonth.SelectedIndex = value.date.Month - 1;
                 }
-				int nYear = clsDate.GetYear(value.Date);
+				int nYear = CompoundDate.getYear(value.date);
 				m_nudYear.Value = (decimal)nYear;
 								
 				// Deal with the status
-				if((value.Status&8)==8)
+				if((value.status&8)==8)
 				{
                     IsNull = true;					
 				}
@@ -110,11 +110,11 @@ namespace FamilyTree.Viewer
 					ContextMenuUnNull();
 
 					// Deal with the status
-                    IsDayKnown = ((value.Status & 1) == 0);                    
-                    IsMonthKnown = ((value.Status&2)==0);
-                    IsYearKnown=((value.Status&4)==0);
+                    IsDayKnown = ((value.status & 1) == 0);                    
+                    IsMonthKnown = ((value.status&2)==0);
+                    IsYearKnown=((value.status&4)==0);
 
-					if((value.Status & clsDate.AFTER)==0)
+					if((value.status & CompoundDate.AFTER)==0)
 					{
                         m_tsmIsAfter.Checked = false;						
 					}
@@ -122,7 +122,7 @@ namespace FamilyTree.Viewer
 					{
                         m_tsmIsAfter.Checked = true;												
 					}
-					if((value.Status & clsDate.BEFORE)==0)
+					if((value.status & CompoundDate.BEFORE)==0)
 					{
                         m_tsmIsBefore.Checked = false;
 					}
@@ -137,10 +137,10 @@ namespace FamilyTree.Viewer
 			}
 			get
 			{
-				clsDate dtReturn = new clsDate();
+				CompoundDate dtReturn = new CompoundDate();
 
-				dtReturn.Date = GetDate();
-				dtReturn.Status = GetStatus();
+				dtReturn.date = GetDate();
+				dtReturn.status = GetStatus();
 				return dtReturn;
 			}
 		}
@@ -159,7 +159,7 @@ namespace FamilyTree.Viewer
                 {
                     nMonthFactor = 3;
                 }
-				return new DateTime(clsDate.SetYear((int)m_nudYear.Value),nMonthFactor*(int)m_cboMonth.SelectedIndex+1,(int)m_nudDay.Value);
+				return new DateTime(CompoundDate.setYear((int)m_nudYear.Value),nMonthFactor*(int)m_cboMonth.SelectedIndex+1,(int)m_nudDay.Value);
 			}
 			catch
 			{
@@ -193,15 +193,15 @@ namespace FamilyTree.Viewer
 			}
 			if(m_tsmIsAfter.Checked)
 			{
-				nStatus |= clsDate.AFTER;
+				nStatus |= CompoundDate.AFTER;
 			}
 			if(m_tsmIsBefore.Checked)
 			{
-                nStatus |= clsDate.BEFORE;
+                nStatus |= CompoundDate.BEFORE;
 			}
             if(m_tsmQuarter.Checked)
             {
-                nStatus |= clsDate.QUARTER;
+                nStatus |= CompoundDate.QUARTER;
             }
 
 			// Return the calculated value
@@ -235,14 +235,14 @@ namespace FamilyTree.Viewer
         {
             if(m_txtWholeThing.Visible)
             {
-                clsDate oDate = Value;
-                if(oDate.IsEmpty())
+                CompoundDate oDate = Value;
+                if(oDate.isEmpty())
                 {
                     m_txtWholeThing.Text = "";
                 }
                 else
                 {
-                    m_txtWholeThing.Text = oDate.Format(DateFormat.FullShort);
+                    m_txtWholeThing.Text = oDate.format(DateFormat.FULL_SHORT);
                 }
             }
         }
@@ -806,7 +806,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>        
         private void ucDate_Leave(object sender,EventArgs e)
         {
-            m_txtWholeThing.Text = Value.Format(DateFormat.FullShort);
+            m_txtWholeThing.Text = Value.format(DateFormat.FULL_SHORT);
 
             m_txtWholeThing.Visible = true;
             m_nudDay.Visible = false;

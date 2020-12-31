@@ -4,103 +4,86 @@ using System.IO;
 
 namespace FamilyTree.Objects
 {
-    // Class to represent the collection of clsFamily objects in a Gedcom file.
-    /// <summary>
-    /// Class to represent the collection of clsFamily objects in a Gedcom file.
-    /// </summary>
+    /// <summary>Class to represent the collection of clsFamily objects in a Gedcom file.</summary>
 	public class clsFamilies
-	{
-		#region Member Variables
+    {
+        #region Member Variables
 
-        // Number of clsFamily objects in the collection and the Gedcom index of the last one.
-        /// <summary>
-        /// Number of clsFamily objects in the collection and the Gedcom index of the last one.
-        /// </summary>
-		private int m_nCount;
+        /// <summary>Number of clsFamily objects in the collection and the Gedcom index of the last one.</summary>
+        private int count_;
 
-        // Collection of the clsFamily objects.
-        /// <summary>
-        /// Collection of the clsFamily objects.
-        /// </summary>
-		private ArrayList m_oCollection;
+        /// <summary>Collection of the clsFamily objects.</summary>
+        private ArrayList collection_;
 
-		#endregion
+        #endregion
 
-        // Empty class constructor.
-        /// <summary>
-        /// Empty class constructor.
-        /// </summary>
-		public clsFamilies()
-		{
-			m_nCount = 0;
-			m_oCollection = new ArrayList();
-		}
-
-        // Returns the clsFamily (Gedcom) object that represents the specified mother and father.
-        /// <summary>
-        /// Returns the clsFamily (Gedcom) object that represents the specified mother and father.
-        /// The object is attached to the specifed clsRelationship object.
-		/// </summary>
-		/// <param name="nFatherID">Specifies the ID of the father.</param>
-		/// <param name="nMotherID">Specifies the ID of the mother.</param>
-		/// <param name="nRelationshipID">Specifies the ID of the clsRelationship object.</param>
-		/// <returns>A clsFamily (Gedcom) object.</returns>
-        public clsFamily GetMarriageFamily(int nFatherID, int nMotherID, int nRelationshipID)
+        /// <summary>Empty class constructor.</summary>
+        public clsFamilies()
         {
-            // Search for a matching family
-            foreach(clsFamily oFamily in m_oCollection)
+            count_ = 0;
+            collection_ = new ArrayList();
+        }
+
+
+
+        /// <summary>Returns the clsFamily (Gedcom) object that represents the specified mother and father.  The object is attached to the specifed clsRelationship object.</summary>
+        /// <param name="fatherIndex">Specifies the ID of the father.</param>
+        /// <param name="motherIndex">Specifies the ID of the mother.</param>
+        /// <param name="relationshipIndex">Specifies the ID of the clsRelationship object.</param>
+        /// <returns>A clsFamily (Gedcom) object.</returns>
+        public clsFamily getMarriageFamily(int fatherIndex, int motherIndex, int relationshipIndex)
+        {
+            // Search for a matching family.
+            foreach (clsFamily family in collection_)
             {
-                if(oFamily.FatherID == nFatherID && oFamily.MotherID == nMotherID)
+                if (family.fatherIndex == fatherIndex && family.motherIndex == motherIndex)
                 {
-                    return oFamily;
+                    return family;
                 }
             }
 
-            // Create a new family to match these conditions
-            clsFamily oNewFamily = new clsFamily();
-            oNewFamily.MotherID = nMotherID;
-            oNewFamily.FatherID = nFatherID;
-            oNewFamily.RelationshipID = nRelationshipID;
-            m_nCount++;
-            oNewFamily.GedComID = m_nCount;
+            // Create a new family to match these conditions.
+            clsFamily newFamily = new clsFamily();
+            newFamily.motherIndex = motherIndex;
+            newFamily.fatherIndex = fatherIndex;
+            newFamily.relationshipIndex = relationshipIndex;
+            count_++;
+            newFamily.gedcomIndex = count_;
 
-            // Add this family to the collection
-            m_oCollection.Add(oNewFamily);
+            // Add this family to the collection.
+            collection_.Add(newFamily);
 
-            // Return the new family
-            return oNewFamily;
+            // Return the new family.
+            return newFamily;
         }
 
-        // Returns the clsFamily (Gedcom) object that represents the specified mother and father.
-        /// <summary>
-        /// Returns the clsFamily (Gedcom) object that represents the specified mother and father.
-        /// The object is not attached to any clsRelationship object.
-		/// </summary>
-		/// <param name="nFatherID">Specifies the ID of the father.</param>
-		/// <param name="nMotherID">Specifies the ID of the mother.</param>
-		/// <returns>A clsFamily (Gedcom) object.</returns>
-        public clsFamily GetParentFamily(int nFatherID, int nMotherID)
+
+
+        /// <summary>Returns the clsFamily (Gedcom) object that represents the specified mother and father.  The object is not attached to any clsRelationship object.</summary>
+        /// <param name="fatherIndex">Specifies the ID of the father.</param>
+        /// <param name="motherIndex">Specifies the ID of the mother.</param>
+        /// <returns>A clsFamily (Gedcom) object.</returns>
+        public clsFamily getParentFamily(int fatherIndex, int motherIndex)
         {
-            return GetMarriageFamily(nFatherID, nMotherID, 0);
+            return getMarriageFamily(fatherIndex, motherIndex, 0);
         }
 
-        // Writes all the family data into the specified GedCom file
-        /// <summary>
-        /// Writes all the family data into the specified GedCom file
-        /// </summary>
-		/// <param name="oFile">Specifies the Gedcom file to write the data into.</param>
-		/// <param name="oDb">Specifies the database to fetch additional information from.</param>
-        /// <param name="lpfnProgressBar">Specifies a function to call to perform step the progress bar.</param>        
-        public void WriteGedcom(StreamWriter oFile, Database oDb, funcVoid lpfnProgressBar,clsGedcomOptions oOptions)
+
+
+        /// <summary>Writes all the family data into the specified GedCom file.</summary>
+        /// <param name="file">Specifies the Gedcom file to write the data into.</param>
+        /// <param name="database">Specifies the database to fetch additional information from.</param>
+        /// <param name="lpfnProgressBar">Specifies a function to call to perform step the progress bar.</param>
+        public void WriteGedcom(StreamWriter file, Database database, funcVoid lpfnProgressBar, clsGedcomOptions options)
         {
-            foreach(clsFamily oFamily in m_oCollection)
+            foreach (clsFamily family in collection_)
             {
-                oFamily.WriteGedcom(oFile, oDb,oOptions);
-                if(lpfnProgressBar != null)
+                family.writeGedcom(file, database, options);
+                if (lpfnProgressBar != null)
                 {
                     lpfnProgressBar();
                 }
             }
         }
-	}
+    }
 }

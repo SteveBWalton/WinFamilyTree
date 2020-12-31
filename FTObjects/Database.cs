@@ -1,16 +1,11 @@
 using System;
-
-// StringBuilder
-using System.Text;
-
-// Access database ADO.NET
-using System.Data;
-using System.Data.OleDb;
-
 // ArrayList
 using System.Collections;
-
+// Access database ADO.NET
+using System.Data.OleDb;
 using System.IO;
+// StringBuilder
+using System.Text;
 
 namespace FamilyTree.Objects
 {
@@ -31,12 +26,12 @@ namespace FamilyTree.Objects
     }
 
     /// <summary>The sort order for results of a search.</summary>
-	public enum enumSortOrder
+	public enum SortOrder
     {
         /// <summary>Return the data in date order.</summary>
-        Date,
+        DATE,
         /// <summary>Return the data in alphabetical order.</summary>
-        Alphabetical
+        ALPHABETICAL
     }
 
     #endregion
@@ -128,7 +123,7 @@ namespace FamilyTree.Objects
         public IndexName[] getPeople
             (
             ChooseSex sex,
-            enumSortOrder order,
+            SortOrder order,
             int startYear,
             int endYear
             )
@@ -148,11 +143,11 @@ namespace FamilyTree.Objects
 
             switch (order)
             {
-            case enumSortOrder.Date:
+            case SortOrder.DATE:
                 sql += "ORDER BY Born;";
                 break;
 
-            case enumSortOrder.Alphabetical:
+            case SortOrder.ALPHABETICAL:
                 sql += "ORDER BY Surname,Forenames;";
                 break;
             }
@@ -196,7 +191,7 @@ namespace FamilyTree.Objects
                 name.Append(" (");
                 if (!people.IsDBNull(4))
                 {
-                    int bornYear = clsDate.GetYear(people.GetDateTime(4).Year);
+                    int bornYear = CompoundDate.getYear(people.GetDateTime(4).Year);
                     if (bornYear < 0)
                     {
                         name.Append((-bornYear).ToString());
@@ -210,7 +205,7 @@ namespace FamilyTree.Objects
                 if (!people.IsDBNull(6))
                 {
                     name.Append("-");
-                    int diedYear = clsDate.GetYear(people.GetDateTime(6).Year);
+                    int diedYear = CompoundDate.getYear(people.GetDateTime(6).Year);
                     if (diedYear < 0)
                     {
                         name.Append((-diedYear).ToString());
@@ -250,7 +245,7 @@ namespace FamilyTree.Objects
         public IndexName[] GetPeople
             (
             ChooseSex sex,
-            enumSortOrder order,
+            SortOrder order,
             int yearAlive
             )
         {
@@ -269,11 +264,11 @@ namespace FamilyTree.Objects
 
             switch (order)
             {
-            case enumSortOrder.Date:
+            case SortOrder.DATE:
                 sql += "ORDER BY Born;";
                 break;
 
-            case enumSortOrder.Alphabetical:
+            case SortOrder.ALPHABETICAL:
                 sql += "ORDER BY Surname,Forenames;";
                 break;
             }
@@ -290,7 +285,7 @@ namespace FamilyTree.Objects
         public IndexName[] getPeople
             (
             ChooseSex sex,
-            enumSortOrder order
+            SortOrder order
             )
         {
             // Build the SQL command.
@@ -307,11 +302,11 @@ namespace FamilyTree.Objects
 
             switch (order)
             {
-            case enumSortOrder.Date:
+            case SortOrder.DATE:
                 sql += "ORDER BY Born;";
                 break;
 
-            case enumSortOrder.Alphabetical:
+            case SortOrder.ALPHABETICAL:
                 sql += "ORDER BY Surname,Forenames;";
                 break;
             }
@@ -326,86 +321,83 @@ namespace FamilyTree.Objects
 
         #region Relationships
 
-        /// <summary>
-        /// Returns the relationship between the 2 specified people.  Returns null if there is no relationship.
-        /// This is a slightly strange relationship object because it has no owner.
-        /// </summary>
-        /// <param name="nMaleID">Specifies the male person in the relationship.</param>
-        /// <param name="nFemaleID">Specifies the female person in the relationship.</param>
-        /// <returns>The relationship object for the 2 people.  NULL if no relationshp exists between the 2 specified people.</returns>
-        public clsRelationship GetRelationship
-            (
-            int nMaleID,
-            int nFemaleID
-            )
-        {
-            OleDbCommand oSQL = new OleDbCommand("SELECT ID,TerminatedID,TheDate,StartStatusID,TerminateDate,TerminateStatusID,Location,Comments,RelationshipID,LastEditBy,LastEditDate FROM tbl_Relationships WHERE MaleID=" + nMaleID.ToString() + " AND FemaleID=" + nFemaleID.ToString() + " ORDER BY TheDate DESC;", cndb);
-            OleDbDataReader drRelationship = oSQL.ExecuteReader();
-            clsRelationship oRelationship = null;
-            if (drRelationship.Read())
-            {
-                oRelationship = new clsRelationship(drRelationship.GetInt32(0));
-                oRelationship.MaleID = nMaleID;
-                oRelationship.FemaleID = nFemaleID;
-                oRelationship.TerminatedID = drRelationship.GetInt32(1);
-                if (drRelationship.IsDBNull(2))
-                {
-                    oRelationship.Start.Status = clsDate.EMPTY;
-                }
-                else
-                {
-                    oRelationship.Start.Date = drRelationship.GetDateTime(2);
-                    oRelationship.Start.Status = drRelationship.GetInt16(3);
-                }
-                if (drRelationship.IsDBNull(4))
-                {
-                    oRelationship.End.Status = clsDate.EMPTY;
-                }
-                else
-                {
-                    oRelationship.End.Date = drRelationship.GetDateTime(4);
-                    oRelationship.End.Status = drRelationship.GetInt16(5);
-                }
-                if (drRelationship.IsDBNull(6))
-                {
-                    oRelationship.Location = "";
-                }
-                else
-                {
-                    oRelationship.Location = drRelationship.GetString(6);
-                }
-                if (drRelationship.IsDBNull(7))
-                {
-                    oRelationship.Comments = "";
-                }
-                else
-                {
-                    oRelationship.Comments = drRelationship.GetString(7);
-                }
-                oRelationship.TypeID = drRelationship.GetInt16(8);
 
-                if (drRelationship.IsDBNull(9))
+
+        /// <summary>Returns the relationship between the 2 specified people.  Returns null if there is no relationship.  This is a slightly strange relationship object because it has no owner.</summary>
+        /// <param name="maleIndex">Specifies the male person in the relationship.</param>
+        /// <param name="femaleIndex">Specifies the female person in the relationship.</param>
+        /// <returns>The relationship object for the 2 people.  NULL if no relationshp exists between the 2 specified people.</returns>
+        public clsRelationship getRelationship(int maleIndex, int femaleIndex)
+        {
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE MaleID = " + maleIndex.ToString() + " AND FemaleID = " + femaleIndex.ToString() + " ORDER BY TheDate DESC;", cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            clsRelationship relationship = null;
+            if (dataReader.Read())
+            {
+                relationship = new clsRelationship(dataReader.GetInt32(0));
+                relationship.maleIndex = maleIndex;
+                relationship.femaleIndex = femaleIndex;
+                relationship.terminatedIndex = dataReader.GetInt32(1);
+                if (dataReader.IsDBNull(2))
                 {
-                    oRelationship.LastEditBy = "Steve Walton";
+                    relationship.start.status = CompoundDate.EMPTY;
                 }
                 else
                 {
-                    oRelationship.LastEditBy = drRelationship.GetString(9);
+                    relationship.start.date = dataReader.GetDateTime(2);
+                    relationship.start.status = dataReader.GetInt16(3);
                 }
-                if (drRelationship.IsDBNull(10))
+                if (dataReader.IsDBNull(4))
                 {
-                    oRelationship.LastEditDate = DateTime.Now;
+                    relationship.end.status = CompoundDate.EMPTY;
                 }
                 else
                 {
-                    oRelationship.LastEditDate = drRelationship.GetDateTime(10);
+                    relationship.end.date = dataReader.GetDateTime(4);
+                    relationship.end.status = dataReader.GetInt16(5);
+                }
+                if (dataReader.IsDBNull(6))
+                {
+                    relationship.location = "";
+                }
+                else
+                {
+                    relationship.location = dataReader.GetString(6);
+                }
+                if (dataReader.IsDBNull(7))
+                {
+                    relationship.comments = "";
+                }
+                else
+                {
+                    relationship.comments = dataReader.GetString(7);
+                }
+                relationship.typeIndex = dataReader.GetInt16(8);
+
+                if (dataReader.IsDBNull(9))
+                {
+                    relationship.lastEditBy = "Steve Walton";
+                }
+                else
+                {
+                    relationship.lastEditBy = dataReader.GetString(9);
+                }
+                if (dataReader.IsDBNull(10))
+                {
+                    relationship.lastEditDate = DateTime.Now;
+                }
+                else
+                {
+                    relationship.lastEditDate = dataReader.GetDateTime(10);
                 }
             }
-            drRelationship.Close();
+            dataReader.Close();
 
-            // Return the relationship
-            return oRelationship;
+            // Return the relationship.
+            return relationship;
         }
+
+
 
         #endregion
 
@@ -442,14 +434,14 @@ namespace FamilyTree.Objects
         /// This can be used directly in comboboxes etc
 		/// </summary>
 		/// <returns>An array of clsIDName objects</returns>
-        public IndexName[] GetSources(enumSortOrder nOrder)
+        public IndexName[] GetSources(SortOrder nOrder)
         {
             // Build a list of relivant facts
             ArrayList oSources = new ArrayList();
 
             // Open the list of fact types
             OleDbCommand oSQL;
-            if (nOrder == enumSortOrder.Date)
+            if (nOrder == SortOrder.DATE)
             {
                 oSQL = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID FROM tbl_Sources ORDER BY LastUsed DESC;", cndb_);
             }
@@ -531,11 +523,11 @@ namespace FamilyTree.Objects
             {
                 int nID = Database.GetInt(drMedia, "ID", 0);
                 oFile.WriteLine("0 @M" + nID.ToString("0000") + "@ OBJE");
-                string sFilename = Database.GetString(drMedia, "Filename", "Undefined");
+                string sFilename = Database.getString(drMedia, "Filename", "Undefined");
                 oFile.WriteLine("1 FILE media/" + sFilename);
                 oFile.WriteLine("2 FORM");
                 oFile.WriteLine("3 TYPE photo");
-                string sTitle = Database.GetString(drMedia, "Title", "Undefined");
+                string sTitle = Database.getString(drMedia, "Title", "Undefined");
                 oFile.WriteLine("2 TITL " + sTitle);
                 bool bPrimary = drMedia.GetBoolean(drMedia.GetOrdinal("Primary"));
                 if (bPrimary)
@@ -577,14 +569,14 @@ namespace FamilyTree.Objects
             {
                 int nID = GetInt(drRepositories, "ID", 0);
                 oFile.WriteLine("0 @R" + nID.ToString("0000") + "@ REPO");
-                string sName = GetString(drRepositories, "Name", "");
+                string sName = getString(drRepositories, "Name", "");
                 oFile.WriteLine("1 NAME " + sName);
-                string sAddress = GetString(drRepositories, "Address", "");
+                string sAddress = getString(drRepositories, "Address", "");
                 if (sAddress != "")
                 {
                     GedcomMultiLine(oFile, 1, "ADDR", sAddress);
                 }
-                string sWebURL = GetString(drRepositories, "WebURL", "");
+                string sWebURL = getString(drRepositories, "WebURL", "");
                 if (sWebURL != "")
                 {
                     oFile.WriteLine("1 WWW " + sWebURL);
@@ -617,10 +609,10 @@ namespace FamilyTree.Objects
                     oFile.WriteLine("1 TITL " + sName);
                     if (!drSources.IsDBNull(2))
                     {
-                        clsDate oDate = new clsDate();
-                        oDate.Date = drSources.GetDateTime(2);
-                        oDate.Status = drSources.GetInt32(3);
-                        oFile.WriteLine("2 DATE " + oDate.Format(DateFormat.Gedcom));
+                        CompoundDate oDate = new CompoundDate();
+                        oDate.date = drSources.GetDateTime(2);
+                        oDate.status = drSources.GetInt32(3);
+                        oFile.WriteLine("2 DATE " + oDate.format(DateFormat.GEDCOM));
                     }
 
                     // Additional Information for the source
@@ -688,34 +680,34 @@ namespace FamilyTree.Objects
 
             // Write the details from the birth certificate
             bool bFirst = true;
-            if (oBirth.RegistrationDistrict != "")
+            if (oBirth.registrationDistrict != "")
             {
                 // oFile.WriteLine("2 PLAC "+oBirth.RegistrationDistrict);
-                GedcomLongNote(ref bFirst, oFile, "Registration District: " + oBirth.RegistrationDistrict);
+                GedcomLongNote(ref bFirst, oFile, "Registration District: " + oBirth.registrationDistrict);
             }
-            if (oBirth.WhenAndWhere != "")
+            if (oBirth.whenAndWhere != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "When and Where: " + oBirth.When.ToString("d MMM yyyy") + oBirth.WhenAndWhere);
+                GedcomLongNote(ref bFirst, oFile, "When and Where: " + oBirth.when.ToString("d MMM yyyy") + oBirth.whenAndWhere);
             }
-            if (oBirth.Name != "")
+            if (oBirth.name != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Name: " + oBirth.Name + " (" + oBirth.Sex + ")");
+                GedcomLongNote(ref bFirst, oFile, "Name: " + oBirth.name + " (" + oBirth.sex + ")");
             }
-            if (oBirth.Mother != "")
+            if (oBirth.mother != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Mother: " + oBirth.Mother);
+                GedcomLongNote(ref bFirst, oFile, "Mother: " + oBirth.mother);
             }
-            if (oBirth.Father != "")
+            if (oBirth.father != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Father: " + oBirth.Father + " (" + oBirth.FatherOccupation + ")");
+                GedcomLongNote(ref bFirst, oFile, "Father: " + oBirth.father + " (" + oBirth.fatherOccupation + ")");
             }
-            if (oBirth.Informant != "")
+            if (oBirth.informant != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Informant: " + oBirth.Informant);
+                GedcomLongNote(ref bFirst, oFile, "Informant: " + oBirth.informant);
             }
-            if (oBirth.WhenRegistered != "")
+            if (oBirth.whenRegistered != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "When Registered: " + oBirth.WhenRegistered);
+                GedcomLongNote(ref bFirst, oFile, "When Registered: " + oBirth.whenRegistered);
             }
         }
 
@@ -739,65 +731,65 @@ namespace FamilyTree.Objects
 
             // Write the details of the marriage certificate
             StringBuilder sbText;
-            WriteGedcomPlace(oFile, 2, oMarriage.Location, oOptions);
+            writeGedcomPlace(oFile, 2, oMarriage.location, oOptions);
             bool bFirst = true;
-            if (oMarriage.GroomName != "")
+            if (oMarriage.groomName != "")
             {
                 sbText = new StringBuilder();
-                sbText.Append(oMarriage.GroomName);
-                if (oMarriage.GroomAge != "")
+                sbText.Append(oMarriage.groomName);
+                if (oMarriage.groomAge != "")
                 {
-                    sbText.Append(" (" + oMarriage.GroomAge + ")");
+                    sbText.Append(" (" + oMarriage.groomAge + ")");
                 }
-                if (oMarriage.GroomOccupation != "")
+                if (oMarriage.groomOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.GroomOccupation);
+                    sbText.Append(" - " + oMarriage.groomOccupation);
                 }
-                if (oMarriage.GroomLiving != "")
+                if (oMarriage.groomLiving != "")
                 {
-                    sbText.Append(" - " + oMarriage.GroomLiving);
+                    sbText.Append(" - " + oMarriage.groomLiving);
                 }
                 GedcomLongNote(ref bFirst, oFile, "Groom: " + sbText.ToString());
             }
-            if (oMarriage.BrideName != "")
+            if (oMarriage.brideName != "")
             {
                 sbText = new StringBuilder();
-                sbText.Append(oMarriage.BrideName);
-                if (oMarriage.BrideAge != "")
+                sbText.Append(oMarriage.brideName);
+                if (oMarriage.brideAge != "")
                 {
-                    sbText.Append(" (" + oMarriage.BrideAge + ")");
+                    sbText.Append(" (" + oMarriage.brideAge + ")");
                 }
-                if (oMarriage.BrideOccupation != "")
+                if (oMarriage.brideOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.BrideOccupation);
+                    sbText.Append(" - " + oMarriage.brideOccupation);
                 }
-                if (oMarriage.BrideLiving != "")
+                if (oMarriage.brideLiving != "")
                 {
-                    sbText.Append(" - " + oMarriage.BrideLiving);
+                    sbText.Append(" - " + oMarriage.brideLiving);
                 }
                 GedcomLongNote(ref bFirst, oFile, "Bride: " + sbText.ToString());
             }
-            if (oMarriage.GroomFather != "")
+            if (oMarriage.groomFather != "")
             {
-                sbText = new StringBuilder(oMarriage.GroomFather);
-                if (oMarriage.GroomFatherOccupation != "")
+                sbText = new StringBuilder(oMarriage.groomFather);
+                if (oMarriage.groomFatherOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.GroomFatherOccupation);
+                    sbText.Append(" - " + oMarriage.groomFatherOccupation);
                 }
                 GedcomLongNote(ref bFirst, oFile, "Groom's Father: " + sbText.ToString());
             }
-            if (oMarriage.BrideFather != "")
+            if (oMarriage.brideFather != "")
             {
-                sbText = new StringBuilder(oMarriage.BrideFather);
-                if (oMarriage.BrideFatherOccupation != "")
+                sbText = new StringBuilder(oMarriage.brideFather);
+                if (oMarriage.brideFatherOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.BrideFatherOccupation);
+                    sbText.Append(" - " + oMarriage.brideFatherOccupation);
                 }
                 GedcomLongNote(ref bFirst, oFile, "Bride's Father: " + sbText.ToString());
             }
-            if (oMarriage.Witness != "")
+            if (oMarriage.witness != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Witness: " + oMarriage.Witness);
+                GedcomLongNote(ref bFirst, oFile, "Witness: " + oMarriage.witness);
             }
         }
 
@@ -896,7 +888,7 @@ namespace FamilyTree.Objects
             if (oAddress != null)
             {
                 string sAddress = oAddress.ToString();
-                WriteGedcomPlace(oFile, 2, sAddress, oOptions);
+                writeGedcomPlace(oFile, 2, sAddress, oOptions);
 
                 // Write the information about the members of this census record
                 sSql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation FROM tbl_CensusPeople WHERE HouseHoldID=" + nCensusHouseholdID.ToString() + " ORDER BY ID;";
@@ -905,11 +897,11 @@ namespace FamilyTree.Objects
                 bool bFirst = true;
                 while (drMembers.Read())
                 {
-                    string sName = GetString(drMembers, "NameGiven", "");
-                    string sAge = GetString(drMembers, "Age", "");
-                    string sRelation = GetString(drMembers, "RelationToHead", "");
-                    string sOccupation = GetString(drMembers, "Occupation", "");
-                    string sBorn = GetString(drMembers, "BornLocation", "");
+                    string sName = getString(drMembers, "NameGiven", "");
+                    string sAge = getString(drMembers, "Age", "");
+                    string sRelation = getString(drMembers, "RelationToHead", "");
+                    string sOccupation = getString(drMembers, "Occupation", "");
+                    string sBorn = getString(drMembers, "BornLocation", "");
 
                     StringBuilder sbMember = new StringBuilder();
                     sbMember.Append(sName);
@@ -1102,10 +1094,10 @@ namespace FamilyTree.Objects
             }
             drFactTypes.Close();
 
-            // Get the list of fact types
+            // Get the list of fact types.
             factTypes_ = (clsFactType[])(oFactTypes.ToArray(typeof(clsFactType)));
 
-            // Return success
+            // Return success.
             return true;
         }
 
@@ -1113,272 +1105,262 @@ namespace FamilyTree.Objects
 
         #region Census
 
-        // Return all the households in the specified year.
-        /// <summary>
-        /// Return all the households in the specified year.
-        /// This is intended to populate combo box etc...
-        /// </summary>
-        /// <param name="nYear">Specify the year to return the households of.</param>
+
+
+        /// <summary>Return all the households in the specified year.  This is intended to populate combo box etc...</summary>
+        /// <param name="theYear">Specify the year to return the households of.</param>
         /// <returns>An array of ID and names of house records.</returns>
-        public IndexName[] CenusGetHouseholds(int nYear)
+        public IndexName[] cenusGetHouseholds(int theYear)
         {
-            // Build a list of relivant facts
-            ArrayList oHouseholds = new ArrayList();
+            // Build a list of relivant facts.
+            ArrayList houseHolds = new ArrayList();
 
-            string sSql = "SELECT ID, Address FROM tbl_CensusHouseholds WHERE Year(CensusDate)=" + nYear.ToString() + " ORDER BY Address;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drHouseholds = oSql.ExecuteReader();
-            while (drHouseholds.Read())
+            string sql = "SELECT ID, Address FROM tbl_CensusHouseholds WHERE Year(CensusDate)=" + theYear.ToString() + " ORDER BY Address;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                IndexName oHousehold = new IndexName(drHouseholds.GetInt32(0), drHouseholds.GetString(1));
-                oHouseholds.Add(oHousehold);
+                IndexName houseHold = new IndexName(dataReader.GetInt32(0), dataReader.GetString(1));
+                houseHolds.Add(houseHold);
             }
-            drHouseholds.Close();
+            dataReader.Close();
 
-            // Return the households found
-            return (IndexName[])oHouseholds.ToArray(typeof(IndexName));
+            // Return the households found.
+            return (IndexName[])houseHolds.ToArray(typeof(IndexName));
         }
 
-        // Returns an array clsCensusPerson objects representing the member of the specified census household.
-        /// <summary>
-        /// Returns an array clsCensusPerson objects representing the member of the specified census household.
-        /// </summary>
-		/// <param name="nHouseholdID">Specifies the ID of the census household.</param>
+
+
+        /// <summary>Returns an array clsCensusPerson objects representing the member of the specified census household.</summary>
+		/// <param name="houseHoldIndex">Specifies the ID of the census household.</param>
 		/// <returns>An array of clsCensusPerson objects representing the members of the specified census household.</returns>
-        public clsCensusPerson[] CensusHouseholdMembers(int nHouseholdID)
+        public clsCensusPerson[] censusHouseholdMembers(int houseHoldIndex)
         {
-            string sSql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
+            string sql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
                 "FROM (tbl_CensusPeople LEFT JOIN tbl_People ON tbl_CensusPeople.PersonID = tbl_People.ID) INNER JOIN tbl_CensusHouseholds ON tbl_CensusPeople.HouseHoldID = tbl_CensusHouseholds.ID " +
-                "WHERE (((tbl_CensusPeople.HouseHoldID)=" + nHouseholdID.ToString() + ")) " +
+                "WHERE (((tbl_CensusPeople.HouseHoldID)=" + houseHoldIndex.ToString() + ")) " +
                 "ORDER BY tbl_CensusPeople.ID;";
-            return CensusGetRecords(sSql);
+            return censusGetRecords(sql);
         }
 
-        // Returns an array of clsCensusPerson objects as specified in the Sql command.
-        /// <summary>
-        /// Returns an array of clsCensusPerson objects as specified in the Sql command.
-        /// </summary>
-		/// <param name="sSql">Specifies a Sql command to fetch a collection of census members.</param>
+
+
+        /// <summary>Returns an array of clsCensusPerson objects as specified in the Sql command.</summary>
+		/// <param name="sql">Specifies a Sql command to fetch a collection of census members.</param>
 		/// <returns>An array of clsCensusPerson objects as specified in the Sql command.</returns>
-        private clsCensusPerson[] CensusGetRecords(string sSql)
+        private clsCensusPerson[] censusGetRecords(string sql)
         {
             // Build a list of household members
-            ArrayList oMembers = new ArrayList();
+            ArrayList members = new ArrayList();
 
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drMembers = oSql.ExecuteReader();
-            while (drMembers.Read())
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                clsCensusPerson oMember = new clsCensusPerson();
-                oMember.ID = drMembers.GetInt32(0);
-                oMember.HouseholdID = drMembers.GetInt32(1);
-                if (!drMembers.IsDBNull(2))
+                clsCensusPerson censusPerson = new clsCensusPerson();
+                censusPerson.index = dataReader.GetInt32(0);
+                censusPerson.houseHoldIndex = dataReader.GetInt32(1);
+                if (!dataReader.IsDBNull(2))
                 {
-                    oMember.PersonID = drMembers.GetInt32(2);
+                    censusPerson.personIndex = dataReader.GetInt32(2);
                 }
-                if (!drMembers.IsDBNull(3))
+                if (!dataReader.IsDBNull(3))
                 {
-                    oMember.CensusName = drMembers.GetString(3);
+                    censusPerson.censusName = dataReader.GetString(3);
                 }
-                if (!drMembers.IsDBNull(4))
+                if (!dataReader.IsDBNull(4))
                 {
-                    oMember.RelationToHead = drMembers.GetString(4);
+                    censusPerson.relationToHead = dataReader.GetString(4);
                 }
-                if (!drMembers.IsDBNull(5))
+                if (!dataReader.IsDBNull(5))
                 {
-                    oMember.Age = drMembers.GetString(5);
+                    censusPerson.age = dataReader.GetString(5);
                 }
-                if (!drMembers.IsDBNull(6))
+                if (!dataReader.IsDBNull(6))
                 {
-                    oMember.Occupation = drMembers.GetString(6);
+                    censusPerson.occupation = dataReader.GetString(6);
                 }
-                if (!drMembers.IsDBNull(7))
+                if (!dataReader.IsDBNull(7))
                 {
-                    oMember.BornLocation = drMembers.GetString(7);
+                    censusPerson.bornLocation = dataReader.GetString(7);
                 }
-                if (!drMembers.IsDBNull(8))
+                if (!dataReader.IsDBNull(8))
                 {
-                    oMember.PersonName = drMembers.GetString(8);
+                    censusPerson.personName = dataReader.GetString(8);
                 }
-                oMember.HouseholdName = drMembers.GetString(9);
-                oMember.Date = drMembers.GetDateTime(10);
+                censusPerson.houseHoldName = dataReader.GetString(9);
+                censusPerson.date = dataReader.GetDateTime(10);
 
-                oMembers.Add(oMember);
+                members.Add(censusPerson);
             }
-            drMembers.Close();
+            dataReader.Close();
 
-            // Return the members found
-            return (clsCensusPerson[])oMembers.ToArray(typeof(clsCensusPerson));
+            // Return the members found.
+            return (clsCensusPerson[])members.ToArray(typeof(clsCensusPerson));
         }
 
-        // Writes the specified clsCensusPerson record to the database.
-        /// <summary>
-        /// Writes the specified clsCensusPerson record to the database.
-        /// </summary>
-		/// <param name="oPerson">Specifies the clsCensusPerson record to write to the database.</param>
+
+
+        /// <summary>Writes the specified clsCensusPerson record to the database.</summary>
+		/// <param name="censusPerson">Specifies the clsCensusPerson record to write to the database.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool CensusSavePerson(clsCensusPerson oPerson)
+        public bool censusSavePerson(clsCensusPerson censusPerson)
         {
             // Delete this person if required.
-            if (!oPerson.IsValid())
+            if (!censusPerson.isValid())
             {
-                if (oPerson.ID != 0)
+                if (censusPerson.index != 0)
                 {
-                    OleDbCommand oDelete = new OleDbCommand("DELETE FROM tbl_CensusPeople WHERE ID=" + oPerson.ID.ToString() + ";", cndb_);
-                    oDelete.ExecuteNonQuery();
+                    OleDbCommand sqlCommand = new OleDbCommand("DELETE FROM tbl_CensusPeople WHERE ID=" + censusPerson.index.ToString() + ";", cndb_);
+                    sqlCommand.ExecuteNonQuery();
                 }
                 return true;
             }
 
             // Create a new record if required.
-            if (oPerson.ID == 0)
+            if (censusPerson.index == 0)
             {
-                string sSql = "SELECT MAX(ID) AS MaxID FROM tbl_CensusPeople;";
-                OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-                oPerson.ID = int.Parse(oSql.ExecuteScalar().ToString()) + 1;
+                string sql = "SELECT MAX(ID) AS MaxID FROM tbl_CensusPeople;";
+                OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+                censusPerson.index = int.Parse(sqlCommand.ExecuteScalar().ToString()) + 1;
 
-                // Create a new record
-                sSql = "INSERT INTO tbl_CensusPeople (ID,HouseholdID) VALUES (" + oPerson.ID.ToString() + "," + oPerson.HouseholdID.ToString() + ");";
-                oSql = new OleDbCommand(sSql, cndb_);
-                oSql.ExecuteNonQuery();
+                // Create a new record.
+                sql = "INSERT INTO tbl_CensusPeople (ID,HouseholdID) VALUES (" + censusPerson.index.ToString() + "," + censusPerson.houseHoldIndex.ToString() + ");";
+                sqlCommand = new OleDbCommand(sql, cndb_);
+                sqlCommand.ExecuteNonQuery();
             }
 
-            // Update the record
-            StringBuilder sbSql = new StringBuilder();
-            sbSql.Append("UPDATE tbl_CensusPeople SET ");
-            sbSql.Append("PersonID=" + oPerson.PersonID.ToString() + ",");
-            sbSql.Append("NameGiven=" + ToDb(oPerson.CensusName) + ",");
-            sbSql.Append("RelationToHead=" + ToDb(oPerson.RelationToHead) + ",");
-            sbSql.Append("Age=" + ToDb(oPerson.Age) + ",");
-            sbSql.Append("Occupation=" + ToDb(oPerson.Occupation) + ",");
-            sbSql.Append("BornLocation=" + ToDb(oPerson.BornLocation) + " ");
-            sbSql.Append("WHERE ID=" + oPerson.ID.ToString() + ";");
-            OleDbCommand oUpdate = new OleDbCommand(sbSql.ToString(), cndb_);
-            oUpdate.ExecuteNonQuery();
+            // Update the record.
+            StringBuilder updateSql = new StringBuilder();
+            updateSql.Append("UPDATE tbl_CensusPeople SET ");
+            updateSql.Append("PersonID=" + censusPerson.personIndex.ToString() + ",");
+            updateSql.Append("NameGiven=" + toDb(censusPerson.censusName) + ",");
+            updateSql.Append("RelationToHead=" + toDb(censusPerson.relationToHead) + ",");
+            updateSql.Append("Age=" + toDb(censusPerson.age) + ",");
+            updateSql.Append("Occupation=" + toDb(censusPerson.occupation) + ",");
+            updateSql.Append("BornLocation=" + toDb(censusPerson.bornLocation) + " ");
+            updateSql.Append("WHERE ID=" + censusPerson.index.ToString() + ";");
+            OleDbCommand updateCommand = new OleDbCommand(updateSql.ToString(), cndb_);
+            updateCommand.ExecuteNonQuery();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Returns an array of census records that contain the specified person.
-        /// <summary>
-        /// Returns an array of census records that contain the specified person.
-        /// </summary>
-		/// <param name="nPersonID"></param>
+
+
+        /// <summary>Returns an array of census records that contain the specified person.</summary>
+		/// <param name="personIndex"></param>
 		/// <returns></returns>
-        public clsCensusPerson[] CensusForPerson(int nPersonID)
+        public clsCensusPerson[] censusForPerson(int personIndex)
         {
             string sSql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
                 "FROM (tbl_CensusPeople LEFT JOIN tbl_People ON tbl_CensusPeople.PersonID = tbl_People.ID) INNER JOIN tbl_CensusHouseholds ON tbl_CensusPeople.HouseHoldID = tbl_CensusHouseholds.ID " +
-                "WHERE tbl_CensusPeople.PersonID=" + nPersonID.ToString() + " " +
+                "WHERE tbl_CensusPeople.PersonID=" + personIndex.ToString() + " " +
                 "ORDER BY tbl_CensusHouseholds.CensusDate;";
-            return CensusGetRecords(sSql);
+            return censusGetRecords(sSql);
         }
 
-        // Returns a human readable string representing the people that the specified person is living with according to the census record.
-        /// <summary>
-        /// Returns a human readable string representing the people that the specified person is living with according to the census record.
-        /// </summary>
-		/// <param name="oPerson">Specifies the person who should not be mentioned in the returned description.</param>
+
+
+        /// <summary>Returns a human readable string representing the people that the specified person is living with according to the census record.</summary>
+		/// <param name="censusPerson">Specifies the person who should not be mentioned in the returned description.</param>
 		/// <returns>A human readable string representing the people that the specified person is living with according to the census record.</returns>
-        public string CensusLivingWith(clsCensusPerson oPerson)
+        public string censusLivingWith(clsCensusPerson censusPerson)
         {
-            StringBuilder sbLiving = new StringBuilder();
-            string sSql = "SELECT NameGiven, Age FROM tbl_CensusPeople WHERE HouseHoldID=" + oPerson.HouseholdID.ToString() + " AND PersonID<>" + oPerson.PersonID.ToString() + " ORDER BY tbl_CensusPeople.ID;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drLiving = oSql.ExecuteReader();
-            while (drLiving.Read())
+            StringBuilder livingWith = new StringBuilder();
+            string sql = "SELECT NameGiven, Age FROM tbl_CensusPeople WHERE HouseHoldID=" + censusPerson.houseHoldIndex.ToString() + " AND PersonID<>" + censusPerson.personIndex.ToString() + " ORDER BY tbl_CensusPeople.ID;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                if (sbLiving.Length > 0)
+                if (livingWith.Length > 0)
                 {
-                    sbLiving.Append(", ");
+                    livingWith.Append(", ");
                 }
-                sbLiving.Append(drLiving.GetString(0));
-                if (!drLiving.IsDBNull(1))
+                livingWith.Append(dataReader.GetString(0));
+                if (!dataReader.IsDBNull(1))
                 {
-                    sbLiving.Append(" (" + drLiving.GetString(1) + ")");
+                    livingWith.Append(" (" + dataReader.GetString(1) + ")");
                 }
             }
-            drLiving.Close();
+            dataReader.Close();
 
-            sbLiving.Insert(0, "Living with ");
+            livingWith.Insert(0, "Living with ");
 
-            // Return the built string
-            return sbLiving.ToString();
+            // Return the built string.
+            return livingWith.ToString();
         }
 
         #endregion
 
         #region Places
 
-        // Remove any digits or spaces from the front of the specified place name.
-        /// <summary>
-        /// Remove any digits or spaces from the front of the specified place name.
-        /// </summary>
-        /// <param name="sPlace">Specifies the place name to clean up.</param>
+
+
+        /// <summary>Remove any digits or spaces from the front of the specified place name.</summary>
+        /// <param name="placeName">Specifies the place name to clean up.</param>
         /// <returns>A clean version of the place name.</returns>
-        private string CleanPlaceName(string sPlace)
+        private string cleanPlaceName(string placeName)
         {
-            // Check that the input string is valid
-            if (sPlace.Length == 0)
+            // Check that the input string is valid.
+            if (placeName.Length == 0)
             {
                 return "";
             }
 
-            // Remove digits and spaces from the front of the place name
+            // Remove digits and spaces from the front of the place name.
             int nI = 0;
-            while (sPlace[nI] == ' ' || (sPlace[nI] >= '0' && sPlace[nI] <= '9'))
+            while (placeName[nI] == ' ' || (placeName[nI] >= '0' && placeName[nI] <= '9'))
             {
                 nI++;
             }
-            return sPlace.Substring(nI);
+            return placeName.Substring(nI);
         }
 
-        // Returns the place object with the specified compound name under the specified parent.
-        /// <summary>
-        /// Returns the place object with the specified compound name under the specified parent.
-        /// </summary>
-        /// <param name="sPlace">Specifies the compound name of the place.</param>
-        /// <param name="nParentID">Specifies the index of the parent place of the compound name.</param>
+
+
+        /// <summary>Returns the place object with the specified compound name under the specified parent.</summary>
+        /// <param name="placeName">Specifies the compound name of the place.</param>
+        /// <param name="parentIndex">Specifies the index of the parent place of the compound name.</param>
         /// <returns>The place object or null.</returns>
-        private clsPlace GetPlace(string sPlace, int nParentID)
+        private clsPlace getPlace(string placeName, int parentIndex)
         {
-            // Get the head and tail
-            string sHead = sPlace.Trim();
-            string sTail = string.Empty;
-            int nComma = sPlace.LastIndexOf(',');
-            if (nComma > 0)
+            // Get the head and tail.
+            string head = placeName.Trim();
+            string tail = string.Empty;
+            int comma = placeName.LastIndexOf(',');
+            if (comma > 0)
             {
-                sHead = sPlace.Substring(nComma + 1).Trim();
-                sTail = sPlace.Substring(0, nComma).Trim();
+                head = placeName.Substring(comma + 1).Trim();
+                tail = placeName.Substring(0, comma).Trim();
             }
 
-            // Get the ID of this place
-            int nPlaceID = getPlaceIndex(sHead, nParentID);
-            if (nPlaceID == 0)
+            // Get the ID of this place.
+            int placeIndex = getPlaceIndex(head, parentIndex);
+            if (placeIndex == 0)
             {
                 return null;
             }
 
             // Return this place if at the end of the string.
-            if (sTail == string.Empty)
+            if (tail == string.Empty)
             {
-                return new clsPlace(nPlaceID, this);
+                return new clsPlace(placeIndex, this);
             }
 
             // Search further down the string.
-            return GetPlace(sTail, nPlaceID);
+            return getPlace(tail, placeIndex);
         }
 
-        // Returns the place object that represents the specified compound place name.
-        /// <summary>
-        /// Returns the place object that represents the specified compound place name.
-        /// </summary>
-        /// <param name="sName">Specifies the name of the place.  Eg. Leeds, Yorkshire, England.</param>
+
+
+        /// <summary>Returns the place object that represents the specified compound place name.</summary>
+        /// <param name="placeName">Specifies the name of the place.  Eg. Leeds, Yorkshire, England.</param>
         /// <returns>The place object or null.</returns>
-        public clsPlace GetPlace(string sPlace)
+        public clsPlace GetPlace(string placeName)
         {
-            return GetPlace(sPlace, 0);
+            return getPlace(placeName, 0);
         }
 
 
@@ -1389,11 +1371,11 @@ namespace FamilyTree.Objects
         /// <returns>The ID of the requested place.  0 if no matching place can be found.</returns>
         private int getPlaceIndex(string placeName, int parentIndex)
         {
-            // Clean the place name
-            placeName = CleanPlaceName(placeName);
+            // Clean the place name.
+            placeName = cleanPlaceName(placeName);
 
-            // Look for this place in the database
-            string sql = "SELECT ID FROM tbl_Places WHERE Name=" + Innoval.clsDatabase.ToDb(placeName) + " AND ParentID=" + parentIndex.ToString() + ";";
+            // Look for this place in the database.
+            string sql = "SELECT ID FROM tbl_Places WHERE Name = " + Innoval.clsDatabase.ToDb(placeName) + " AND ParentID = " + parentIndex.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             int placeIndex = 0;
             try
@@ -1408,276 +1390,257 @@ namespace FamilyTree.Objects
 
 
 
-        /// <summary>
-        /// Adds a compound place to the database.
-        /// This might result in a number of place records in the tbl_Places table.
-        /// It will create a link from the reference object to add the related tbl_Places records.
-        /// </summary>
-        /// <param name="sPlace">Specifies the compound place separated by , and starting at the top level.</param>
-        /// <param name="nObjectTypeID">Specifies the type of object that created this compound place.</param>
-        /// <param name="nObjectID">Specifies the ID of the reference object.</param>
+        /// <summary>Adds a compound place to the database.  This might result in a number of place records in the tbl_Places table.  It will create a link from the reference object to add the related tbl_Places records.</summary>
+        /// <param name="placeName">Specifies the compound place separated by , and starting at the top level.</param>
+        /// <param name="objectTypeIndex">Specifies the type of object that created this compound place.</param>
+        /// <param name="objectIndex">Specifies the ID of the reference object.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool AddPlace(string sPlace, int nObjectTypeID, int nObjectID)
+        public bool addPlace(string placeName, int objectTypeIndex, int objectIndex)
         {
-            // Add this place and link to the specified object
-            return AddPlace(sPlace, nObjectTypeID, nObjectID, 0, 0);
+            // Add this place and link to the specified object.
+            return addPlace(placeName, objectTypeIndex, objectIndex, 0, 0);
         }
 
-        // Adds a compound place to the database.
-        /// <summary>
-        /// Adds a compound place to the database.
-        /// This results in a number of place records in the tbl_Places table.
-        /// </summary>
-        /// <param name="sPlace">Specifies the compound place separated by , but not nessercary starting with the top level.</param>
-        /// <param name="nObjectTypeID">Specifies the type of object that created this compound place.</param>
-        /// <param name="nObjectID">Specifies the ID of the reference object.</param>
-        /// <param name="nParentID">Specifies the ID of the place that is the parent above the compound place string.</param>
-        /// <param name="nLevel">Specifies the level from the top level.</param>
+
+
+        /// <summary>Adds a compound place to the database.  This results in a number of place records in the tbl_Places table.</summary>
+        /// <param name="placeName">Specifies the compound place separated by , but not nessercary starting with the top level.</param>
+        /// <param name="objectTypeIndex">Specifies the type of object that created this compound place.</param>
+        /// <param name="objectIndex">Specifies the ID of the reference object.</param>
+        /// <param name="parentIndex">Specifies the ID of the place that is the parent above the compound place string.</param>
+        /// <param name="level">Specifies the level from the top level.</param>
         /// <returns></returns>
-        private bool AddPlace(string sPlace, int nObjectTypeID, int nObjectID, int nParentID, int nLevel)
+        private bool addPlace(string placeName, int objectTypeIndex, int objectIndex, int parentIndex, int level)
         {
-            // Validate the inputs
-            if (sPlace == null)
+            // Validate the inputs.
+            if (placeName == null)
             {
                 return false;
             }
 
-            // Split the place into a list of places
-            string sHead = sPlace.Trim();
-            string sTail = "";
-            int nComma = sPlace.LastIndexOf(',');
-            if (nComma > 0)
+            // Split the place into a list of places.
+            string head = placeName.Trim();
+            string tail = "";
+            int comma = placeName.LastIndexOf(',');
+            if (comma > 0)
             {
-                sHead = sPlace.Substring(nComma + 1).Trim();
-                sTail = sPlace.Substring(0, nComma).Trim();
+                head = placeName.Substring(comma + 1).Trim();
+                tail = placeName.Substring(0, comma).Trim();
             }
 
-            // Get the ID of this place
-            int nPlaceID = getPlaceIndex(sHead, nParentID);
+            // Get the ID of this place.
+            int placeIndex = getPlaceIndex(head, parentIndex);
 
-            // Add this place (if required)
-            if (nPlaceID == 0)
+            // Add this place (if required).
+            if (placeIndex == 0)
             {
-                nPlaceID = AddPlace(nParentID, sHead);
+                placeIndex = addPlace(parentIndex, head);
             }
 
-            // Link the object to this place
-            string sSql = "INSERT INTO tbl_ToPlaces (PlaceID,TypeID,ObjectID) VALUES(" + nPlaceID.ToString() + "," + nObjectTypeID.ToString() + "," + nObjectID.ToString() + ");";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
+            // Link the object to this place.
+            string sql = "INSERT INTO tbl_ToPlaces (PlaceID, TypeID, ObjectID) VALUES(" + placeIndex.ToString() + ", " + objectTypeIndex.ToString() + ", " + objectIndex.ToString() + ");";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             try
             {
-                oSql.ExecuteNonQuery();
+                sqlCommand.ExecuteNonQuery();
             }
             catch { }
 
-            // Deal with the tail if any
-            if (sTail != "")
+            // Deal with the tail if any.
+            if (tail != "")
             {
-                AddPlace(sTail, nObjectTypeID, nObjectID, nPlaceID, nLevel + 1);
+                addPlace(tail, objectTypeIndex, objectIndex, placeIndex, level + 1);
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Add the specified place to the database.
-        /// <summary>
-        /// Add the specified place to the database.
-        /// </summary>
-        /// <param name="nParentID">Specifies the ID of the parent place.</param>
-        /// <param name="sName">Specifies the name of the place.</param>
+
+
+        /// <summary>Add the specified place to the database.</summary>
+        /// <param name="parentIndex">Specifies the ID of the parent place.</param>
+        /// <param name="placeName">Specifies the name of the place.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private int AddPlace(int nParentID, string sName)
+        private int addPlace(int parentIndex, string placeName)
         {
-            // Find the ID of the next available place record
-            string sSql = "SELECT MAX(ID) AS NewID FROM tbl_Places;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            int nPlaceID = 0;
+            // Find the ID of the next available place record.
+            string sql = "SELECT MAX(ID) AS NewID FROM tbl_Places;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            int placeIndex = 0;
             try
             {
-                nPlaceID = int.Parse(oSql.ExecuteScalar().ToString());
+                placeIndex = int.Parse(sqlCommand.ExecuteScalar().ToString());
             }
             catch { }
-            nPlaceID++;
+            placeIndex++;
 
-            // Clean the name
-            sName = CleanPlaceName(sName);
+            // Clean the name.
+            placeName = cleanPlaceName(placeName);
 
-            // Insert the new place
-            sSql = "INSERT INTO tbl_Places (ID,Name,ParentID,Status) VALUES (" + nPlaceID.ToString() + ",\"" + sName + "\"," + nParentID.ToString() + ",0);";
-            oSql = new OleDbCommand(sSql, cndb_);
-            oSql.ExecuteNonQuery();
+            // Insert the new place.
+            sql = "INSERT INTO tbl_Places (ID, Name, ParentID, Status) VALUES (" + placeIndex.ToString() + ", \"" + placeName + "\", " + parentIndex.ToString() + ", 0);";
+            sqlCommand = new OleDbCommand(sql, cndb_);
+            sqlCommand.ExecuteNonQuery();
 
-            // Return the ID of this new place
-            return nPlaceID;
+            // Return the ID of this new place.
+            return placeIndex;
         }
 
-        // Returns the specified compound place string in html format.
-        /// <summary>
-        /// Returns the specified compound place string in html format.
-        /// Each place in the compound place with have a html link.
-        /// </summary>
-        /// <param name="sPlace">Specifies the compound place string.</param>
-        /// <param name="nParentID">Specifies the ID of the place above the compound place string.</param>
+
+
+        /// <summary>Returns the specified compound place string in html format.  Each place in the compound place with have a html link.</summary>
+        /// <param name="placeName">Specifies the compound place string.</param>
+        /// <param name="parentIndex">Specifies the ID of the place above the compound place string.</param>
         /// <returns>A html string to represent the specified compound place.</returns>
-        private string PlaceToHtml(string sPlace, int nParentID)
+        private string placeToHtml(string placeName, int parentIndex)
         {
-            // Get the head and tail
-            string sHead = sPlace.Trim();
-            string sTail = "";
-            int nComma = sPlace.LastIndexOf(',');
-            if (nComma > 0)
+            // Get the head and tail.
+            string head = placeName.Trim();
+            string tail = "";
+            int comma = placeName.LastIndexOf(',');
+            if (comma > 0)
             {
-                sHead = sPlace.Substring(nComma + 1).Trim();
-                sTail = sPlace.Substring(0, nComma).Trim();
+                head = placeName.Substring(comma + 1).Trim();
+                tail = placeName.Substring(0, comma).Trim();
             }
 
-            // Get the ID of this place
-            int nPlaceID = getPlaceIndex(sHead, nParentID);
+            // Get the ID of this place.
+            int placeIndex = getPlaceIndex(head, parentIndex);
 
             // Can not encode this place.
-            if (nPlaceID == 0)
+            if (placeIndex == 0)
             {
-                if (sTail == "")
+                if (tail == "")
                 {
-                    return sHead;
+                    return head;
                 }
-                return sTail + ", " + sHead;
+                return tail + ", " + head;
             }
 
-            // Encode this place into linked html
-            string sPlaceHtml = "<A href=\"place:" + nPlaceID.ToString() + "\">" + sHead + "</A>";
+            // Encode this place into linked html.
+            string placeHtml = "<a href=\"place:" + placeIndex.ToString() + "\">" + head + "</a>";
 
-            // Deal with the tail
-            if (sTail != "")
+            // Deal with the tail.
+            if (tail != "")
             {
-                return PlaceToHtml(sTail, nPlaceID) + ", " + sPlaceHtml;
+                return placeToHtml(tail, placeIndex) + ", " + placeHtml;
             }
 
-            // Return the place in html format
-            return sPlaceHtml;
+            // Return the place in html format.
+            return placeHtml;
         }
 
-        // Returns the specified compound place string in html format.
-        /// <summary>
-        /// Returns the specified compound place string in html format.
-        /// </summary>
-        /// <param name="sPlace">Specifies the full compound place string including the top level.</param>
+
+
+        /// <summary>Returns the specified compound place string in html format.</summary>
+        /// <param name="placeName">Specifies the full compound place string including the top level.</param>
         /// <returns>A html string to represent the specified compound place string.</returns>
-        public string PlaceToHtml(string sPlace)
+        public string placeToHtml(string placeName)
         {
-            return PlaceToHtml(sPlace, 0);
+            return placeToHtml(placeName, 0);
         }
 
-        // Returns the specified compound place string in Gedcom format.
-        /// <summary>
-        /// Returns the specified compound place string in Gedcom format.
-        /// The full compound place will not be returned.
-        /// The portion of the compound place will depend if a place record or an address record is required.
-        /// </summary>
-        /// <param name="sPlace">Specifies the compound location string.</param>
-        /// <param name="nStatus">Specify 0 to use the place in a PLAC record.  Specify 1 to use the place in an ADDR record.</param>
-        /// <param name="nParentID">Specifies the ID parent place above the compound location string.</param>
+
+
+        /// <summary>Returns the specified compound place string in Gedcom format.  The full compound place will not be returned.  The portion of the compound place will depend if a place record or an address record is required.</summary>
+        /// <param name="placeName">Specifies the compound location string.</param>
+        /// <param name="status">Specify 0 to use the place in a PLAC record.  Specify 1 to use the place in an ADDR record.</param>
+        /// <param name="parentIndex">Specifies the ID parent place above the compound location string.</param>
         /// <returns>A string to represent the place in a gedcom file.</returns>
-        private string PlaceToGedcom(string sPlace, int nStatus, int nParentID)
+        private string placeToGedcom(string placeName, int status, int parentIndex)
         {
-            // Get the head and tail
-            string sHead = sPlace.Trim();
-            string sTail = "";
-            int nComma = sPlace.LastIndexOf(',');
-            if (nComma > 0)
+            // Get the head and tail.
+            string head = placeName.Trim();
+            string tail = "";
+            int comma = placeName.LastIndexOf(',');
+            if (comma > 0)
             {
-                sHead = sPlace.Substring(nComma + 1).Trim();
-                sTail = sPlace.Substring(0, nComma).Trim();
+                head = placeName.Substring(comma + 1).Trim();
+                tail = placeName.Substring(0, comma).Trim();
             }
 
-            // Get the ID of this place
-            int nPlaceID = getPlaceIndex(sHead, nParentID);
+            // Get the ID of this place.
+            int placeIndex = getPlaceIndex(head, parentIndex);
 
             // Can not encode this place.
-            if (nPlaceID == 0)
+            if (placeIndex == 0)
             {
                 return "";
             }
 
-            // Get the status of this place
-            string sSql = "SELECT Status FROM tbl_Places WHERE ID=" + nPlaceID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            int nPlaceStatus = 0;
+            // Get the status of this place.
+            string sql = "SELECT Status FROM tbl_Places WHERE ID = " + placeIndex.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            int placeStatus = 0;
             try
             {
-                nPlaceStatus = int.Parse(oSql.ExecuteScalar().ToString());
+                placeStatus = int.Parse(sqlCommand.ExecuteScalar().ToString());
             }
             catch { }
 
-            // Deal with the tail
-            if (sTail != "")
+            // Deal with the tail.
+            if (tail != "")
             {
-                sTail = PlaceToGedcom(sTail, nStatus, nPlaceID);
+                tail = placeToGedcom(tail, status, placeIndex);
             }
 
             // If the status is correct then return the head.
-            if (nPlaceStatus == nStatus)
+            if (placeStatus == status)
             {
-                if (sTail != "")
+                if (tail != "")
                 {
-                    return sTail + ", " + sHead;
+                    return tail + ", " + head;
                 }
-                return sHead;
+                return head;
             }
             else
             {
-                if (sTail != "")
+                if (tail != "")
                 {
-                    return sTail;
+                    return tail;
                 }
             }
 
-            // Nothing
+            // Nothing.
             return "";
         }
 
-        // Returns the specified compound place string in gedcom format.
-        /// <summary>
-        /// Returns the specified compound place string in gedcom format.
-        /// The full compound place will not be returned.
-        /// The portion of the compound place will depend if a place record or an address record is required.
-        /// </summary>
-        /// <param name="sPlace">Specifies the full compound location string.</param>
-        /// <param name="nStatus">Specify 0 to use the place in a PLAC record.  Specify 1 to use the place in an ADDR record.</param>
+
+
+        /// <summary>Returns the specified compound place string in gedcom format.  The full compound place will not be returned.  The portion of the compound place will depend if a place record or an address record is required.</summary>
+        /// <param name="placeName">Specifies the full compound location string.</param>
+        /// <param name="status">Specify 0 to use the place in a PLAC record.  Specify 1 to use the place in an ADDR record.</param>
         /// <returns>A string to represent the place in a gedcom file.</returns>
-        public string PlaceToGedcom(string sPlace, int nStatus)
+        public string placeToGedcom(string placeName, int status)
         {
-            return PlaceToGedcom(sPlace, nStatus, 0);
+            return placeToGedcom(placeName, status, 0);
         }
 
-        // Write the gedcom PLAC record. and ADDR records from a single place record in the database.
-        /// <summary>
-        /// Write the gedcom PLAC record.
-        /// This can also include optional ADDR, MAP, and CTRY records.
-        /// Originally this was only PLAC and ADDR records.
-        /// </summary>
-        /// <param name="oFile">Specifies the file to write the PLAC and ADDR records into.</param>
-        /// <param name="nLevel">Specifies the level to write the records at.</param>
-        /// <param name="sFullPlace">Specifies the database place record to be decoded into gedcom PLAC and ADDR records.</param>
-        /// <param name="oOptions">Specifies the Gedcom options to apply to this place.</param>
+
+
+        /// <summary>Write the gedcom PLAC record.  This can also include optional ADDR, MAP, and CTRY records.  Originally this was only PLAC and ADDR records.</summary>
+        /// <param name="file">Specifies the file to write the PLAC and ADDR records into.</param>
+        /// <param name="level">Specifies the level to write the records at.</param>
+        /// <param name="fullPlace">Specifies the database place record to be decoded into gedcom PLAC and ADDR records.</param>
+        /// <param name="options">Specifies the Gedcom options to apply to this place.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool WriteGedcomPlace(StreamWriter oFile, int nLevel, string sFullPlace, clsGedcomOptions oOptions)
+        public bool writeGedcomPlace(StreamWriter file, int level, string fullPlace, clsGedcomOptions options)
         {
-            // Optionally split the address off from the PLAC tag
-            if (oOptions.RemoveADDRfromPLAC)
+            // Optionally split the address off from the PLAC tag.
+            if (options.RemoveADDRfromPLAC)
             {
-                string sPlace = PlaceToGedcom(sFullPlace, 0);
-                if (sPlace != "")
+                string placeName = placeToGedcom(fullPlace, 0);
+                if (placeName != "")
                 {
-                    oFile.WriteLine(nLevel.ToString() + " PLAC " + sPlace);
+                    file.WriteLine(level.ToString() + " PLAC " + placeName);
                 }
             }
             else
             {
-                if (sFullPlace != "")
+                if (fullPlace != "")
                 {
-                    oFile.WriteLine(nLevel.ToString() + " PLAC " + sFullPlace);
+                    file.WriteLine(level.ToString() + " PLAC " + fullPlace);
                 }
             }
 
@@ -1685,125 +1648,127 @@ namespace FamilyTree.Objects
             // If not then the level should not increase.
             // PhpGedView did not increase the level originally.
 
-            // Add the optional MAP tag with longitude and latitude
-            if (oOptions.UseLongitude)
+            // Add the optional MAP tag with longitude and latitude.
+            if (options.UseLongitude)
             {
-                clsPlace oPlace = GetPlace(sFullPlace);
-                if (oPlace != null)
+                clsPlace place = GetPlace(fullPlace);
+                if (place != null)
                 {
-                    oFile.WriteLine((nLevel + 1).ToString() + " MAP");
-                    if (oPlace.Latitude >= 0)
+                    file.WriteLine((level + 1).ToString() + " MAP");
+                    if (place.Latitude >= 0)
                     {
-                        oFile.WriteLine((nLevel + 2).ToString() + " LATI N" + oPlace.Latitude.ToString());
+                        file.WriteLine((level + 2).ToString() + " LATI N" + place.Latitude.ToString());
                     }
                     else
                     {
-                        oFile.WriteLine((nLevel + 2).ToString() + " LATI S" + Math.Abs(oPlace.Latitude).ToString());
+                        file.WriteLine((level + 2).ToString() + " LATI S" + Math.Abs(place.Latitude).ToString());
                     }
-                    if (oPlace.Longitude > 0)
+                    if (place.Longitude > 0)
                     {
-                        oFile.WriteLine((nLevel + 2).ToString() + " LONG E" + oPlace.Longitude.ToString());
+                        file.WriteLine((level + 2).ToString() + " LONG E" + place.Longitude.ToString());
                     }
                     else
                     {
-                        oFile.WriteLine((nLevel + 2).ToString() + " LONG W" + Math.Abs(oPlace.Longitude).ToString());
+                        file.WriteLine((level + 2).ToString() + " LONG W" + Math.Abs(place.Longitude).ToString());
                     }
                 }
             }
 
-            // Optionally include an ADDR tag
-            if (oOptions.UseADDR)
+            // Optionally include an ADDR tag.
+            if (options.UseADDR)
             {
-                string sAddress = PlaceToGedcom(sFullPlace, 1);
-                if (sAddress != "")
+                string address = placeToGedcom(fullPlace, 1);
+                if (address != "")
                 {
-                    oFile.WriteLine((nLevel + 1).ToString() + " ADDR " + sAddress);
+                    file.WriteLine((level + 1).ToString() + " ADDR " + address);
                 }
             }
 
-            // Include the optional CTRY (Country) tag
-            if (oOptions.UseCTRY)
+            // Include the optional CTRY (Country) tag.
+            if (options.UseCTRY)
             {
-                int nComma = sFullPlace.LastIndexOf(',');
-                if (nComma > 0)
+                int comma = fullPlace.LastIndexOf(',');
+                if (comma > 0)
                 {
-                    string sCountry = sFullPlace.Substring(nComma + 2);
-                    oFile.WriteLine((nLevel + 1).ToString() + " CTRY " + sCountry);
+                    string country = fullPlace.Substring(comma + 2);
+                    file.WriteLine((level + 1).ToString() + " CTRY " + country);
                 }
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Removes all the place links for the specified object.
-        /// <summary>
-        /// Removes all the place links for the specified object.
-        /// </summary>
-        /// <param name="nObjectTypeID">Specifies the type of object.</param>
-        /// <param name="nObjectID">Specifies the ID of the object.</param>
-        public void PlaceDelink(int nObjectTypeID, int nObjectID)
+
+
+        /// <summary>Removes all the place links for the specified object.</summary>
+        /// <param name="objectTypeIndex">Specifies the type of object.</param>
+        /// <param name="objectIndex">Specifies the ID of the object.</param>
+        public void placeDelink(int objectTypeIndex, int objectIndex)
         {
-            string sSql = "DELETE FROM tbl_ToPlaces WHERE TypeID=" + nObjectTypeID.ToString() + " AND ObjectID=" + nObjectID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
+            string sql = "DELETE FROM tbl_ToPlaces WHERE TypeID = " + objectTypeIndex.ToString() + " AND ObjectID = " + objectIndex.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             try
             {
-                oSql.ExecuteNonQuery();
+                sqlCommand.ExecuteNonQuery();
             }
             catch { }
         }
 
-        // Removes all the places that have no links to them.
-        /// <summary>
-        /// Removes all the places that have no links to them.
-        /// </summary>
-        public int PlaceRemoveUnlinked()
+
+
+        /// <summary>Removes all the places that have no links to them.</summary>
+        public int placeRemoveUnlinked()
         {
-            // Get the list of places to delete
-            string sSql = "SELECT tbl_Places.ID, Count(tbl_ToPlaces.TypeID) AS CountOfTypeID " +
+            // Get the list of places to delete.
+            string sql = "SELECT tbl_Places.ID, Count(tbl_ToPlaces.TypeID) AS CountOfTypeID " +
                 "FROM tbl_Places LEFT JOIN tbl_ToPlaces ON tbl_Places.ID = tbl_ToPlaces.PlaceID " +
                 "GROUP BY tbl_Places.ID " +
                 "HAVING (((Count(tbl_ToPlaces.TypeID))=0));";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            ArrayList oDelete = new ArrayList();
-            OleDbDataReader drDelete = oSql.ExecuteReader();
-            while (drDelete.Read())
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            ArrayList placesDelete = new ArrayList();
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                oDelete.Add(drDelete.GetInt32(0));
+                placesDelete.Add(dataReader.GetInt32(0));
             }
-            drDelete.Close();
+            dataReader.Close();
 
-            // Delete the places
-            foreach (int nPlaceID in oDelete)
+            // Delete the places.
+            foreach (int placeIndex in placesDelete)
             {
-                sSql = "DELETE FROM tbl_Places WHERE ID=" + nPlaceID.ToString() + ";";
-                oSql = new OleDbCommand(sSql, cndb_);
-                oSql.ExecuteNonQuery();
+                sql = "DELETE FROM tbl_Places WHERE ID = " + placeIndex.ToString() + ";";
+                sqlCommand = new OleDbCommand(sql, cndb_);
+                sqlCommand.ExecuteNonQuery();
             }
 
             // Return the number of places that are removed.
-            return oDelete.Count;
+            return placesDelete.Count;
         }
 
-        public clsPlace[] GetPlaces(int nPlaceID)
+
+
+        public clsPlace[] getPlaces(int placeIndex)
         {
-            // Build a list to contain the places
-            ArrayList oPlaces = new ArrayList();
+            // Build a list to contain the places.
+            ArrayList places = new ArrayList();
 
-            // Build the list of child places
-            string sSql = "SELECT * FROM tbl_Places WHERE ParentID=" + nPlaceID.ToString() + " ORDER BY Name;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drPlaces = oSql.ExecuteReader();
-            while (drPlaces.Read())
+            // Build the list of child places.
+            string sql = "SELECT * FROM tbl_Places WHERE ParentID = " + placeIndex.ToString() + " ORDER BY Name;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                clsPlace oPlace = new clsPlace(drPlaces, this);
-                oPlaces.Add(oPlace);
+                clsPlace place = new clsPlace(dataReader, this);
+                places.Add(place);
             }
-            drPlaces.Close();
+            dataReader.Close();
 
-            // Return the list of places
-            return (clsPlace[])oPlaces.ToArray(typeof(clsPlace));
+            // Return the list of places.
+            return (clsPlace[])places.ToArray(typeof(clsPlace));
         }
+
+
 
         #endregion
 
@@ -1850,13 +1815,13 @@ namespace FamilyTree.Objects
                 int nPersonID = GetInt(dataReader, "PersonID", 0);
                 html.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
                 Person oPerson = new Person(nPersonID, this);
-                html.Append(oPerson.GetName(true, true));
+                html.Append(oPerson.getName(true, true));
                 html.Append("</a>");
                 html.Append("</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetInt(drChanges,"Priority",0).ToString() + "</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"Description","") + "</span></td>");
                 html.Append("<td align=\"right\">" + GetInt(dataReader, "Priority", 0).ToString() + "</td>");
-                html.Append("<td>" + GetString(dataReader, "Description", "") + "</td>");
+                html.Append("<td>" + getString(dataReader, "Description", "") + "</td>");
                 html.Append("</tr>");
             }
             dataReader.Close();
@@ -1898,18 +1863,18 @@ namespace FamilyTree.Objects
                 sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"Type","") + "</span></td>");
                 sbHtml.Append("<td><span class=\"Small\">");
                  */
-                html.Append("<td>" + GetString(drChanges, "EditDate", "") + "</td>");
-                html.Append("<td>" + GetString(drChanges, "LastEditBy", "") + "</td>");
-                html.Append("<td>" + GetString(drChanges, "Type", "") + "</td>");
+                html.Append("<td>" + getString(drChanges, "EditDate", "") + "</td>");
+                html.Append("<td>" + getString(drChanges, "LastEditBy", "") + "</td>");
+                html.Append("<td>" + getString(drChanges, "Type", "") + "</td>");
                 html.Append("<td>");
-                switch (GetString(drChanges, "Type", ""))
+                switch (getString(drChanges, "Type", ""))
                 {
                 case "Person":
                     html.Append("<a href=\"person:" + GetInt(drChanges, "ID", 0) + "\">");
                     break;
                 }
-                html.Append(GetString(drChanges, "Name", ""));
-                switch (GetString(drChanges, "Type", ""))
+                html.Append(getString(drChanges, "Name", ""));
+                switch (getString(drChanges, "Type", ""))
                 {
                 case "Person":
                     html.Append("</a>");
@@ -1975,188 +1940,179 @@ namespace FamilyTree.Objects
 
         #region Static helper functions
 
-        // Returns a string that can be inserted into a SQL command as the value for a string field.
-        /// <summary>
-        /// Returns a string that can be inserted into a SQL command as the value for a string field.
-        /// </summary>
-        /// <param name="sValue">Specifies the value for a SQL string field.</param>
+
+
+        /// <summary>Returns a string that can be inserted into a SQL command as the value for a string field.</summary>
+        /// <param name="value">Specifies the value for a SQL string field.</param>
         /// <returns>A string that can inserted into a SQL command.</returns>
-        public static string ToDb(string sValue)
+        public static string toDb(string value)
         {
-            // Check for any empty string
-            if (sValue == null)
+            // Check for any empty string.
+            if (value == null)
             {
                 return "NULL";
             }
-            if (sValue.Length == 0)
+            if (value.Length == 0)
             {
                 return "NULL";
             }
 
-            // Remove any double quotes
-            if (sValue.Contains("\""))
+            // Remove any double quotes.
+            if (value.Contains("\""))
             {
                 // Replace all the double quotes with single quotes.
-                sValue = sValue.Replace("\"", "'");
+                value = value.Replace("\"", "'");
             }
 
-            // Return the string
-            return "\"" + sValue + "\"";
+            // Return the string.
+            return "\"" + value + "\"";
         }
 
-        // Returns a string that can be inserted into a SQL command as the value for a date time field.
-        /// <summary>
-        /// Returns a string that can be inserted into a SQL command as the value for a date time field.
-        /// </summary>
-        /// <param name="oValue">Specifies the value for a SQL date/time field.</param>
+
+
+        /// <summary>Returns a string that can be inserted into a SQL command as the value for a date time field.</summary>
+        /// <param name="value">Specifies the value for a SQL date/time field.</param>
         /// <returns>A string that can be inserted into a SQL command.</returns>
-        public static string ToDb(clsDate oValue)
+        public static string toDb(CompoundDate value)
         {
             // Check for a NULL date
-            if (oValue.Status == 15)
+            if (value.status == 15)
             {
                 return "NULL";
             }
 
             // return the date
-            return "#" + oValue.Date.ToString("d-MMM-yyyy") + "#";
+            return "#" + value.date.ToString("d-MMM-yyyy") + "#";
         }
 
-        // Returns a string that can be inserted into a Sql command as the value for a date field.
-        /// <summary>
-        /// Returns a string that can be inserted into a Sql command as the value for a date field.
-        /// </summary>
-        /// <param name="oValue">Specifies the value for a Sql date field.</param>
+
+
+        /// <summary>Returns a string that can be inserted into a Sql command as the value for a date field.</summary>
+        /// <param name="value">Specifies the value for a Sql date field.</param>
         /// <returns>A string that can be inserted into a Sql command.</returns>
-        public static string ToDb(DateTime oValue)
+        public static string toDb(DateTime value)
         {
-            return "#" + oValue.ToString("d-MMM-yyyy") + "#";
+            return "#" + value.ToString("d-MMM-yyyy") + "#";
         }
 
-        // Returns a string that can be inserted into a SQL command as the value for a boolean field.  This is a 0 or 1.
-        /// <summary>
-        /// Returns a string that can be inserted into a SQL command as the value for a boolean field.  This is a 0 or 1.
-        /// </summary>
-		/// <param name="bValue">Specifies the value for a SQL boolean field.</param>
+
+
+        /// <summary>Returns a string that can be inserted into a SQL command as the value for a boolean field.  This is a 0 or 1.</summary>
+		/// <param name="isValue">Specifies the value for a SQL boolean field.</param>
 		/// <returns>A string that can be inserted into a SQL command.</returns>
-		public static string ToDb(bool bValue)
+		public static string toDb(bool isValue)
         {
-            if (bValue)
+            if (isValue)
             {
                 return "1";
             }
             return "0";
         }
 
-        // Returns a string representing the specified integer in a SQL command.  Returns NULL if the specified integer matches the specified
-        /// <summary>
-        /// Returns a string representing the specified integer in a SQL command.  Returns NULL if the specified integer matches the specified
-        /// null code.
-		/// </summary>
-		/// <param name="nValue">Specifies the value to return.</param>
-		/// <param name="nNullValue">Specifies the value that represents NULL</param>
+
+
+        /// <summary>Returns a string representing the specified integer in a SQL command.  Returns NULL if the specified integer matches the specified null code.</summary>
+		/// <param name="value">Specifies the value to return.</param>
+		/// <param name="nullValue">Specifies the value that represents NULL</param>
 		/// <returns>A string to represent the specified integer in SQL command.</returns>
-		public static string ToDb(int nValue, int nNullValue)
+		public static string toDb(int value, int nullValue)
         {
-            if (nValue == nNullValue)
+            if (value == nullValue)
             {
                 return "NULL";
             }
-            return nValue.ToString();
+            return value.ToString();
         }
 
-        // Returns the specified string sTrue if the specified bCondition is true otherwise returns the specified string sFalse.
-        /// <summary>
-        /// Returns the specified string sTrue if the specified bCondition is true otherwise returns the specified string sFalse.
-        /// </summary>
-		/// <param name="bCondition">Specifies the condition to test.</param>
-		/// <param name="sTrue">Specifies the string to return if the specified condition is true.</param>
-		/// <param name="sFalse">Specifies the string to return if the specified condition is false.</param>
+
+
+        /// <summary>Returns the specified string trueValue if the specified isCondition is true otherwise returns the specified string falseValue.</summary>
+		/// <param name="isCondition">Specifies the condition to test.</param>
+		/// <param name="trueValue">Specifies the string to return if the specified condition is true.</param>
+		/// <param name="falseValue">Specifies the string to return if the specified condition is false.</param>
 		/// <returns>Either the sTrue or sFalse dependant on bCondition.</returns>
-		public static string Iif(bool bCondition, string sTrue, string sFalse)
+		public static string iif(bool isCondition, string trueValue, string falseValue)
         {
-            if (bCondition)
+            if (isCondition)
             {
-                return sTrue;
+                return trueValue;
             }
             else
             {
-                return sFalse;
+                return falseValue;
             }
         }
 
-        // Returns the string in a data reader column without raising an error.
-        /// <summary>
-        /// Returns the string in a data reader column without raising an error.
-        /// </summary>
-		/// <param name="oReader">Specifies the data reader to read from.</param>
-		/// <param name="sColumn">Specifies the label of the column to read.</param>
-		/// <param name="sNull">Specifies the value to return is the field is null.</param>
+
+
+        /// <summary>Returns the string in a data reader column without raising an error.</summary>
+		/// <param name="dataReader">Specifies the data reader to read from.</param>
+		/// <param name="columnName">Specifies the label of the column to read.</param>
+		/// <param name="nullValue">Specifies the value to return is the field is null.</param>
 		/// <returns>The string value of the specified column.</returns>
-		public static string GetString(OleDbDataReader oReader, string sColumn, string sNull)
+		public static string getString(OleDbDataReader dataReader, string columnName, string nullValue)
         {
-            int nOrdinal = oReader.GetOrdinal(sColumn);
-            if (oReader.IsDBNull(nOrdinal))
+            int ordinal = dataReader.GetOrdinal(columnName);
+            if (dataReader.IsDBNull(ordinal))
             {
-                return sNull;
+                return nullValue;
             }
-            return oReader.GetString(nOrdinal);
+            return dataReader.GetString(ordinal);
         }
 
-        // Returns a fields from the specified data reader as a int without raising an error.
-        /// <summary>
-        /// Returns a fields from the specified data reader as a int without raising an error.
-        /// </summary>
-		/// <param name="oReader">Specifies the data reader to read from.</param>
-		/// <param name="sColumn">Specifies the label of the column to read.</param>
-		/// <param name="nNull">Specifies the value to return if the field is null.</param>
+
+
+        /// <summary>Returns a fields from the specified data reader as a int without raising an error.</summary>
+		/// <param name="dataReader">Specifies the data reader to read from.</param>
+		/// <param name="columnName">Specifies the label of the column to read.</param>
+		/// <param name="nullValue">Specifies the value to return if the field is null.</param>
 		/// <returns>The int value of the specified column.</returns>
-		public static int GetInt(OleDbDataReader oReader, string sColumn, int nNull)
+		public static int GetInt(OleDbDataReader dataReader, string columnName, int nullValue)
         {
-            int nOrdinal = oReader.GetOrdinal(sColumn);
-            if (oReader.IsDBNull(nOrdinal))
+            int ordinal = dataReader.GetOrdinal(columnName);
+            if (dataReader.IsDBNull(ordinal))
             {
-                return nNull;
+                return nullValue;
             }
             // Will need to switch on the actual type here.
-            return oReader.GetInt32(nOrdinal);
+            return dataReader.GetInt32(ordinal);
         }
 
-        // Returns a field from the specified data reader as a DateTime without raising an error.
-        /// <summary>
-        /// Returns a field from the specified data reader as a DateTime without raising an error.
-        /// </summary>
-		/// <param name="oReader">Specifies the data reader to read from.</param>
-		/// <param name="sColumn">Specifies the label of the column to read.</param>
-		/// <param name="dtNull">Specifies the value to return if the field is null.</param>
+
+
+        /// <summary>Returns a field from the specified data reader as a DateTime without raising an error.</summary>
+		/// <param name="dataReader">Specifies the data reader to read from.</param>
+		/// <param name="columnName">Specifies the label of the column to read.</param>
+		/// <param name="nullValue">Specifies the value to return if the field is null.</param>
 		/// <returns>The DateTime value of the specified column.</returns>
-		public static DateTime GetDateTime(OleDbDataReader oReader, string sColumn, DateTime dtNull)
+		public static DateTime getDateTime(OleDbDataReader dataReader, string columnName, DateTime nullValue)
         {
-            int nOrdinal = oReader.GetOrdinal(sColumn);
-            if (oReader.IsDBNull(nOrdinal))
+            int ordinal = dataReader.GetOrdinal(columnName);
+            if (dataReader.IsDBNull(ordinal))
             {
-                return dtNull;
+                return nullValue;
             }
-            return oReader.GetDateTime(nOrdinal);
+            return dataReader.GetDateTime(ordinal);
         }
 
-        // Returns the value of the specified field in the specified data reader as a boolean.
-        /// <summary>
-        /// Returns the value of the specified field in the specified data reader as a boolean.
-        /// </summary>
-		/// <param name="oReader">Specifies the data reader.</param>
-		/// <param name="sColumn">Specifies the name of the field.</param>
-		/// <param name="bNull">Specifies the value to return if the field is null.</param>
+
+
+        /// <summary>Returns the value of the specified field in the specified data reader as a boolean.</summary>
+		/// <param name="dataReader">Specifies the data reader.</param>
+		/// <param name="columnName">Specifies the name of the field.</param>
+		/// <param name="nullValue">Specifies the value to return if the field is null.</param>
 		/// <returns>The value of the specified field as a bool.</returns>
-		public static bool GetBool(OleDbDataReader oReader, string sColumn, bool bNull)
+		public static bool GetBool(OleDbDataReader dataReader, string columnName, bool nullValue)
         {
-            int nOrdinal = oReader.GetOrdinal(sColumn);
-            if (oReader.IsDBNull(nOrdinal))
+            int ordinal = dataReader.GetOrdinal(columnName);
+            if (dataReader.IsDBNull(ordinal))
             {
-                return bNull;
+                return nullValue;
             }
-            return oReader.GetBoolean(nOrdinal);
+            return dataReader.GetBoolean(ordinal);
         }
+
+
 
         #endregion
 
@@ -2190,19 +2146,19 @@ namespace FamilyTree.Objects
             file.WriteLine("CREATE TABLE PEOPLE ('ID' INTEGER PRIMARY KEY,'SURNAME' TEXT,'FORENAMES' TEXT,'MAIDEN_NAME' TEXT);");
             file.WriteLine("BEGIN TRANSACTION;");
             // Get the list of people.
-            string sSql = "SELECT * FROM tbl_People ORDER BY ID;";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drPlaces = oSql.ExecuteReader();
-            while (drPlaces.Read())
+            string sql = "SELECT * FROM tbl_People ORDER BY ID;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
                 file.Write("INSERT INTO PEOPLE (ID,SURNAME,FORENAMES,MAIDEN_NAME) VALUES(");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(drPlaces, "ID", 0), 0) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "Surname", "")) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "Forenames", "")) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "MaidenName", "")) + "");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(dataReader, "ID", 0), 0) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "Surname", "")) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "Forenames", "")) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "MaidenName", "")) + "");
                 file.WriteLine(");");
             }
-            drPlaces.Close();
+            dataReader.Close();
             file.WriteLine("END TRANSACTION;");
             file.WriteLine();
 
@@ -2214,27 +2170,27 @@ namespace FamilyTree.Objects
             file.WriteLine("CREATE TABLE PLACES ('ID' INTEGER PRIMARY KEY,'NAME' TEXT,'PARENT_ID' INTEGER,'STATUS' INTEGER,'LONGITUDE' REAL,'LATITUDE' REAL,'GOOGLE_ZOOM' INTEGER,'USE_PARENT_LOCATION' INTEGER,'PRIVATE_COMMENTS' TEXT);");
             file.WriteLine("BEGIN TRANSACTION;");
             // Get the list of places.
-            sSql = "SELECT ID,Name,ParentID,Status,Longitude,Latitude,GoogleZoom,UseParentLocation,PrivateComments FROM tbl_Places ORDER BY ID;";
-            oSql = new OleDbCommand(sSql, cndb_);
-            drPlaces = oSql.ExecuteReader();
-            while (drPlaces.Read())
+            sql = "SELECT ID,Name,ParentID,Status,Longitude,Latitude,GoogleZoom,UseParentLocation,PrivateComments FROM tbl_Places ORDER BY ID;";
+            sqlCommand = new OleDbCommand(sql, cndb_);
+            dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
                 file.Write("INSERT INTO PLACES (ID,NAME,PARENT_ID,STATUS,LONGITUDE,LATITUDE,GOOGLE_ZOOM,USE_PARENT_LOCATION,PRIVATE_COMMENTS) VALUES(");
-                file.Write(ToDb(drPlaces.GetInt32(0), 0) + ",");
-                file.Write(ToDb(drPlaces.GetString(1)) + ",");
-                file.Write(ToDb(drPlaces.GetInt32(2), 0) + ",");
-                file.Write(drPlaces.GetInt32(3).ToString() + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(drPlaces, "Longitude", -999f), -999f) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(drPlaces, "Latitude", -999f), -999f) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(drPlaces, "GoogleZoom", 0), 0) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetBool(drPlaces, "UseParentLocation", false)) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(drPlaces, "PrivateComments", "")));
+                file.Write(toDb(dataReader.GetInt32(0), 0) + ",");
+                file.Write(toDb(dataReader.GetString(1)) + ",");
+                file.Write(toDb(dataReader.GetInt32(2), 0) + ",");
+                file.Write(dataReader.GetInt32(3).ToString() + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(dataReader, "Longitude", -999f), -999f) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(dataReader, "Latitude", -999f), -999f) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(dataReader, "GoogleZoom", 0), 0) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetBool(dataReader, "UseParentLocation", false)) + ",");
+                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "PrivateComments", "")));
                 file.WriteLine(");");
             }
-            drPlaces.Close();
+            dataReader.Close();
             file.Write("END TRANSACTION;");
 
-            // Close the output file
+            // Close the output file.
             file.Close();
         }
     }

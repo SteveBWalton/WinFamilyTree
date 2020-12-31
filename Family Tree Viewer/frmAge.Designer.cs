@@ -23,7 +23,7 @@ namespace FamilyTree.Viewer
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAge));
-            FamilyTree.Objects.clsDate clsDate1 = new FamilyTree.Objects.clsDate();
+            FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
             this.label1 = new System.Windows.Forms.Label();
             this.cboPerson = new System.Windows.Forms.ComboBox();
             this.labDoB = new System.Windows.Forms.Label();
@@ -115,8 +115,8 @@ namespace FamilyTree.Viewer
             this.ucDate1.Name = "ucDate1";
             this.ucDate1.Size = new System.Drawing.Size(144, 24);
             this.ucDate1.TabIndex = 4;
-            clsDate1.Date = new System.DateTime(2008, 2, 20, 0, 0, 0, 0);
-            clsDate1.Status = 0;
+            clsDate1.date = new System.DateTime(2008, 2, 20, 0, 0, 0, 0);
+            clsDate1.status = 0;
             this.ucDate1.Value = clsDate1;
             this.ucDate1.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.ucDate1_evtValueChanged);
             // 

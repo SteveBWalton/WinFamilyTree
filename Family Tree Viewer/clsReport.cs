@@ -67,7 +67,7 @@ namespace FamilyTree.Viewer
         {
             // Add this person at their date of birth date specified.
             // Modify the time if the dates clash because we don't care about the time.
-            DateTime oDate = oPerson.dob.Date;
+            DateTime oDate = oPerson.dob.date;
             bool bTryAgain = true;
             while(bTryAgain)
             {
@@ -91,10 +91,10 @@ namespace FamilyTree.Viewer
         private void AddForebears            (            Person oPerson,            ref SortedList oPeople            )
         {
             // Add the father to the list
-            if(oPerson.FatherID != 0)
+            if(oPerson.fatherIndex != 0)
             {
-                Person oFather = new Person(oPerson.FatherID, m_oDb);
-                oFather.Tag = oPerson.Tag + "F";
+                Person oFather = new Person(oPerson.fatherIndex, m_oDb);
+                oFather.tag = oPerson.tag + "F";
                 AddPerson(oFather, ref oPeople);
 
                 // Add the father's parents
@@ -102,10 +102,10 @@ namespace FamilyTree.Viewer
             }
 
             // Add the mother to the list
-            if(oPerson.MotherID != 0)
+            if(oPerson.motherIndex != 0)
             {
-                Person oMother = new Person(oPerson.MotherID, m_oDb);
-                oMother.Tag = oPerson.Tag + "M";
+                Person oMother = new Person(oPerson.motherIndex, m_oDb);
+                oMother.tag = oPerson.tag + "M";
                 AddPerson(oMother, ref oPeople);
 
                 // Add the mother's parents
@@ -120,11 +120,11 @@ namespace FamilyTree.Viewer
         /// <param name="oPeople">Specifies the collection of people to add to</param>
         private void AddDescendants            (            Person oPerson,            ref SortedList oPeople            )
         {
-            int[] Children = oPerson.GetChildren();
+            int[] Children = oPerson.getChildren();
             for(int nChild = 0; nChild < Children.Length; nChild++)
             {
                 Person oChild = new Person(Children[nChild], m_oDb);
-                oChild.Tag = oPerson.Tag + (nChild + 1).ToString() + ".";
+                oChild.tag = oPerson.tag + (nChild + 1).ToString() + ".";
                 AddPerson(oChild, ref oPeople);
 
                 // Add the child's children
@@ -143,17 +143,17 @@ namespace FamilyTree.Viewer
             ref SortedList oPeople
             )
         {
-            int[] Siblings = oPerson.GetSiblings();
+            int[] Siblings = oPerson.getSiblings();
             for(int nChild = 0; nChild < Siblings.Length; nChild++)
             {
                 Person oChild = new Person(Siblings[nChild], m_oDb);
                 if(oChild.isMale)
                 {
-                    oChild.Tag = "Brother";
+                    oChild.tag = "Brother";
                 }
                 else
                 {
-                    oChild.Tag = "Sister";
+                    oChild.tag = "Sister";
                 }
                 AddPerson(oChild, ref oPeople);
             }
@@ -174,7 +174,7 @@ namespace FamilyTree.Viewer
 
             // Add the base person
             Person oPerson = new Person(m_nPersonID, m_oDb);
-            oPeople.Add(oPerson.dob.Date, oPerson);
+            oPeople.Add(oPerson.dob.date, oPerson);
 
             // Add the parents
             AddForebears(oPerson, ref oPeople);
@@ -192,9 +192,9 @@ namespace FamilyTree.Viewer
                 oPerson = (Person)oPeople.GetByIndex(nI);
 
                 sbHtml.Append("<p>");
-                if(oPerson.Tag != "")
+                if(oPerson.tag != "")
                 {
-                    sbHtml.Append("(" + oPerson.Tag + ") ");
+                    sbHtml.Append("(" + oPerson.tag + ") ");
                 }
                 sbHtml.Append(oPerson.Description(true, false, false, false, false));
                 sbHtml.AppendLine("</p>");

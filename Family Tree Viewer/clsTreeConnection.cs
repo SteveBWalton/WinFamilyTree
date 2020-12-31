@@ -62,7 +62,7 @@ namespace FamilyTree.Viewer
         private bool m_bMale;
 
         /// <summary>Date of the start relationship.</summary>
-        private clsDate m_dtStart;
+        private CompoundDate m_dtStart;
 
         /// <summary>Index of the relationship in the context of the main person.  Ie is this a second marriage?</summary>
         private int m_nIndex;
@@ -247,7 +247,7 @@ namespace FamilyTree.Viewer
         public enumRelationshipStatus Status { get { return m_nStatus; } set { m_nStatus = value; } }
 
         /// <summary>Returns the start date of this connection.</summary>
-        public clsDate Start { get { return m_dtStart; } set { m_dtStart = value; } }
+        public CompoundDate Start { get { return m_dtStart; } set { m_dtStart = value; } }
 
         #endregion
 
@@ -847,10 +847,10 @@ namespace FamilyTree.Viewer
                     // Write the start date
                     if(m_dtStart != null)
                     {
-                        if(!m_dtStart.IsEmpty())
+                        if(!m_dtStart.isEmpty())
                         {
                             // TODO: Calculate the correct position for this text
-                            int nYear = clsDate.GetYear(m_dtStart.Date);
+                            int nYear = CompoundDate.getYear(m_dtStart.date);
                             string sYear;
                             if(nYear < 0)
                             {

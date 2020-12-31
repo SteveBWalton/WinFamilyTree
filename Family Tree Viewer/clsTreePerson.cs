@@ -85,9 +85,9 @@ namespace FamilyTree.Viewer
 			
 			// Get the information required from the database
 			Person oPerson = new Person(nPersonID,m_oTree.Database);
-			m_sName = oPerson.GetName(false,true);
-			m_sDescription = oPerson.ShortDescription(false);
-            m_sNameWithYears = oPerson.GetName(true,true);
+			m_sName = oPerson.getName(false,true);
+			m_sDescription = oPerson.shortDescription(false);
+            m_sNameWithYears = oPerson.getName(true,true);
 			m_bMale = oPerson.isMale;
 		}
 
@@ -512,7 +512,7 @@ namespace FamilyTree.Viewer
             {
                 nType = enumConMainPerson.Mother;
             }
-            clsRelationship[] oRelationships = oPerson.GetRelationships();
+            clsRelationship[] oRelationships = oPerson.getRelationships();
             m_oDescendants = new clsTreeConnection[oRelationships.Length];
             int nIndex;
             for(int nI = 0; nI < oRelationships.Length; nI++)
@@ -539,18 +539,18 @@ namespace FamilyTree.Viewer
                     m_oDescendants[nI].AddFather(oFather);
                     m_oTree.AddPerson(oFather);
                 }
-                if(oRelationships[nIndex].TerminatedID == 2)
+                if(oRelationships[nIndex].terminatedIndex == 2)
                 {
                     m_oDescendants[nI].Status = enumRelationshipStatus.Divorced;
                 }
-                if(!oRelationships[nIndex].Start.IsEmpty())
+                if(!oRelationships[nIndex].start.isEmpty())
                 {
-                    m_oDescendants[nI].Start = oRelationships[nIndex].Start;
+                    m_oDescendants[nI].Start = oRelationships[nIndex].start;
                 }
             }
 
             // Add children to the person
-            int[] Children = oPerson.GetChildren();
+            int[] Children = oPerson.getChildren();
             for(int nI = 0; nI < Children.Length; nI++)
             {
                 // Decide which relationship / connections this child belongs to
@@ -614,7 +614,7 @@ namespace FamilyTree.Viewer
                     }
                 }
                 */
-                if(oChild.MotherID == m_oDescendants[nI].GetMotherID() && oChild.FatherID == m_oDescendants[nI].GetFatherID())
+                if(oChild.motherIndex == m_oDescendants[nI].GetMotherID() && oChild.fatherIndex == m_oDescendants[nI].GetFatherID())
                 {
                     return nI;
                 }
@@ -654,7 +654,7 @@ namespace FamilyTree.Viewer
         {
             // Get this person
             Person oPerson = new Person(m_nPersonID, m_oTree.Database);
-            if(oPerson.FatherID == 0 && oPerson.MotherID == 0)
+            if(oPerson.fatherIndex == 0 && oPerson.motherIndex == 0)
             {
                 // Nothing to do
                 return;
@@ -676,9 +676,9 @@ namespace FamilyTree.Viewer
             m_oTree.AddFamily(m_oAncestors);
 
             // Add the father of this person
-            if(oPerson.FatherID != 0)
+            if(oPerson.fatherIndex != 0)
             {
-                clsTreePerson oFather = new clsTreePerson(m_oTree, oPerson.FatherID);
+                clsTreePerson oFather = new clsTreePerson(m_oTree, oPerson.fatherIndex);
                 m_oTree.AddPerson(oFather);
                 m_oAncestors.AddFather(oFather);
 
@@ -687,9 +687,9 @@ namespace FamilyTree.Viewer
             }
 
             // Add the mother of this person
-            if(oPerson.MotherID != 0)
+            if(oPerson.motherIndex != 0)
             {
-                clsTreePerson oMother = new clsTreePerson(m_oTree, oPerson.MotherID);
+                clsTreePerson oMother = new clsTreePerson(m_oTree, oPerson.motherIndex);
                 m_oTree.AddPerson(oMother);
                 m_oAncestors.AddMother(oMother);
 
@@ -698,13 +698,13 @@ namespace FamilyTree.Viewer
             }
 
             // Add the relationship between the father and mother
-            if(oPerson.FatherID != 0 && oPerson.MotherID != 0)
+            if(oPerson.fatherIndex != 0 && oPerson.motherIndex != 0)
             {
-                clsRelationship oRelationship = m_oTree.Database.GetRelationship(oPerson.FatherID, oPerson.MotherID);
+                clsRelationship oRelationship = m_oTree.Database.getRelationship(oPerson.fatherIndex, oPerson.motherIndex);
                 if(oRelationship != null)
                 {
-                    m_oAncestors.Start = oRelationship.Start;
-                    if(oRelationship.TerminatedID == 2)
+                    m_oAncestors.Start = oRelationship.start;
+                    if(oRelationship.terminatedIndex == 2)
                     {
                         m_oAncestors.Status = enumRelationshipStatus.Divorced;
                     }
@@ -713,7 +713,7 @@ namespace FamilyTree.Viewer
 
             // Add the sublings of this person
             int nIndex;
-            int[] Siblings = oPerson.GetSiblings();
+            int[] Siblings = oPerson.getSiblings();
             for(int nI = 0; nI < Siblings.Length; nI++)
             {
                 if(IsMale())
@@ -728,11 +728,11 @@ namespace FamilyTree.Viewer
                 m_oTree.AddPerson(oSibling);
 
                 Person oHalfSibling = new Person(Siblings[nIndex], m_oTree.Database);
-                if(oHalfSibling.FatherID != oPerson.FatherID)
+                if(oHalfSibling.fatherIndex != oPerson.fatherIndex)
                 {
                     oSibling.Connection = enumConnection.cnMother;
                 }
-                if(oHalfSibling.MotherID != oPerson.MotherID)
+                if(oHalfSibling.motherIndex != oPerson.motherIndex)
                 {
                     oSibling.Connection = enumConnection.cnFather;
                 }
@@ -814,7 +814,7 @@ namespace FamilyTree.Viewer
         {
             Person oPerson = new Person(m_nPersonID, m_oTree.Database);
             Person oOtherPerson = new Person(nPersonID, m_oTree.Database);
-            if(oPerson.dob.Date < oOtherPerson.dob.Date)
+            if(oPerson.dob.date < oOtherPerson.dob.date)
             {
                 return true;
             }

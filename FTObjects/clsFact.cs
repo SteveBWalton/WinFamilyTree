@@ -4,9 +4,7 @@ using System.Data.OleDb;		// Access database ADO.NET
 
 namespace FamilyTree.Objects
 {
-    /// <summary>
-    /// Class to represent a fact about a person
-    /// </summary>
+    /// <summary>Class to represent a fact about a person.</summary>
     public class clsFact
     {
         #region Member Variables
@@ -24,7 +22,7 @@ namespace FamilyTree.Objects
         private string description_;
 
         /// <summary>Sources for this fact.</summary>
-        private clsSources sources_;
+        private Sources sources_;
 
         /// <summary>Person this fact relates to.</summary>
         private Person person_;
@@ -85,80 +83,80 @@ namespace FamilyTree.Objects
 
         #region Database
 
-        /// <summary>
-        /// Writes this fact into the database.
-        /// </summary>
+
+
+        /// <summary>Writes this fact into the database.</summary>
         /// <returns>True for success, false for failure.</returns>
-        public bool Save()
+        public bool save()
         {
-            // Delete this fact (if required)
+            // Delete this fact (if required).
             if (isDelete_)
             {
-                // Check if the fact is actually in the database
+                // Check if the fact is actually in the database.
                 if (index_ == 0)
                 {
                     // Nothing to do
                     return true;
                 }
 
-                // Delete any child records
+                // Delete any child records.
 
                 // Delete the sources for this fact.
-                string sSql = "DELETE FROM tbl_FactsToSources WHERE FactID=" + index_.ToString() + ";";
-                OleDbCommand oSql = new OleDbCommand(sSql, person_.Database.cndb);
-                oSql.ExecuteNonQuery();
+                string sql = "DELETE FROM tbl_FactsToSources WHERE FactID = " + index_.ToString() + ";";
+                OleDbCommand sqlCommand = new OleDbCommand(sql, person_.database.cndb);
+                sqlCommand.ExecuteNonQuery();
 
                 // Delete the record
-                sSql = "DELETE FROM tbl_Facts WHERE ID=" + index_.ToString() + ";";
-                oSql = new OleDbCommand(sSql, person_.Database.cndb);
-                oSql.ExecuteNonQuery();
+                sql = "DELETE FROM tbl_Facts WHERE ID=" + index_.ToString() + ";";
+                sqlCommand = new OleDbCommand(sql, person_.database.cndb);
+                sqlCommand.ExecuteNonQuery();
 
-                // Return success
+                // Return success.
                 return true;
             }
 
-            // Save this fact (if required)
+            // Save this fact (if required).
             if (isDirty_)
             {
                 if (index_ == 0)
                 {
-                    // Create a new record
-                    OleDbCommand oSQL = new OleDbCommand("INSERT INTO tbl_Facts (PersonID,TypeID,Rank,Information) VALUES (" + person_.ID.ToString() + "," + typeIndex_.ToString() + "," + rank_.ToString() + ",\"" + description_ + "\");", person_.Database.cndb);
-                    oSQL.ExecuteNonQuery();
+                    // Create a new record.
+                    OleDbCommand sqlCommand = new OleDbCommand("INSERT INTO tbl_Facts (PersonID, TypeID, Rank, Information) VALUES (" + person_.index.ToString() + ", " + typeIndex_.ToString() + ", " + rank_.ToString() + ", \"" + description_ + "\");", person_.database.cndb);
+                    sqlCommand.ExecuteNonQuery();
 
-                    // Find the ID of the new record
-                    oSQL = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Facts;", person_.Database.cndb);
-                    index_ = (int)oSQL.ExecuteScalar();
+                    // Find the ID of the new record.
+                    sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Facts;", person_.database.cndb);
+                    index_ = (int)sqlCommand.ExecuteScalar();
 
-                    // Update the child sources before they are saved
+                    // Update the child sources before they are saved.
                     if (sources_ != null)
                     {
-                        sources_.FactID = index_;
+                        sources_.factIndex = index_;
                     }
                 }
                 else
                 {
                     // Update add existing record				
-                    OleDbCommand oSQL = new OleDbCommand("UPDATE tbl_Facts SET Information=\"" + description_ + "\",Rank=" + rank_.ToString() + " WHERE ID=" + index_.ToString() + ";", person_.Database.cndb);
-                    oSQL.ExecuteNonQuery();
+                    OleDbCommand sqlCommand = new OleDbCommand("UPDATE tbl_Facts SET Information = \"" + description_ + "\", Rank = " + rank_.ToString() + " WHERE ID = " + index_.ToString() + ";", person_.database.cndb);
+                    sqlCommand.ExecuteNonQuery();
                 }
                 isDirty_ = false;
             }
 
-            // Save the sources (if required)
+            // Save the sources (if required).
             if (sources_ != null)
             {
-                sources_.Save();
+                sources_.save();
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        /// <summary>
-        /// Marks this relationship for deletion at the next save
-        /// </summary>
-        public void Delete()
+
+
+        /// <summary>Marks this relationship for deletion at the next save.</summary>
+        public void delete()
         {
             isDelete_ = true;
         }
@@ -178,22 +176,23 @@ namespace FamilyTree.Objects
 
         #region Sources
 
-        // *************************************************************************************************************
-        /// <summary>
-        /// Returns a sources object for this fact
-        /// </summary>
+
+
+        /// <summary>Returns a sources object for this fact.</summary>
         /// <returns>Returns a sources object for this fact</returns>
-        public clsSources Sources
+        public Sources sources
         {
             get
             {
                 if (sources_ == null)
                 {
-                    sources_ = new clsSources(index_, person_.Database);
+                    sources_ = new Sources(index_, person_.database);
                 }
                 return sources_;
             }
         }
+
+
 
         #endregion
 
@@ -241,7 +240,7 @@ namespace FamilyTree.Objects
         {
             get
             {
-                clsFactType factType = person_.Database.GetFactType(typeIndex_);
+                clsFactType factType = person_.database.GetFactType(typeIndex_);
                 if (factType == null)
                 {
                     return null;

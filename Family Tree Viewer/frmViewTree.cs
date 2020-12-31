@@ -60,7 +60,7 @@ namespace FamilyTree.Viewer
 
             // Initialise the form
             FamilyTree.Objects.Person oPerson = new FamilyTree.Objects.Person(oTree.BasePersonID, oTree.Database);
-            Text = oPerson.GetName(true, true) + " - Tree";
+            Text = oPerson.getName(true, true) + " - Tree";
 
             // Initialise the print document
             System.Drawing.Printing.Margins oMargins = new System.Drawing.Printing.Margins(40, 40, 40, 40);

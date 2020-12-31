@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using System.Data.OleDb;
 
 // StringBuilder
@@ -7,135 +6,134 @@ using System.Text;
 
 namespace FamilyTree.Objects
 {
-	/// <summary>Class to represent the additional information on a birth certificate source.  This is closely related to the tbl_BirthCertificates table.</summary>
-	public class clsBirthCertificate
+    /// <summary>Class to represent the additional information on a birth certificate source.  This is closely related to the tbl_BirthCertificates table.</summary>
+    public class clsBirthCertificate
 	{
 		#region Member Variables
 
 		/// <summary>The ID of the birth certificate record.  This should match with the ID the parent source.</summary>
-		private int m_nID;
+		private int index_;
 
 		/// <summary>The registration district as specified on the birth certificate.</summary>
-		public string RegistrationDistrict;
+		public string registrationDistrict;
 
         /// <summary>The when field as specified on the birth certificate.</summary>
-        public DateTime When;
+        public DateTime when;
         
         /// <summary>The when and where field as specified on the birth certificate.</summary>
-        public string WhenAndWhere;
+        public string whenAndWhere;
 
 		/// <summary>The name as specified on the birth certificate.</summary>
-		public string Name;
+		public string name;
 
 		/// <summary>The sex as specified on the birth certificate.</summary>
-		public string Sex;
+		public string sex;
 
 		/// <summary>The name of the father as specified on the birth certificate.</summary>
-		public string Father;
+		public string father;
 
         /// <summary>The name of the mother as specified on the birth certificate.</summary>
-        public string Mother;
+        public string mother;
 
         /// <summary>The name of the mother as specified on the birth certificate.</summary>
-        public string MotherDetails;
+        public string motherDetails;
 
 		/// <summary>The occupation of the father as specified on the birth certificate.</summary>
-		public string FatherOccupation;
+		public string fatherOccupation;
 
         /// <summary>The informant as specified on the birth certificate.</summary>
-        public string Informant;
+        public string informant;
 
         /// <summary>The informant as specified on the birth certificate.</summary>
-        public string InformantAddress;
+        public string informantAddress;
 
 		/// <summary>The when registered field as specified on the birth certificate.</summary>
-		public string WhenRegistered;
+		public string whenRegistered;
 
         /// <summary>The GRO reference for the certificate.</summary>
-        public string GroReference;
+        public string groReference;
 
 		#endregion
 
         #region Constructors etc ...
 
-        // Class constructor.
-        /// <summary>
-        /// Class constructor.
-        /// </summary>
-		/// <param name="nID">Specifies the ID of the parent source record.</param>
-        public clsBirthCertificate(int nID)
+
+
+        /// <summary>Class constructor.</summary>
+		/// <param name="index">Specifies the ID of the parent source record.</param>
+        public clsBirthCertificate(int index)
         {
-            m_nID = nID;
+            index_ = index;
         }
-        // Class constructor that loads the current values from the specified database.
-        /// <summary>
-        /// Class constructor that loads the current values from the specified database.
-        /// </summary>
-		/// <param name="nID">Specifies the ID of the parent source record.</param>
-		/// <param name="cnDb">Specifies the database connection to load the information from.</param>
-        public clsBirthCertificate(int nID, OleDbConnection cnDb)
-            : this(nID)
+
+
+
+        /// <summary>Class constructor that loads the current values from the specified database.</summary>
+		/// <param name="index">Specifies the ID of the parent source record.</param>
+		/// <param name="cndb">Specifies the database connection to load the information from.</param>
+        public clsBirthCertificate(int index, OleDbConnection cndb)
+            : this(index)
         {
-            string sSql = "SELECT * FROM tbl_BirthCertificates WHERE ID=" + m_nID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, cnDb);
-            OleDbDataReader drBirth = oSql.ExecuteReader();
-            if(drBirth.Read())
+            string sql = "SELECT * FROM tbl_BirthCertificates WHERE ID=" + index_.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            if(dataReader.Read())
             {
-                RegistrationDistrict = Database.GetString(drBirth, "RegistrationDistrict", "");
-                When = Innoval.clsDatabase.GetDateTime(drBirth, "WhenBorn", DateTime.Now);
-                WhenAndWhere = Database.GetString(drBirth, "WhenAndWhere", "");
-                Name = Database.GetString(drBirth, "Name", "");
-                Sex = Database.GetString(drBirth, "Sex", "");
-                Father = Database.GetString(drBirth, "Father", "");
-                Mother = Database.GetString(drBirth, "Mother", "");
-                MotherDetails = Database.GetString(drBirth, "MotherDetails", "");
-                FatherOccupation = Database.GetString(drBirth, "FatherOccupation", "");
-                Informant = Database.GetString(drBirth, "Informant", "");
-                InformantAddress = Database.GetString(drBirth, "InformantAddress", "");
-                WhenRegistered = Database.GetString(drBirth, "WhenRegistered", "");
-                GroReference = Database.GetString(drBirth, "GroReference", "");
+                registrationDistrict = Database.getString(dataReader, "RegistrationDistrict", "");
+                when = Innoval.clsDatabase.GetDateTime(dataReader, "WhenBorn", DateTime.Now);
+                whenAndWhere = Database.getString(dataReader, "WhenAndWhere", "");
+                name = Database.getString(dataReader, "Name", "");
+                sex = Database.getString(dataReader, "Sex", "");
+                father = Database.getString(dataReader, "Father", "");
+                mother = Database.getString(dataReader, "Mother", "");
+                motherDetails = Database.getString(dataReader, "MotherDetails", "");
+                fatherOccupation = Database.getString(dataReader, "FatherOccupation", "");
+                informant = Database.getString(dataReader, "Informant", "");
+                informantAddress = Database.getString(dataReader, "InformantAddress", "");
+                whenRegistered = Database.getString(dataReader, "WhenRegistered", "");
+                groReference = Database.getString(dataReader, "GroReference", "");
             }
-            drBirth.Close();
+            dataReader.Close();
         }
 
         #endregion
 
         /// <summary>Return the birth certificate information in Html format.</summary>
         /// <returns>A description of the birth certificate in Html format.</returns>
-        public string ToHtml()
+        public string toHtml()
         {
             // Initialise the Html description
-            StringBuilder sbHtml = new StringBuilder();
+            StringBuilder html = new StringBuilder();
 
-            sbHtml.Append("<table align=\"center\" bgcolor=\"mistyrose\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\">");
-            sbHtml.Append("<tr><td colspan=\"8\">" + When.Year.ToString() + " <span class=\"Birth\">Birth in the registration district of</span> " + RegistrationDistrict + "</td></tr>");
-            sbHtml.Append("<tr valign=\"bottom\"><td><span class=\"Birth\">When and<br/>Where Born</span></td>");
-            sbHtml.Append("<td class=\"Birth\">Name</td>");
-            sbHtml.Append("<TD><SPAN class=\"Birth\">Sex</SPAN></TD>");
-            sbHtml.Append("<TD><SPAN class=\"Birth\">Father</SPAN></TD>");
-            sbHtml.Append("<TD><SPAN class=\"Birth\">Mother</SPAN></TD>");
-            sbHtml.Append("<TD><SPAN class=\"Birth\">Occupation<BR>of Father</SPAN></TD>");
-            sbHtml.Append("<TD><SPAN class=\"Birth\">Informant</SPAN></TD>");
-            sbHtml.Append("<TD><SPAN class=\"Birth\">When Registered</SPAN></TD></TR>");
+            html.Append("<table align=\"center\" bgcolor=\"mistyrose\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\">");
+            html.Append("<tr><td colspan=\"8\">" + when.Year.ToString() + " <span class=\"Birth\">Birth in the registration district of</span> " + registrationDistrict + "</td></tr>");
+            html.Append("<tr valign=\"bottom\"><td><span class=\"Birth\">When and<br/>Where Born</span></td>");
+            html.Append("<td class=\"Birth\">Name</td>");
+            html.Append("<TD><SPAN class=\"Birth\">Sex</SPAN></TD>");
+            html.Append("<TD><SPAN class=\"Birth\">Father</SPAN></TD>");
+            html.Append("<TD><SPAN class=\"Birth\">Mother</SPAN></TD>");
+            html.Append("<TD><SPAN class=\"Birth\">Occupation<BR>of Father</SPAN></TD>");
+            html.Append("<TD><SPAN class=\"Birth\">Informant</SPAN></TD>");
+            html.Append("<TD><SPAN class=\"Birth\">When Registered</SPAN></TD></TR>");
 
-            sbHtml.Append("<TR valign=top><TD>" + When.ToString("d MMM yyyy") + "<BR>" + WhenAndWhere + "</TD>");
-            sbHtml.Append("<TD>" + Name + "</TD>");
-            sbHtml.Append("<TD>" + Sex + "</TD>");
-            sbHtml.Append("<TD>" + Father + "</TD>");
-            sbHtml.Append("<TD>" + Mother + "<BR>" + MotherDetails + "</TD>");
-            sbHtml.Append("<TD>" + FatherOccupation + "</TD>");
-            sbHtml.Append("<TD>" + Informant + "<BR>" + InformantAddress + "</TD>");
-            sbHtml.Append("<TD>" + WhenRegistered + "</TD></TR>");
-            sbHtml.Append("<TR><TD colspan=8 align=center><SPAN class=\"Birth\">GRO Reference</SPAN> " + GroReference + "</TD></TR>");
-            sbHtml.Append("</table>");
+            html.Append("<TR valign=top><TD>" + when.ToString("d MMM yyyy") + "<BR>" + whenAndWhere + "</TD>");
+            html.Append("<TD>" + name + "</TD>");
+            html.Append("<TD>" + sex + "</TD>");
+            html.Append("<TD>" + father + "</TD>");
+            html.Append("<TD>" + mother + "<BR>" + motherDetails + "</TD>");
+            html.Append("<TD>" + fatherOccupation + "</TD>");
+            html.Append("<TD>" + informant + "<BR>" + informantAddress + "</TD>");
+            html.Append("<TD>" + whenRegistered + "</TD></TR>");
+            html.Append("<TR><TD colspan=8 align=center><SPAN class=\"Birth\">GRO Reference</SPAN> " + groReference + "</TD></TR>");
+            html.Append("</table>");
 
-            // Return the Html description
-            return sbHtml.ToString();
+            // Return the Html description.
+            return html.ToString();
         }
 
-        private string HisHer(string Sex)
+        private string hisHer(string sex)
         {
-            if(Sex.ToLower() =="girl")
+            if(sex.ToLower() =="girl")
             {
                 return "Her";
             }
@@ -144,96 +142,98 @@ namespace FamilyTree.Objects
         
         /// <summary>Return the birth certificate information in format for a webtrees birth certificate.</summary>
         /// <returns>The html to build a webtrees birth certificate.</returns>
-        public string ToWebtrees()
+        public string toWebtrees()
         {
             // Initialise the Html description.
-            StringBuilder sbHtml = new StringBuilder();
+            StringBuilder html = new StringBuilder();
 
-            sbHtml.Append("&lt;a name=\""+Name.ToLower().Replace(' ', '_')+"_"+When.Year.ToString()+"\"&gt;&lt;/a&gt;<br/>");
-            sbHtml.Append("&lt;h2&gt;"+Name+"&lt;/h2&gt;<br/>");
+            html.Append("&lt;a name=\""+name.ToLower().Replace(' ', '_')+"_"+when.Year.ToString()+"\"&gt;&lt;/a&gt;<br/>");
+            html.Append("&lt;h2&gt;"+name+"&lt;/h2&gt;<br/>");
 
-            sbHtml.Append("&lt;table class=\"birth\"&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td colspan=\"8\"&gt;&lt;span class=\"data\"&gt;" + When.Year.ToString() + "&lt;/span&gt; Birth in the registration district of &lt;span class=\"data\"&gt;" + RegistrationDistrict + "&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr style=\"vertical-align:bottom;\"&gt;&lt;td&gt;When and&lt;br/&gt;Where Born&lt;/td&gt;&lt;td&gt;Name&lt;/td&gt;&lt;td&gt;Sex&lt;/td&gt;&lt;td&gt;Father&lt;/td&gt;&lt;td>Mother&lt;/td&gt;&lt;td&gt;Occupation&lt;br/&gt;of Father&lt;/td&gt;&lt;td&gt;Informant&lt;/td&gt;&lt;td&gt;When Registered&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;table class=\"birth\"&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td colspan=\"8\"&gt;&lt;span class=\"data\"&gt;" + when.Year.ToString() + "&lt;/span&gt; Birth in the registration district of &lt;span class=\"data\"&gt;" + registrationDistrict + "&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr style=\"vertical-align:bottom;\"&gt;&lt;td&gt;When and&lt;br/&gt;Where Born&lt;/td&gt;&lt;td&gt;Name&lt;/td&gt;&lt;td&gt;Sex&lt;/td&gt;&lt;td&gt;Father&lt;/td&gt;&lt;td>Mother&lt;/td&gt;&lt;td&gt;Occupation&lt;br/&gt;of Father&lt;/td&gt;&lt;td&gt;Informant&lt;/td&gt;&lt;td&gt;When Registered&lt;/td&gt;&lt;/tr&gt;<br/>");
 
-            sbHtml.Append("&lt;tr style=\"vertical-align:top;\"&gt;&lt;td class=\"data\"&gt;" + When.ToString("d MMM yyyy") + "&lt;br/&gt;" + WhenAndWhere + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + Name + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + Sex + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + Father + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + Mother + "&lt;br/&gt;" + MotherDetails + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + FatherOccupation + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + Informant + "&lt;br/&gt;" + InformantAddress + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td class=\"data\"&gt;" + WhenRegistered + "&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td style=\"text-align:center;\" colspan=\"8\"&gt;GRO Reference &lt;span class=\"data\"&gt;" + GroReference + "&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;/table&gt;<br/>");
-            sbHtml.Append("&lt;table class=\"meta\"&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;filename&lt;/td&gt;&lt;td class=\"value\"&gt;birth_"+When.Year.ToString()+"_"+Name.ToLower().Replace(' ', '_')+".png&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Media Title&lt;/td&gt;&lt;td class=\"value\"&gt;"+Name+" Birth Certificate "+When.Year.ToString()+"&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Title&lt;/td&gt;&lt;td class=\"value\"&gt;Birth Certificate: "+Name+" "+When.Year.ToString()+"&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Text&lt;/td&gt;&lt;td class=\"value\"&gt;On "+When.ToString("d MMM yyyy")+" at "+WhenAndWhere+", "+Name+" ("+Sex+") was born.  "+HisHer(Sex)+" father was "+Father+", "+FatherOccupation+".  "+HisHer(Sex)+" mother was "+ Mother +" "+MotherDetails +".  Registered on "+WhenRegistered+" by "+Informant +" of "+InformantAddress +".&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Note&lt;/td&gt;&lt;td class=\"value\"&gt;GRO Reference "+GroReference +".&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Citation Text&lt;/td&gt;&lt;td class=\"value\"&gt;"+Name+"'s own birth certificate.  "+Father+" was the father of "+Name+".  "+Mother+" was the mother of "+Name+".&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;/table&gt;<br/>");
+            html.Append("&lt;tr style=\"vertical-align:top;\"&gt;&lt;td class=\"data\"&gt;" + when.ToString("d MMM yyyy") + "&lt;br/&gt;" + whenAndWhere + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + name + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + sex + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + father + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + mother + "&lt;br/&gt;" + motherDetails + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + fatherOccupation + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + informant + "&lt;br/&gt;" + informantAddress + "&lt;/td&gt;");
+            html.Append("&lt;td class=\"data\"&gt;" + whenRegistered + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td style=\"text-align:center;\" colspan=\"8\"&gt;GRO Reference &lt;span class=\"data\"&gt;" + groReference + "&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;/table&gt;<br/>");
+            html.Append("&lt;table class=\"meta\"&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;filename&lt;/td&gt;&lt;td class=\"value\"&gt;birth_"+when.Year.ToString()+"_"+name.ToLower().Replace(' ', '_')+".png&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Media Title&lt;/td&gt;&lt;td class=\"value\"&gt;"+name+" Birth Certificate "+when.Year.ToString()+"&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Title&lt;/td&gt;&lt;td class=\"value\"&gt;Birth Certificate: "+name+" "+when.Year.ToString()+"&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Text&lt;/td&gt;&lt;td class=\"value\"&gt;On "+when.ToString("d MMM yyyy")+" at "+whenAndWhere+", "+name+" ("+sex+") was born.  "+hisHer(sex)+" father was "+father+", "+fatherOccupation+".  "+hisHer(sex)+" mother was "+ mother +" "+motherDetails +".  Registered on "+whenRegistered+" by "+informant +" of "+informantAddress +".&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Note&lt;/td&gt;&lt;td class=\"value\"&gt;GRO Reference "+groReference +".&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Citation Text&lt;/td&gt;&lt;td class=\"value\"&gt;"+name+"'s own birth certificate.  "+father+" was the father of "+name+".  "+mother+" was the mother of "+name+".&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;/table&gt;<br/>");
 
-            // Return the Html description
-            return sbHtml.ToString();
+            // Return the Html description.
+            return html.ToString();
 
         }
 
+
+
         /// <summary>Writes the birth certificate record into the specified database.</summary>
-		/// <param name="oDb">Specifies the database to write the birth certificate record into.</param>
+		/// <param name="database">Specifies the database to write the birth certificate record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool Save(Database oDb)
+        public bool save(Database database)
         {
-            // Validate the ID
-            if(m_nID == 0)
+            // Validate the ID.
+            if(index_ == 0)
             {
                 return false;
             }
 
             // Write the record into the database
-            string sSql = "UPDATE tbl_BirthCertificates SET "
-                + "RegistrationDistrict=" + Database.ToDb(RegistrationDistrict)
-                + ",WhenBorn=" + Innoval.clsDatabase.ToDb(When, Innoval.clsDatabase.enumDatabases.Access)
-                + ",WhenAndWhere=" + Database.ToDb(WhenAndWhere)
-                + ",Name=" + Database.ToDb(Name)
-                + ",Sex=" + Database.ToDb(Sex)
-                + ",Father=" + Database.ToDb(Father)
-                + ",Mother=" + Database.ToDb(Mother)
-                + ",MotherDetails=" + Database.ToDb(MotherDetails)
-                + ",FatherOccupation=" + Database.ToDb(FatherOccupation)
-                + ",Informant=" + Database.ToDb(Informant)
-                + ",InformantAddress=" + Database.ToDb(InformantAddress)
-                + ",WhenRegistered=" + Database.ToDb(WhenRegistered)
-                + ",GroReference=" + Database.ToDb(GroReference)
-                + " WHERE ID=" + m_nID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, oDb.cndb);
-            int nNumRows = oSql.ExecuteNonQuery();
-            if(nNumRows == 0)
+            string sql = "UPDATE tbl_BirthCertificates SET "
+                + "RegistrationDistrict=" + Database.toDb(registrationDistrict)
+                + ",WhenBorn=" + Innoval.clsDatabase.ToDb(when, Innoval.clsDatabase.enumDatabases.Access)
+                + ",WhenAndWhere=" + Database.toDb(whenAndWhere)
+                + ",Name=" + Database.toDb(name)
+                + ",Sex=" + Database.toDb(sex)
+                + ",Father=" + Database.toDb(father)
+                + ",Mother=" + Database.toDb(mother)
+                + ",MotherDetails=" + Database.toDb(motherDetails)
+                + ",FatherOccupation=" + Database.toDb(fatherOccupation)
+                + ",Informant=" + Database.toDb(informant)
+                + ",InformantAddress=" + Database.toDb(informantAddress)
+                + ",WhenRegistered=" + Database.toDb(whenRegistered)
+                + ",GroReference=" + Database.toDb(groReference)
+                + " WHERE ID=" + index_.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
+            int numRows = sqlCommand.ExecuteNonQuery();
+            if(numRows == 0)
             {
-                sSql = "INSERT INTO tbl_BirthCertificates (ID,RegistrationDistrict,WhenBorn,WhenAndWhere,Name,Sex,Father,Mother,FatherOccupation,Informant,InformantAddress,WhenRegistered) VALUES ("
-                    + m_nID.ToString()
-                    + "," + Database.ToDb(RegistrationDistrict)
-                    + "," + Innoval.clsDatabase.ToDb(When, Innoval.clsDatabase.enumDatabases.Access)
-                    + "," + Database.ToDb(WhenAndWhere)
-                    + "," + Database.ToDb(Name)
-                    + "," + Database.ToDb(Sex)
-                    + "," + Database.ToDb(Father)
-                    + "," + Database.ToDb(Mother)
-                    + "," + Database.ToDb(FatherOccupation)
-                    + "," + Database.ToDb(Informant)
-                    + "," + Database.ToDb(InformantAddress)
-                    + "," + Database.ToDb(WhenRegistered)
+                sql = "INSERT INTO tbl_BirthCertificates (ID,RegistrationDistrict,WhenBorn,WhenAndWhere,Name,Sex,Father,Mother,FatherOccupation,Informant,InformantAddress,WhenRegistered) VALUES ("
+                    + index_.ToString()
+                    + "," + Database.toDb(registrationDistrict)
+                    + "," + Innoval.clsDatabase.ToDb(when, Innoval.clsDatabase.enumDatabases.Access)
+                    + "," + Database.toDb(whenAndWhere)
+                    + "," + Database.toDb(name)
+                    + "," + Database.toDb(sex)
+                    + "," + Database.toDb(father)
+                    + "," + Database.toDb(mother)
+                    + "," + Database.toDb(fatherOccupation)
+                    + "," + Database.toDb(informant)
+                    + "," + Database.toDb(informantAddress)
+                    + "," + Database.toDb(whenRegistered)
                     + ");";
-                oSql = new OleDbCommand(sSql, oDb.cndb);
-                oSql.ExecuteNonQuery();
+                sqlCommand = new OleDbCommand(sql, database.cndb);
+                sqlCommand.ExecuteNonQuery();
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
         /// <summary>The ID of the birth certificate record.  This should match with the ID the parent source.</summary>
-        public int ID { get { return m_nID; } set { m_nID = value; } }
+        public int index { get { return index_; } set { index_ = value; } }
 	}
 }

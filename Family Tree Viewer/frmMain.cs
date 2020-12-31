@@ -485,11 +485,11 @@ namespace FamilyTree.Viewer
                         psnPartners_[i] = new FamilyTree.Viewer.ucPerson();
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
-                        psnPartners_[i].SetPerson(relationPerson);
+                        psnPartners_[i].setPerson(relationPerson);
                         psnPartners_[i].evtClick += new dgtClick(ucPerson_evtClick);
                         psnPartners_[i].BackColor = backgroundBoy_;
                         psnPartners_[i].Font = font;
-                        psnPartners_[i].SetPerson(relationPerson);
+                        psnPartners_[i].setPerson(relationPerson);
                         panelTree_.Controls.Add(psnPartners_[i]);
                         pos += personSize_.x;
 
@@ -534,11 +534,11 @@ namespace FamilyTree.Viewer
                         psnPartners_[i] = new FamilyTree.Viewer.ucPerson();
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
-                        psnPartners_[i].SetPerson(relationPerson);
+                        psnPartners_[i].setPerson(relationPerson);
                         psnPartners_[i].evtClick += new dgtClick(ucPerson_evtClick);
                         psnPartners_[i].BackColor = backgroundGirl_;
                         psnPartners_[i].Font = font;
-                        psnPartners_[i].SetPerson(relationPerson);
+                        psnPartners_[i].setPerson(relationPerson);
                         panelTree_.Controls.Add(psnPartners_[i]);
                         pos += personSize_.x;
                     }
@@ -617,15 +617,15 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Find the source ID.
-            clsSource oSource = new clsSource(database_, nSourceID);
-            Text = oSource.Description + " - Family Tree Viewer";
+            Source oSource = new Source(database_, nSourceID);
+            Text = oSource.description + " - Family Tree Viewer";
             if (bAddHistory)
             {
-                HistoryAdd(Pages.SOURCE, nSourceID, "Source: " + oSource.Description);
+                HistoryAdd(Pages.SOURCE, nSourceID, "Source: " + oSource.description);
             }
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oSource.ToHtml());
+            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oSource.toHtml());
 
             // Return success.
             return true;
@@ -653,7 +653,7 @@ namespace FamilyTree.Viewer
 
             // Show the specified person
             Person oPerson = database_.getPerson(nID);
-            Text = oPerson.GetName(true, false) + " - Family Tree Viewer";
+            Text = oPerson.getName(true, false) + " - Family Tree Viewer";
 
             // Build the rich text file description of the person
             m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
@@ -661,13 +661,13 @@ namespace FamilyTree.Viewer
             // Update the back button            
             if (bAddHistory)
             {
-                HistoryAdd(Pages.PERSON, nID, oPerson.GetName(true, false));
+                HistoryAdd(Pages.PERSON, nID, oPerson.getName(true, false));
             }
             // Font oFont = new System.Drawing.Font("Tahoma",m_dFontSize,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((System.Byte)(0)));
             Font oFont = userOptions_.FontBase.GetFont();
 
             // Show the father
-            if (oPerson.FatherID == 0)
+            if (oPerson.fatherIndex == 0)
             {
                 psnFather_.Visible = false;
                 psnFatherFather_.Visible = false;
@@ -676,48 +676,48 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                Person oFather = database_.getPerson(oPerson.FatherID);
+                Person oFather = database_.getPerson(oPerson.fatherIndex);
                 psnFather_.Width = personSize_.x;
                 psnFather_.Height = personSize_.y;
-                psnFather_.SetPerson(oFather);
+                psnFather_.setPerson(oFather);
                 psnFather_.Top = personSize_.y + padding_.y + TOP;
                 psnFather_.Font = oFont;
                 psnFather_.Visible = true;
 
                 // Show the father's father
-                if (oFather.FatherID == 0)
+                if (oFather.fatherIndex == 0)
                 {
                     psnFatherFather_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandFather = database_.getPerson(oFather.FatherID);
+                    Person oGrandFather = database_.getPerson(oFather.fatherIndex);
                     psnFatherFather_.Width = personSize_.x;
                     psnFatherFather_.Height = personSize_.y;
-                    psnFatherFather_.SetPerson(oGrandFather);
+                    psnFatherFather_.setPerson(oGrandFather);
                     psnFatherFather_.Top = TOP;
                     psnFatherFather_.Font = oFont;
                     psnFatherFather_.Visible = true;
                 }
 
                 // Show the father's mother
-                if (oFather.MotherID == 0)
+                if (oFather.motherIndex == 0)
                 {
                     psnFatherMother_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandMother = database_.getPerson(oFather.MotherID);
+                    Person oGrandMother = database_.getPerson(oFather.motherIndex);
                     psnFatherMother_.Width = personSize_.x;
                     psnFatherMother_.Height = personSize_.y;
-                    psnFatherMother_.SetPerson(oGrandMother);
+                    psnFatherMother_.setPerson(oGrandMother);
                     psnFatherMother_.Top = TOP;
                     psnFatherMother_.Font = oFont;
                     psnFatherMother_.Visible = true;
                 }
 
                 // Show the relationship between these 2
-                if (oFather.FatherID == 0 || oFather.MotherID == 0)
+                if (oFather.fatherIndex == 0 || oFather.motherIndex == 0)
                 {
                     m_marFatherParents.Visible = false;
                 }
@@ -730,7 +730,7 @@ namespace FamilyTree.Viewer
             }
 
             // Show the mother
-            if (oPerson.MotherID == 0)
+            if (oPerson.motherIndex == 0)
             {
                 psnMother_.Visible = false;
                 psnMotherFather_.Visible = false;
@@ -739,48 +739,48 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                Person oMother = database_.getPerson(oPerson.MotherID);
+                Person oMother = database_.getPerson(oPerson.motherIndex);
                 psnMother_.Width = personSize_.x;
                 psnMother_.Height = personSize_.y;
-                psnMother_.SetPerson(oMother);
+                psnMother_.setPerson(oMother);
                 psnMother_.Top = personSize_.y + padding_.y + TOP;
                 psnMother_.Font = oFont;
                 psnMother_.Visible = true;
 
                 // Show the mother's father
-                if (oMother.FatherID == 0)
+                if (oMother.fatherIndex == 0)
                 {
                     psnMotherFather_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandFather = database_.getPerson(oMother.FatherID);
+                    Person oGrandFather = database_.getPerson(oMother.fatherIndex);
                     psnMotherFather_.Width = personSize_.x;
                     psnMotherFather_.Height = personSize_.y;
-                    psnMotherFather_.SetPerson(oGrandFather);
+                    psnMotherFather_.setPerson(oGrandFather);
                     psnMotherFather_.Top = TOP;
                     psnMotherFather_.Font = oFont;
                     psnMotherFather_.Visible = true;
                 }
 
                 // Show the mother's mother
-                if (oMother.MotherID == 0)
+                if (oMother.motherIndex == 0)
                 {
                     psnMotherMother_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandMother = database_.getPerson(oMother.MotherID);
+                    Person oGrandMother = database_.getPerson(oMother.motherIndex);
                     psnMotherMother_.Width = personSize_.x;
                     psnMotherMother_.Height = personSize_.y;
-                    psnMotherMother_.SetPerson(oGrandMother);
+                    psnMotherMother_.setPerson(oGrandMother);
                     psnMotherMother_.Top = TOP;
                     psnMotherMother_.Font = oFont;
                     psnMotherMother_.Visible = true;
                 }
 
                 // Show the relationship between these 2
-                if (oMother.FatherID == 0 || oMother.MotherID == 0)
+                if (oMother.fatherIndex == 0 || oMother.motherIndex == 0)
                 {
                     m_marMotherParents.Visible = false;
                 }
@@ -795,10 +795,10 @@ namespace FamilyTree.Viewer
             // Show the actual person
             labPerson_.Font = userOptions_.FontBaseTitle.GetFont();
             labPerson_.Top = 2 * (personSize_.y + padding_.y) + TOP;
-            labPerson_.Text = oPerson.GetName(false, false);
+            labPerson_.Text = oPerson.getName(false, false);
             labPerson_.Width = 2 * personSize_.x + marriedWidth_;
             labPersonDates_.Top = labPerson_.Top + 23;
-            labPersonDates_.Text = oPerson.ShortDescription(true);
+            labPersonDates_.Text = oPerson.shortDescription(true);
             labPersonDates_.Width = labPerson_.Width;
             labPersonDates_.Height = personSize_.y - 23;
             if (oPerson.isMale)
@@ -813,7 +813,7 @@ namespace FamilyTree.Viewer
 
             cleanupDynamicControls();
 
-            clsRelationship[] Marriages = oPerson.GetRelationships();
+            clsRelationship[] Marriages = oPerson.getRelationships();
             if (Marriages.Length > 0)
             {
                 psnPartners_ = new FamilyTree.Viewer.ucPerson[Marriages.Length];
@@ -821,7 +821,7 @@ namespace FamilyTree.Viewer
             }
 
             // Show the siblings            
-            int[] Siblings = oPerson.GetSiblings();
+            int[] Siblings = oPerson.getSiblings();
             nPos = 3;
             bShownPerson = false;
             if (Siblings.Length > 0)
@@ -833,7 +833,7 @@ namespace FamilyTree.Viewer
                     oRelation = database_.getPerson(Siblings[nI]);
 
                     // Show the person if he is older than the current sibling (and not already shown)
-                    if (oPerson.dob.Date < oRelation.dob.Date && !bShownPerson)
+                    if (oPerson.dob.date < oRelation.dob.date && !bShownPerson)
                     {
                         drawMainPerson(ref oPerson, ref Marriages, ref nPos, oFont);
                         bShownPerson = true;
@@ -852,16 +852,16 @@ namespace FamilyTree.Viewer
                     psnSiblings_[nI].Font = oFont;
                     psnSiblings_[nI].Location = new System.Drawing.Point(nPos, labPerson_.Top);
                     psnSiblings_[nI].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
-                    psnSiblings_[nI].SetPerson(oRelation);
+                    psnSiblings_[nI].setPerson(oRelation);
                     psnSiblings_[nI].evtClick += new dgtClick(ucPerson_evtClick);
 
                     // Build a tag value that represents which parents this sibling shares
                     nTag = 0;
-                    if (oRelation.FatherID == oPerson.FatherID)
+                    if (oRelation.fatherIndex == oPerson.fatherIndex)
                     {
                         nTag |= 1;
                     }
-                    if (oRelation.MotherID == oPerson.MotherID)
+                    if (oRelation.motherIndex == oPerson.motherIndex)
                     {
                         nTag |= 2;
                     }
@@ -903,7 +903,7 @@ namespace FamilyTree.Viewer
             m_marMotherParents.Top = psnMotherFather_.Top + 8;
 
             // Show the children
-            int[] Children = oPerson.GetChildren();
+            int[] Children = oPerson.getChildren();
             int nHeight = labPerson_.Top + personSize_.y + padding_.y;
             if (oPerson.isMale)
             {
@@ -941,7 +941,7 @@ namespace FamilyTree.Viewer
                     psnChildren_[nI].Font = oFont;
                     psnChildren_[nI].Location = new System.Drawing.Point(nPos, nHeight);
                     psnChildren_[nI].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
-                    psnChildren_[nI].SetPerson(oRelation);
+                    psnChildren_[nI].setPerson(oRelation);
                     psnChildren_[nI].evtClick += new dgtClick(ucPerson_evtClick);
 
                     // Decide which relationship this child belongs to
@@ -950,7 +950,7 @@ namespace FamilyTree.Viewer
                     {
                         for (nJ = 0; nJ < partnersConntections_.Length; nJ++)
                         {
-                            if (partnersConntections_[nJ].MotherID == oRelation.MotherID && partnersConntections_[nJ].FatherID == oRelation.FatherID)
+                            if (partnersConntections_[nJ].MotherID == oRelation.motherIndex && partnersConntections_[nJ].FatherID == oRelation.fatherIndex)
                             {
                                 nTag = nJ;
                             }
@@ -1086,15 +1086,15 @@ namespace FamilyTree.Viewer
             // Show the current page
             switch (history_[historyIndex_].content)
             {
-                case Pages.PERSON:
-                    ShowPerson(history_[historyIndex_].index, false);
-                    break;
-                case Pages.SOURCE:
-                    ShowSource(history_[historyIndex_].index, false);
-                    break;
-                case Pages.PLACE:
-                    ShowPlace(history_[historyIndex_].index, false);
-                    break;
+            case Pages.PERSON:
+                ShowPerson(history_[historyIndex_].index, false);
+                break;
+            case Pages.SOURCE:
+                ShowSource(history_[historyIndex_].index, false);
+                break;
+            case Pages.PLACE:
+                ShowPlace(history_[historyIndex_].index, false);
+                break;
             }
 
             // Update the back button
@@ -1196,53 +1196,53 @@ namespace FamilyTree.Viewer
         {
             switch (Current.content)
             {
-                case Pages.PERSON:
-                    // Create a dialog to edit this person
-                    frmEditPerson dlgEdit = new frmEditPerson(Current.index, database_);
+            case Pages.PERSON:
+                // Create a dialog to edit this person
+                frmEditPerson dlgEdit = new frmEditPerson(Current.index, database_);
 
-                    // Show the dialog and wait for the dialog to close
-                    if (dlgEdit.ShowDialog(this) == DialogResult.OK)
-                    {
-                        // Refresh the display of the current person
-                        ShowPerson(Current.index, false);
-                    }
-                    dlgEdit.Dispose();
-                    break;
+                // Show the dialog and wait for the dialog to close
+                if (dlgEdit.ShowDialog(this) == DialogResult.OK)
+                {
+                    // Refresh the display of the current person
+                    ShowPerson(Current.index, false);
+                }
+                dlgEdit.Dispose();
+                break;
 
-                case Pages.PLACE:
-                    // Create a dialog to edit this place
-                    frmEditPlace oEditPlace = new frmEditPlace(Current.index, database_);
+            case Pages.PLACE:
+                // Create a dialog to edit this place
+                frmEditPlace oEditPlace = new frmEditPlace(Current.index, database_);
 
-                    // Show the dialog and wait for the dialog to close
-                    if (oEditPlace.ShowDialog(this) == DialogResult.OK)
-                    {
-                        // Refresh the display of this place
-                        ShowPlace(Current.index, false);
-                    }
-                    oEditPlace.Dispose();
-                    break;
+                // Show the dialog and wait for the dialog to close
+                if (oEditPlace.ShowDialog(this) == DialogResult.OK)
+                {
+                    // Refresh the display of this place
+                    ShowPlace(Current.index, false);
+                }
+                oEditPlace.Dispose();
+                break;
 
-                case Pages.SOURCE:
-                    // Create a dialog to edit this source
-                    frmEditSources oEditSource = new frmEditSources(database_, Current.index);
-                    if (oEditSource.ShowDialog(this) == DialogResult.OK)
-                    {
-                        // Refresh the display of this source
-                        ShowSource(Current.index, false);
-                    }
-                    oEditSource.Dispose();
-                    break;
+            case Pages.SOURCE:
+                // Create a dialog to edit this source
+                frmEditSources oEditSource = new frmEditSources(database_, Current.index);
+                if (oEditSource.ShowDialog(this) == DialogResult.OK)
+                {
+                    // Refresh the display of this source
+                    ShowSource(Current.index, false);
+                }
+                oEditSource.Dispose();
+                break;
 
-                case Pages.MEDIA:
-                    // Create a dialog to edit this media
-                    frmEditMedia oEditMedia = new frmEditMedia(database_, Current.index);
-                    if (oEditMedia.ShowDialog(this) == DialogResult.OK)
-                    {
-                        // Refresh the display of this source
-                        ShowMedia(Current.index, false);
-                    }
-                    oEditMedia.Dispose();
-                    break;
+            case Pages.MEDIA:
+                // Create a dialog to edit this media
+                frmEditMedia oEditMedia = new frmEditMedia(database_, Current.index);
+                if (oEditMedia.ShowDialog(this) == DialogResult.OK)
+                {
+                    // Refresh the display of this source
+                    ShowMedia(Current.index, false);
+                }
+                oEditMedia.Dispose();
+                break;
             }
 
             // Return success
@@ -1268,46 +1268,46 @@ namespace FamilyTree.Viewer
                 Person oPerson;
                 switch (Relation)
                 {
-                    case RelatedPerson.FATHER:
-                        oPerson = new Person(Current.index, database_);
-                        oPerson.FatherID = nNewPersonID;
-                        oPerson.save();
-                        break;
+                case RelatedPerson.FATHER:
+                    oPerson = new Person(Current.index, database_);
+                    oPerson.fatherIndex = nNewPersonID;
+                    oPerson.save();
+                    break;
 
-                    case RelatedPerson.MOTHER:
-                        oPerson = new Person(Current.index, database_);
-                        oPerson.MotherID = nNewPersonID;
-                        oPerson.save();
-                        break;
+                case RelatedPerson.MOTHER:
+                    oPerson = new Person(Current.index, database_);
+                    oPerson.motherIndex = nNewPersonID;
+                    oPerson.save();
+                    break;
 
-                    case RelatedPerson.SIBLING:
-                        Person oNewPerson = new Person(nNewPersonID, database_);
-                        oPerson = new Person(Current.index, database_);
-                        oNewPerson.FatherID = oPerson.FatherID;
-                        oNewPerson.MotherID = oPerson.MotherID;
-                        oNewPerson.save();
-                        break;
+                case RelatedPerson.SIBLING:
+                    Person oNewPerson = new Person(nNewPersonID, database_);
+                    oPerson = new Person(Current.index, database_);
+                    oNewPerson.fatherIndex = oPerson.fatherIndex;
+                    oNewPerson.motherIndex = oPerson.motherIndex;
+                    oNewPerson.save();
+                    break;
 
-                    case RelatedPerson.PARTNER:
-                        oPerson = new Person(Current.index, database_);
-                        clsRelationship oRelationship = new clsRelationship(oPerson, nNewPersonID);
-                        oRelationship.Save();
-                        oPerson.AddRelationship(oRelationship);
-                        break;
+                case RelatedPerson.PARTNER:
+                    oPerson = new Person(Current.index, database_);
+                    clsRelationship oRelationship = new clsRelationship(oPerson, nNewPersonID);
+                    oRelationship.save();
+                    oPerson.addRelationship(oRelationship);
+                    break;
 
-                    case RelatedPerson.CHILD:
-                        oNewPerson = new Person(nNewPersonID, database_);
-                        oPerson = new Person(Current.index, database_);
-                        if (oPerson.isMale)
-                        {
-                            oNewPerson.FatherID = Current.index;
-                        }
-                        else
-                        {
-                            oNewPerson.MotherID = Current.index;
-                        }
-                        oNewPerson.save();
-                        break;
+                case RelatedPerson.CHILD:
+                    oNewPerson = new Person(nNewPersonID, database_);
+                    oPerson = new Person(Current.index, database_);
+                    if (oPerson.isMale)
+                    {
+                        oNewPerson.fatherIndex = Current.index;
+                    }
+                    else
+                    {
+                        oNewPerson.motherIndex = Current.index;
+                    }
+                    oNewPerson.save();
+                    break;
 
                 }
 
@@ -1720,23 +1720,23 @@ namespace FamilyTree.Viewer
 
                 // Check that this person is included in the gedcom file.
                 // The person will also need to be excluded from any families that try to reference him.
-                if (oPerson.IncludeInGedcom)
+                if (oPerson.isIncludeInGedcom)
                 {
                     // Create Gedcom record for this person
-                    oFile.WriteLine("0 @I" + oPerson.ID.ToString("0000") + "@ INDI");
+                    oFile.WriteLine("0 @I" + oPerson.index.ToString("0000") + "@ INDI");
 
                     // Create an intial list of sources for this person
                     ArrayList oPersonSources = new ArrayList();
-                    oPerson.SourceNonSpecific.GedcomAdd(oPersonSources);
+                    oPerson.sourceNonSpecific.gedcomAdd(oPersonSources);
 
-                    oFile.WriteLine("1 NAME " + oPerson.forenames + " /" + oPerson.BirthSurname + "/");
+                    oFile.WriteLine("1 NAME " + oPerson.forenames + " /" + oPerson.birthSurname + "/");
                     oFile.WriteLine("2 GIVN " + oPerson.forenames);
-                    oFile.WriteLine("2 SURN " + oPerson.BirthSurname);
+                    oFile.WriteLine("2 SURN " + oPerson.birthSurname);
                     // oPerson.SourceName.WriteGedcom(2,oFile,null);
-                    oPerson.SourceName.GedcomAdd(oPersonSources);
+                    oPerson.sourceName.gedcomAdd(oPersonSources);
 
                     // Get the occupation information
-                    clsFact[] oFacts = oPerson.GetFacts(20);
+                    clsFact[] oFacts = oPerson.getFacts(20);
                     if (oFacts.Length > 0)
                     {
                         oFile.Write("2 OCCU ");
@@ -1767,42 +1767,42 @@ namespace FamilyTree.Viewer
                         oFile.WriteLine("F");
                     }
                     oFile.WriteLine("1 BIRT");
-                    oFile.WriteLine("2 DATE " + oPerson.dob.Format(DateFormat.Gedcom));
-                    database_.WriteGedcomPlace(oFile, 2, oPerson.getSimpleFact(10), oOptions);
+                    oFile.WriteLine("2 DATE " + oPerson.dob.format(DateFormat.GEDCOM));
+                    database_.writeGedcomPlace(oFile, 2, oPerson.getSimpleFact(10), oOptions);
 
                     // oPerson.SourceDoB.WriteGedcom(2,oFile,null);
-                    oPerson.SourceDoB.GedcomAdd(oPersonSources);
+                    oPerson.sourceDoB.gedcomAdd(oPersonSources);
 
-                    if (!oPerson.DoD.IsEmpty())
+                    if (!oPerson.dod.isEmpty())
                     {
                         oFile.WriteLine("1 DEAT Y");
-                        if (!oPerson.DoD.IsEmpty())
+                        if (!oPerson.dod.isEmpty())
                         {
-                            oFile.WriteLine("2 DATE " + oPerson.DoD.Format(DateFormat.Gedcom));
+                            oFile.WriteLine("2 DATE " + oPerson.dod.format(DateFormat.GEDCOM));
                         }
-                        database_.WriteGedcomPlace(oFile, 2, oPerson.getSimpleFact(90), oOptions);
+                        database_.writeGedcomPlace(oFile, 2, oPerson.getSimpleFact(90), oOptions);
                         string sCauseOfDeath = oPerson.getSimpleFact(92);
                         if (sCauseOfDeath != "")
                         {
                             oFile.WriteLine("2 CAUS " + sCauseOfDeath);
                         }
                         // oPerson.SourceDoD.WriteGedcom(2,oFile,null);
-                        oPerson.SourceDoD.GedcomAdd(oPersonSources);
+                        oPerson.SourceDoD.gedcomAdd(oPersonSources);
                     }
 
                     // Create a list of the partners
                     ArrayList oPartners = new ArrayList();
 
                     // Get the relationship information				
-                    clsRelationship[] oRelationships = oPerson.GetRelationships();
+                    clsRelationship[] oRelationships = oPerson.getRelationships();
                     for (int nJ = 0; nJ < oRelationships.Length; nJ++)
                     {
                         // Check that the partner is included in the Gedcom file
                         Person oPartner = new Person(oRelationships[nJ].partnerIndex, database_);
-                        if (oPartner.IncludeInGedcom)
+                        if (oPartner.isIncludeInGedcom)
                         {
-                            clsFamily oMarriage = oFamilies.GetMarriageFamily(oRelationships[nJ].MaleID, oRelationships[nJ].FemaleID, oRelationships[nJ].ID);
-                            oFile.WriteLine("1 FAMS @F" + oMarriage.GedComID.ToString("0000") + "@");
+                            clsFamily oMarriage = oFamilies.getMarriageFamily(oRelationships[nJ].maleIndex, oRelationships[nJ].femaleIndex, oRelationships[nJ].index);
+                            oFile.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
 
                             // Add to the list of partners
                             oPartners.Add(oRelationships[nJ].partnerIndex);
@@ -1810,7 +1810,7 @@ namespace FamilyTree.Viewer
                     }
 
                     // Add the partners in children not already picked up
-                    int[] nChildren = oPerson.GetChildren();
+                    int[] nChildren = oPerson.getChildren();
                     for (int nJ = 0; nJ < nChildren.Length; nJ++)
                     {
                         Person oChild = database_.getPerson(nChildren[nJ]);
@@ -1818,19 +1818,19 @@ namespace FamilyTree.Viewer
                         // Check that the childs parent is already a partner
                         if (oPerson.isMale)
                         {
-                            if (!oPartners.Contains(oChild.MotherID))
+                            if (!oPartners.Contains(oChild.motherIndex))
                             {
-                                int nMotherID = oChild.MotherID;
-                                Person oMother = new Person(oChild.MotherID, database_);
-                                if (!oMother.IncludeInGedcom)
+                                int nMotherID = oChild.motherIndex;
+                                Person oMother = new Person(oChild.motherIndex, database_);
+                                if (!oMother.isIncludeInGedcom)
                                 {
                                     // Use an unknown mother
                                     nMotherID = 0;
                                 }
 
                                 // Create families for new partner
-                                clsFamily oMarriage = oFamilies.GetMarriageFamily(oPerson.ID, nMotherID, 0);
-                                oFile.WriteLine("1 FAMS @F" + oMarriage.GedComID.ToString("0000") + "@");
+                                clsFamily oMarriage = oFamilies.getMarriageFamily(oPerson.index, nMotherID, 0);
+                                oFile.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
 
                                 // Add to the list of partners
                                 oPartners.Add(nMotherID);
@@ -1838,19 +1838,19 @@ namespace FamilyTree.Viewer
                         }
                         else
                         {
-                            if (!oPartners.Contains(oChild.FatherID))
+                            if (!oPartners.Contains(oChild.fatherIndex))
                             {
-                                int nFatherID = oChild.FatherID;
-                                Person oFather = new Person(oChild.FatherID, database_);
-                                if (!oFather.IncludeInGedcom)
+                                int nFatherID = oChild.fatherIndex;
+                                Person oFather = new Person(oChild.fatherIndex, database_);
+                                if (!oFather.isIncludeInGedcom)
                                 {
                                     // Use an unknown father
                                     nFatherID = 0;
                                 }
 
                                 // Create families for new partner
-                                clsFamily oMarriage = oFamilies.GetMarriageFamily(nFatherID, oPerson.ID, 0);
-                                oFile.WriteLine("1 FAMS @F" + oMarriage.GedComID.ToString("0000") + "@");
+                                clsFamily oMarriage = oFamilies.getMarriageFamily(nFatherID, oPerson.index, 0);
+                                oFile.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
 
                                 // Add to the list of partners
                                 oPartners.Add(nFatherID);
@@ -1859,20 +1859,20 @@ namespace FamilyTree.Viewer
                     }
 
                     // Add this person to the parents family
-                    if (oPerson.FatherID > 0 || oPerson.MotherID > 0)
+                    if (oPerson.fatherIndex > 0 || oPerson.motherIndex > 0)
                     {
                         // Check that the father is included in the gedcom file.
-                        int nFatherID = oPerson.FatherID;
+                        int nFatherID = oPerson.fatherIndex;
                         Person oFather = new Person(nFatherID, database_);
-                        if (!oFather.IncludeInGedcom)
+                        if (!oFather.isIncludeInGedcom)
                         {
                             nFatherID = 0;
                         }
 
                         // Check that the mother is included in the gedcom file.
-                        int nMotherID = oPerson.MotherID;
+                        int nMotherID = oPerson.motherIndex;
                         Person oMother = new Person(nMotherID, database_);
-                        if (!oMother.IncludeInGedcom)
+                        if (!oMother.isIncludeInGedcom)
                         {
                             nMotherID = 0;
                         }
@@ -1880,34 +1880,34 @@ namespace FamilyTree.Viewer
                         //  Get the parent family information
                         if (nMotherID != 0 || nFatherID != 0)
                         {
-                            clsFamily oFamily = oFamilies.GetParentFamily(oPerson.FatherID, oPerson.MotherID);
-                            oFamily.AddChild(oPerson);
-                            oFile.WriteLine("1 FAMC @F" + oFamily.GedComID.ToString("0000") + "@");
+                            clsFamily oFamily = oFamilies.getParentFamily(oPerson.fatherIndex, oPerson.motherIndex);
+                            oFamily.addChild(oPerson);
+                            oFile.WriteLine("1 FAMC @F" + oFamily.gedcomIndex.ToString("0000") + "@");
                         }
                     }
 
                     // Get Census records
-                    clsCensusPerson[] oCensui = database_.CensusForPerson(oPerson.ID);
+                    clsCensusPerson[] oCensui = database_.censusForPerson(oPerson.index);
                     foreach (clsCensusPerson oCensus in oCensui)
                     {
                         oFile.WriteLine("1 CENS");
-                        oFile.WriteLine("2 DATE " + oCensus.Date.ToString("d MMM yyyy"));
-                        database_.WriteGedcomPlace(oFile, 2, oCensus.HouseholdName, oOptions);
-                        if (oCensus.Occupation != "")
+                        oFile.WriteLine("2 DATE " + oCensus.date.ToString("d MMM yyyy"));
+                        database_.writeGedcomPlace(oFile, 2, oCensus.houseHoldName, oOptions);
+                        if (oCensus.occupation != "")
                         {
-                            oFile.WriteLine("2 OCCU " + oCensus.Occupation);
+                            oFile.WriteLine("2 OCCU " + oCensus.occupation);
                         }
-                        oFile.WriteLine("2 NOTE " + oCensus.LivingWith(database_));
-                        clsSources oSources = oCensus.GetSources(database_);
+                        oFile.WriteLine("2 NOTE " + oCensus.livingWith(database_));
+                        Sources oSources = oCensus.getSources(database_);
                         if (oSources != null)
                         {
                             // oSources.WriteGedcom(2,oFile,null);
-                            oSources.GedcomAdd(oPersonSources);
+                            oSources.gedcomAdd(oPersonSources);
                         }
                     }
 
                     // Attach the  media
-                    database_.GedcomWritePersonMedia(oFile, oPerson.ID, oPerson.MediaID);
+                    database_.GedcomWritePersonMedia(oFile, oPerson.index, oPerson.MediaID);
 
                     // Attached the list of sources
                     foreach (int nSourceID in oPersonSources)
@@ -1916,14 +1916,14 @@ namespace FamilyTree.Viewer
                     }
 
                     // Write the last edit information
-                    if (oPerson.LastEditBy != "")
+                    if (oPerson.lastEditBy != "")
                     {
                         oFile.WriteLine("1 CHAN");
-                        oFile.WriteLine("2 DATE " + oPerson.LastEditDate.ToString("d MMM yyyy"));
-                        oFile.WriteLine("3 TIME " + oPerson.LastEditDate.ToString("HH:mm:ss"));
+                        oFile.WriteLine("2 DATE " + oPerson.lastEditDate.ToString("d MMM yyyy"));
+                        oFile.WriteLine("3 TIME " + oPerson.lastEditDate.ToString("HH:mm:ss"));
                         if (oOptions.IncludePGVU)
                         {
-                            oFile.WriteLine("2 _PGVU " + oPerson.LastEditBy);
+                            oFile.WriteLine("2 _PGVU " + oPerson.lastEditBy);
                         }
                     }
                 }
@@ -1964,133 +1964,131 @@ namespace FamilyTree.Viewer
 
         #region Form Events
 
-        /// <summary>Message handler for the paint event on the Panel tree control.
-        /// Draw the lines from parents to children etc ...
-        /// </summary>
-        /// <remarks>
-        /// This is basically the paint event for the form.
-        /// </remarks>
+
+
+        /// <summary>Message handler for the paint event on the Panel tree control.  Draw the lines from parents to children etc ...</summary>
+        /// <remarks>This is basically the paint event for the form.</remarks>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void PanelTree_Paint(object sender, PaintEventArgs e)
         {
-            // Create a pen to draw connections
-            Pen oPen = new Pen(Color.Black, 2);
+            // Create a pen to draw connections.
+            Pen pen = new Pen(Color.Black, 2);
 
-            // Draw a line up for the person
-            int nPos = labPerson_.Left + labPerson_.Width / 2;
-            e.Graphics.DrawLine(oPen, nPos, labPerson_.Top, nPos, labPerson_.Top - padding_.y);
+            // Draw a line up for the person.
+            int pos = labPerson_.Left + labPerson_.Width / 2;
+            e.Graphics.DrawLine(pen, pos, labPerson_.Top, pos, labPerson_.Top - padding_.y);
 
             // Draw lines up for the siblings
             if (psnSiblings_ != null)
             {
-                for (int nType = 1; nType <= 3; nType++)
+                for (int connectionType = 1; connectionType <= 3; connectionType++)
                 {
-                    int nBarHeight = 0;
-                    int nMax = 0;
-                    int nMin = 0;
-                    bool bDrawBar = false;
-                    switch (nType)
+                    int barHeight = 0;
+                    int maxPos = 0;
+                    int minPos = 0;
+                    bool isDrawBar = false;
+                    switch (connectionType)
                     {
-                        case 1:
-                            nBarHeight = labPerson_.Top - (padding_.y / 2) + 4;
-                            nPos = psnFather_.Left + psnFather_.Width / 2;
-                            nMin = nPos;
-                            nMax = nPos;
-                            break;
+                    case 1:
+                        barHeight = labPerson_.Top - (padding_.y / 2) + 4;
+                        pos = psnFather_.Left + psnFather_.Width / 2;
+                        minPos = pos;
+                        maxPos = pos;
+                        break;
 
-                        case 2:
-                            nBarHeight = labPerson_.Top - (padding_.y / 2) - 4;
-                            nPos = psnMother_.Left + psnMother_.Width / 2;
-                            nMin = nPos;
-                            nMax = nPos;
-                            break;
+                    case 2:
+                        barHeight = labPerson_.Top - (padding_.y / 2) - 4;
+                        pos = psnMother_.Left + psnMother_.Width / 2;
+                        minPos = pos;
+                        maxPos = pos;
+                        break;
 
-                        case 3:
-                            nBarHeight = labPerson_.Top - (padding_.y / 2);
-                            nPos = labPerson_.Left + labPerson_.Width / 2;
-                            nMin = nPos;
-                            nMax = nPos;
-                            break;
+                    case 3:
+                        barHeight = labPerson_.Top - (padding_.y / 2);
+                        pos = labPerson_.Left + labPerson_.Width / 2;
+                        minPos = pos;
+                        maxPos = pos;
+                        break;
                     }
 
-                    for (int nI = 0; nI < psnSiblings_.Length; nI++)
+                    for (int i = 0; i < psnSiblings_.Length; i++)
                     {
                         // TODO: Check this.  This was crashing.
-                        if (psnSiblings_[nI] != null)
+                        if (psnSiblings_[i].Tag != null)
                         {
-                            if ((int)psnSiblings_[nI].Tag == nType)
+                            if ((int)psnSiblings_[i].Tag == connectionType)
                             {
-                                bDrawBar = true;
+                                isDrawBar = true;
 
-                                nPos = psnSiblings_[nI].Left + psnSiblings_[nI].Width / 2;
-                                if (nPos < nMin)
+                                pos = psnSiblings_[i].Left + psnSiblings_[i].Width / 2;
+                                if (pos < minPos)
                                 {
-                                    nMin = nPos;
+                                    minPos = pos;
                                 }
-                                if (nPos > nMax)
+                                if (pos > maxPos)
                                 {
-                                    nMax = nPos;
+                                    maxPos = pos;
                                 }
 
-                                e.Graphics.DrawLine(oPen, nPos, labPerson_.Top, nPos, nBarHeight);
+                                e.Graphics.DrawLine(pen, pos, labPerson_.Top, pos, barHeight);
                             }
                         }
                     }
 
-                    // Draw a bar to hang the Siblings on
-                    e.Graphics.DrawLine(oPen, nMin, nBarHeight, nMax, nBarHeight);
+                    // Draw a bar to hang the Siblings on.
+                    e.Graphics.DrawLine(pen, minPos, barHeight, maxPos, barHeight);
 
-                    // Draw a line up to the parents relationship
-                    switch (nType)
+                    // Draw a line up to the parents relationship.
+                    switch (connectionType)
                     {
-                        case 1:
-                            if (bDrawBar)
-                            {
-                                nPos = psnFather_.Left + psnFather_.Width / 2;
-                                e.Graphics.DrawLine(oPen, nPos, psnFather_.Top + psnFather_.Height, nPos, nBarHeight);
-                            }
-                            break;
+                    case 1:
+                        if (isDrawBar)
+                        {
+                            pos = psnFather_.Left + psnFather_.Width / 2;
+                            e.Graphics.DrawLine(pen, pos, psnFather_.Top + psnFather_.Height, pos, barHeight);
+                        }
+                        break;
 
-                        case 2:
-                            if (bDrawBar)
-                            {
-                                nPos = psnMother_.Left + psnMother_.Width / 2;
-                                e.Graphics.DrawLine(oPen, nPos, psnMother_.Top + psnMother_.Height, nPos, nBarHeight);
-                            }
-                            break;
+                    case 2:
+                        if (isDrawBar)
+                        {
+                            pos = psnMother_.Left + psnMother_.Width / 2;
+                            e.Graphics.DrawLine(pen, pos, psnMother_.Top + psnMother_.Height, pos, barHeight);
+                        }
+                        break;
                     }
                 }
 
-                // Draw a line down for the siblings with descendants
-                for (int nI = 0; nI < psnSiblings_.Length; nI++)
+                // Draw a line down for the siblings with descendants.
+                for (int i = 0; i < psnSiblings_.Length; i++)
                 {
-                    Person oSibling = database_.getPerson(psnSiblings_[nI].GetPersonID());
-                    if (oSibling.HasChildren())
+                    Person sibling = database_.getPerson(psnSiblings_[i].getPersonIndex());
+                    if (sibling.hasChildren())
                     {
-                        e.Graphics.DrawLine(oPen, psnSiblings_[nI].Left + psnSiblings_[nI].Width / 2, psnSiblings_[nI].Top + psnSiblings_[nI].Height, psnSiblings_[nI].Left + psnSiblings_[nI].Width / 2, psnSiblings_[nI].Top + psnSiblings_[nI].Height + 3);
+                        e.Graphics.DrawLine(pen, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height + 3);
                     }
                 }
             }
 
             // There is always a line up to the parents
-            nPos = m_marParents.Left + m_marParents.Width / 2;
-            e.Graphics.DrawLine(oPen, nPos, labPerson_.Top - padding_.y, nPos, m_marParents.Top + m_marParents.Height);
+            pos = m_marParents.Left + m_marParents.Width / 2;
+            e.Graphics.DrawLine(pen, pos, labPerson_.Top - padding_.y, pos, m_marParents.Top + m_marParents.Height);
 
             // Draw a line from the father to his parents
             if (psnFather_.Visible)
             {
-                e.Graphics.DrawLine(oPen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8);
-                e.Graphics.DrawLine(oPen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8, m_marFatherParents.Left + m_marFatherParents.Width / 2, psnFather_.Top - 8);
-                e.Graphics.DrawLine(oPen, m_marFatherParents.Left + m_marFatherParents.Width / 2, psnFather_.Top - 8, m_marFatherParents.Left + m_marFatherParents.Width / 2, m_marFatherParents.Top + m_marFatherParents.Height);
+                e.Graphics.DrawLine(pen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8);
+                e.Graphics.DrawLine(pen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8, m_marFatherParents.Left + m_marFatherParents.Width / 2, psnFather_.Top - 8);
+                e.Graphics.DrawLine(pen, m_marFatherParents.Left + m_marFatherParents.Width / 2, psnFather_.Top - 8, m_marFatherParents.Left + m_marFatherParents.Width / 2, m_marFatherParents.Top + m_marFatherParents.Height);
             }
 
             // Draw a line from the mother to her parents
             if (psnMother_.Visible)
             {
-                e.Graphics.DrawLine(oPen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8);
-                e.Graphics.DrawLine(oPen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8, m_marMotherParents.Left + m_marMotherParents.Width / 2, psnMother_.Top - 8);
-                e.Graphics.DrawLine(oPen, m_marMotherParents.Left + m_marMotherParents.Width / 2, psnMother_.Top - 8, m_marMotherParents.Left + m_marMotherParents.Width / 2, m_marMotherParents.Top + m_marMotherParents.Height);
+                e.Graphics.DrawLine(pen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8);
+                e.Graphics.DrawLine(pen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8, m_marMotherParents.Left + m_marMotherParents.Width / 2, psnMother_.Top - 8);
+                e.Graphics.DrawLine(pen, m_marMotherParents.Left + m_marMotherParents.Width / 2, psnMother_.Top - 8, m_marMotherParents.Left + m_marMotherParents.Width / 2, m_marMotherParents.Top + m_marMotherParents.Height);
             }
 
             // Draw lines up for the children
@@ -2108,14 +2106,14 @@ namespace FamilyTree.Viewer
                     bool bDrawBar = false;
                     if (nType == -1)
                     {
-                        nPos = labPerson_.Left + labPerson_.Width / 2;
+                        pos = labPerson_.Left + labPerson_.Width / 2;
                     }
                     else
                     {
-                        nPos = partnersConntections_[nType].Left + partnersConntections_[nType].Width / 2;
+                        pos = partnersConntections_[nType].Left + partnersConntections_[nType].Width / 2;
                     }
-                    int nMin = nPos;
-                    int nMax = nPos;
+                    int nMin = pos;
+                    int nMax = pos;
 
                     for (int i = 0; i < psnChildren_.Length; i++)
                     {
@@ -2126,16 +2124,16 @@ namespace FamilyTree.Viewer
                             if ((int)psnChildren_[i].Tag == nType)
                             {
                                 bDrawBar = true;
-                                nPos = psnChildren_[i].Left + psnChildren_[i].Width / 2;
-                                if (nPos < nMin)
+                                pos = psnChildren_[i].Left + psnChildren_[i].Width / 2;
+                                if (pos < nMin)
                                 {
-                                    nMin = nPos;
+                                    nMin = pos;
                                 }
-                                if (nPos > nMax)
+                                if (pos > nMax)
                                 {
-                                    nMax = nPos;
+                                    nMax = pos;
                                 }
-                                e.Graphics.DrawLine(oPen, nPos, psnChildren_[0].Top, nPos, nBarHeight);
+                                e.Graphics.DrawLine(pen, pos, psnChildren_[0].Top, pos, nBarHeight);
                             }
                         }
                     }
@@ -2143,20 +2141,20 @@ namespace FamilyTree.Viewer
                     if (bDrawBar)
                     {
                         // Draw a bar to hang the Siblings on
-                        e.Graphics.DrawLine(oPen, nMin, nBarHeight, nMax, nBarHeight);
+                        e.Graphics.DrawLine(pen, nMin, nBarHeight, nMax, nBarHeight);
 
                         int nHeight;
                         if (nType == -1)
                         {
-                            nPos = labPerson_.Left + labPerson_.Width / 2;
+                            pos = labPerson_.Left + labPerson_.Width / 2;
                             nHeight = labPerson_.Top + labPerson_.Height;
                         }
                         else
                         {
-                            nPos = partnersConntections_[nType].Left + partnersConntections_[nType].Width / 2;
+                            pos = partnersConntections_[nType].Left + partnersConntections_[nType].Width / 2;
                             nHeight = partnersConntections_[nType].Top + partnersConntections_[nType].Height;
                         }
-                        e.Graphics.DrawLine(oPen, nPos, nBarHeight, nPos, nHeight);
+                        e.Graphics.DrawLine(pen, pos, nBarHeight, pos, nHeight);
 
                         nBarHeight += 5;
                     }
@@ -2165,10 +2163,10 @@ namespace FamilyTree.Viewer
                 // Draw a line down from the children who have descendants
                 for (int nI = 0; nI < psnChildren_.Length; nI++)
                 {
-                    Person oChild = database_.getPerson(psnChildren_[nI].GetPersonID());
-                    if (oChild.HasChildren())
+                    Person oChild = database_.getPerson(psnChildren_[nI].getPersonIndex());
+                    if (oChild.hasChildren())
                     {
-                        e.Graphics.DrawLine(oPen, psnChildren_[nI].Left + psnChildren_[nI].Width / 2, psnChildren_[nI].Top + psnChildren_[nI].Height, psnChildren_[nI].Left + psnChildren_[nI].Width / 2, psnChildren_[nI].Top + psnChildren_[nI].Height + 5);
+                        e.Graphics.DrawLine(pen, psnChildren_[nI].Left + psnChildren_[nI].Width / 2, psnChildren_[nI].Top + psnChildren_[nI].Height, psnChildren_[nI].Left + psnChildren_[nI].Width / 2, psnChildren_[nI].Top + psnChildren_[nI].Height + 5);
                     }
                 }
             }
@@ -2454,7 +2452,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuUnlinkedPlaces_Click(object sender, EventArgs e)
         {
-            int nCount = database_.PlaceRemoveUnlinked();
+            int nCount = database_.placeRemoveUnlinked();
             MessageBox.Show(this, nCount.ToString() + " unlinked place(s) were removed.", "Unlinked Places", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -2530,14 +2528,14 @@ namespace FamilyTree.Viewer
 
             switch (Current.content)
             {
-                case Pages.PERSON:
-                    Person oPerson = new Person(Current.index, database_);
-                    m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
-                    break;
+            case Pages.PERSON:
+                Person oPerson = new Person(Current.index, database_);
+                m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                break;
 
-                case Pages.PLACE:
-                    ShowPlace(Current.index, false);
-                    break;
+            case Pages.PLACE:
+                ShowPlace(Current.index, false);
+                break;
             }
         }
 
@@ -2679,7 +2677,7 @@ namespace FamilyTree.Viewer
 		private void ucPerson_evtClick(object oSender)
         {
             FamilyTree.Viewer.ucPerson psnPerson = (FamilyTree.Viewer.ucPerson)oSender;
-            ShowPerson(psnPerson.GetPersonID(), true);
+            ShowPerson(psnPerson.getPersonIndex(), true);
         }
 
         /// <summary>Message handler for the web browser trying to follow a link.</summary>
@@ -2694,26 +2692,26 @@ namespace FamilyTree.Viewer
                 string sType = sNewUrl.Substring(0, nColon).ToLower();
                 switch (sType)
                 {
-                    case "person":
-                        e.Cancel = true;
-                        int nPersonID = int.Parse(sNewUrl.Substring(nColon + 1));
-                        ShowPerson(nPersonID, true);
-                        break;
-                    case "source":
-                        e.Cancel = true;
-                        int nSourceID = int.Parse(sNewUrl.Substring(nColon + 1));
-                        ShowSource(nSourceID, true);
-                        break;
-                    case "place":
-                        e.Cancel = true;
-                        int nPlaceID = int.Parse(sNewUrl.Substring(nColon + 1));
-                        ShowPlace(nPlaceID, true);
-                        break;
-                    case "media":
-                        e.Cancel = true;
-                        int nMediaID = int.Parse(sNewUrl.Substring(nColon + 1));
-                        ShowMedia(nMediaID, true);
-                        break;
+                case "person":
+                    e.Cancel = true;
+                    int nPersonID = int.Parse(sNewUrl.Substring(nColon + 1));
+                    ShowPerson(nPersonID, true);
+                    break;
+                case "source":
+                    e.Cancel = true;
+                    int nSourceID = int.Parse(sNewUrl.Substring(nColon + 1));
+                    ShowSource(nSourceID, true);
+                    break;
+                case "place":
+                    e.Cancel = true;
+                    int nPlaceID = int.Parse(sNewUrl.Substring(nColon + 1));
+                    ShowPlace(nPlaceID, true);
+                    break;
+                case "media":
+                    e.Cancel = true;
+                    int nMediaID = int.Parse(sNewUrl.Substring(nColon + 1));
+                    ShowMedia(nMediaID, true);
+                    break;
                 }
             }
         }

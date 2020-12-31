@@ -20,7 +20,7 @@ namespace FamilyTree.Viewer
 		private Database m_oDb;
 
 		/// <summary>The source that we are currently editing.</summary>
-		private clsSource m_ActiveSource;
+		private Source m_ActiveSource;
 
 		/// <summary>True when we are allowing events.</summary>
 		private bool m_bAllowEvents;
@@ -59,11 +59,11 @@ namespace FamilyTree.Viewer
             }
 
             // Add the sources to the dialog box
-            clsSource oSelected = null;
-            oSources = oDb.GetSources(enumSortOrder.Date);
+            Source oSelected = null;
+            oSources = oDb.GetSources(Objects.SortOrder.DATE);
             for(int nI = 0; nI < oSources.Length; nI++)
             {
-                clsSource oSource = new clsSource(m_oDb, oSources[nI].index);
+                Source oSource = new Source(m_oDb, oSources[nI].index);
                 m_lstSources.Items.Add(oSource);
                 if(oSources[nI].index == nSourceID)
                 {
@@ -123,7 +123,7 @@ namespace FamilyTree.Viewer
             m_bAllowEvents = false;
 
             // Activate the additional information
-            switch(m_ActiveSource.AdditionalInfoTypeID)
+            switch(m_ActiveSource.additionalInfoTypeIndex)
             {
             case 0: // None
                 HideAllAditionalInfo();
@@ -133,7 +133,7 @@ namespace FamilyTree.Viewer
                 m_grpCensus.Visible = false;
                 m_grpDeath.Visible = false;
                 m_grpMarriage.Visible = false;
-                if(m_ActiveSource.AdditionalBirth == null)
+                if(m_ActiveSource.additionalBirth == null)
                 {
                     m_txtBirthDistrict.Text = "";
                     m_dtpBirthWhen.Value = DateTime.Now;
@@ -151,23 +151,23 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    m_txtBirthDistrict.Text = m_ActiveSource.AdditionalBirth.RegistrationDistrict;
+                    m_txtBirthDistrict.Text = m_ActiveSource.additionalBirth.registrationDistrict;
                     try
                     {
-                        m_dtpBirthWhen.Value = m_ActiveSource.AdditionalBirth.When;
+                        m_dtpBirthWhen.Value = m_ActiveSource.additionalBirth.when;
                     }
                     catch { }
-                    m_txtBirthWhenWhere.Text = m_ActiveSource.AdditionalBirth.WhenAndWhere;
-                    m_txtBirthName.Text = m_ActiveSource.AdditionalBirth.Name;
-                    m_txtBirthSex.Text = m_ActiveSource.AdditionalBirth.Sex;
-                    m_txtBirthFather.Text = m_ActiveSource.AdditionalBirth.Father;
-                    m_txtBirthFatherOccupation.Text = m_ActiveSource.AdditionalBirth.FatherOccupation;
-                    m_txtBirthMother.Text = m_ActiveSource.AdditionalBirth.Mother;
-                    m_txtBirthMotherDetails.Text = m_ActiveSource.AdditionalBirth.MotherDetails;
-                    m_txtBirthInformant.Text = m_ActiveSource.AdditionalBirth.Informant;
-                    m_txtBirthInformantAddress.Text = m_ActiveSource.AdditionalBirth.InformantAddress;
-                    m_txtBirthWhenReg.Text = m_ActiveSource.AdditionalBirth.WhenRegistered;
-                    m_txtBirthReference.Text = m_ActiveSource.AdditionalBirth.GroReference;
+                    m_txtBirthWhenWhere.Text = m_ActiveSource.additionalBirth.whenAndWhere;
+                    m_txtBirthName.Text = m_ActiveSource.additionalBirth.name;
+                    m_txtBirthSex.Text = m_ActiveSource.additionalBirth.sex;
+                    m_txtBirthFather.Text = m_ActiveSource.additionalBirth.father;
+                    m_txtBirthFatherOccupation.Text = m_ActiveSource.additionalBirth.fatherOccupation;
+                    m_txtBirthMother.Text = m_ActiveSource.additionalBirth.mother;
+                    m_txtBirthMotherDetails.Text = m_ActiveSource.additionalBirth.motherDetails;
+                    m_txtBirthInformant.Text = m_ActiveSource.additionalBirth.informant;
+                    m_txtBirthInformantAddress.Text = m_ActiveSource.additionalBirth.informantAddress;
+                    m_txtBirthWhenReg.Text = m_ActiveSource.additionalBirth.whenRegistered;
+                    m_txtBirthReference.Text = m_ActiveSource.additionalBirth.groReference;
                 }
                 break;
 
@@ -177,7 +177,7 @@ namespace FamilyTree.Viewer
                 m_grpDeath.Visible = false;
                 m_grpMarriage.Visible = true;
 
-                if(m_ActiveSource.AdditionalMarriage == null)
+                if(m_ActiveSource.additionalMarriage == null)
                 {
                     m_dtpMarrWhen.Value = DateTime.Now;
                     m_txtMarrLocation.Text = "";
@@ -200,24 +200,24 @@ namespace FamilyTree.Viewer
                 {
                     try
                     {
-                        m_dtpMarrWhen.Value = m_ActiveSource.AdditionalMarriage.When;
+                        m_dtpMarrWhen.Value = m_ActiveSource.additionalMarriage.when;
                     }
                     catch { }
-                    m_txtMarrLocation.Text = m_ActiveSource.AdditionalMarriage.Location;
-                    m_txtMarrGroom.Text = m_ActiveSource.AdditionalMarriage.GroomName;
-                    m_txtMarrGroomAge.Text = m_ActiveSource.AdditionalMarriage.GroomAge;
-                    m_txtMarrGroomOccu.Text = m_ActiveSource.AdditionalMarriage.GroomOccupation;
-                    m_txtMarrGroomLoca.Text = m_ActiveSource.AdditionalMarriage.GroomLiving;
-                    m_txtMarrGroomFather.Text = m_ActiveSource.AdditionalMarriage.GroomFather;
-                    m_txtMarrGroomFatherOcc.Text = m_ActiveSource.AdditionalMarriage.GroomFatherOccupation;
-                    m_txtMarrBride.Text = m_ActiveSource.AdditionalMarriage.BrideName;
-                    m_txtMarrBrideAge.Text = m_ActiveSource.AdditionalMarriage.BrideAge;
-                    m_txtMarrBrideOccu.Text = m_ActiveSource.AdditionalMarriage.BrideOccupation;
-                    m_txtMarrBrideLoca.Text = m_ActiveSource.AdditionalMarriage.BrideLiving;
-                    m_txtMarrBrideFather.Text = m_ActiveSource.AdditionalMarriage.BrideFather;
-                    m_txtMarrBrideFatherOcc.Text = m_ActiveSource.AdditionalMarriage.BrideFatherOccupation;
-                    m_txtMarrWitness.Text = m_ActiveSource.AdditionalMarriage.Witness;
-                    m_txtMarrGro.Text = m_ActiveSource.AdditionalMarriage.GroReference;
+                    m_txtMarrLocation.Text = m_ActiveSource.additionalMarriage.location;
+                    m_txtMarrGroom.Text = m_ActiveSource.additionalMarriage.groomName;
+                    m_txtMarrGroomAge.Text = m_ActiveSource.additionalMarriage.groomAge;
+                    m_txtMarrGroomOccu.Text = m_ActiveSource.additionalMarriage.groomOccupation;
+                    m_txtMarrGroomLoca.Text = m_ActiveSource.additionalMarriage.groomLiving;
+                    m_txtMarrGroomFather.Text = m_ActiveSource.additionalMarriage.groomFather;
+                    m_txtMarrGroomFatherOcc.Text = m_ActiveSource.additionalMarriage.groomFatherOccupation;
+                    m_txtMarrBride.Text = m_ActiveSource.additionalMarriage.brideName;
+                    m_txtMarrBrideAge.Text = m_ActiveSource.additionalMarriage.brideAge;
+                    m_txtMarrBrideOccu.Text = m_ActiveSource.additionalMarriage.brideOccupation;
+                    m_txtMarrBrideLoca.Text = m_ActiveSource.additionalMarriage.brideLiving;
+                    m_txtMarrBrideFather.Text = m_ActiveSource.additionalMarriage.brideFather;
+                    m_txtMarrBrideFatherOcc.Text = m_ActiveSource.additionalMarriage.brideFatherOccupation;
+                    m_txtMarrWitness.Text = m_ActiveSource.additionalMarriage.witness;
+                    m_txtMarrGro.Text = m_ActiveSource.additionalMarriage.groReference;
                 }
                 break;
 
@@ -226,7 +226,7 @@ namespace FamilyTree.Viewer
                 m_grpCensus.Visible = false;
                 m_grpDeath.Visible = true;
                 m_grpMarriage.Visible = false;
-                if(m_ActiveSource.AdditionalDeath == null)
+                if(m_ActiveSource.additionalDeath == null)
                 {
                     m_txtDeathDistrict.Text = "";
                     m_txtDeathWhen.Text = "";
@@ -245,20 +245,20 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    m_txtDeathDistrict.Text = m_ActiveSource.AdditionalDeath.RegistrationDistrict;
-                    m_txtDeathWhen.Text = m_ActiveSource.AdditionalDeath.When;
-                    m_txtDeathWhere.Text = m_ActiveSource.AdditionalDeath.Place;
-                    m_txtDeathName.Text = m_ActiveSource.AdditionalDeath.Name;
-                    m_txtDeathSex.Text = m_ActiveSource.AdditionalDeath.Sex;
-                    m_txtDeathDatePlace.Text = m_ActiveSource.AdditionalDeath.DatePlaceOfBirth;
-                    m_txtDeathOccupation.Text = m_ActiveSource.AdditionalDeath.Occupation;
-                    m_txtDeathUsualAddress.Text = m_ActiveSource.AdditionalDeath.UsualAddress;
-                    m_txtDeathCause.Text = m_ActiveSource.AdditionalDeath.CauseOfDeath;
-                    m_txtDeathInformant.Text = m_ActiveSource.AdditionalDeath.Informant;
-                    m_txtDeathInformantDescription.Text = m_ActiveSource.AdditionalDeath.InformantDescription;
-                    m_txtDeathInformantAddress.Text = m_ActiveSource.AdditionalDeath.InformantAddress;
-                    m_txtDeathWhenReg.Text = m_ActiveSource.AdditionalDeath.WhenRegistered;
-                    m_txtDeathReference.Text = m_ActiveSource.AdditionalDeath.GroReference;
+                    m_txtDeathDistrict.Text = m_ActiveSource.additionalDeath.RegistrationDistrict;
+                    m_txtDeathWhen.Text = m_ActiveSource.additionalDeath.When;
+                    m_txtDeathWhere.Text = m_ActiveSource.additionalDeath.Place;
+                    m_txtDeathName.Text = m_ActiveSource.additionalDeath.Name;
+                    m_txtDeathSex.Text = m_ActiveSource.additionalDeath.Sex;
+                    m_txtDeathDatePlace.Text = m_ActiveSource.additionalDeath.DatePlaceOfBirth;
+                    m_txtDeathOccupation.Text = m_ActiveSource.additionalDeath.Occupation;
+                    m_txtDeathUsualAddress.Text = m_ActiveSource.additionalDeath.UsualAddress;
+                    m_txtDeathCause.Text = m_ActiveSource.additionalDeath.CauseOfDeath;
+                    m_txtDeathInformant.Text = m_ActiveSource.additionalDeath.Informant;
+                    m_txtDeathInformantDescription.Text = m_ActiveSource.additionalDeath.InformantDescription;
+                    m_txtDeathInformantAddress.Text = m_ActiveSource.additionalDeath.InformantAddress;
+                    m_txtDeathWhenReg.Text = m_ActiveSource.additionalDeath.WhenRegistered;
+                    m_txtDeathReference.Text = m_ActiveSource.additionalDeath.GroReference;
                 }
                 break;
 
@@ -268,7 +268,7 @@ namespace FamilyTree.Viewer
                 m_grpDeath.Visible = false;
                 m_grpMarriage.Visible = false;
 
-                if(m_ActiveSource.AdditionalCensus == null)
+                if(m_ActiveSource.additionalCensus == null)
                 {
                     m_txtCensusAddress.Text = "Null";
                     m_txtCensusSeries.Text = "Null";
@@ -278,11 +278,11 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    m_txtCensusAddress.Text = m_ActiveSource.AdditionalCensus.Address;
-                    m_txtCensusSeries.Text = m_ActiveSource.AdditionalCensus.Series;
-                    m_txtCensusPiece.Text = m_ActiveSource.AdditionalCensus.Piece;
-                    m_txtCensusFolio.Text = m_ActiveSource.AdditionalCensus.Folio;
-                    m_txtCensusPage.Text = m_ActiveSource.AdditionalCensus.Page;
+                    m_txtCensusAddress.Text = m_ActiveSource.additionalCensus.Address;
+                    m_txtCensusSeries.Text = m_ActiveSource.additionalCensus.Series;
+                    m_txtCensusPiece.Text = m_ActiveSource.additionalCensus.Piece;
+                    m_txtCensusFolio.Text = m_ActiveSource.additionalCensus.Folio;
+                    m_txtCensusPage.Text = m_ActiveSource.additionalCensus.Page;
                 }
                 break;
             }
@@ -365,19 +365,19 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void lstSources_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			m_ActiveSource = (clsSource)this.m_lstSources.SelectedItem;
+			m_ActiveSource = (Source)this.m_lstSources.SelectedItem;
 			if(m_ActiveSource==null)
 			{
 				// Clear the controls
 			}
-			else if(m_ActiveSource.IsValid())
+			else if(m_ActiveSource.isValid())
 			{
 				// Populate the controls
-				this.txtDescription.Text = m_ActiveSource.Description;
-				this.dateTheDate.Value = m_ActiveSource.TheDate;
-				this.txtComments.Text = m_ActiveSource.Comments;
-				m_cboAdditionalInfo.SelectedIndex = m_ActiveSource.AdditionalInfoTypeID;
-				m_cboRepository.SelectedIndex = m_ActiveSource.Repository; // This is not really correct
+				this.txtDescription.Text = m_ActiveSource.description;
+				this.dateTheDate.Value = m_ActiveSource.theDate;
+				this.txtComments.Text = m_ActiveSource.comments;
+				m_cboAdditionalInfo.SelectedIndex = m_ActiveSource.additionalInfoTypeIndex;
+				m_cboRepository.SelectedIndex = m_ActiveSource.repository; // This is not really correct
 
 				DataGridTableStyle oTableStyle = new DataGridTableStyle();
 			
@@ -410,7 +410,7 @@ namespace FamilyTree.Viewer
 				this.gridReferences.ReadOnly = true;
 
 				// Update the references to this source
-				clsReferences[] oReferences = m_ActiveSource.GetReferences();
+				clsReferences[] oReferences = m_ActiveSource.getReferences();
 				this.gridReferences.SetDataBinding(oReferences,"");
 
 				// Show the additional information for this source (birth certificate etc...)
@@ -437,7 +437,7 @@ namespace FamilyTree.Viewer
 			{
 				return;
 			}
-			m_ActiveSource.Description = this.txtDescription.Text;
+			m_ActiveSource.description = this.txtDescription.Text;
 		}
 
 		/// <summary>
@@ -451,8 +451,8 @@ namespace FamilyTree.Viewer
 			{
 				return;
 			}
-			m_ActiveSource.TheDate.Date = this.dateTheDate.GetDate();		
-			m_ActiveSource.TheDate.Status = this.dateTheDate.GetStatus();
+			m_ActiveSource.theDate.date = this.dateTheDate.GetDate();		
+			m_ActiveSource.theDate.status = this.dateTheDate.GetStatus();
 		}
 
 		/// <summary>
@@ -467,7 +467,7 @@ namespace FamilyTree.Viewer
 			{
 				return;
 			}
-			m_ActiveSource.Comments = this.txtComments.Text;		
+			m_ActiveSource.comments = this.txtComments.Text;		
 		}
 
 		private void cmdOK_Click(object sender, System.EventArgs e)
@@ -477,8 +477,8 @@ namespace FamilyTree.Viewer
 			// Save all the sources
 			for(nI=0;nI<this.m_lstSources.Items.Count;nI++)
 			{
-				clsSource oSource = (clsSource)this.m_lstSources.Items[nI];
-				oSource.Save();
+				Source oSource = (Source)this.m_lstSources.Items[nI];
+				oSource.save();
 			}
 		}
 
@@ -488,13 +488,13 @@ namespace FamilyTree.Viewer
 			{
 				return;
 			}
-			m_ActiveSource.Delete();
+			m_ActiveSource.delete();
 		}
 
 		private void cmdAddSource_Click(object sender, System.EventArgs e)
 		{
-			clsSource oNewSource = new clsSource(m_oDb);
-			oNewSource.Description = "New Source";
+			Source oNewSource = new Source(m_oDb);
+			oNewSource.description = "New Source";
 			int nNew = this.m_lstSources.Items.Add(oNewSource);			 
 			this.m_lstSources.SelectedIndex = nNew;
 		}
@@ -522,7 +522,7 @@ namespace FamilyTree.Viewer
 			}
 
 			IndexName oType = (IndexName)m_cboAdditionalInfo.SelectedItem;
-			m_ActiveSource.AdditionalInfoTypeID = oType.index;		
+			m_ActiveSource.additionalInfoTypeIndex = oType.index;		
 
 			ShowAdditionalInfo();
         }
@@ -548,17 +548,17 @@ namespace FamilyTree.Viewer
 			}
 			
 			// Check that a Census object is available
-			if(m_ActiveSource.AdditionalCensus==null)
+			if(m_ActiveSource.additionalCensus==null)
 			{
 				return;
 			}
 
 			// Update the census object.
-            m_ActiveSource.AdditionalCensus.Address = m_txtCensusAddress.Text;
-            m_ActiveSource.AdditionalCensus.Series = m_txtCensusSeries.Text;
-            m_ActiveSource.AdditionalCensus.Piece = m_txtCensusPiece.Text;
-            m_ActiveSource.AdditionalCensus.Folio = m_txtCensusFolio.Text;
-            m_ActiveSource.AdditionalCensus.Page = m_txtCensusPage.Text;
+            m_ActiveSource.additionalCensus.Address = m_txtCensusAddress.Text;
+            m_ActiveSource.additionalCensus.Series = m_txtCensusSeries.Text;
+            m_ActiveSource.additionalCensus.Piece = m_txtCensusPiece.Text;
+            m_ActiveSource.additionalCensus.Folio = m_txtCensusFolio.Text;
+            m_ActiveSource.additionalCensus.Page = m_txtCensusPage.Text;
         }
 
 		/// <summary>
@@ -576,7 +576,7 @@ namespace FamilyTree.Viewer
 			}
 
 			// Create a dialog to show the full census record
-			frmEditCensus oCensus = new frmEditCensus(m_oDb,m_ActiveSource.ID);
+			frmEditCensus oCensus = new frmEditCensus(m_oDb,m_ActiveSource.index);
 
 			// Show the dialog and wait for the dialog to close
 			oCensus.ShowDialog(this);
@@ -603,22 +603,22 @@ namespace FamilyTree.Viewer
 			}
 
 			// Update the additional marriage information
-            m_ActiveSource.AdditionalMarriage.When = m_dtpMarrWhen.Value;
-            m_ActiveSource.AdditionalMarriage.Location = m_txtMarrLocation.Text;
-			m_ActiveSource.AdditionalMarriage.GroomName = m_txtMarrGroom.Text;
-			m_ActiveSource.AdditionalMarriage.GroomAge = m_txtMarrGroomAge.Text;
-			m_ActiveSource.AdditionalMarriage.GroomOccupation = m_txtMarrGroomOccu.Text;
-			m_ActiveSource.AdditionalMarriage.GroomLiving = m_txtMarrGroomLoca.Text;
-			m_ActiveSource.AdditionalMarriage.GroomFather = m_txtMarrGroomFather.Text;
-			m_ActiveSource.AdditionalMarriage.GroomFatherOccupation = m_txtMarrGroomFatherOcc.Text;
-			m_ActiveSource.AdditionalMarriage.BrideName = m_txtMarrBride.Text;
-			m_ActiveSource.AdditionalMarriage.BrideAge = m_txtMarrBrideAge.Text;
-			m_ActiveSource.AdditionalMarriage.BrideOccupation = m_txtMarrBrideOccu.Text;
-			m_ActiveSource.AdditionalMarriage.BrideLiving = m_txtMarrBrideLoca.Text;
-			m_ActiveSource.AdditionalMarriage.BrideFather = m_txtMarrBrideFather.Text;
-			m_ActiveSource.AdditionalMarriage.BrideFatherOccupation = m_txtMarrBrideFatherOcc.Text;
-			m_ActiveSource.AdditionalMarriage.Witness = m_txtMarrWitness.Text;
-            m_ActiveSource.AdditionalMarriage.GroReference = m_txtMarrGro.Text;
+            m_ActiveSource.additionalMarriage.when = m_dtpMarrWhen.Value;
+            m_ActiveSource.additionalMarriage.location = m_txtMarrLocation.Text;
+			m_ActiveSource.additionalMarriage.groomName = m_txtMarrGroom.Text;
+			m_ActiveSource.additionalMarriage.groomAge = m_txtMarrGroomAge.Text;
+			m_ActiveSource.additionalMarriage.groomOccupation = m_txtMarrGroomOccu.Text;
+			m_ActiveSource.additionalMarriage.groomLiving = m_txtMarrGroomLoca.Text;
+			m_ActiveSource.additionalMarriage.groomFather = m_txtMarrGroomFather.Text;
+			m_ActiveSource.additionalMarriage.groomFatherOccupation = m_txtMarrGroomFatherOcc.Text;
+			m_ActiveSource.additionalMarriage.brideName = m_txtMarrBride.Text;
+			m_ActiveSource.additionalMarriage.brideAge = m_txtMarrBrideAge.Text;
+			m_ActiveSource.additionalMarriage.brideOccupation = m_txtMarrBrideOccu.Text;
+			m_ActiveSource.additionalMarriage.brideLiving = m_txtMarrBrideLoca.Text;
+			m_ActiveSource.additionalMarriage.brideFather = m_txtMarrBrideFather.Text;
+			m_ActiveSource.additionalMarriage.brideFatherOccupation = m_txtMarrBrideFatherOcc.Text;
+			m_ActiveSource.additionalMarriage.witness = m_txtMarrWitness.Text;
+            m_ActiveSource.additionalMarriage.groReference = m_txtMarrGro.Text;
 		}
 
 		/// <summary>
@@ -641,19 +641,19 @@ namespace FamilyTree.Viewer
 			}
 
 			// Update the additional birth information
-			m_ActiveSource.AdditionalBirth.RegistrationDistrict = m_txtBirthDistrict.Text;
-            m_ActiveSource.AdditionalBirth.When = m_dtpBirthWhen.Value;
-            m_ActiveSource.AdditionalBirth.WhenAndWhere = m_txtBirthWhenWhere.Text;
-			m_ActiveSource.AdditionalBirth.Name = m_txtBirthName.Text;
-			m_ActiveSource.AdditionalBirth.Sex = m_txtBirthSex.Text;
-			m_ActiveSource.AdditionalBirth.Father = m_txtBirthFather.Text;
-			m_ActiveSource.AdditionalBirth.FatherOccupation = m_txtBirthFatherOccupation.Text;
-            m_ActiveSource.AdditionalBirth.Mother = m_txtBirthMother.Text;
-            m_ActiveSource.AdditionalBirth.MotherDetails = m_txtBirthMotherDetails.Text;
-            m_ActiveSource.AdditionalBirth.Informant = m_txtBirthInformant.Text;
-            m_ActiveSource.AdditionalBirth.InformantAddress = m_txtBirthInformantAddress.Text;
-            m_ActiveSource.AdditionalBirth.WhenRegistered = m_txtBirthWhenReg.Text;
-            m_ActiveSource.AdditionalBirth.GroReference = m_txtBirthReference.Text;
+			m_ActiveSource.additionalBirth.registrationDistrict = m_txtBirthDistrict.Text;
+            m_ActiveSource.additionalBirth.when = m_dtpBirthWhen.Value;
+            m_ActiveSource.additionalBirth.whenAndWhere = m_txtBirthWhenWhere.Text;
+			m_ActiveSource.additionalBirth.name = m_txtBirthName.Text;
+			m_ActiveSource.additionalBirth.sex = m_txtBirthSex.Text;
+			m_ActiveSource.additionalBirth.father = m_txtBirthFather.Text;
+			m_ActiveSource.additionalBirth.fatherOccupation = m_txtBirthFatherOccupation.Text;
+            m_ActiveSource.additionalBirth.mother = m_txtBirthMother.Text;
+            m_ActiveSource.additionalBirth.motherDetails = m_txtBirthMotherDetails.Text;
+            m_ActiveSource.additionalBirth.informant = m_txtBirthInformant.Text;
+            m_ActiveSource.additionalBirth.informantAddress = m_txtBirthInformantAddress.Text;
+            m_ActiveSource.additionalBirth.whenRegistered = m_txtBirthWhenReg.Text;
+            m_ActiveSource.additionalBirth.groReference = m_txtBirthReference.Text;
 		}
 
 		/// <summary>
@@ -676,20 +676,20 @@ namespace FamilyTree.Viewer
 			}
 
 			// Update the additional death information
-			m_ActiveSource.AdditionalDeath.RegistrationDistrict = m_txtDeathDistrict.Text;
-			m_ActiveSource.AdditionalDeath.When = m_txtDeathWhen.Text;
-            m_ActiveSource.AdditionalDeath.Place = m_txtDeathWhere.Text;
-			m_ActiveSource.AdditionalDeath.Name = m_txtDeathName.Text;
-			m_ActiveSource.AdditionalDeath.Sex = m_txtDeathSex.Text;
-			m_ActiveSource.AdditionalDeath.DatePlaceOfBirth = m_txtDeathDatePlace.Text;
-			m_ActiveSource.AdditionalDeath.Occupation = m_txtDeathOccupation.Text;
-			m_ActiveSource.AdditionalDeath.UsualAddress = m_txtDeathUsualAddress.Text;
-			m_ActiveSource.AdditionalDeath.CauseOfDeath = m_txtDeathCause.Text;
-			m_ActiveSource.AdditionalDeath.Informant = m_txtDeathInformant.Text;
-			m_ActiveSource.AdditionalDeath.InformantDescription = m_txtDeathInformantDescription.Text;
-			m_ActiveSource.AdditionalDeath.InformantAddress = m_txtDeathInformantAddress.Text;
-			m_ActiveSource.AdditionalDeath.WhenRegistered = m_txtDeathWhenReg.Text;
-            m_ActiveSource.AdditionalDeath.GroReference = m_txtDeathReference.Text;
+			m_ActiveSource.additionalDeath.RegistrationDistrict = m_txtDeathDistrict.Text;
+			m_ActiveSource.additionalDeath.When = m_txtDeathWhen.Text;
+            m_ActiveSource.additionalDeath.Place = m_txtDeathWhere.Text;
+			m_ActiveSource.additionalDeath.Name = m_txtDeathName.Text;
+			m_ActiveSource.additionalDeath.Sex = m_txtDeathSex.Text;
+			m_ActiveSource.additionalDeath.DatePlaceOfBirth = m_txtDeathDatePlace.Text;
+			m_ActiveSource.additionalDeath.Occupation = m_txtDeathOccupation.Text;
+			m_ActiveSource.additionalDeath.UsualAddress = m_txtDeathUsualAddress.Text;
+			m_ActiveSource.additionalDeath.CauseOfDeath = m_txtDeathCause.Text;
+			m_ActiveSource.additionalDeath.Informant = m_txtDeathInformant.Text;
+			m_ActiveSource.additionalDeath.InformantDescription = m_txtDeathInformantDescription.Text;
+			m_ActiveSource.additionalDeath.InformantAddress = m_txtDeathInformantAddress.Text;
+			m_ActiveSource.additionalDeath.WhenRegistered = m_txtDeathWhenReg.Text;
+            m_ActiveSource.additionalDeath.GroReference = m_txtDeathReference.Text;
 		}
 
 		/// <summary>
@@ -706,7 +706,7 @@ namespace FamilyTree.Viewer
 			}
 
 			IndexName oRepository = (IndexName)this.m_cboRepository.SelectedItem;
-			m_ActiveSource.Repository = oRepository.index;
+			m_ActiveSource.repository = oRepository.index;
         }
 
         #endregion

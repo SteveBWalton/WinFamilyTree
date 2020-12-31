@@ -48,7 +48,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void frmSelectLocation_Shown(object sender, EventArgs e)
         {
-            clsPlace[] oPlaces = m_oDb.GetPlaces(0);
+            clsPlace[] oPlaces = m_oDb.getPlaces(0);
             foreach(clsPlace oPlace in oPlaces)
             {                
                 TreeNode oChildNode = m_TreeView.Nodes.Add(oPlace.Name);
@@ -68,7 +68,7 @@ namespace FamilyTree.Viewer
         /// <param name="oPlace">Specifies the place to add to the node.</param>
         private void AddTreeNode(TreeNode oParent, clsPlace oPlace)
         {
-            clsPlace[] oChildren = m_oDb.GetPlaces(oPlace.ID );
+            clsPlace[] oChildren = m_oDb.getPlaces(oPlace.ID );
             foreach(clsPlace oChild in oChildren )
             {
                 TreeNode oChildNode = oParent.Nodes.Add(oChild.Name, oChild.Name, oChild.Status, oChild.Status);

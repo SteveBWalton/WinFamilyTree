@@ -76,9 +76,9 @@ namespace FamilyTree.Viewer
 			)
 		{	
 			// Save the values that this control needs
-			m_nTerminated = oRelationship.TerminatedID;
-			m_nFatherID = oRelationship.MaleID;
-			m_nMotherID = oRelationship.FemaleID;
+			m_nTerminated = oRelationship.terminatedIndex;
+			m_nFatherID = oRelationship.maleIndex;
+			m_nMotherID = oRelationship.femaleIndex;
 
 			// Return success
 			return true;

@@ -64,8 +64,8 @@ namespace FamilyTree.Viewer
 			// Store the parameters
 			m_oDB = oDB;
 
-			// Load a list of all people into the listbox
-			IndexName[] oPeople = oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Date,0,9999);
+            // Load a list of all people into the listbox
+            IndexName[] oPeople = oDB.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE,0,9999);
 
 			// Populate the list box
 			for(int nI=0;nI<oPeople.Length;nI++)
@@ -215,8 +215,8 @@ namespace FamilyTree.Viewer
 		{
 			if(this.radioDate.Checked)
 			{
-				// Load a list of all people into the listbox
-				IndexName[] oPeople = m_oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Date,0,3000);
+                // Load a list of all people into the listbox
+                IndexName[] oPeople = m_oDB.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE,0,3000);
 
 				// Populate the list box
 				this.lstPeople.Items.Clear();
@@ -231,8 +231,8 @@ namespace FamilyTree.Viewer
 		{
 			if(this.radioAlpha.Checked)
 			{
-				// Load a list of all people into the listbox
-				IndexName[] oPeople = m_oDB.getPeople(ChooseSex.EITHER,enumSortOrder.Alphabetical,0,3000);
+                // Load a list of all people into the listbox
+                IndexName[] oPeople = m_oDB.getPeople(ChooseSex.EITHER, Objects.SortOrder.ALPHABETICAL,0,3000);
 
 				// Populate the list box
 				this.lstPeople.Items.Clear();

@@ -126,7 +126,7 @@ namespace FamilyTree.Objects
             // Add the place (and links to this source) to the database
             if(Address!="")
             {
-                oDb.AddPlace(Address,2,m_nID);
+                oDb.addPlace(Address,2,m_nID);
             }
 
 			// Return success
@@ -159,7 +159,7 @@ namespace FamilyTree.Objects
             sbHtml.Append("<td align=\"center\">" + Page + "</td>");
             sbHtml.Append("</tr></table></td></tr>");
 
-            sbHtml.Append("<tr><td colspan=\"5\"><span class=\"Census\">Address</span> " + m_oDb.PlaceToHtml(Address) + "</td></tr>");
+            sbHtml.Append("<tr><td colspan=\"5\"><span class=\"Census\">Address</span> " + m_oDb.placeToHtml(Address) + "</td></tr>");
             sbHtml.Append("<tr valign=\"bottom\">");
             sbHtml.Append("<td><span class=\"Census\">Name</span></td>");
             sbHtml.Append("<td><span class=\"Census\">Relation<br/>To Head</span></td>");
@@ -173,20 +173,20 @@ namespace FamilyTree.Objects
             {
                 sbHtml.Append("<tr>");
                 sbHtml.Append("<td>");
-                if(oMember.PersonID>0)
+                if(oMember.personIndex>0)
                 {
-                    sbHtml.Append("<a href=\"Person:"+oMember.PersonID.ToString()+"\">");
+                    sbHtml.Append("<a href=\"Person:"+oMember.personIndex.ToString()+"\">");
                 }
-                sbHtml.Append(oMember.CensusName);
-                if(oMember.PersonID>0)
+                sbHtml.Append(oMember.censusName);
+                if(oMember.personIndex>0)
                 {
                     sbHtml.Append("</a>");
                 }
                 sbHtml.Append("</td>");
-                sbHtml.Append("<td>"+oMember.RelationToHead +"</td>");
-                sbHtml.Append("<td>"+oMember.Age+"</td>");
-                sbHtml.Append("<td>"+oMember.Occupation+"</td>");
-                sbHtml.Append("<td>"+oMember.BornLocation+"</td>");
+                sbHtml.Append("<td>"+oMember.relationToHead +"</td>");
+                sbHtml.Append("<td>"+oMember.age+"</td>");
+                sbHtml.Append("<td>"+oMember.occupation+"</td>");
+                sbHtml.Append("<td>"+oMember.bornLocation+"</td>");
                 sbHtml.Append("</tr>");
             }
 
@@ -203,7 +203,7 @@ namespace FamilyTree.Objects
         {
             // Get the first person in this census
             clsCensusPerson[] oMembers = GetMembers();
-            string sHead = oMembers[0].CensusName;
+            string sHead = oMembers[0].censusName;
 
             // Initialise the Html description.
             StringBuilder sbHtml = new StringBuilder();
@@ -234,12 +234,12 @@ namespace FamilyTree.Objects
             {
                 sbHtml.Append("&lt;tr&gt;");
                 sbHtml.Append("&lt;td class=\"data\"&gt;");
-                sbHtml.Append(oMember.CensusName);
+                sbHtml.Append(oMember.censusName);
                 sbHtml.Append("&lt;/td&gt;");
-                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.RelationToHead +"&lt;/td&gt;");
-                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.Age+"&lt;/td&gt;");
-                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.Occupation+"&lt;/td&gt;");
-                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.BornLocation+"&lt;/td&gt;");
+                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.relationToHead +"&lt;/td&gt;");
+                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.age+"&lt;/td&gt;");
+                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.occupation+"&lt;/td&gt;");
+                sbHtml.Append("&lt;td class=\"data\"&gt;"+oMember.bornLocation+"&lt;/td&gt;");
                 sbHtml.Append("&lt;/tr&gt;<br/>");
             }
 
@@ -251,14 +251,14 @@ namespace FamilyTree.Objects
             sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Text&lt;/td&gt;&lt;td class=\"value\"&gt;");
             foreach(clsCensusPerson oMember in oMembers)
             {
-                sbHtml.Append(oMember.CensusName+" ("+oMember.Age+") ");
-                if(oMember.Occupation !="")
+                sbHtml.Append(oMember.censusName+" ("+oMember.age+") ");
+                if(oMember.occupation !="")
                 {
-                    sbHtml.Append(" - "+oMember.Occupation);
+                    sbHtml.Append(" - "+oMember.occupation);
                 }
-                if(oMember.BornLocation !="")
+                if(oMember.bornLocation !="")
                 {
-                    sbHtml.Append(" - "+oMember.BornLocation);
+                    sbHtml.Append(" - "+oMember.bornLocation);
                 }
                 sbHtml.Append("&lt;br/&gt;");
             }
@@ -267,7 +267,7 @@ namespace FamilyTree.Objects
             sbHtml.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Citation Text&lt;/td&gt;&lt;td class=\"value\"&gt;Living with ");
             foreach(clsCensusPerson oMember in oMembers)
             {
-                sbHtml.Append(oMember.CensusName+" ("+oMember.Age+"), ");
+                sbHtml.Append(oMember.censusName+" ("+oMember.age+"), ");
             }
             sbHtml.Append("&lt;/td&gt;&lt;/tr&gt;<br/>");
             sbHtml.Append("&lt;/table&gt;<br/>");
@@ -280,7 +280,7 @@ namespace FamilyTree.Objects
         /// <returns>A collection of clsCensusPerson records representing people in the census record.</returns>
         public clsCensusPerson[] GetMembers()
         {
-            return m_oDb.CensusHouseholdMembers(m_nID);
+            return m_oDb.censusHouseholdMembers(m_nID);
         }
 
         /// <summary>The ID of the census record.  This should match with the ID the parent source.</summary>

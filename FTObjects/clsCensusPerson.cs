@@ -9,156 +9,139 @@ namespace FamilyTree.Objects
 	/// However, some people can be a member of a census without being in the database eg Boarders, Servants.
 	/// </summary>
 	public class clsCensusPerson
-	{
-		#region Member Variables
+    {
+        #region Member Variables
 
-		/// <summary>The Key ID of this record in the database.</summary>
-		private int m_nID;
-		
-		/// <summary>The key ID of the parent Census household record that this person is a member of.</summary>
-		private int m_nHouseholdID;
-		
-		/// <summary>The name of the parent census household record.</summary>
-		private string m_sHouseholdName;
-		
-		/// <summary>The key ID of the person that this record refers too.  Can be 0 (null in database) for someone in the census report but not the database.</summary>
-		private int m_nPersonID;
-		
-		/// <summary>The name of the person specified in m_nPersonID.  Can be empty.</summary>
-		private string m_sPersonName;
+        /// <summary>The Key ID of this record in the database.</summary>
+        private int index_;
 
-		/// <summary>The name of the person as written in the census record.</summary>
-		private string m_sCensusName;
-		
-		/// <summary>The relation of this person to the head of the household as specified on the census record.</summary>
-		private string m_sRelationToHead;
+        /// <summary>The key ID of the parent Census household record that this person is a member of.</summary>
+        private int houseHoldIndex_;
 
-		/// <summary>The age of the person as specified on the census record.</summary>
-		private string m_sAge;
+        /// <summary>The name of the parent census household record.</summary>
+        private string houseHoldName_;
 
-		/// <summary>The occupation of the person as specified on the census record.</summary>
-		private string m_sOccupation;
+        /// <summary>The key ID of the person that this record refers too.  Can be 0 (null in database) for someone in the census report but not the database.</summary>
+        private int personIndex_;
 
-		/// <summary>The location the person was born as specified on the census record.</summary>
-		private string m_sBornLocation;
-		
-		/// <summary>True if the record should be removed from the database.</summary>
-		private bool m_bDelete;
+        /// <summary>The name of the person specified in m_nPersonID.  Can be empty.</summary>
+        private string personName_;
 
-		/// <summary>The date that the parent census was taken.</summary>
-		private DateTime m_dtDate;
+        /// <summary>The name of the person as written in the census record.</summary>
+        private string censusName_;
 
-		#endregion
+        /// <summary>The relation of this person to the head of the household as specified on the census record.</summary>
+        private string relationToHead_;
 
-		#region Constructors
+        /// <summary>The age of the person as specified on the census record.</summary>
+        private string age_;
+
+        /// <summary>The occupation of the person as specified on the census record.</summary>
+        private string occupation_;
+
+        /// <summary>The location the person was born as specified on the census record.</summary>
+        private string bornLocation_;
+
+        /// <summary>True if the record should be removed from the database.</summary>
+        private bool isDelete_;
+
+        /// <summary>The date that the parent census was taken.</summary>
+        private DateTime date_;
+
+        #endregion
+
+        #region Constructors
 
         // Empty class constructor
         /// <summary>
         /// Empty class constructor
         /// </summary>
-		public clsCensusPerson()
-		{
-			m_sHouseholdName = "";
-			m_sPersonName = "";
-			m_sCensusName = "";
-			m_sRelationToHead = "";
-			m_sAge = "";
-			m_sOccupation = "";
-			m_sBornLocation = "";
-			m_bDelete = false;
-		}
-
-		#endregion
-
-        // Updates this census member in the database.
-        /// <summary>
-        /// Updates this census member in the database.
-        /// </summary>
-		/// <param name="oDb">Specifies the database to write the record into.</param>
-		/// <returns></returns>
-        public bool Save(Database oDb)
+        public clsCensusPerson()
         {
-            return oDb.CensusSavePerson(this);
+            houseHoldName_ = "";
+            personName_ = "";
+            censusName_ = "";
+            relationToHead_ = "";
+            age_ = "";
+            occupation_ = "";
+            bornLocation_ = "";
+            isDelete_ = false;
         }
 
-        // Returns a human readable string describing the other members of the household.
-        /// <summary>
-        /// Returns a human readable string describing the other members of the household.
-        /// </summary>
-		/// <param name="oDb">Specifies the database containing the household.</param>
+        #endregion
+
+        /// <summary>Updates this census member in the database.</summary>
+        /// <param name="database">Specifies the database to write the record into.</param>
+        /// <returns></returns>
+        public bool save(Database database)
+        {
+            return database.censusSavePerson(this);
+        }
+
+        /// <summary>Returns a human readable string describing the other members of the household.</summary>
+		/// <param name="database">Specifies the database containing the household.</param>
 		/// <returns>A human readable string desribing the other members of the household.</returns>
-        public string LivingWith(Database oDb)
+        public string livingWith(Database database)
         {
-            return oDb.CensusLivingWith(this);
+            return database.censusLivingWith(this);
         }
 
-        // Marks this record for delete.
-        /// <summary>
-        /// Marks this record for delete.
-        /// </summary>
-		public void Delete()
-		{
-			m_bDelete = true;
-		}
+        /// <summary>Marks this record for delete.</summary>
+		public void delete()
+        {
+            isDelete_ = true;
+        }
 
-        // Returns true if this record is valid.
-        /// <summary>
-        /// Returns true if this record is valid.
-        /// Otherwise this record should be deleted.
-		/// </summary>
+        /// <summary>Returns true if this record is valid.  Otherwise this record should be deleted.</summary>
 		/// <returns>True if the record is valid, false if the record is scheduled for delete.</returns>
-		public bool IsValid()
-		{
-			return !m_bDelete;
-		}
-
-        // Returns the sources for this census member.
-        /// <summary>
-        /// Returns the sources for this census member.
-        /// In fact the single source attached to census household will be returned.
-		/// </summary>
-		/// <param name="oDb">Specifies the database to read the sources from.</param>
-		/// <returns>A clsSources object containing all the sources for this piece of information.</returns>
-        public clsSources GetSources(Database oDb)
+		public bool isValid()
         {
-            return new clsSources(this, oDb);
+            return !isDelete_;
         }
 
-		#region Properties
+        /// <summary>Returns the sources for this census member.  In fact the single source attached to census household will be returned.</summary>
+		/// <param name="database">Specifies the database to read the sources from.</param>
+		/// <returns>A clsSources object containing all the sources for this piece of information.</returns>
+        public Sources getSources(Database database)
+        {
+            return new Sources(this, database);
+        }
 
-		/// <summary>The Key ID of this record in the database.</summary>
-		public int ID { get { return m_nID; } set { m_nID=value; } }
+        #region Properties
 
-		/// <summary>The key ID of the parent Census household record that this person is a member of.</summary>
-		public int HouseholdID { get { return m_nHouseholdID; } set { m_nHouseholdID = value; } }
+        /// <summary>The Key ID of this record in the database.</summary>
+        public int index { get { return index_; } set { index_ = value; } }
 
-		/// <summary>The name of the parent census household record.</summary>
-		public string HouseholdName { get { return m_sHouseholdName; } set { m_sHouseholdName = value; } }
+        /// <summary>The key ID of the parent Census household record that this person is a member of.</summary>
+        public int houseHoldIndex { get { return houseHoldIndex_; } set { houseHoldIndex_ = value; } }
 
-		/// <summary>The key ID of the person that this record refers too.  Can be 0 (null in database) for someone in the census report but not the database.</summary>
-		public int PersonID { get { return m_nPersonID; } set { m_nPersonID = value; } }
-		
-		/// <summary>The name of the person specified in PersonID.  Can be empty.</summary>
-		public string PersonName { get { return m_sPersonName; } set { m_sPersonName = value; } }
+        /// <summary>The name of the parent census household record.</summary>
+        public string houseHoldName { get { return houseHoldName_; } set { houseHoldName_ = value; } }
 
-		/// <summary>The name of the person as written in the census record.</summary>
-		public string CensusName { get { return m_sCensusName; } set { m_sCensusName = value; } }
-		
-		/// <summary>The relation of this person to the head of the household as specified on the census record.</summary>
-		public string RelationToHead { get { return m_sRelationToHead; } set { m_sRelationToHead = value; } }
+        /// <summary>The key ID of the person that this record refers too.  Can be 0 (null in database) for someone in the census report but not the database.</summary>
+        public int personIndex { get { return personIndex_; } set { personIndex_ = value; } }
 
-		/// <summary>The age of the person as specified on the census record.</summary>
-		public string Age { get { return m_sAge; } set { m_sAge = value; } }
-		
-		/// <summary>The occupation of the person as specified on the census record.</summary>
-		public string Occupation { get { return m_sOccupation; } set { m_sOccupation = value; } }
+        /// <summary>The name of the person specified in PersonID.  Can be empty.</summary>
+        public string personName { get { return personName_; } set { personName_ = value; } }
 
-		/// <summary>The location the person was born as specified on the census record.</summary>
-		public string BornLocation { get { return m_sBornLocation; } set { m_sBornLocation = value; } }
+        /// <summary>The name of the person as written in the census record.</summary>
+        public string censusName { get { return censusName_; } set { censusName_ = value; } }
 
-		/// <summary>The date that the parent census was taken.</summary>
-		public DateTime Date { get { return m_dtDate; } set { m_dtDate = value; } }
+        /// <summary>The relation of this person to the head of the household as specified on the census record.</summary>
+        public string relationToHead { get { return relationToHead_; } set { relationToHead_ = value; } }
 
-		#endregion
-	}
+        /// <summary>The age of the person as specified on the census record.</summary>
+        public string age { get { return age_; } set { age_ = value; } }
+
+        /// <summary>The occupation of the person as specified on the census record.</summary>
+        public string occupation { get { return occupation_; } set { occupation_ = value; } }
+
+        /// <summary>The location the person was born as specified on the census record.</summary>
+        public string bornLocation { get { return bornLocation_; } set { bornLocation_ = value; } }
+
+        /// <summary>The date that the parent census was taken.</summary>
+        public DateTime date { get { return date_; } set { date_ = value; } }
+
+        #endregion
+    }
 }

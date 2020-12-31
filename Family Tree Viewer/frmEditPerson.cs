@@ -18,7 +18,7 @@ namespace FamilyTree.Viewer
         private Person person_;
 
         /// <summary>Active sources.</summary>
-        private clsSources sources_;
+        private Sources sources_;
 
         /// <summary>Active relationship.</summary>
         private clsRelationship activeRelationship_;
@@ -43,7 +43,7 @@ namespace FamilyTree.Viewer
             {
                 m_cboFactType.Items.Add(oFactTypes[nI]);
             }
-            IndexName[] oSources = database.GetSources(enumSortOrder.Date);
+            IndexName[] oSources = database.GetSources(Objects.SortOrder.DATE);
             for (int nI = 0; nI < oSources.Length; nI++)
             {
                 m_cboSources.Items.Add(oSources[nI]);
@@ -72,13 +72,13 @@ namespace FamilyTree.Viewer
             m_txtForename.Text = person_.forenames;
             m_txtMaidenName.Text = person_.maidenname;
             m_dateDoB.Value = person_.dob;
-            m_dateDoD.Value = person_.DoD;
-            m_chkChildrenKnown.Checked = person_.AllChildrenKnown;
-            m_txtComments.Text = person_.Comments;
+            m_dateDoD.Value = person_.dod;
+            m_chkChildrenKnown.Checked = person_.isAllChildrenKnown;
+            m_txtComments.Text = person_.comments;
             // m_labEditor.Text = "Last Edit by "+m_oPerson.LastEditBy+" on "+m_oPerson.LastEditDate.ToString("d-MMM-yyyy HH:mm:ss");
 
             // Initialise the sources grid
-            RefreshSources(person_.SourceName, "Name");
+            RefreshSources(person_.sourceName, "Name");
 
             // Initialise the facts grid
             PopulateFactsGrid();
@@ -87,14 +87,14 @@ namespace FamilyTree.Viewer
             m_labDescription.Text = person_.Description(false, false, false, false, false);
 
             // Initialise the relationships tab
-            clsRelationship[] oRelationships = person_.GetRelationships();
+            clsRelationship[] oRelationships = person_.getRelationships();
             for (int nI = 0; nI < oRelationships.Length; nI++)
             {
                 m_lstRelationships.Items.Add(oRelationships[nI]);
             }
 
             // Add the possible people to the relationship combo box
-            IndexName[] oPossiblePartners = person_.PossiblePartners();
+            IndexName[] oPossiblePartners = person_.possiblePartners();
             for (int nI = 0; nI < oPossiblePartners.Length; nI++)
             {
                 m_cboAddPartner.Items.Add(oPossiblePartners[nI]);
@@ -136,7 +136,7 @@ namespace FamilyTree.Viewer
         /// <returns>The ID of the person on the form.</returns>
         public int GetPersonID()
         {
-            return person_.ID;
+            return person_.index;
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace FamilyTree.Viewer
         private bool PopulateFactsGrid()
         {
             // Populate the grid with data
-            m_gridFacts.SetDataBinding(person_.GetFacts(), "");
+            m_gridFacts.SetDataBinding(person_.getFacts(), "");
 
             // Creates two DataGridTableStyle objects, one for the Machine
             // array, and one for the Parts ArrayList.
@@ -209,7 +209,7 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oSources">Specifiy the collection of sources to populate the grid with.</param>
         /// <param name="sOwner">Name of the owner to label the grid with.</param>
-        private void RefreshSources(clsSources oSources, string sOwner)
+        private void RefreshSources(Sources oSources, string sOwner)
         {
             RefreshSources(oSources);
             m_gridSources.CaptionText = "Sources for " + sOwner;
@@ -222,18 +222,18 @@ namespace FamilyTree.Viewer
         /// Use as RefreshSources(m_oSources) to repaint the control
         /// </summary>
         /// <param name="oSources"></param>
-        private void RefreshSources(clsSources oSources)
+        private void RefreshSources(Sources oSources)
         {
-            clsSource[] oListSources;
+            Source[] oListSources;
             sources_ = oSources;
             if (oSources == null)
             {
-                oListSources = new clsSource[0];
+                oListSources = new Source[0];
                 m_gridSources.SetDataBinding(oListSources, "");
             }
             else
             {
-                oListSources = oSources.GetAsSources();
+                oListSources = oSources.getAsSources();
                 m_gridSources.SetDataBinding(oListSources, "");
                 CreateSourcesGridStyle();
             }
@@ -246,7 +246,7 @@ namespace FamilyTree.Viewer
         /// </summary>
         private void RefreshSources()
         {
-            RefreshSources((clsSources)null);
+            RefreshSources((Sources)null);
             m_gridSources.CaptionText = "Sources";
             m_grpSources.Text = "Sources";
         }
@@ -341,7 +341,7 @@ namespace FamilyTree.Viewer
         private void frmEditPerson_Load(object sender, System.EventArgs e)
         {
             // Label for the dialog
-            Text = person_.GetName(true, false);
+            Text = person_.getName(true, false);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace FamilyTree.Viewer
         private void frmEditPerson_Shown(object sender, EventArgs e)
         {
             // Initialise the editor combo with the possible editors
-            string[] sEditors = person_.Database.getEditors();
+            string[] sEditors = person_.database.getEditors();
             foreach (string sEditor in sEditors)
             {
                 m_cboEditor.Items.Add(sEditor);
@@ -371,7 +371,7 @@ namespace FamilyTree.Viewer
         private void cmdOK_Click(object sender, System.EventArgs e)
         {
             // Save the record to the database
-            person_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+            person_.lastEditBy = m_cboEditor.SelectedItem.ToString();
             person_.save();
         }
 
@@ -398,7 +398,7 @@ namespace FamilyTree.Viewer
             IndexName oSource = (IndexName)m_cboSources.Items[m_cboSources.SelectedIndex];
 
             // Add the source to this fact
-            sources_.Add(oSource.index);
+            sources_.add(oSource.index);
 
             // Update the display
             RefreshSources(sources_);
@@ -414,7 +414,7 @@ namespace FamilyTree.Viewer
             }
 
             // Mark the source as deleted
-            sources_.Delete(m_gridSources.CurrentCell.RowNumber);
+            sources_.delete(m_gridSources.CurrentCell.RowNumber);
 
             // Update the display
             RefreshSources(sources_);
@@ -451,7 +451,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void evtNonSpecificSource(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.SourceNonSpecific, "Non Specific");
+            RefreshSources(person_.sourceNonSpecific, "Non Specific");
         }
 
         // Message handler for the sources grid losing the focus.
@@ -466,20 +466,20 @@ namespace FamilyTree.Viewer
             if (sources_ != null)
             {
                 // Loop through the sources on the grid	
-                clsSource[] oSources = (clsSource[])m_gridSources.DataSource;
+                Source[] oSources = (Source[])m_gridSources.DataSource;
                 for (int nIndex = 0; nIndex < oSources.Length; nIndex++)
                 {
                     if (oSources[nIndex] != null)
                     {
-                        int nNewRanking = oSources[nIndex].Ranking;
+                        int nNewRanking = oSources[nIndex].ranking;
 
-                        if (sources_.GetRanking(nIndex) != nNewRanking)
+                        if (sources_.getRanking(nIndex) != nNewRanking)
                         {
                             // Show the message on the screen.
                             // MessageBox.Show(this,nIndex.ToString()+" = "+nNewRanking.ToString());		
 
                             // Change the ranking on this source		
-                            sources_.ChangeRanking(nIndex, nNewRanking);
+                            sources_.changeRanking(nIndex, nNewRanking);
                         }
                     }
                 }
@@ -512,11 +512,11 @@ namespace FamilyTree.Viewer
                 // Populate the advance tab
                 if (m_cboFather.Items.Count == 0)
                 {
-                    IndexName[] oPossibleFathers = person_.PossibleFathers();
+                    IndexName[] oPossibleFathers = person_.possibleFathers();
                     for (int nI = 0; nI < oPossibleFathers.Length; nI++)
                     {
                         m_cboFather.Items.Add(oPossibleFathers[nI]);
-                        if (oPossibleFathers[nI].index == person_.FatherID)
+                        if (oPossibleFathers[nI].index == person_.fatherIndex)
                         {
                             m_cboFather.SelectedItem = oPossibleFathers[nI];
                         }
@@ -524,11 +524,11 @@ namespace FamilyTree.Viewer
                 }
                 if (m_cboMother.Items.Count == 0)
                 {
-                    IndexName[] oPossibleMothers = person_.PossibleMothers();
+                    IndexName[] oPossibleMothers = person_.possibleMothers();
                     for (int nI = 0; nI < oPossibleMothers.Length; nI++)
                     {
                         m_cboMother.Items.Add(oPossibleMothers[nI]);
-                        if (oPossibleMothers[nI].index == person_.MotherID)
+                        if (oPossibleMothers[nI].index == person_.motherIndex)
                         {
                             m_cboMother.SelectedItem = oPossibleMothers[nI];
                         }
@@ -547,7 +547,7 @@ namespace FamilyTree.Viewer
                         }
                     }
                 }
-                m_chkGedcom.Checked = person_.IncludeInGedcom;
+                m_chkGedcom.Checked = person_.isIncludeInGedcom;
                 break;
 
             case 4:
@@ -573,7 +573,7 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void Name_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.SourceName, "Name");
+            RefreshSources(person_.sourceName, "Name");
         }
 
         // Update the sources when the sex field is active.
@@ -595,7 +595,7 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void dateDoB_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.SourceDoB, "Date of Birth");
+            RefreshSources(person_.sourceDoB, "Date of Birth");
         }
 
         // Update the sources when the DoD field is active.
@@ -689,7 +689,7 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void chkChildrenKnown_CheckedChanged(object sender, System.EventArgs e)
         {
-            person_.AllChildrenKnown = this.m_chkChildrenKnown.Checked;
+            person_.isAllChildrenKnown = this.m_chkChildrenKnown.Checked;
 
             // Update the description
             m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -703,8 +703,8 @@ namespace FamilyTree.Viewer
 		/// <param name="oSender"></param>
 		private void dateDoB_evtValueChanged(object oSender)
         {
-            person_.dob.Date = m_dateDoB.GetDate();
-            person_.dob.Status = m_dateDoB.GetStatus();
+            person_.dob.date = m_dateDoB.GetDate();
+            person_.dob.status = m_dateDoB.GetStatus();
 
             // Update the description
             m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -718,8 +718,8 @@ namespace FamilyTree.Viewer
 		/// <param name="oSender"></param>
 		private void dateDoD_evtValueChanged(object oSender)
         {
-            person_.DoD.Date = m_dateDoD.GetDate();
-            person_.DoD.Status = m_dateDoD.GetStatus();
+            person_.dod.date = m_dateDoD.GetDate();
+            person_.dod.status = m_dateDoD.GetStatus();
 
             // Update the description
             m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -734,7 +734,7 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void txtComments_TextChanged(object sender, System.EventArgs e)
         {
-            person_.Comments = this.m_txtComments.Text;
+            person_.comments = this.m_txtComments.Text;
         }
 
         #endregion
@@ -747,7 +747,7 @@ namespace FamilyTree.Viewer
         private void gridFacts_CurrentCellChanged(object sender, System.EventArgs e)
         {
             clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
-            RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].Sources, oFacts[m_gridFacts.CurrentCell.RowNumber].information);
+            RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].sources, oFacts[m_gridFacts.CurrentCell.RowNumber].information);
 
             // Update the description
             m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -792,7 +792,7 @@ namespace FamilyTree.Viewer
 
             // Find the fact
             clsFact oFact = ((clsFact[])m_gridFacts.DataSource)[m_gridFacts.CurrentCell.RowNumber];
-            oFact.Delete();
+            oFact.delete();
 
             // Update the display
             PopulateFactsGrid();
@@ -816,7 +816,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                RefreshSources(activeRelationship_.SourceTerminated, "Relationship End Type");
+                RefreshSources(activeRelationship_.sourceTerminated, "Relationship End Type");
             }
         }
 
@@ -830,8 +830,8 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.TerminatedID = this.m_cboTerminated.SelectedIndex + 1;
-                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.terminatedIndex = this.m_cboTerminated.SelectedIndex + 1;
+                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
             }
         }
 
@@ -846,8 +846,8 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.TypeID = m_cboRelationshipType.SelectedIndex + 1;
-                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.typeIndex = m_cboRelationshipType.SelectedIndex + 1;
+                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
             }
         }
 
@@ -875,15 +875,15 @@ namespace FamilyTree.Viewer
             activeRelationship_ = (clsRelationship)this.m_lstRelationships.SelectedItem;
 
             // Update the form
-            m_dateRelationStart.Value = activeRelationship_.Start;
+            m_dateRelationStart.Value = activeRelationship_.start;
             //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
-            m_cboTerminated.SelectedIndex = activeRelationship_.TerminatedID - 1;
-            m_txtRelationLocation.Text = activeRelationship_.Location;
-            m_dateRelationEnd.Value = activeRelationship_.End;
-            m_txtRelationComments.Text = activeRelationship_.Comments;
-            m_cboRelationshipType.SelectedIndex = activeRelationship_.TypeID - 1;
+            m_cboTerminated.SelectedIndex = activeRelationship_.terminatedIndex - 1;
+            m_txtRelationLocation.Text = activeRelationship_.location;
+            m_dateRelationEnd.Value = activeRelationship_.end;
+            m_txtRelationComments.Text = activeRelationship_.comments;
+            m_cboRelationshipType.SelectedIndex = activeRelationship_.typeIndex - 1;
 
-            RefreshSources(activeRelationship_.SourcePartner, "Relationship Partner");
+            RefreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
         }
 
         private void dateRelationStart_Enter(object sender, System.EventArgs e)
@@ -894,7 +894,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                RefreshSources(activeRelationship_.SourceStart, "Relationship Start Date");
+                RefreshSources(activeRelationship_.sourceStart, "Relationship Start Date");
             }
         }
 
@@ -906,7 +906,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                RefreshSources(activeRelationship_.SourceTerminated, "Relationship Termination Status");
+                RefreshSources(activeRelationship_.sourceTerminated, "Relationship Termination Status");
             }
         }
 
@@ -918,7 +918,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                RefreshSources(activeRelationship_.SourceLocation, "Relationship Location");
+                RefreshSources(activeRelationship_.sourceLocation, "Relationship Location");
             }
         }
 
@@ -930,7 +930,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                RefreshSources(activeRelationship_.SourceEnd, "Relationship End Date");
+                RefreshSources(activeRelationship_.sourceEnd, "Relationship End Date");
             }
         }
 
@@ -942,7 +942,7 @@ namespace FamilyTree.Viewer
             }
             else
             {
-                RefreshSources(activeRelationship_.SourcePartner, "Relationship Partner");
+                RefreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
             }
         }
 
@@ -951,8 +951,8 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.Location = this.m_txtRelationLocation.Text;
-                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.location = this.m_txtRelationLocation.Text;
+                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
                 m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -964,9 +964,9 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.Start.Date = m_dateRelationStart.GetDate();
-                activeRelationship_.Start.Status = m_dateRelationStart.GetStatus();
-                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.start.date = m_dateRelationStart.GetDate();
+                activeRelationship_.start.status = m_dateRelationStart.GetStatus();
+                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
                 m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -978,9 +978,9 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.End.Date = m_dateRelationEnd.GetDate();
-                activeRelationship_.End.Status = m_dateRelationEnd.GetStatus();
-                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.end.date = m_dateRelationEnd.GetDate();
+                activeRelationship_.end.status = m_dateRelationEnd.GetStatus();
+                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
                 m_labDescription.Text = person_.Description(false, false, false, false, false);
@@ -992,8 +992,8 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.Comments = this.m_txtRelationComments.Text;
-                activeRelationship_.LastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.comments = this.m_txtRelationComments.Text;
+                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
             }
         }
 
@@ -1012,7 +1012,7 @@ namespace FamilyTree.Viewer
             clsRelationship oRelationship = new clsRelationship(person_, oPartner.index);
 
             // Add the relationship to the persons collection
-            person_.AddRelationship(oRelationship);
+            person_.addRelationship(oRelationship);
 
             // Add the partner to the list box
             m_lstRelationships.Items.Add(oRelationship);
@@ -1030,7 +1030,7 @@ namespace FamilyTree.Viewer
             }
 
             // Mark the active relationship for deletion
-            activeRelationship_.Delete();
+            activeRelationship_.delete();
 
             // Remove the relationship from the listbox
             this.m_lstRelationships.Items.Remove(activeRelationship_);
@@ -1057,7 +1057,7 @@ namespace FamilyTree.Viewer
             IndexName oFather = (IndexName)m_cboFather.SelectedItem;
 
             // Save the ID in the person object
-            person_.FatherID = oFather.index;
+            person_.fatherIndex = oFather.index;
         }
 
         /// <summary>
@@ -1071,7 +1071,7 @@ namespace FamilyTree.Viewer
             IndexName oMother = (IndexName)m_cboMother.SelectedItem;
 
             // Save the ID in the person object
-            person_.MotherID = oMother.index;
+            person_.motherIndex = oMother.index;
         }
 
         /// <summary>
@@ -1135,7 +1135,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void chkGedcom_CheckedChanged(object sender, EventArgs e)
         {
-            person_.IncludeInGedcom = m_chkGedcom.Checked;
+            person_.isIncludeInGedcom = m_chkGedcom.Checked;
         }
 
         #endregion
@@ -1143,7 +1143,7 @@ namespace FamilyTree.Viewer
         private void cmdAddToDo_Click(object sender, EventArgs e)
         {
             ToDo oNew = new ToDo();
-            oNew.personIndex_ = person_.ID;
+            oNew.personIndex_ = person_.index;
             oNew.Priority = 50;
             oNew.Description = "New ToDo item.";
 
@@ -1192,7 +1192,7 @@ namespace FamilyTree.Viewer
             // Find the fact
             clsFact oFact = ((clsFact[])m_gridFacts.DataSource)[oHitTestInfo.Row];
 
-            frmSelectLocation oDialog = new frmSelectLocation(person_.Database, oFact.information);
+            frmSelectLocation oDialog = new frmSelectLocation(person_.database, oFact.information);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 oFact.information = oDialog.LocationName;
@@ -1223,7 +1223,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void cmdRelationshipAddress_Click(object sender, EventArgs e)
         {
-            frmSelectLocation oDialog = new frmSelectLocation(person_.Database, m_txtRelationLocation.Text);
+            frmSelectLocation oDialog = new frmSelectLocation(person_.database, m_txtRelationLocation.Text);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 m_txtRelationLocation.Text = oDialog.LocationName;

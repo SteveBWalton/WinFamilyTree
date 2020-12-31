@@ -133,7 +133,7 @@ namespace FamilyTree.Objects
         private void Read(OleDbDataReader drPlace)
         {
             m_nID = Database.GetInt(drPlace, "ID", 0);
-            m_sName = Database.GetString(drPlace, "Name", "Error");
+            m_sName = Database.getString(drPlace, "Name", "Error");
             m_nParentID = Database.GetInt(drPlace, "ParentID", 0);
             m_nStatus = Database.GetInt(drPlace, "Status", 0);
             m_dLongitude = Innoval.clsDatabase.GetFloat(drPlace, "Longitude", -999);

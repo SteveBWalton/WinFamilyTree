@@ -247,7 +247,7 @@ namespace FamilyTree.Objects
                     Person oPerson = new Person(nPersonID,m_oDb);
                     sbHtml.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">");
                     sbHtml.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
-                    sbHtml.Append(oPerson.GetName(true,false));
+                    sbHtml.Append(oPerson.getName(true,false));
                     sbHtml.Append("</a>");
                     sbHtml.Append("</span></td></tr>");
                 }
