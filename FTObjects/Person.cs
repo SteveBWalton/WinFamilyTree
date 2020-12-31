@@ -124,7 +124,7 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Creates an empty person object in the specfied database.</summary>
-		/// <param name="database">Specify the database to contain this person</param>
+        /// <param name="database">Specify the database to contain this person</param>
         public Person(Database database)
             : this() // This makes the program call the () constructor before the code is called.
         {
@@ -134,9 +134,9 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Create a person object from the specified database record.  Loads the specified person from the specified database.</summary>
-		/// <param name="personIndex">Specify the ID of the person to load.</param>
-		/// <param name="database">Specify the family tree database to load the person from.</param>
-		public Person(int personIndex, Database database) : this(database) // This makes the program call the (Database) constructor before the code is called.
+        /// <param name="personIndex">Specify the ID of the person to load.</param>
+        /// <param name="database">Specify the family tree database to load the person from.</param>
+        public Person(int personIndex, Database database) : this(database) // This makes the program call the (Database) constructor before the code is called.
         {
             // Open the specified person.
             OleDbCommand sqlCommand = new OleDbCommand("SELECT Surname, Forenames, MaidenName, Born, BornStatusID, Died, DiedStatusID, FatherID, MotherID, Sex, ChildrenKnown, GedCom, Comments, MediaID, LastEditBy, LastEditDate FROM tbl_People WHERE ID = " + personIndex.ToString() + ";", database.cndb);
@@ -220,7 +220,7 @@ namespace FamilyTree.Objects
                 }
 
                 isAllChildrenKnown_ = dataReader.GetBoolean(10);
-                isIncludeGedcom_ = Innoval.clsDatabase.GetBool(dataReader, "Gedcom", true);
+                isIncludeGedcom_ = walton.Database.getBool(dataReader, "Gedcom", true);
                 comments_ = Database.getString(dataReader, "Comments", "");
                 mediaIndex = Database.GetInt(dataReader, "MediaID", 0);
                 lastEditBy_ = Database.getString(dataReader, "LastEditBy", "Steve Walton");
@@ -279,23 +279,23 @@ namespace FamilyTree.Objects
             sqlCommand = new OleDbCommand
                 (
                     "UPDATE tbl_People SET " +
-                    "Surname=" + Database.toDb(personSurname_) + "," +
-                    "Forenames=" + Database.toDb(foreNames_) + "," +
-                    "MaidenName=" + Database.toDb(maidenName_) + "," +
-                    "Born=" + Database.toDb(dob_) + "," +
-                    "BornStatusID=" + dob_.status.ToString() + "," +
-                    "Died=" + Database.toDb(dod_) + "," +
-                    "DiedStatusID=" + dod_.status.ToString() + "," +
-                    "ChildrenKnown=" + Database.toDb(isAllChildrenKnown_) + "," +
-                    "FatherID=" + Database.toDb(fatherIndex_, 0) + "," +
-                    "MotherID=" + Database.toDb(motherIndex_, 0) + "," +
-                    "Sex=" + Database.iif(isMale_, "'M'", "'F'") + "," +
-                    "GedCom=" + Innoval.clsDatabase.ToDb(isIncludeGedcom_) + "," +
-                    "MediaID=" + Database.toDb(mediaIndex, 0) + "," +
-                    "LastEditBy=" + Database.toDb(lastEditBy_) + "," +
-                    "LastEditDate=#" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#," +
-                    "Comments=" + Database.toDb(comments_) + " " +
-                    "WHERE ID=" + personIndex_.ToString() + ";",
+                    "Surname = " + Database.toDb(personSurname_) + ", " +
+                    "Forenames = " + Database.toDb(foreNames_) + ", " +
+                    "MaidenName = " + Database.toDb(maidenName_) + ", " +
+                    "Born = " + Database.toDb(dob_) + ", " +
+                    "BornStatusID = " + dob_.status.ToString() + ", " +
+                    "Died = " + Database.toDb(dod_) + ", " +
+                    "DiedStatusID = " + dod_.status.ToString() + ", " +
+                    "ChildrenKnown = " + Database.toDb(isAllChildrenKnown_) + ", " +
+                    "FatherID = " + Database.toDb(fatherIndex_, 0) + ", " +
+                    "MotherID = " + Database.toDb(motherIndex_, 0) + ", " +
+                    "Sex = " + Database.iif(isMale_, "'M'", "'F'") + ", " +
+                    "GedCom = " + walton.Database.toDb(isIncludeGedcom_) + ", " +
+                    "MediaID = " + Database.toDb(mediaIndex, 0) + ", " +
+                    "LastEditBy = " + Database.toDb(lastEditBy_) + ", " +
+                    "LastEditDate = #" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#, " +
+                    "Comments = " + Database.toDb(comments_) + " " +
+                    "WHERE ID = " + personIndex_.ToString() + ";",
                     database_.cndb
                 );
             sqlCommand.ExecuteNonQuery();
@@ -344,9 +344,9 @@ namespace FamilyTree.Objects
             // Save the ToDo items.
             if (toDo_ != null)
             {
-                foreach (ToDo oToDo in toDo_)
+                foreach (ToDo toDo in toDo_)
                 {
-                    oToDo.Save(database.cndb);
+                    toDo.save(database.cndb);
                 }
             }
 
@@ -1205,7 +1205,7 @@ namespace FamilyTree.Objects
             // Include the places 
             if (isHtml && isIncludePlaces)
             {
-                description.AppendLine(places.GoogleMap(600, 300));
+                description.AppendLine(places.googleMap(600, 300));
             }
 
             // Show the footnotes
@@ -1246,16 +1246,16 @@ namespace FamilyTree.Objects
             // Show the ToDo items
             if (isHtml && isIncludeToDo)
             {
-                ToDo[] oToDo = this.GetToDo();
-                if (oToDo.Length > 0)
+                ToDo[] toDos = this.getToDo();
+                if (toDos.Length > 0)
                 {
                     description.AppendLine("<p><b>To Do</b></p>");
                     description.AppendLine("<table cellpadding=\"3\" cellspacing=\"2\">");
-                    foreach (ToDo oDo in oToDo)
+                    foreach (ToDo toDo in toDos)
                     {
                         description.Append("<tr bgcolor=\"silver\">");
-                        description.Append("<td><span class=\"Small\">[" + oDo.Priority.ToString() + "]</span></td>");
-                        description.Append("<td><span class=\"Small\">" + oDo.Description + "</span></td>");
+                        description.Append("<td><span class=\"Small\">[" + toDo.priority.ToString() + "]</span></td>");
+                        description.Append("<td><span class=\"Small\">" + toDo.description + "</span></td>");
                         description.AppendLine("</tr>");
                     }
                     description.AppendLine("</table>");
@@ -1555,35 +1555,35 @@ namespace FamilyTree.Objects
 
 
         /// <summary>The collection of places associated with this person.</summary>
-        public clsPlaces places
+        public Places places
         {
             get
             {
                 // Start a new collection of places.
-                clsPlaces places = new clsPlaces();
+                Places places = new Places();
 
                 // Add the born place.
                 clsFact[] facts = getFacts(10);
                 if (facts.Length > 0)
                 {
                     string sBorn = facts[0].information;
-                    clsPlace oPlace = database_.GetPlace(sBorn);
+                    Place oPlace = database_.getPlace(sBorn);
                     if (oPlace != null)
                     {
-                        places.AddPlace(oPlace);
+                        places.addPlace(oPlace);
                     }
                 }
 
                 // Add the married places
-                clsRelationship[] oRelationships = getRelationships();
-                foreach (clsRelationship oRelatonship in oRelationships)
+                clsRelationship[] relationships = getRelationships();
+                foreach (clsRelationship relatonship in relationships)
                 {
-                    if (oRelatonship.isValid())
+                    if (relatonship.isValid())
                     {
-                        clsPlace oMarried = database_.GetPlace(oRelatonship.location);
-                        if (oMarried != null)
+                        Place marriedPlace = database_.getPlace(relatonship.location);
+                        if (marriedPlace != null)
                         {
-                            places.AddPlace(oMarried);
+                            places.addPlace(marriedPlace);
                         }
                     }
                 }
@@ -1597,10 +1597,10 @@ namespace FamilyTree.Objects
                     if (oChildFacts.Length > 0)
                     {
                         string sChildBorn = oChildFacts[0].information;
-                        clsPlace oPlace = database_.GetPlace(sChildBorn);
+                        Place oPlace = database_.getPlace(sChildBorn);
                         if (oPlace != null)
                         {
-                            places.AddPlace(oPlace);
+                            places.addPlace(oPlace);
                         }
                     }
                 }
@@ -1610,8 +1610,8 @@ namespace FamilyTree.Objects
                 // string sLastLocation = "";
                 foreach (clsCensusPerson oCensus in oCensuses)
                 {
-                    clsPlace oHousehold = database_.GetPlace(oCensus.houseHoldName);
-                    places.AddPlace(oHousehold);
+                    Place oHousehold = database_.getPlace(oCensus.houseHoldName);
+                    places.addPlace(oHousehold);
                 }
 
                 // Add the died place
@@ -1619,10 +1619,10 @@ namespace FamilyTree.Objects
                 if (facts.Length > 0)
                 {
                     string sDied = facts[0].information;
-                    clsPlace oPlace = database_.GetPlace(sDied);
+                    Place oPlace = database_.getPlace(sDied);
                     if (oPlace != null)
                     {
-                        places.AddPlace(oPlace);
+                        places.addPlace(oPlace);
                     }
                 }
 
@@ -1659,7 +1659,7 @@ namespace FamilyTree.Objects
             OleDbDataReader drMedia = oSql.ExecuteReader();
             while (drMedia.Read())
             {
-                int nMediaID = Innoval.clsDatabase.GetInt(drMedia, "MediaID", 0);
+                int nMediaID = walton.Database.getInt(drMedia, "MediaID", 0);
                 if (nMediaID != 0 && nMediaID != nExcludeID)
                 {
                     oMedia.Add(nMediaID);
@@ -1698,63 +1698,62 @@ namespace FamilyTree.Objects
 
         #region ToDo Items
 
-        /// <summary>
-        /// Returns the collection of ToDo items attached to this person.
-        /// </summary>
+
+
+        /// <summary>Returns the collection of ToDo items attached to this person.</summary>
         /// <returns>An array of ToDo items attached to this person.</returns>
-        public ToDo[] GetToDo()
+        public ToDo[] getToDo()
         {
-            // Check if the ToDo array exists
+            // Check if the ToDo array exists.
             if (toDo_ == null)
             {
-                LoadToDo();
+                loadToDo();
             }
 
             return (ToDo[])toDo_.ToArray(typeof(ToDo));
         }
 
-        /// <summary>
-        /// Loads the collection of ToDo items related this person.
-        /// </summary>
-        private void LoadToDo()
+
+
+        /// <summary>Loads the collection of ToDo items related this person.</summary>
+        private void loadToDo()
         {
             // Create a list to hold the ToDo items.
             toDo_ = new ArrayList();
 
-            string sSql = "SELECT * FROM tbl_ToDo WHERE PersonID=" + this.index + " ORDER BY Priority, ID;";
-            OleDbCommand oSql = new OleDbCommand(sSql, database_.cndb);
-            OleDbDataReader drToDo = oSql.ExecuteReader();
-            while (drToDo.Read())
+            string sql = "SELECT * FROM tbl_ToDo WHERE PersonID = " + this.index + " ORDER BY Priority, ID;";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                ToDo oItem = new ToDo(Innoval.clsDatabase.GetInt(drToDo, "ID", -1), index, Innoval.clsDatabase.GetInt(drToDo, "Priority", 0), Innoval.clsDatabase.GetString(drToDo, "Description", ""));
+                ToDo toDo = new ToDo(walton.Database.getInt(dataReader, "ID", -1), index, walton.Database.getInt(dataReader, "Priority", 0), walton.Database.getString(dataReader, "Description", ""));
 
                 // Add this item to the collection.
-                toDo_.Add(oItem);
+                toDo_.Add(toDo);
             }
         }
 
-        /// <summary>
-        /// Adds the specified ToDo item to the collection for this person.
-        /// </summary>
-        /// <param name="oNew">Specifies the ToDo item to add to this person.</param>
+
+
+        /// <summary>Adds the specified ToDo item to the collection for this person.</summary>
+        /// <param name="toDo">Specifies the ToDo item to add to this person.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool AddToDo
-            (
-            ToDo oNew
-            )
+        public bool addToDo(ToDo toDo)
         {
-            // Check if the ToDo array exists
+            // Check if the ToDo array exists.
             if (toDo_ == null)
             {
-                LoadToDo();
+                loadToDo();
             }
 
-            // Add to the list of facts
-            toDo_.Add(oNew);
+            // Add to the list of to do.
+            toDo_.Add(toDo);
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         #endregion
 

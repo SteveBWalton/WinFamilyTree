@@ -25,16 +25,15 @@ namespace FamilyTree.Viewer
 
         private void PopulateForm()
         {
-            m_txtFilename.Text = m_oOptions.sFilename;
+            m_txtFilename.Text = m_oOptions.fileName;
         }
 
-        // Update the options from the values on the form.
-        /// <summary>
-        /// Update the options from the values on the form.
-        /// </summary>
-        private void PopulateOptions()
+
+
+        /// <summary>Update the options from the values on the form.</summary>
+        private void populateOptions()
         {
-            m_oOptions.sFilename = m_txtFilename.Text;
+            m_oOptions.fileName = m_txtFilename.Text;
             m_oOptions.IncludePGVU = m_chkPGVU.Checked;
             m_oOptions.RemoveADDRfromPLAC = m_chkRemoveAddresses.Checked;
             m_oOptions.UseADDR = m_chkUseADDR.Checked;
@@ -42,14 +41,16 @@ namespace FamilyTree.Viewer
             m_oOptions.UseLongitude = m_chkLongitude.Checked;
         }
 
+
+
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            PopulateOptions();
+            populateOptions();
         }
 
-        /// <summary>
-        /// Message handler for the "Open" button click.
-        /// </summary>
+
+
+        /// <summary>Message handler for the "Open" button click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void cmdOpen_Click(object sender, EventArgs e)

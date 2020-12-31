@@ -55,78 +55,82 @@ namespace FamilyTree.Viewer
             m_oRules = new ArrayList();
         }
 
-        // Class constructor with initial value taken from the specified .tree file.
-        /// <summary>
-        /// Class constructor with initial value taken from the specified .tree file.
-        /// </summary>
+
+
+        /// <summary>Class constructor with initial value taken from the specified .tree file.</summary>
         /// <param name="oTreeOptions">Specifies the .tree file to load the options from.</param>
-        public clsTreeOptions(Innoval.clsXmlDocument oTreeOptions)
+        public clsTreeOptions(walton.XmlDocument oTreeOptions)
         {
-            Innoval.clsXmlNode oOptions = oTreeOptions.GetNode("options");
+            walton.XmlNode oOptions = oTreeOptions.getNode("options");
 
-            Innoval.clsXmlNode oMainFont = oOptions.GetNode("mainfont");
-            m_sTreeMainFontName = oMainFont.GetAttributeValue("name","Tahoma",false);
-            m_dTreeMainFontSize = oMainFont.GetAttributeValue("size",10.0f,false);
+            walton.XmlNode oMainFont = oOptions.getNode("mainfont");
+            m_sTreeMainFontName = oMainFont.getAttributeValue("name","Tahoma",false);
+            m_dTreeMainFontSize = oMainFont.getAttributeValue("size",10.0f,false);
 
-            Innoval.clsXmlNode oSubFont = oOptions.GetNode("subfont");
-            m_sTreeSubFontName = oSubFont.GetAttributeValue("name","Tahoma",false);
-            m_dTreeSubFontSize = oSubFont.GetAttributeValue("size",8.0f,false);
+            walton.XmlNode oSubFont = oOptions.getNode("subfont");
+            m_sTreeSubFontName = oSubFont.getAttributeValue("name","Tahoma",false);
+            m_dTreeSubFontSize = oSubFont.getAttributeValue("size",8.0f,false);
 
-            Innoval.clsXmlNode oPersonBox = oOptions.GetNode("personbox");
-            m_bTreePersonBox = oPersonBox.GetAttributeValue("show",false,false);
+            walton.XmlNode oPersonBox = oOptions.getNode("personbox");
+            m_bTreePersonBox = oPersonBox.getAttributeValue("show",false,false);
 
             // Initialise the list of rules
             m_oRules = new ArrayList();
-            Innoval.clsXmlNode oRules = oOptions.GetNode("rules");
-            int nRules = oRules.GetNumNodes();
+            walton.XmlNode oRules = oOptions.getNode("rules");
+            int nRules = oRules.getNumNodes();
             for(int nRule = 0;nRule < nRules;nRule++)
             {
-                Innoval.clsXmlNode xmlRule = oRules.GetNode(nRule);
+                walton.XmlNode xmlRule = oRules.getNode(nRule);
                 clsTreeRule oRule = new clsTreeRule();
                 oRule.Load(xmlRule);
                 AddRule(oRule);
             }
         }
 
+
+
         #endregion
 
         #region Save
 
-        /// <summary>Write the tree options into the specified .tree file
-        /// </summary>
+
+
+        /// <summary>Write the tree options into the specified .tree file.</summary>
         /// <param name="oTreeFile">Specifies the .tree file to write the options into.</param>
-        public bool Save(Innoval.clsXmlDocument oTreeFile)
+        public bool Save(walton.XmlDocument oTreeFile)
         {
             // Write the basic options
-            Innoval.clsXmlNode oOptions = oTreeFile.GetNode("options");
+            walton.XmlNode oOptions = oTreeFile.getNode("options");
 
-            Innoval.clsXmlNode oMainFont = oOptions.GetNode("mainfont");
-            oMainFont.SetAttributeValue("name",m_sTreeMainFontName);
-            oMainFont.SetAttributeValue("size",(double)m_dTreeMainFontSize);
+            walton.XmlNode oMainFont = oOptions.getNode("mainfont");
+            oMainFont.setAttributeValue("name",m_sTreeMainFontName);
+            oMainFont.setAttributeValue("size",(double)m_dTreeMainFontSize);
 
-            Innoval.clsXmlNode oSubFont = oOptions.GetNode("subfont");
-            oSubFont.SetAttributeValue("name",m_sTreeSubFontName);
-            oSubFont.SetAttributeValue("size",(double)m_dTreeSubFontSize);
+            walton.XmlNode oSubFont = oOptions.getNode("subfont");
+            oSubFont.setAttributeValue("name",m_sTreeSubFontName);
+            oSubFont.setAttributeValue("size",(double)m_dTreeSubFontSize);
 
-            Innoval.clsXmlNode oPersonBox = oOptions.GetNode("personbox");
-            oPersonBox.SetAttributeValue("show",m_bTreePersonBox);
+            walton.XmlNode oPersonBox = oOptions.getNode("personbox");
+            oPersonBox.setAttributeValue("show",m_bTreePersonBox);
 
             // Write the rules
-            Innoval.clsXmlNode xmlRules = oOptions.FindNode("rules");
+            walton.XmlNode xmlRules = oOptions.findNode("rules");
             if(xmlRules != null)
             {
-                xmlRules.Delete();
+                xmlRules.delete();
             }
-            xmlRules = oOptions.GetNode("rules");
+            xmlRules = oOptions.getNode("rules");
             clsTreeRule[] oRules = GetRules();
             foreach(clsTreeRule oRule in oRules)
             {
                 oRule.Save(xmlRules);
             }
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         #endregion
 

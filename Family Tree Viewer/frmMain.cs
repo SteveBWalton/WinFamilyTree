@@ -1,4 +1,4 @@
-// Family tree objects
+﻿// Family tree objects
 using FamilyTree.Objects;
 using System;
 using System.Collections;
@@ -112,7 +112,7 @@ namespace FamilyTree.Viewer
         private int historyLast_;
 
         /// <summary>Configuration file.</summary>
-        private Innoval.clsXmlDocument config_;
+        private walton.XmlDocument config_;
 
         /// <summary>Current family tree database.</summary>
         private Database database_;
@@ -151,7 +151,7 @@ namespace FamilyTree.Viewer
         private float fontSize_;
 
         /// <summary>The list of recent files.</summary>
-        private Innoval.clsFileList recentFiles_;
+        private walton.FileList recentFiles_;
 
         /// <summary>The filename of a tree document to open at load.</summary>
         private string treeToOpen_;
@@ -180,12 +180,12 @@ namespace FamilyTree.Viewer
             psnMotherMother_.evtClick += new dgtClick(ucPerson_evtClick);
 
             // Open the configuration file			
-            string configFile = Innoval.clsDataPaths.GetUserDirectory("Walton", "Family Tree Viewer", "1.0");
+            string configFile = walton.DataPaths.getUserDirectory("Walton", "Family Tree Viewer", "1.0");
             configFile += "\\config.xml";
-            config_ = new Innoval.clsXmlDocument(configFile);
+            config_ = new walton.XmlDocument(configFile);
 
             // Open the recent files list
-            recentFiles_ = new Innoval.clsFileList(4, config_);
+            recentFiles_ = new walton.FileList(4, config_);
             UpdateRecentFiles();
 
             // Initialise objects / variables
@@ -211,9 +211,9 @@ namespace FamilyTree.Viewer
             treeToOpen_ = "";
 
             // Open the most recent database.
-            if (recentFiles_.GetRecentFilename(0) != "")
+            if (recentFiles_.getRecentFilename(0) != "")
             {
-                document = recentFiles_.GetRecentFilename(0);
+                document = recentFiles_.getRecentFilename(0);
             }
 
             // Loop through the program arguments.
@@ -590,15 +590,15 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Find the place
-            clsPlace oPlace = new clsPlace(nPlaceID, database_);
-            Text = oPlace.Name + " - Family Tree Viewer";
+            Place oPlace = new Place(nPlaceID, database_);
+            Text = oPlace.name + " - Family Tree Viewer";
             if (bAddHistory)
             {
-                HistoryAdd(Pages.PLACE, nPlaceID, "Place: " + oPlace.Name);
+                HistoryAdd(Pages.PLACE, nPlaceID, "Place: " + oPlace.name);
             }
 
             // Display the Html description of the source.
-            string sPlace = oPlace.ToHtml(m_menuLocation.Checked);
+            string sPlace = oPlace.toHtml(m_menuLocation.Checked);
             m_oWebBrowser.DocumentText = userOptions_.RenderHtml(sPlace);
 
             // Return success
@@ -1145,23 +1145,22 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        /// <summary>Displays the home / default person.
-        /// </summary>
+        /// <summary>Displays the home / default person.</summary>
         /// <returns>True, if successful.  False, otherwise.</returns>
         private bool GoHome()
         {
             // Find the home person and display them
-            Innoval.clsXmlNode oHome = config_.GetNode("useroptions/home");
-            int nHomeID = oHome.GetAttributeValue("id", 1, true);
+            walton.XmlNode oHome = config_.getNode("useroptions/home");
+            int nHomeID = oHome.getAttributeValue("id", 1, true);
             ShowPerson(nHomeID, true);
 
             // Return success
             return true;
         }
 
-        /// <summary>
-        /// Display a dialog box and allow the user to select the person to show
-        /// </summary>
+
+
+        /// <summary>Display a dialog box and allow the user to select the person to show.</summary>
         /// <returns></returns>
         private bool GotoPerson()
         {
@@ -1403,30 +1402,30 @@ namespace FamilyTree.Viewer
             return true;
         }
 
-        /// <summary>Opens the specified tree file in a new window.
-        /// </summary>
+
+
+        /// <summary>Opens the specified tree file in a new window.</summary>
         /// <param name="sTreeFile">Specifies the full filename of the tree file.</param>
         /// <returns>True for success, false otherwise.</returns>
         private bool OpenTree(string sTreeFile)
         {
-            // Open the .tree file
-            Innoval.clsXmlDocument oTreeFile = new Innoval.clsXmlDocument(sTreeFile);
+            // Open the .tree file.
+            walton.XmlDocument oTreeFile = new walton.XmlDocument(sTreeFile);
 
-            // Create the tree document
+            // Create the tree document.
             clsTreeDocument oTree = new clsTreeDocument(database_, oTreeFile);
 
-            // Create a tree preview window
+            // Create a tree preview window.
             frmViewTree oTreeWindow = new frmViewTree(oTree);
             oTreeWindow.Show();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Create a html report about the current person.
-        /// <summary>
-        /// Create a html report about the current person.
-        /// </summary>
+
+
+        /// <summary>Create a html report about the current person.</summary>
         /// <returns>True for success, false otherwise.</returns>
         private bool ReportToHtml()
         {
@@ -1573,7 +1572,7 @@ namespace FamilyTree.Viewer
             database_ = new Database(sFilename);
 
             // Update the recent files
-            recentFiles_.OpenFile(sFilename);
+            recentFiles_.openFile(sFilename);
             UpdateRecentFiles();
 
             // Show the default person
@@ -1586,42 +1585,41 @@ namespace FamilyTree.Viewer
             return true;
         }
 
-        // Updates the recent file menu.
-        /// <summary>
-        /// Updates the recent file menu.
-        /// </summary>
-		private void UpdateRecentFiles()
+
+
+        /// <summary>Updates the recent file menu.</summary>
+        private void UpdateRecentFiles()
         {
-            if (recentFiles_.GetRecentFilename(0) != "")
+            if (recentFiles_.getRecentFilename(0) != "")
             {
-                m_menuRecentFile1.Text = "1 " + recentFiles_.GetDisplayName(0);
+                m_menuRecentFile1.Text = "1 " + recentFiles_.getDisplayName(0);
                 m_menuRecentFile1.Visible = true;
             }
             else
             {
                 m_menuRecentFile1.Visible = false;
             }
-            if (recentFiles_.GetRecentFilename(1) != "")
+            if (recentFiles_.getRecentFilename(1) != "")
             {
-                m_menuRecentFile2.Text = "2 " + recentFiles_.GetDisplayName(1);
+                m_menuRecentFile2.Text = "2 " + recentFiles_.getDisplayName(1);
                 m_menuRecentFile2.Visible = true;
             }
             else
             {
                 m_menuRecentFile2.Visible = false;
             }
-            if (recentFiles_.GetRecentFilename(2) != "")
+            if (recentFiles_.getRecentFilename(2) != "")
             {
-                m_menuRecentFile3.Text = "3 " + recentFiles_.GetDisplayName(2);
+                m_menuRecentFile3.Text = "3 " + recentFiles_.getDisplayName(2);
                 m_menuRecentFile3.Visible = true;
             }
             else
             {
                 m_menuRecentFile3.Visible = false;
             }
-            if (recentFiles_.GetRecentFilename(3) != "")
+            if (recentFiles_.getRecentFilename(3) != "")
             {
-                m_menuRecentFile4.Text = "4 " + recentFiles_.GetDisplayName(3);
+                m_menuRecentFile4.Text = "4 " + recentFiles_.getDisplayName(3);
                 m_menuRecentFile4.Visible = true;
             }
             else
@@ -1630,11 +1628,9 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // Allows the user to select an output file to write gedcom into.
-        /// <summary>
-        /// Allows the user to select an output file to write gedcom into.
-        /// Currently this is a the gedcom of the whole database.
-		/// </summary>
+
+
+        /// <summary>Allows the user to select an output file to write gedcom into.  Currently this is a the gedcom of the whole database.</summary>
         private void ExportGedcom()
         {
             frmGedcomOptions oDialog = new frmGedcomOptions(userOptions_.GedcomOptions);
@@ -1678,26 +1674,26 @@ namespace FamilyTree.Viewer
         }
 
         /// <summary>Writes gedcom data into the specified file.  Why is this in the main form would expect this to be in FTObjects?</summary>
-		/// <param name="oParameter">Specifies the filename of the gedcom file to create.</param>		
+        /// <param name="oParameter">Specifies the filename of the gedcom file to create.</param>		
         private void WriteGedcom(object oParameter)
         {
-            // Show the wait cursor
+            // Show the wait cursor.
             cursorWait();
 
-            // Estimate the number of steps required
-            Innoval.clsXmlNode xmlGedcom = config_.GetNode("gedcom");
-            int nNumSteps = xmlGedcom.GetAttributeValue("steps", 1000, true);
+            // Estimate the number of steps required.
+            walton.XmlNode xmlGedcom = config_.getNode("gedcom");
+            int nNumSteps = xmlGedcom.getAttributeValue("steps", 1000, true);
             progressBarInitialise(nNumSteps);
             progressBarVisible(true);
 
-            // Decode the parameter
+            // Decode the parameter.
             clsGedcomOptions oOptions = (clsGedcomOptions)oParameter;
-            string sFilename = oOptions.sFilename;
+            string sFilename = oOptions.fileName;
 
-            // Open the output file
+            // Open the output file.
             StreamWriter oFile = new StreamWriter(sFilename, false);
 
-            // Write the Gedcom header
+            // Write the Gedcom header.
             oFile.WriteLine("0 HEAD");
             oFile.WriteLine("1 SOUR FamilyTree");
             oFile.WriteLine("2 NAME FamilyTree");
@@ -1706,12 +1702,12 @@ namespace FamilyTree.Viewer
             oFile.WriteLine("1 DATE " + DateTime.Now.ToString("d MMM yyyy"));
             oFile.WriteLine("2 TIME " + DateTime.Now.ToString("HH:mm:ss"));
             oFile.WriteLine("1 CHAR UTF-8");
-            oFile.WriteLine("1 FILE " + Path.GetFileName(oOptions.sFilename));
+            oFile.WriteLine("1 FILE " + Path.GetFileName(oOptions.fileName));
 
             // Create a list of Gedcom families objects @F1@ etc ...
             clsFamilies oFamilies = new clsFamilies();
 
-            // Write the individuals
+            // Write the individuals.
             IndexName[] oAllPeople = database_.getPeople();
             for (int nI = 0; nI < oAllPeople.Length; nI++)
             {
@@ -1951,7 +1947,7 @@ namespace FamilyTree.Viewer
             oFile.Close();
 
             // Save the number of steps for next time
-            xmlGedcom.SetAttributeValue("steps", numSteps_);
+            xmlGedcom.setAttributeValue("steps", numSteps_);
 
             // Restore the default cursor etc.
             progressBarVisible(false);
@@ -2200,22 +2196,23 @@ namespace FamilyTree.Viewer
             e.Graphics.DrawLine(oPen, labPersonDates_.Width - 1, labPersonDates_.Height - 1, labPersonDates_.Width - 1, 0);
         }
 
-        /// <summary>Message handler for the main form loading.
-        /// </summary>
+
+
+        /// <summary>Message handler for the main form loading.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void frmMain_Load(object sender, System.EventArgs e)
         {
             // Size the main window
-            Innoval.clsXmlNode oMain = config_.GetNode("windows/main");
-            WindowState = (FormWindowState)oMain.GetAttributeValue("state", (int)FormWindowState.Normal, true);
-            Width = oMain.GetAttributeValue("width", 800, true);
-            Height = oMain.GetAttributeValue("height", 600, true);
+            walton.XmlNode oMain = config_.getNode("windows/main");
+            WindowState = (FormWindowState)oMain.getAttributeValue("state", (int)FormWindowState.Normal, true);
+            Width = oMain.getAttributeValue("width", 800, true);
+            Height = oMain.getAttributeValue("height", 600, true);
         }
 
-        /// <summary>Message handler for the shown event.
-        /// This is like the post appear load event.
-        /// </summary>
+
+
+        /// <summary>Message handler for the shown event.  This is like the post appear load event.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void frmMain_Shown(object sender, EventArgs e)
@@ -2228,25 +2225,27 @@ namespace FamilyTree.Viewer
             }
         }
 
-        /// <summary>Message handler for the main window closing.
-        /// Save the size of the window.
-        /// </summary>
+
+
+        /// <summary>Message handler for the main window closing.  Save the size of the window.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (WindowState != FormWindowState.Minimized)
             {
-                Innoval.clsXmlNode oMain = config_.GetNode("windows/main");
-                oMain.SetAttributeValue("state", (int)WindowState);
+                walton.XmlNode oMain = config_.getNode("windows/main");
+                oMain.setAttributeValue("state", (int)WindowState);
                 if (WindowState == FormWindowState.Normal)
                 {
-                    oMain.SetAttributeValue("width", Width);
-                    oMain.SetAttributeValue("height", Height);
+                    oMain.setAttributeValue("width", Width);
+                    oMain.setAttributeValue("height", Height);
                 }
-                config_.Save();
+                config_.save();
             }
         }
+
+
 
         #endregion
 
@@ -2254,10 +2253,9 @@ namespace FamilyTree.Viewer
 
         #region File Menu
 
-        /// <summary>
-        /// Message handler for the File -> Open menu point click.
-        /// Open a family tree database.
-        /// </summary>
+
+
+        /// <summary>Message handler for the File -> Open menu point click.  Open a family tree database.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuOpen_Click(object sender, EventArgs e)
@@ -2265,10 +2263,9 @@ namespace FamilyTree.Viewer
             OpenDatabase();
         }
 
-        /// <summary>
-        /// Message handler for the File -> Home menu point click
-        /// and the "Home" toolbar button.
-        /// </summary>
+
+
+        /// <summary>Message handler for the File → Home menu point click and the "Home" toolbar button.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuHome_Click(object sender, EventArgs e)
@@ -2276,10 +2273,9 @@ namespace FamilyTree.Viewer
             GoHome();
         }
 
-        // Message handler for the "Back" button click event.
-        /// <summary>
-        /// Message handler for the "Back" button click event.
-        /// </summary>
+
+
+        /// <summary>Message handler for the "Back" button click event.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuBack_Click(object sender, EventArgs e)
@@ -2287,9 +2283,9 @@ namespace FamilyTree.Viewer
             HistoryBack();
         }
 
-        /// <summary>
-        /// Message handler for the forward button click event.
-        /// </summary>
+
+
+        /// <summary>Message handler for the forward button click event.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuForward_Click(object sender, EventArgs e)
@@ -2297,30 +2293,27 @@ namespace FamilyTree.Viewer
             HistoryForward();
         }
 
-        // Message handler for the all the recent file menu points.
-        /// <summary>
-        /// Message handler for the all the recent file menu points.
-        /// Opens the file specified on the recent file menu point.
-        /// </summary>
+
+
+        /// <summary>Message handler for the all the recent file menu points.  Opens the file specified on the recent file menu point.</summary>
         /// <param name="oSender"></param>
         /// <param name="e"></param>
         private void menuRecentFile_Click(object oSender, System.EventArgs e)
         {
-            // Find the index of the recent file menu
+            // Find the index of the recent file menu.
             ToolStripMenuItem oMenu = (ToolStripMenuItem)oSender;
             int nIndex = int.Parse(oMenu.Text.Substring(0, 1)) - 1;
 
-            // Find the selected file
-            string sFilename = recentFiles_.GetRecentFilename(nIndex);
+            // Find the selected file.
+            string sFilename = recentFiles_.getRecentFilename(nIndex);
 
-            // Open this file
+            // Open this file.
             OpenDatabase(sFilename);
         }
 
-        // Message handler for the "File" -> "Export Gedom" menu point
-        /// <summary>
-        /// Message handler for the "File" -> "Export Gedom" menu point
-        /// </summary>
+
+
+        /// <summary>Message handler for the "File" → "Export Gedom" menu point.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuExportGedcom_Click(object sender, EventArgs e)
@@ -2328,10 +2321,9 @@ namespace FamilyTree.Viewer
             ExportGedcom();
         }
 
-        // Message handler for the 'File' | 'Export SQL script' menu item.
-        /// <summary>
-        /// Message handler for the 'File' | 'Export SQL script' menu item.
-        /// </summary>
+
+
+        /// <summary>Message handler for the 'File' → 'Export SQL script' menu item.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuExportSQLScript_Click(object sender, EventArgs e)
@@ -2339,9 +2331,9 @@ namespace FamilyTree.Viewer
             ExportSQL();
         }
 
-        /// <summary>
-        /// Message handler for the File -> Open Tree menu point click.
-        /// </summary>
+
+
+        /// <summary>Message handler for the File → Open Tree menu point click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuOpenTree_Click(object sender, EventArgs e)
@@ -2349,9 +2341,9 @@ namespace FamilyTree.Viewer
             OpenTree();
         }
 
-        /// <summary>
-        /// Message handler for File -> Exit menu point click
-        /// </summary>
+
+
+        /// <summary>Message handler for File → Exit menu point click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuExit_Click(object sender, EventArgs e)
@@ -2484,11 +2476,9 @@ namespace FamilyTree.Viewer
 
         #region View Menu
 
-        // Message handler for the "View" -> "Goto Person" menu point click.
-        /// <summary>
-        /// Message handler for the "View" -> "Goto Person" menu point click.
-        /// Also the Goto person toolbar button click event.
-        /// </summary>
+
+
+        /// <summary>Message handler for the "View" → "Goto Person" menu point click.  Also the Goto person toolbar button click event.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuGoto_Click(object sender, EventArgs e)
@@ -2496,11 +2486,9 @@ namespace FamilyTree.Viewer
             GotoPerson();
         }
 
-        // Message handler for the "View" -> "Image" menu point click
-        /// <summary>
-        /// Message handler for the "View" -> "Image" menu point click
-        /// and the images toolbar button.
-        /// </summary>
+
+
+        /// <summary>Message handler for the "View" → "Image" menu point click and the images toolbar button.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuImage_Click(object sender, EventArgs e)
@@ -2514,11 +2502,9 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // Message handler for the "View" -> "Location" menu point click.
-        /// <summary>
-        /// Message handler for the "View" -> "Location" menu point click.
-        /// And the location toolbar button.
-        /// </summary>
+
+
+        /// <summary>Message handler for the "View" → "Location" menu point click and the location toolbar button.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuLocation_Click(object sender, EventArgs e)
@@ -2539,10 +2525,9 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // Message handler for the "View" -> "Recent Changes" menu point click
-        /// <summary>
-        /// Message handler for the "View" -> "Recent Changes" menu point click
-        /// </summary>
+
+
+        /// <summary>Message handler for the "View" → "Recent Changes" menu point click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuRecentChanges_Click(object sender, EventArgs e)
@@ -2550,10 +2535,9 @@ namespace FamilyTree.Viewer
             ShowRecentChanges();
         }
 
-        /// <summary>
-        /// Message handler for the View -> ToDo menu point click.
-        /// Display the To Do on the main window.
-        /// </summary>
+
+
+        /// <summary>Message handler for the View → ToDo menu point click.  Display the To Do on the main window.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuToDo_Click(object sender, EventArgs e)
@@ -2561,10 +2545,9 @@ namespace FamilyTree.Viewer
             ShowToDo();
         }
 
-        /// <summary>
-        /// Message handler for the View -> Calculate age menu point click.
-        /// and the Age toolbar button click.
-        /// </summary>
+
+
+        /// <summary>Message handler for the View → Calculate age menu point click and the Age toolbar button click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuCalcAge_Click(object sender, EventArgs e)
@@ -2572,9 +2555,9 @@ namespace FamilyTree.Viewer
             ShowAge();
         }
 
-        /// <summary>
-        /// Message handler for the View -> Calculate Birthday menu point click
-        /// </summary>
+
+
+        /// <summary>Message handler for the View → Calculate Birthday menu point click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuBirthday_Click(object sender, EventArgs e)
@@ -2584,10 +2567,9 @@ namespace FamilyTree.Viewer
             oDialog.ShowDialog(this);
         }
 
-        /// <summary>
-        /// Message handler for the View -> Reduce Width menu point click.
-        /// and the reduce width toolbar button.
-        /// </summary>
+
+
+        /// <summary>Message handler for the View → Reduce Width menu point click and the reduce width toolbar button.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuReduceWidth_Click(object sender, EventArgs e)
@@ -2600,9 +2582,9 @@ namespace FamilyTree.Viewer
             }
         }
 
-        /// <summary>
-        /// Message handler for the View -> Standard Width menu point click
-        /// </summary>
+
+
+        /// <summary>Message handler for the View → Standard Width menu point click.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuStandardWidth_Click(object sender, EventArgs e)
@@ -2615,30 +2597,31 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // Message handler for the "View" -> "html Source" menu point click
-        /// <summary>
-        /// Message handler for the "View" -> "html Source" menu point click
-        /// </summary>
+
+
+        /// <summary>Message handler for the "View" → "html Source" menu point.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuHtmlSource_Click(object sender, EventArgs e)
         {
             // Create a file to hold the html source
 
-            string sFilename = Innoval.clsDataPaths.GetMyDocuments() + "\\family tree source.html";
+            string sFilename = walton.DataPaths.getMyDocuments() + "\\family tree source.html";
 
-            // Open the filename for output
+            // Open the filename for output.
             StreamWriter oFile = new StreamWriter(sFilename, false);
             oFile.Write(m_oWebBrowser.DocumentText);
             oFile.Close();
 
-            // Open the new file in notepad
+            // Open the new file in notepad.
             try
             {
                 System.Diagnostics.Process.Start("notepad.exe", "\"" + sFilename + "\"");
             }
             catch { }
         }
+
+
 
         #endregion
 

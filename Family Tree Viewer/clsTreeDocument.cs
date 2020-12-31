@@ -143,13 +143,12 @@ namespace FamilyTree.Viewer
             m_oBasePerson.AddAncestors(true,oRules);
         }
 
-        // Class constructor for a .tree document.
-        /// <summary>
-        /// Class constructor for a .tree document.
-        /// </summary>
+
+
+        /// <summary>Class constructor for a .tree document.</summary>
         /// <param name="oDb">Specifies the database to work from.</param>
         /// <param name="oTreeOptions">Specifies the .tree file to load the options from.</param>
-        public clsTreeDocument(Database oDb,Innoval.clsXmlDocument oTreeOptions)
+        public clsTreeDocument(Database oDb,walton.XmlDocument oTreeOptions)
         {
             // Save the input parameters
             m_oDb = oDb;
@@ -157,8 +156,8 @@ namespace FamilyTree.Viewer
             m_nZoom = 100;
 
             // Find the base person            
-            Innoval.clsXmlNode xmlTree = oTreeOptions.GetNode("tree");
-            int nPersonID = xmlTree.GetAttributeValue("mainperson",1,false);
+            walton.XmlNode xmlTree = oTreeOptions.getNode("tree");
+            int nPersonID = xmlTree.getAttributeValue("mainperson",1,false);
 
             m_oBrushBlack = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
             m_oPenBlackThin = new System.Drawing.Pen(System.Drawing.Color.Black,0);

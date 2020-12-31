@@ -8,14 +8,8 @@ using System.Data.OleDb;
 
 namespace FamilyTree.Objects
 {
-    /// <summary>
-    /// Class to represent a single to do record in the database.
-    /// Each item is linked to a single person.
-    /// </summary>
-    /// <remarks>
-    /// It would be nice to attach a single ToDo item to a number of person.
-    /// But to keep the interface simple, I linked each ToDo to a single person.
-    /// </remarks>
+    /// <summary>Class to represent a single to do record in the database.  Each item is linked to a single person.</summary>
+    /// <remarks>It would be nice to attach a single ToDo item to a number of person.  But to keep the interface simple, I linked each ToDo to a single person.</remarks>
     public class ToDo
     {
         #region Member Variables
@@ -42,9 +36,9 @@ namespace FamilyTree.Objects
 
         #region Class Constructors etc...
 
-        /// <summary>
-        /// Empty class constructor.
-        /// </summary>
+
+
+        /// <summary>Empty class constructor.</summary>
         public ToDo()
         {
             index_ = -1;
@@ -52,113 +46,109 @@ namespace FamilyTree.Objects
             isDelete_ = false;
         }
 
-        /// <summary>
-        /// Class constructor with ID specification.
-        /// This is intended to be used where a ToDo record has been read from the database.
-        /// </summary>
-        /// <param name="nID">Specifies the value of the ID.</param>
-        /// <param name="nPersonID">Specifies the ID of the person that owns this item.</param>
-        /// <param name="nPriority">Specifies the priority of the item.</param>
-        /// <param name="sDescription">Specifies the description of the item.</param>
+
+
+        /// <summary>Class constructor with ID specification.  This is intended to be used where a ToDo record has been read from the database.</summary>
+        /// <param name="index">Specifies the value of the ID.</param>
+        /// <param name="personIndex">Specifies the ID of the person that owns this item.</param>
+        /// <param name="priority">Specifies the priority of the item.</param>
+        /// <param name="description">Specifies the description of the item.</param>
         public ToDo
             (
-            int nID,
-            int nPersonID,
-            int nPriority,
-            string sDescription
+            int index,
+            int personIndex,
+            int priority,
+            string description
             )
         {
             isDirty_ = false;
             isDelete_ = false;
-            index_ = nID;
-            personIndex_ = nPersonID;
-            priority_ = nPriority;
-            description_ = sDescription;
+            index_ = index;
+            personIndex_ = personIndex;
+            priority_ = priority;
+            description_ = description;
         }
 
-        /// <summary>
-        /// Human readable description of the item.
-        /// </summary>
-        public string Description
+
+
+        /// <summary>Human readable description of the item.</summary>
+        public string description
         {
             get
             {
-                if(isDelete_)
+                if (isDelete_)
                 {
                     return "[Deleted]";
                 }
-                return description_; 
+                return description_;
             }
             set { description_ = value; isDirty_ = true; }
         }
 
-        /// <summary>
-        /// The priority of this item.
-        /// </summary>
-        public int Priority
+
+
+        /// <summary>The priority of this item.</summary>
+        public int priority
         {
             get { return priority_; }
             set { priority_ = value; isDirty_ = true; }
         }
 
-        /// <summary>
-        /// Write the ToDo item into the specified database.
-        /// </summary>
-        /// <param name="cnDb"></param>
-        /// <returns></returns>
-        public bool Save
-            (
-            OleDbConnection cnDb
-            )
+        /// <summary>Write the ToDo item into the specified database.</summary>
+        /// <param name="cndb">Specifies an open connection to the database.</param>
+        /// <returns>True for a write to the database, false otherwise.</returns>
+        public bool save(OleDbConnection cndb)
         {
-            // Check that the record needs saving
-            if(!isDirty_)
+            // Check that the record needs saving.
+            if (!isDirty_)
             {
                 return false;
             }
 
-            string sSql="";
-            if(isDelete_)
+            string sql = "";
+            if (isDelete_)
             {
-                if(index_ != -1)
+                if (index_ != -1)
                 {
-                    // Delete this record
-                    sSql = "DELETE FROM tbl_ToDo WHERE ID=" + index_.ToString() + ";";
+                    // Delete this record.
+                    sql = "DELETE FROM tbl_ToDo WHERE ID = " + index_.ToString() + ";";
                 }
             }
             else
             {
-                if(index_ == -1)
+                if (index_ == -1)
                 {
-                    // Create a new record
-                    sSql = "INSERT INTO tbl_ToDo (PersonID,Priority,Description) VALUES (" + personIndex_.ToString() + "," + priority_.ToString() + ",\"" + description_ + "\");";
+                    // Create a new record.
+                    sql = "INSERT INTO tbl_ToDo (PersonID, Priority, Description) VALUES (" + personIndex_.ToString() + ", " + priority_.ToString() + ", \"" + description_ + "\");";
                 }
                 else
                 {
-                    // Update the existing record
-                    sSql = "UPDATE tbl_ToDo SET Priority=" + priority_.ToString() + ",Description=\"" + description_ + "\" WHERE ID=" + index_.ToString() + ";";
+                    // Update the existing record.
+                    sql = "UPDATE tbl_ToDo SET Priority = " + priority_.ToString() + ", Description = \"" + description_ + "\" WHERE ID = " + index_.ToString() + ";";
                 }
             }
-            if(sSql != "")
+            if (sql != "")
             {
-                OleDbCommand oSql = new OleDbCommand(sSql,cnDb);
-                oSql.ExecuteNonQuery();
+                OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
+                sqlCommand.ExecuteNonQuery();
             }
 
             isDirty_ = false;
 
-            // Return a write to the database
+            // Return a write to the database.
             return true;
         }
 
-        /// <summary>
-        /// Mark this item for deletion at the next write to database.
-        /// </summary>
-        public void Delete()
+
+
+        /// <summary>Mark this item for deletion at the next write to database.</summary>
+        public void delete()
         {
             isDirty_ = true;
             isDelete_ = true;
         }
+
+
 
         #endregion
     }

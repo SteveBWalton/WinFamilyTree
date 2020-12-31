@@ -72,39 +72,37 @@ namespace FamilyTree.Viewer
 
         #region File IO
 
-        // Save the rule in the specified .tree file.
-        /// <summary>
-        /// Save the rule in the specified .tree file.
-        /// </summary>
+        /// <summary>Save the rule in the specified .tree file.</summary>
         /// <param name="oRules">Specifies the node in the .tree file to add the rule into.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Save(Innoval.clsXmlNode oRules)
+        public bool Save(walton.XmlNode oRules)
         {
-            Innoval.clsXmlNode oRule = oRules.AddNode("rule");
-            oRule.SetAttributeValue("action",(int)Action);
-            oRule.SetAttributeValue("person",PersonID);
-            oRule.SetAttributeValue("parameter",Parameter);
+            walton.XmlNode oRule = oRules.addNode("rule");
+            oRule.setAttributeValue("action",(int)Action);
+            oRule.setAttributeValue("person",PersonID);
+            oRule.setAttributeValue("parameter",Parameter);
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Reads the rule from the specified node in a .tree file.
-        /// <summary>
-        /// Reads the rule from the specified node in a .tree file.
-        /// </summary>
+
+
+        /// <summary>Reads the rule from the specified node in a .tree file.</summary>
         /// <param name="oRule">Specifies the node in the .tree file to read the rule from.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Load(Innoval.clsXmlNode oRule)
+        public bool Load(walton.XmlNode oRule)
         {
-            // Load the properties of this rule
-            Action = (ERuleAction)oRule.GetAttributeValue("action",(int)ERuleAction.ExcludeDescendants,false);
-            PersonID = oRule.GetAttributeValue("person",0,false);
-            Parameter = oRule.GetAttributeValue("parameter","",false);
+            // Load the properties of this rule.
+            Action = (ERuleAction)oRule.getAttributeValue("action",(int)ERuleAction.ExcludeDescendants,false);
+            PersonID = oRule.getAttributeValue("person",0,false);
+            Parameter = oRule.getAttributeValue("parameter","",false);
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         #endregion
 

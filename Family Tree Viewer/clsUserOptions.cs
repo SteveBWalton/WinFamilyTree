@@ -15,7 +15,7 @@ namespace FamilyTree.Viewer
 		#region Member Variables
 
         /// <summary>The configuration file where the options are stored.</summary>
-        private Innoval.clsXmlDocument m_oConfig;
+        private walton.XmlDocument m_oConfig;
 
         /// <summary>Name of the main (larger) font to use on tree diagrams.</summary>
 		public string m_sTreeMainFontName;
@@ -60,47 +60,46 @@ namespace FamilyTree.Viewer
 
 		#region Constructors etc...
 
-        // Class constructor. The values are loaded from the specified configuration file.
-        /// <summary>
-        /// Class constructor. The values are loaded from the specified configuration file.
-        /// </summary>
-		/// <param name="oConfig">Specifies the configuration file to load the settings from.</param>
-        public clsUserOptions(Innoval.clsXmlDocument oConfig)
+
+
+        /// <summary>Class constructor. The values are loaded from the specified configuration file.</summary>
+        /// <param name="oConfig">Specifies the configuration file to load the settings from.</param>
+        public clsUserOptions(walton.XmlDocument oConfig)
         {
             m_oConfig = oConfig;
 
-            Innoval.clsXmlNode oUserOptions = m_oConfig.GetNode("useroptions");
+            walton.XmlNode oUserOptions = m_oConfig.getNode("useroptions");
 
-            // Main window options
-            Innoval.clsXmlNode oBaseFont = oUserOptions.GetNode("mainwindow/basefont");
+            // Main window options.
+            walton.XmlNode oBaseFont = oUserOptions.getNode("mainwindow/basefont");
             FontBase = new CFont(oBaseFont,"Tahoma",8.25f);
-            Innoval.clsXmlNode oBaseFontTitle = oUserOptions.GetNode("mainwindow/basefonttitle");
+            walton.XmlNode oBaseFontTitle = oUserOptions.getNode("mainwindow/basefonttitle");
             FontBaseTitle = new CFont(oBaseFontTitle,"Tahoma",10.25f);
 
-            // Tree options
-            Innoval.clsXmlNode oMainFont = oUserOptions.GetNode("tree/mainfont");
-            m_sTreeMainFontName = oMainFont.GetAttributeValue("name","Tahoma",true);
-            m_dTreeMainFontSize = oMainFont.GetAttributeValue("size",12.0f,true);
-            Innoval.clsXmlNode oSubFont = oUserOptions.GetNode("tree/subfont");
-            m_sTreeSubFontName = oSubFont.GetAttributeValue("name","Tahoma",true);
-            m_dTreeSubFontSize = oSubFont.GetAttributeValue("size",7f,true);
-            Innoval.clsXmlNode oPerson = oUserOptions.GetNode("tree/person");
-            m_bTreePersonBox = oPerson.GetAttributeValue("boxaround",false,true);
+            // Tree options.
+            walton.XmlNode oMainFont = oUserOptions.getNode("tree/mainfont");
+            m_sTreeMainFontName = oMainFont.getAttributeValue("name","Tahoma",true);
+            m_dTreeMainFontSize = oMainFont.getAttributeValue("size",12.0f,true);
+            walton.XmlNode oSubFont = oUserOptions.getNode("tree/subfont");
+            m_sTreeSubFontName = oSubFont.getAttributeValue("name","Tahoma",true);
+            m_dTreeSubFontSize = oSubFont.getAttributeValue("size",7f,true);
+            walton.XmlNode oPerson = oUserOptions.getNode("tree/person");
+            m_bTreePersonBox = oPerson.getAttributeValue("boxaround",false,true);
 
-            // The html format options            
-            Innoval.clsXmlNode oBodyFont = oUserOptions.GetNode("html/bodyfont");
+            // The html format options.
+            walton.XmlNode oBodyFont = oUserOptions.getNode("html/bodyfont");
             fontBody = new CFont(oBodyFont,"Verdana",9f);
-            Innoval.clsXmlNode oHeaderFont = oUserOptions.GetNode("html/headerfont");
+            walton.XmlNode oHeaderFont = oUserOptions.getNode("html/headerfont");
             fontHeader = new CFont(oHeaderFont,"Verdana",12f);
-            Innoval.clsXmlNode oSmallFont = oUserOptions.GetNode("html/smallfont");
+            walton.XmlNode oSmallFont = oUserOptions.getNode("html/smallfont");
             fontSmall = new CFont(oSmallFont,"Verdana",8f);
-            Innoval.clsXmlNode oSuperscriptFont = oUserOptions.GetNode("html/superscript");
+            walton.XmlNode oSuperscriptFont = oUserOptions.getNode("html/superscript");
             fontHtmlSuperscript = new CFont(oSuperscriptFont,"Verdana",8f);
 
             // Load the gedcom options.
-            Innoval.clsXmlNode xmlGedcomOptions = oUserOptions.GetNode("gedcom");
+            walton.XmlNode xmlGedcomOptions = oUserOptions.getNode("gedcom");
             m_oGedcomOptions = new clsGedcomOptions();
-            m_oGedcomOptions.Load (xmlGedcomOptions);
+            m_oGedcomOptions.load(xmlGedcomOptions);
         }
 
         // Class constructor. Creates a copy of the specified clsUserOptions object.
@@ -146,53 +145,54 @@ namespace FamilyTree.Viewer
 			m_bTreePersonBox = false;
 		}
 
-        // Writes the user options into the configuration file.
-        /// <summary>
-        /// Writes the user options into the configuration file.
-        /// </summary>
+
+
+        /// <summary>Writes the user options into the configuration file.</summary>
         /// <returns>True for success, false otherwise.</returns>
         public bool Save()
         {
-            Innoval.clsXmlNode oUserOptions = m_oConfig.GetNode("useroptions");
+            walton.XmlNode oUserOptions = m_oConfig.getNode("useroptions");
             
             // Tree options
-            Innoval.clsXmlNode oMainFont = oUserOptions.GetNode("tree/mainfont");
-            oMainFont.SetAttributeValue("name",m_sTreeMainFontName);
-            oMainFont.SetAttributeValue("size",m_dTreeMainFontSize);
-            Innoval.clsXmlNode oSubFont = oUserOptions.GetNode("tree/subfont");
-            oSubFont.SetAttributeValue("name",m_sTreeSubFontName);
-            oSubFont.SetAttributeValue("size",m_dTreeSubFontSize);
-            Innoval.clsXmlNode oPerson = oUserOptions.GetNode("tree/person");
-            oPerson.SetAttributeValue("boxaround",m_bTreePersonBox);
+            walton.XmlNode oMainFont = oUserOptions.getNode("tree/mainfont");
+            oMainFont.setAttributeValue("name",m_sTreeMainFontName);
+            oMainFont.setAttributeValue("size",m_dTreeMainFontSize);
+            walton.XmlNode oSubFont = oUserOptions.getNode("tree/subfont");
+            oSubFont.setAttributeValue("name",m_sTreeSubFontName);
+            oSubFont.setAttributeValue("size",m_dTreeSubFontSize);
+            walton.XmlNode oPerson = oUserOptions.getNode("tree/person");
+            oPerson.setAttributeValue("boxaround",m_bTreePersonBox);
 
             // Main window options
-            Innoval.clsXmlNode oBaseFont = oUserOptions.GetNode("mainwindow/basefont");
+            walton.XmlNode oBaseFont = oUserOptions.getNode("mainwindow/basefont");
             FontBase.Save(oBaseFont);
-            Innoval.clsXmlNode oBaseFontTitle = oUserOptions.GetNode("mainwindow/basefonttitle");
+            walton.XmlNode oBaseFontTitle = oUserOptions.getNode("mainwindow/basefonttitle");
             FontBaseTitle.Save(oBaseFontTitle);
             
             // Write the html options
-            Innoval.clsXmlNode oBodyFont = oUserOptions.GetNode("html/bodyfont");
+            walton.XmlNode oBodyFont = oUserOptions.getNode("html/bodyfont");
             fontBody.Save(oBodyFont);
-            Innoval.clsXmlNode oHeaderFont = oUserOptions.GetNode("html/headerfont");
+            walton.XmlNode oHeaderFont = oUserOptions.getNode("html/headerfont");
             fontHeader.Save(oHeaderFont);
-            Innoval.clsXmlNode oSmallFont = oUserOptions.GetNode("html/smallfont");
+            walton.XmlNode oSmallFont = oUserOptions.getNode("html/smallfont");
             fontSmall.Save(oSmallFont);
-            Innoval.clsXmlNode oSuperscriptFont = oUserOptions.GetNode("html/superscript");
+            walton.XmlNode oSuperscriptFont = oUserOptions.getNode("html/superscript");
             fontHtmlSuperscript.Save(oSuperscriptFont);
 
             // Save the gedcom options.
-            Innoval.clsXmlNode xmlGedcomOptions = oUserOptions.GetNode("gedcom");
-            m_oGedcomOptions.Save(xmlGedcomOptions);
+            walton.XmlNode xmlGedcomOptions = oUserOptions.getNode("gedcom");
+            m_oGedcomOptions.save(xmlGedcomOptions);
 
             // Save the configuration file to disk
-            m_oConfig.Save();
+            m_oConfig.save();
 
             // Return success
             return true;
         }
 
-		#endregion
+
+
+        #endregion
 
         #region Public Methods
 
@@ -371,7 +371,7 @@ namespace FamilyTree.Viewer
         /// <param name="oNode">Specifies the node of the configuration file to load the settings from.</param>
         /// <param name="sDefaultName">Specifies the default name for the font.</param>
         /// <param name="dDefaultSize">Specifies the default size for the font.</param>
-        public CFont(Innoval.clsXmlNode oNode,string sDefaultName,float dDefaultSize)
+        public CFont(walton.XmlNode oNode,string sDefaultName,float dDefaultSize)
         {
             Load(oNode,sDefaultName,dDefaultSize,System.Drawing.FontStyle.Regular);
         }
@@ -383,7 +383,7 @@ namespace FamilyTree.Viewer
         /// <param name="sDefaultName">Specifies the default name for the font.</param>
         /// <param name="dDefaultSize">Specifies the default size for the font.</param>
         /// <param name="DefaultStyle">Specifies the default style for the font.  Eg Bold etc.</param>
-        public CFont(Innoval.clsXmlNode oNode,string sDefaultName,float dDefaultSize,System.Drawing.FontStyle DefaultStyle)
+        public CFont(walton.XmlNode oNode,string sDefaultName,float dDefaultSize,System.Drawing.FontStyle DefaultStyle)
         {
             Load(oNode,sDefaultName,dDefaultSize,DefaultStyle);
         }
@@ -395,21 +395,21 @@ namespace FamilyTree.Viewer
         /// <param name="sDefaultName">Specifies the default name for the font.</param>
         /// <param name="dDefaultSize">Specifies the default size for the font.</param>
         /// <param name="DefaultStyle">Specifies the default style for the font.  Eg Bold etc.</param>
-        public void Load(Innoval.clsXmlNode oNode,string sDefaultName,float dDefaultSize,System.Drawing.FontStyle DefaultStyle)
+        public void Load(walton.XmlNode oNode,string sDefaultName,float dDefaultSize,System.Drawing.FontStyle DefaultStyle)
         {
-            Name = oNode.GetAttributeValue("name",sDefaultName,true);
-            Size = oNode.GetAttributeValue("size",dDefaultSize,true);
-            Style = (System.Drawing.FontStyle)oNode.GetAttributeValue("style",(int)DefaultStyle,false);
+            Name = oNode.getAttributeValue("name",sDefaultName,true);
+            Size = oNode.getAttributeValue("size",dDefaultSize,true);
+            Style = (System.Drawing.FontStyle)oNode.getAttributeValue("style",(int)DefaultStyle,false);
         }
 
         /// <summary>Saves the font settings into the specified node in a configuration file.
         /// </summary>
         /// <param name="oNode">Specifies the node of the configuration file to write the settings into.</param>
-        public void Save(Innoval.clsXmlNode oNode)
+        public void Save(walton.XmlNode oNode)
         {
-            oNode.SetAttributeValue("name",Name);
-            oNode.SetAttributeValue("size",Size);
-            oNode.SetAttributeValue("style",(int)Style);
+            oNode.setAttributeValue("name",Name);
+            oNode.setAttributeValue("size",Size);
+            oNode.setAttributeValue("style",(int)Style);
         }
 
         /// <summary>Update the CFont object from the specified font object.

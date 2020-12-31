@@ -24,7 +24,7 @@ namespace FamilyTree.Viewer
         /// <summary>
         /// The place that the dialog is editing.
         /// </summary>
-        clsPlace m_oPlace;
+        Place m_oPlace;
 
         // Class constructor
         /// <summary>
@@ -35,15 +35,15 @@ namespace FamilyTree.Viewer
             InitializeComponent();
 
             // Find the name and type of the specified place
-            m_oPlace = new clsPlace(nPlaceID, oDb);
+            m_oPlace = new Place(nPlaceID, oDb);
 
-            m_labName.Text = m_oPlace.Name;
-            m_cboType.SelectedIndex = m_oPlace.Status;
-            m_nudLatitude.Value = (decimal)m_oPlace.Latitude;
-            m_nudLongitude.Value = (decimal)m_oPlace.Longitude;
-            m_nudZoom.Value = (decimal)m_oPlace.GoogleZoom;
-            m_chkUseParentLocation.Checked = m_oPlace.UseParentLocation;
-            m_txtPrivateComments.Text = m_oPlace.PrivateComments;
+            m_labName.Text = m_oPlace.name;
+            m_cboType.SelectedIndex = m_oPlace.status;
+            m_nudLatitude.Value = (decimal)m_oPlace.latitude;
+            m_nudLongitude.Value = (decimal)m_oPlace.longitude;
+            m_nudZoom.Value = (decimal)m_oPlace.googleZoom;
+            m_chkUseParentLocation.Checked = m_oPlace.isUseParentLocation;
+            m_txtPrivateComments.Text = m_oPlace.privateComments;
         }
 
         // Message handler for the OK button click event.
@@ -56,7 +56,7 @@ namespace FamilyTree.Viewer
         private void m_cmdOK_Click(object sender,EventArgs e)
         {
             GetValues();
-            m_oPlace.Save();
+            m_oPlace.save();
         }
 
         // Load the values off the dialog and into the place object.
@@ -65,12 +65,12 @@ namespace FamilyTree.Viewer
         /// </summary>
         private void GetValues()
         {
-            m_oPlace.Status = m_cboType.SelectedIndex;
-            m_oPlace.Latitude = (float)m_nudLatitude.Value;
-            m_oPlace.Longitude = (float)m_nudLongitude.Value;
-            m_oPlace.GoogleZoom = (int)m_nudZoom.Value;
-            m_oPlace.UseParentLocation = m_chkUseParentLocation.Checked;
-            m_oPlace.PrivateComments = m_txtPrivateComments.Text;
+            m_oPlace.status = m_cboType.SelectedIndex;
+            m_oPlace.latitude = (float)m_nudLatitude.Value;
+            m_oPlace.longitude = (float)m_nudLongitude.Value;
+            m_oPlace.googleZoom = (int)m_nudZoom.Value;
+            m_oPlace.isUseParentLocation = m_chkUseParentLocation.Checked;
+            m_oPlace.privateComments = m_txtPrivateComments.Text;
         }
 
         // Message handler for the refresh button click event.
@@ -83,7 +83,7 @@ namespace FamilyTree.Viewer
         private void cmdRefresh_Click(object sender, EventArgs e)
         {
             GetValues();
-            m_webBrowser.DocumentText = "<html>\n<head></head>\n<body bgcolor=#"+(this.BackColor.ToArgb() & 0xFFFFFF).ToString("X000000")+">\n" + m_oPlace.GoogleMap(400,200) + "</body>\n</html>";
+            m_webBrowser.DocumentText = "<html>\n<head></head>\n<body bgcolor=#"+(this.BackColor.ToArgb() & 0xFFFFFF).ToString("X000000")+">\n" + m_oPlace.googleMap(400,200) + "</body>\n</html>";
         }
 
         // Message handler for the zoom level changing.

@@ -91,13 +91,13 @@ namespace FamilyTree.Objects
             if(drMedia.Read())
             {
                 ID = nMediaID;
-                Title = Innoval.clsDatabase.GetString(drMedia,"Title","Title");
-                Filename = Innoval.clsDatabase.GetString(drMedia,"Filename","Filename");
-                TypeID = Innoval.clsDatabase.GetInt(drMedia,"TypeID",1);
-                Primary = Innoval.clsDatabase.GetBool(drMedia,"Primary",true);
-                Thumbnail = Innoval.clsDatabase.GetBool(drMedia,"Thumbnail",true);
-                Width = Innoval.clsDatabase.GetInt(drMedia,"Width",-1);
-                Height = Innoval.clsDatabase.GetInt(drMedia,"Height",-1);
+                Title = walton.Database.getString(drMedia,"Title","Title");
+                Filename = walton.Database.getString(drMedia,"Filename","Filename");
+                TypeID = walton.Database.getInt(drMedia,"TypeID",1);
+                Primary = walton.Database.getBool(drMedia,"Primary",true);
+                Thumbnail = walton.Database.getBool(drMedia,"Thumbnail",true);
+                Width = walton.Database.getInt(drMedia,"Width",-1);
+                Height = walton.Database.getInt(drMedia,"Height",-1);
             }
             drMedia.Close();
 
@@ -123,11 +123,11 @@ namespace FamilyTree.Objects
             {
                 // Update an existing media object
                 sbSql.Append("UPDATE tbl_Media SET ");
-                sbSql.Append("Title=" + Innoval.clsDatabase.ToDb(Title) + ",");
-                sbSql.Append("Width=" + Innoval.clsDatabase.ToDb(Width,-1) + ",");
-                sbSql.Append("Height=" + Innoval.clsDatabase.ToDb(Height, -1) + ",");
-                sbSql.Append("[Primary]=" + Innoval.clsDatabase.ToDb(Primary) + ",");
-                sbSql.Append("Thumbnail=" + Innoval.clsDatabase.ToDb(Thumbnail) + " ");
+                sbSql.Append("Title = " + walton.Database.toDb(Title) + ",");
+                sbSql.Append("Width = " + walton.Database.toDb(Width,-1) + ",");
+                sbSql.Append("Height = " + walton.Database.toDb(Height, -1) + ",");
+                sbSql.Append("[Primary] = " + walton.Database.toDb(Primary) + ",");
+                sbSql.Append("Thumbnail = " + walton.Database.toDb(Thumbnail) + " ");
                 sbSql.Append("WHERE ID=");
                 sbSql.Append(ID);
                 sbSql.Append(";");
@@ -140,14 +140,14 @@ namespace FamilyTree.Objects
                 ID = 1 + int.Parse(oSql.ExecuteScalar().ToString());
 
                 // Insert a new media object
-                sbSql.Append("INSERT INTO tbl_Media (ID,Filename,Title,Width,Height,[Primary],Thumbnail) VALUES (");
+                sbSql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail) VALUES (");
                 sbSql.Append(ID.ToString() + ",");
-                sbSql.Append(Innoval.clsDatabase.ToDb(Filename) + ",");
-                sbSql.Append(Innoval.clsDatabase.ToDb(Title) + ",");
-                sbSql.Append(Innoval.clsDatabase.ToDb(Width,-1) + ",");
-                sbSql.Append(Innoval.clsDatabase.ToDb(Height, -1) + ",");
-                sbSql.Append(Innoval.clsDatabase.ToDb(Primary) + ",");
-                sbSql.Append(Innoval.clsDatabase.ToDb(Thumbnail) + ");");
+                sbSql.Append(walton.Database.toDb(Filename) + ", ");
+                sbSql.Append(walton.Database.toDb(Title) + ", ");
+                sbSql.Append(walton.Database.toDb(Width,-1) + ", ");
+                sbSql.Append(walton.Database.toDb(Height, -1) + ", ");
+                sbSql.Append(walton.Database.toDb(Primary) + ", ");
+                sbSql.Append(walton.Database.toDb(Thumbnail) + ");");
             }
             oSql = new OleDbCommand(sbSql.ToString(),m_oDb.cndb);
             try

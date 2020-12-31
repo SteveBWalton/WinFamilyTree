@@ -137,6 +137,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="walton\datapaths.cs" />
+    <Compile Include="walton\filelist.cs" />
     <Content Include="App.ico" />
     <None Include="Resources\Tick.png" />
     <None Include="Resources\Save.png" />
@@ -260,8 +262,6 @@
     <Compile Include="frmViewTree.Designer.cs">
       <DependentUpon>frmViewTree.cs</DependentUpon>
     </Compile>
-    <Compile Include="Innoval\clsDataPaths.cs" />
-    <Compile Include="Innoval\clsFileList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -91,7 +91,7 @@ namespace FamilyTree.Objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
             {
-                when = Innoval.clsDatabase.GetDateTime(dataReader, "WhenMarried", DateTime.Now);
+                when = walton.Database.getDateTime(dataReader, "WhenMarried", DateTime.Now);
                 location = Database.getString(dataReader, "Location", "");
                 groomName = Database.getString(dataReader, "GroomName", "");
                 groomAge = Database.getString(dataReader, "GroomAge", "");

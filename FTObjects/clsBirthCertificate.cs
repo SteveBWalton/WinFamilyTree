@@ -80,7 +80,7 @@ namespace FamilyTree.Objects
             if(dataReader.Read())
             {
                 registrationDistrict = Database.getString(dataReader, "RegistrationDistrict", "");
-                when = Innoval.clsDatabase.GetDateTime(dataReader, "WhenBorn", DateTime.Now);
+                when = walton.Database.getDateTime(dataReader, "WhenBorn", DateTime.Now);
                 whenAndWhere = Database.getString(dataReader, "WhenAndWhere", "");
                 name = Database.getString(dataReader, "Name", "");
                 sex = Database.getString(dataReader, "Sex", "");
@@ -193,37 +193,37 @@ namespace FamilyTree.Objects
 
             // Write the record into the database
             string sql = "UPDATE tbl_BirthCertificates SET "
-                + "RegistrationDistrict=" + Database.toDb(registrationDistrict)
-                + ",WhenBorn=" + Innoval.clsDatabase.ToDb(when, Innoval.clsDatabase.enumDatabases.Access)
-                + ",WhenAndWhere=" + Database.toDb(whenAndWhere)
-                + ",Name=" + Database.toDb(name)
-                + ",Sex=" + Database.toDb(sex)
-                + ",Father=" + Database.toDb(father)
-                + ",Mother=" + Database.toDb(mother)
-                + ",MotherDetails=" + Database.toDb(motherDetails)
-                + ",FatherOccupation=" + Database.toDb(fatherOccupation)
-                + ",Informant=" + Database.toDb(informant)
-                + ",InformantAddress=" + Database.toDb(informantAddress)
-                + ",WhenRegistered=" + Database.toDb(whenRegistered)
-                + ",GroReference=" + Database.toDb(groReference)
-                + " WHERE ID=" + index_.ToString() + ";";
+                + "RegistrationDistrict = " + Database.toDb(registrationDistrict)
+                + ", WhenBorn = " + walton.Database.toDb(when, walton.Database.enumDatabases.Access)
+                + ", WhenAndWhere = " + Database.toDb(whenAndWhere)
+                + ", Name = " + Database.toDb(name)
+                + ", Sex = " + Database.toDb(sex)
+                + ", Father = " + Database.toDb(father)
+                + ", Mother = " + Database.toDb(mother)
+                + ", MotherDetails = " + Database.toDb(motherDetails)
+                + ", FatherOccupation = " + Database.toDb(fatherOccupation)
+                + ", Informant = " + Database.toDb(informant)
+                + ", InformantAddress = " + Database.toDb(informantAddress)
+                + ", WhenRegistered = " + Database.toDb(whenRegistered)
+                + ", GroReference = " + Database.toDb(groReference)
+                + " WHERE ID = " + index_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             int numRows = sqlCommand.ExecuteNonQuery();
             if(numRows == 0)
             {
-                sql = "INSERT INTO tbl_BirthCertificates (ID,RegistrationDistrict,WhenBorn,WhenAndWhere,Name,Sex,Father,Mother,FatherOccupation,Informant,InformantAddress,WhenRegistered) VALUES ("
+                sql = "INSERT INTO tbl_BirthCertificates (ID, RegistrationDistrict, WhenBorn, WhenAndWhere, Name, Sex, Father, Mother, FatherOccupation, Informant, InformantAddress, WhenRegistered) VALUES ("
                     + index_.ToString()
-                    + "," + Database.toDb(registrationDistrict)
-                    + "," + Innoval.clsDatabase.ToDb(when, Innoval.clsDatabase.enumDatabases.Access)
-                    + "," + Database.toDb(whenAndWhere)
-                    + "," + Database.toDb(name)
-                    + "," + Database.toDb(sex)
-                    + "," + Database.toDb(father)
-                    + "," + Database.toDb(mother)
-                    + "," + Database.toDb(fatherOccupation)
-                    + "," + Database.toDb(informant)
-                    + "," + Database.toDb(informantAddress)
-                    + "," + Database.toDb(whenRegistered)
+                    + ", " + Database.toDb(registrationDistrict)
+                    + ", " + walton.Database.toDb(when, walton.Database.enumDatabases.Access)
+                    + ", " + Database.toDb(whenAndWhere)
+                    + ", " + Database.toDb(name)
+                    + ", " + Database.toDb(sex)
+                    + ", " + Database.toDb(father)
+                    + ", " + Database.toDb(mother)
+                    + ", " + Database.toDb(fatherOccupation)
+                    + ", " + Database.toDb(informant)
+                    + ", " + Database.toDb(informantAddress)
+                    + ", " + Database.toDb(whenRegistered)
                     + ");";
                 sqlCommand = new OleDbCommand(sql, database.cndb);
                 sqlCommand.ExecuteNonQuery();

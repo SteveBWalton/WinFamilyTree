@@ -48,10 +48,10 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void frmSelectLocation_Shown(object sender, EventArgs e)
         {
-            clsPlace[] oPlaces = m_oDb.getPlaces(0);
-            foreach(clsPlace oPlace in oPlaces)
+            Place[] oPlaces = m_oDb.getPlaces(0);
+            foreach(Place oPlace in oPlaces)
             {                
-                TreeNode oChildNode = m_TreeView.Nodes.Add(oPlace.Name);
+                TreeNode oChildNode = m_TreeView.Nodes.Add(oPlace.name);
                 if(oChildNode.FullPath == m_sLocation)
                 {
                     m_TreeView.SelectedNode = oChildNode;
@@ -66,12 +66,12 @@ namespace FamilyTree.Viewer
         /// </summary>
         /// <param name="oParent">Specifies the tree node to add to.</param>
         /// <param name="oPlace">Specifies the place to add to the node.</param>
-        private void AddTreeNode(TreeNode oParent, clsPlace oPlace)
+        private void AddTreeNode(TreeNode oParent, Place oPlace)
         {
-            clsPlace[] oChildren = m_oDb.getPlaces(oPlace.ID );
-            foreach(clsPlace oChild in oChildren )
+            Place[] oChildren = m_oDb.getPlaces(oPlace.index );
+            foreach(Place oChild in oChildren )
             {
-                TreeNode oChildNode = oParent.Nodes.Add(oChild.Name, oChild.Name, oChild.Status, oChild.Status);
+                TreeNode oChildNode = oParent.Nodes.Add(oChild.name, oChild.name, oChild.status, oChild.status);
                 if(oChildNode.FullPath == m_sLocation)
                 {
                     m_TreeView.SelectedNode = oChildNode;

@@ -145,8 +145,8 @@
     <Compile Include="Person.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsPlace.cs" />
-    <Compile Include="clsPlaces.cs" />
+    <Compile Include="Place.cs" />
+    <Compile Include="Places.cs" />
     <Compile Include="clsReferences.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,8 +161,8 @@
     </Compile>
     <Compile Include="clsMedia.cs" />
     <Compile Include="ToDo.cs" />
-    <Compile Include="Innoval\clsDatabase.cs" />
-    <Compile Include="Innoval\clsXml.cs" />
+    <Compile Include="walton\database.cs" />
+    <Compile Include="walton\xml.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

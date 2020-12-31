@@ -554,7 +554,7 @@ namespace FamilyTree.Viewer
                 //Populate the ToDo List                
                 if (m_gridToDo.DataSource == null)
                 {
-                    m_gridToDo.SetDataBinding(person_.GetToDo(), "");
+                    m_gridToDo.SetDataBinding(person_.getToDo(), "");
                     CreateToDoGridStyle();
                 }
                 break;
@@ -1142,14 +1142,14 @@ namespace FamilyTree.Viewer
 
         private void cmdAddToDo_Click(object sender, EventArgs e)
         {
-            ToDo oNew = new ToDo();
-            oNew.personIndex_ = person_.index;
-            oNew.Priority = 50;
-            oNew.Description = "New ToDo item.";
+            ToDo toDo = new ToDo();
+            toDo.personIndex_ = person_.index;
+            toDo.priority = 50;
+            toDo.description = "New ToDo item.";
 
-            person_.AddToDo(oNew);
+            person_.addToDo(toDo);
 
-            m_gridToDo.SetDataBinding(person_.GetToDo(), "");
+            m_gridToDo.SetDataBinding(person_.getToDo(), "");
         }
 
         private void cmdDeleteToDo_Click(object sender, System.EventArgs e)
@@ -1160,12 +1160,12 @@ namespace FamilyTree.Viewer
                 return;
             }
 
-            // Find the fact
-            ToDo oToDo = ((ToDo[])m_gridToDo.DataSource)[m_gridToDo.CurrentCell.RowNumber];
-            oToDo.Delete();
+            // Find the to do.
+            ToDo toDo = ((ToDo[])m_gridToDo.DataSource)[m_gridToDo.CurrentCell.RowNumber];
+            toDo.delete();
 
             // Update the display
-            m_gridToDo.SetDataBinding(person_.GetToDo(), "");
+            m_gridToDo.SetDataBinding(person_.getToDo(), "");
         }
 
 

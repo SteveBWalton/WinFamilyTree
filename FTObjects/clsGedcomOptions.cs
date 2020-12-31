@@ -10,91 +10,71 @@ namespace FamilyTree.Objects
     /// </summary>
     public class clsGedcomOptions
     {
-        // The filename of the gedcom file.
-        /// <summary>
-        /// The filename of the gedcom file.
-        /// </summary>
-        public string sFilename;
+        /// <summary>The filename of the gedcom file.</summary>
+        public string fileName;
 
-        // Include the _PGVU (last edit by) tags in the gedcom file.
-        /// <summary>
-        /// Include the _PGVU (last edit by) tags in the gedcom file.
-        /// </summary>
+        /// <summary>Include the _PGVU (last edit by) tags in the gedcom file.</summary>
         public bool IncludePGVU;
 
-        // True to remove the address from PLAC tags and include a ADDR tag
-        /// <summary>
-        /// True to remove the address from PLAC tags and include a ADDR tag
-        /// </summary>
+        /// <summary>True to remove the address from PLAC tags and include a ADDR tag.</summary>
         public bool RemoveADDRfromPLAC;
 
-        // Add ADDR (address) tags to PLAC tags
-        /// <summary>
-        /// Add ADDR (address) tags to PLAC tags
-        /// </summary>
+        /// <summary>Add ADDR (address) tags to PLAC tags.</summary>
         public bool UseADDR;
 
-        // Add CTRY (Country) tags to PLAC tags
-        /// <summary>
-        /// Add CTRY (Country) tags to PLAC tags
-        /// </summary>
+        /// <summary>Add CTRY (Country) tags to PLAC tags.</summary>
         public bool UseCTRY;
 
-        // Add MAP tags with longitude and latitude to PLAC tags
-        /// <summary>
-        /// Add MAP tags with longitude and latitude to PLAC tags
-        /// </summary>
+        /// <summary>Add MAP tags with longitude and latitude to PLAC tags.</summary>
         public bool UseLongitude;
 
         #region Class Constrcutors etc ...
 
-        // Empty class constructor.
-        /// <summary>
-        /// Empty class constructor.
-        /// </summary>
+
+
+        /// <summary>Empty class constructor.</summary>
         public clsGedcomOptions()
         {
         }
 
-        // Class constrcutor that copies and existing object.
-        /// <summary>
-        /// Class constrcutor that copies and existing object.
-        /// </summary>
-        /// <param name="oSource"></param>
-        public clsGedcomOptions(clsGedcomOptions oSource)
+
+
+        /// <summary>Class constrcutor that copies and existing object.</summary>
+        /// <param name="source"></param>
+        public clsGedcomOptions(clsGedcomOptions source)
         {
-            sFilename = oSource.sFilename;
+            fileName = source.fileName;
         }
+
+
 
         #endregion
 
         #region File IO
 
-        // Save the gedcom options into the specified xml node.
-        /// <summary>
-        /// Save the gedcom options into the specified xml node.
-        /// </summary>
+
+
+        /// <summary>Save the gedcom options into the specified xml node.</summary>
         /// <param name="xmlGedcom">Specifies the xml node to save the gedcom options into.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Save(Innoval.clsXmlNode xmlGedcom)
+        public bool save(walton.XmlNode xmlGedcom)
         {
-            xmlGedcom.SetAttributeValue("filename", sFilename);
+            xmlGedcom.setAttributeValue("filename", fileName);
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Load the gedcom options into the specified xml node.
-        /// <summary>
-        /// Load the gedcom options from the specified xml node.
-        /// </summary>
+
+
+        /// <summary>Load the gedcom options from the specified xml node.</summary>
         /// <param name="xmlGedcom">Specifies the xml node to load the gedcom options from.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Load(Innoval.clsXmlNode xmlGedcom)
+        public bool load(walton.XmlNode xmlGedcom)
         {
-            sFilename = xmlGedcom.GetAttributeValue("filename", "filename.ged", true);
+            fileName = xmlGedcom.getAttributeValue("filename", "filename.ged", true);
 
-            // Return success
+            // Return success.
             return true;
         }
 

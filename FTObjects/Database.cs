@@ -1324,7 +1324,7 @@ namespace FamilyTree.Objects
         /// <param name="placeName">Specifies the compound name of the place.</param>
         /// <param name="parentIndex">Specifies the index of the parent place of the compound name.</param>
         /// <returns>The place object or null.</returns>
-        private clsPlace getPlace(string placeName, int parentIndex)
+        private Place getPlace(string placeName, int parentIndex)
         {
             // Get the head and tail.
             string head = placeName.Trim();
@@ -1346,7 +1346,7 @@ namespace FamilyTree.Objects
             // Return this place if at the end of the string.
             if (tail == string.Empty)
             {
-                return new clsPlace(placeIndex, this);
+                return new Place(placeIndex, this);
             }
 
             // Search further down the string.
@@ -1358,7 +1358,7 @@ namespace FamilyTree.Objects
         /// <summary>Returns the place object that represents the specified compound place name.</summary>
         /// <param name="placeName">Specifies the name of the place.  Eg. Leeds, Yorkshire, England.</param>
         /// <returns>The place object or null.</returns>
-        public clsPlace GetPlace(string placeName)
+        public Place getPlace(string placeName)
         {
             return getPlace(placeName, 0);
         }
@@ -1375,7 +1375,7 @@ namespace FamilyTree.Objects
             placeName = cleanPlaceName(placeName);
 
             // Look for this place in the database.
-            string sql = "SELECT ID FROM tbl_Places WHERE Name = " + Innoval.clsDatabase.ToDb(placeName) + " AND ParentID = " + parentIndex.ToString() + ";";
+            string sql = "SELECT ID FROM tbl_Places WHERE Name = " + walton.Database.toDb(placeName) + " AND ParentID = " + parentIndex.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             int placeIndex = 0;
             try
@@ -1651,25 +1651,25 @@ namespace FamilyTree.Objects
             // Add the optional MAP tag with longitude and latitude.
             if (options.UseLongitude)
             {
-                clsPlace place = GetPlace(fullPlace);
+                Place place = getPlace(fullPlace);
                 if (place != null)
                 {
                     file.WriteLine((level + 1).ToString() + " MAP");
-                    if (place.Latitude >= 0)
+                    if (place.latitude >= 0)
                     {
-                        file.WriteLine((level + 2).ToString() + " LATI N" + place.Latitude.ToString());
+                        file.WriteLine((level + 2).ToString() + " LATI N" + place.latitude.ToString());
                     }
                     else
                     {
-                        file.WriteLine((level + 2).ToString() + " LATI S" + Math.Abs(place.Latitude).ToString());
+                        file.WriteLine((level + 2).ToString() + " LATI S" + Math.Abs(place.latitude).ToString());
                     }
-                    if (place.Longitude > 0)
+                    if (place.longitude > 0)
                     {
-                        file.WriteLine((level + 2).ToString() + " LONG E" + place.Longitude.ToString());
+                        file.WriteLine((level + 2).ToString() + " LONG E" + place.longitude.ToString());
                     }
                     else
                     {
-                        file.WriteLine((level + 2).ToString() + " LONG W" + Math.Abs(place.Longitude).ToString());
+                        file.WriteLine((level + 2).ToString() + " LONG W" + Math.Abs(place.longitude).ToString());
                     }
                 }
             }
@@ -1748,7 +1748,7 @@ namespace FamilyTree.Objects
 
 
 
-        public clsPlace[] getPlaces(int placeIndex)
+        public Place[] getPlaces(int placeIndex)
         {
             // Build a list to contain the places.
             ArrayList places = new ArrayList();
@@ -1759,13 +1759,13 @@ namespace FamilyTree.Objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                clsPlace place = new clsPlace(dataReader, this);
+                Place place = new Place(dataReader, this);
                 places.Add(place);
             }
             dataReader.Close();
 
             // Return the list of places.
-            return (clsPlace[])places.ToArray(typeof(clsPlace));
+            return (Place[])places.ToArray(typeof(Place));
         }
 
 
@@ -2151,11 +2151,11 @@ namespace FamilyTree.Objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                file.Write("INSERT INTO PEOPLE (ID,SURNAME,FORENAMES,MAIDEN_NAME) VALUES(");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(dataReader, "ID", 0), 0) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "Surname", "")) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "Forenames", "")) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "MaidenName", "")) + "");
+                file.Write("INSERT INTO PEOPLE (ID, SURNAME, FORENAMES, MAIDEN_NAME) VALUES(");
+                file.Write(walton.Database.toDb(walton.Database.getInt(dataReader, "ID", 0), 0) + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "Surname", "")) + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "Forenames", "")) + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "MaidenName", "")) + "");
                 file.WriteLine(");");
             }
             dataReader.Close();
@@ -2180,11 +2180,11 @@ namespace FamilyTree.Objects
                 file.Write(toDb(dataReader.GetString(1)) + ",");
                 file.Write(toDb(dataReader.GetInt32(2), 0) + ",");
                 file.Write(dataReader.GetInt32(3).ToString() + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(dataReader, "Longitude", -999f), -999f) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetFloat(dataReader, "Latitude", -999f), -999f) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetInt(dataReader, "GoogleZoom", 0), 0) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetBool(dataReader, "UseParentLocation", false)) + ",");
-                file.Write(Innoval.clsDatabase.ToDb(Innoval.clsDatabase.GetString(dataReader, "PrivateComments", "")));
+                file.Write(walton.Database.toDb(walton.Database.getFloat(dataReader, "Longitude", -999f), -999f) + ",");
+                file.Write(walton.Database.toDb(walton.Database.getFloat(dataReader, "Latitude", -999f), -999f) + ",");
+                file.Write(walton.Database.toDb(walton.Database.getInt(dataReader, "GoogleZoom", 0), 0) + ",");
+                file.Write(walton.Database.toDb(walton.Database.getBool(dataReader, "UseParentLocation", false)) + ",");
+                file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "PrivateComments", "")));
                 file.WriteLine(");");
             }
             dataReader.Close();
