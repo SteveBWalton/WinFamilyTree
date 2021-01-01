@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Globalization;
-// Can not include 'System.Xml' because I want to use XmlDocument and XmlNode as class names in the innoval namespace.
+// Can not include 'System.Xml' because I want to use XmlDocument and XmlNode as class names in the walton namespace.
 // using System.Xml;
 
 using System.IO;
@@ -74,7 +74,7 @@ namespace walton
 
 
         /// <summary>Save the Xml to disk with force parameter.</summary>
-        /// <param name="isForce">If true then the Xml is saved regardless of changes.  If false then the same as Save().</param>
+        /// <param name="isForce">If true then the Xml is saved regardless of changes.  If false then the same as save().</param>
         public void save(bool isForce)
         {
             if (isForce)
