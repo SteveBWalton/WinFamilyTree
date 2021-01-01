@@ -83,7 +83,7 @@ namespace FamilyTree.Objects
         /// <summary>Writes the details of this family into the specified Gedcom file.</summary>
         /// <param name="file">Specifies the Gedcom file to write the details into.</param>
         /// <param name="database">Specifies the database to fetch additional information from.</param>
-        public void writeGedcom(StreamWriter file, Database database, clsGedcomOptions options)
+        public void writeGedcom(StreamWriter file, Database database, GedcomOptions options)
         {
             // Create a list of the sources.
             ArrayList familySources = new ArrayList();
@@ -100,7 +100,7 @@ namespace FamilyTree.Objects
 
             if (motherIndex > 0 && fatherIndex > 0)
             {
-                clsRelationship marriage = database.getRelationship(fatherIndex, motherIndex);
+                Relationship marriage = database.getRelationship(fatherIndex, motherIndex);
                 if (marriage != null)
                 {
                     marriage.setDatabase(database);
@@ -162,7 +162,7 @@ namespace FamilyTree.Objects
                         file.WriteLine("1 CHAN");
                         file.WriteLine("2 DATE " + marriage.lastEditDate.ToString("d MMM yyyy"));
                         file.WriteLine("3 TIME " + marriage.lastEditDate.ToString("HH:mm:ss"));
-                        if (options.IncludePGVU)
+                        if (options.isIncludePGVU)
                         {
                             file.WriteLine("2 _PGVU " + marriage.lastEditBy);
                         }

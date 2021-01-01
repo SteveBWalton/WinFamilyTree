@@ -11,182 +11,177 @@ namespace FamilyTree.Viewer
     /// Class to represent the user options
     /// </summary>
 	public class clsUserOptions
-	{
-		#region Member Variables
+    {
+        #region Member Variables
 
         /// <summary>The configuration file where the options are stored.</summary>
-        private walton.XmlDocument m_oConfig;
+        private walton.XmlDocument config_;
 
         /// <summary>Name of the main (larger) font to use on tree diagrams.</summary>
-		public string m_sTreeMainFontName;
+        public string treeMainFontName;
 
-		/// <summary>Name of the smaller (secondary) font to use on tree diagrams.</summary>
-		public string	m_sTreeSubFontName;
+        /// <summary>Name of the smaller (secondary) font to use on tree diagrams.</summary>
+        public string treeSubFontName;
 
-		/// <summary>Size of the main (larger) font to use on tree diagrams.</summary>
-		public float m_dTreeMainFontSize;
+        /// <summary>Size of the main (larger) font to use on tree diagrams.</summary>
+        public float treeMainFontSize;
 
-		/// <summary>Size of the smaller (secondary) font to use on tree diagrams.</summary>
-		public float m_dTreeSubFontSize;
+        /// <summary>Size of the smaller (secondary) font to use on tree diagrams.</summary>
+        public float treeSubFontSize;
 
-		/// <summary>True to draw a box around people on the tree diagrams.</summary>
-		public bool m_bTreePersonBox;
+        /// <summary>True to draw a box around people on the tree diagrams.</summary>
+        public bool isTreePersonBox;
 
         /// <summary>Font to use on the main window for the tree image.</summary>
-        public CFont FontBase;
+        public SimpleFont fontBase;
 
         /// <summary>Font to use for the person title on the main window for the tree image.</summary>
-        public CFont FontBaseTitle;
-        
+        public SimpleFont fontBaseTitle;
+
         /// <summary>Font to use for the body text in the html.</summary>
-        public CFont fontBody;
+        public SimpleFont fontBody;
 
         /// <summary>Font to use for the header text in the html.</summary>
-        public CFont fontHeader;
+        public SimpleFont fontHeader;
 
         /// <summary>Font to use for small text in the html.  This is often in tables as footnotes.</summary>
-        public CFont fontSmall;
+        public SimpleFont fontSmall;
 
         /// <summary>Font to use for superscript text in the html.</summary>
-        public CFont fontHtmlSuperscript;
+        public SimpleFont fontHtmlSuperscript;
 
-        // The options for the Gedcom export.
-        /// <summary>
-        /// The options for the Gedcom export.
-        /// </summary>
-        private clsGedcomOptions m_oGedcomOptions;
+        /// <summary>The options for the Gedcom export.</summary>
+        private GedcomOptions gedcomOptions_;
 
-		#endregion
+        #endregion
 
-		#region Constructors etc...
+        #region Constructors etc...
 
 
 
         /// <summary>Class constructor. The values are loaded from the specified configuration file.</summary>
-        /// <param name="oConfig">Specifies the configuration file to load the settings from.</param>
-        public clsUserOptions(walton.XmlDocument oConfig)
+        /// <param name="xmlConfig">Specifies the configuration file to load the settings from.</param>
+        public clsUserOptions(walton.XmlDocument xmlConfig)
         {
-            m_oConfig = oConfig;
+            config_ = xmlConfig;
 
-            walton.XmlNode oUserOptions = m_oConfig.getNode("useroptions");
+            walton.XmlNode xmlUserOptions = config_.getNode("useroptions");
 
             // Main window options.
-            walton.XmlNode oBaseFont = oUserOptions.getNode("mainwindow/basefont");
-            FontBase = new CFont(oBaseFont,"Tahoma",8.25f);
-            walton.XmlNode oBaseFontTitle = oUserOptions.getNode("mainwindow/basefonttitle");
-            FontBaseTitle = new CFont(oBaseFontTitle,"Tahoma",10.25f);
+            walton.XmlNode xmlBaseFont = xmlUserOptions.getNode("mainwindow/basefont");
+            fontBase = new SimpleFont(xmlBaseFont, "Tahoma", 8.25f);
+            walton.XmlNode oBaseFontTitle = xmlUserOptions.getNode("mainwindow/basefonttitle");
+            fontBaseTitle = new SimpleFont(oBaseFontTitle, "Tahoma", 10.25f);
 
             // Tree options.
-            walton.XmlNode oMainFont = oUserOptions.getNode("tree/mainfont");
-            m_sTreeMainFontName = oMainFont.getAttributeValue("name","Tahoma",true);
-            m_dTreeMainFontSize = oMainFont.getAttributeValue("size",12.0f,true);
-            walton.XmlNode oSubFont = oUserOptions.getNode("tree/subfont");
-            m_sTreeSubFontName = oSubFont.getAttributeValue("name","Tahoma",true);
-            m_dTreeSubFontSize = oSubFont.getAttributeValue("size",7f,true);
-            walton.XmlNode oPerson = oUserOptions.getNode("tree/person");
-            m_bTreePersonBox = oPerson.getAttributeValue("boxaround",false,true);
+            walton.XmlNode xmlMainFont = xmlUserOptions.getNode("tree/mainfont");
+            treeMainFontName = xmlMainFont.getAttributeValue("name", "Tahoma", true);
+            treeMainFontSize = xmlMainFont.getAttributeValue("size", 12.0f, true);
+            walton.XmlNode xmlSubFont = xmlUserOptions.getNode("tree/subfont");
+            treeSubFontName = xmlSubFont.getAttributeValue("name", "Tahoma", true);
+            treeSubFontSize = xmlSubFont.getAttributeValue("size", 7f, true);
+            walton.XmlNode xmlPerson = xmlUserOptions.getNode("tree/person");
+            isTreePersonBox = xmlPerson.getAttributeValue("boxaround", false, true);
 
             // The html format options.
-            walton.XmlNode oBodyFont = oUserOptions.getNode("html/bodyfont");
-            fontBody = new CFont(oBodyFont,"Verdana",9f);
-            walton.XmlNode oHeaderFont = oUserOptions.getNode("html/headerfont");
-            fontHeader = new CFont(oHeaderFont,"Verdana",12f);
-            walton.XmlNode oSmallFont = oUserOptions.getNode("html/smallfont");
-            fontSmall = new CFont(oSmallFont,"Verdana",8f);
-            walton.XmlNode oSuperscriptFont = oUserOptions.getNode("html/superscript");
-            fontHtmlSuperscript = new CFont(oSuperscriptFont,"Verdana",8f);
+            walton.XmlNode xmlBodyFont = xmlUserOptions.getNode("html/bodyfont");
+            fontBody = new SimpleFont(xmlBodyFont, "Verdana", 9f);
+            walton.XmlNode xmlHeaderFont = xmlUserOptions.getNode("html/headerfont");
+            fontHeader = new SimpleFont(xmlHeaderFont, "Verdana", 12f);
+            walton.XmlNode xmlSmallFont = xmlUserOptions.getNode("html/smallfont");
+            fontSmall = new SimpleFont(xmlSmallFont, "Verdana", 8f);
+            walton.XmlNode xmlSuperscriptFont = xmlUserOptions.getNode("html/superscript");
+            fontHtmlSuperscript = new SimpleFont(xmlSuperscriptFont, "Verdana", 8f);
 
             // Load the gedcom options.
-            walton.XmlNode xmlGedcomOptions = oUserOptions.getNode("gedcom");
-            m_oGedcomOptions = new clsGedcomOptions();
-            m_oGedcomOptions.load(xmlGedcomOptions);
+            walton.XmlNode xmlGedcomOptions = xmlUserOptions.getNode("gedcom");
+            gedcomOptions_ = new GedcomOptions();
+            gedcomOptions_.load(xmlGedcomOptions);
         }
 
-        // Class constructor. Creates a copy of the specified clsUserOptions object.
-        /// <summary>
-        /// Class constructor. Creates a copy of the specified clsUserOptions object.
-        /// </summary>
-        /// <param name="oOptions">Specifies the options to take the values from.</param>
-        public clsUserOptions(clsUserOptions oOptions)
+
+
+        /// <summary>Class constructor. Creates a copy of the specified clsUserOptions object.</summary>
+        /// <param name="userOptions">Specifies the options to take the values from.</param>
+        public clsUserOptions(clsUserOptions userOptions)
         {
-            m_oConfig = oOptions.m_oConfig;
+            config_ = userOptions.config_;
 
-            // Main Window options            
-            FontBase = new CFont(oOptions.FontBase);
-            FontBaseTitle = new CFont(oOptions.FontBaseTitle);
+            // Main Window options.
+            fontBase = new SimpleFont(userOptions.fontBase);
+            fontBaseTitle = new SimpleFont(userOptions.fontBaseTitle);
 
-            // Tree options
-            m_sTreeMainFontName = oOptions.m_sTreeMainFontName;
-            m_dTreeMainFontSize = oOptions.m_dTreeMainFontSize;
-            m_sTreeSubFontName = oOptions.m_sTreeSubFontName;
-            m_dTreeSubFontSize = oOptions.m_dTreeSubFontSize;
-            m_bTreePersonBox = oOptions.m_bTreePersonBox;
+            // Tree options.
+            treeMainFontName = userOptions.treeMainFontName;
+            treeMainFontSize = userOptions.treeMainFontSize;
+            treeSubFontName = userOptions.treeSubFontName;
+            treeSubFontSize = userOptions.treeSubFontSize;
+            isTreePersonBox = userOptions.isTreePersonBox;
 
-            // html format options            
-            fontBody = new CFont(oOptions.fontBody);
-            fontHeader = new CFont(oOptions.fontHeader);
-            fontSmall = new CFont(oOptions.fontSmall);
-            fontHtmlSuperscript = new CFont(oOptions.fontHtmlSuperscript);
+            // html format options.
+            fontBody = new SimpleFont(userOptions.fontBody);
+            fontHeader = new SimpleFont(userOptions.fontHeader);
+            fontSmall = new SimpleFont(userOptions.fontSmall);
+            fontHtmlSuperscript = new SimpleFont(userOptions.fontHtmlSuperscript);
 
-            // Gedcom options
-            m_oGedcomOptions = new clsGedcomOptions(oOptions.GedcomOptions);
+            // Gedcom options.
+            gedcomOptions_ = new GedcomOptions(userOptions.gedcomOptions);
         }
 
-        // Restores the default values to all members of the class.
-        /// <summary>
-        /// Restores the default values to all members of the class.
-        /// </summary>
-		public void RestoreDefaults()
-		{
-			m_sTreeMainFontName = "Tahoma";
-			m_sTreeSubFontName = "Tahoma";
-			m_dTreeMainFontSize = 12;
-			m_dTreeSubFontSize = 7;
-			m_bTreePersonBox = false;
-		}
+
+
+        /// <summary>Restores the default values to all members of the class.</summary>
+        public void restoreDefaults()
+        {
+            treeMainFontName = "Tahoma";
+            treeSubFontName = "Tahoma";
+            treeMainFontSize = 12;
+            treeSubFontSize = 7;
+            isTreePersonBox = false;
+        }
 
 
 
         /// <summary>Writes the user options into the configuration file.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Save()
+        public bool save()
         {
-            walton.XmlNode oUserOptions = m_oConfig.getNode("useroptions");
-            
-            // Tree options
-            walton.XmlNode oMainFont = oUserOptions.getNode("tree/mainfont");
-            oMainFont.setAttributeValue("name",m_sTreeMainFontName);
-            oMainFont.setAttributeValue("size",m_dTreeMainFontSize);
-            walton.XmlNode oSubFont = oUserOptions.getNode("tree/subfont");
-            oSubFont.setAttributeValue("name",m_sTreeSubFontName);
-            oSubFont.setAttributeValue("size",m_dTreeSubFontSize);
-            walton.XmlNode oPerson = oUserOptions.getNode("tree/person");
-            oPerson.setAttributeValue("boxaround",m_bTreePersonBox);
+            walton.XmlNode oUserOptions = config_.getNode("useroptions");
 
-            // Main window options
+            // Tree options.
+            walton.XmlNode oMainFont = oUserOptions.getNode("tree/mainfont");
+            oMainFont.setAttributeValue("name", treeMainFontName);
+            oMainFont.setAttributeValue("size", treeMainFontSize);
+            walton.XmlNode oSubFont = oUserOptions.getNode("tree/subfont");
+            oSubFont.setAttributeValue("name", treeSubFontName);
+            oSubFont.setAttributeValue("size", treeSubFontSize);
+            walton.XmlNode oPerson = oUserOptions.getNode("tree/person");
+            oPerson.setAttributeValue("boxaround", isTreePersonBox);
+
+            // Main window options.
             walton.XmlNode oBaseFont = oUserOptions.getNode("mainwindow/basefont");
-            FontBase.Save(oBaseFont);
+            fontBase.save(oBaseFont);
             walton.XmlNode oBaseFontTitle = oUserOptions.getNode("mainwindow/basefonttitle");
-            FontBaseTitle.Save(oBaseFontTitle);
-            
-            // Write the html options
+            fontBaseTitle.save(oBaseFontTitle);
+
+            // Write the html options.
             walton.XmlNode oBodyFont = oUserOptions.getNode("html/bodyfont");
-            fontBody.Save(oBodyFont);
+            fontBody.save(oBodyFont);
             walton.XmlNode oHeaderFont = oUserOptions.getNode("html/headerfont");
-            fontHeader.Save(oHeaderFont);
+            fontHeader.save(oHeaderFont);
             walton.XmlNode oSmallFont = oUserOptions.getNode("html/smallfont");
-            fontSmall.Save(oSmallFont);
+            fontSmall.save(oSmallFont);
             walton.XmlNode oSuperscriptFont = oUserOptions.getNode("html/superscript");
-            fontHtmlSuperscript.Save(oSuperscriptFont);
+            fontHtmlSuperscript.save(oSuperscriptFont);
 
             // Save the gedcom options.
             walton.XmlNode xmlGedcomOptions = oUserOptions.getNode("gedcom");
-            m_oGedcomOptions.save(xmlGedcomOptions);
+            gedcomOptions_.save(xmlGedcomOptions);
 
-            // Save the configuration file to disk
-            m_oConfig.save();
+            // Save the configuration file to disk.
+            config_.save();
 
-            // Return success
+            // Return success.
             return true;
         }
 
@@ -196,62 +191,57 @@ namespace FamilyTree.Viewer
 
         #region Public Methods
 
-        // Adds the html headers to the specified html content, ready for display.
-        /// <summary>
-        /// Adds the html headers to the specified html content, ready for display.
-        /// </summary>
-        /// <param name="sHtmlContent">Specifies the body content of the html page.</param>
+        /// <summary>Adds the html headers to the specified html content, ready for display.</summary>
+        /// <param name="htmlContent">Specifies the body content of the html page.</param>
         /// <returns>Fully specified html ready for display.</returns>
-        public string RenderHtml(string sHtmlContent)
+        public string renderHtml(string htmlContent)
         {
-            StringBuilder sbHtml = new StringBuilder();
-            sbHtml.AppendLine("<html>");
-            sbHtml.AppendLine("<head>");
-            sbHtml.Append(HtmlStyle());
-            sbHtml.AppendLine("</head>");
-            sbHtml.AppendLine("<body>");
-            sbHtml.Append(sHtmlContent);
-            sbHtml.AppendLine("</body>");
-            sbHtml.Append("</html>");
+            StringBuilder html = new StringBuilder();
+            html.AppendLine("<html>");
+            html.AppendLine("<head>");
+            html.Append(htmlStyle());
+            html.AppendLine("</head>");
+            html.AppendLine("<body>");
+            html.Append(htmlContent);
+            html.AppendLine("</body>");
+            html.Append("</html>");
 
-            // Return the Html built
-            return sbHtml.ToString();
+            // Return the Html built.
+            return html.ToString();
         }
 
-        // Returns the standard Html style block for Html output.
-        /// <summary>
-        /// Returns the standard Html style block for Html output.
-        /// </summary>
+
+
+        /// <summary>Returns the standard Html style block for Html output.</summary>
         /// <returns>The standard Html style block.</returns>
-        public string HtmlStyle()
+        public string htmlStyle()
         {
-            StringBuilder sbStyles = new StringBuilder();
+            StringBuilder htmlStyles = new StringBuilder();
 
-            sbStyles.AppendLine("<style><!--");
-            sbStyles.AppendLine("p {font-family: '" + fontBody.Name + "'; font-size: " + fontBody.Size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt;line-height: " + (fontBody.Size + 6).ToString() + "pt;}");
-            sbStyles.AppendLine("td {font-family: '" + fontBody.Name + "'; font-size:" + fontBody.Size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine("h1 {font-family: '" + fontHeader.Name + "'; font-size:" + fontHeader.Size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine("a {text-decoration: none}");
-            sbStyles.AppendLine("a:hover {text-decoration: underline}");
-            sbStyles.AppendLine("a:visited {color: blue}");
-            sbStyles.AppendLine(".Superscript {font-family: '" + fontHtmlSuperscript.Name + "'; font-size:" + fontHtmlSuperscript.Size.ToString() + "pt; vertical-align: super;}"); // line-height: " + (fontBody.Size + 6).ToString() + "pt;
-            sbStyles.AppendLine(".Small {font-family: '" + fontSmall.Name + "'; font-size: " + fontSmall.Size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine(".Background {font-family: 'Verdana'; font-size: 8pt; color: silver; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine(".Census {font-family: 'Times New Roman'; font-size: 8pt; color: darkcyan; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine(".Marriage {font-family: 'Times New Roman'; font-size: 8pt; color: seagreen; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine(".Birth {font-family: 'Times New Roman'; font-size: 8pt; color: orangered; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine(".Death {font-family: 'Times New Roman'; font-size: 8pt; color: purple; margin-top: 3pt; margin-bottom: 3pt}");
-            sbStyles.AppendLine("--> </style>");
+            htmlStyles.AppendLine("<style><!--");
+            htmlStyles.AppendLine("p {font-family: '" + fontBody.name + "'; font-size: " + fontBody.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt;line-height: " + (fontBody.size + 6).ToString() + "pt;}");
+            htmlStyles.AppendLine("td {font-family: '" + fontBody.name + "'; font-size:" + fontBody.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine("h1 {font-family: '" + fontHeader.name + "'; font-size:" + fontHeader.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine("a {text-decoration: none}");
+            htmlStyles.AppendLine("a:hover {text-decoration: underline}");
+            htmlStyles.AppendLine("a:visited {color: blue}");
+            htmlStyles.AppendLine(".Superscript {font-family: '" + fontHtmlSuperscript.name + "'; font-size:" + fontHtmlSuperscript.size.ToString() + "pt; vertical-align: super;}"); // line-height: " + (fontBody.Size + 6).ToString() + "pt;
+            htmlStyles.AppendLine(".Small {font-family: '" + fontSmall.name + "'; font-size: " + fontSmall.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine(".Background {font-family: 'Verdana'; font-size: 8pt; color: silver; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine(".Census {font-family: 'Times New Roman'; font-size: 8pt; color: darkcyan; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine(".Marriage {font-family: 'Times New Roman'; font-size: 8pt; color: seagreen; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine(".Birth {font-family: 'Times New Roman'; font-size: 8pt; color: orangered; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine(".Death {font-family: 'Times New Roman'; font-size: 8pt; color: purple; margin-top: 3pt; margin-bottom: 3pt}");
+            htmlStyles.AppendLine("--> </style>");
 
-            // Return the style block
-            return sbStyles.ToString();
+            // Return the style block.
+            return htmlStyles.ToString();
         }
 
-        // Returns the number of fonts that the object will return in its font array.
-        /// <summary>
-        /// Returns the number of fonts that the object will return in its font array.
-        /// </summary>
-        public int NumFonts
+
+
+        /// <summary>Returns the number of fonts that the object will return in its font array.</summary>
+        public int numFonts
         {
             get
             {
@@ -259,15 +249,14 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // Returns the label for each font in the array of fonts.
-        /// <summary>
-        /// Returns the label for each font in the array of fonts.
-        /// </summary>
-        /// <param name="nIndex">Specifies the index of the font of interest.</param>
+
+
+        /// <summary>Returns the label for each font in the array of fonts.</summary>
+        /// <param name="fontIndex">Specifies the index of the font of interest.</param>
         /// <returns>The label for the specified font.</returns>
-        public string GetFontLabel(int nIndex)
+        public string getFontLabel(int fontIndex)
         {
-            switch(nIndex)
+            switch (fontIndex)
             {
             case 0:
                 return "Main Window Tree";
@@ -286,20 +275,19 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // Returns the font object for the specified index.
-        /// <summary>
-        /// Returns the font object for the specified index.
-        /// </summary>
-        /// <param name="nIndex">Specifies the index of the font.</param>
+
+
+        /// <summary>Returns the font object for the specified index.</summary>
+        /// <param name="fontIndex">Specifies the index of the font.</param>
         /// <returns>The font for the specified index.</returns>
-        public CFont GetFont(int nIndex)
+        public SimpleFont getFont(int fontIndex)
         {
-            switch(nIndex)
+            switch (fontIndex)
             {
             case 0:
-                return FontBase;
+                return fontBase;
             case 1:
-                return FontBaseTitle;
+                return fontBaseTitle;
             case 2:
                 return fontBody;
             case 3:
@@ -313,131 +301,127 @@ namespace FamilyTree.Viewer
             }
         }
 
-        // The gedcom options.
-        /// <summary>
-        /// The gedcom options.
-        /// </summary>
-        public clsGedcomOptions GedcomOptions
-        {
-            get
-            {
-                return m_oGedcomOptions;
-            }
-        }
+        /// <summary>The gedcom options.</summary>
+        public GedcomOptions gedcomOptions { get { return gedcomOptions_; } }
 
         #endregion
     }
 
+
+
     #region Supporting Classes, Types etc ...
 
-    /// <summary>Class to represent a font in the user options.
-    /// Trying the notation of C{classname}.
-    /// </summary>
-    /// <remarks>
-    /// Not able to inherit from Font class.
-    /// </remarks>
-    public class CFont
+    /// <summary>Class to represent a font in the user options.</summary>
+    /// <remarks>Not able to inherit from Font class.</remarks>
+    public class SimpleFont
     {
         #region Member Variables
 
         /// <summary>Name of the font.</summary>
-        public string Name;
+        public string name;
 
         /// <summary>Size of the font.</summary>
-        public float Size;
+        public float size;
 
-        /// <summary>
-        /// The style of the font.  Eg. Bold etc ...
-        /// </summary>
-        public System.Drawing.FontStyle Style;
+        /// <summary>The style of the font.  Eg. Bold etc ...</summary>
+        public System.Drawing.FontStyle style;
 
         #endregion
 
         #region Constructors etc ...
 
-        /// <summary>Class constructor. Creates a copy of the specified CFont object.
+        /// <summary>Class constructor. Creates a copy of the specified simple font object.
         /// </summary>
-        /// <param name="oFont">Specifies the CFont object to copy.</param>
-        public CFont            (            CFont oFont            )
+        /// <param name="font">Specifies the simple font object to copy.</param>
+        public SimpleFont(SimpleFont font)
         {
-            Name = oFont.Name;
-            Size = oFont.Size;
-            Style = oFont.Style;
+            name = font.name;
+            size = font.size;
+            style = font.style;
         }
+
+
+
+        /// <summary>Class constrctor. Loads the settings from the specified node in a configuration file.  If the settings are not in the configuration file then the specified default settings are used.</summary>
+        /// <param name="xmlNode">Specifies the node of the configuration file to load the settings from.</param>
+        /// <param name="defaultName">Specifies the default name for the font.</param>
+        /// <param name="defaultSize">Specifies the default size for the font.</param>
+        public SimpleFont(walton.XmlNode xmlNode, string defaultName, float defaultSize)
+        {
+            load(xmlNode, defaultName, defaultSize, System.Drawing.FontStyle.Regular);
+        }
+
+
 
         /// <summary>Class constrctor. Loads the settings from the specified node in a configuration file.
         /// If the settings are not in the configuration file then the specified default settings are used.
         /// </summary>
-        /// <param name="oNode">Specifies the node of the configuration file to load the settings from.</param>
-        /// <param name="sDefaultName">Specifies the default name for the font.</param>
-        /// <param name="dDefaultSize">Specifies the default size for the font.</param>
-        public CFont(walton.XmlNode oNode,string sDefaultName,float dDefaultSize)
+        /// <param name="xmlNode">Specifies the node of the configuration file to load the settings from.</param>
+        /// <param name="defaultName">Specifies the default name for the font.</param>
+        /// <param name="defaultSize">Specifies the default size for the font.</param>
+        /// <param name="defaultStyle">Specifies the default style for the font.  Eg Bold etc.</param>
+        public SimpleFont(walton.XmlNode xmlNode, string defaultName, float defaultSize, System.Drawing.FontStyle defaultStyle)
         {
-            Load(oNode,sDefaultName,dDefaultSize,System.Drawing.FontStyle.Regular);
+            load(xmlNode, defaultName, defaultSize, defaultStyle);
         }
 
-        /// <summary>Class constrctor. Loads the settings from the specified node in a configuration file.
-        /// If the settings are not in the configuration file then the specified default settings are used.
-        /// </summary>
-        /// <param name="oNode">Specifies the node of the configuration file to load the settings from.</param>
-        /// <param name="sDefaultName">Specifies the default name for the font.</param>
-        /// <param name="dDefaultSize">Specifies the default size for the font.</param>
-        /// <param name="DefaultStyle">Specifies the default style for the font.  Eg Bold etc.</param>
-        public CFont(walton.XmlNode oNode,string sDefaultName,float dDefaultSize,System.Drawing.FontStyle DefaultStyle)
+
+
+        /// <summary>Load the font settings from the specified node in a configuration file.</summary>
+        /// <param name="xmlNode">Specifies the node of the configuration file to load the settings from.</param>
+        /// <param name="defaultName">Specifies the default name for the font.</param>
+        /// <param name="defaultSize">Specifies the default size for the font.</param>
+        /// <param name="defaultStyle">Specifies the default style for the font.  Eg Bold etc.</param>
+        public void load(walton.XmlNode xmlNode, string defaultName, float defaultSize, System.Drawing.FontStyle defaultStyle)
         {
-            Load(oNode,sDefaultName,dDefaultSize,DefaultStyle);
+            name = xmlNode.getAttributeValue("name", defaultName, true);
+            size = xmlNode.getAttributeValue("size", defaultSize, true);
+            style = (System.Drawing.FontStyle)xmlNode.getAttributeValue("style", (int)defaultStyle, false);
         }
 
-        /// <summary>
-        /// Load the font settings from the specified node in a configuration file.
-        /// </summary>
-        /// <param name="oNode">Specifies the node of the configuration file to load the settings from.</param>
-        /// <param name="sDefaultName">Specifies the default name for the font.</param>
-        /// <param name="dDefaultSize">Specifies the default size for the font.</param>
-        /// <param name="DefaultStyle">Specifies the default style for the font.  Eg Bold etc.</param>
-        public void Load(walton.XmlNode oNode,string sDefaultName,float dDefaultSize,System.Drawing.FontStyle DefaultStyle)
-        {
-            Name = oNode.getAttributeValue("name",sDefaultName,true);
-            Size = oNode.getAttributeValue("size",dDefaultSize,true);
-            Style = (System.Drawing.FontStyle)oNode.getAttributeValue("style",(int)DefaultStyle,false);
-        }
+
 
         /// <summary>Saves the font settings into the specified node in a configuration file.
         /// </summary>
         /// <param name="oNode">Specifies the node of the configuration file to write the settings into.</param>
-        public void Save(walton.XmlNode oNode)
+        public void save(walton.XmlNode oNode)
         {
-            oNode.setAttributeValue("name",Name);
-            oNode.setAttributeValue("size",Size);
-            oNode.setAttributeValue("style",(int)Style);
+            oNode.setAttributeValue("name", name);
+            oNode.setAttributeValue("size", size);
+            oNode.setAttributeValue("style", (int)style);
         }
 
-        /// <summary>Update the CFont object from the specified font object.
-        /// </summary>
-        /// <param name="oFont"></param>
-        public void Copy(System.Drawing.Font oFont)
+
+
+        /// <summary>Update the simple font object from the specified font object.</summary>
+        /// <param name="font">Specifies the font to copy.</param>
+        public void copy(System.Drawing.Font font)
         {
-            Name = oFont.Name;
-            Size = oFont.Size;
-            Style = oFont.Style;
+            name = font.Name;
+            size = font.Size;
+            style = font.Style;
         }
+
+
 
         #endregion
 
-        /// <summary>The size of the font as an integer.
-        /// </summary>
+
+
+        /// <summary>The size of the font as an integer.</summary>
         /// <returns></returns>
-        public int FontSize()
+        public int fontSize()
         {
-            return (int)Math.Round(Size);
+            return (int)Math.Round(size);
         }
 
-        /// <summary>Returns the font that this object represents.
-        /// </summary>
+
+
+        /// <summary>Returns the actual font that this object represents.</summary>
         /// <returns></returns>
-        public System.Drawing.Font GetFont()
+        public System.Drawing.Font getFont()
         {
-            return new System.Drawing.Font(Name,Size,Style);
+            return new System.Drawing.Font(name, size, style);
         }
     }
 

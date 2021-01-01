@@ -7,71 +7,52 @@ using System.Windows.Forms;
 
 namespace FamilyTree.Viewer
 {
-    // Form to display clsTreeDocument objects.
-    /// <summary>
-    /// Form to display clsTreeDocument objects.
-    /// </summary>
+    /// <summary>Form to display TreeDocument objects.</summary>
     public partial class frmViewTree : System.Windows.Forms.Form
     {
         #region Member Variables
 
-        // Tree to display in this window.
-        /// <summary>
-        /// Tree to display in this window.
-        /// </summary>
-        private clsTreeDocument m_oTree;
+        /// <summary>Tree to display in this window.</summary>
+        private clsTreeDocument tree_;
 
-        // The point at the centre of the window.
-        /// <summary>
-        /// The point at the centre of the window.
-        /// </summary>
-        private System.Drawing.Point m_Centre;
+        /// <summary>The point at the centre of the window.</summary>
+        private System.Drawing.Point centre_;
 
-        // True if the user is dragging the display.
-        /// <summary>
-        /// True if the user is dragging the display.
-        /// </summary>
-        private bool m_bDragging;
+        /// <summary>True if the user is dragging the display.</summary>
+        private bool isDragging_;
 
-        // The point that we are dragging from.
-        /// <summary>
-        /// The point that we are dragging from.
-        /// </summary>
-        private System.Drawing.Point m_DragPoint;
+        /// <summary>The point that we are dragging from.</summary>
+        private System.Drawing.Point dragPoint_;
 
         #endregion
 
         #region Constructors etc ...
 
-        // Constructor for the window that displays the specified tree document.
-        /// <summary>
-        /// Constructor for the window that displays the specified tree document.
-        /// </summary>
-        /// <param name="oTree">Specifies the tree document to display in the window</param>
-        public frmViewTree(clsTreeDocument oTree)
+        /// <summary>Constructor for the window that displays the specified tree document.</summary>
+        /// <param name="tree">Specifies the tree document to display in the window</param>
+        public frmViewTree(clsTreeDocument tree)
         {
             // Required for Windows Form Designer support
             InitializeComponent();
 
             // Initialise member variables
-            m_oTree = oTree;
-            m_Centre.X = 0;
-            m_Centre.Y = 0;
+            tree_ = tree;
+            centre_.X = 0;
+            centre_.Y = 0;
 
-            // Initialise the form
-            FamilyTree.Objects.Person oPerson = new FamilyTree.Objects.Person(oTree.BasePersonID, oTree.Database);
-            Text = oPerson.getName(true, true) + " - Tree";
+            // Initialise the form.
+            FamilyTree.Objects.Person person = new FamilyTree.Objects.Person(tree.basePersonIndex, tree.database);
+            Text = person.getName(true, true) + " - Tree";
 
-            // Initialise the print document
-            System.Drawing.Printing.Margins oMargins = new System.Drawing.Printing.Margins(40, 40, 40, 40);
-            m_oPrintDocument.DefaultPageSettings.Margins = oMargins;
+            // Initialise the print document.
+            System.Drawing.Printing.Margins margins = new System.Drawing.Printing.Margins(40, 40, 40, 40);
+            m_oPrintDocument.DefaultPageSettings.Margins = margins;
             m_oPrintDocument.DefaultPageSettings.Landscape = true;
         }
 
-        // Clean up any resources being used.
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
+
+
+        /// <summary>Clean up any resources being used.</summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -92,32 +73,32 @@ namespace FamilyTree.Viewer
 
         /// <summary>Display the dialog to allow the user to select an output file.  If the user selected a file then write the tree options into the file.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool Save()
+        private bool save()
         {
             // Set the common dialog options.
-            m_SaveFileDialog.Title = "Save Tree";
-            m_SaveFileDialog.Filter = "Tree File (*.tree)|*.tree";
-            m_SaveFileDialog.OverwritePrompt = true;
-            m_SaveFileDialog.ValidateNames = true;
-            m_SaveFileDialog.AddExtension = true;
-            m_SaveFileDialog.DefaultExt = "tree";
+            saveFileDialog_.Title = "Save Tree";
+            saveFileDialog_.Filter = "Tree File (*.tree)|*.tree";
+            saveFileDialog_.OverwritePrompt = true;
+            saveFileDialog_.ValidateNames = true;
+            saveFileDialog_.AddExtension = true;
+            saveFileDialog_.DefaultExt = "tree";
 
             // Display the select save file dialog.
-            if (m_SaveFileDialog.ShowDialog(this) == DialogResult.OK)
+            if (saveFileDialog_.ShowDialog(this) == DialogResult.OK)
             {
                 // Create the save file.
-                walton.XmlDocument oSave = new walton.XmlDocument(m_SaveFileDialog.FileName);
+                walton.XmlDocument xmlSave = new walton.XmlDocument(saveFileDialog_.FileName);
 
                 // Save the main person in the tree.
-                walton.XmlNode oTree = oSave.getNode("tree");
-                oTree.setAttributeValue("mainperson", m_oTree.BasePersonID);
-                oTree.setAttributeValue("document", m_oTree.Database.fileName);
+                walton.XmlNode xxmlTree = xmlSave.getNode("tree");
+                xxmlTree.setAttributeValue("mainperson", tree_.basePersonIndex);
+                xxmlTree.setAttributeValue("document", tree_.database.fileName);
 
                 // Save the options on the tree.
-                m_oTree.Options.Save(oSave);
+                tree_.options.save(xmlSave);
 
                 // Save the tree options.
-                oSave.save(true);
+                xmlSave.save(true);
             }
 
             // Return success.
@@ -128,27 +109,27 @@ namespace FamilyTree.Viewer
 
         /// <summary>Copies the tree onto the clipboard as a metafile.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool Copy()
+        private bool copy()
         {
             // Create a metafile to record the drawing.
-            System.Drawing.Graphics oGraphics = this.CreateGraphics();
-            IntPtr hDC = oGraphics.GetHdc();
-            System.Drawing.Imaging.Metafile oMetafile = new System.Drawing.Imaging.Metafile(hDC, System.Drawing.Imaging.EmfType.EmfPlusDual, "");
-            oGraphics.ReleaseHdc(hDC);
-            oGraphics.Dispose();
+            System.Drawing.Graphics graphics = this.CreateGraphics();
+            IntPtr hDC = graphics.GetHdc();
+            System.Drawing.Imaging.Metafile metafile = new System.Drawing.Imaging.Metafile(hDC, System.Drawing.Imaging.EmfType.EmfPlusDual, "");
+            graphics.ReleaseHdc(hDC);
+            graphics.Dispose();
 
-            System.Drawing.Graphics oMetaGraphics = Graphics.FromImage(oMetafile);
-            m_oTree.CalculatePositions(oMetaGraphics, enumDevice.Metafile);
-            m_oTree.Draw(oMetaGraphics);
-            oMetaGraphics.Dispose();
+            System.Drawing.Graphics metaGraphics = Graphics.FromImage(metafile);
+            tree_.CalculatePositions(metaGraphics, enumDevice.Metafile);
+            tree_.draw(metaGraphics);
+            metaGraphics.Dispose();
 
             // The following does actually work but no "real" application can understand .NET metafiles
             // Clipboard.SetDataObject(oMetafile,true);
 
-            // This converts the .NET metafile into a Win32 metafile
-            ClipboardMetafileHelper.PutEnhMetafileOnClipboard(this.Handle, oMetafile);
+            // This converts the .NET metafile into a Win32 metafile.
+            ClipboardMetafileHelper.putEnhMetafileOnClipboard(this.Handle, metafile);
 
-            oMetafile.Dispose();
+            metafile.Dispose();
 
             // return sucess
             return true;
@@ -160,49 +141,49 @@ namespace FamilyTree.Viewer
         /// </summary>
         private void TreeResized()
         {
-            if (m_oTree == null)
+            if (tree_ == null)
             {
                 return;
             }
 
             // Calculate if the window is wide enough to display the whole document
-            if (m_PictureBox.Width > m_oTree.Width)
+            if (m_PictureBox.Width > tree_.width)
             {
                 m_hScrollBar.Enabled = false;
                 // Calculate the offset to centre the tree in the window.
-                m_oTree.OffsetX = m_oTree.TopLeft.X - ((m_PictureBox.Width - m_oTree.Width) / 2);
+                tree_.offsetX = tree_.topLeft.X - ((m_PictureBox.Width - tree_.width) / 2);
                 m_PictureBox.Refresh();
             }
             else
             {
                 m_hScrollBar.Enabled = true;
-                m_hScrollBar.Minimum = (int)m_oTree.TopLeft.X;
-                m_hScrollBar.Maximum = (int)m_oTree.BottomRight.X;
+                m_hScrollBar.Minimum = (int)tree_.topLeft.X;
+                m_hScrollBar.Maximum = (int)tree_.bottomRight.X;
                 m_hScrollBar.LargeChange = m_PictureBox.Width;
 
                 // Calculate the scroll bar position to try and keep the current centre at the centre
-                SetHScrollBarValue(m_Centre.X - (m_PictureBox.Width / 2));
-                m_oTree.OffsetX = m_hScrollBar.Value;
+                SetHScrollBarValue(centre_.X - (m_PictureBox.Width / 2));
+                tree_.offsetX = m_hScrollBar.Value;
             }
 
             // Calculate if the window is high enough to display the whole document
-            if (m_PictureBox.Height > m_oTree.Height)
+            if (m_PictureBox.Height > tree_.height)
             {
                 m_vScrollBar.Enabled = false;
                 // Calculate the offset to centre the tree in the window
-                m_oTree.OffsetY = m_oTree.TopLeft.Y - ((m_PictureBox.Height - m_oTree.Height) / 2);
+                tree_.offsetY = tree_.topLeft.Y - ((m_PictureBox.Height - tree_.height) / 2);
                 m_PictureBox.Refresh();
             }
             else
             {
                 m_vScrollBar.Enabled = true;
-                m_vScrollBar.Minimum = (int)m_oTree.TopLeft.Y;
-                m_vScrollBar.Maximum = (int)m_oTree.BottomRight.Y;
+                m_vScrollBar.Minimum = (int)tree_.topLeft.Y;
+                m_vScrollBar.Maximum = (int)tree_.bottomRight.Y;
                 m_vScrollBar.LargeChange = m_PictureBox.Height;
 
                 // Calculate the scroll bar position to try and keep the current centre at the centre
-                SetVScrollBarValue(m_Centre.Y - (m_PictureBox.Height / 2));
-                m_oTree.OffsetY = m_vScrollBar.Value;
+                SetVScrollBarValue(centre_.Y - (m_PictureBox.Height / 2));
+                tree_.offsetY = m_vScrollBar.Value;
             }
         }
 
@@ -215,12 +196,12 @@ namespace FamilyTree.Viewer
         {
             if (nNewLevel > 0)
             {
-                m_oTree.ScreenZoom = nNewLevel;
+                tree_.screenZoom = nNewLevel;
             }
-            m_tsLabel.Text = "Zoom: " + m_oTree.ScreenZoom.ToString() + "%";
+            m_tsLabel.Text = "Zoom: " + tree_.screenZoom.ToString() + "%";
 
             // Redraw the tree
-            m_oTree.Regenerate();
+            tree_.Regenerate();
             TreeResized();
             Refresh();
         }
@@ -310,7 +291,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuSave_Click(object sender, EventArgs e)
         {
-            Save();
+            save();
         }
 
         /// <summary>
@@ -342,11 +323,11 @@ namespace FamilyTree.Viewer
         private void menuOptions_Click(object sender, EventArgs e)
         {
             // Show the tree options dialog
-            frmTreeOptions oDialog = new frmTreeOptions(m_oTree);
+            frmTreeOptions oDialog = new frmTreeOptions(tree_);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // Enact the new options
-                m_oTree.Regenerate();
+                tree_.Regenerate();
             }
         }
 
@@ -358,7 +339,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuCopy_Click(object sender, EventArgs e)
         {
-            Copy();
+            copy();
         }
 
         #region View Menu
@@ -382,7 +363,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuZoomOut_Click(object sender, EventArgs e)
         {
-            SetNewZoomLevel(m_oTree.ScreenZoom - 10);
+            SetNewZoomLevel(tree_.screenZoom - 10);
         }
 
         // Message handler for the "View" -> "Zoom In" menu point click.
@@ -393,7 +374,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuZoomIn_Click(object sender, EventArgs e)
         {
-            SetNewZoomLevel(m_oTree.ScreenZoom + 10);
+            SetNewZoomLevel(tree_.screenZoom + 10);
         }
 
         #endregion
@@ -413,7 +394,7 @@ namespace FamilyTree.Viewer
         private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             // This switches the document into printer mode if not already in printer mode
-            m_oTree.CalculatePositions(e.Graphics, enumDevice.Printer);
+            tree_.CalculatePositions(e.Graphics, enumDevice.Printer);
 
             //			// This gives the page width
             //			nPageWidth = e.PageSettings.PaperSize.Height; 
@@ -424,24 +405,24 @@ namespace FamilyTree.Viewer
             // Calculate the current offset in the document
             if (m_nPageNum == 0)
             {
-                m_oTree.OffsetX = m_oTree.TopLeft.X;
-                m_oTree.OffsetY = m_oTree.TopLeft.Y;
+                tree_.offsetX = tree_.topLeft.X;
+                tree_.offsetY = tree_.topLeft.Y;
             }
             else
             {
-                m_oTree.OffsetX = m_oTree.TopLeft.X + m_nPageNum * nPageWidth;
-                m_oTree.OffsetY = m_oTree.TopLeft.Y;
+                tree_.offsetX = tree_.topLeft.X + m_nPageNum * nPageWidth;
+                tree_.offsetY = tree_.topLeft.Y;
             }
 
             // Allow for the printer margin
-            m_oTree.OffsetX -= e.MarginBounds.Left;
-            m_oTree.OffsetY -= e.MarginBounds.Top;
+            tree_.offsetX -= e.MarginBounds.Left;
+            tree_.offsetY -= e.MarginBounds.Top;
 
             // Draw the document on the printer page			
-            m_oTree.Draw(e.Graphics);
+            tree_.draw(e.Graphics);
 
             // Decide if this is the last page
-            if (m_oTree.OffsetX + e.MarginBounds.Left + nPageWidth < m_oTree.BottomRight.X)
+            if (tree_.offsetX + e.MarginBounds.Left + nPageWidth < tree_.bottomRight.X)
             {
                 e.HasMorePages = true;
                 m_nPageNum++;
@@ -490,12 +471,12 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void PictureBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            if (m_oTree.LastDevice != enumDevice.Screen)
+            if (tree_.lastDevice != enumDevice.Screen)
             {
-                m_oTree.CalculatePositions(e.Graphics, enumDevice.Screen);
+                tree_.CalculatePositions(e.Graphics, enumDevice.Screen);
                 TreeResized();
             }
-            m_oTree.Draw(e.Graphics);
+            tree_.draw(e.Graphics);
         }
 
         // Message handler for the horizontal scroll bar value changing.
@@ -506,7 +487,7 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void hScrollBar_ValueChanged(object sender, System.EventArgs e)
         {
-            m_oTree.OffsetX = m_hScrollBar.Value;
+            tree_.offsetX = m_hScrollBar.Value;
             m_PictureBox.Refresh();
         }
 
@@ -518,7 +499,7 @@ namespace FamilyTree.Viewer
 		/// <param name="e"></param>
 		private void vScrollBar_ValueChanged(object sender, System.EventArgs e)
         {
-            m_oTree.OffsetY = m_vScrollBar.Value;
+            tree_.offsetY = m_vScrollBar.Value;
             m_PictureBox.Refresh();
         }
 
@@ -532,8 +513,8 @@ namespace FamilyTree.Viewer
         {
             if (e.Button == MouseButtons.Left)
             {
-                m_bDragging = true;
-                m_DragPoint = e.Location;
+                isDragging_ = true;
+                dragPoint_ = e.Location;
             }
         }
 
@@ -545,7 +526,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            m_bDragging = false;
+            isDragging_ = false;
         }
 
         // Message handler for the picturebox mouse move event.
@@ -556,22 +537,22 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (m_bDragging)
+            if (isDragging_)
             {
                 if (m_hScrollBar.Enabled)
                 {
-                    if (e.Location.X != m_DragPoint.X)
+                    if (e.Location.X != dragPoint_.X)
                     {
-                        SetHScrollBarValue(m_hScrollBar.Value - (e.Location.X - m_DragPoint.X));
-                        m_DragPoint.X = e.Location.X;
+                        SetHScrollBarValue(m_hScrollBar.Value - (e.Location.X - dragPoint_.X));
+                        dragPoint_.X = e.Location.X;
                     }
                 }
                 if (m_vScrollBar.Enabled)
                 {
-                    if (e.Location.Y != m_DragPoint.Y)
+                    if (e.Location.Y != dragPoint_.Y)
                     {
-                        SetVScrollBarValue(m_vScrollBar.Value - (e.Location.Y - m_DragPoint.Y));
-                        m_DragPoint.Y = e.Location.Y;
+                        SetVScrollBarValue(m_vScrollBar.Value - (e.Location.Y - dragPoint_.Y));
+                        dragPoint_.Y = e.Location.Y;
                     }
                 }
             }

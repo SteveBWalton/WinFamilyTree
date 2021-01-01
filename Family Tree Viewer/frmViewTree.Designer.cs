@@ -52,7 +52,7 @@ namespace FamilyTree.Viewer
             this.m_oPrintDocument = new System.Drawing.Printing.PrintDocument();
             this.m_hScrollBar = new System.Windows.Forms.HScrollBar();
             this.m_vScrollBar = new System.Windows.Forms.VScrollBar();
-            this.m_SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog_ = new System.Windows.Forms.SaveFileDialog();
             this.m_PictureBox = new System.Windows.Forms.PictureBox();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             oMainMenu = new System.Windows.Forms.MenuStrip();
@@ -387,7 +387,7 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.PictureBox m_PictureBox;
         private System.Windows.Forms.HScrollBar m_hScrollBar;
         private System.Windows.Forms.VScrollBar m_vScrollBar;
-        private SaveFileDialog m_SaveFileDialog;
+        private SaveFileDialog saveFileDialog_;
         private ToolStripStatusLabel m_tsLabel;
         private System.Drawing.Printing.PrintDocument m_oPrintDocument;
 

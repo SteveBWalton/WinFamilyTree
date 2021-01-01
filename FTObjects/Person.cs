@@ -353,7 +353,7 @@ namespace FamilyTree.Objects
             // Save the relationship records.
             if (relationships_ != null)
             {
-                foreach (clsRelationship relationship in relationships_)
+                foreach (Relationship relationship in relationships_)
                 {
                     relationship.save();
 
@@ -618,7 +618,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Returns an array of clsRelationship objects representing the relationships for this person.</summary>
         /// <returns>An array of clsRelationships objects representing the relationships for this person.</returns>
-        public clsRelationship[] getRelationships()
+        public Relationship[] getRelationships()
         {
             if (relationships_ == null)
             {
@@ -626,7 +626,7 @@ namespace FamilyTree.Objects
             }
 
             // Return the relationships as an array			
-            return (clsRelationship[])relationships_.ToArray(typeof(clsRelationship));
+            return (Relationship[])relationships_.ToArray(typeof(Relationship));
         }
 
 
@@ -634,7 +634,7 @@ namespace FamilyTree.Objects
         /// <summary>Adds a relationship to the person.</summary>
         /// <param name="relationship">Specify the relationship to add to the collection of relationships/</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool addRelationship(clsRelationship relationship)
+        public bool addRelationship(Relationship relationship)
         {
             // Load the existing relationships if required.
             if (relationships_ == null)
@@ -672,7 +672,7 @@ namespace FamilyTree.Objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                clsRelationship relationship = new clsRelationship(dataReader.GetInt32(0), this, dataReader.GetInt32(1));
+                Relationship relationship = new Relationship(dataReader.GetInt32(0), this, dataReader.GetInt32(1));
                 relationship.terminatedIndex = dataReader.GetInt32(2);
                 if (dataReader.IsDBNull(3))
                 {
@@ -961,7 +961,7 @@ namespace FamilyTree.Objects
             description.Append(". ");
 
             // Relationships.
-            clsRelationship[] relationships = getRelationships();
+            Relationship[] relationships = getRelationships();
             for (int i = relationships.Length - 1; i >= 0; i--)
             {
                 if (relationships[i].isValid() && relationships[i].isMarried())
@@ -1575,8 +1575,8 @@ namespace FamilyTree.Objects
                 }
 
                 // Add the married places
-                clsRelationship[] relationships = getRelationships();
-                foreach (clsRelationship relatonship in relationships)
+                Relationship[] relationships = getRelationships();
+                foreach (Relationship relatonship in relationships)
                 {
                     if (relatonship.isValid())
                     {

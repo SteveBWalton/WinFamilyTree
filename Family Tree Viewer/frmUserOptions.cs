@@ -71,11 +71,11 @@ namespace FamilyTree.Viewer
             m_oOptions = new clsUserOptions(oOptions);
 
             // Update the form with the current options
-            m_labTreeMainFont.Font = new System.Drawing.Font(oOptions.m_sTreeMainFontName,oOptions.m_dTreeMainFontSize);
-            m_labTreeMainFont.Text = oOptions.m_sTreeMainFontName + " " + oOptions.m_dTreeMainFontSize.ToString();
-            m_labTreeSubFont.Font = new System.Drawing.Font(oOptions.m_sTreeSubFontName,oOptions.m_dTreeSubFontSize);
-            m_labTreeSubFont.Text = oOptions.m_sTreeSubFontName + " " + oOptions.m_dTreeSubFontSize.ToString();
-            m_chkTreePersonBox.Checked = oOptions.m_bTreePersonBox;
+            m_labTreeMainFont.Font = new System.Drawing.Font(oOptions.treeMainFontName,oOptions.treeMainFontSize);
+            m_labTreeMainFont.Text = oOptions.treeMainFontName + " " + oOptions.treeMainFontSize.ToString();
+            m_labTreeSubFont.Font = new System.Drawing.Font(oOptions.treeSubFontName,oOptions.treeSubFontSize);
+            m_labTreeSubFont.Text = oOptions.treeSubFontName + " " + oOptions.treeSubFontSize.ToString();
+            m_chkTreePersonBox.Checked = oOptions.isTreePersonBox;
 
             // Populate the html preview
             PopulateHtmlPreview();
@@ -84,20 +84,20 @@ namespace FamilyTree.Viewer
             if(ShowDialog(oParentWindow) == DialogResult.OK)
             {
                 // Update the options with the selection
-                oOptions.m_sTreeMainFontName = m_labTreeMainFont.Font.Name;
-                oOptions.m_sTreeSubFontName = m_labTreeSubFont.Font.Name;
-                oOptions.m_dTreeMainFontSize = m_labTreeMainFont.Font.Size;
-                oOptions.m_dTreeSubFontSize = m_labTreeSubFont.Font.Size;
-                oOptions.m_bTreePersonBox = m_chkTreePersonBox.Checked;
+                oOptions.treeMainFontName = m_labTreeMainFont.Font.Name;
+                oOptions.treeSubFontName = m_labTreeSubFont.Font.Name;
+                oOptions.treeMainFontSize = m_labTreeMainFont.Font.Size;
+                oOptions.treeSubFontSize = m_labTreeSubFont.Font.Size;
+                oOptions.isTreePersonBox = m_chkTreePersonBox.Checked;
 
-                oOptions.FontBase = m_oOptions.FontBase;
-                oOptions.FontBaseTitle = m_oOptions.FontBaseTitle;
+                oOptions.fontBase = m_oOptions.fontBase;
+                oOptions.fontBaseTitle = m_oOptions.fontBaseTitle;
                 oOptions.fontBody = m_oOptions.fontBody;
                 oOptions.fontHeader = m_oOptions.fontHeader;
                 oOptions.fontSmall = m_oOptions.fontSmall;
                 oOptions.fontHtmlSuperscript = m_oOptions.fontHtmlSuperscript;
 
-                oOptions.Save();
+                oOptions.save();
 
                 // Return that changes have been made
                 return true;
@@ -113,7 +113,7 @@ namespace FamilyTree.Viewer
         {
             StringBuilder sbHtml = new StringBuilder();
             sbHtml.Append("<html><head>");
-            sbHtml.Append(m_oOptions.HtmlStyle());
+            sbHtml.Append(m_oOptions.htmlStyle());
             sbHtml.Append("</head><body>");
             sbHtml.Append("<h1>Header</h2>");
             sbHtml.Append("<p>This is standard<span class=\"Superscript\">A</span> text.</p>");
@@ -152,9 +152,9 @@ namespace FamilyTree.Viewer
         private void frmUserOptions_Load(object sender,EventArgs e)
         {            
             // Load the available fonts
-            for(int nFont = 0;nFont < m_oOptions.NumFonts;nFont++)
+            for(int nFont = 0;nFont < m_oOptions.numFonts;nFont++)
             {
-                m_cboFont.Items.Add(m_oOptions.GetFontLabel(nFont));
+                m_cboFont.Items.Add(m_oOptions.getFontLabel(nFont));
             }
 
             m_cboFont.SelectedIndex = 0;
@@ -172,11 +172,11 @@ namespace FamilyTree.Viewer
         private void cboFont_SelectedIndexChanged(object sender,EventArgs e)
         {
             // Get the selected font
-            CFont oFont = m_oOptions.GetFont(m_cboFont.SelectedIndex);
+            SimpleFont oFont = m_oOptions.getFont(m_cboFont.SelectedIndex);
             
             // Update the font display
-            m_labHtmlStyleFont.Font = oFont.GetFont();
-            m_labHtmlStyleFont.Text = oFont.Name + " " + oFont.Size.ToString();
+            m_labHtmlStyleFont.Font = oFont.getFont();
+            m_labHtmlStyleFont.Text = oFont.name + " " + oFont.size.ToString();
         }
 
         /// <summary>
@@ -194,8 +194,8 @@ namespace FamilyTree.Viewer
                 m_labHtmlStyleFont.Text = m_FontDialog.Font.Name + " " + m_FontDialog.Font.Size.ToString();
 
                 // Update the copy of the options
-                CFont oFont = m_oOptions.GetFont(m_cboFont.SelectedIndex);
-                oFont.Copy(m_FontDialog.Font);
+                SimpleFont oFont = m_oOptions.getFont(m_cboFont.SelectedIndex);
+                oFont.copy(m_FontDialog.Font);
 
                 // Update the preview box.
                 PopulateHtmlPreview();

@@ -21,7 +21,7 @@ namespace FamilyTree.Viewer
         private Sources sources_;
 
         /// <summary>Active relationship.</summary>
-        private clsRelationship activeRelationship_;
+        private Relationship activeRelationship_;
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace FamilyTree.Viewer
             m_labDescription.Text = person_.Description(false, false, false, false, false);
 
             // Initialise the relationships tab
-            clsRelationship[] oRelationships = person_.getRelationships();
+            Relationship[] oRelationships = person_.getRelationships();
             for (int nI = 0; nI < oRelationships.Length; nI++)
             {
                 m_lstRelationships.Items.Add(oRelationships[nI]);
@@ -872,7 +872,7 @@ namespace FamilyTree.Viewer
             }
 
             // Get the selected relationship
-            activeRelationship_ = (clsRelationship)this.m_lstRelationships.SelectedItem;
+            activeRelationship_ = (Relationship)this.m_lstRelationships.SelectedItem;
 
             // Update the form
             m_dateRelationStart.Value = activeRelationship_.start;
@@ -1009,7 +1009,7 @@ namespace FamilyTree.Viewer
             IndexName oPartner = (IndexName)m_cboAddPartner.SelectedItem;
 
             // Create a relationship object
-            clsRelationship oRelationship = new clsRelationship(person_, oPartner.index);
+            Relationship oRelationship = new Relationship(person_, oPartner.index);
 
             // Add the relationship to the persons collection
             person_.addRelationship(oRelationship);

@@ -42,11 +42,11 @@ namespace FamilyTree.Viewer
             m_oTree = oTree;
 
             // Update the form with the current options
-            this.labTreeMainFont.Font = new System.Drawing.Font(m_oTree.Options.m_sTreeMainFontName, m_oTree.Options.m_dTreeMainFontSize);
-            this.labTreeMainFont.Text = m_oTree.Options.m_sTreeMainFontName + " " + m_oTree.Options.m_dTreeMainFontSize.ToString();
-            this.labTreeSubFont.Font = new System.Drawing.Font(m_oTree.Options.m_sTreeSubFontName, m_oTree.Options.m_dTreeSubFontSize);
-            this.labTreeSubFont.Text = m_oTree.Options.m_sTreeSubFontName + " " + m_oTree.Options.m_dTreeSubFontSize.ToString();
-            this.chkTreePersonBox.Checked = m_oTree.Options.m_bTreePersonBox;
+            this.labTreeMainFont.Font = new System.Drawing.Font(m_oTree.options.mainFontName_, m_oTree.options.mainFontSize_);
+            this.labTreeMainFont.Text = m_oTree.options.mainFontName_ + " " + m_oTree.options.mainFontSize_.ToString();
+            this.labTreeSubFont.Font = new System.Drawing.Font(m_oTree.options.subFontName_, m_oTree.options.subFontSize_);
+            this.labTreeSubFont.Text = m_oTree.options.subFontName_ + " " + m_oTree.options.subFontSize_.ToString();
+            this.chkTreePersonBox.Checked = m_oTree.options.isTreePersonBox_;
 
             UpdateRulesDisplay();
         }
@@ -67,7 +67,7 @@ namespace FamilyTree.Viewer
             sbHtml.Append("<html><head>");                        
             // sbHtml.Append(m_oTree.Database.HtmlStyles());
             sbHtml.Append("</head><body>");
-            sbHtml.Append(m_oTree.Options.RulesToHtml(m_oTree.Database));
+            sbHtml.Append(m_oTree.options.rulesToHtml(m_oTree.database));
             sbHtml.Append("</body></html>");
             
             // Display the html description
@@ -88,13 +88,13 @@ namespace FamilyTree.Viewer
         private void frmTreeOptions_Load(object sender,EventArgs e)
         {
             // Populate the type of rules combo box
-            for(clsTreeRule.ERuleAction Action = clsTreeRule.ERuleAction.IncludeDescendants;Action <= clsTreeRule.ERuleAction.HorizontalOffset;Action++)
+            for(clsTreeRule.RuleAction Action = clsTreeRule.RuleAction.INCLUDE_DESCENDANTS;Action <= clsTreeRule.RuleAction.HORIZONTAL_OFFSET;Action++)
             {
-                m_cboRules.Items.Add(clsTreeRule.ActionToString(Action));
+                m_cboRules.Items.Add(clsTreeRule.actionToString(Action));
             }
 
             // Populate the people combo box
-            clsTreePerson[] oPeople = m_oTree.GetPeople();
+            clsTreePerson[] oPeople = m_oTree.getPeople();
             foreach(clsTreePerson oPerson in oPeople)
             {
                 m_cboRulePeople.Items.Add(oPerson);
@@ -121,11 +121,11 @@ namespace FamilyTree.Viewer
 
         private void m_cmdOK_Click(object sender,EventArgs e)
         {
-            m_oTree.Options.m_sTreeMainFontName = this.labTreeMainFont.Font.Name;
-            m_oTree.Options.m_sTreeSubFontName = this.labTreeSubFont.Font.Name;
-            m_oTree.Options.m_dTreeMainFontSize = this.labTreeMainFont.Font.Size;
-            m_oTree.Options.m_dTreeSubFontSize = this.labTreeSubFont.Font.Size;
-            m_oTree.Options.m_bTreePersonBox = this.chkTreePersonBox.Checked;
+            m_oTree.options.mainFontName_ = this.labTreeMainFont.Font.Name;
+            m_oTree.options.subFontName_ = this.labTreeSubFont.Font.Name;
+            m_oTree.options.mainFontSize_ = this.labTreeMainFont.Font.Size;
+            m_oTree.options.subFontSize_ = this.labTreeSubFont.Font.Size;
+            m_oTree.options.isTreePersonBox_ = this.chkTreePersonBox.Checked;
         }
 
         /// <summary>
@@ -141,14 +141,14 @@ namespace FamilyTree.Viewer
                 return;
             }
 
-            clsTreeRule.ERuleAction nAction = (clsTreeRule.ERuleAction)m_cboRules.SelectedIndex;
+            clsTreeRule.RuleAction nAction = (clsTreeRule.RuleAction)m_cboRules.SelectedIndex;
             clsTreePerson oPerson = (clsTreePerson)m_cboRulePeople.SelectedItem;
 
             clsTreeRule oNewRule = new clsTreeRule();
-            oNewRule.Action = nAction;
-            oNewRule.PersonID = oPerson.PersonID;
-            oNewRule.Parameter = m_txtRuleParameter.Text;
-            m_oTree.Options.AddRule(oNewRule);
+            oNewRule.action = nAction;
+            oNewRule.personIndex = oPerson.PersonID;
+            oNewRule.parameter = m_txtRuleParameter.Text;
+            m_oTree.options.addRule(oNewRule);
 
             UpdateRulesDisplay();
         }

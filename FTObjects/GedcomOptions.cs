@@ -4,36 +4,33 @@ using System.Text;
 
 namespace FamilyTree.Objects
 {
-    // Class to represent the options for a gedcom file.
-    /// <summary>
-    /// Class to represent the options for a gedcom file.
-    /// </summary>
-    public class clsGedcomOptions
+    /// <summary>Class to represent the options for a gedcom file.</summary>
+    public class GedcomOptions
     {
         /// <summary>The filename of the gedcom file.</summary>
         public string fileName;
 
         /// <summary>Include the _PGVU (last edit by) tags in the gedcom file.</summary>
-        public bool IncludePGVU;
+        public bool isIncludePGVU;
 
         /// <summary>True to remove the address from PLAC tags and include a ADDR tag.</summary>
-        public bool RemoveADDRfromPLAC;
+        public bool isRemoveADDRfromPLAC;
 
         /// <summary>Add ADDR (address) tags to PLAC tags.</summary>
-        public bool UseADDR;
+        public bool isUseADDR;
 
         /// <summary>Add CTRY (Country) tags to PLAC tags.</summary>
-        public bool UseCTRY;
+        public bool isUseCTRY;
 
         /// <summary>Add MAP tags with longitude and latitude to PLAC tags.</summary>
-        public bool UseLongitude;
+        public bool isUseLongitude;
 
         #region Class Constrcutors etc ...
 
 
 
         /// <summary>Empty class constructor.</summary>
-        public clsGedcomOptions()
+        public GedcomOptions()
         {
         }
 
@@ -41,7 +38,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Class constrcutor that copies and existing object.</summary>
         /// <param name="source"></param>
-        public clsGedcomOptions(clsGedcomOptions source)
+        public GedcomOptions(GedcomOptions source)
         {
             fileName = source.fileName;
         }

@@ -13,19 +13,21 @@ namespace FamilyTree.Viewer
 {
     public partial class frmGedcomOptions : Form
     {
-        private clsGedcomOptions m_oOptions;
+        private GedcomOptions options_;
 
-        public frmGedcomOptions(clsGedcomOptions oOptions)
+        public frmGedcomOptions(GedcomOptions options)
         {
             InitializeComponent();
 
             // Save the Gedcom options object
-            m_oOptions = oOptions;
+            options_ = options;
         }
 
-        private void PopulateForm()
+
+
+        private void populateForm()
         {
-            m_txtFilename.Text = m_oOptions.fileName;
+            txtFilename_.Text = options_.fileName;
         }
 
 
@@ -33,12 +35,12 @@ namespace FamilyTree.Viewer
         /// <summary>Update the options from the values on the form.</summary>
         private void populateOptions()
         {
-            m_oOptions.fileName = m_txtFilename.Text;
-            m_oOptions.IncludePGVU = m_chkPGVU.Checked;
-            m_oOptions.RemoveADDRfromPLAC = m_chkRemoveAddresses.Checked;
-            m_oOptions.UseADDR = m_chkUseADDR.Checked;
-            m_oOptions.UseCTRY = m_chkUseCTRY.Checked;
-            m_oOptions.UseLongitude = m_chkLongitude.Checked;
+            options_.fileName = txtFilename_.Text;
+            options_.isIncludePGVU = m_chkPGVU.Checked;
+            options_.isRemoveADDRfromPLAC = m_chkRemoveAddresses.Checked;
+            options_.isUseADDR = m_chkUseADDR.Checked;
+            options_.isUseCTRY = m_chkUseCTRY.Checked;
+            options_.isUseLongitude = m_chkLongitude.Checked;
         }
 
 
@@ -56,27 +58,31 @@ namespace FamilyTree.Viewer
         private void cmdOpen_Click(object sender, EventArgs e)
         {
             // Initialise the select save file dialog
-            m_SaveFileDialog.Title = "Select output file";
-            m_SaveFileDialog.Filter = "Gedcom Files (*.ged)|*.ged";
-            m_SaveFileDialog.FilterIndex = 1;
-            m_SaveFileDialog.FileName = m_txtFilename.Text;
+            saveFileDialog_.Title = "Select output file";
+            saveFileDialog_.Filter = "Gedcom Files (*.ged)|*.ged";
+            saveFileDialog_.FilterIndex = 1;
+            saveFileDialog_.FileName = txtFilename_.Text;
 
             // Allow the user to select the output file
-            if(m_SaveFileDialog.ShowDialog(this) == DialogResult.OK)
+            if(saveFileDialog_.ShowDialog(this) == DialogResult.OK)
             {
-                m_txtFilename.Text = m_SaveFileDialog.FileName;
+                txtFilename_.Text = saveFileDialog_.FileName;
             }
         }
 
+
+
         private void frmGedcomOptions_Load(object sender, EventArgs e)
         {
-            PopulateForm();
-            m_cboScheme.SelectedIndex = 1;
+            populateForm();
+            cboScheme_.SelectedIndex = 1;
         }
 
-        private void m_cboScheme_SelectedIndexChanged(object sender, EventArgs e)
+
+
+        private void cboScheme_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(m_cboScheme.SelectedIndex)
+            switch(cboScheme_.SelectedIndex)
             {
             case 0:// Custom do nothing
                 break;
@@ -104,7 +110,6 @@ namespace FamilyTree.Viewer
                 m_chkUseCTRY.Checked = false;
                 m_chkLongitude.Checked = true;
                 break;
-
             }
         }
     }

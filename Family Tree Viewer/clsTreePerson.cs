@@ -3,95 +3,93 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-	/// <summary>
-	/// Class to represent a person in a tree document.
-	/// </summary>
-	public class clsTreePerson
-	{
-		#region Member Variables
+    /// <summary>Class to represent a person in a tree document.</summary>
+    public class clsTreePerson
+    {
+        #region Member Variables
 
         #region Supporting Types etc ...
 
         /// <summary>Type of connection to parents that this person has.</summary>
-        public enum enumConnection
+        public enum ParentConnection
         {
             /// <summary>Connection to a pair of parents.  Mother and Father.  Expected.</summary>
-            cnBoth,
+            BOTH,
             /// <summary>Connection to father only.</summary>
-            cnFather,
+            FATHER_ONLY,
             /// <summary>Connection to mother only.</summary>
-            cnMother
+            MOTHER_ONLY
         }
 
         #endregion
 
-		/// <summary>Tree document that this person is attached to.</summary>
-		clsTreeDocument m_oTree;
+        /// <summary>Tree document that this person is attached to.</summary>
+        clsTreeDocument tree_;
 
-		/// <summary>ID of this person in the database.</summary>
-		int m_nPersonID;
+        /// <summary>ID of this person in the database.</summary>
+        int personIndex_;
 
-		/// <summary>Name of this person.</summary>
-		string m_sName;
+        /// <summary>Name of this person.</summary>
+        string name_;
 
         /// <summary>Name of this person including the lived years.</summary>
-        private string m_sNameWithYears;
+        private string nameWithYears_;
 
-		/// <summary>Description of this person.</summary>
-		string m_sDescription;
+        /// <summary>Description of this person.</summary>
+        string description_;
 
-		/// <summary>True if this person is male.  False, otherwise.</summary>
-		bool m_bMale;
+        /// <summary>True if this person is male.  False, otherwise.</summary>
+        bool isMale_;
 
-		/// <summary>Type of connection to parent(s).</summary>
-		enumConnection m_Connection;
+        /// <summary>Type of connection to parent(s).</summary>
+        ParentConnection connection_;
 
-		/// <summary>Position of this tree person.</summary>
-		System.Drawing.PointF m_Pos;
+        /// <summary>Position of this tree person.</summary>
+        System.Drawing.PointF pos_;
 
-		/// <summary>Array of connections to descendants.</summary>
-		clsTreeConnection[] m_oDescendants;
+        /// <summary>Array of connections to descendants.</summary>
+        clsTreeConnection[] descendants_;
 
-		/// <summary>Connection to the ancestors of this tree person.</summary>
-		clsTreeConnection m_oAncestors;
+        /// <summary>Connection to the ancestors of this tree person.</summary>
+        clsTreeConnection ancestors_;
 
         /// <summary>True if the position of this person is known.</summary>
-        private bool m_bPositionKnown;
+        private bool isPositionKnown_;
 
-		#endregion
+        #endregion
 
-		#region Constructors etc ...
-		
-		/// <summary>
-		/// Create a person for a tree document.
-		/// </summary>
-		/// <param name="oTree">Specify the tree document that contains the person.</param>
-		/// <param name="nPersonID">Specify the ID of the person.</param>
-		public clsTreePerson
-			(
-			clsTreeDocument oTree,
-			int nPersonID
-			)
-		{
-			// Save the supplied values
-			m_oTree = oTree;
-			m_nPersonID = nPersonID;
+        #region Constructors etc ...
 
-			// Initialise the object
-			m_Pos = new System.Drawing.PointF(0,0);
-			m_oDescendants = null;
-			m_oAncestors = null;
-			m_Connection = enumConnection.cnBoth;
-			
-			// Get the information required from the database
-			Person oPerson = new Person(nPersonID,m_oTree.Database);
-			m_sName = oPerson.getName(false,true);
-			m_sDescription = oPerson.shortDescription(false);
-            m_sNameWithYears = oPerson.getName(true,true);
-			m_bMale = oPerson.isMale;
-		}
+        /// <summary>
+        /// Create a person for a tree document.
+        /// </summary>
+        /// <param name="oTree">Specify the tree document that contains the person.</param>
+        /// <param name="nPersonID">Specify the ID of the person.</param>
+        public clsTreePerson
+            (
+            clsTreeDocument oTree,
+            int nPersonID
+            )
+        {
+            // Save the supplied values
+            tree_ = oTree;
+            personIndex_ = nPersonID;
 
-		#endregion
+            // Initialise the object
+            pos_ = new System.Drawing.PointF(0, 0);
+            descendants_ = null;
+            ancestors_ = null;
+            connection_ = ParentConnection.BOTH;
+
+            // Get the information required from the database
+            Person oPerson = new Person(nPersonID, tree_.database);
+            name_ = oPerson.getName(false, true);
+            description_ = oPerson.shortDescription(false);
+            nameWithYears_ = oPerson.getName(true, true);
+            isMale_ = oPerson.isMale;
+        }
+
+        #endregion
 
         #region Calculate Widths
 
@@ -117,33 +115,33 @@ namespace FamilyTree.Viewer
             float dMaxWidth = 0;
 
             // Check the width of this person
-            System.Drawing.SizeF oSize = oGraphics.MeasureString(m_sName,m_oTree.FontName);
-            if(oSize.Width > dMaxWidth)
+            System.Drawing.SizeF oSize = oGraphics.MeasureString(name_, tree_.fontName);
+            if (oSize.Width > dMaxWidth)
             {
                 dMaxWidth = oSize.Width;
             }
-            oSize = oGraphics.MeasureString(m_sDescription,m_oTree.FontDescription);
-            if(oSize.Width > dMaxWidth)
+            oSize = oGraphics.MeasureString(description_, tree_.fontDescription);
+            if (oSize.Width > dMaxWidth)
             {
                 dMaxWidth = oSize.Width;
             }
 
             // Check the width of Descendants			
-            if(bIncludeDescendants)
+            if (bIncludeDescendants)
             {
-                if(m_oDescendants != null)
-                {                    
+                if (descendants_ != null)
+                {
                     // Expect that the children will be wider than the parents but it may not be the case
                     float dWidthChildren = 0;
                     float dWidthParents = dMaxWidth;
-                    foreach(clsTreeConnection oDescendant in m_oDescendants)
+                    foreach (clsTreeConnection oDescendant in descendants_)
                     {
                         dWidthChildren += oDescendant.GetWidthChildren(oGraphics);
                         dWidthParents += oDescendant.GetWidthParents(oGraphics) - dMaxWidth;
                     }
-                    float dWidth = Math.Max(dWidthChildren,dWidthParents);
+                    float dWidth = Math.Max(dWidthChildren, dWidthParents);
 
-                    if(dWidth > dMaxWidth)
+                    if (dWidth > dMaxWidth)
                     {
                         dMaxWidth = dWidth;
                     }
@@ -151,33 +149,33 @@ namespace FamilyTree.Viewer
             }
 
             // Check the width of ancestors
-            if(bIncludeAncestors)
+            if (bIncludeAncestors)
             {
                 // Check the width of the parents
-                if(m_oAncestors != null)
+                if (ancestors_ != null)
                 {
                     float dWidth = 0;
-                    if(m_oAncestors.Father != null)
+                    if (ancestors_.Father != null)
                     {
-                        dWidth += m_oAncestors.Father.GetWidth(oGraphics,false,true);
-                        if(m_oAncestors.Mother != null)
+                        dWidth += ancestors_.Father.GetWidth(oGraphics, false, true);
+                        if (ancestors_.Mother != null)
                         {
-                            dWidth += m_oTree.spcRelationshipSpace;
+                            dWidth += tree_.spcRelationshipSpace;
                         }
                     }
-                    if(m_oAncestors.Mother != null)
+                    if (ancestors_.Mother != null)
                     {
-                        dWidth += m_oAncestors.Mother.GetWidth(oGraphics,false,true);
+                        dWidth += ancestors_.Mother.GetWidth(oGraphics, false, true);
                     }
 
-                    if(dWidth > dMaxWidth)
+                    if (dWidth > dMaxWidth)
                     {
                         dMaxWidth = dWidth;
                     }
 
                     // Check the width of siblings
-                    dWidth = m_oAncestors.GetChildrenSpace(oGraphics);
-                    if(dWidth > dMaxWidth)
+                    dWidth = ancestors_.GetChildrenSpace(oGraphics);
+                    if (dWidth > dMaxWidth)
                     {
                         dMaxWidth = dWidth;
                     }
@@ -198,7 +196,7 @@ namespace FamilyTree.Viewer
             System.Drawing.Graphics oGraphics
             )
         {
-            return GetWidth(oGraphics,false,false);
+            return GetWidth(oGraphics, false, false);
         }
 
         #endregion
@@ -215,25 +213,25 @@ namespace FamilyTree.Viewer
         public bool CalculatePosition(System.Drawing.Graphics oGraphics)
         {
             // Check that this person is already known
-            if(!m_bPositionKnown)
+            if (!isPositionKnown_)
             {
                 return false;
             }
 
             // Calculate the positions for descendant partners
-            float dNextChildWith = m_Pos.X;
-            if(m_oDescendants != null)
+            float dNextChildWith = pos_.X;
+            if (descendants_ != null)
             {
                 int nPartner = 0;
-                foreach(clsTreeConnection oDescendant in m_oDescendants)
+                foreach (clsTreeConnection oDescendant in descendants_)
                 {
                     // Position the partner relative to this person
                     oDescendant.SetPartnerPosition(oGraphics, nPartner);
 
                     // Line the children up with the leftmost man 
-                    if(oDescendant.Father != null)
+                    if (oDescendant.Father != null)
                     {
-                        if(oDescendant.Father.X < dNextChildWith)
+                        if (oDescendant.Father.X < dNextChildWith)
                         {
                             dNextChildWith = oDescendant.Father.X;
                         }
@@ -245,10 +243,10 @@ namespace FamilyTree.Viewer
             // Calculate the position for descendant children
             float dNextChildOut = dNextChildWith;
             // Calculate the position
-            if(m_oDescendants != null)
+            if (descendants_ != null)
             {
                 int nPartner = 0;
-                foreach(clsTreeConnection oDescendant in m_oDescendants)
+                foreach (clsTreeConnection oDescendant in descendants_)
                 {
                     oDescendant.SetChildrenPosition(oGraphics, nPartner, ref dNextChildWith, ref dNextChildOut);
                     nPartner++;
@@ -256,9 +254,9 @@ namespace FamilyTree.Viewer
             }
 
             // Calculate the position for the parents (ancestors)
-            if(m_oAncestors != null)
+            if (ancestors_ != null)
             {
-                m_oAncestors.CalculatePositionsParents(oGraphics);
+                ancestors_.CalculatePositionsParents(oGraphics);
             }
 
             return false;
@@ -274,31 +272,31 @@ namespace FamilyTree.Viewer
         /// <returns>The X position that the spouse should take.</returns>
         public float GetSpousePosition(System.Drawing.Graphics oGraphics, int nIndex)
         {
-            if(nIndex == 0)
+            if (nIndex == 0)
             {
-                if(m_bMale)
+                if (isMale_)
                 {
                     // Return the right edge of the person
-                    return m_Pos.X + GetWidth(oGraphics);
+                    return pos_.X + GetWidth(oGraphics);
                 }
                 else
                 {
                     // Return the left edge of the person
-                    return m_Pos.X;
+                    return pos_.X;
                 }
             }
             // Check that a spouse exists.  If not then look at the earlier connection
-            clsTreeConnection oConnection = (clsTreeConnection)m_oDescendants[nIndex - 1];
-            if(m_bMale)
+            clsTreeConnection oConnection = (clsTreeConnection)descendants_[nIndex - 1];
+            if (isMale_)
             {
-                if(oConnection.Mother == null)
+                if (oConnection.Mother == null)
                 {
                     return GetSpousePosition(oGraphics, nIndex - 1);
                 }
             }
             else
             {
-                if(oConnection.Father == null)
+                if (oConnection.Father == null)
                 {
                     return GetSpousePosition(oGraphics, nIndex - 1);
                 }
@@ -330,7 +328,7 @@ namespace FamilyTree.Viewer
         /// <returns>Width of the graphical representation of the husbands</returns>
         public float GetHusbandSpace(System.Drawing.Graphics oGraphics)
         {
-            if(m_bMale)
+            if (isMale_)
             {
                 return 0;
             }
@@ -345,7 +343,7 @@ namespace FamilyTree.Viewer
         /// <returns>Width of the graphical representation of the wives</returns>
         public float GetWifeSpace(System.Drawing.Graphics oGraphics)
         {
-            if(!m_bMale)
+            if (!isMale_)
             {
                 return 0;
             }
@@ -360,29 +358,29 @@ namespace FamilyTree.Viewer
         /// <returns>The width that would be required to draw the partner of the current person</returns>
         public float GetPartnerSpace(System.Drawing.Graphics oGraphics)
         {
-            if(m_oDescendants == null)
+            if (descendants_ == null)
             {
                 return 0;
             }
             float dOffset = 0;
             clsTreePerson oPartner;
-            for(int nI = 0; nI < m_oDescendants.Length; nI++)
+            for (int nI = 0; nI < descendants_.Length; nI++)
             {
-                if(m_bMale)
+                if (isMale_)
                 {
-                    oPartner = ((clsTreeConnection)m_oDescendants[nI]).Mother;
+                    oPartner = ((clsTreeConnection)descendants_[nI]).Mother;
                 }
                 else
                 {
-                    oPartner = ((clsTreeConnection)m_oDescendants[nI]).Father;
+                    oPartner = ((clsTreeConnection)descendants_[nI]).Father;
                 }
-                if(oPartner != null)
+                if (oPartner != null)
                 {
                     dOffset += oPartner.GetWidth(oGraphics, false, false);
 
                     // Not sure this should be inside or outside this if condition
                     // Do we need a relationship marker if don't have the person
-                    dOffset += m_oTree.spcRelationshipSpace;
+                    dOffset += tree_.spcRelationshipSpace;
                 }
             }
             return dOffset;
@@ -403,12 +401,12 @@ namespace FamilyTree.Viewer
             // Console.WriteLine(m_sName + " is at (" + X.ToString() + "," + Y.ToString() + ")");
 
             // Set the position
-            m_bPositionKnown = true;
-            m_Pos.X = X;
-            m_Pos.Y = Y;
+            isPositionKnown_ = true;
+            pos_.X = X;
+            pos_.Y = Y;
 
             // Notify the tree with the position of this person
-            m_oTree.NotifyPosition(m_Pos.X, m_Pos.Y, m_Pos.X + GetWidth(oGraphics), m_Pos.Y + m_oTree.spcPersonHeight);
+            tree_.NotifyPosition(pos_.X, pos_.Y, pos_.X + GetWidth(oGraphics), pos_.Y + tree_.spcPersonHeight);
         }
 
         #endregion
@@ -426,35 +424,35 @@ namespace FamilyTree.Viewer
         System.Drawing.Graphics oGraphics
         )
         {
-            if(m_bPositionKnown)
+            if (isPositionKnown_)
             {
                 // Console.WriteLine("Drawing " + m_sName);
 
                 // Draw a box around the person (useful debugging)
-                if(m_oTree.PersonBox)
+                if (tree_.isPersonBox)
                 {
-                    if(m_bMale)
+                    if (isMale_)
                     {
-                        oGraphics.FillRectangle(m_oTree.BrushBoy,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY,GetWidth(oGraphics),m_oTree.spcPersonHeight);
+                        oGraphics.FillRectangle(tree_.brushBoy, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, GetWidth(oGraphics), tree_.spcPersonHeight);
                     }
                     else
                     {
-                        oGraphics.FillRectangle(m_oTree.BrushGirl,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY,GetWidth(oGraphics),m_oTree.spcPersonHeight);
+                        oGraphics.FillRectangle(tree_.brushGirl, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, GetWidth(oGraphics), tree_.spcPersonHeight);
                     }
 
-                    oGraphics.DrawLine(m_oTree.PenBlackThin,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY,m_Pos.X - m_oTree.OffsetX + GetWidth(oGraphics),m_Pos.Y - m_oTree.OffsetY);
-                    oGraphics.DrawLine(m_oTree.PenBlackThin,m_Pos.X - m_oTree.OffsetX + GetWidth(oGraphics),m_Pos.Y - m_oTree.OffsetY,m_Pos.X - m_oTree.OffsetX + GetWidth(oGraphics),m_Pos.Y - m_oTree.OffsetY + m_oTree.spcPersonHeight);
-                    oGraphics.DrawLine(m_oTree.PenBlackThin,m_Pos.X - m_oTree.OffsetX + GetWidth(oGraphics),m_Pos.Y - m_oTree.OffsetY + m_oTree.spcPersonHeight,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY + m_oTree.spcPersonHeight);
-                    oGraphics.DrawLine(m_oTree.PenBlackThin,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY + m_oTree.spcPersonHeight,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY);
+                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY);
+                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY + tree_.spcPersonHeight);
+                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY + tree_.spcPersonHeight, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY + tree_.spcPersonHeight);
+                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY + tree_.spcPersonHeight, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY);
                 }
 
                 // Draw the person's name and description
-                oGraphics.DrawString(m_sName,m_oTree.FontName,m_oTree.BrushBlack,m_Pos.X - m_oTree.OffsetX,m_Pos.Y - m_oTree.OffsetY);
-                oGraphics.DrawString(m_sDescription,m_oTree.FontDescription,m_oTree.BrushBlack,m_Pos.X - m_oTree.OffsetX,m_Pos.Y + m_oTree.FontName.Height - m_oTree.OffsetY);
+                oGraphics.DrawString(name_, tree_.fontName, tree_.brushBlack, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY);
+                oGraphics.DrawString(description_, tree_.fontDescription, tree_.brushBlack, pos_.X - tree_.offsetX, pos_.Y + tree_.fontName.Height - tree_.offsetY);
             }
             else
             {
-                Console.WriteLine("Can't draw " + m_sName+" position unknown.");
+                Console.WriteLine("Can't draw " + name_ + " position unknown.");
             }
 
             // Return success
@@ -465,46 +463,42 @@ namespace FamilyTree.Viewer
 
         #region Building and Values
 
-        /// Returns true if this person has any descendants in the database.  False, otherwise.
-        /// <summary>
-        /// Returns true if this person has any descendants in the database.  False, otherwise.
-        /// </summary>
-		/// <returns>True if this person has descendants, false otherwise.</returns>
-		public bool HasDescendants()
-		{
-			if(m_oDescendants==null)
-			{
-				return false;
-			}
-			if(m_oDescendants.Length==0)
-			{
-				return false;
-			}
-			return true;
-		}
-
-        // Add the descendants of this person to the current document.
-        /// <summary>
-        /// Add the descendants of this person to the current document.
-        /// </summary>
-        /// <param name="oRules">Specify the current set of document rules.</param>
-        public void AddDescendants(clsTreeRule[] oRules)
+        /// <summary>Returns true if this person has any descendants in the database.  False, otherwise.</summary>
+        /// <returns>True if this person has descendants, false otherwise.</returns>
+        public bool hasDescendants()
         {
-            foreach(clsTreeRule oRule in oRules)
+            if (descendants_ == null)
+            {
+                return false;
+            }
+            if (descendants_.Length == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+
+        /// <summary>Add the descendants of this person to the current document.</summary>
+        /// <param name="rules">Specify the current set of document rules.</param>
+        public void addDescendants(clsTreeRule[] rules)
+        {
+            foreach (clsTreeRule rule in rules)
             {
                 // Check that this person's descendants have not been excluded.
-                if(oRule.Action == clsTreeRule.ERuleAction.ExcludeDescendants && oRule.PersonID == m_nPersonID)
+                if (rule.action == clsTreeRule.RuleAction.EXCLUDE_DESCENDANTS && rule.personIndex == personIndex_)
                 {
                     return;
                 }
             }
 
-            // Get this person
-            Person oPerson = new Person(m_nPersonID, m_oTree.Database);
+            // Get this person.
+            Person person = new Person(personIndex_, tree_.database);
 
             // Add the partners to the person
             enumConMainPerson nType;
-            if(oPerson.isMale)
+            if (person.isMale)
             {
                 nType = enumConMainPerson.Father;
             }
@@ -512,59 +506,59 @@ namespace FamilyTree.Viewer
             {
                 nType = enumConMainPerson.Mother;
             }
-            clsRelationship[] oRelationships = oPerson.getRelationships();
-            m_oDescendants = new clsTreeConnection[oRelationships.Length];
+            Relationship[] relationships = person.getRelationships();
+            descendants_ = new clsTreeConnection[relationships.Length];
             int nIndex;
-            for(int nI = 0; nI < oRelationships.Length; nI++)
+            for (int nI = 0; nI < relationships.Length; nI++)
             {
-                if(IsMale())
+                if (IsMale())
                 {
-                    nIndex = oRelationships.Length - 1 - nI;
+                    nIndex = relationships.Length - 1 - nI;
                 }
                 else
                 {
                     nIndex = nI;
                 }
-                m_oDescendants[nI] = new clsTreeConnection(m_oTree, this, nType, nI);
-                m_oTree.AddFamily(m_oDescendants[nI]);
-                if(oPerson.isMale)
+                descendants_[nI] = new clsTreeConnection(tree_, this, nType, nI);
+                tree_.AddFamily(descendants_[nI]);
+                if (person.isMale)
                 {
-                    clsTreePerson oMother = new clsTreePerson(m_oTree, oRelationships[nIndex].partnerIndex);
-                    m_oDescendants[nI].AddMother(oMother);
-                    m_oTree.AddPerson(oMother);
+                    clsTreePerson oMother = new clsTreePerson(tree_, relationships[nIndex].partnerIndex);
+                    descendants_[nI].AddMother(oMother);
+                    tree_.AddPerson(oMother);
                 }
                 else
                 {
-                    clsTreePerson oFather = new clsTreePerson(m_oTree, oRelationships[nIndex].partnerIndex);
-                    m_oDescendants[nI].AddFather(oFather);
-                    m_oTree.AddPerson(oFather);
+                    clsTreePerson oFather = new clsTreePerson(tree_, relationships[nIndex].partnerIndex);
+                    descendants_[nI].AddFather(oFather);
+                    tree_.AddPerson(oFather);
                 }
-                if(oRelationships[nIndex].terminatedIndex == 2)
+                if (relationships[nIndex].terminatedIndex == 2)
                 {
-                    m_oDescendants[nI].Status = enumRelationshipStatus.Divorced;
+                    descendants_[nI].Status = enumRelationshipStatus.Divorced;
                 }
-                if(!oRelationships[nIndex].start.isEmpty())
+                if (!relationships[nIndex].start.isEmpty())
                 {
-                    m_oDescendants[nI].Start = oRelationships[nIndex].start;
+                    descendants_[nI].Start = relationships[nIndex].start;
                 }
             }
 
             // Add children to the person
-            int[] Children = oPerson.getChildren();
-            for(int nI = 0; nI < Children.Length; nI++)
+            int[] Children = person.getChildren();
+            for (int nI = 0; nI < Children.Length; nI++)
             {
                 // Decide which relationship / connections this child belongs to
                 int nConnection = GetDescendantsIndexForChild(Children[nI]);
 
                 // Create a person in the tree document for this child
-                clsTreePerson oChild = new clsTreePerson(m_oTree, Children[nI]);
-                m_oTree.AddPerson(oChild);
+                clsTreePerson oChild = new clsTreePerson(tree_, Children[nI]);
+                tree_.AddPerson(oChild);
 
                 // Add the child to the selected relationship / connection
-                m_oDescendants[nConnection].AddChild(oChild);
+                descendants_[nConnection].AddChild(oChild);
 
                 // Add the descendants of this child
-                oChild.AddDescendants(oRules);
+                oChild.addDescendants(rules);
             }
         }
 
@@ -577,26 +571,26 @@ namespace FamilyTree.Viewer
         private int GetDescendantsIndexForChild(int nChildID)
         {
             // Add a empty connection object to mop up children
-            if(m_oDescendants.Length == 0)
+            if (descendants_.Length == 0)
             {
                 // Child of no relationship
-                m_oDescendants = new clsTreeConnection[1];
-                if(m_bMale)
+                descendants_ = new clsTreeConnection[1];
+                if (isMale_)
                 {
-                    m_oDescendants[0] = new clsTreeConnection(m_oTree, this, enumConMainPerson.Father, 0);
+                    descendants_[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Father, 0);
                 }
                 else
                 {
-                    m_oDescendants[0] = new clsTreeConnection(m_oTree, this, enumConMainPerson.Mother, 0);
+                    descendants_[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Mother, 0);
                 }
-                m_oTree.AddFamily(m_oDescendants[0]);
+                tree_.AddFamily(descendants_[0]);
             }
 
             // Create the child person object
-            Person oChild = new Person(nChildID, m_oTree.Database);
+            Person oChild = new Person(nChildID, tree_.database);
 
             // Search for the connection that matches with this person
-            for(int nI = 0; nI < m_oDescendants.Length; nI++)
+            for (int nI = 0; nI < descendants_.Length; nI++)
             {
                 /*
                 if(m_bMale)
@@ -614,28 +608,28 @@ namespace FamilyTree.Viewer
                     }
                 }
                 */
-                if(oChild.motherIndex == m_oDescendants[nI].GetMotherID() && oChild.fatherIndex == m_oDescendants[nI].GetFatherID())
+                if (oChild.motherIndex == descendants_[nI].GetMotherID() && oChild.fatherIndex == descendants_[nI].GetFatherID())
                 {
                     return nI;
                 }
             }
 
             // This adds a new partner-less connection to pick the children for whom both parents are not known		
-            clsTreeConnection[] oNewDescendants = new clsTreeConnection[m_oDescendants.Length + 1];
-            for(int nI = 0; nI < m_oDescendants.Length; nI++)
+            clsTreeConnection[] oNewDescendants = new clsTreeConnection[descendants_.Length + 1];
+            for (int nI = 0; nI < descendants_.Length; nI++)
             {
-                oNewDescendants[nI + 1] = m_oDescendants[nI];
+                oNewDescendants[nI + 1] = descendants_[nI];
             }
-            if(m_bMale)
+            if (isMale_)
             {
-                oNewDescendants[0] = new clsTreeConnection(m_oTree, this, enumConMainPerson.Father, m_oDescendants.Length);
+                oNewDescendants[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Father, descendants_.Length);
             }
             else
             {
-                oNewDescendants[0] = new clsTreeConnection(m_oTree, this, enumConMainPerson.Mother, m_oDescendants.Length);
+                oNewDescendants[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Mother, descendants_.Length);
             }
-            m_oDescendants = oNewDescendants;
-            m_oTree.AddFamily(m_oDescendants[0]);
+            descendants_ = oNewDescendants;
+            tree_.AddFamily(descendants_[0]);
 
             // Default to the first connection object
             return 0;
@@ -653,60 +647,60 @@ namespace FamilyTree.Viewer
         public void AddAncestors(bool bPrimaryPerson, clsTreeRule[] oRules)
         {
             // Get this person
-            Person oPerson = new Person(m_nPersonID, m_oTree.Database);
-            if(oPerson.fatherIndex == 0 && oPerson.motherIndex == 0)
+            Person oPerson = new Person(personIndex_, tree_.database);
+            if (oPerson.fatherIndex == 0 && oPerson.motherIndex == 0)
             {
                 // Nothing to do
                 return;
             }
 
             // Create an ancestors object for this person
-            if(bPrimaryPerson)
+            if (bPrimaryPerson)
             {
-                m_oAncestors = new clsTreeConnection(m_oTree, this, enumConMainPerson.Child, 0);
+                ancestors_ = new clsTreeConnection(tree_, this, enumConMainPerson.Child, 0);
             }
-            else if(m_bMale)
+            else if (isMale_)
             {
-                m_oAncestors = new clsTreeConnection(m_oTree, this, enumConMainPerson.ChildBoy, 0);
+                ancestors_ = new clsTreeConnection(tree_, this, enumConMainPerson.ChildBoy, 0);
             }
             else
             {
-                m_oAncestors = new clsTreeConnection(m_oTree, this, enumConMainPerson.ChildGirl, 0);
+                ancestors_ = new clsTreeConnection(tree_, this, enumConMainPerson.ChildGirl, 0);
             }
-            m_oTree.AddFamily(m_oAncestors);
+            tree_.AddFamily(ancestors_);
 
             // Add the father of this person
-            if(oPerson.fatherIndex != 0)
+            if (oPerson.fatherIndex != 0)
             {
-                clsTreePerson oFather = new clsTreePerson(m_oTree, oPerson.fatherIndex);
-                m_oTree.AddPerson(oFather);
-                m_oAncestors.AddFather(oFather);
+                clsTreePerson oFather = new clsTreePerson(tree_, oPerson.fatherIndex);
+                tree_.AddPerson(oFather);
+                ancestors_.AddFather(oFather);
 
                 // Add the ancestors for the father
                 oFather.AddAncestors(false, oRules);
             }
 
             // Add the mother of this person
-            if(oPerson.motherIndex != 0)
+            if (oPerson.motherIndex != 0)
             {
-                clsTreePerson oMother = new clsTreePerson(m_oTree, oPerson.motherIndex);
-                m_oTree.AddPerson(oMother);
-                m_oAncestors.AddMother(oMother);
+                clsTreePerson oMother = new clsTreePerson(tree_, oPerson.motherIndex);
+                tree_.AddPerson(oMother);
+                ancestors_.AddMother(oMother);
 
                 // Add the ancestors for the mother
                 oMother.AddAncestors(false, oRules);
             }
 
             // Add the relationship between the father and mother
-            if(oPerson.fatherIndex != 0 && oPerson.motherIndex != 0)
+            if (oPerson.fatherIndex != 0 && oPerson.motherIndex != 0)
             {
-                clsRelationship oRelationship = m_oTree.Database.getRelationship(oPerson.fatherIndex, oPerson.motherIndex);
-                if(oRelationship != null)
+                Relationship oRelationship = tree_.database.getRelationship(oPerson.fatherIndex, oPerson.motherIndex);
+                if (oRelationship != null)
                 {
-                    m_oAncestors.Start = oRelationship.start;
-                    if(oRelationship.terminatedIndex == 2)
+                    ancestors_.Start = oRelationship.start;
+                    if (oRelationship.terminatedIndex == 2)
                     {
-                        m_oAncestors.Status = enumRelationshipStatus.Divorced;
+                        ancestors_.Status = enumRelationshipStatus.Divorced;
                     }
                 }
             }
@@ -714,9 +708,9 @@ namespace FamilyTree.Viewer
             // Add the sublings of this person
             int nIndex;
             int[] Siblings = oPerson.getSiblings();
-            for(int nI = 0; nI < Siblings.Length; nI++)
+            for (int nI = 0; nI < Siblings.Length; nI++)
             {
-                if(IsMale())
+                if (IsMale())
                 {
                     nIndex = Siblings.Length - 1 - nI;
                 }
@@ -724,29 +718,29 @@ namespace FamilyTree.Viewer
                 {
                     nIndex = nI;
                 }
-                clsTreePerson oSibling = new clsTreePerson(m_oTree, Siblings[nIndex]);
-                m_oTree.AddPerson(oSibling);
+                clsTreePerson oSibling = new clsTreePerson(tree_, Siblings[nIndex]);
+                tree_.AddPerson(oSibling);
 
-                Person oHalfSibling = new Person(Siblings[nIndex], m_oTree.Database);
-                if(oHalfSibling.fatherIndex != oPerson.fatherIndex)
+                Person oHalfSibling = new Person(Siblings[nIndex], tree_.database);
+                if (oHalfSibling.fatherIndex != oPerson.fatherIndex)
                 {
-                    oSibling.Connection = enumConnection.cnMother;
+                    oSibling.Connection = ParentConnection.MOTHER_ONLY;
                 }
-                if(oHalfSibling.motherIndex != oPerson.motherIndex)
+                if (oHalfSibling.motherIndex != oPerson.motherIndex)
                 {
-                    oSibling.Connection = enumConnection.cnFather;
+                    oSibling.Connection = ParentConnection.FATHER_ONLY;
                 }
 
                 // Apply the rules to the siblings
-                foreach(clsTreeRule oRule in oRules)
+                foreach (clsTreeRule oRule in oRules)
                 {
-                    if(oRule.Action == clsTreeRule.ERuleAction.IncludeDescendants && oRule.PersonID == oSibling.PersonID)
+                    if (oRule.action == clsTreeRule.RuleAction.INCLUDE_DESCENDANTS && oRule.personIndex == oSibling.PersonID)
                     {
-                        oSibling.AddDescendants(oRules);
+                        oSibling.addDescendants(oRules);
                     }
                 }
 
-                m_oAncestors.AddChild(oSibling);
+                ancestors_.AddChild(oSibling);
             }
         }
 
@@ -756,9 +750,9 @@ namespace FamilyTree.Viewer
         /// </summary>
 		/// <returns>True if this person is male.  False, if this person is female.</returns>
 		public bool IsMale()
-		{
-			return m_bMale;
-		}
+        {
+            return isMale_;
+        }
 
         /*
         public int GetNumRelationship()
@@ -773,25 +767,25 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-		#region Public Properties
+        #region Public Properties
 
-		/// <summary>ID of the corresponding person in the database.</summary>
-		public int PersonID { get { return m_nPersonID; } }
+        /// <summary>ID of the corresponding person in the database.</summary>
+        public int PersonID { get { return personIndex_; } }
 
-		/// <summary>Position of this person in the tree.</summary>
-		public System.Drawing.PointF Position { get { return m_Pos; } }
+        /// <summary>Position of this person in the tree.</summary>
+        public System.Drawing.PointF Position { get { return pos_; } }
 
-		/// <summary>X-Position of this person in the tree.  Same as Position.X.</summary>
-		public float X { get { return m_Pos.X; } /* set { m_Pos.X = value; } */ }
+        /// <summary>X-Position of this person in the tree.  Same as Position.X.</summary>
+        public float X { get { return pos_.X; } /* set { m_Pos.X = value; } */ }
 
-		/// <summary>Y-Position of this person in the tree.  Same as Position.Y</summary>
-		public float Y { get { return m_Pos.Y; } /* set { m_Pos.Y = value; } */ }
-		
-		/// <summary>Type of connection this person has to there parents.</summary>
-		public enumConnection Connection { get { return m_Connection; } set { m_Connection = value; } }
+        /// <summary>Y-Position of this person in the tree.  Same as Position.Y</summary>
+        public float Y { get { return pos_.Y; } /* set { m_Pos.Y = value; } */ }
+
+        /// <summary>Type of connection this person has to there parents.</summary>
+        public ParentConnection Connection { get { return connection_; } set { connection_ = value; } }
 
         /// <summary>True if the position of this person in tree is set.</summary>
-        public bool PositionKnown { get { return m_bPositionKnown; } set { m_bPositionKnown = value; } }
+        public bool PositionKnown { get { return isPositionKnown_; } set { isPositionKnown_ = value; } }
 
         /// Returns the name with years of this person.
         /// <summary>
@@ -800,7 +794,7 @@ namespace FamilyTree.Viewer
         /// <returns>Returns the name with years of this person.</returns>
         public override string ToString()
         {
-            return m_sNameWithYears; 
+            return nameWithYears_;
         }
 
         /// Returns true if the person is older than the specified person.
@@ -812,15 +806,15 @@ namespace FamilyTree.Viewer
         /// <returns>True if the person is older than the specified person, false otherwise.</returns>
         public bool IsOlder(int nPersonID)
         {
-            Person oPerson = new Person(m_nPersonID, m_oTree.Database);
-            Person oOtherPerson = new Person(nPersonID, m_oTree.Database);
-            if(oPerson.dob.date < oOtherPerson.dob.date)
+            Person oPerson = new Person(personIndex_, tree_.database);
+            Person oOtherPerson = new Person(nPersonID, tree_.database);
+            if (oPerson.dob.date < oOtherPerson.dob.date)
             {
                 return true;
             }
             return false;
         }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -72,7 +72,7 @@ namespace FamilyTree.Viewer
 		/// <returns>True for success.  False, otherwise.</returns>
 		public bool SetRelationship
 			(
-			clsRelationship oRelationship
+			Relationship oRelationship
 			)
 		{	
 			// Save the values that this control needs

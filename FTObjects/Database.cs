@@ -327,14 +327,14 @@ namespace FamilyTree.Objects
         /// <param name="maleIndex">Specifies the male person in the relationship.</param>
         /// <param name="femaleIndex">Specifies the female person in the relationship.</param>
         /// <returns>The relationship object for the 2 people.  NULL if no relationshp exists between the 2 specified people.</returns>
-        public clsRelationship getRelationship(int maleIndex, int femaleIndex)
+        public Relationship getRelationship(int maleIndex, int femaleIndex)
         {
             OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE MaleID = " + maleIndex.ToString() + " AND FemaleID = " + femaleIndex.ToString() + " ORDER BY TheDate DESC;", cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
-            clsRelationship relationship = null;
+            Relationship relationship = null;
             if (dataReader.Read())
             {
-                relationship = new clsRelationship(dataReader.GetInt32(0));
+                relationship = new Relationship(dataReader.GetInt32(0));
                 relationship.maleIndex = maleIndex;
                 relationship.femaleIndex = femaleIndex;
                 relationship.terminatedIndex = dataReader.GetInt32(1);
@@ -594,7 +594,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oFile">Specifies the file to write the record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool WriteSourcesGedcom(StreamWriter oFile, funcVoid lpfnProgressBar, clsGedcomOptions oOptions)
+        public bool WriteSourcesGedcom(StreamWriter oFile, funcVoid lpfnProgressBar, GedcomOptions oOptions)
         {
             // Select all the sources
             OleDbCommand oSql = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID,Comments,AdditionalInfoTypeID,Gedcom,RepositoryID FROM tbl_Sources ORDER BY ID;", cndb_);
@@ -717,7 +717,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oFile">Specifies the file to write the information into.</param>
 		/// <param name="nSourceID">Specifies the ID of the marriage certificate (and the parent source record).</param>
-        private void SourceMarriageCertificate(StreamWriter oFile, int nSourceID, clsGedcomOptions oOptions)
+        private void SourceMarriageCertificate(StreamWriter oFile, int nSourceID, GedcomOptions oOptions)
         {
             // Connect to the database again (to open a second datareader)
             OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
@@ -873,7 +873,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oFile">Specifies the Gedcom file to write the additional information into.</param>
 		/// <param name="nCensusHouseholdID">Specifies the additional census information to use.</param>
-        private void SourceCensusInfo(StreamWriter oFile, int nCensusHouseholdID, clsGedcomOptions oOptions)
+        private void SourceCensusInfo(StreamWriter oFile, int nCensusHouseholdID, GedcomOptions oOptions)
         {
             // Connect to the database again (to open a second datareader)
             OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
@@ -1625,10 +1625,10 @@ namespace FamilyTree.Objects
         /// <param name="fullPlace">Specifies the database place record to be decoded into gedcom PLAC and ADDR records.</param>
         /// <param name="options">Specifies the Gedcom options to apply to this place.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool writeGedcomPlace(StreamWriter file, int level, string fullPlace, clsGedcomOptions options)
+        public bool writeGedcomPlace(StreamWriter file, int level, string fullPlace, GedcomOptions options)
         {
             // Optionally split the address off from the PLAC tag.
-            if (options.RemoveADDRfromPLAC)
+            if (options.isRemoveADDRfromPLAC)
             {
                 string placeName = placeToGedcom(fullPlace, 0);
                 if (placeName != "")
@@ -1649,7 +1649,7 @@ namespace FamilyTree.Objects
             // PhpGedView did not increase the level originally.
 
             // Add the optional MAP tag with longitude and latitude.
-            if (options.UseLongitude)
+            if (options.isUseLongitude)
             {
                 Place place = getPlace(fullPlace);
                 if (place != null)
@@ -1675,7 +1675,7 @@ namespace FamilyTree.Objects
             }
 
             // Optionally include an ADDR tag.
-            if (options.UseADDR)
+            if (options.isUseADDR)
             {
                 string address = placeToGedcom(fullPlace, 1);
                 if (address != "")
@@ -1685,7 +1685,7 @@ namespace FamilyTree.Objects
             }
 
             // Include the optional CTRY (Country) tag.
-            if (options.UseCTRY)
+            if (options.isUseCTRY)
             {
                 int comma = fullPlace.LastIndexOf(',');
                 if (comma > 0)

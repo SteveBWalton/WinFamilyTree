@@ -25,7 +25,7 @@ namespace FamilyTree.Objects
     #endregion
 
     /// <summary>Class to represent a relationship (like a marriage) between 2 people.  In gedcom this is a family object.</summary>
-    public class clsRelationship
+    public class Relationship
     {
         #region Member Variables
 
@@ -94,9 +94,11 @@ namespace FamilyTree.Objects
 
         #endregion
 
+        #region Constructors
+
         /// <summary>Class Constructor.  Builds an empty relationship object.  This can be used to create relationship objects with no owner.</summary>
         /// <param name="index">Specifies the ID of the relationship object.</param>
-        public clsRelationship(int index)
+        public Relationship(int index)
         {
             index_ = index;
             isDelete_ = false;
@@ -122,7 +124,7 @@ namespace FamilyTree.Objects
         /// <summary>Class Constructor.  Creates a new relationship object for the specified person with the specified partner.  It is intended that this is a new relationship not in the database (yet) hence the ID is unknown.</summary>
         /// <param name="owner">Specifies the owner of this relationship object.</param>
         /// <param name="partnerIndex">Specifies the partner in this relationship..</param>
-        public clsRelationship(Person owner, int partnerIndex)
+        public Relationship(Person owner, int partnerIndex)
         {
             index_ = 0;
             isDelete_ = false;
@@ -158,7 +160,7 @@ namespace FamilyTree.Objects
         /// <param name="index">Specifies the ID of the relationship in the database.</param>
         /// <param name="owner">Specifies the owner of this relationship object.</param>
         /// <param name="partnerIndex">Specifies the partner in this relationship..</param>
-        public clsRelationship(int index, Person owner, int partnerIndex)
+        public Relationship(int index, Person owner, int partnerIndex)
             : this(owner, partnerIndex)
         {
             index_ = index;
@@ -166,6 +168,10 @@ namespace FamilyTree.Objects
         }
 
 
+
+        #endregion
+
+        #region IO
 
         /// <summary>Writes this relationship into the database.  Deletes the relationship from the database if required.</summary>
         /// <returns>True for success, false otherwise.</returns>
@@ -290,6 +296,9 @@ namespace FamilyTree.Objects
             database_ = database;
         }
 
+        #endregion
+
+        #region Properties
 
 
         /// <summary>Returns true if the relationship is valid.  Currently this means not deleted.</summary>
@@ -511,5 +520,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Returns the dirty state of the relationship record.</summary>
         public bool isDirty { get { return isDirty_; } set { isDirty_ = value; } }
+
+        #endregion
     }
 }

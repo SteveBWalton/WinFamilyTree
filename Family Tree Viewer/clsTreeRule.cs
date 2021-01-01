@@ -10,77 +10,84 @@ namespace FamilyTree.Viewer
     /// </summary>
     public class clsTreeRule
     {
+        #region Member Variables
+
         /// <summary>The action that the rule should apply to the tree.</summary>
-        public enum ERuleAction
+        public enum RuleAction
         {
             /// <summary>Force the descendants of PersonID to be included in the tree.</summary>
-            IncludeDescendants,
+            INCLUDE_DESCENDANTS,
 
             /// <summary>Force the descedants of PersonID to be excluded from the tree.</summary>
-            ExcludeDescendants,
+            EXCLUDE_DESCENDANTS,
 
             /// <summary>Force the ancestors of PersonID to be included in the tree.</summary>
-            IncludeAncestors,
+            INCLUDE_ANCESTORS,
 
             /// <summary>Force the ancestors of PersonID to be excluded from the tree.</summary>
-            ExcludeAncestors,
+            EXCLUDE_ANCESTORS,
 
             /// <summary>Move a person in the horizontal direction.</summary>
-            HorizontalOffset
+            HORIZONTAL_OFFSET
         }
 
         /// <summary>The action that this rule applied to the tree</summary>
-        public ERuleAction Action;
+        public RuleAction action;
 
         /// <summary>If the action applies to an person this is the ID of the person.</summary>
-        public int PersonID;
+        public int personIndex;
 
-        // Additional parameter for the rule.
-        /// <summary>
-        /// Additional parameter for the rule.
-        /// </summary>
-        public string Parameter;
+        /// <summary>Additional parameter for the rule.</summary>
+        public string parameter;
 
-        /// <summary>Class constructor.
-        /// </summary>
+        #endregion
+
+        #region Constructors
+
+        /// <summary>Class constructor.</summary>
         public clsTreeRule()
         {
         }
 
-        /// <summary>Convert a ERuleAction value into a human readable string.
-        /// </summary>
-        /// <param name="nAction">Specifies the value to return as a string.</param>
+        #endregion
+
+        /// <summary>Convert a ERuleAction value into a human readable string.</summary>
+        /// <param name="action">Specifies the value to return as a string.</param>
         /// <returns>A string that represents the specified value.</returns>
-        public static string ActionToString(ERuleAction nAction)
+        public static string actionToString(RuleAction action)
         {
-            switch(nAction)
+            switch (action)
             {
-            case ERuleAction.IncludeDescendants:
+            case RuleAction.INCLUDE_DESCENDANTS:
                 return "Include Descendants";
-            case ERuleAction.ExcludeDescendants:
+            case RuleAction.EXCLUDE_DESCENDANTS:
                 return "Exclude Descendants";
-            case ERuleAction.IncludeAncestors:
+            case RuleAction.INCLUDE_ANCESTORS:
                 return "Include Ancestors";
-            case ERuleAction.ExcludeAncestors:
+            case RuleAction.EXCLUDE_ANCESTORS:
                 return "Exclude Ancestors";
-            case ERuleAction.HorizontalOffset:
+            case RuleAction.HORIZONTAL_OFFSET:
                 return "Horizontal Offset";
             default:
                 return "Error - Unknown";
             }
         }
 
+
+
         #region File IO
 
+
+
         /// <summary>Save the rule in the specified .tree file.</summary>
-        /// <param name="oRules">Specifies the node in the .tree file to add the rule into.</param>
+        /// <param name="xmlRules">Specifies the node in the .tree file to add the rule into.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Save(walton.XmlNode oRules)
+        public bool save(walton.XmlNode xmlRules)
         {
-            walton.XmlNode oRule = oRules.addNode("rule");
-            oRule.setAttributeValue("action",(int)Action);
-            oRule.setAttributeValue("person",PersonID);
-            oRule.setAttributeValue("parameter",Parameter);
+            walton.XmlNode oRule = xmlRules.addNode("rule");
+            oRule.setAttributeValue("action", (int)action);
+            oRule.setAttributeValue("person", personIndex);
+            oRule.setAttributeValue("parameter", parameter);
 
             // Return success.
             return true;
@@ -89,14 +96,14 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Reads the rule from the specified node in a .tree file.</summary>
-        /// <param name="oRule">Specifies the node in the .tree file to read the rule from.</param>
+        /// <param name="xmlRule">Specifies the node in the .tree file to read the rule from.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool Load(walton.XmlNode oRule)
+        public bool load(walton.XmlNode xmlRule)
         {
             // Load the properties of this rule.
-            Action = (ERuleAction)oRule.getAttributeValue("action",(int)ERuleAction.ExcludeDescendants,false);
-            PersonID = oRule.getAttributeValue("person",0,false);
-            Parameter = oRule.getAttributeValue("parameter","",false);
+            action = (RuleAction)xmlRule.getAttributeValue("action", (int)RuleAction.EXCLUDE_DESCENDANTS, false);
+            personIndex = xmlRule.getAttributeValue("person", 0, false);
+            parameter = xmlRule.getAttributeValue("parameter", "", false);
 
             // Return success.
             return true;
@@ -108,23 +115,24 @@ namespace FamilyTree.Viewer
 
         #region Public Properties
 
-        // Returns the value of the additional parameter (string) as a float without raising an error.
-        /// <summary>
-        /// Returns the value of the additional parameter (string) as a float without raising an error.
-        /// </summary>
-        public float ParameterAsFloat
+
+
+        /// <summary>Returns the value of the additional parameter (string) as a float without raising an error.</summary>
+        public float parameterAsFloat
         {
             get
             {
-                float dResult = 0;
+                float result = 0;
                 try
                 {
-                    dResult = float.Parse(Parameter);
+                    result = float.Parse(parameter);
                 }
                 catch { }
-                return dResult;
+                return result;
             }
         }
+
+
 
         #endregion
     }

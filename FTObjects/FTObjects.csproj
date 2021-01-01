@@ -135,7 +135,7 @@
     <Compile Include="clsFamily.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsGedcomOptions.cs" />
+    <Compile Include="GedcomOptions.cs" />
     <Compile Include="IndexName.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,7 +150,7 @@
     <Compile Include="clsReferences.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsRelationship.cs">
+    <Compile Include="Relationship.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Source.cs">

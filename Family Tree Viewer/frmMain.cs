@@ -205,7 +205,7 @@ namespace FamilyTree.Viewer
             padding_.x = 8;
             padding_.y = 16;
             marriedWidth_ = 8;
-            fontSize_ = userOptions_.FontBase.Size;
+            fontSize_ = userOptions_.fontBase.size;
 
             string document = "";
             treeToOpen_ = "";
@@ -470,7 +470,7 @@ namespace FamilyTree.Viewer
 		/// <param name="pos">Specifies the position to draw the person (number of older siblings)</param>
         /// <param name="font">Specifies the font to use for the standard text.</param>
         /// <returns>True for success, false otherwise</returns>
-        private bool drawMainPerson(ref Person person, ref clsRelationship[] marriages, ref int pos, Font font)
+        private bool drawMainPerson(ref Person person, ref Relationship[] marriages, ref int pos, Font font)
         {
             // Draw the marriage partners if female.
             if (marriages.Length > 0)
@@ -571,7 +571,7 @@ namespace FamilyTree.Viewer
             }
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oMedia.ToHtml());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oMedia.ToHtml());
 
             // Return success
             return true;
@@ -599,7 +599,7 @@ namespace FamilyTree.Viewer
 
             // Display the Html description of the source.
             string sPlace = oPlace.toHtml(m_menuLocation.Checked);
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(sPlace);
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(sPlace);
 
             // Return success
             return true;
@@ -625,7 +625,7 @@ namespace FamilyTree.Viewer
             }
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oSource.toHtml());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oSource.toHtml());
 
             // Return success.
             return true;
@@ -656,7 +656,7 @@ namespace FamilyTree.Viewer
             Text = oPerson.getName(true, false) + " - Family Tree Viewer";
 
             // Build the rich text file description of the person
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
 
             // Update the back button            
             if (bAddHistory)
@@ -664,7 +664,7 @@ namespace FamilyTree.Viewer
                 HistoryAdd(Pages.PERSON, nID, oPerson.getName(true, false));
             }
             // Font oFont = new System.Drawing.Font("Tahoma",m_dFontSize,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((System.Byte)(0)));
-            Font oFont = userOptions_.FontBase.GetFont();
+            Font oFont = userOptions_.fontBase.getFont();
 
             // Show the father
             if (oPerson.fatherIndex == 0)
@@ -793,7 +793,7 @@ namespace FamilyTree.Viewer
             }
 
             // Show the actual person
-            labPerson_.Font = userOptions_.FontBaseTitle.GetFont();
+            labPerson_.Font = userOptions_.fontBaseTitle.getFont();
             labPerson_.Top = 2 * (personSize_.y + padding_.y) + TOP;
             labPerson_.Text = oPerson.getName(false, false);
             labPerson_.Width = 2 * personSize_.x + marriedWidth_;
@@ -813,7 +813,7 @@ namespace FamilyTree.Viewer
 
             cleanupDynamicControls();
 
-            clsRelationship[] Marriages = oPerson.getRelationships();
+            Relationship[] Marriages = oPerson.getRelationships();
             if (Marriages.Length > 0)
             {
                 psnPartners_ = new FamilyTree.Viewer.ucPerson[Marriages.Length];
@@ -1289,7 +1289,7 @@ namespace FamilyTree.Viewer
 
                 case RelatedPerson.PARTNER:
                     oPerson = new Person(Current.index, database_);
-                    clsRelationship oRelationship = new clsRelationship(oPerson, nNewPersonID);
+                    Relationship oRelationship = new Relationship(oPerson, nNewPersonID);
                     oRelationship.save();
                     oPerson.addRelationship(oRelationship);
                     break;
@@ -1436,7 +1436,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oReport.GetReport());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oReport.GetReport());
 
             // Return success
             return true;
@@ -1502,7 +1502,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(database_.getRecentChangesAsHtml());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(database_.getRecentChangesAsHtml());
 
             // Return success
             return true;
@@ -1518,7 +1518,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.RenderHtml(database_.getToDoAsHtml());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(database_.getToDoAsHtml());
 
             // Return success
             return true;
@@ -1633,11 +1633,11 @@ namespace FamilyTree.Viewer
         /// <summary>Allows the user to select an output file to write gedcom into.  Currently this is a the gedcom of the whole database.</summary>
         private void ExportGedcom()
         {
-            frmGedcomOptions oDialog = new frmGedcomOptions(userOptions_.GedcomOptions);
+            frmGedcomOptions oDialog = new frmGedcomOptions(userOptions_.gedcomOptions);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // Save the user options
-                userOptions_.Save();
+                userOptions_.save();
 
                 // Unreachable code
 #pragma warning disable 162
@@ -1646,12 +1646,12 @@ namespace FamilyTree.Viewer
                     // Create a new thread to do the work.
                     ParameterizedThreadStart oThreadMethod = new ParameterizedThreadStart(WriteGedcom);
                     Thread oThread = new Thread(oThreadMethod);
-                    oThread.Start(userOptions_.GedcomOptions);
+                    oThread.Start(userOptions_.gedcomOptions);
                 }
                 else
                 {
                     // Save the gedcom into the specified file				
-                    WriteGedcom(userOptions_.GedcomOptions);
+                    WriteGedcom(userOptions_.gedcomOptions);
                 }
 #pragma warning restore 162
 
@@ -1687,7 +1687,7 @@ namespace FamilyTree.Viewer
             progressBarVisible(true);
 
             // Decode the parameter.
-            clsGedcomOptions oOptions = (clsGedcomOptions)oParameter;
+            GedcomOptions oOptions = (GedcomOptions)oParameter;
             string sFilename = oOptions.fileName;
 
             // Open the output file.
@@ -1790,7 +1790,7 @@ namespace FamilyTree.Viewer
                     ArrayList oPartners = new ArrayList();
 
                     // Get the relationship information				
-                    clsRelationship[] oRelationships = oPerson.getRelationships();
+                    Relationship[] oRelationships = oPerson.getRelationships();
                     for (int nJ = 0; nJ < oRelationships.Length; nJ++)
                     {
                         // Check that the partner is included in the Gedcom file
@@ -1917,7 +1917,7 @@ namespace FamilyTree.Viewer
                         oFile.WriteLine("1 CHAN");
                         oFile.WriteLine("2 DATE " + oPerson.lastEditDate.ToString("d MMM yyyy"));
                         oFile.WriteLine("3 TIME " + oPerson.lastEditDate.ToString("HH:mm:ss"));
-                        if (oOptions.IncludePGVU)
+                        if (oOptions.isIncludePGVU)
                         {
                             oFile.WriteLine("2 _PGVU " + oPerson.lastEditBy);
                         }
@@ -2498,7 +2498,7 @@ namespace FamilyTree.Viewer
             if (Current.content == Pages.PERSON)
             {
                 Person oPerson = new Person(Current.index, database_);
-                m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
             }
         }
 
@@ -2516,7 +2516,7 @@ namespace FamilyTree.Viewer
             {
             case Pages.PERSON:
                 Person oPerson = new Person(Current.index, database_);
-                m_oWebBrowser.DocumentText = userOptions_.RenderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
                 break;
 
             case Pages.PLACE:
@@ -2592,7 +2592,7 @@ namespace FamilyTree.Viewer
             if (Current.content == Pages.PERSON)
             {
                 personSize_.x = 130;
-                fontSize_ = userOptions_.FontBase.Size;
+                fontSize_ = userOptions_.fontBase.size;
                 ShowPerson(Current.index, false);
             }
         }

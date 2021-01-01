@@ -33,9 +33,9 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             System.Windows.Forms.Label label2;
-            this.m_txtFilename = new System.Windows.Forms.TextBox();
-            this.m_SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.m_cboScheme = new System.Windows.Forms.ComboBox();
+            this.txtFilename_ = new System.Windows.Forms.TextBox();
+            this.saveFileDialog_ = new System.Windows.Forms.SaveFileDialog();
+            this.cboScheme_ = new System.Windows.Forms.ComboBox();
             this.m_chkPGVU = new System.Windows.Forms.CheckBox();
             this.m_chkRemoveAddresses = new System.Windows.Forms.CheckBox();
             this.m_chkUseCTRY = new System.Windows.Forms.CheckBox();
@@ -109,27 +109,27 @@ namespace FamilyTree.Viewer
             // 
             // m_txtFilename
             // 
-            this.m_txtFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtFilename_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtFilename.Location = new System.Drawing.Point(109, 18);
-            this.m_txtFilename.Name = "m_txtFilename";
-            this.m_txtFilename.Size = new System.Drawing.Size(477, 21);
-            this.m_txtFilename.TabIndex = 1;
+            this.txtFilename_.Location = new System.Drawing.Point(109, 18);
+            this.txtFilename_.Name = "m_txtFilename";
+            this.txtFilename_.Size = new System.Drawing.Size(477, 21);
+            this.txtFilename_.TabIndex = 1;
             // 
             // m_cboScheme
             // 
-            this.m_cboScheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboScheme.FormattingEnabled = true;
-            this.m_cboScheme.Items.AddRange(new object[] {
+            this.cboScheme_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboScheme_.FormattingEnabled = true;
+            this.cboScheme_.Items.AddRange(new object[] {
             "Custom",
             "Neutral",
             "Php Gedview",
             "Gramps"});
-            this.m_cboScheme.Location = new System.Drawing.Point(109, 44);
-            this.m_cboScheme.Name = "m_cboScheme";
-            this.m_cboScheme.Size = new System.Drawing.Size(185, 21);
-            this.m_cboScheme.TabIndex = 6;
-            this.m_cboScheme.SelectedIndexChanged += new System.EventHandler(this.m_cboScheme_SelectedIndexChanged);
+            this.cboScheme_.Location = new System.Drawing.Point(109, 44);
+            this.cboScheme_.Name = "m_cboScheme";
+            this.cboScheme_.Size = new System.Drawing.Size(185, 21);
+            this.cboScheme_.TabIndex = 6;
+            this.cboScheme_.SelectedIndexChanged += new System.EventHandler(this.cboScheme_SelectedIndexChanged);
             // 
             // m_chkPGVU
             // 
@@ -191,12 +191,12 @@ namespace FamilyTree.Viewer
             this.Controls.Add(this.m_chkUseCTRY);
             this.Controls.Add(this.m_chkRemoveAddresses);
             this.Controls.Add(this.m_chkPGVU);
-            this.Controls.Add(this.m_cboScheme);
+            this.Controls.Add(this.cboScheme_);
             this.Controls.Add(label2);
             this.Controls.Add(cmdCancel);
             this.Controls.Add(cmdOK);
             this.Controls.Add(cmdOpen);
-            this.Controls.Add(this.m_txtFilename);
+            this.Controls.Add(this.txtFilename_);
             this.Controls.Add(label1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmGedcomOptions";
@@ -210,9 +210,9 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        private System.Windows.Forms.TextBox m_txtFilename;
-        private System.Windows.Forms.SaveFileDialog m_SaveFileDialog;
-        private System.Windows.Forms.ComboBox m_cboScheme;
+        private System.Windows.Forms.TextBox txtFilename_;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_;
+        private System.Windows.Forms.ComboBox cboScheme_;
         private System.Windows.Forms.CheckBox m_chkPGVU;
         private System.Windows.Forms.CheckBox m_chkRemoveAddresses;
         private System.Windows.Forms.CheckBox m_chkUseCTRY;
