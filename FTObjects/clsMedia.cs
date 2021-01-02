@@ -20,89 +20,90 @@ namespace FamilyTree.Objects
         #region Member Variables
 
         /// <summary>The ID of the media object.</summary>
-        public int ID;
+        public int index_;
 
         /// <summary>The database that this media object is attached to.</summary>
-        private Database m_oDb;
+        private Database database_;
 
         /// <summary>The human readable title for the the media object.</summary>
-        public string Title;
+        public string title;
 
         /// <summary>The local filename for the media object.</summary>
-        public string Filename;
+        public string fileName;
 
-        /// <summary>
-        /// Type of media object.
-        /// 1 for an image.
-        /// </summary>
-        public int TypeID;
-        
-        /// <summary>No idea what this is.  Required for the Gedom file.</summary>
-        public bool Primary;
+        /// <summary>Type of media object.  1 for an image.</summary>
+        public int typeIndex;
 
         /// <summary>No idea what this is.  Required for the Gedom file.</summary>
-        public bool Thumbnail;
+        public bool isPrimary;
+
+        /// <summary>No idea what this is.  Required for the Gedom file.</summary>
+        public bool isThumbnail;
 
         /// <summary>The actual width of the source image.</summary>
-        public int Width;
+        public int width;
 
         /// <summary>The actual height of the source image.</summary>
-        public int Height;
+        public int height;
 
         /// <summary>The list of indexes of people who are attached to this media object.</summary>
-        private ArrayList m_oAttachedPeople;
+        private ArrayList attachedPeople_;
 
         #endregion
 
         #region Class constructor
 
-        /// <summary>Empty class constructor in the specified database.
-        /// </summary>
-        /// <param name="oDb">Specifies the database that contains the media object.</param>
-        public clsMedia(Database oDb)
+
+
+        /// <summary>Empty class constructor in the specified database.</summary>
+        /// <param name="database">Specifies the database that contains the media object.</param>
+        public clsMedia(Database database)
         {
-            // Save the input parameters
-            m_oDb = oDb;
+            // Save the input parameters.
+            database_ = database;
 
             // Default values for the media object.
-            ID = 0;
-            Title = "";
-            Filename = "";
-            TypeID = 1;
-            Primary = true;
-            Thumbnail = true;
-            Width = -1;
-            Height = -1;
-            m_oAttachedPeople = null;
+            index_ = 0;
+            title = "";
+            fileName = "";
+            typeIndex = 1;
+            isPrimary = true;
+            isThumbnail = true;
+            width = -1;
+            height = -1;
+            attachedPeople_ = null;
         }
 
-        /// <summary>Creates a clsMedia object that represents the specified media object in the specified database.
-        /// </summary>
-        /// <param name="oDb">Specifies the database that contains the media object.</param>
-        /// <param name="nMediaID">Specifies the ID of the media object.</param>
-        public clsMedia(Database oDb,int nMediaID)
+
+
+        /// <summary>Creates a clsMedia object that represents the specified media object in the specified database.</summary>
+        /// <param name="database">Specifies the database that contains the media object.</param>
+        /// <param name="mediaIndex">Specifies the ID of the media object.</param>
+        public clsMedia(Database database, int mediaIndex)
         {
-            // Save the input parameters
-            m_oDb = oDb;
+            // Save the input parameters.
+            database_ = database;
 
-            // Open the specified media object
-            OleDbCommand oSql = new OleDbCommand("SELECT * FROM tbl_Media WHERE ID=" + nMediaID.ToString() + ";",oDb.cndb);
-            OleDbDataReader drMedia = oSql.ExecuteReader();
-            if(drMedia.Read())
+            // Open the specified media object.
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT * FROM tbl_Media WHERE ID=" + mediaIndex.ToString() + ";", database.cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            if (dataReader.Read())
             {
-                ID = nMediaID;
-                Title = walton.Database.getString(drMedia,"Title","Title");
-                Filename = walton.Database.getString(drMedia,"Filename","Filename");
-                TypeID = walton.Database.getInt(drMedia,"TypeID",1);
-                Primary = walton.Database.getBool(drMedia,"Primary",true);
-                Thumbnail = walton.Database.getBool(drMedia,"Thumbnail",true);
-                Width = walton.Database.getInt(drMedia,"Width",-1);
-                Height = walton.Database.getInt(drMedia,"Height",-1);
+                index_ = mediaIndex;
+                title = walton.Database.getString(dataReader, "Title", "Title");
+                fileName = walton.Database.getString(dataReader, "Filename", "Filename");
+                typeIndex = walton.Database.getInt(dataReader, "TypeID", 1);
+                isPrimary = walton.Database.getBool(dataReader, "Primary", true);
+                isThumbnail = walton.Database.getBool(dataReader, "Thumbnail", true);
+                width = walton.Database.getInt(dataReader, "Width", -1);
+                height = walton.Database.getInt(dataReader, "Height", -1);
             }
-            drMedia.Close();
+            dataReader.Close();
 
-            m_oAttachedPeople = null;
+            attachedPeople_ = null;
         }
+
+
 
         #endregion
 
@@ -110,118 +111,118 @@ namespace FamilyTree.Objects
 
         /// <summary>Writes this media object into the database.</summary>
         /// <returns></returns>
-        public bool Save()
+        public bool save()
         {
-            // Assume success
-            bool bErrors = false;
+            // Assume success.
+            bool isErrors = false;
 
             // Build the Sql command to update the media object
-            string sSql;
-            StringBuilder sbSql = new StringBuilder();
-            OleDbCommand oSql;
-            if(ID > 0)
+            StringBuilder sql = new StringBuilder();
+            OleDbCommand sqlCommand;
+            if (index_ > 0)
             {
                 // Update an existing media object
-                sbSql.Append("UPDATE tbl_Media SET ");
-                sbSql.Append("Title = " + walton.Database.toDb(Title) + ",");
-                sbSql.Append("Width = " + walton.Database.toDb(Width,-1) + ",");
-                sbSql.Append("Height = " + walton.Database.toDb(Height, -1) + ",");
-                sbSql.Append("[Primary] = " + walton.Database.toDb(Primary) + ",");
-                sbSql.Append("Thumbnail = " + walton.Database.toDb(Thumbnail) + " ");
-                sbSql.Append("WHERE ID=");
-                sbSql.Append(ID);
-                sbSql.Append(";");
+                sql.Append("UPDATE tbl_Media SET ");
+                sql.Append("Title = " + walton.Database.toDb(title) + ", ");
+                sql.Append("Width = " + walton.Database.toDb(width, -1) + ", ");
+                sql.Append("Height = " + walton.Database.toDb(height, -1) + ", ");
+                sql.Append("[Primary] = " + walton.Database.toDb(isPrimary) + ", ");
+                sql.Append("Thumbnail = " + walton.Database.toDb(isThumbnail) + " ");
+                sql.Append("WHERE ID = ");
+                sql.Append(index_);
+                sql.Append(";");
             }
             else
             {
                 // Find the ID for the new Media object
-                sSql = "SELECT MAX(ID) AS NewID FROM tbl_Media;";
-                oSql = new OleDbCommand(sSql,m_oDb.cndb);
-                ID = 1 + int.Parse(oSql.ExecuteScalar().ToString());
+                sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Media;", database_.cndb);
+                index_ = 1 + int.Parse(sqlCommand.ExecuteScalar().ToString());
 
                 // Insert a new media object
-                sbSql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail) VALUES (");
-                sbSql.Append(ID.ToString() + ",");
-                sbSql.Append(walton.Database.toDb(Filename) + ", ");
-                sbSql.Append(walton.Database.toDb(Title) + ", ");
-                sbSql.Append(walton.Database.toDb(Width,-1) + ", ");
-                sbSql.Append(walton.Database.toDb(Height, -1) + ", ");
-                sbSql.Append(walton.Database.toDb(Primary) + ", ");
-                sbSql.Append(walton.Database.toDb(Thumbnail) + ");");
+                sql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail) VALUES (");
+                sql.Append(index_.ToString() + ",");
+                sql.Append(walton.Database.toDb(fileName) + ", ");
+                sql.Append(walton.Database.toDb(title) + ", ");
+                sql.Append(walton.Database.toDb(width, -1) + ", ");
+                sql.Append(walton.Database.toDb(height, -1) + ", ");
+                sql.Append(walton.Database.toDb(isPrimary) + ", ");
+                sql.Append(walton.Database.toDb(isThumbnail) + ");");
             }
-            oSql = new OleDbCommand(sbSql.ToString(),m_oDb.cndb);
+            sqlCommand = new OleDbCommand(sql.ToString(), database_.cndb);
             try
             {
-                oSql.ExecuteNonQuery();
+                sqlCommand.ExecuteNonQuery();
             }
-            catch(Exception oError)
+            catch (Exception exception)
             {
-                System.Diagnostics.Debug.WriteLine(oError.Message);
-                bErrors = true;
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+                isErrors = true;
             }
 
-            // Save the attached people
-            if(m_oAttachedPeople != null)
+            // Save the attached people.
+            if (attachedPeople_ != null)
             {
-                // Remove all the previous people
-                sSql = "DELETE FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + ID.ToString() + ";";
-                oSql = new OleDbCommand(sSql,m_oDb.cndb);
-                oSql.ExecuteNonQuery();
+                // Remove all the previous people.
+                sqlCommand = new OleDbCommand("DELETE FROM tbl_AdditionalMediaForPeople WHERE MediaID = " + index_.ToString() + ";",database_.cndb);
+                sqlCommand.ExecuteNonQuery();
 
-                // Attach the new people
-                int[] oPeople = GetAttachedPeople();
-                foreach(int nPersonID in oPeople)
+                // Attach the new people.
+                int[] people = getAttachedPeople();
+                foreach (int personIndex in people)
                 {
-                    sSql = "INSERT INTO tbl_AdditionalMediaForPeople (PersonID,MediaID) VALUES ("+nPersonID.ToString()+","+ID.ToString()+");";
-                    oSql = new OleDbCommand(sSql,m_oDb.cndb);
+                    sqlCommand = new OleDbCommand("INSERT INTO tbl_AdditionalMediaForPeople (PersonID, MediaID) VALUES (" + personIndex.ToString() + "," + index_.ToString() + ");", database_.cndb);
                     try
                     {
-                        oSql.ExecuteNonQuery();
+                        sqlCommand.ExecuteNonQuery();
                     }
                     catch
                     {
-                        bErrors = true;
+                        isErrors = true;
                     }
                 }
             }
 
-            // Return success or failure
-            return !bErrors;
+            // Return success or failure.
+            return !isErrors;
         }
 
 
 
         #region Sizing
 
-        /// <summary>Returns the required width to keep the aspect ratio for the specified height.
-        /// </summary>
-        /// <param name="nHeight">Specifies the height required for the image.</param>
+
+
+        /// <summary>Returns the required width to keep the aspect ratio for the specified height.</summary>
+        /// <param name="height">Specifies the height required for the image.</param>
         /// <returns>The width that will keep the aspect ratio with the specified height.</returns>
-        public int WidthForSpecifiedHeight(int nHeight)
+        public int widthForSpecifiedHeight(int height)
         {
-            // Check that the width and height are known
-            if(Width <= 0 || Height <= 0)
+            // Check that the width and height are known.
+            if (this.width <= 0 || this.height <= 0)
             {
-                return nHeight;
+                return height;
             }
 
-            return (Width * nHeight) / Height;
+            return (this.width * height) / this.height;
         }
 
-        /// <summary>Returns the required height to keep the aspect ratio for the specified width.
-        /// </summary>
-        /// <param name="nWidth">Specifies the width required for the image.</param>
+
+
+        /// <summary>Returns the required height to keep the aspect ratio for the specified width.</summary>
+        /// <param name="width">Specifies the width required for the image.</param>
         /// <returns>The height that will keep the aspect ratio with the specified width.</returns>
-        public int HeightForSpecifiedWidth(int nWidth)
+        public int heightForSpecifiedWidth(int width)
         {
             // Check that the width and height are known
-            if(Width <= 0 || Height <= 0)
+            if (this.width <= 0 || this.height <= 0)
             {
-                return nWidth;
+                return width;
             }
 
-            return (Height * nWidth) / Width;
+            return (this.height * width) / this.width;
         }
+
+
 
         #endregion
 
@@ -229,131 +230,130 @@ namespace FamilyTree.Objects
 
         /// <summary>Returns a html description of the media object. </summary>
         /// <returns></returns>
-        public string ToHtml()
+        public string toHtml()
         {
-            StringBuilder sbHtml = new StringBuilder();
+            StringBuilder html = new StringBuilder();
 
-            sbHtml.Append("<body>");
-            sbHtml.Append("<h1>" + Title + "</h1>");
-            sbHtml.Append("<img src=\"" + FullFilename + "\" />");
+            html.Append("<body>");
+            html.Append("<h1>" + title + "</h1>");
+            html.Append("<img src=\"" + fullFileName + "\" />");
 
-            // Show the person attached to this media object
-            int[] oPeople = GetAttachedPeople();
-            if(oPeople.Length > 0)
+            // Show the people attached to this media object.
+            int[] people = getAttachedPeople();
+            if (people.Length > 0)
             {
-                sbHtml.Append("<table>");
-                foreach(int nPersonID in oPeople)
+                html.Append("<table>");
+                foreach (int personIndex in people)
                 {
-                    Person oPerson = new Person(nPersonID,m_oDb);
-                    sbHtml.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">");
-                    sbHtml.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
-                    sbHtml.Append(oPerson.getName(true,false));
-                    sbHtml.Append("</a>");
-                    sbHtml.Append("</span></td></tr>");
+                    Person person = new Person(personIndex, database_);
+                    html.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">");
+                    html.Append("<a href=\"person:" + personIndex.ToString() + "\">");
+                    html.Append(person.getName(true, false));
+                    html.Append("</a>");
+                    html.Append("</span></td></tr>");
                 }
-                sbHtml.Append("</table>");
+                html.Append("</table>");
             }
-            
-            // Close the html
-            sbHtml.Append("</body></html>");
 
-            // Return the html built
-            return sbHtml.ToString();
+            // Close the html.
+            html.Append("</body></html>");
+
+            // Return the html built.
+            return html.ToString();
         }
 
 
 
         #region Attached People
 
-        /// <summary>
-        /// Load the list of attached people to this media object from the database.
-        /// </summary>
-        private void LoadAttachedPeople()
+
+
+        /// <summary>Load the list of attached people to this media object from the database.</summary>
+        private void loadAttachedPeople()
         {
             // Find the people attached to this media object
-            m_oAttachedPeople = new ArrayList();
-            OleDbCommand oSql = new OleDbCommand("SELECT PersonID FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + ID.ToString() + ";",m_oDb.cndb);
-            OleDbDataReader drPeople = oSql.ExecuteReader();
-            while(drPeople.Read())
+            attachedPeople_ = new ArrayList();
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT PersonID FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + index_.ToString() + ";", database_.cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                m_oAttachedPeople.Add(drPeople.GetInt32(0));
+                attachedPeople_.Add(dataReader.GetInt32(0));
             }
-            drPeople.Close();
+            dataReader.Close();
         }
-        
-        /// <summary>
-        /// Returns the collection of indexes of people who are connected to this media object.
-        /// </summary>
+
+
+
+        /// <summary>Returns the collection of indexes of people who are connected to this media object.</summary>
         /// <returns>A collection of indexes of people who are connected to this media object.</returns>
-        public int[] GetAttachedPeople()
+        public int[] getAttachedPeople()
         {
             // Check that the attached people are loaded
-            if(m_oAttachedPeople == null)
+            if (attachedPeople_ == null)
             {
-                LoadAttachedPeople();
+                loadAttachedPeople();
             }
 
-            // Return the attached people
-            return (int[])m_oAttachedPeople.ToArray(typeof(int));
+            // Return the attached people.
+            return (int[])attachedPeople_.ToArray(typeof(int));
         }
 
-        /// <summary>
-        /// Adds the specified person to the collection person attached to this media object.
-        /// </summary>
-        /// <param name="nPersonID"></param>
-        public void AddPerson
-            (
-            int nPersonID
-            )
+
+
+        /// <summary>Adds the specified person to the collection person attached to this media object.</summary>
+        /// <param name="personIndex"></param>
+        public void addPerson(int personIndex)
         {
-            // Check that the attached people are loaded
-            if(m_oAttachedPeople == null)
+            // Check that the attached people are loaded.
+            if (attachedPeople_ == null)
             {
-                LoadAttachedPeople();
+                loadAttachedPeople();
             }
 
-            // Add the specified person
-            m_oAttachedPeople.Add(nPersonID);
+            // Add the specified person.
+            attachedPeople_.Add(personIndex);
         }
 
-        /// <summary>
-        /// Remove all the people attached to this media object.
-        /// </summary>
-        public void RemoveAllPeople()
+
+
+        /// <summary>Remove all the people attached to this media object.</summary>
+        public void removeAllPeople()
         {
-            m_oAttachedPeople = new ArrayList();
+            attachedPeople_ = new ArrayList();
         }
+
+
 
         #endregion
 
         #region Public Properties
 
-        // The string description of the object.
-        /// <summary>
-        /// The string description of the object.
-        /// </summary>
+
+
+        /// <summary>The string description of the object.</summary>
         /// <returns>A string description of the object.</returns>
         public override string ToString()
         {
-            return Title;
+            return title;
         }
 
-        // The full path and filename for the media object.
-        /// <summary>
-        /// The full path and filename for the media object.
-        /// </summary>
-        public string FullFilename
+
+
+        /// <summary>The full path and filename for the media object.</summary>
+        public string fullFileName
         {
             get
             {
-                string sFullFilename = m_oDb.getMediaDirectory() + "\\" + Filename;
-                if(File.Exists(sFullFilename))
+                string fullFileName = database_.getMediaDirectory() + "\\" + fileName;
+                if (File.Exists(fullFileName))
                 {
-                    return sFullFilename;
+                    return fullFileName;
                 }
                 return "";
             }
         }
+
+
 
         #endregion
     }

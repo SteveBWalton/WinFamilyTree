@@ -340,12 +340,12 @@ namespace FamilyTree.Objects
 
             // Show the objects that are linked to this document.
             html.Append("<p>References</p><table cellpadding=3 cellspacing=2>");
-            clsReferences[] references = getReferences();
-            foreach (clsReferences reference in references)
+            References[] references = getReferences();
+            foreach (References reference in references)
             {
                 html.Append("<TR>");
-                html.Append("<TD bgcolor=silver><SPAN class=\"Small\"><A href=\"Person:" + reference.PersonID.ToString() + "\">" + reference.PersonName + "</A></SPAN></TD>");
-                html.Append("<TD bgcolor=silver><SPAN class=\"Small\">" + reference.References + "</SPAN></TD>");
+                html.Append("<TD bgcolor=silver><SPAN class=\"Small\"><A href=\"Person:" + reference.personIndex.ToString() + "\">" + reference.personName + "</A></SPAN></TD>");
+                html.Append("<TD bgcolor=silver><SPAN class=\"Small\">" + reference.references + "</SPAN></TD>");
                 html.Append("</TR>");
             }
             html.Append("</TABLE>");
@@ -422,7 +422,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Returns an array of clsReferences objects that list all the "facts" that reference this source.</summary>
         /// <returns>An array of clsReferences objects</returns>
-        public clsReferences[] getReferences()
+        public References[] getReferences()
         {
             // Create an empty list.
             ArrayList references = new ArrayList();
@@ -440,7 +440,7 @@ namespace FamilyTree.Objects
                 // Don't add the non specific references.
                 if (Database.GetInt(dataReader, "FactID", 0) != 0)
                 {
-                    ((clsReferences)references[index]).AddReference(dataReader.GetString(1));
+                    ((References)references[index]).addReference(dataReader.GetString(1));
                 }
             }
             dataReader.Close();
@@ -452,7 +452,7 @@ namespace FamilyTree.Objects
             while (dataReader.Read())
             {
                 int index = getReferenceIndex(references, dataReader.GetInt32(0));
-                ((clsReferences)references[index]).AddReference(dataReader.GetString(1));
+                ((References)references[index]).addReference(dataReader.GetString(1));
             }
             dataReader.Close();
 
@@ -463,22 +463,22 @@ namespace FamilyTree.Objects
             while (dataReader.Read())
             {
                 int nIndex = getReferenceIndex(references, dataReader.GetInt32(0));
-                ((clsReferences)references[nIndex]).AddReference("Relationship " + dataReader.GetString(2));
+                ((References)references[nIndex]).addReference("Relationship " + dataReader.GetString(2));
                 nIndex = getReferenceIndex(references, dataReader.GetInt32(1));
-                ((clsReferences)references[nIndex]).AddReference("Relationship " + dataReader.GetString(2));
+                ((References)references[nIndex]).addReference("Relationship " + dataReader.GetString(2));
             }
             dataReader.Close();
 
             // Get names for all the people.
             for (int i = 0; i < references.Count; i++)
             {
-                clsReferences reference = (clsReferences)references[i];
-                Person person = new Person(reference.PersonID, database_);
-                reference.PersonName = person.getName(true, false);
+                References reference = (References)references[i];
+                Person person = new Person(reference.personIndex, database_);
+                reference.personName = person.getName(true, false);
             }
 
             // Return the references found.
-            return (clsReferences[])references.ToArray(typeof(clsReferences));
+            return (References[])references.ToArray(typeof(References));
         }
 
 
@@ -495,7 +495,7 @@ namespace FamilyTree.Objects
             index = -1;
             for (int i = 0; i < references.Count; i++)
             {
-                if (personIndex == ((clsReferences)references[i]).PersonID)
+                if (personIndex == ((References)references[i]).personIndex)
                 {
                     index = i;
                     break;
@@ -504,7 +504,7 @@ namespace FamilyTree.Objects
             if (index == -1)
             {
                 // Add a new reference.
-                clsReferences reference = new clsReferences(personIndex);
+                References reference = new References(personIndex);
 
                 references.Add(reference);
                 index = references.Count - 1;

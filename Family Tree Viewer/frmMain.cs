@@ -564,14 +564,14 @@ namespace FamilyTree.Viewer
 
             // Find the place
             clsMedia oMedia = new clsMedia(database_, nMediaID);
-            Text = oMedia.Filename + " - Family Tree Viewer";
+            Text = oMedia.fileName + " - Family Tree Viewer";
             if (bAddHistory)
             {
-                HistoryAdd(Pages.MEDIA, nMediaID, "Media: " + oMedia.Filename);
+                HistoryAdd(Pages.MEDIA, nMediaID, "Media: " + oMedia.fileName);
             }
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oMedia.ToHtml());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oMedia.toHtml());
 
             // Return success
             return true;
@@ -2011,7 +2011,7 @@ namespace FamilyTree.Viewer
                     for (int i = 0; i < psnSiblings_.Length; i++)
                     {
                         // TODO: Check this.  This was crashing.
-                        if (psnSiblings_[i].Tag != null)
+                        if (psnSiblings_[i] != null)
                         {
                             if ((int)psnSiblings_[i].Tag == connectionType)
                             {

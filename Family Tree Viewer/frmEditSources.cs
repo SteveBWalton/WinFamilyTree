@@ -409,9 +409,9 @@ namespace FamilyTree.Viewer
 				this.gridReferences.TableStyles.Add(oTableStyle);
 				this.gridReferences.ReadOnly = true;
 
-				// Update the references to this source
-				clsReferences[] oReferences = m_ActiveSource.getReferences();
-				this.gridReferences.SetDataBinding(oReferences,"");
+				// Update the references to this source.
+				References[] references = m_ActiveSource.getReferences();
+				this.gridReferences.SetDataBinding(references,"");
 
 				// Show the additional information for this source (birth certificate etc...)
 				ShowAdditionalInfo();

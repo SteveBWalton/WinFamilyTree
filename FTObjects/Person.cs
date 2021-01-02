@@ -906,7 +906,7 @@ namespace FamilyTree.Objects
                     {
                         clsMedia primaryMedia = new clsMedia(database_, mediaIndex);
                         description.Append("<a href=\"media:" + mediaIndex.ToString() + "\">");
-                        description.Append("<img align=\"right\" src=\"" + primaryMedia.FullFilename + "\" border=\"no\" alt=\"" + primaryMedia.Title + "\" height=\"" + primaryMedia.HeightForSpecifiedWidth(150) + "\" width=\"150\" />");
+                        description.Append("<img align=\"right\" src=\"" + primaryMedia.fullFileName + "\" border=\"no\" alt=\"" + primaryMedia.title + "\" height=\"" + primaryMedia.heightForSpecifiedWidth(150) + "\" width=\"150\" />");
                         description.Append("</a>");
                     }
                 }
@@ -1070,16 +1070,16 @@ namespace FamilyTree.Objects
             }
 
             // Education
-            description.Append(ShowFacts(40, " was educated at ", "and", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
+            description.Append(showFacts(40, " was educated at ", "and", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
             // Occupation
-            description.Append(ShowFacts(20, " worked as a ", "and", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
+            description.Append(showFacts(20, " worked as a ", "and", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
             // Interests
-            description.Append(ShowFacts(30, " was interested in ", "", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
+            description.Append(showFacts(30, " was interested in ", "", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
             // Comments
-            description.Append(ShowFacts(100, " ", "", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
+            description.Append(showFacts(100, " ", "", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
             // Children
             // Don't display children information for people who are known be less than 14 years old.
@@ -1220,30 +1220,30 @@ namespace FamilyTree.Objects
                 description.AppendLine("<p align=\"left\"><span class=\"Small\">Last Edit by " + lastEditBy + " on " + lastEditDate.ToString("d-MMM-yyyy HH:mm:ss") + "</span></p>");
             }
 
-            // Show all the non primary images
+            // Show all the non primary images.
             if (isHtml && isShowImages)
             {
-                int[] Media = GetMediaID(true);
-                if (Media.Length > 0)
+                int[] mediaIndexes = getMediaIndexes(true);
+                if (mediaIndexes.Length > 0)
                 {
                     description.AppendLine("<table>");
-                    foreach (int nMediaID in Media)
+                    foreach (int mediaIndex in mediaIndexes)
                     {
-                        clsMedia oMedia = new clsMedia(database_, nMediaID);
+                        clsMedia media = new clsMedia(database_, mediaIndex);
                         description.Append("<tr valign=\"top\">");
                         description.Append("<td>");
-                        description.Append("<a href=\"media:" + nMediaID.ToString() + "\">");
-                        description.Append("<img src=\"" + oMedia.FullFilename + "\" border=\"no\" height=\"" + oMedia.HeightForSpecifiedWidth(150) + "\" width=\"150\">");
+                        description.Append("<a href=\"media:" + mediaIndex.ToString() + "\">");
+                        description.Append("<img src=\"" + media.fullFileName + "\" border=\"no\" height=\"" + media.heightForSpecifiedWidth(150) + "\" width=\"150\">");
                         description.Append("</a>");
                         description.Append("</td>");
-                        description.Append("<td>" + oMedia.Title + "</td>");
+                        description.Append("<td>" + media.title + "</td>");
                         description.AppendLine("</tr>");
                     }
                     description.AppendLine("</table>");
                 }
             }
 
-            // Show the ToDo items
+            // Show the ToDo items.
             if (isHtml && isIncludeToDo)
             {
                 ToDo[] toDos = this.getToDo();
@@ -1262,84 +1262,83 @@ namespace FamilyTree.Objects
                 }
             }
 
-            // Return the description that has been built
+            // Return the description that has been built.
             return description.ToString();
         }
 
-        // Adds all the facts of the specified type to the description in human readable form.
-        /// <summary>
-        /// Adds all the facts of the specified type to the description in human readable form.
-        /// </summary>
-		/// <param name="nFactTypeID">Specifies the fact type to add.</param>
-		/// <param name="sPrefix">Specifies the prefix to make the fact human readable</param>
-		/// <param name="sJoinWord">Specifies the join word for the last fact in a single sentence.  Use "" for a separate sentence for each fact.</param>
-		/// <param name="bHtml">Specify true for a description in Html, false for plain ASCII text.</param>
-		/// <param name="bFootnotes">Specify true to add footnote information.</param>
-		/// <param name="oSources">Specifies all the available sources of information.</param>
-		/// <param name="cFootnote">Specifies the character to use for each source.</param>
-		/// <param name="sbFootnote">Footnote sources text for the bottom of the page.</param>
-		/// <param name="cNextChar">Character to use for the next footnote marker.</param>
-		/// <returns>Human readable string about the fact</returns>
-		private string ShowFacts(int nFactTypeID, string sPrefix, string sJoinWord, bool bHtml, bool bFootnotes, IndexName[] oSources, char[] cFootnote, StringBuilder sbFootnote, ref char cNextChar)
-        {
-            // Start to build a string to return as the result
-            StringBuilder sbDescription = new StringBuilder();
 
-            // Get the collection of facts and loop through them
-            clsFact[] oFacts = this.getFacts(nFactTypeID);
-            bool bFirst = true;
-            bool bFullStop = false;
-            for (int nFact = 0; nFact < oFacts.Length; nFact++)
+
+        /// <summary>Adds all the facts of the specified type to the description in human readable form.</summary>
+		/// <param name="factTypeIndex">Specifies the fact type to add.</param>
+		/// <param name="prefix">Specifies the prefix to make the fact human readable</param>
+		/// <param name="joinWord">Specifies the join word for the last fact in a single sentence.  Use "" for a separate sentence for each fact.</param>
+		/// <param name="isHtml">Specify true for a description in Html, false for plain ASCII text.</param>
+		/// <param name="isFootnotes">Specify true to add footnote information.</param>
+		/// <param name="sources">Specifies all the available sources of information.</param>
+		/// <param name="footnoteCharacter">Specifies the character to use for each source.</param>
+		/// <param name="footnote">Footnote sources text for the bottom of the page.</param>
+		/// <param name="nextChar">Character to use for the next footnote marker.</param>
+		/// <returns>Human readable string about the fact</returns>
+		private string showFacts(int factTypeIndex, string prefix, string joinWord, bool isHtml, bool isFootnotes, IndexName[] sources, char[] footnoteCharacter, StringBuilder footnote, ref char nextChar)
+        {
+            // Start to build a string to return as the result.
+            StringBuilder description = new StringBuilder();
+
+            // Get the collection of facts and loop through them.
+            clsFact[] facts = this.getFacts(factTypeIndex);
+            bool isFirst = true;
+            bool isFullStop = false;
+            for (int factCount = 0; factCount < facts.Length; factCount++)
             {
-                if (bFirst)
+                if (isFirst)
                 {
-                    sbDescription.Append(this.thirdPerson(true) + sPrefix + oFacts[nFact].information);
-                    if (nFact == oFacts.Length - 1)
+                    description.Append(this.thirdPerson(true) + prefix + facts[factCount].information);
+                    if (factCount == facts.Length - 1)
                     {
-                        // This is already the last one
-                        bFullStop = true;
+                        // This is already the last one.
+                        isFullStop = true;
                     }
-                    else if (sJoinWord == "")
+                    else if (joinWord == "")
                     {
-                        // Each fact has it's own sentense
-                        bFullStop = true;
+                        // Each fact has it's own sentense.
+                        isFullStop = true;
                     }
                     else
                     {
-                        // Use the join word for subsequent facts
-                        bFirst = false;
+                        // Use the join word for subsequent facts.
+                        isFirst = false;
                     }
                 }
                 else
                 {
-                    if (nFact == oFacts.Length - 1)
+                    if (factCount == facts.Length - 1)
                     {
-                        // Last fact use the join word
-                        sbDescription.Append(" " + sJoinWord + " " + oFacts[nFact].information);
-                        bFullStop = true;
+                        // Last fact use the join word.
+                        description.Append(" " + joinWord + " " + facts[factCount].information);
+                        isFullStop = true;
                     }
                     else
                     {
-                        // Imtermeadate fact just use a comma
-                        sbDescription.Append(", " + oFacts[nFact].information);
+                        // Imtermeadate fact just use a comma.
+                        description.Append(", " + facts[factCount].information);
                     }
                 }
 
-                // Add a footnote (if required)
-                if (bFootnotes)
+                // Add a footnote (if required).
+                if (isFootnotes)
                 {
-                    sbDescription.Append(getFootnote(oFacts[nFact].sources, oSources, cFootnote, sbFootnote, ref cNextChar));
+                    description.Append(getFootnote(facts[factCount].sources, sources, footnoteCharacter, footnote, ref nextChar));
                 }
 
-                // Add a full stop after the last fact
-                if (bFullStop)
+                // Add a full stop after the last fact.
+                if (isFullStop)
                 {
-                    sbDescription.Append(". ");
+                    description.Append(". ");
                 }
             }
 
-            // Return the string built
-            return sbDescription.ToString();
+            // Return the string built.
+            return description.ToString();
         }
 
 
@@ -1635,63 +1634,61 @@ namespace FamilyTree.Objects
 
         #region Media
 
-        /// <summary>
-        /// Returns an array of media object indexes associated with this person.
-        /// </summary>
-        /// <param name="bExcludePrimary">Specify true not to include the primary media object index.</param>
+
+
+        /// <summary>Returns an array of media object indexes associated with this person.</summary>
+        /// <param name="isExcludePrimary">Specify true not to include the primary media object index.</param>
         /// <returns>An array of indexes of media objects.</returns>
-        public int[] GetMediaID
+        public int[] getMediaIndexes
             (
-            bool bExcludePrimary
+            bool isExcludePrimary
             )
         {
             // Decide if to exclude the primary media object
-            int nExcludeID = -1;
-            if (bExcludePrimary)
+            int excludeIndex = -1;
+            if (isExcludePrimary)
             {
-                nExcludeID = mediaIndex;
+                excludeIndex = mediaIndex;
             }
 
-            ArrayList oMedia = new ArrayList();
+            ArrayList media = new ArrayList();
 
-            string sSql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIndex_.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, database_.cndb);
-            OleDbDataReader drMedia = oSql.ExecuteReader();
-            while (drMedia.Read())
+            string sql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIndex_.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                int nMediaID = walton.Database.getInt(drMedia, "MediaID", 0);
-                if (nMediaID != 0 && nMediaID != nExcludeID)
+                int mediaIndex = walton.Database.getInt(dataReader, "MediaID", 0);
+                if (mediaIndex != 0 && mediaIndex != excludeIndex)
                 {
-                    oMedia.Add(nMediaID);
+                    media.Add(mediaIndex);
                 }
             }
-            drMedia.Close();
+            dataReader.Close();
 
-            // Return the collection an array 
-            return (int[])oMedia.ToArray(typeof(int));
+            // Return the collection an array .
+            return (int[])media.ToArray(typeof(int));
         }
 
-        /// <summary>
-        /// Returns an array of media objects associated with this person.
-        /// </summary>
-        /// <param name="bExcludePrimary">Specify true not to include the primary media object index.</param>
+
+
+        /// <summary>Returns an array of media objects associated with this person.</summary>
+        /// <param name="isExcludePrimary">Specify true not to include the primary media object index.</param>
         /// <returns>An array of media objects.</returns>
-        public clsMedia[] GetMedia
-            (
-            bool bExcludePrimary
-            )
+        public clsMedia[] getMedia(bool isExcludePrimary)
         {
-            int[] nMediaIDs = GetMediaID(bExcludePrimary);
-            clsMedia[] oReturn = new clsMedia[nMediaIDs.Length];
-            int nI = 0;
-            foreach (int nMediaID in nMediaIDs)
+            int[] mediaIndexes = getMediaIndexes(isExcludePrimary);
+            clsMedia[] result = new clsMedia[mediaIndexes.Length];
+            int i = 0;
+            foreach (int mediaIndex in mediaIndexes)
             {
-                clsMedia oMedia = new clsMedia(database_, nMediaID);
-                oReturn[nI++] = oMedia;
+                clsMedia media = new clsMedia(database_, mediaIndex);
+                result[i++] = media;
             }
 
-            return oReturn;
+            return result;
         }
+
 
 
         #endregion
@@ -1775,7 +1772,7 @@ namespace FamilyTree.Objects
 
             // Find the full filename of the media object
             clsMedia oMedia = new clsMedia(database_, mediaIndex);
-            return oMedia.FullFilename;
+            return oMedia.fullFileName;
         }
 
         #endregion

@@ -147,7 +147,7 @@
     </Compile>
     <Compile Include="Place.cs" />
     <Compile Include="Places.cs" />
-    <Compile Include="clsReferences.cs">
+    <Compile Include="References.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Relationship.cs">

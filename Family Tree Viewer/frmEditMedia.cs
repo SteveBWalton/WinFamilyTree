@@ -57,14 +57,14 @@ namespace FamilyTree.Viewer
             }
             m_sMediaDirectory = oDb.getMediaDirectory();
 
-            m_txtTitle.Text  = m_oMedia.Title;
-            m_txtFilename.Text = m_oMedia.Filename;
-            m_chkPrimary.Checked = m_oMedia.Primary;
-            m_chkThumbnail.Checked = m_oMedia.Thumbnail;
-            OpenImage(m_oMedia.FullFilename);
+            m_txtTitle.Text  = m_oMedia.title;
+            m_txtFilename.Text = m_oMedia.fileName;
+            m_chkPrimary.Checked = m_oMedia.isPrimary;
+            m_chkThumbnail.Checked = m_oMedia.isThumbnail;
+            OpenImage(m_oMedia.fullFileName);
 
             // Populate the list of people combo box
-            int[] oAttachedPeople = m_oMedia.GetAttachedPeople();
+            int[] oAttachedPeople = m_oMedia.getAttachedPeople();
             IndexName[] oPeople = oDb.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE);
             foreach(IndexName oPerson in oPeople)
             {
@@ -128,7 +128,7 @@ namespace FamilyTree.Viewer
         /// </summary>
         public int MediaID
         {
-            get { return m_oMedia.ID; }
+            get { return m_oMedia.index_; }
         }
 
         #region Message Handlers
@@ -143,36 +143,36 @@ namespace FamilyTree.Viewer
         private void cmdOK_Click(object sender,EventArgs e)
         {
             // Update the media object
-            m_oMedia.Filename = m_txtFilename.Text;
-            m_oMedia.Title = m_txtTitle.Text;
+            m_oMedia.fileName = m_txtFilename.Text;
+            m_oMedia.title = m_txtTitle.Text;
             try
             {
-                m_oMedia.Width = int.Parse(m_txtWidth.Text);
+                m_oMedia.width = int.Parse(m_txtWidth.Text);
             }
             catch
             {
-                m_oMedia.Width = -1;
+                m_oMedia.width = -1;
             }
             try
             {
-                m_oMedia.Height = int.Parse(m_txtHeight.Text);
+                m_oMedia.height = int.Parse(m_txtHeight.Text);
             }
             catch
             {
-                m_oMedia.Height = -1;
+                m_oMedia.height = -1;
             }
-            m_oMedia.Primary = m_chkPrimary.Checked;
-            m_oMedia.Thumbnail = m_chkThumbnail.Checked;
+            m_oMedia.isPrimary = m_chkPrimary.Checked;
+            m_oMedia.isThumbnail = m_chkThumbnail.Checked;
 
             // Update the attached people
-            m_oMedia.RemoveAllPeople();
+            m_oMedia.removeAllPeople();
             foreach(IndexName oPerson in m_lstPeople.Items)
             {
-                m_oMedia.AddPerson(oPerson.index);
+                m_oMedia.addPerson(oPerson.index);
             }
 
             // Save this media object
-            m_oMedia.Save();
+            m_oMedia.save();
         }
 
         /// <summary>

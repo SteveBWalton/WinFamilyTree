@@ -537,11 +537,11 @@ namespace FamilyTree.Viewer
 
                 if (m_cboMainImage.Items.Count == 0)
                 {
-                    clsMedia[] oMedias = person_.GetMedia(false);
+                    clsMedia[] oMedias = person_.getMedia(false);
                     foreach (clsMedia oMedia in oMedias)
                     {
                         m_cboMainImage.Items.Add(oMedia);
-                        if (oMedia.ID == person_.MediaID)
+                        if (oMedia.index_ == person_.MediaID)
                         {
                             m_cboMainImage.SelectedIndex = m_cboMainImage.Items.Count - 1;
                         }
@@ -1092,7 +1092,7 @@ namespace FamilyTree.Viewer
                 Bitmap oImage = null;
                 try
                 {
-                    oImage = new Bitmap(oMedia.FullFilename);
+                    oImage = new Bitmap(oMedia.fullFileName);
                 }
                 catch
                 {
@@ -1121,7 +1121,7 @@ namespace FamilyTree.Viewer
             clsMedia oMedia = (clsMedia)m_cboMainImage.SelectedItem;
 
             // Save the ID in the person object
-            person_.MediaID = oMedia.ID;
+            person_.MediaID = oMedia.index_;
 
             // Display the image on the form
             ShowImage();
