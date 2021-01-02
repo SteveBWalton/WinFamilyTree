@@ -5,7 +5,7 @@ using System.Data.OleDb;		// Access database ADO.NET
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent a fact about a person.</summary>
-    public class clsFact
+    public class Fact
     {
         #region Member Variables
 
@@ -42,7 +42,7 @@ namespace FamilyTree.Objects
         /// Creates an empty fact object.
         /// It is intended that this creates new fact objects.
         /// </summary>
-        public clsFact()
+        public Fact()
         {
             person_ = null;
             sources_ = null;
@@ -60,7 +60,7 @@ namespace FamilyTree.Objects
         /// <param name="nTypeID">Specifies the type of this fact.</param>
         /// <param name="nRank">Specifies the rank order of the fact within the specified person.</param>
         /// <param name="sDescription">Specifies the description (data) for this fact.</param>
-        public clsFact
+        public Fact
             (
             int nID,
             Person oPerson,
@@ -240,12 +240,12 @@ namespace FamilyTree.Objects
         {
             get
             {
-                clsFactType factType = person_.database.GetFactType(typeIndex_);
+                FactType factType = person_.database.getFactType(typeIndex_);
                 if (factType == null)
                 {
                     return null;
                 }
-                return factType.Name;
+                return factType.name;
             }
         }
 

@@ -123,23 +123,23 @@
     <Compile Include="clsDeathCertificate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsFact.cs">
+    <Compile Include="Fact.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsFactType.cs">
+    <Compile Include="FactType.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsFamilies.cs">
+    <Compile Include="Families.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsFamily.cs">
+    <Compile Include="Family.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GedcomOptions.cs" />
     <Compile Include="IndexName.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsMarriageCertificate.cs">
+    <Compile Include="MarriageCertificate.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Person.cs">
@@ -159,7 +159,7 @@
     <Compile Include="Sources.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsMedia.cs" />
+    <Compile Include="Media.cs" />
     <Compile Include="ToDo.cs" />
     <Compile Include="walton\database.cs" />
     <Compile Include="walton\xml.cs" />

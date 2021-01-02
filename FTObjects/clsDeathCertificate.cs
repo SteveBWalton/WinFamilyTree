@@ -7,208 +7,218 @@ using System.Text;
 
 namespace FamilyTree.Objects
 {
-	/// <summary>Class to represent the additional information on a death certificate source.  This is closely related to the tbl_DeathCertificates table.</summary>
-	public class clsDeathCertificate
-	{
-		#region Member Variables
+    /// <summary>Class to represent the additional information on a death certificate source.  This is closely related to the tbl_DeathCertificates table.</summary>
+    public class clsDeathCertificate
+    {
+        #region Member Variables
 
-		/// <summary>The ID of the death certificate record.  This should match with the ID the parent source.</summary>
-		private int m_nID;
+        /// <summary>The ID of the death certificate record.  This should match with the ID the parent source.</summary>
+        private int index_;
 
-		/// <summary>The registration district as specified on the birth certificate.</summary>
-		public string RegistrationDistrict;
+        /// <summary>The registration district as specified on the birth certificate.</summary>
+        public string registrationDistrict;
 
-		/// <summary>The when field as specified on the birth certificate.</summary>
-		public string When;
+        /// <summary>The when field as specified on the birth certificate.</summary>
+        public string when;
 
         /// <summary>The where field modified into a database place record.</summary>
-        public string Place;
+        public string place;
 
-		/// <summary>The name as specified on the birth certificate.</summary>
-		public string Name;
+        /// <summary>The name as specified on the birth certificate.</summary>
+        public string name;
 
-		/// <summary>The sex as specified on the birth certificate.</summary>
-		public string Sex;
+        /// <summary>The sex as specified on the birth certificate.</summary>
+        public string sex;
 
-		/// <summary>Date and place of birth.  Only on newer certificates.</summary>
-		public string DatePlaceOfBirth;
+        /// <summary>Date and place of birth.  Only on newer certificates.</summary>
+        public string datePlaceOfBirth;
 
-		/// <summary>Occupation of the dead person.</summary>
-		public string Occupation;
+        /// <summary>Occupation of the dead person.</summary>
+        public string occupation;
 
-		/// <summary>Address of the dead person.</summary>
-		public string UsualAddress;
+        /// <summary>Address of the dead person.</summary>
+        public string usualAddress;
 
-		/// <summary>Cause of death of the dead person.</summary>
-		public string CauseOfDeath;
+        /// <summary>Cause of death of the dead person.</summary>
+        public string causeOfDeath;
 
-		/// <summary>Name of the informant.</summary>
-		public string Informant;
+        /// <summary>Name of the informant.</summary>
+        public string informant;
 
-		/// <summary>Description of the informant.  Wife, Husband, son etc ... </summary>
-		public string InformantDescription;
+        /// <summary>Description of the informant.  Wife, Husband, son etc ... </summary>
+        public string informantDescription;
 
-		/// <summary>Address of the informant.</summary>
-		public string InformantAddress;
+        /// <summary>Address of the informant.</summary>
+        public string informantAddress;
 
-		/// <summary>When the death certificate was created.</summary>
-		public string WhenRegistered;
+        /// <summary>When the death certificate was created.</summary>
+        public string whenRegistered;
 
         /// <summary>The GRO reference for the certificate.</summary>
-        public string GroReference;
+        public string groReference;
 
-		#endregion
+        #endregion
 
-		/// <summary>Class constructor.</summary>
-		/// <param name="nID">Specifies the ID of the source record.</param>
-		public clsDeathCertificate			(			int nID			)
-		{
-			m_nID = nID;
-		}
 
-		/// <summary>Class constructor that loads the current values from the specified database.</summary>
-		/// <param name="nID">Specifies the ID of the parent source record.</param>
-		/// <param name="cnDb">Specifies the database connection to load the information from.</param>
-		public clsDeathCertificate			(			int nID,			OleDbConnection cnDb			) : this(nID)
-		{
-			string sSql = "SELECT * FROM tbl_DeathCertificates WHERE ID=" + m_nID.ToString()+";";
-			OleDbCommand oSql = new OleDbCommand(sSql,cnDb);
-			OleDbDataReader drDeath = oSql.ExecuteReader();
-			if(drDeath.Read())
-			{
-				RegistrationDistrict = Database.getString(drDeath,"RegistrationDistrict","");
-                When = Database.getString(drDeath,"WhenWhere","");
-                Place = Database.getString(drDeath,"Place","");
-                Name = Database.getString(drDeath,"Name","");
-				Sex = Database.getString(drDeath,"Sex","");
-				DatePlaceOfBirth = Database.getString(drDeath,"DatePlaceOfBirth","");
-				Occupation = Database.getString(drDeath,"Occupation","");
-				UsualAddress = Database.getString(drDeath,"UsualAddress","");
-				CauseOfDeath = Database.getString(drDeath,"CauseOfDeath","");
-				Informant = Database.getString(drDeath,"Informant","");
-				InformantDescription = Database.getString(drDeath,"InformantDescription","");
-				InformantAddress = Database.getString(drDeath,"InformantAddress","");
-				WhenRegistered = Database.getString(drDeath,"WhenRegistered","");
-                GroReference = Database.getString(drDeath,"GroReference","");
-			}
-			drDeath.Close();
-		}
 
-		/// <summary>Writes the death certificate record into the specified database.</summary>
-		/// <param name="oDb">Specifies the database to write the birth certificate record into.</param>
-		/// <returns>True for success, false otherwise.</returns>
-		public bool Save			(			Database oDb			)
-		{
-			// Validate the ID
-			if(m_nID==0)
-			{
-				return false;
-			}
+        /// <summary>Class constructor.</summary>
+        /// <param name="index">Specifies the ID of the source record.</param>
+        public clsDeathCertificate(int index)
+        {
+            index_ = index;
+        }
 
-			// Write the record into the database
-            string sSql = "UPDATE tbl_DeathCertificates SET "
-                + "RegistrationDistrict=" + Database.toDb(RegistrationDistrict)
-                + ",WhenWhere=" + Database.toDb(When)
-                + ",Place=" + Database.toDb(Place)
-                + ",Name=" + Database.toDb(Name)
-                + ",Sex=" + Database.toDb(Sex)
-                + ",DatePlaceOfBirth=" + Database.toDb(DatePlaceOfBirth)
-                + ",Occupation=" + Database.toDb(Occupation)
-                + ",UsualAddress=" + Database.toDb(UsualAddress)
-                + ",CauseOfDeath=" + Database.toDb(CauseOfDeath)
-                + ",Informant=" + Database.toDb(Informant)
-                + ",InformantDescription=" + Database.toDb(InformantDescription)
-                + ",InformantAddress=" + Database.toDb(InformantAddress)
-                + ",WhenRegistered=" + Database.toDb(WhenRegistered)
-                + ",GroReference=" + Database.toDb(GroReference)
-                + " WHERE ID=" + m_nID.ToString() + ";";
-			OleDbCommand oSql = new OleDbCommand(sSql,oDb.cndb);
-			int nNumRows = oSql.ExecuteNonQuery();
-			if(nNumRows==0)
-			{
-				sSql = "INSERT INTO tbl_DeathCertificates (ID,RegistrationDistrict,WhenWhere,Place,Name,Sex,DatePlaceOfBirth,Occupation,UsualAddress,CauseOfDeath,Informant,InformantDescription,InformantAddress,WhenRegistered) VALUES ("
-					+m_nID.ToString()
-					+","+Database.toDb(RegistrationDistrict)
-					+","+Database.toDb(When)
-					+","+Database.toDb(Place)
-					+","+Database.toDb(Name)
-					+","+Database.toDb(Sex)
-					+","+Database.toDb(DatePlaceOfBirth)
-					+","+Database.toDb(Occupation)
-					+","+Database.toDb(UsualAddress)
-					+","+Database.toDb(CauseOfDeath)
-					+","+Database.toDb(Informant)
-					+","+Database.toDb(InformantDescription)
-					+","+Database.toDb(InformantAddress)
-					+","+Database.toDb(WhenRegistered)
-					+");";
-				oSql = new OleDbCommand(sSql,oDb.cndb);
-				oSql.ExecuteNonQuery();
-			}
 
-			// Return success
-			return true;
-		}
+
+        /// <summary>Class constructor that loads the current values from the specified database.</summary>
+        /// <param name="index">Specifies the ID of the parent source record.</param>
+        /// <param name="cndb">Specifies the database connection to load the information from.</param>
+        public clsDeathCertificate(int index, OleDbConnection cndb) : this(index)
+        {
+            string sql = "SELECT * FROM tbl_DeathCertificates WHERE ID=" + index_.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            if (dataReader.Read())
+            {
+                registrationDistrict = Database.getString(dataReader, "RegistrationDistrict", "");
+                when = Database.getString(dataReader, "WhenWhere", "");
+                place = Database.getString(dataReader, "Place", "");
+                name = Database.getString(dataReader, "Name", "");
+                sex = Database.getString(dataReader, "Sex", "");
+                datePlaceOfBirth = Database.getString(dataReader, "DatePlaceOfBirth", "");
+                occupation = Database.getString(dataReader, "Occupation", "");
+                usualAddress = Database.getString(dataReader, "UsualAddress", "");
+                causeOfDeath = Database.getString(dataReader, "CauseOfDeath", "");
+                informant = Database.getString(dataReader, "Informant", "");
+                informantDescription = Database.getString(dataReader, "InformantDescription", "");
+                informantAddress = Database.getString(dataReader, "InformantAddress", "");
+                whenRegistered = Database.getString(dataReader, "WhenRegistered", "");
+                groReference = Database.getString(dataReader, "GroReference", "");
+            }
+            dataReader.Close();
+        }
+
+
+
+        /// <summary>Writes the death certificate record into the specified database.</summary>
+        /// <param name="database">Specifies the database to write the birth certificate record into.</param>
+        /// <returns>True for success, false otherwise.</returns>
+        public bool save(Database database)
+        {
+            // Validate the ID.
+            if (index_ == 0)
+            {
+                return false;
+            }
+
+            // Write the record into the database.
+            string sql = "UPDATE tbl_DeathCertificates SET "
+                + "RegistrationDistrict = " + Database.toDb(registrationDistrict)
+                + ", WhenWhere = " + Database.toDb(when)
+                + ", Place = " + Database.toDb(place)
+                + ", Name = " + Database.toDb(name)
+                + ", Sex = " + Database.toDb(sex)
+                + ", DatePlaceOfBirth = " + Database.toDb(datePlaceOfBirth)
+                + ", Occupation = " + Database.toDb(occupation)
+                + ", UsualAddress = " + Database.toDb(usualAddress)
+                + ", CauseOfDeath = " + Database.toDb(causeOfDeath)
+                + ", Informant = " + Database.toDb(informant)
+                + ", InformantDescription = " + Database.toDb(informantDescription)
+                + ", InformantAddress = " + Database.toDb(informantAddress)
+                + ", WhenRegistered = " + Database.toDb(whenRegistered)
+                + ", GroReference = " + Database.toDb(groReference)
+                + " WHERE ID = " + index_.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
+            int numRows = sqlCommand.ExecuteNonQuery();
+            if (numRows == 0)
+            {
+                sql = "INSERT INTO tbl_DeathCertificates (ID, RegistrationDistrict, WhenWhere, Place, Name, Sex, DatePlaceOfBirth, Occupation, UsualAddress, CauseOfDeath, Informant, InformantDescription, InformantAddress, WhenRegistered) VALUES ("
+                    + index_.ToString()
+                    + ", " + Database.toDb(registrationDistrict)
+                    + ", " + Database.toDb(when)
+                    + ", " + Database.toDb(place)
+                    + ", " + Database.toDb(name)
+                    + ", " + Database.toDb(sex)
+                    + ", " + Database.toDb(datePlaceOfBirth)
+                    + ", " + Database.toDb(occupation)
+                    + ", " + Database.toDb(usualAddress)
+                    + ", " + Database.toDb(causeOfDeath)
+                    + ", " + Database.toDb(informant)
+                    + ", " + Database.toDb(informantDescription)
+                    + ", " + Database.toDb(informantAddress)
+                    + ", " + Database.toDb(whenRegistered)
+                    + ");";
+                sqlCommand = new OleDbCommand(sql, database.cndb);
+                sqlCommand.ExecuteNonQuery();
+            }
+
+            // Return success.
+            return true;
+        }
+
+
 
         /// <summary>Return the death certificate information in Html format.</summary>
         /// <returns>A description of the death certificate in Html format.</returns>
-        public string ToHtml            (            Database oDb            )
+        public string toHtml(Database database)
         {
             // Initialise the Html description
-            StringBuilder sbHtml = new StringBuilder();
+            StringBuilder html = new StringBuilder();
 
-            sbHtml.Append("<TABLE align=center bgcolor=thistle border=0 cellpadding=5 cellspacing=0>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Registration District</SPAN></TD><TD colspan=3>"+ RegistrationDistrict + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">When and Where</SPAN></TD><TD colspan=3>"+ When + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Name</SPAN></TD><TD>"+ Name + "</TD>");
-            sbHtml.Append("<TD align=right><SPAN class=\"Death\">Sex</SPAN></TD><TD>"+ Sex + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Date Place of Birth</SPAN></TD><TD colspan=3>" + DatePlaceOfBirth + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Occupation</SPAN></TD><TD colspan=3>" + Occupation + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Usual Address</SPAN></TD><TD colspan=3>" + UsualAddress + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Cause of Death</SPAN></TD><TD colspan=3>"+ Database.htmlString(CauseOfDeath) + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Informant</SPAN></TD><TD>"+ Informant + "</TD>");
-            sbHtml.Append("<TD align=right><SPAN class=\"Death\">Informant Description</SPAN></TD><TD>"+ InformantDescription + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">Informant Address</SPAN></TD><TD colspan=3>"+ InformantAddress + "</TD></TR>");
-            sbHtml.Append("<TR><TD align=right><SPAN class=\"Death\">When Registered</SPAN></TD><TD>" + WhenRegistered + "</TD>");
-            sbHtml.Append("<TD align=right><SPAN class=\"Death\">Reference</SPAN></TD><TD>" + GroReference + "</TD></TR>");
-            sbHtml.Append("</TABLE>");
+            html.Append("<TABLE align=center bgcolor=thistle border=0 cellpadding=5 cellspacing=0>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Registration District</SPAN></TD><TD colspan=3>" + registrationDistrict + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">When and Where</SPAN></TD><TD colspan=3>" + when + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Name</SPAN></TD><TD>" + name + "</TD>");
+            html.Append("<TD align=right><SPAN class=\"Death\">Sex</SPAN></TD><TD>" + sex + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Date Place of Birth</SPAN></TD><TD colspan=3>" + datePlaceOfBirth + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Occupation</SPAN></TD><TD colspan=3>" + occupation + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Usual Address</SPAN></TD><TD colspan=3>" + usualAddress + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Cause of Death</SPAN></TD><TD colspan=3>" + Database.htmlString(causeOfDeath) + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Informant</SPAN></TD><TD>" + informant + "</TD>");
+            html.Append("<TD align=right><SPAN class=\"Death\">Informant Description</SPAN></TD><TD>" + informantDescription + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">Informant Address</SPAN></TD><TD colspan=3>" + informantAddress + "</TD></TR>");
+            html.Append("<TR><TD align=right><SPAN class=\"Death\">When Registered</SPAN></TD><TD>" + whenRegistered + "</TD>");
+            html.Append("<TD align=right><SPAN class=\"Death\">Reference</SPAN></TD><TD>" + groReference + "</TD></TR>");
+            html.Append("</TABLE>");
 
-            // Return the Html description
-            return sbHtml.ToString();
+            // Return the Html description.
+            return html.ToString();
         }
+
+
 
         /// <summary>Returns the death certificate information format for a webtree's certificate..</summary>
         /// <returns>A description of the death certificate in webtree's format.</returns>
-        public string ToWebtrees(Database oDb)
+        public string toWebtrees(Database database)
         {
-            // Initialise the Html description
-            StringBuilder sbHtml = new StringBuilder();
+            // Initialise the Html description.
+            StringBuilder html = new StringBuilder();
 
-            sbHtml.Append("&lt;a name=\""+Name.ToLower().Replace(' ', '_')+"_"+When.Substring(When.Length-4)+"\"&gt;<br/>");
-            sbHtml.Append("&lt;h2&gt;"+Name+"&lt;/h2&gt;<br/>");
-            sbHtml.Append("&lt;table class=\"death\"&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Registration District&lt;/td&gt;&lt;<TD colspan=3>"+ RegistrationDistrict + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;When and Where</SPAN>&lt;/td&gt;&lt;<TD colspan=3>"+ When + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Name&lt;/td&gt;&lt;td&gt;"+ Name + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td&gt;Sex&lt;/td&gt;&lt;td&gt;"+ Sex + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Date Place of Birth&lt;/td&gt;&lt;td colspan=3>" + DatePlaceOfBirth + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Occupation&lt;/td&gt;&lt;td colspan=3>" + Occupation + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Usual Address&lt;/td&gt;&lt;td colspan=\"3\"&gt;" + UsualAddress + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Cause of Death&lt;/td&gt;&lt;td colspan=\"3\"&gt;"+ Database.htmlString(CauseOfDeath) + "&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Informant&lt;/td&gt;&lt;TD>"+ Informant + "&lt;/td&gt;");
-            sbHtml.Append("<TD align=right>Informant Description&lt;/td&gt;&lt;td&gt;"+ InformantDescription + "&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;Informant Address&lt;/td&gt;&lt;td class=\"data\" colspan=\"3\"&gt;"+ InformantAddress + "&lt;/td&gt;&lt;/tr&gt;<br/>");
-            sbHtml.Append("&lt;tr&gt;&lt;td&gt;When Registered&lt;/td&gt;&lt;td&gt;" + WhenRegistered + "&lt;/td&gt;");
-            sbHtml.Append("&lt;td&gt;Reference&lt;td&gt;&lt;td class=\"data\"&gt;" + GroReference + "&lt;/td&gt;&lt;/tr&gt;<br/>");            
-            sbHtml.Append("&lt;/table class=\"death\"&gt;<br/>");
+            html.Append("&lt;a name=\"" + name.ToLower().Replace(' ', '_') + "_" + when.Substring(when.Length - 4) + "\"&gt;<br/>");
+            html.Append("&lt;h2&gt;" + name + "&lt;/h2&gt;<br/>");
+            html.Append("&lt;table class=\"death\"&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Registration District&lt;/td&gt;&lt;<TD colspan=3>" + registrationDistrict + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;When and Where</SPAN>&lt;/td&gt;&lt;<TD colspan=3>" + when + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Name&lt;/td&gt;&lt;td&gt;" + name + "&lt;/td&gt;");
+            html.Append("&lt;td&gt;Sex&lt;/td&gt;&lt;td&gt;" + sex + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Date Place of Birth&lt;/td&gt;&lt;td colspan=3>" + datePlaceOfBirth + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Occupation&lt;/td&gt;&lt;td colspan=3>" + occupation + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Usual Address&lt;/td&gt;&lt;td colspan=\"3\"&gt;" + usualAddress + "&lt;/td&gt;&lt;/tr&gt;&lt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Cause of Death&lt;/td&gt;&lt;td colspan=\"3\"&gt;" + Database.htmlString(causeOfDeath) + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Informant&lt;/td&gt;&lt;TD>" + informant + "&lt;/td&gt;");
+            html.Append("<TD align=right>Informant Description&lt;/td&gt;&lt;td&gt;" + informantDescription + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;Informant Address&lt;/td&gt;&lt;td class=\"data\" colspan=\"3\"&gt;" + informantAddress + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;tr&gt;&lt;td&gt;When Registered&lt;/td&gt;&lt;td&gt;" + whenRegistered + "&lt;/td&gt;");
+            html.Append("&lt;td&gt;Reference&lt;td&gt;&lt;td class=\"data\"&gt;" + groReference + "&lt;/td&gt;&lt;/tr&gt;<br/>");
+            html.Append("&lt;/table class=\"death\"&gt;<br/>");
 
-            // Return the Html description
-            return sbHtml.ToString();
+            // Return the Html description.
+            return html.ToString();
         }
 
 
-		/// <summary>The ID of the birth certificate record.  This should match with the ID the parent source.</summary>
-		public int ID { get { return m_nID; } set { m_nID = value; } }
+        /// <summary>The ID of the birth certificate record.  This should match with the ID the parent source.</summary>
+        public int index { get { return index_; } set { index_ = value; } }
 
-	}
+    }
 }

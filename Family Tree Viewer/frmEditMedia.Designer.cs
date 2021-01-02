@@ -42,16 +42,16 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             System.Windows.Forms.Splitter oSplitter;
-            this.m_lstPeople = new System.Windows.Forms.ListBox();
-            this.m_cboPeople = new System.Windows.Forms.ComboBox();
-            this.m_txtFilename = new System.Windows.Forms.TextBox();
-            this.m_txtHeight = new System.Windows.Forms.TextBox();
-            this.m_txtWidth = new System.Windows.Forms.TextBox();
+            this.lstPeople_ = new System.Windows.Forms.ListBox();
+            this.cboPeople_ = new System.Windows.Forms.ComboBox();
+            this.txtFilename_ = new System.Windows.Forms.TextBox();
+            this.txtHeight_ = new System.Windows.Forms.TextBox();
+            this.txtWidth_ = new System.Windows.Forms.TextBox();
             this.m_chkThumbnail = new System.Windows.Forms.CheckBox();
             this.m_chkPrimary = new System.Windows.Forms.CheckBox();
             this.m_txtTitle = new System.Windows.Forms.TextBox();
-            this.m_PictureBox = new System.Windows.Forms.PictureBox();
-            this.m_OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox_ = new System.Windows.Forms.PictureBox();
+            this.openFileDialog_ = new System.Windows.Forms.OpenFileDialog();
             LeftPanel = new System.Windows.Forms.Panel();
             cmdRemovePerson = new System.Windows.Forms.Button();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
@@ -65,22 +65,22 @@ namespace FamilyTree.Viewer
             cmdOK = new System.Windows.Forms.Button();
             oSplitter = new System.Windows.Forms.Splitter();
             LeftPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_PictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_)).BeginInit();
             this.SuspendLayout();
             // 
             // LeftPanel
             // 
             LeftPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             LeftPanel.Controls.Add(cmdRemovePerson);
-            LeftPanel.Controls.Add(this.m_lstPeople);
+            LeftPanel.Controls.Add(this.lstPeople_);
             LeftPanel.Controls.Add(cmdAddPerson);
-            LeftPanel.Controls.Add(this.m_cboPeople);
+            LeftPanel.Controls.Add(this.cboPeople_);
             LeftPanel.Controls.Add(cmdOpen);
-            LeftPanel.Controls.Add(this.m_txtFilename);
+            LeftPanel.Controls.Add(this.txtFilename_);
             LeftPanel.Controls.Add(label4);
             LeftPanel.Controls.Add(label3);
-            LeftPanel.Controls.Add(this.m_txtHeight);
-            LeftPanel.Controls.Add(this.m_txtWidth);
+            LeftPanel.Controls.Add(this.txtHeight_);
+            LeftPanel.Controls.Add(this.txtWidth_);
             LeftPanel.Controls.Add(label2);
             LeftPanel.Controls.Add(this.m_chkThumbnail);
             LeftPanel.Controls.Add(this.m_chkPrimary);
@@ -121,13 +121,13 @@ namespace FamilyTree.Viewer
             // 
             // m_lstPeople
             // 
-            this.m_lstPeople.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lstPeople_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_lstPeople.FormattingEnabled = true;
-            this.m_lstPeople.Location = new System.Drawing.Point(8, 331);
-            this.m_lstPeople.Name = "m_lstPeople";
-            this.m_lstPeople.Size = new System.Drawing.Size(160, 95);
-            this.m_lstPeople.TabIndex = 15;
+            this.lstPeople_.FormattingEnabled = true;
+            this.lstPeople_.Location = new System.Drawing.Point(8, 331);
+            this.lstPeople_.Name = "m_lstPeople";
+            this.lstPeople_.Size = new System.Drawing.Size(160, 95);
+            this.lstPeople_.TabIndex = 15;
             // 
             // cmdAddPerson
             // 
@@ -145,14 +145,14 @@ namespace FamilyTree.Viewer
             // 
             // m_cboPeople
             // 
-            this.m_cboPeople.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.cboPeople_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_cboPeople.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboPeople.FormattingEnabled = true;
-            this.m_cboPeople.Location = new System.Drawing.Point(8, 271);
-            this.m_cboPeople.Name = "m_cboPeople";
-            this.m_cboPeople.Size = new System.Drawing.Size(160, 21);
-            this.m_cboPeople.TabIndex = 13;
+            this.cboPeople_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPeople_.FormattingEnabled = true;
+            this.cboPeople_.Location = new System.Drawing.Point(8, 271);
+            this.cboPeople_.Name = "m_cboPeople";
+            this.cboPeople_.Size = new System.Drawing.Size(160, 21);
+            this.cboPeople_.TabIndex = 13;
             // 
             // cmdOpen
             // 
@@ -171,12 +171,12 @@ namespace FamilyTree.Viewer
             // 
             // m_txtFilename
             // 
-            this.m_txtFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtFilename_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtFilename.Location = new System.Drawing.Point(8, 24);
-            this.m_txtFilename.Name = "m_txtFilename";
-            this.m_txtFilename.Size = new System.Drawing.Size(160, 21);
-            this.m_txtFilename.TabIndex = 11;
+            this.txtFilename_.Location = new System.Drawing.Point(8, 24);
+            this.txtFilename_.Name = "m_txtFilename";
+            this.txtFilename_.Size = new System.Drawing.Size(160, 21);
+            this.txtFilename_.TabIndex = 11;
             // 
             // label4
             // 
@@ -198,19 +198,19 @@ namespace FamilyTree.Viewer
             // 
             // m_txtHeight
             // 
-            this.m_txtHeight.Location = new System.Drawing.Point(72, 244);
-            this.m_txtHeight.Name = "m_txtHeight";
-            this.m_txtHeight.ReadOnly = true;
-            this.m_txtHeight.Size = new System.Drawing.Size(100, 21);
-            this.m_txtHeight.TabIndex = 8;
+            this.txtHeight_.Location = new System.Drawing.Point(72, 244);
+            this.txtHeight_.Name = "m_txtHeight";
+            this.txtHeight_.ReadOnly = true;
+            this.txtHeight_.Size = new System.Drawing.Size(100, 21);
+            this.txtHeight_.TabIndex = 8;
             // 
             // m_txtWidth
             // 
-            this.m_txtWidth.Location = new System.Drawing.Point(72, 216);
-            this.m_txtWidth.Name = "m_txtWidth";
-            this.m_txtWidth.ReadOnly = true;
-            this.m_txtWidth.Size = new System.Drawing.Size(100, 21);
-            this.m_txtWidth.TabIndex = 7;
+            this.txtWidth_.Location = new System.Drawing.Point(72, 216);
+            this.txtWidth_.Name = "m_txtWidth";
+            this.txtWidth_.ReadOnly = true;
+            this.txtWidth_.Size = new System.Drawing.Size(100, 21);
+            this.txtWidth_.TabIndex = 7;
             // 
             // label2
             // 
@@ -300,16 +300,16 @@ namespace FamilyTree.Viewer
             // 
             // m_PictureBox
             // 
-            this.m_PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.m_PictureBox.Name = "m_PictureBox";
-            this.m_PictureBox.Size = new System.Drawing.Size(356, 508);
-            this.m_PictureBox.TabIndex = 2;
-            this.m_PictureBox.TabStop = false;
+            this.pictureBox_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox_.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox_.Name = "m_PictureBox";
+            this.pictureBox_.Size = new System.Drawing.Size(356, 508);
+            this.pictureBox_.TabIndex = 2;
+            this.pictureBox_.TabStop = false;
             // 
             // m_OpenFileDialog
             // 
-            this.m_OpenFileDialog.FileName = "openFileDialog1";
+            this.openFileDialog_.FileName = "openFileDialog1";
             // 
             // frmEditMedia
             // 
@@ -318,7 +318,7 @@ namespace FamilyTree.Viewer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = cmdCancel;
             this.ClientSize = new System.Drawing.Size(535, 508);
-            this.Controls.Add(this.m_PictureBox);
+            this.Controls.Add(this.pictureBox_);
             this.Controls.Add(oSplitter);
             this.Controls.Add(LeftPanel);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -328,23 +328,23 @@ namespace FamilyTree.Viewer
             this.Load += new System.EventHandler(this.frmEditMedia_Load);
             LeftPanel.ResumeLayout(false);
             LeftPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_PictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox m_PictureBox;
+        private System.Windows.Forms.PictureBox pictureBox_;
         private System.Windows.Forms.CheckBox m_chkPrimary;
         private System.Windows.Forms.TextBox m_txtTitle;
-        private System.Windows.Forms.TextBox m_txtHeight;
-        private System.Windows.Forms.TextBox m_txtWidth;
+        private System.Windows.Forms.TextBox txtHeight_;
+        private System.Windows.Forms.TextBox txtWidth_;
         private System.Windows.Forms.CheckBox m_chkThumbnail;
-        private System.Windows.Forms.TextBox m_txtFilename;
-        private System.Windows.Forms.OpenFileDialog m_OpenFileDialog;
-        private System.Windows.Forms.ListBox m_lstPeople;
-        private System.Windows.Forms.ComboBox m_cboPeople;
+        private System.Windows.Forms.TextBox txtFilename_;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_;
+        private System.Windows.Forms.ListBox lstPeople_;
+        private System.Windows.Forms.ComboBox cboPeople_;
 
     }
 }

@@ -45,7 +45,7 @@ namespace FamilyTree.Objects
         private OleDbConnection cndb_;
 
         /// <summary>List of fact types.</summary>
-        private clsFactType[] factTypes_;
+        private FactType[] factTypes_;
 
         /// <summary>Range of birthdate difference used to search for marriage partners.</summary>
         private int marriedRange_;
@@ -574,7 +574,7 @@ namespace FamilyTree.Objects
                 string sAddress = getString(drRepositories, "Address", "");
                 if (sAddress != "")
                 {
-                    GedcomMultiLine(oFile, 1, "ADDR", sAddress);
+                    gedcomMultiLine(oFile, 1, "ADDR", sAddress);
                 }
                 string sWebURL = getString(drRepositories, "WebURL", "");
                 if (sWebURL != "")
@@ -627,10 +627,10 @@ namespace FamilyTree.Objects
                             SourceMarriageCertificate(oFile, nID, oOptions);
                             break;
                         case 3: // Death Certificate
-                            SourceDeathCertificate(oFile, nID);
+                            sourceDeathCertificate(oFile, nID);
                             break;
                         case 4: // Census Information
-                            SourceCensusInfo(oFile, nID, oOptions);
+                            sourceCensusInfo(oFile, nID, oOptions);
                             break;
                         }
                     }
@@ -638,7 +638,7 @@ namespace FamilyTree.Objects
                     // The note for the source.
                     if (!drSources.IsDBNull(4))
                     {
-                        GedcomMultiLine(oFile, 1, "NOTE", drSources.GetString(4));
+                        gedcomMultiLine(oFile, 1, "NOTE", drSources.GetString(4));
                     }
 
                     // The repository for this source
@@ -683,423 +683,416 @@ namespace FamilyTree.Objects
             if (oBirth.registrationDistrict != "")
             {
                 // oFile.WriteLine("2 PLAC "+oBirth.RegistrationDistrict);
-                GedcomLongNote(ref bFirst, oFile, "Registration District: " + oBirth.registrationDistrict);
+                gedcomLongNote(ref bFirst, oFile, "Registration District: " + oBirth.registrationDistrict);
             }
             if (oBirth.whenAndWhere != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "When and Where: " + oBirth.when.ToString("d MMM yyyy") + oBirth.whenAndWhere);
+                gedcomLongNote(ref bFirst, oFile, "When and Where: " + oBirth.when.ToString("d MMM yyyy") + oBirth.whenAndWhere);
             }
             if (oBirth.name != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Name: " + oBirth.name + " (" + oBirth.sex + ")");
+                gedcomLongNote(ref bFirst, oFile, "Name: " + oBirth.name + " (" + oBirth.sex + ")");
             }
             if (oBirth.mother != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Mother: " + oBirth.mother);
+                gedcomLongNote(ref bFirst, oFile, "Mother: " + oBirth.mother);
             }
             if (oBirth.father != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Father: " + oBirth.father + " (" + oBirth.fatherOccupation + ")");
+                gedcomLongNote(ref bFirst, oFile, "Father: " + oBirth.father + " (" + oBirth.fatherOccupation + ")");
             }
             if (oBirth.informant != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Informant: " + oBirth.informant);
+                gedcomLongNote(ref bFirst, oFile, "Informant: " + oBirth.informant);
             }
             if (oBirth.whenRegistered != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "When Registered: " + oBirth.whenRegistered);
+                gedcomLongNote(ref bFirst, oFile, "When Registered: " + oBirth.whenRegistered);
             }
         }
 
-        // Write the additional marriage certificate information for a source.
-        /// <summary>
-        /// Write the additional marriage certificate information for a source.
-        /// </summary>
-		/// <param name="oFile">Specifies the file to write the information into.</param>
-		/// <param name="nSourceID">Specifies the ID of the marriage certificate (and the parent source record).</param>
-        private void SourceMarriageCertificate(StreamWriter oFile, int nSourceID, GedcomOptions oOptions)
+
+
+        /// <summary>Write the additional marriage certificate information for a source.</summary>
+		/// <param name="file">Specifies the file to write the information into.</param>
+		/// <param name="sourceIndex">Specifies the ID of the marriage certificate (and the parent source record).</param>
+        private void SourceMarriageCertificate(StreamWriter file, int sourceIndex, GedcomOptions options)
         {
-            // Connect to the database again (to open a second datareader)
-            OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
-            cnDb.Open();
+            // Connect to the database again (to open a second datareader).
+            OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
+            cndb.Open();
 
-            // Create a Marriage Certificate object
-            clsMarriageCertificate oMarriage = new clsMarriageCertificate(nSourceID, cnDb);
+            // Create a Marriage Certificate object.
+            MarriageCertificate marriageCertificate = new MarriageCertificate(sourceIndex, cndb);
 
-            // Close the database
-            cnDb.Close();
+            // Close the database.
+            cndb.Close();
 
-            // Write the details of the marriage certificate
-            StringBuilder sbText;
-            writeGedcomPlace(oFile, 2, oMarriage.location, oOptions);
-            bool bFirst = true;
-            if (oMarriage.groomName != "")
+            // Write the details of the marriage certificate.
+            StringBuilder text;
+            writeGedcomPlace(file, 2, marriageCertificate.location, options);
+            bool isFirst = true;
+            if (marriageCertificate.groomName != "")
             {
-                sbText = new StringBuilder();
-                sbText.Append(oMarriage.groomName);
-                if (oMarriage.groomAge != "")
+                text = new StringBuilder();
+                text.Append(marriageCertificate.groomName);
+                if (marriageCertificate.groomAge != "")
                 {
-                    sbText.Append(" (" + oMarriage.groomAge + ")");
+                    text.Append(" (" + marriageCertificate.groomAge + ")");
                 }
-                if (oMarriage.groomOccupation != "")
+                if (marriageCertificate.groomOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.groomOccupation);
+                    text.Append(" - " + marriageCertificate.groomOccupation);
                 }
-                if (oMarriage.groomLiving != "")
+                if (marriageCertificate.groomLiving != "")
                 {
-                    sbText.Append(" - " + oMarriage.groomLiving);
+                    text.Append(" - " + marriageCertificate.groomLiving);
                 }
-                GedcomLongNote(ref bFirst, oFile, "Groom: " + sbText.ToString());
+                gedcomLongNote(ref isFirst, file, "Groom: " + text.ToString());
             }
-            if (oMarriage.brideName != "")
+            if (marriageCertificate.brideName != "")
             {
-                sbText = new StringBuilder();
-                sbText.Append(oMarriage.brideName);
-                if (oMarriage.brideAge != "")
+                text = new StringBuilder();
+                text.Append(marriageCertificate.brideName);
+                if (marriageCertificate.brideAge != "")
                 {
-                    sbText.Append(" (" + oMarriage.brideAge + ")");
+                    text.Append(" (" + marriageCertificate.brideAge + ")");
                 }
-                if (oMarriage.brideOccupation != "")
+                if (marriageCertificate.brideOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.brideOccupation);
+                    text.Append(" - " + marriageCertificate.brideOccupation);
                 }
-                if (oMarriage.brideLiving != "")
+                if (marriageCertificate.brideLiving != "")
                 {
-                    sbText.Append(" - " + oMarriage.brideLiving);
+                    text.Append(" - " + marriageCertificate.brideLiving);
                 }
-                GedcomLongNote(ref bFirst, oFile, "Bride: " + sbText.ToString());
+                gedcomLongNote(ref isFirst, file, "Bride: " + text.ToString());
             }
-            if (oMarriage.groomFather != "")
+            if (marriageCertificate.groomFather != "")
             {
-                sbText = new StringBuilder(oMarriage.groomFather);
-                if (oMarriage.groomFatherOccupation != "")
+                text = new StringBuilder(marriageCertificate.groomFather);
+                if (marriageCertificate.groomFatherOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.groomFatherOccupation);
+                    text.Append(" - " + marriageCertificate.groomFatherOccupation);
                 }
-                GedcomLongNote(ref bFirst, oFile, "Groom's Father: " + sbText.ToString());
+                gedcomLongNote(ref isFirst, file, "Groom's Father: " + text.ToString());
             }
-            if (oMarriage.brideFather != "")
+            if (marriageCertificate.brideFather != "")
             {
-                sbText = new StringBuilder(oMarriage.brideFather);
-                if (oMarriage.brideFatherOccupation != "")
+                text = new StringBuilder(marriageCertificate.brideFather);
+                if (marriageCertificate.brideFatherOccupation != "")
                 {
-                    sbText.Append(" - " + oMarriage.brideFatherOccupation);
+                    text.Append(" - " + marriageCertificate.brideFatherOccupation);
                 }
-                GedcomLongNote(ref bFirst, oFile, "Bride's Father: " + sbText.ToString());
+                gedcomLongNote(ref isFirst, file, "Bride's Father: " + text.ToString());
             }
-            if (oMarriage.witness != "")
+            if (marriageCertificate.witness != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Witness: " + oMarriage.witness);
+                gedcomLongNote(ref isFirst, file, "Witness: " + marriageCertificate.witness);
             }
         }
 
-        // Write the additional death certificate information for a source.
-        /// <summary>
-        /// Write the additional death certificate information for a source.
-        /// </summary>
-		/// <param name="oFile">Specifies the file to write the information into.</param>
-		/// <param name="nID">Specifies the ID of the marriage certificate (and the parent source record).</param>
-        private void SourceDeathCertificate(StreamWriter oFile, int nID)
+
+
+        /// <summary>Write the additional death certificate information for a source.</summary>
+		/// <param name="file">Specifies the file to write the information into.</param>
+		/// <param name="index">Specifies the ID of the marriage certificate (and the parent source record).</param>
+        private void sourceDeathCertificate(StreamWriter file, int index)
         {
-            // Connect to the database again (to open a second datareader)
-            OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
-            cnDb.Open();
+            // Connect to the database again (to open a second datareader).
+            OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
+            cndb.Open();
 
-            // Create a Marriage Certificate object
-            clsDeathCertificate oDeath = new clsDeathCertificate(nID, cnDb);
+            // Create a Marriage Certificate object.
+            clsDeathCertificate deathCertificate = new clsDeathCertificate(index, cndb);
 
-            // Close the database
-            cnDb.Close();
+            // Close the database.
+            cndb.Close();
 
-            // Write the details of the marriage certificate
-            bool bFirst = true;
-            if (oDeath.RegistrationDistrict != "")
+            // Write the details of the marriage certificate.
+            bool isFirst = true;
+            if (deathCertificate.registrationDistrict != "")
             {
                 // oFile.WriteLine("2 PLAC "+oDeath.RegistrationDistrict);
-                GedcomLongNote(ref bFirst, oFile, "Registration District: " + oDeath.RegistrationDistrict);
+                gedcomLongNote(ref isFirst, file, "Registration District: " + deathCertificate.registrationDistrict);
             }
-            if (oDeath.When != "")
+            if (deathCertificate.when != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "When: " + oDeath.When);
+                gedcomLongNote(ref isFirst, file, "When: " + deathCertificate.when);
             }
-            if (oDeath.Place != "")
+            if (deathCertificate.place != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Where: " + oDeath.Place);
+                gedcomLongNote(ref isFirst, file, "Where: " + deathCertificate.place);
             }
-            if (oDeath.Name != "")
+            if (deathCertificate.name != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Name: " + oDeath.Name + " (" + oDeath.Sex + ")");
+                gedcomLongNote(ref isFirst, file, "Name: " + deathCertificate.name + " (" + deathCertificate.sex + ")");
             }
-            if (oDeath.DatePlaceOfBirth != "")
+            if (deathCertificate.datePlaceOfBirth != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Date & Place of Birth: " + oDeath.DatePlaceOfBirth);
+                gedcomLongNote(ref isFirst, file, "Date & Place of Birth: " + deathCertificate.datePlaceOfBirth);
             }
-            if (oDeath.Occupation != "")
+            if (deathCertificate.occupation != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Occupation: " + oDeath.Occupation);
+                gedcomLongNote(ref isFirst, file, "Occupation: " + deathCertificate.occupation);
             }
-            if (oDeath.UsualAddress != "")
+            if (deathCertificate.usualAddress != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Usual Address: " + oDeath.UsualAddress);
+                gedcomLongNote(ref isFirst, file, "Usual Address: " + deathCertificate.usualAddress);
             }
-            if (oDeath.CauseOfDeath != "")
+            if (deathCertificate.causeOfDeath != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Cause of Death: " + oDeath.CauseOfDeath);
+                gedcomLongNote(ref isFirst, file, "Cause of Death: " + deathCertificate.causeOfDeath);
             }
-            if (oDeath.Informant != "")
+            if (deathCertificate.informant != "")
             {
-                if (oDeath.InformantDescription == "")
+                if (deathCertificate.informantDescription == "")
                 {
-                    GedcomLongNote(ref bFirst, oFile, "Informant: " + oDeath.Informant);
+                    gedcomLongNote(ref isFirst, file, "Informant: " + deathCertificate.informant);
                 }
                 else
                 {
-                    GedcomLongNote(ref bFirst, oFile, "Informant: " + oDeath.Informant + " (" + oDeath.InformantDescription + ")");
+                    gedcomLongNote(ref isFirst, file, "Informant: " + deathCertificate.informant + " (" + deathCertificate.informantDescription + ")");
                 }
             }
-            if (oDeath.InformantAddress != "")
+            if (deathCertificate.informantAddress != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "Informant Address: " + oDeath.InformantAddress);
+                gedcomLongNote(ref isFirst, file, "Informant Address: " + deathCertificate.informantAddress);
             }
-            if (oDeath.WhenRegistered != "")
+            if (deathCertificate.whenRegistered != "")
             {
-                GedcomLongNote(ref bFirst, oFile, "When Registered: " + oDeath.WhenRegistered);
+                gedcomLongNote(ref isFirst, file, "When Registered: " + deathCertificate.whenRegistered);
             }
         }
 
-        // Write the additional census information for the source.
-        /// <summary>
-        /// Write the additional census information for the source.
-        /// </summary>
-		/// <param name="oFile">Specifies the Gedcom file to write the additional information into.</param>
-		/// <param name="nCensusHouseholdID">Specifies the additional census information to use.</param>
-        private void SourceCensusInfo(StreamWriter oFile, int nCensusHouseholdID, GedcomOptions oOptions)
+
+
+        /// <summary>Write the additional census information for the source.</summary>
+		/// <param name="file">Specifies the Gedcom file to write the additional information into.</param>
+		/// <param name="censusHouseholdIndex">Specifies the additional census information to use.</param>
+        private void sourceCensusInfo(StreamWriter file, int censusHouseholdIndex, GedcomOptions options)
         {
             // Connect to the database again (to open a second datareader)
-            OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
-            cnDb.Open();
+            OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
+            cndb.Open();
 
-            // Write the information from the census header
-            string sSql = "SELECT Address FROM tbl_CensusHouseholds WHERE ID=" + nCensusHouseholdID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, cnDb);
-            object oAddress = oSql.ExecuteScalar();
+            // Write the information from the census header.
+            string sql = "SELECT Address FROM tbl_CensusHouseholds WHERE ID=" + censusHouseholdIndex.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
+            object sqlAddress = sqlCommand.ExecuteScalar();
 
             // Check that an address is specified.  If the address is not present then the record probably does not exist.
-            if (oAddress != null)
+            if (sqlAddress != null)
             {
-                string sAddress = oAddress.ToString();
-                writeGedcomPlace(oFile, 2, sAddress, oOptions);
+                string address = sqlAddress.ToString();
+                writeGedcomPlace(file, 2, address, options);
 
-                // Write the information about the members of this census record
-                sSql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation FROM tbl_CensusPeople WHERE HouseHoldID=" + nCensusHouseholdID.ToString() + " ORDER BY ID;";
-                oSql = new OleDbCommand(sSql, cnDb);
-                OleDbDataReader drMembers = oSql.ExecuteReader();
-                bool bFirst = true;
-                while (drMembers.Read())
+                // Write the information about the members of this census record.
+                sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation FROM tbl_CensusPeople WHERE HouseHoldID=" + censusHouseholdIndex.ToString() + " ORDER BY ID;";
+                sqlCommand = new OleDbCommand(sql, cndb);
+                OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+                bool isFirst = true;
+                while (dataReader.Read())
                 {
-                    string sName = getString(drMembers, "NameGiven", "");
-                    string sAge = getString(drMembers, "Age", "");
-                    string sRelation = getString(drMembers, "RelationToHead", "");
-                    string sOccupation = getString(drMembers, "Occupation", "");
-                    string sBorn = getString(drMembers, "BornLocation", "");
+                    string name = getString(dataReader, "NameGiven", "");
+                    string age = getString(dataReader, "Age", "");
+                    string relation = getString(dataReader, "RelationToHead", "");
+                    string occupation = getString(dataReader, "Occupation", "");
+                    string born = getString(dataReader, "BornLocation", "");
 
-                    StringBuilder sbMember = new StringBuilder();
-                    sbMember.Append(sName);
-                    if (sAge != "")
+                    StringBuilder member = new StringBuilder();
+                    member.Append(name);
+                    if (age != "")
                     {
-                        sbMember.Append(" (" + sAge + ")");
+                        member.Append(" (" + age + ")");
                     }
-                    if (sRelation != "")
+                    if (relation != "")
                     {
-                        sbMember.Append(" - " + sRelation);
+                        member.Append(" - " + relation);
                     }
-                    if (sOccupation != "")
+                    if (occupation != "")
                     {
-                        sbMember.Append(" - " + sOccupation);
+                        member.Append(" - " + occupation);
                     }
-                    if (sBorn != "")
+                    if (born != "")
                     {
-                        sbMember.Append(" - " + sBorn);
+                        member.Append(" - " + born);
                     }
 
                     // I would prefer a better tag than NOTE but this works for now.
-                    GedcomLongNote(ref bFirst, oFile, sbMember.ToString());
+                    gedcomLongNote(ref isFirst, file, member.ToString());
                     // oFile.WriteLine("2 NOTE "+sbMember.ToString());
                 }
-                drMembers.Close();
+                dataReader.Close();
             }
 
-            // Close the second connection to the database
-            cnDb.Close();
+            // Close the second connection to the database.
+            cndb.Close();
         }
 
-        // Write a Gedcom with line breaks over multilines using the CONT tag
-        /// <summary>
-        /// Write a Gedcom with line breaks over multilines using the CONT tag
-        /// </summary>
-		/// <param name="oFile">Specifies the Gedcom file to write to.</param>
-		/// <param name="nLevel">Specifies the level of the tag.</param>
-		/// <param name="sTag">Specifies the name of the tag.</param>
-		/// <param name="sMessage">Specifies the message to write into the tag.</param>
-        private void GedcomMultiLine(StreamWriter oFile, int nLevel, string sTag, string sMessage)
+
+
+        /// <summary>Write a Gedcom with line breaks over multilines using the CONT tag.</summary>
+		/// <param name="file">Specifies the Gedcom file to write to.</param>
+		/// <param name="level">Specifies the level of the tag.</param>
+		/// <param name="tag">Specifies the name of the tag.</param>
+		/// <param name="message">Specifies the message to write into the tag.</param>
+        private void gedcomMultiLine(StreamWriter file, int level, string tag, string message)
         {
-            // Deal with multiple lines recurisively
-            int nLineBreak = sMessage.IndexOf("\n");
-            if (nLineBreak > 0)
+            // Deal with multiple lines recurisively.
+            int lineBreak = message.IndexOf("\n");
+            if (lineBreak > 0)
             {
-                if (sTag == "CONT")
+                if (tag == "CONT")
                 {
-                    GedcomMultiLine(oFile, nLevel, "CONT", sMessage.Substring(0, nLineBreak - 1));
-                    GedcomMultiLine(oFile, nLevel, "CONT", sMessage.Substring(nLineBreak + 1));
+                    gedcomMultiLine(file, level, "CONT", message.Substring(0, lineBreak - 1));
+                    gedcomMultiLine(file, level, "CONT", message.Substring(lineBreak + 1));
                 }
                 else
                 {
-                    GedcomMultiLine(oFile, nLevel, sTag, sMessage.Substring(0, nLineBreak - 1));
-                    GedcomMultiLine(oFile, nLevel + 1, "CONT", sMessage.Substring(nLineBreak + 1));
+                    gedcomMultiLine(file, level, tag, message.Substring(0, lineBreak - 1));
+                    gedcomMultiLine(file, level + 1, "CONT", message.Substring(lineBreak + 1));
                 }
             }
             else
             {
-                oFile.Write(nLevel.ToString());
-                oFile.Write(" ");
-                oFile.Write(sTag);
-                oFile.Write(" ");
-                oFile.WriteLine(sMessage);
+                file.Write(level.ToString());
+                file.Write(" ");
+                file.Write(tag);
+                file.Write(" ");
+                file.WriteLine(message);
             }
         }
 
-        // Write a series of lines into a single note.
-        /// <summary>
-        /// Write a series of lines into a single note.
-        /// The first line is tagged 1 NOTE, subsequent lines are tagged 2 CONT.
-		/// </summary>
-		/// <param name="bFirst">True for the first line and then reset.</param>
-		/// <param name="oFile">Specifies the gedcom file to write the note into.</param>
-		/// <param name="sMessage">Specifies the line of text for the gedcom file.</param>
-        private void GedcomLongNote(ref bool bFirst, StreamWriter oFile, string sMessage)
+
+
+        /// <summary>Write a series of lines into a single note.  The first line is tagged 1 NOTE, subsequent lines are tagged 2 CONT.</summary>
+		/// <param name="isFirst">True for the first line and then reset.</param>
+		/// <param name="file">Specifies the gedcom file to write the note into.</param>
+		/// <param name="message">Specifies the line of text for the gedcom file.</param>
+        private void gedcomLongNote(ref bool isFirst, StreamWriter file, string message)
         {
-            // Deal with multiple lines recurisively
-            int nLineBreak = sMessage.IndexOf("\n");
-            if (nLineBreak > 0)
+            // Deal with multiple lines recurisively.
+            int lineBreak = message.IndexOf("\n");
+            if (lineBreak > 0)
             {
-                GedcomLongNote(ref bFirst, oFile, sMessage.Substring(0, nLineBreak - 1));
-                GedcomLongNote(ref bFirst, oFile, sMessage.Substring(nLineBreak + 1));
+                gedcomLongNote(ref isFirst, file, message.Substring(0, lineBreak - 1));
+                gedcomLongNote(ref isFirst, file, message.Substring(lineBreak + 1));
             }
             else
             {
-                if (bFirst)
+                if (isFirst)
                 {
-                    oFile.Write("1 NOTE ");
-                    bFirst = false;
+                    file.Write("1 NOTE ");
+                    isFirst = false;
                 }
                 else
                 {
-                    oFile.Write("2 CONT ");
+                    file.Write("2 CONT ");
                 }
-                oFile.WriteLine(sMessage);
+                file.WriteLine(message);
             }
         }
 
-        // Returns an array of clsIDName objects that represent the available additional information types for sources.
-        /// <summary>
-        /// Returns an array of clsIDName objects that represent the available additional information types for sources.
-        /// This is intended to populate a combo box.
-		/// </summary>
+
+
+        /// <summary>Returns an array of IndexName objects that represent the available additional information types for sources.  This is intended to populate a combo box.</summary>
 		/// <returns>An array of clsIDName objects that represent the available additonal information types.</returns>
-		public IndexName[] GetSourceAdditionalTypes()
+		public IndexName[] getSourceAdditionalTypes()
         {
-            // Build a list of additional information types
-            ArrayList oTypes = new ArrayList();
+            // Build a list of additional information types.
+            ArrayList types = new ArrayList();
 
-            // Open the list from the database
-            OleDbCommand oSql = new OleDbCommand("SELECT ID,Name FROM tlk_AdditionalInfoTypes ORDER BY ID;", cndb_);
-            OleDbDataReader drTypes = oSql.ExecuteReader();
-            while (drTypes.Read())
+            // Open the list from the database.
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID,Name FROM tlk_AdditionalInfoTypes ORDER BY ID;", cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
 
-                IndexName oType = new IndexName(drTypes.GetInt32(0), drTypes.GetString(1));
-                oTypes.Add(oType);
+                IndexName type = new IndexName(dataReader.GetInt32(0), dataReader.GetString(1));
+                types.Add(type);
             }
-            drTypes.Close();
+            dataReader.Close();
 
-            // Get the list of fact types
-            return (IndexName[])(oTypes.ToArray(typeof(IndexName)));
+            // Get the list of fact types.
+            return (IndexName[])(types.ToArray(typeof(IndexName)));
         }
+
+
 
         #endregion
 
         #region Fact Types
 
-        /// <summary>
-        /// Returns an array of all the fact types.
-        /// </summary>
+
+
+        /// <summary>Returns an array of all the fact types.</summary>
         /// <returns>An array of fact types.</returns>
-        public clsFactType[] GetFactTypes()
+        public FactType[] getFactTypes()
         {
-            // Open the fact types (if required)
+            // Open the fact types (if required).
             if (factTypes_ == null)
             {
-                LoadFactTypes();
+                loadFactTypes();
             }
 
-            // Return the array of fact types
+            // Return the array of fact types.
             return factTypes_;
         }
 
-        /// <summary>
-        /// Returns a clsFactType object with the specified ID or null if no matching object can be found.
-        /// </summary>
-        /// <param name="nID">Specifies the ID of the fact type object required.</param>
+
+
+        /// <summary>Returns a clsFactType object with the specified ID or null if no matching object can be found.</summary>
+        /// <param name="index">Specifies the ID of the fact type object required.</param>
         /// <returns>A clsFactType object or null.</returns>
-        public clsFactType GetFactType
-            (
-            int nID
-            )
+        public FactType getFactType(int index)
         {
-            // Open the fact types (if required)
+            // Open the fact types (if required).
             if (factTypes_ == null)
             {
-                LoadFactTypes();
+                loadFactTypes();
             }
 
-            // Return a matching fact type (if possible)
-            for (int nI = 0; nI < factTypes_.Length; nI++)
+            // Return a matching fact type (if possible).
+            for (int i = 0; i < factTypes_.Length; i++)
             {
-                if (factTypes_[nI].ID == nID)
+                if (factTypes_[i].index == index)
                 {
-                    return factTypes_[nI];
+                    return factTypes_[i];
                 }
             }
 
-            // Return failure
+            // Return failure.
             return null;
         }
 
-        /// <summary>
-        /// Loads the fact types from the database.
-        /// </summary>
+
+
+        /// <summary>Loads the fact types from the database.</summary>
         /// <returns>True for success, false for failure.</returns>
-        private bool LoadFactTypes()
+        private bool loadFactTypes()
         {
             // Build a list of relivant facts
-            ArrayList oFactTypes = new ArrayList();
+            ArrayList factTypes = new ArrayList();
 
             // Open the list of fact types
-            OleDbCommand oSQL = new OleDbCommand("SELECT ID,Name FROM tlk_FactTypes ORDER BY ID;", cndb_);
-            OleDbDataReader drFactTypes = oSQL.ExecuteReader();
-            while (drFactTypes.Read())
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID,Name FROM tlk_FactTypes ORDER BY ID;", cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                clsFactType oFactType = new clsFactType(drFactTypes.GetInt32(0), drFactTypes.GetString(1));
-                oFactTypes.Add(oFactType);
+                FactType factType = new FactType(dataReader.GetInt32(0), dataReader.GetString(1));
+                factTypes.Add(factType);
             }
-            drFactTypes.Close();
+            dataReader.Close();
 
             // Get the list of fact types.
-            factTypes_ = (clsFactType[])(oFactTypes.ToArray(typeof(clsFactType)));
+            factTypes_ = (FactType[])(factTypes.ToArray(typeof(FactType)));
 
             // Return success.
             return true;
         }
+
+
 
         #endregion
 

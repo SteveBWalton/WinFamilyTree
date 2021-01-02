@@ -2,12 +2,7 @@ using System;
 
 namespace FamilyTree.Objects
 {
-    // Class to represent a member of a census household.
-    /// <summary>
-    /// Class to represent a member of a census household.
-    /// This is usually a one to one relationship with a clsPerson object.
-	/// However, some people can be a member of a census without being in the database eg Boarders, Servants.
-	/// </summary>
+    /// <summary>Class to represent a member of a census household.  This is usually a one to one relationship with a clsPerson object.  However, some people can be a member of a census without being in the database eg Boarders, Servants.</summary>
 	public class clsCensusPerson
     {
         #region Member Variables
@@ -70,6 +65,8 @@ namespace FamilyTree.Objects
 
         #endregion
 
+
+
         /// <summary>Updates this census member in the database.</summary>
         /// <param name="database">Specifies the database to write the record into.</param>
         /// <returns></returns>
@@ -77,6 +74,8 @@ namespace FamilyTree.Objects
         {
             return database.censusSavePerson(this);
         }
+
+
 
         /// <summary>Returns a human readable string describing the other members of the household.</summary>
 		/// <param name="database">Specifies the database containing the household.</param>
@@ -86,11 +85,15 @@ namespace FamilyTree.Objects
             return database.censusLivingWith(this);
         }
 
+
+
         /// <summary>Marks this record for delete.</summary>
 		public void delete()
         {
             isDelete_ = true;
         }
+
+
 
         /// <summary>Returns true if this record is valid.  Otherwise this record should be deleted.</summary>
 		/// <returns>True if the record is valid, false if the record is scheduled for delete.</returns>
@@ -99,6 +102,8 @@ namespace FamilyTree.Objects
             return !isDelete_;
         }
 
+
+
         /// <summary>Returns the sources for this census member.  In fact the single source attached to census household will be returned.</summary>
 		/// <param name="database">Specifies the database to read the sources from.</param>
 		/// <returns>A clsSources object containing all the sources for this piece of information.</returns>
@@ -106,6 +111,8 @@ namespace FamilyTree.Objects
         {
             return new Sources(this, database);
         }
+
+
 
         #region Properties
 

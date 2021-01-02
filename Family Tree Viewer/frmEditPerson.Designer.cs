@@ -61,37 +61,37 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             System.Windows.Forms.Button cmdRelationshipAddress;
-            this.m_dateDoB = new FamilyTree.Viewer.ucDate();
-            this.m_dateDoD = new FamilyTree.Viewer.ucDate();
-            this.m_txtComments = new System.Windows.Forms.TextBox();
-            this.m_chkChildrenKnown = new System.Windows.Forms.CheckBox();
+            this.dateDoB_ = new FamilyTree.Viewer.ucDate();
+            this.dateDoD_ = new FamilyTree.Viewer.ucDate();
+            this.txtComments_ = new System.Windows.Forms.TextBox();
+            this.chkChildrenKnown_ = new System.Windows.Forms.CheckBox();
             this.cboSex_ = new System.Windows.Forms.ComboBox();
-            this.m_labMaidenName = new System.Windows.Forms.Label();
-            this.m_txtMaidenName = new System.Windows.Forms.TextBox();
-            this.m_txtForename = new System.Windows.Forms.TextBox();
+            this.labMaidenName_ = new System.Windows.Forms.Label();
+            this.txtMaidenName_ = new System.Windows.Forms.TextBox();
+            this.txtForename_ = new System.Windows.Forms.TextBox();
             this.txtSurname_ = new System.Windows.Forms.TextBox();
             this.m_cboRelationshipType = new System.Windows.Forms.ComboBox();
             this.m_cboTerminated = new System.Windows.Forms.ComboBox();
             this.m_txtRelationComments = new System.Windows.Forms.TextBox();
             this.m_txtRelationLocation = new System.Windows.Forms.TextBox();
-            this.m_cboAddPartner = new System.Windows.Forms.ComboBox();
+            this.cboAddPartner_ = new System.Windows.Forms.ComboBox();
             this.m_dateRelationEnd = new FamilyTree.Viewer.ucDate();
             this.m_dateRelationStart = new FamilyTree.Viewer.ucDate();
-            this.m_lstRelationships = new System.Windows.Forms.ListBox();
-            this.m_cboFactType = new System.Windows.Forms.ComboBox();
-            this.m_gridFacts = new System.Windows.Forms.DataGrid();
+            this.lstRelationships_ = new System.Windows.Forms.ListBox();
+            this.cboFactType_ = new System.Windows.Forms.ComboBox();
+            this.gridFacts_ = new System.Windows.Forms.DataGrid();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.m_chkGedcom = new System.Windows.Forms.CheckBox();
-            this.m_cboMainImage = new System.Windows.Forms.ComboBox();
-            this.m_cboMother = new System.Windows.Forms.ComboBox();
-            this.m_cboFather = new System.Windows.Forms.ComboBox();
+            this.chkGedcom_ = new System.Windows.Forms.CheckBox();
+            this.cboMainImage_ = new System.Windows.Forms.ComboBox();
+            this.cboMother_ = new System.Windows.Forms.ComboBox();
+            this.cboFather_ = new System.Windows.Forms.ComboBox();
             this.m_Image = new System.Windows.Forms.PictureBox();
-            this.m_labDescription = new System.Windows.Forms.Label();
-            this.m_gridToDo = new System.Windows.Forms.DataGrid();
-            this.m_grpSources = new System.Windows.Forms.GroupBox();
-            this.m_cboSources = new System.Windows.Forms.ComboBox();
-            this.m_gridSources = new System.Windows.Forms.DataGrid();
-            this.m_TabControl = new System.Windows.Forms.TabControl();
+            this.labDescription_ = new System.Windows.Forms.Label();
+            this.gridToDo_ = new System.Windows.Forms.DataGrid();
+            this.grpSources_ = new System.Windows.Forms.GroupBox();
+            this.cboSources_ = new System.Windows.Forms.ComboBox();
+            this.gridSources_ = new System.Windows.Forms.DataGrid();
+            this.tabControl_ = new System.Windows.Forms.TabControl();
             this.m_cboEditor = new System.Windows.Forms.ComboBox();
             tabBasic = new System.Windows.Forms.TabPage();
             label7 = new System.Windows.Forms.Label();
@@ -128,32 +128,32 @@ namespace FamilyTree.Viewer
             tabBasic.SuspendLayout();
             tabRelationships.SuspendLayout();
             tabFacts.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_gridFacts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridFacts_)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             tabAdvanced.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_Image)).BeginInit();
             groupBox2.SuspendLayout();
             tabToDo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_gridToDo)).BeginInit();
-            this.m_grpSources.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_gridSources)).BeginInit();
-            this.m_TabControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridToDo_)).BeginInit();
+            this.grpSources_.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridSources_)).BeginInit();
+            this.tabControl_.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabBasic
             // 
-            tabBasic.Controls.Add(this.m_dateDoB);
-            tabBasic.Controls.Add(this.m_dateDoD);
-            tabBasic.Controls.Add(this.m_txtComments);
-            tabBasic.Controls.Add(this.m_chkChildrenKnown);
+            tabBasic.Controls.Add(this.dateDoB_);
+            tabBasic.Controls.Add(this.dateDoD_);
+            tabBasic.Controls.Add(this.txtComments_);
+            tabBasic.Controls.Add(this.chkChildrenKnown_);
             tabBasic.Controls.Add(label7);
             tabBasic.Controls.Add(label6);
             tabBasic.Controls.Add(label5);
             tabBasic.Controls.Add(label4);
             tabBasic.Controls.Add(this.cboSex_);
-            tabBasic.Controls.Add(this.m_labMaidenName);
-            tabBasic.Controls.Add(this.m_txtMaidenName);
-            tabBasic.Controls.Add(this.m_txtForename);
+            tabBasic.Controls.Add(this.labMaidenName_);
+            tabBasic.Controls.Add(this.txtMaidenName_);
+            tabBasic.Controls.Add(this.txtForename_);
             tabBasic.Controls.Add(this.txtSurname_);
             tabBasic.Controls.Add(label2);
             tabBasic.Controls.Add(label1);
@@ -168,47 +168,47 @@ namespace FamilyTree.Viewer
             // 
             // m_dateDoB
             // 
-            this.m_dateDoB.Location = new System.Drawing.Point(360, 8);
-            this.m_dateDoB.Name = "m_dateDoB";
-            this.m_dateDoB.Size = new System.Drawing.Size(144, 24);
-            this.m_dateDoB.TabIndex = 36;
+            this.dateDoB_.Location = new System.Drawing.Point(360, 8);
+            this.dateDoB_.Name = "m_dateDoB";
+            this.dateDoB_.Size = new System.Drawing.Size(144, 24);
+            this.dateDoB_.TabIndex = 36;
             clsDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             clsDate1.status = 0;
-            this.m_dateDoB.Value = clsDate1;
-            this.m_dateDoB.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoB_evtValueChanged);
-            this.m_dateDoB.Enter += new System.EventHandler(this.dateDoB_Enter);
+            this.dateDoB_.Value = clsDate1;
+            this.dateDoB_.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoB_evtValueChanged);
+            this.dateDoB_.Enter += new System.EventHandler(this.dateDoB_Enter);
             // 
             // m_dateDoD
             // 
-            this.m_dateDoD.Location = new System.Drawing.Point(360, 32);
-            this.m_dateDoD.Name = "m_dateDoD";
-            this.m_dateDoD.Size = new System.Drawing.Size(144, 24);
-            this.m_dateDoD.TabIndex = 35;
+            this.dateDoD_.Location = new System.Drawing.Point(360, 32);
+            this.dateDoD_.Name = "m_dateDoD";
+            this.dateDoD_.Size = new System.Drawing.Size(144, 24);
+            this.dateDoD_.TabIndex = 35;
             clsDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             clsDate2.status = 0;
-            this.m_dateDoD.Value = clsDate2;
-            this.m_dateDoD.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoD_evtValueChanged);
-            this.m_dateDoD.Enter += new System.EventHandler(this.dateDoD_Enter);
+            this.dateDoD_.Value = clsDate2;
+            this.dateDoD_.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoD_evtValueChanged);
+            this.dateDoD_.Enter += new System.EventHandler(this.dateDoD_Enter);
             // 
             // m_txtComments
             // 
-            this.m_txtComments.Location = new System.Drawing.Point(8, 136);
-            this.m_txtComments.Multiline = true;
-            this.m_txtComments.Name = "m_txtComments";
-            this.m_txtComments.Size = new System.Drawing.Size(656, 112);
-            this.m_txtComments.TabIndex = 33;
-            this.m_txtComments.Text = "textBox1";
-            this.m_txtComments.TextChanged += new System.EventHandler(this.txtComments_TextChanged);
-            this.m_txtComments.Enter += new System.EventHandler(this.evtNonSpecificSource);
+            this.txtComments_.Location = new System.Drawing.Point(8, 136);
+            this.txtComments_.Multiline = true;
+            this.txtComments_.Name = "m_txtComments";
+            this.txtComments_.Size = new System.Drawing.Size(656, 112);
+            this.txtComments_.TabIndex = 33;
+            this.txtComments_.Text = "textBox1";
+            this.txtComments_.TextChanged += new System.EventHandler(this.txtComments_TextChanged);
+            this.txtComments_.Enter += new System.EventHandler(this.evtNonSpecificSource);
             // 
             // m_chkChildrenKnown
             // 
-            this.m_chkChildrenKnown.Location = new System.Drawing.Point(360, 56);
-            this.m_chkChildrenKnown.Name = "m_chkChildrenKnown";
-            this.m_chkChildrenKnown.Size = new System.Drawing.Size(136, 24);
-            this.m_chkChildrenKnown.TabIndex = 32;
-            this.m_chkChildrenKnown.Text = "All Children Known";
-            this.m_chkChildrenKnown.CheckedChanged += new System.EventHandler(this.chkChildrenKnown_CheckedChanged);
+            this.chkChildrenKnown_.Location = new System.Drawing.Point(360, 56);
+            this.chkChildrenKnown_.Name = "m_chkChildrenKnown";
+            this.chkChildrenKnown_.Size = new System.Drawing.Size(136, 24);
+            this.chkChildrenKnown_.TabIndex = 32;
+            this.chkChildrenKnown_.Text = "All Children Known";
+            this.chkChildrenKnown_.CheckedChanged += new System.EventHandler(this.chkChildrenKnown_CheckedChanged);
             // 
             // label7
             // 
@@ -261,32 +261,32 @@ namespace FamilyTree.Viewer
             // 
             // m_labMaidenName
             // 
-            this.m_labMaidenName.Location = new System.Drawing.Point(8, 56);
-            this.m_labMaidenName.Name = "m_labMaidenName";
-            this.m_labMaidenName.Size = new System.Drawing.Size(100, 23);
-            this.m_labMaidenName.TabIndex = 24;
-            this.m_labMaidenName.Text = "Maiden Name:";
-            this.m_labMaidenName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labMaidenName_.Location = new System.Drawing.Point(8, 56);
+            this.labMaidenName_.Name = "m_labMaidenName";
+            this.labMaidenName_.Size = new System.Drawing.Size(100, 23);
+            this.labMaidenName_.TabIndex = 24;
+            this.labMaidenName_.Text = "Maiden Name:";
+            this.labMaidenName_.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // m_txtMaidenName
             // 
-            this.m_txtMaidenName.Location = new System.Drawing.Point(112, 56);
-            this.m_txtMaidenName.Name = "m_txtMaidenName";
-            this.m_txtMaidenName.Size = new System.Drawing.Size(128, 21);
-            this.m_txtMaidenName.TabIndex = 23;
-            this.m_txtMaidenName.Text = "txtSurname";
-            this.m_txtMaidenName.TextChanged += new System.EventHandler(this.txtMaidenName_TextChanged);
-            this.m_txtMaidenName.Enter += new System.EventHandler(this.Name_Enter);
+            this.txtMaidenName_.Location = new System.Drawing.Point(112, 56);
+            this.txtMaidenName_.Name = "m_txtMaidenName";
+            this.txtMaidenName_.Size = new System.Drawing.Size(128, 21);
+            this.txtMaidenName_.TabIndex = 23;
+            this.txtMaidenName_.Text = "txtSurname";
+            this.txtMaidenName_.TextChanged += new System.EventHandler(this.txtMaidenName_TextChanged);
+            this.txtMaidenName_.Enter += new System.EventHandler(this.txtName_Enter);
             // 
             // m_txtForename
             // 
-            this.m_txtForename.Location = new System.Drawing.Point(112, 32);
-            this.m_txtForename.Name = "m_txtForename";
-            this.m_txtForename.Size = new System.Drawing.Size(128, 21);
-            this.m_txtForename.TabIndex = 22;
-            this.m_txtForename.Text = "txtSurname";
-            this.m_txtForename.TextChanged += new System.EventHandler(this.txtForename_TextChanged);
-            this.m_txtForename.Enter += new System.EventHandler(this.Name_Enter);
+            this.txtForename_.Location = new System.Drawing.Point(112, 32);
+            this.txtForename_.Name = "m_txtForename";
+            this.txtForename_.Size = new System.Drawing.Size(128, 21);
+            this.txtForename_.TabIndex = 22;
+            this.txtForename_.Text = "txtSurname";
+            this.txtForename_.TextChanged += new System.EventHandler(this.txtForename_TextChanged);
+            this.txtForename_.Enter += new System.EventHandler(this.txtName_Enter);
             // 
             // m_txtSurname
             // 
@@ -296,7 +296,7 @@ namespace FamilyTree.Viewer
             this.txtSurname_.TabIndex = 20;
             this.txtSurname_.Text = "txtSurname";
             this.txtSurname_.TextChanged += new System.EventHandler(this.txtSurname_TextChanged);
-            this.txtSurname_.Enter += new System.EventHandler(this.Name_Enter);
+            this.txtSurname_.Enter += new System.EventHandler(this.txtName_Enter);
             // 
             // label2
             // 
@@ -327,12 +327,12 @@ namespace FamilyTree.Viewer
             tabRelationships.Controls.Add(this.m_txtRelationLocation);
             tabRelationships.Controls.Add(label9);
             tabRelationships.Controls.Add(label8);
-            tabRelationships.Controls.Add(this.m_cboAddPartner);
+            tabRelationships.Controls.Add(this.cboAddPartner_);
             tabRelationships.Controls.Add(cmdDeleteRelationship);
             tabRelationships.Controls.Add(AddRelationship);
             tabRelationships.Controls.Add(this.m_dateRelationEnd);
             tabRelationships.Controls.Add(this.m_dateRelationStart);
-            tabRelationships.Controls.Add(this.m_lstRelationships);
+            tabRelationships.Controls.Add(this.lstRelationships_);
             tabRelationships.ImageIndex = 5;
             tabRelationships.Location = new System.Drawing.Point(4, 23);
             tabRelationships.Name = "tabRelationships";
@@ -428,11 +428,11 @@ namespace FamilyTree.Viewer
             // 
             // m_cboAddPartner
             // 
-            this.m_cboAddPartner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboAddPartner.Location = new System.Drawing.Point(8, 136);
-            this.m_cboAddPartner.Name = "m_cboAddPartner";
-            this.m_cboAddPartner.Size = new System.Drawing.Size(206, 21);
-            this.m_cboAddPartner.TabIndex = 1;
+            this.cboAddPartner_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAddPartner_.Location = new System.Drawing.Point(8, 136);
+            this.cboAddPartner_.Name = "m_cboAddPartner";
+            this.cboAddPartner_.Size = new System.Drawing.Size(206, 21);
+            this.cboAddPartner_.TabIndex = 1;
             // 
             // cmdDeleteRelationship
             // 
@@ -483,12 +483,12 @@ namespace FamilyTree.Viewer
             // 
             // m_lstRelationships
             // 
-            this.m_lstRelationships.Location = new System.Drawing.Point(8, 8);
-            this.m_lstRelationships.Name = "m_lstRelationships";
-            this.m_lstRelationships.Size = new System.Drawing.Size(206, 121);
-            this.m_lstRelationships.TabIndex = 0;
-            this.m_lstRelationships.SelectedIndexChanged += new System.EventHandler(this.lstRelationships_SelectedIndexChanged);
-            this.m_lstRelationships.Enter += new System.EventHandler(this.lstRelationships_Enter);
+            this.lstRelationships_.Location = new System.Drawing.Point(8, 8);
+            this.lstRelationships_.Name = "m_lstRelationships";
+            this.lstRelationships_.Size = new System.Drawing.Size(206, 121);
+            this.lstRelationships_.TabIndex = 0;
+            this.lstRelationships_.SelectedIndexChanged += new System.EventHandler(this.lstRelationships_SelectedIndexChanged);
+            this.lstRelationships_.Enter += new System.EventHandler(this.lstRelationships_Enter);
             // 
             // oImageList16x16
             // 
@@ -508,8 +508,8 @@ namespace FamilyTree.Viewer
             // tabFacts
             // 
             tabFacts.Controls.Add(cmdDeleteFact);
-            tabFacts.Controls.Add(this.m_cboFactType);
-            tabFacts.Controls.Add(this.m_gridFacts);
+            tabFacts.Controls.Add(this.cboFactType_);
+            tabFacts.Controls.Add(this.gridFacts_);
             tabFacts.Controls.Add(cmdAddFact);
             tabFacts.ImageIndex = 7;
             tabFacts.Location = new System.Drawing.Point(4, 23);
@@ -533,25 +533,25 @@ namespace FamilyTree.Viewer
             // 
             // m_cboFactType
             // 
-            this.m_cboFactType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboFactType.Location = new System.Drawing.Point(8, 228);
-            this.m_cboFactType.Name = "m_cboFactType";
-            this.m_cboFactType.Size = new System.Drawing.Size(272, 21);
-            this.m_cboFactType.TabIndex = 2;
+            this.cboFactType_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFactType_.Location = new System.Drawing.Point(8, 228);
+            this.cboFactType_.Name = "m_cboFactType";
+            this.cboFactType_.Size = new System.Drawing.Size(272, 21);
+            this.cboFactType_.TabIndex = 2;
             // 
             // m_gridFacts
             // 
-            this.m_gridFacts.CaptionVisible = false;
-            this.m_gridFacts.ContextMenuStrip = this.contextMenuStrip1;
-            this.m_gridFacts.DataMember = "";
-            this.m_gridFacts.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.m_gridFacts.Location = new System.Drawing.Point(8, 8);
-            this.m_gridFacts.Name = "m_gridFacts";
-            this.m_gridFacts.Size = new System.Drawing.Size(656, 208);
-            this.m_gridFacts.TabIndex = 0;
-            this.m_gridFacts.Enter += new System.EventHandler(this.gridFacts_CurrentCellChanged);
-            this.m_gridFacts.MouseUp += new System.Windows.Forms.MouseEventHandler(this.m_gridFacts_MouseUp);
-            this.m_gridFacts.CurrentCellChanged += new System.EventHandler(this.gridFacts_CurrentCellChanged);
+            this.gridFacts_.CaptionVisible = false;
+            this.gridFacts_.ContextMenuStrip = this.contextMenuStrip1;
+            this.gridFacts_.DataMember = "";
+            this.gridFacts_.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.gridFacts_.Location = new System.Drawing.Point(8, 8);
+            this.gridFacts_.Name = "m_gridFacts";
+            this.gridFacts_.Size = new System.Drawing.Size(656, 208);
+            this.gridFacts_.TabIndex = 0;
+            this.gridFacts_.Enter += new System.EventHandler(this.gridFacts_CurrentCellChanged);
+            this.gridFacts_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.m_gridFacts_MouseUp);
+            this.gridFacts_.CurrentCellChanged += new System.EventHandler(this.gridFacts_CurrentCellChanged);
             // 
             // contextMenuStrip1
             // 
@@ -582,11 +582,11 @@ namespace FamilyTree.Viewer
             // tabAdvanced
             // 
             tabAdvanced.BackColor = System.Drawing.Color.Transparent;
-            tabAdvanced.Controls.Add(this.m_chkGedcom);
+            tabAdvanced.Controls.Add(this.chkGedcom_);
             tabAdvanced.Controls.Add(label3);
-            tabAdvanced.Controls.Add(this.m_cboMainImage);
-            tabAdvanced.Controls.Add(this.m_cboMother);
-            tabAdvanced.Controls.Add(this.m_cboFather);
+            tabAdvanced.Controls.Add(this.cboMainImage_);
+            tabAdvanced.Controls.Add(this.cboMother_);
+            tabAdvanced.Controls.Add(this.cboFather_);
             tabAdvanced.Controls.Add(label13);
             tabAdvanced.Controls.Add(label12);
             tabAdvanced.Controls.Add(this.m_Image);
@@ -600,14 +600,14 @@ namespace FamilyTree.Viewer
             // 
             // m_chkGedcom
             // 
-            this.m_chkGedcom.AutoSize = true;
-            this.m_chkGedcom.Location = new System.Drawing.Point(112, 137);
-            this.m_chkGedcom.Name = "m_chkGedcom";
-            this.m_chkGedcom.Size = new System.Drawing.Size(130, 17);
-            this.m_chkGedcom.TabIndex = 13;
-            this.m_chkGedcom.Text = "Include in Gedcom file";
-            this.m_chkGedcom.UseVisualStyleBackColor = true;
-            this.m_chkGedcom.CheckedChanged += new System.EventHandler(this.chkGedcom_CheckedChanged);
+            this.chkGedcom_.AutoSize = true;
+            this.chkGedcom_.Location = new System.Drawing.Point(112, 137);
+            this.chkGedcom_.Name = "m_chkGedcom";
+            this.chkGedcom_.Size = new System.Drawing.Size(130, 17);
+            this.chkGedcom_.TabIndex = 13;
+            this.chkGedcom_.Text = "Include in Gedcom file";
+            this.chkGedcom_.UseVisualStyleBackColor = true;
+            this.chkGedcom_.CheckedChanged += new System.EventHandler(this.chkGedcom_CheckedChanged);
             // 
             // label3
             // 
@@ -620,30 +620,30 @@ namespace FamilyTree.Viewer
             // 
             // m_cboMainImage
             // 
-            this.m_cboMainImage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboMainImage.Location = new System.Drawing.Point(112, 88);
-            this.m_cboMainImage.Name = "m_cboMainImage";
-            this.m_cboMainImage.Size = new System.Drawing.Size(272, 21);
-            this.m_cboMainImage.TabIndex = 11;
-            this.m_cboMainImage.SelectedIndexChanged += new System.EventHandler(this.cboMainImage_SelectedIndexChanged);
+            this.cboMainImage_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMainImage_.Location = new System.Drawing.Point(112, 88);
+            this.cboMainImage_.Name = "m_cboMainImage";
+            this.cboMainImage_.Size = new System.Drawing.Size(272, 21);
+            this.cboMainImage_.TabIndex = 11;
+            this.cboMainImage_.SelectedIndexChanged += new System.EventHandler(this.cboMainImage_SelectedIndexChanged);
             // 
             // m_cboMother
             // 
-            this.m_cboMother.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboMother.Location = new System.Drawing.Point(112, 32);
-            this.m_cboMother.Name = "m_cboMother";
-            this.m_cboMother.Size = new System.Drawing.Size(272, 21);
-            this.m_cboMother.TabIndex = 3;
-            this.m_cboMother.SelectedIndexChanged += new System.EventHandler(this.cboMother_SelectedIndexChanged);
+            this.cboMother_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMother_.Location = new System.Drawing.Point(112, 32);
+            this.cboMother_.Name = "m_cboMother";
+            this.cboMother_.Size = new System.Drawing.Size(272, 21);
+            this.cboMother_.TabIndex = 3;
+            this.cboMother_.SelectedIndexChanged += new System.EventHandler(this.cboMother_SelectedIndexChanged);
             // 
             // m_cboFather
             // 
-            this.m_cboFather.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboFather.Location = new System.Drawing.Point(112, 8);
-            this.m_cboFather.Name = "m_cboFather";
-            this.m_cboFather.Size = new System.Drawing.Size(272, 21);
-            this.m_cboFather.TabIndex = 2;
-            this.m_cboFather.SelectedIndexChanged += new System.EventHandler(this.cboFather_SelectedIndexChanged);
+            this.cboFather_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFather_.Location = new System.Drawing.Point(112, 8);
+            this.cboFather_.Name = "m_cboFather";
+            this.cboFather_.Size = new System.Drawing.Size(272, 21);
+            this.cboFather_.TabIndex = 2;
+            this.cboFather_.SelectedIndexChanged += new System.EventHandler(this.cboFather_SelectedIndexChanged);
             // 
             // label13
             // 
@@ -675,7 +675,7 @@ namespace FamilyTree.Viewer
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(this.m_labDescription);
+            groupBox2.Controls.Add(this.labDescription_);
             groupBox2.Location = new System.Drawing.Point(8, 296);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new System.Drawing.Size(680, 104);
@@ -685,17 +685,17 @@ namespace FamilyTree.Viewer
             // 
             // m_labDescription
             // 
-            this.m_labDescription.Location = new System.Drawing.Point(8, 24);
-            this.m_labDescription.Name = "m_labDescription";
-            this.m_labDescription.Size = new System.Drawing.Size(664, 72);
-            this.m_labDescription.TabIndex = 0;
-            this.m_labDescription.Text = "label7";
+            this.labDescription_.Location = new System.Drawing.Point(8, 24);
+            this.labDescription_.Name = "m_labDescription";
+            this.labDescription_.Size = new System.Drawing.Size(664, 72);
+            this.labDescription_.TabIndex = 0;
+            this.labDescription_.Text = "label7";
             // 
             // tabToDo
             // 
             tabToDo.Controls.Add(cmdDeleteToDo);
             tabToDo.Controls.Add(cmdAddToDo);
-            tabToDo.Controls.Add(this.m_gridToDo);
+            tabToDo.Controls.Add(this.gridToDo_);
             tabToDo.ImageIndex = 0;
             tabToDo.Location = new System.Drawing.Point(4, 23);
             tabToDo.Name = "tabToDo";
@@ -730,14 +730,14 @@ namespace FamilyTree.Viewer
             // 
             // m_gridToDo
             // 
-            this.m_gridToDo.CaptionVisible = false;
-            this.m_gridToDo.DataMember = "";
-            this.m_gridToDo.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.m_gridToDo.Location = new System.Drawing.Point(8, 8);
-            this.m_gridToDo.Name = "m_gridToDo";
-            this.m_gridToDo.Size = new System.Drawing.Size(656, 208);
-            this.m_gridToDo.TabIndex = 1;
-            this.m_gridToDo.Enter += new System.EventHandler(this.evtNonSpecificSource);
+            this.gridToDo_.CaptionVisible = false;
+            this.gridToDo_.DataMember = "";
+            this.gridToDo_.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.gridToDo_.Location = new System.Drawing.Point(8, 8);
+            this.gridToDo_.Name = "m_gridToDo";
+            this.gridToDo_.Size = new System.Drawing.Size(656, 208);
+            this.gridToDo_.TabIndex = 1;
+            this.gridToDo_.Enter += new System.EventHandler(this.evtNonSpecificSource);
             // 
             // cmdDeleteSource
             // 
@@ -790,53 +790,53 @@ namespace FamilyTree.Viewer
             // 
             // m_grpSources
             // 
-            this.m_grpSources.Controls.Add(cmdDeleteSource);
-            this.m_grpSources.Controls.Add(this.m_cboSources);
-            this.m_grpSources.Controls.Add(cmdAddSource);
-            this.m_grpSources.Controls.Add(this.m_gridSources);
-            this.m_grpSources.Location = new System.Drawing.Point(8, 400);
-            this.m_grpSources.Name = "m_grpSources";
-            this.m_grpSources.Size = new System.Drawing.Size(680, 221);
-            this.m_grpSources.TabIndex = 19;
-            this.m_grpSources.TabStop = false;
-            this.m_grpSources.Text = "Sources";
+            this.grpSources_.Controls.Add(cmdDeleteSource);
+            this.grpSources_.Controls.Add(this.cboSources_);
+            this.grpSources_.Controls.Add(cmdAddSource);
+            this.grpSources_.Controls.Add(this.gridSources_);
+            this.grpSources_.Location = new System.Drawing.Point(8, 400);
+            this.grpSources_.Name = "m_grpSources";
+            this.grpSources_.Size = new System.Drawing.Size(680, 221);
+            this.grpSources_.TabIndex = 19;
+            this.grpSources_.TabStop = false;
+            this.grpSources_.Text = "Sources";
             // 
             // m_cboSources
             // 
-            this.m_cboSources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboSources.Location = new System.Drawing.Point(8, 184);
-            this.m_cboSources.Name = "m_cboSources";
-            this.m_cboSources.Size = new System.Drawing.Size(368, 21);
-            this.m_cboSources.TabIndex = 13;
+            this.cboSources_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSources_.Location = new System.Drawing.Point(8, 184);
+            this.cboSources_.Name = "m_cboSources";
+            this.cboSources_.Size = new System.Drawing.Size(368, 21);
+            this.cboSources_.TabIndex = 13;
             // 
             // m_gridSources
             // 
-            this.m_gridSources.CaptionText = "Sources for me";
-            this.m_gridSources.CaptionVisible = false;
-            this.m_gridSources.DataMember = "";
-            this.m_gridSources.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.m_gridSources.Location = new System.Drawing.Point(8, 24);
-            this.m_gridSources.Name = "m_gridSources";
-            this.m_gridSources.Size = new System.Drawing.Size(664, 152);
-            this.m_gridSources.TabIndex = 11;
-            this.m_gridSources.Leave += new System.EventHandler(this.gridSources_Leave);
+            this.gridSources_.CaptionText = "Sources for me";
+            this.gridSources_.CaptionVisible = false;
+            this.gridSources_.DataMember = "";
+            this.gridSources_.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.gridSources_.Location = new System.Drawing.Point(8, 24);
+            this.gridSources_.Name = "m_gridSources";
+            this.gridSources_.Size = new System.Drawing.Size(664, 152);
+            this.gridSources_.TabIndex = 11;
+            this.gridSources_.Leave += new System.EventHandler(this.gridSources_Leave);
             // 
             // m_TabControl
             // 
-            this.m_TabControl.Controls.Add(tabBasic);
-            this.m_TabControl.Controls.Add(tabRelationships);
-            this.m_TabControl.Controls.Add(tabFacts);
-            this.m_TabControl.Controls.Add(tabAdvanced);
-            this.m_TabControl.Controls.Add(tabToDo);
-            this.m_TabControl.ImageList = oImageList16x16;
-            this.m_TabControl.Location = new System.Drawing.Point(8, 8);
-            this.m_TabControl.Margin = new System.Windows.Forms.Padding(0);
-            this.m_TabControl.Name = "m_TabControl";
-            this.m_TabControl.SelectedIndex = 0;
-            this.m_TabControl.Size = new System.Drawing.Size(680, 284);
-            this.m_TabControl.TabIndex = 23;
-            this.m_TabControl.Enter += new System.EventHandler(this.evtNonSpecificSource);
-            this.m_TabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl_.Controls.Add(tabBasic);
+            this.tabControl_.Controls.Add(tabRelationships);
+            this.tabControl_.Controls.Add(tabFacts);
+            this.tabControl_.Controls.Add(tabAdvanced);
+            this.tabControl_.Controls.Add(tabToDo);
+            this.tabControl_.ImageList = oImageList16x16;
+            this.tabControl_.Location = new System.Drawing.Point(8, 8);
+            this.tabControl_.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl_.Name = "m_TabControl";
+            this.tabControl_.SelectedIndex = 0;
+            this.tabControl_.Size = new System.Drawing.Size(680, 284);
+            this.tabControl_.TabIndex = 23;
+            this.tabControl_.Enter += new System.EventHandler(this.evtNonSpecificSource);
+            this.tabControl_.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // m_cboEditor
             // 
@@ -863,9 +863,9 @@ namespace FamilyTree.Viewer
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(690, 664);
             this.Controls.Add(this.m_cboEditor);
-            this.Controls.Add(this.m_TabControl);
+            this.Controls.Add(this.tabControl_);
             this.Controls.Add(groupBox2);
-            this.Controls.Add(this.m_grpSources);
+            this.Controls.Add(this.grpSources_);
             this.Controls.Add(cmdCancel);
             this.Controls.Add(cmdOK);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -883,17 +883,17 @@ namespace FamilyTree.Viewer
             tabRelationships.ResumeLayout(false);
             tabRelationships.PerformLayout();
             tabFacts.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.m_gridFacts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridFacts_)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             tabAdvanced.ResumeLayout(false);
             tabAdvanced.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_Image)).EndInit();
             groupBox2.ResumeLayout(false);
             tabToDo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.m_gridToDo)).EndInit();
-            this.m_grpSources.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.m_gridSources)).EndInit();
-            this.m_TabControl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridToDo_)).EndInit();
+            this.grpSources_.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridSources_)).EndInit();
+            this.tabControl_.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -901,36 +901,36 @@ namespace FamilyTree.Viewer
         #endregion
 
         private System.Windows.Forms.ComboBox cboSex_;
-        private System.Windows.Forms.Label m_labMaidenName;
-        private System.Windows.Forms.TextBox m_txtMaidenName;
-        private System.Windows.Forms.TextBox m_txtForename;
+        private System.Windows.Forms.Label labMaidenName_;
+        private System.Windows.Forms.TextBox txtMaidenName_;
+        private System.Windows.Forms.TextBox txtForename_;
         private System.Windows.Forms.TextBox txtSurname_;
-        private System.Windows.Forms.TabControl m_TabControl;
-        private System.Windows.Forms.ComboBox m_cboFactType;
-        private System.Windows.Forms.CheckBox m_chkChildrenKnown;
-        private System.Windows.Forms.ListBox m_lstRelationships;
-        private System.Windows.Forms.ComboBox m_cboAddPartner;
+        private System.Windows.Forms.TabControl tabControl_;
+        private System.Windows.Forms.ComboBox cboFactType_;
+        private System.Windows.Forms.CheckBox chkChildrenKnown_;
+        private System.Windows.Forms.ListBox lstRelationships_;
+        private System.Windows.Forms.ComboBox cboAddPartner_;
         private System.Windows.Forms.TextBox m_txtRelationComments;
-        private System.Windows.Forms.TextBox m_txtComments;
+        private System.Windows.Forms.TextBox txtComments_;
         private System.Windows.Forms.ComboBox m_cboTerminated;
-        private System.Windows.Forms.ComboBox m_cboFather;
-        private System.Windows.Forms.ComboBox m_cboMother;
+        private System.Windows.Forms.ComboBox cboFather_;
+        private System.Windows.Forms.ComboBox cboMother_;
         private System.Windows.Forms.PictureBox m_Image;
-        private System.Windows.Forms.DataGrid m_gridFacts;
-        private System.Windows.Forms.DataGrid m_gridSources;
-        private System.Windows.Forms.ComboBox m_cboSources;
-        private FamilyTree.Viewer.ucDate m_dateDoD;
-        private FamilyTree.Viewer.ucDate m_dateDoB;
+        private System.Windows.Forms.DataGrid gridFacts_;
+        private System.Windows.Forms.DataGrid gridSources_;
+        private System.Windows.Forms.ComboBox cboSources_;
+        private FamilyTree.Viewer.ucDate dateDoD_;
+        private FamilyTree.Viewer.ucDate dateDoB_;
         private FamilyTree.Viewer.ucDate m_dateRelationStart;
         private FamilyTree.Viewer.ucDate m_dateRelationEnd;
         private System.Windows.Forms.ComboBox m_cboRelationshipType;
-        private Label m_labDescription;
-        private GroupBox m_grpSources;
+        private Label labDescription_;
+        private GroupBox grpSources_;
         private TextBox m_txtRelationLocation;
-        private ComboBox m_cboMainImage;
-        private DataGrid m_gridToDo;
+        private ComboBox cboMainImage_;
+        private DataGrid gridToDo_;
         private ComboBox m_cboEditor;
-        private CheckBox m_chkGedcom;
+        private CheckBox chkGedcom_;
         private ContextMenuStrip contextMenuStrip1;
 
     }

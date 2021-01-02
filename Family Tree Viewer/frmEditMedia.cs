@@ -12,226 +12,208 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    /// <summary>
-    /// Form to edit a media object.
-    /// Currently media objects have to be images.
-    /// </summary>
+    /// <summary>Form to edit a media object.  Currently media objects have to be images.</summary>
     public partial class frmEditMedia : Form
     {
         #region Member Varibles
 
         /// <summary>The media object to edit.</summary>
-        private clsMedia m_oMedia;
+        private Media media_;
 
         /// <summary>The bitmap image of the specified media.</summary>
-        private Bitmap m_oImage;
+        private Bitmap image_;
 
         /// <summary>The directory that contains the media files.</summary>
-        private string m_sMediaDirectory;
+        private string mediaDirectory_;
 
         #endregion
 
         #region Class Constructors etc ...
 
-        /// <summary>
-        /// Initialise the form to edit an existing media object.
-        /// </summary>
-        /// <param name="oDb">Specifies the database to load / save the media object in.</param>
-        /// <param name="nMediaID">Specifies the ID of an existing media object.</param>
-        public frmEditMedia
-            (
-            Database oDb,
-            int nMediaID
-            )
+
+
+        /// <summary>Initialise the form to edit an existing media object.</summary>
+        /// <param name="database">Specifies the database to load / save the media object in.</param>
+        /// <param name="mediaIndex">Specifies the ID of an existing media object.</param>
+        public frmEditMedia(Database database, int mediaIndex)
         {
             InitializeComponent();
-            
+
             // Save the input parameters
-            if(nMediaID > 0)
+            if (mediaIndex > 0)
             {
-                m_oMedia = new clsMedia(oDb,nMediaID);
+                media_ = new Media(database, mediaIndex);
             }
             else
             {
-                m_oMedia = new clsMedia(oDb);
+                media_ = new Media(database);
             }
-            m_sMediaDirectory = oDb.getMediaDirectory();
+            mediaDirectory_ = database.getMediaDirectory();
 
-            m_txtTitle.Text  = m_oMedia.title;
-            m_txtFilename.Text = m_oMedia.fileName;
-            m_chkPrimary.Checked = m_oMedia.isPrimary;
-            m_chkThumbnail.Checked = m_oMedia.isThumbnail;
-            OpenImage(m_oMedia.fullFileName);
+            m_txtTitle.Text = media_.title;
+            txtFilename_.Text = media_.fileName;
+            m_chkPrimary.Checked = media_.isPrimary;
+            m_chkThumbnail.Checked = media_.isThumbnail;
+            openImage(media_.fullFileName);
 
             // Populate the list of people combo box
-            int[] oAttachedPeople = m_oMedia.getAttachedPeople();
-            IndexName[] oPeople = oDb.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE);
-            foreach(IndexName oPerson in oPeople)
+            int[] attachedPeople = media_.getAttachedPeople();
+            IndexName[] people = database.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE);
+            foreach (IndexName person in people)
             {
-                m_cboPeople.Items.Add(oPerson);
-                foreach(int nAttachedID in oAttachedPeople)
+                cboPeople_.Items.Add(person);
+                foreach (int attachedIndex in attachedPeople)
                 {
-                    if(nAttachedID == oPerson.index)
+                    if (attachedIndex == person.index)
                     {
-                        m_lstPeople.Items.Add(oPerson);
+                        lstPeople_.Items.Add(person);
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Initialise the form to edit a new media object.
-        /// </summary>
-        /// <param name="oDb">Specifies the database to add the media object to.</param>
-        public frmEditMedia
-            (
-            Database oDb
-            ) : this(oDb,0)
+
+
+        /// <summary>Initialise the form to edit a new media object.</summary>
+        /// <param name="database">Specifies the database to add the media object to.</param>
+        public frmEditMedia(Database database) : this(database, 0)
         {
         }
 
+
+
         #endregion
 
-        /// <summary>
-        /// Opens the specified image file onto the media form.
-        /// </summary>
-        /// <param name="sFilename">Specifies the full filename of the image file.</param>
-        private void OpenImage
-            (
-            string sFilename
-            )
+
+
+        /// <summary>Opens the specified image file onto the media form.</summary>
+        /// <param name="fileName">Specifies the full filename of the image file.</param>
+        private void openImage(string fileName)
         {
             try
             {
-                m_oImage = new Bitmap(sFilename);
+                image_ = new Bitmap(fileName);
             }
             catch
             {
-                m_oImage = null;
+                image_ = null;
             }
-            if(m_oImage != null)
+            if (image_ != null)
             {
-                m_PictureBox.Image = m_oImage;
-                m_txtWidth.Text = m_oImage.Width.ToString();
-                m_txtHeight.Text = m_oImage.Height.ToString();
+                pictureBox_.Image = image_;
+                txtWidth_.Text = image_.Width.ToString();
+                txtHeight_.Text = image_.Height.ToString();
             }
             else
             {
-                m_PictureBox.Image = null;
-                m_txtWidth.Text = "";
-                m_txtHeight.Text = "";
+                pictureBox_.Image = null;
+                txtWidth_.Text = "";
+                txtHeight_.Text = "";
             }
         }
 
-        /// <summary>
-        /// The ID of the media object on the form
-        /// </summary>
-        public int MediaID
+
+
+        /// <summary>The ID of the media object on the form.</summary>
+        public int mediaIndex
         {
-            get { return m_oMedia.index_; }
+            get { return media_.index_; }
         }
+
+
 
         #region Message Handlers
 
-        /// <summary>
-        /// Message handler for the OK button click.
-        /// Update the media object in the database.
-        /// The Framework handles closing the form etc.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmdOK_Click(object sender,EventArgs e)
+
+
+        /// <summary>Message handler for the OK button click.  Update the media object in the database.  The Framework handles closing the form etc.</summary>
+        private void cmdOK_Click(object sender, EventArgs e)
         {
-            // Update the media object
-            m_oMedia.fileName = m_txtFilename.Text;
-            m_oMedia.title = m_txtTitle.Text;
+            // Update the media object.
+            media_.fileName = txtFilename_.Text;
+            media_.title = m_txtTitle.Text;
             try
             {
-                m_oMedia.width = int.Parse(m_txtWidth.Text);
+                media_.width = int.Parse(txtWidth_.Text);
             }
             catch
             {
-                m_oMedia.width = -1;
+                media_.width = -1;
             }
             try
             {
-                m_oMedia.height = int.Parse(m_txtHeight.Text);
+                media_.height = int.Parse(txtHeight_.Text);
             }
             catch
             {
-                m_oMedia.height = -1;
+                media_.height = -1;
             }
-            m_oMedia.isPrimary = m_chkPrimary.Checked;
-            m_oMedia.isThumbnail = m_chkThumbnail.Checked;
+            media_.isPrimary = m_chkPrimary.Checked;
+            media_.isThumbnail = m_chkThumbnail.Checked;
 
-            // Update the attached people
-            m_oMedia.removeAllPeople();
-            foreach(IndexName oPerson in m_lstPeople.Items)
+            // Update the attached people.
+            media_.removeAllPeople();
+            foreach (IndexName person in lstPeople_.Items)
             {
-                m_oMedia.addPerson(oPerson.index);
+                media_.addPerson(person.index);
             }
 
-            // Save this media object
-            m_oMedia.save();
+            // Save this media object.
+            media_.save();
         }
 
-        /// <summary>
-        /// Message handler for the open button click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmdOpen_Click(object sender,EventArgs e)
+
+
+        /// <summary>Message handler for the open button click.</summary>
+        private void cmdOpen_Click(object sender, EventArgs e)
         {
             // Initialise the Open File Dialog
-            m_OpenFileDialog.Title = "Select Media File";
-            m_OpenFileDialog.Filter = "jpeg files (*.jpg)|*.jpg|All Files (*.*)|*.*";
-            m_OpenFileDialog.CheckFileExists = true;
-            m_OpenFileDialog.InitialDirectory = m_sMediaDirectory;
+            openFileDialog_.Title = "Select Media File";
+            openFileDialog_.Filter = "jpeg files (*.jpg)|*.jpg|All Files (*.*)|*.*";
+            openFileDialog_.CheckFileExists = true;
+            openFileDialog_.InitialDirectory = mediaDirectory_;
 
             // Show the dialog and allow the user to select the file
-            if(m_OpenFileDialog.ShowDialog(this) == DialogResult.OK)
+            if (openFileDialog_.ShowDialog(this) == DialogResult.OK)
             {
-                m_txtFilename.Text = Path.GetFileName(m_OpenFileDialog.FileName);
-                OpenImage(m_sMediaDirectory + "\\" + m_txtFilename.Text);
+                txtFilename_.Text = Path.GetFileName(openFileDialog_.FileName);
+                openImage(mediaDirectory_ + "\\" + txtFilename_.Text);
             }
         }
+
+
+
+        /// <summary>Message handler for the form load event.</summary>
+        private void frmEditMedia_Load(object sender, EventArgs e)
+        {
+        }
+
+
+
+        /// <summary>Message handler for the Add person button click.</summary>
+        private void cmdAddPerson_Click(object sender, EventArgs e)
+        {
+            IndexName person = (IndexName)cboPeople_.SelectedItem;
+            if (person != null)
+            {
+                lstPeople_.Items.Add(person);
+            }
+        }
+
+
+
+        /// <summary>Message handler for the remove person button click.</summary>
+        private void cmdRemovePerson_Click(object sender, EventArgs e)
+        {
+            if (lstPeople_.SelectedIndex >= 0)
+            {
+                lstPeople_.Items.RemoveAt(lstPeople_.SelectedIndex);
+            }
+        }
+
+
 
         #endregion
 
-        /// <summary>
-        /// Message handler for the form load event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void frmEditMedia_Load(object sender,EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Message handler for the Add person button click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmdAddPerson_Click(object sender,EventArgs e)
-        {
-            IndexName oPerson = (IndexName)m_cboPeople.SelectedItem;
-            if(oPerson != null)
-            {
-                m_lstPeople.Items.Add(oPerson);
-            }
-        }
-
-        /// <summary>
-        /// Message handler for the remove person button click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmdRemovePerson_Click(object sender,EventArgs e)
-        {
-            if(m_lstPeople.SelectedIndex >= 0)
-            {
-                m_lstPeople.Items.RemoveAt(m_lstPeople.SelectedIndex);
-            }
-        }
     }
 }

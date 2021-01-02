@@ -7,11 +7,8 @@ using System.Text;
 
 namespace FamilyTree.Objects
 {
-    /// <summary>
-    /// Class to represent the additional information on a marriage certificate source.
-    /// This is closely related to the tbl_MarriageCertificates table.
-    /// </summary>
-    public class clsMarriageCertificate
+    /// <summary>Class to represent the additional information on a marriage certificate source.  This is closely related to the tbl_MarriageCertificates table.</summary>
+    public class MarriageCertificate
     {
         #region Member Variables
 
@@ -74,7 +71,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Class constructor.</summary>
 		/// <param name="sourceIndex">Specifies the ID of the parent source record and the ID of this object.</param>
-		public clsMarriageCertificate(int sourceIndex)
+		public MarriageCertificate(int sourceIndex)
         {
             index_ = sourceIndex;
         }
@@ -84,7 +81,7 @@ namespace FamilyTree.Objects
         /// <summary>Class constructor that loads the current values from the database.</summary>
         /// <param name="sourceIndex">Specifies the ID of the parent source record and the ID of this object.</param>
         /// <param name="cndb">Specifies the database to load the values from.</param>
-        public clsMarriageCertificate(int sourceIndex, OleDbConnection cndb) : this(sourceIndex)
+        public MarriageCertificate(int sourceIndex, OleDbConnection cndb) : this(sourceIndex)
         {
             string sql = "SELECT * FROM tbl_MarriageCertificates WHERE ID=" + index_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
@@ -128,22 +125,22 @@ namespace FamilyTree.Objects
 
             // Write the record into the database.
             string sql = "UPDATE tbl_MarriageCertificates SET " +
-                "GroReference=" + Database.toDb(groReference) + "," +
-                "WhenMarried=" + Database.toDb(when) + "," +
+                "GroReference=" + Database.toDb(groReference) + ", " +
+                "WhenMarried=" + Database.toDb(when) + ", " +
                 "Location=" + Database.toDb(location)
-                + ",GroomName=" + Database.toDb(groomName)
-                + ",GroomAge=" + Database.toDb(groomAge)
-                + ",GroomOccupation=" + Database.toDb(groomOccupation)
-                + ",GroomLiving=" + Database.toDb(groomLiving)
-                + ",GroomFather=" + Database.toDb(groomFather)
-                + ",GroomFatherOccupation=" + Database.toDb(groomFatherOccupation)
-                + ",BrideName=" + Database.toDb(brideName)
-                + ",BrideAge=" + Database.toDb(brideAge)
-                + ",BrideOccupation=" + Database.toDb(brideOccupation)
-                + ",BrideLiving=" + Database.toDb(brideLiving)
-                + ",BrideFather=" + Database.toDb(brideFather)
-                + ",BrideFatherOccupation=" + Database.toDb(brideFatherOccupation)
-                + ",Witness=" + Database.toDb(witness)
+                + ", GroomName=" + Database.toDb(groomName)
+                + ", GroomAge=" + Database.toDb(groomAge)
+                + ", GroomOccupation=" + Database.toDb(groomOccupation)
+                + ", GroomLiving=" + Database.toDb(groomLiving)
+                + ", GroomFather=" + Database.toDb(groomFather)
+                + ", GroomFatherOccupation=" + Database.toDb(groomFatherOccupation)
+                + ", BrideName=" + Database.toDb(brideName)
+                + ", BrideAge=" + Database.toDb(brideAge)
+                + ", BrideOccupation=" + Database.toDb(brideOccupation)
+                + ", BrideLiving=" + Database.toDb(brideLiving)
+                + ", BrideFather=" + Database.toDb(brideFather)
+                + ", BrideFatherOccupation=" + Database.toDb(brideFatherOccupation)
+                + ", Witness=" + Database.toDb(witness)
                 + " WHERE ID=" + index_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             int numRows = sqlCommand.ExecuteNonQuery();
@@ -151,22 +148,22 @@ namespace FamilyTree.Objects
             {
                 sql = "INSERT INTO tbl_MarriageCertificates (ID, GroReference, WhenMarried, Location, GroomName, GroomAge, GroomOccupation, GroomLiving, GroomFather, GroomFatherOccupation, BrideName, BrideAge, BrideOccupation, BrideLiving, BrideFather, BrideFatherOccupation, Witness) VALUES (" +
                     index_.ToString() + "," +
-                    Database.toDb(groReference) + "," +
-                    Database.toDb(when) + "," +
+                    Database.toDb(groReference) + ", " +
+                    Database.toDb(when) + ", " +
                     Database.toDb(location)
-                    + "," + Database.toDb(groomName)
-                    + "," + Database.toDb(groomAge)
-                    + "," + Database.toDb(groomOccupation)
-                    + "," + Database.toDb(groomLiving)
-                    + "," + Database.toDb(groomFather)
-                    + "," + Database.toDb(groomFatherOccupation)
-                    + "," + Database.toDb(brideName)
-                    + "," + Database.toDb(brideAge)
-                    + "," + Database.toDb(brideOccupation)
-                    + "," + Database.toDb(brideLiving)
-                    + "," + Database.toDb(brideFather)
-                    + "," + Database.toDb(brideFatherOccupation)
-                    + "," + Database.toDb(witness)
+                    + ", " + Database.toDb(groomName)
+                    + ", " + Database.toDb(groomAge)
+                    + ", " + Database.toDb(groomOccupation)
+                    + ", " + Database.toDb(groomLiving)
+                    + ", " + Database.toDb(groomFather)
+                    + ", " + Database.toDb(groomFatherOccupation)
+                    + ", " + Database.toDb(brideName)
+                    + ", " + Database.toDb(brideAge)
+                    + ", " + Database.toDb(brideOccupation)
+                    + ", " + Database.toDb(brideLiving)
+                    + ", " + Database.toDb(brideFather)
+                    + ", " + Database.toDb(brideFatherOccupation)
+                    + ", " + Database.toDb(witness)
                     + ");";
                 sqlCommand = new OleDbCommand(sql, database.cndb);
                 sqlCommand.ExecuteNonQuery();

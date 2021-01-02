@@ -196,7 +196,7 @@ namespace FamilyTree.Viewer
                 {
                     sbHtml.Append("(" + oPerson.tag + ") ");
                 }
-                sbHtml.Append(oPerson.Description(true, false, false, false, false));
+                sbHtml.Append(oPerson.getDescription(true, false, false, false, false));
                 sbHtml.AppendLine("</p>");
             }
 

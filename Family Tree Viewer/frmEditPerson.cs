@@ -1,11 +1,7 @@
+using FamilyTree.Objects;
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Data;
-
-using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
@@ -30,23 +26,23 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Initialises the edit person dialog with the specified person in the specified database.</summary>
-        /// <param name="personIndex">ID of the person to edit.</param>
-        /// <param name="database">Database to save the person into.</param>
+        /// <param name="personIndex">Specifies the ID of the person to edit.</param>
+        /// <param name="database">Specifies the database to save the person into.</param>
         public frmEditPerson(int personIndex, Database database)
         {
-            // Required for Windows Form Designer support
+            // Required for Windows Form Designer support.
             InitializeComponent();
 
-            // Initialise the form
-            clsFactType[] oFactTypes = database.GetFactTypes();
-            for (int nI = 0; nI < oFactTypes.Length; nI++)
+            // Initialise the form.
+            FactType[] factTypes = database.getFactTypes();
+            for (int i = 0; i < factTypes.Length; i++)
             {
-                m_cboFactType.Items.Add(oFactTypes[nI]);
+                cboFactType_.Items.Add(factTypes[i]);
             }
-            IndexName[] oSources = database.GetSources(Objects.SortOrder.DATE);
-            for (int nI = 0; nI < oSources.Length; nI++)
+            IndexName[] sources = database.GetSources(Objects.SortOrder.DATE);
+            for (int i = 0; i < sources.Length; i++)
             {
-                m_cboSources.Items.Add(oSources[nI]);
+                cboSources_.Items.Add(sources[i]);
             }
 
             // Create the person object to edit.
@@ -69,51 +65,49 @@ namespace FamilyTree.Viewer
                 cboSex_.SelectedIndex = 1;
             }
             txtSurname_.Text = person_.surname;
-            m_txtForename.Text = person_.forenames;
-            m_txtMaidenName.Text = person_.maidenname;
-            m_dateDoB.Value = person_.dob;
-            m_dateDoD.Value = person_.dod;
-            m_chkChildrenKnown.Checked = person_.isAllChildrenKnown;
-            m_txtComments.Text = person_.comments;
+            txtForename_.Text = person_.forenames;
+            txtMaidenName_.Text = person_.maidenname;
+            dateDoB_.Value = person_.dob;
+            dateDoD_.Value = person_.dod;
+            chkChildrenKnown_.Checked = person_.isAllChildrenKnown;
+            txtComments_.Text = person_.comments;
             // m_labEditor.Text = "Last Edit by "+m_oPerson.LastEditBy+" on "+m_oPerson.LastEditDate.ToString("d-MMM-yyyy HH:mm:ss");
 
-            // Initialise the sources grid
-            RefreshSources(person_.sourceName, "Name");
+            // Initialise the sources grid.
+            refreshSources(person_.sourceName, "Name");
 
-            // Initialise the facts grid
-            PopulateFactsGrid();
+            // Initialise the facts grid.
+            populateFactsGrid();
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
 
-            // Initialise the relationships tab
-            Relationship[] oRelationships = person_.getRelationships();
-            for (int nI = 0; nI < oRelationships.Length; nI++)
+            // Initialise the relationships tab.
+            Relationship[] relationships = person_.getRelationships();
+            for (int i = 0; i < relationships.Length; i++)
             {
-                m_lstRelationships.Items.Add(oRelationships[nI]);
+                lstRelationships_.Items.Add(relationships[i]);
             }
 
-            // Add the possible people to the relationship combo box
-            IndexName[] oPossiblePartners = person_.possiblePartners();
-            for (int nI = 0; nI < oPossiblePartners.Length; nI++)
+            // Add the possible people to the relationship combo box.
+            IndexName[] possiblePartners = person_.possiblePartners();
+            for (int i = 0; i < possiblePartners.Length; i++)
             {
-                m_cboAddPartner.Items.Add(oPossiblePartners[nI]);
+                cboAddPartner_.Items.Add(possiblePartners[i]);
             }
         }
 
-        /// Initialise the edit person dialog with a new person.
-        /// <summary>
-        /// Initialise the edit person dialog with a new person.
-        /// </summary>
-		/// <param name="oDB"></param>
-		public frmEditPerson(Database oDB) : this((int)0, oDB)
+
+
+        /// <summary>Initialise the edit person dialog with a new person.</summary>
+		/// <param name="database">Specifies the database to write this person to.</param>
+		public frmEditPerson(Database database) : this((int)0, database)
         {
         }
 
-        /// Clean up any resources being used.
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
+
+
+        /// <summary>Clean up any resources being used.</summary>
 		protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -126,53 +120,55 @@ namespace FamilyTree.Viewer
             base.Dispose(disposing);
         }
 
+
+
         #endregion
 
         #region Supporting Functions
 
-        /// <summary>
-        /// Returns the ID of the person on the form.
-        /// </summary>
+
+
+        /// <summary>Returns the ID of the person on the form.</summary>
         /// <returns>The ID of the person on the form.</returns>
-        public int GetPersonID()
+        public int getPersonIndex()
         {
             return person_.index;
         }
 
-        /// <summary>
-        /// Populate the facts grid with the facts from the m_oPerson object
-        /// </summary>
+
+
+        /// <summary>Populate the facts grid with the facts from the m_oPerson object.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool PopulateFactsGrid()
+        private bool populateFactsGrid()
         {
-            // Populate the grid with data
-            m_gridFacts.SetDataBinding(person_.getFacts(), "");
+            // Populate the grid with data.
+            gridFacts_.SetDataBinding(person_.getFacts(), "");
 
             // Creates two DataGridTableStyle objects, one for the Machine
             // array, and one for the Parts ArrayList.
 
-            // Create a DataGridTabkeStyle object for the facts
-            DataGridTableStyle oFactsTableStyle = new DataGridTableStyle();
-            oFactsTableStyle.MappingName = "clsFact[]";
+            // Create a DataGridTabkeStyle object for the facts.
+            DataGridTableStyle factsTableStyle = new DataGridTableStyle();
+            factsTableStyle.MappingName = "clsFact[]";
 
             // Sets the AlternatingBackColor so you can see the difference.
-            oFactsTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+            factsTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
 
-            // Creates a column for the rank
+            // Creates a column for the rank.
             DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn();
             columnRank.MappingName = "Rank";
             columnRank.HeaderText = "Rank";
             columnRank.ReadOnly = false;
             columnRank.Width = 40;
 
-            // Create a column for the type
+            // Create a column for the type.
             DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
             columnName.MappingName = "TypeName";
             columnName.HeaderText = "TypeName";
             columnName.ReadOnly = true;
             columnName.Width = 120;
 
-            // Create a column for the information
+            // Create a column for the information.
             DataGridTextBoxColumn columnInfo = new DataGridTextBoxColumn();
             columnInfo.MappingName = "Information";
             columnInfo.HeaderText = "Information";
@@ -186,146 +182,144 @@ namespace FamilyTree.Viewer
             */
 
             // Adds the column styles to the grid table style.
-            oFactsTableStyle.GridColumnStyles.Add(columnRank);
-            oFactsTableStyle.GridColumnStyles.Add(columnName);
-            oFactsTableStyle.GridColumnStyles.Add(columnInfo);
+            factsTableStyle.GridColumnStyles.Add(columnRank);
+            factsTableStyle.GridColumnStyles.Add(columnName);
+            factsTableStyle.GridColumnStyles.Add(columnInfo);
 
             // Add the table style to the collection, but clear the collection first.
-            m_gridFacts.TableStyles.Clear();
-            m_gridFacts.TableStyles.Add(oFactsTableStyle);
+            gridFacts_.TableStyles.Clear();
+            gridFacts_.TableStyles.Add(factsTableStyle);
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         #endregion
 
         #region Sources
 
-        // Repopulate the sources grid with the specified sources.
-        /// <summary>
-        /// Repopulate the sources grid with the specified sources.
-        /// The grid is labelled as belonging to the specified string.
-        /// </summary>
-        /// <param name="oSources">Specifiy the collection of sources to populate the grid with.</param>
-        /// <param name="sOwner">Name of the owner to label the grid with.</param>
-        private void RefreshSources(Sources oSources, string sOwner)
+
+
+        /// <summary>Repopulate the sources grid with the specified sources.  The grid is labelled as belonging to the specified string.</summary>
+        /// <param name="sources">Specifiy the collection of sources to populate the grid with.</param>
+        /// <param name="ownerLabel">Name of the owner to label the grid with.</param>
+        private void refreshSources(Sources sources, string ownerLabel)
         {
-            RefreshSources(oSources);
-            m_gridSources.CaptionText = "Sources for " + sOwner;
-            m_grpSources.Text = "Sources for " + sOwner;
+            refreshSources(sources);
+            gridSources_.CaptionText = "Sources for " + ownerLabel;
+            grpSources_.Text = "Sources for " + ownerLabel;
         }
 
-        // Refresh the sources grid without changing the label.
-        /// <summary>
-        /// Refresh the sources grid without changing the label.
-        /// Use as RefreshSources(m_oSources) to repaint the control
-        /// </summary>
-        /// <param name="oSources"></param>
-        private void RefreshSources(Sources oSources)
+
+
+        /// <summary>Refresh the sources grid without changing the label.  Use as RefreshSources(m_oSources) to repaint the control.</summary>
+        /// <param name="sources">Specifies the sources to refresh the grid with.</param>
+        private void refreshSources(Sources sources)
         {
-            Source[] oListSources;
-            sources_ = oSources;
-            if (oSources == null)
+            Source[] listSources;
+            sources_ = sources;
+            if (sources == null)
             {
-                oListSources = new Source[0];
-                m_gridSources.SetDataBinding(oListSources, "");
+                listSources = new Source[0];
+                gridSources_.SetDataBinding(listSources, "");
             }
             else
             {
-                oListSources = oSources.getAsSources();
-                m_gridSources.SetDataBinding(oListSources, "");
-                CreateSourcesGridStyle();
+                listSources = sources.getAsSources();
+                gridSources_.SetDataBinding(listSources, "");
+                createSourcesGridStyle();
             }
         }
 
-        // Clear the sources grid.
-        /// <summary>
-        /// Clear the sources grid.
-        /// Use when the active control has no sources.
-        /// </summary>
-        private void RefreshSources()
+
+
+        /// <summary>Clear the sources grid.  Use when the active control has no sources.</summary>
+        private void refreshSources()
         {
-            RefreshSources((Sources)null);
-            m_gridSources.CaptionText = "Sources";
-            m_grpSources.Text = "Sources";
+            refreshSources((Sources)null);
+            gridSources_.CaptionText = "Sources";
+            grpSources_.Text = "Sources";
         }
 
-        /// <summary>
-        /// Creates the style for the ToDo grid
-        /// </summary>
-        private void CreateToDoGridStyle()
+
+
+        /// <summary>Creates the style for the ToDo grid.</summary>
+        private void createToDoGridStyle()
         {
             // Define a style to apply to the ToDo grid
-            DataGridTableStyle oToDoTableStyle = new DataGridTableStyle();
+            DataGridTableStyle toDoTableStyle = new DataGridTableStyle();
 
-            // Sets the MappingName to the class name plus brackets.    
-            oToDoTableStyle.MappingName = "clsToDo[]";
+            // Sets the MappingName to the class name plus brackets.
+            toDoTableStyle.MappingName = "ToDo[]";
 
             // Sets the AlternatingBackColor so you can see the difference.
-            oToDoTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+            toDoTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
 
-            // Create a column to hold the source
+            // Create a column to hold the source.
             DataGridTextBoxColumn columnPriority = new DataGridTextBoxColumn();
-            columnPriority.MappingName = "Priority";
+            columnPriority.MappingName = "priority";
             columnPriority.HeaderText = "Ranking";
             columnPriority.ReadOnly = false;
             columnPriority.Width = 50;
 
             DataGridTextBoxColumn columnDescription = new DataGridTextBoxColumn();
-            columnDescription.MappingName = "Description";
+            columnDescription.MappingName = "description";
             columnDescription.HeaderText = "Description";
             columnDescription.ReadOnly = false;
             columnDescription.Width = 500;
 
             // Adds the column styles to the grid table style.
-            oToDoTableStyle.GridColumnStyles.Add(columnPriority);
-            oToDoTableStyle.GridColumnStyles.Add(columnDescription);
+            toDoTableStyle.GridColumnStyles.Add(columnPriority);
+            toDoTableStyle.GridColumnStyles.Add(columnDescription);
 
             // Add the table style to the collection, but clear the collection first.
-            m_gridToDo.TableStyles.Clear();
-            m_gridToDo.TableStyles.Add(oToDoTableStyle);
-            m_gridToDo.ReadOnly = false;
+            gridToDo_.TableStyles.Clear();
+            gridToDo_.TableStyles.Add(toDoTableStyle);
+            gridToDo_.ReadOnly = false;
         }
 
-        /// <summary>
-        /// Create the style for the sources grid
-        /// </summary>
-        private void CreateSourcesGridStyle()
+
+
+        /// <summary>Create the style for the sources grid.</summary>
+        private void createSourcesGridStyle()
         {
             // Creates two DataGridTableStyle objects, one for the Machine
             // array, and one for the Parts ArrayList.
 
-            DataGridTableStyle oSourceTableStyle = new DataGridTableStyle();
+            DataGridTableStyle sourceTableStyle = new DataGridTableStyle();
 
-            // Sets the MappingName to the class name plus brackets.    
-            oSourceTableStyle.MappingName = "clsSource[]";
+            // Sets the MappingName to the class name plus brackets.
+            sourceTableStyle.MappingName = "source[]";
 
             // Sets the AlternatingBackColor so you can see the difference.
-            oSourceTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+            sourceTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
 
-            // Create a column to hold the source
+            // Create a column to hold the source.
             DataGridTextBoxColumn columnSource = new DataGridTextBoxColumn();
-            columnSource.MappingName = "Label";
+            columnSource.MappingName = "label";
             columnSource.HeaderText = "Source";
             columnSource.ReadOnly = true;
             columnSource.Width = 500;
 
             DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn();
-            columnRank.MappingName = "Ranking";
+            columnRank.MappingName = "ranking";
             columnRank.HeaderText = "Ranking";
             columnRank.ReadOnly = false;
             columnRank.Width = 50;
 
             // Adds the column styles to the grid table style.
-            oSourceTableStyle.GridColumnStyles.Add(columnSource);
-            oSourceTableStyle.GridColumnStyles.Add(columnRank);
+            sourceTableStyle.GridColumnStyles.Add(columnSource);
+            sourceTableStyle.GridColumnStyles.Add(columnRank);
 
             // Add the table style to the collection, but clear the collection first.
-            m_gridSources.TableStyles.Clear();
-            m_gridSources.TableStyles.Add(oSourceTableStyle);
-            m_gridSources.ReadOnly = false;
+            gridSources_.TableStyles.Clear();
+            gridSources_.TableStyles.Add(sourceTableStyle);
+            gridSources_.ReadOnly = false;
         }
+
+
 
         #endregion
 
@@ -383,7 +377,7 @@ namespace FamilyTree.Viewer
         private void cmdAddSource_Click(object sender, System.EventArgs e)
         {
             // Check that a source is selected
-            if (m_cboSources.SelectedIndex < 0)
+            if (cboSources_.SelectedIndex < 0)
             {
                 return;
             }
@@ -395,29 +389,29 @@ namespace FamilyTree.Viewer
             }
 
             // Find the SourceID
-            IndexName oSource = (IndexName)m_cboSources.Items[m_cboSources.SelectedIndex];
+            IndexName oSource = (IndexName)cboSources_.Items[cboSources_.SelectedIndex];
 
             // Add the source to this fact
             sources_.add(oSource.index);
 
             // Update the display
-            RefreshSources(sources_);
-            m_cboSources.SelectedIndex = -1;
+            refreshSources(sources_);
+            cboSources_.SelectedIndex = -1;
         }
 
         private void cmdDeleteSource_Click(object sender, System.EventArgs e)
         {
             // Validate the active cell
-            if (m_gridSources.CurrentCell.RowNumber < 0)
+            if (gridSources_.CurrentCell.RowNumber < 0)
             {
                 return;
             }
 
             // Mark the source as deleted
-            sources_.delete(m_gridSources.CurrentCell.RowNumber);
+            sources_.delete(gridSources_.CurrentCell.RowNumber);
 
             // Update the display
-            RefreshSources(sources_);
+            refreshSources(sources_);
         }
 
         /// <summary>
@@ -442,120 +436,108 @@ namespace FamilyTree.Viewer
 
         #region Controls that apply to all tabs
 
-        // Message handler for a control with the non specific source receiving the focus.
-        /// <summary>
-        /// Message handler for a control with the non specific source receiving the focus.
-        /// Display the non specific sources for the person.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for a control with the non specific source receiving the focus.  Display the non specific sources for the person.</summary>
         private void evtNonSpecificSource(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.sourceNonSpecific, "Non Specific");
+            refreshSources(person_.sourceNonSpecific, "Non Specific");
         }
 
-        // Message handler for the sources grid losing the focus.
-        /// <summary>
-        /// Message handler for the sources grid losing the focus.
-        /// Write any changes to the database.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the sources grid losing the focus.  Write any changes to the database.</summary>
         private void gridSources_Leave(object sender, System.EventArgs e)
         {
             if (sources_ != null)
             {
                 // Loop through the sources on the grid	
-                Source[] oSources = (Source[])m_gridSources.DataSource;
-                for (int nIndex = 0; nIndex < oSources.Length; nIndex++)
+                Source[] sources = (Source[])gridSources_.DataSource;
+                for (int i = 0; i < sources.Length; i++)
                 {
-                    if (oSources[nIndex] != null)
+                    if (sources[i] != null)
                     {
-                        int nNewRanking = oSources[nIndex].ranking;
+                        int newRanking = sources[i].ranking;
 
-                        if (sources_.getRanking(nIndex) != nNewRanking)
+                        if (sources_.getRanking(i) != newRanking)
                         {
                             // Show the message on the screen.
                             // MessageBox.Show(this,nIndex.ToString()+" = "+nNewRanking.ToString());		
 
                             // Change the ranking on this source		
-                            sources_.changeRanking(nIndex, nNewRanking);
+                            sources_.changeRanking(i, newRanking);
                         }
                     }
                 }
             }
         }
 
-        // Message handler for the tab control changing the active tab.
-        /// <summary>
-        /// Message handler for the tab control changing the active tab.
-        /// Populate the Advanced tab if it is displayed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the tab control changing the active tab.  Populate the Advanced tab if it is displayed.</summary>
         private void tabControl1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            switch (m_TabControl.SelectedIndex)
+            switch (tabControl_.SelectedIndex)
             {
             case 1:
-                // Force the focus on the first spouse on the relationship tab
-                if (m_lstRelationships.Items.Count > 0)
+                // Force the focus on the first spouse on the relationship tab.
+                if (lstRelationships_.Items.Count > 0)
                 {
-                    if (m_lstRelationships.SelectedIndex < 0)
+                    if (lstRelationships_.SelectedIndex < 0)
                     {
-                        m_lstRelationships.SelectedIndex = 0;
+                        lstRelationships_.SelectedIndex = 0;
                     }
                 }
                 break;
 
             case 3:
-                // Populate the advance tab
-                if (m_cboFather.Items.Count == 0)
+                // Populate the advance tab.
+                if (cboFather_.Items.Count == 0)
                 {
-                    IndexName[] oPossibleFathers = person_.possibleFathers();
-                    for (int nI = 0; nI < oPossibleFathers.Length; nI++)
+                    IndexName[] possibleFathers = person_.possibleFathers();
+                    for (int i = 0; i < possibleFathers.Length; i++)
                     {
-                        m_cboFather.Items.Add(oPossibleFathers[nI]);
-                        if (oPossibleFathers[nI].index == person_.fatherIndex)
+                        cboFather_.Items.Add(possibleFathers[i]);
+                        if (possibleFathers[i].index == person_.fatherIndex)
                         {
-                            m_cboFather.SelectedItem = oPossibleFathers[nI];
+                            cboFather_.SelectedItem = possibleFathers[i];
                         }
                     }
                 }
-                if (m_cboMother.Items.Count == 0)
+                if (cboMother_.Items.Count == 0)
                 {
-                    IndexName[] oPossibleMothers = person_.possibleMothers();
-                    for (int nI = 0; nI < oPossibleMothers.Length; nI++)
+                    IndexName[] possibleMothers = person_.possibleMothers();
+                    for (int i = 0; i < possibleMothers.Length; i++)
                     {
-                        m_cboMother.Items.Add(oPossibleMothers[nI]);
-                        if (oPossibleMothers[nI].index == person_.motherIndex)
+                        cboMother_.Items.Add(possibleMothers[i]);
+                        if (possibleMothers[i].index == person_.motherIndex)
                         {
-                            m_cboMother.SelectedItem = oPossibleMothers[nI];
+                            cboMother_.SelectedItem = possibleMothers[i];
                         }
                     }
                 }
 
-                if (m_cboMainImage.Items.Count == 0)
+                if (cboMainImage_.Items.Count == 0)
                 {
-                    clsMedia[] oMedias = person_.getMedia(false);
-                    foreach (clsMedia oMedia in oMedias)
+                    Media[] medias = person_.getMedia(false);
+                    foreach (Media media in medias)
                     {
-                        m_cboMainImage.Items.Add(oMedia);
-                        if (oMedia.index_ == person_.MediaID)
+                        cboMainImage_.Items.Add(media);
+                        if (media.index_ == person_.mediaIndex)
                         {
-                            m_cboMainImage.SelectedIndex = m_cboMainImage.Items.Count - 1;
+                            cboMainImage_.SelectedIndex = cboMainImage_.Items.Count - 1;
                         }
                     }
                 }
-                m_chkGedcom.Checked = person_.isIncludeInGedcom;
+                chkGedcom_.Checked = person_.isIncludeInGedcom;
                 break;
 
             case 4:
-                //Populate the ToDo List                
-                if (m_gridToDo.DataSource == null)
+                // Populate the ToDo List.
+                if (gridToDo_.DataSource == null)
                 {
-                    m_gridToDo.SetDataBinding(person_.getToDo(), "");
-                    CreateToDoGridStyle();
+                    gridToDo_.SetDataBinding(person_.getToDo(), "");
+                    createToDoGridStyle();
                 }
                 break;
             }
@@ -565,238 +547,201 @@ namespace FamilyTree.Viewer
 
         #region Controls on the Basic Tab
 
-        // Update the sources when the any of the name fields are active.
-        /// <summary>
-        /// Update the sources when the any of the name fields are active.
-        /// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void Name_Enter(object sender, System.EventArgs e)
+
+
+        /// <summary>Update the sources when the any of the name fields are active.</summary>
+		private void txtName_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.sourceName, "Name");
+            refreshSources(person_.sourceName, "Name");
         }
 
-        // Update the sources when the sex field is active.
-        /// <summary>
-        /// Update the sources when the sex field is active.
-        /// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Update the sources when the sex field is active.</summary>
 		private void cboSex_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources();
+            refreshSources();
         }
 
-        // Update the sources when the DoB field is active.
-        /// <summary>
-        /// Update the sources when the DoB field is active.
-        /// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Update the sources when the DoB field is active.</summary>
 		private void dateDoB_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.sourceDoB, "Date of Birth");
+            refreshSources(person_.sourceDoB, "Date of Birth");
         }
 
-        // Update the sources when the DoD field is active.
-        /// <summary>
-        /// Update the sources when the DoD field is active.
-        /// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Update the sources when the DoD field is active.</summary>
 		private void dateDoD_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources(person_.SourceDoD, "Date of Death");
+            refreshSources(person_.sourceDoD, "Date of Death");
         }
 
-        // Message handler for the surname changing.
-        /// <summary>
-        /// Message handler for the surname changing.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Message handler for the surname changing.  Update the person object and display the person description.</summary>
 		private void txtSurname_TextChanged(object sender, System.EventArgs e)
         {
             person_.surname = this.txtSurname_.Text;
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the forename changing.
-        /// <summary>
-        /// Message handler for the forename changing.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Message handler for the forename changing.  Update the person object and display the person description.</summary>
 		private void txtForename_TextChanged(object sender, System.EventArgs e)
         {
-            person_.forenames = this.m_txtForename.Text;
+            person_.forenames = this.txtForename_.Text;
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the maiden name changing.
-        /// <summary>
-        /// Message handler for the maiden name changing.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>		
+
+
+        /// <summary>Message handler for the maiden name changing.  Update the person object and display the person description.</summary>
 		private void txtMaidenName_TextChanged(object sender, System.EventArgs e)
         {
-            person_.maidenname = this.m_txtMaidenName.Text;
+            person_.maidenname = this.txtMaidenName_.Text;
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the sex of the person changing.
-        /// <summary>
-        /// Message handler for the sex of the person changing.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Message handler for the sex of the person changing.  Update the person object and display the person description.</summary>
 		private void cboSex_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (cboSex_.SelectedIndex == 0)
             {
                 person_.isMale = true;
-                m_labMaidenName.Visible = false;
-                m_txtMaidenName.Visible = false;
+                labMaidenName_.Visible = false;
+                txtMaidenName_.Visible = false;
             }
             else
             {
                 person_.isFemale = true;
-                m_labMaidenName.Visible = true;
-                m_txtMaidenName.Visible = true;
+                labMaidenName_.Visible = true;
+                txtMaidenName_.Visible = true;
             }
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the all children known check box changing value.
-        /// <summary>
-        /// Message handler for the all children known check box changing value.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Message handler for the all children known check box changing value.  Update the person object and display the person description.</summary>
 		private void chkChildrenKnown_CheckedChanged(object sender, System.EventArgs e)
         {
-            person_.isAllChildrenKnown = this.m_chkChildrenKnown.Checked;
+            person_.isAllChildrenKnown = this.chkChildrenKnown_.Checked;
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the date of birth control changing value.
-        /// <summary>
-        /// Message handler for the date of birth control changing value.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="oSender"></param>
+
+
+        /// <summary>Message handler for the date of birth control changing value.  Update the person object and display the person description.</summary>
 		private void dateDoB_evtValueChanged(object oSender)
         {
-            person_.dob.date = m_dateDoB.GetDate();
-            person_.dob.status = m_dateDoB.GetStatus();
+            person_.dob.date = dateDoB_.GetDate();
+            person_.dob.status = dateDoB_.GetStatus();
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the date of death control changing value.
-        /// <summary>
-        /// Message handler for the date of death control changing value.
-        /// Update the person object and display the person description.
-		/// </summary>
-		/// <param name="oSender"></param>
+
+
+        /// <summary>Message handler for the date of death control changing value.  Update the person object and display the person description.</summary>
 		private void dateDoD_evtValueChanged(object oSender)
         {
-            person_.dod.date = m_dateDoD.GetDate();
-            person_.dod.status = m_dateDoD.GetStatus();
+            person_.dod.date = dateDoD_.GetDate();
+            person_.dod.status = dateDoD_.GetStatus();
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        // Message handler for the comments text box contents changing.
-        /// <summary>
-        /// Message handler for the comments text box contents changing.
-        /// Update the comments property of the person object.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+
+
+        /// <summary>Message handler for the comments text box contents changing.  Update the comments property of the person object.</summary>
 		private void txtComments_TextChanged(object sender, System.EventArgs e)
         {
-            person_.comments = this.m_txtComments.Text;
+            person_.comments = this.txtComments_.Text;
         }
+
+
 
         #endregion
 
         #region Controls on the Facts Tab
 
-        /// <summary>
-        /// This is called when the current cell changes within the facts grid and when the grid first gets the focus
-        /// </summary>
+
+
+        /// <summary>This is called when the current cell changes within the facts grid and when the grid first gets the focus.</summary>
         private void gridFacts_CurrentCellChanged(object sender, System.EventArgs e)
         {
-            clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
-            RefreshSources(oFacts[m_gridFacts.CurrentCell.RowNumber].sources, oFacts[m_gridFacts.CurrentCell.RowNumber].information);
+            Fact[] facts = (Fact[])gridFacts_.DataSource;
+            refreshSources(facts[gridFacts_.CurrentCell.RowNumber].sources, facts[gridFacts_.CurrentCell.RowNumber].information);
 
-            // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            // Update the description.
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
-        /// <summary>
-        /// This is called when the user clicks the Add Fact button.
-        /// This adds a fact to the form control (not the person)
-        /// </summary>
+
+
+        /// <summary>This is called when the user clicks the Add Fact button.  This adds a fact to the form control (not the person).</summary>
         private void cmdAddFact_Click(object sender, System.EventArgs e)
         {
-            // Check that a fact type is selected
-            if (m_cboFactType.SelectedIndex < 0)
+            // Check that a fact type is selected.
+            if (cboFactType_.SelectedIndex < 0)
             {
                 return;
             }
 
-            // Find the fact type
-            clsFactType oFactType = (clsFactType)m_cboFactType.Items[m_cboFactType.SelectedIndex];
+            // Find the fact type.
+            FactType factType = (FactType)cboFactType_.Items[cboFactType_.SelectedIndex];
 
-            // Count the number of existing facts to get an initial rank for the new fact
-            clsFact[] oFacts = (clsFact[])m_gridFacts.DataSource;
-            int nNewRank = oFacts.Length + 1;
+            // Count the number of existing facts to get an initial rank for the new fact.
+            Fact[] facts = (Fact[])gridFacts_.DataSource;
+            int newRank = facts.Length + 1;
 
-            // Create the new fact			
-            clsFact oFact = new clsFact(0, person_, oFactType.ID, nNewRank, "Empty");
+            // Create the new fact.
+            Fact fact = new Fact(0, person_, factType.index, newRank, "Empty");
 
             // Add the fact	to the person
-            person_.AddFact(oFact);
+            person_.addFact(fact);
 
-            // Update the display
-            PopulateFactsGrid();
+            // Update the display.
+            populateFactsGrid();
         }
+
+
 
         private void cmdDeleteFact_Click(object sender, System.EventArgs e)
         {
-            // Check that a fact is selected in the grid
-            if (m_gridFacts.CurrentCell.RowNumber < 0)
+            // Check that a fact is selected in the grid.
+            if (gridFacts_.CurrentCell.RowNumber < 0)
             {
                 return;
             }
 
-            // Find the fact
-            clsFact oFact = ((clsFact[])m_gridFacts.DataSource)[m_gridFacts.CurrentCell.RowNumber];
-            oFact.delete();
+            // Find the fact.
+            Fact fact = ((Fact[])gridFacts_.DataSource)[gridFacts_.CurrentCell.RowNumber];
+            fact.delete();
 
-            // Update the display
-            PopulateFactsGrid();
+            // Update the display.
+            populateFactsGrid();
         }
+
+
 
         #endregion
 
@@ -812,11 +757,11 @@ namespace FamilyTree.Viewer
         {
             if (activeRelationship_ == null)
             {
-                RefreshSources();
+                refreshSources();
             }
             else
             {
-                RefreshSources(activeRelationship_.sourceTerminated, "Relationship End Type");
+                refreshSources(activeRelationship_.sourceTerminated, "Relationship End Type");
             }
         }
 
@@ -859,20 +804,20 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void m_cboRelationshipType_Enter(object sender, System.EventArgs e)
         {
-            RefreshSources();
+            refreshSources();
         }
 
         private void lstRelationships_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Validate the selected index
-            if (this.m_lstRelationships.SelectedIndex < 0)
+            if (this.lstRelationships_.SelectedIndex < 0)
             {
                 activeRelationship_ = null;
                 return;
             }
 
             // Get the selected relationship
-            activeRelationship_ = (Relationship)this.m_lstRelationships.SelectedItem;
+            activeRelationship_ = (Relationship)this.lstRelationships_.SelectedItem;
 
             // Update the form
             m_dateRelationStart.Value = activeRelationship_.start;
@@ -883,18 +828,18 @@ namespace FamilyTree.Viewer
             m_txtRelationComments.Text = activeRelationship_.comments;
             m_cboRelationshipType.SelectedIndex = activeRelationship_.typeIndex - 1;
 
-            RefreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
+            refreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
         }
 
         private void dateRelationStart_Enter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
             {
-                RefreshSources();
+                refreshSources();
             }
             else
             {
-                RefreshSources(activeRelationship_.sourceStart, "Relationship Start Date");
+                refreshSources(activeRelationship_.sourceStart, "Relationship Start Date");
             }
         }
 
@@ -902,11 +847,11 @@ namespace FamilyTree.Viewer
         {
             if (activeRelationship_ == null)
             {
-                RefreshSources();
+                refreshSources();
             }
             else
             {
-                RefreshSources(activeRelationship_.sourceTerminated, "Relationship Termination Status");
+                refreshSources(activeRelationship_.sourceTerminated, "Relationship Termination Status");
             }
         }
 
@@ -914,11 +859,11 @@ namespace FamilyTree.Viewer
         {
             if (activeRelationship_ == null)
             {
-                RefreshSources();
+                refreshSources();
             }
             else
             {
-                RefreshSources(activeRelationship_.sourceLocation, "Relationship Location");
+                refreshSources(activeRelationship_.sourceLocation, "Relationship Location");
             }
         }
 
@@ -926,11 +871,11 @@ namespace FamilyTree.Viewer
         {
             if (activeRelationship_ == null)
             {
-                RefreshSources();
+                refreshSources();
             }
             else
             {
-                RefreshSources(activeRelationship_.sourceEnd, "Relationship End Date");
+                refreshSources(activeRelationship_.sourceEnd, "Relationship End Date");
             }
         }
 
@@ -938,11 +883,11 @@ namespace FamilyTree.Viewer
         {
             if (activeRelationship_ == null)
             {
-                RefreshSources();
+                refreshSources();
             }
             else
             {
-                RefreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
+                refreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
             }
         }
 
@@ -955,7 +900,7 @@ namespace FamilyTree.Viewer
                 activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
-                m_labDescription.Text = person_.Description(false, false, false, false, false);
+                labDescription_.Text = person_.getDescription(false, false, false, false, false);
             }
         }
 
@@ -969,7 +914,7 @@ namespace FamilyTree.Viewer
                 activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
-                m_labDescription.Text = person_.Description(false, false, false, false, false);
+                labDescription_.Text = person_.getDescription(false, false, false, false, false);
             }
         }
 
@@ -983,7 +928,7 @@ namespace FamilyTree.Viewer
                 activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
-                m_labDescription.Text = person_.Description(false, false, false, false, false);
+                labDescription_.Text = person_.getDescription(false, false, false, false, false);
             }
         }
 
@@ -1000,13 +945,13 @@ namespace FamilyTree.Viewer
         private void AddRelationship_Click(object sender, System.EventArgs e)
         {
             // Check that a person is selected
-            if (m_cboAddPartner.SelectedIndex == -1)
+            if (cboAddPartner_.SelectedIndex == -1)
             {
                 return;
             }
 
             // Find the person that is selected
-            IndexName oPartner = (IndexName)m_cboAddPartner.SelectedItem;
+            IndexName oPartner = (IndexName)cboAddPartner_.SelectedItem;
 
             // Create a relationship object
             Relationship oRelationship = new Relationship(person_, oPartner.index);
@@ -1015,10 +960,10 @@ namespace FamilyTree.Viewer
             person_.addRelationship(oRelationship);
 
             // Add the partner to the list box
-            m_lstRelationships.Items.Add(oRelationship);
+            lstRelationships_.Items.Add(oRelationship);
 
             // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
         private void cmdDeleteRelationship_Click(object sender, System.EventArgs e)
@@ -1033,13 +978,13 @@ namespace FamilyTree.Viewer
             activeRelationship_.delete();
 
             // Remove the relationship from the listbox
-            this.m_lstRelationships.Items.Remove(activeRelationship_);
+            this.lstRelationships_.Items.Remove(activeRelationship_);
 
             // No selection any more
             activeRelationship_ = null;
 
             // Update the description
-            m_labDescription.Text = person_.Description(false, false, false, false, false);
+            labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
         #endregion
@@ -1054,7 +999,7 @@ namespace FamilyTree.Viewer
         private void cboFather_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the ID of the selected father
-            IndexName oFather = (IndexName)m_cboFather.SelectedItem;
+            IndexName oFather = (IndexName)cboFather_.SelectedItem;
 
             // Save the ID in the person object
             person_.fatherIndex = oFather.index;
@@ -1068,7 +1013,7 @@ namespace FamilyTree.Viewer
         private void cboMother_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the ID the selected mother
-            IndexName oMother = (IndexName)m_cboMother.SelectedItem;
+            IndexName oMother = (IndexName)cboMother_.SelectedItem;
 
             // Save the ID in the person object
             person_.motherIndex = oMother.index;
@@ -1079,14 +1024,14 @@ namespace FamilyTree.Viewer
         /// </summary>
         private void ShowImage()
         {
-            if (m_cboMainImage.SelectedItem == null)
+            if (cboMainImage_.SelectedItem == null)
             {
                 // Nothing to display
                 m_Image.Image = null;
             }
             else
             {
-                clsMedia oMedia = (clsMedia)m_cboMainImage.SelectedItem;
+                Media oMedia = (Media)cboMainImage_.SelectedItem;
 
                 // Open the specified image
                 Bitmap oImage = null;
@@ -1118,10 +1063,10 @@ namespace FamilyTree.Viewer
         private void cboMainImage_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Find the ID the selected media
-            clsMedia oMedia = (clsMedia)m_cboMainImage.SelectedItem;
+            Media oMedia = (Media)cboMainImage_.SelectedItem;
 
             // Save the ID in the person object
-            person_.MediaID = oMedia.index_;
+            person_.mediaIndex = oMedia.index_;
 
             // Display the image on the form
             ShowImage();
@@ -1135,7 +1080,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void chkGedcom_CheckedChanged(object sender, EventArgs e)
         {
-            person_.isIncludeInGedcom = m_chkGedcom.Checked;
+            person_.isIncludeInGedcom = chkGedcom_.Checked;
         }
 
         #endregion
@@ -1149,23 +1094,23 @@ namespace FamilyTree.Viewer
 
             person_.addToDo(toDo);
 
-            m_gridToDo.SetDataBinding(person_.getToDo(), "");
+            gridToDo_.SetDataBinding(person_.getToDo(), "");
         }
 
         private void cmdDeleteToDo_Click(object sender, System.EventArgs e)
         {
             // Check that a fact is selected in the grid
-            if (m_gridToDo.CurrentCell.RowNumber < 0)
+            if (gridToDo_.CurrentCell.RowNumber < 0)
             {
                 return;
             }
 
             // Find the to do.
-            ToDo toDo = ((ToDo[])m_gridToDo.DataSource)[m_gridToDo.CurrentCell.RowNumber];
+            ToDo toDo = ((ToDo[])gridToDo_.DataSource)[gridToDo_.CurrentCell.RowNumber];
             toDo.delete();
 
             // Update the display
-            m_gridToDo.SetDataBinding(person_.getToDo(), "");
+            gridToDo_.SetDataBinding(person_.getToDo(), "");
         }
 
 
@@ -1190,13 +1135,13 @@ namespace FamilyTree.Viewer
             }
 
             // Find the fact
-            clsFact oFact = ((clsFact[])m_gridFacts.DataSource)[oHitTestInfo.Row];
+            Fact oFact = ((Fact[])gridFacts_.DataSource)[oHitTestInfo.Row];
 
             frmSelectLocation oDialog = new frmSelectLocation(person_.database, oFact.information);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 oFact.information = oDialog.LocationName;
-                m_gridFacts.Refresh();
+                gridFacts_.Refresh();
             }
         }
 
@@ -1211,7 +1156,7 @@ namespace FamilyTree.Viewer
         {
             if (e.Button == MouseButtons.Right)
             {
-                oHitTestInfo = m_gridFacts.HitTest(e.X, e.Y);
+                oHitTestInfo = gridFacts_.HitTest(e.X, e.Y);
             }
         }
 

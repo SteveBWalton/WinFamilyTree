@@ -52,7 +52,7 @@ namespace FamilyTree.Objects
         private clsCensus additionCensus_;
 
         /// <summary>The optional additional marriage information.</summary>
-        private clsMarriageCertificate additionMarriage_;
+        private MarriageCertificate additionMarriage_;
 
         /// <summary>The optional additional birth certificate information.</summary>
         private clsBirthCertificate additionalBirth_;
@@ -254,17 +254,17 @@ namespace FamilyTree.Objects
             case 3:
                 if (additionalDeath_ != null)
                 {
-                    additionalDeath_.ID = index_;
-                    additionalDeath_.Save(database_);
+                    additionalDeath_.index = index_;
+                    additionalDeath_.save(database_);
                 }
                 break;
 
             case 4:
                 if (additionCensus_ != null)
                 {
-                    additionCensus_.ID = index_;
-                    additionCensus_.CensusDate = theDate_.date;
-                    additionCensus_.Save(database_);
+                    additionCensus_.index = index_;
+                    additionCensus_.censusDate = theDate_.date;
+                    additionCensus_.save(database_);
                 }
                 break;
             }
@@ -321,13 +321,13 @@ namespace FamilyTree.Objects
             case 3:
                 if (additionalDeath != null)
                 {
-                    html.Append(additionalDeath.ToHtml(database_));
+                    html.Append(additionalDeath.toHtml(database_));
                 }
                 break;
             case 4:
                 if (additionalCensus != null)
                 {
-                    html.Append(additionalCensus.ToHtml());
+                    html.Append(additionalCensus.toHtml());
                 }
                 break;
             }
@@ -374,7 +374,7 @@ namespace FamilyTree.Objects
                 if (additionalDeath != null)
                 {
                     html.Append("<h2>Webtrees</h2><p class=\"small\">");
-                    html.Append(additionalDeath.ToWebtrees(database_));
+                    html.Append(additionalDeath.toWebtrees(database_));
                     html.Append("</p>\n");
                 }
                 break;
@@ -382,7 +382,7 @@ namespace FamilyTree.Objects
                 if (additionalCensus != null)
                 {
                     html.Append("<h2>Webtrees</h2><p class=\"small\">");
-                    html.Append(additionalCensus.ToWebtrees());
+                    html.Append(additionalCensus.toWebtrees());
                     html.Append("</p>\n");
                 }
                 break;
@@ -561,13 +561,13 @@ namespace FamilyTree.Objects
         }
 
         /// <summary>The optional additional marriage information.  Only valid in AdditionalTypeID == Marriage (2).</summary>
-        public clsMarriageCertificate additionalMarriage
+        public MarriageCertificate additionalMarriage
         {
             get
             {
                 if (additionMarriage_ == null)
                 {
-                    additionMarriage_ = new clsMarriageCertificate(index_, database_.cndb);
+                    additionMarriage_ = new MarriageCertificate(index_, database_.cndb);
                 }
                 return additionMarriage_;
             }

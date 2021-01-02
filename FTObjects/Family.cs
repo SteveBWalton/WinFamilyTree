@@ -5,7 +5,7 @@ using System.IO;
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent a GEDCOM family.  These are like clsRelationship objects but more frequent.</summary>
-    public class clsFamily
+    public class Family
     {
         /// <summary>ID of the father in the family. 0 or negative indicates no father.</summary>
         public int fatherIndex;
@@ -25,7 +25,7 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Empty class constructor.</summary>
-        public clsFamily()
+        public Family()
         {
             fatherIndex = 0;
             motherIndex = 0;
@@ -126,7 +126,7 @@ namespace FamilyTree.Objects
 
                         // ArrayList oAlready = new ArrayList();
                         //oMarriage.SourceStart.GedcomWrite(2,oFile,oAlready);
-                        //oMarriage.SourceLocation.GedcomWrite(2,oFile,oAlready);					
+                        //oMarriage.SourceLocation.GedcomWrite(2,oFile,oAlready);
                         marriage.sourceStart.gedcomAdd(familySources);
                         marriage.sourceLocation.gedcomAdd(familySources);
 

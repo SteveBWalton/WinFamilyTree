@@ -5,7 +5,7 @@ using System.IO;
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent the collection of clsFamily objects in a Gedcom file.</summary>
-	public class clsFamilies
+	public class Families
     {
         #region Member Variables
 
@@ -18,7 +18,7 @@ namespace FamilyTree.Objects
         #endregion
 
         /// <summary>Empty class constructor.</summary>
-        public clsFamilies()
+        public Families()
         {
             count_ = 0;
             collection_ = new ArrayList();
@@ -31,10 +31,10 @@ namespace FamilyTree.Objects
         /// <param name="motherIndex">Specifies the ID of the mother.</param>
         /// <param name="relationshipIndex">Specifies the ID of the clsRelationship object.</param>
         /// <returns>A clsFamily (Gedcom) object.</returns>
-        public clsFamily getMarriageFamily(int fatherIndex, int motherIndex, int relationshipIndex)
+        public Family getMarriageFamily(int fatherIndex, int motherIndex, int relationshipIndex)
         {
             // Search for a matching family.
-            foreach (clsFamily family in collection_)
+            foreach (Family family in collection_)
             {
                 if (family.fatherIndex == fatherIndex && family.motherIndex == motherIndex)
                 {
@@ -43,7 +43,7 @@ namespace FamilyTree.Objects
             }
 
             // Create a new family to match these conditions.
-            clsFamily newFamily = new clsFamily();
+            Family newFamily = new Family();
             newFamily.motherIndex = motherIndex;
             newFamily.fatherIndex = fatherIndex;
             newFamily.relationshipIndex = relationshipIndex;
@@ -63,7 +63,7 @@ namespace FamilyTree.Objects
         /// <param name="fatherIndex">Specifies the ID of the father.</param>
         /// <param name="motherIndex">Specifies the ID of the mother.</param>
         /// <returns>A clsFamily (Gedcom) object.</returns>
-        public clsFamily getParentFamily(int fatherIndex, int motherIndex)
+        public Family getParentFamily(int fatherIndex, int motherIndex)
         {
             return getMarriageFamily(fatherIndex, motherIndex, 0);
         }
@@ -76,7 +76,7 @@ namespace FamilyTree.Objects
         /// <param name="lpfnProgressBar">Specifies a function to call to perform step the progress bar.</param>
         public void WriteGedcom(StreamWriter file, Database database, funcVoid lpfnProgressBar, GedcomOptions options)
         {
-            foreach (clsFamily family in collection_)
+            foreach (Family family in collection_)
             {
                 family.writeGedcom(file, database, options);
                 if (lpfnProgressBar != null)

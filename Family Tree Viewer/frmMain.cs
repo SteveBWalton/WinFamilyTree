@@ -563,7 +563,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Find the place
-            clsMedia oMedia = new clsMedia(database_, nMediaID);
+            Media oMedia = new Media(database_, nMediaID);
             Text = oMedia.fileName + " - Family Tree Viewer";
             if (bAddHistory)
             {
@@ -656,7 +656,7 @@ namespace FamilyTree.Viewer
             Text = oPerson.getName(true, false) + " - Family Tree Viewer";
 
             // Build the rich text file description of the person
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
 
             // Update the back button            
             if (bAddHistory)
@@ -1262,7 +1262,7 @@ namespace FamilyTree.Viewer
             if (dlgEdit.ShowDialog(this) == DialogResult.OK)
             {
                 // A new person was created link to the current person in the required way
-                int nNewPersonID = dlgEdit.GetPersonID();
+                int nNewPersonID = dlgEdit.getPersonIndex();
 
                 Person oPerson;
                 switch (Relation)
@@ -1644,14 +1644,14 @@ namespace FamilyTree.Viewer
                 if (true)
                 {
                     // Create a new thread to do the work.
-                    ParameterizedThreadStart oThreadMethod = new ParameterizedThreadStart(WriteGedcom);
+                    ParameterizedThreadStart oThreadMethod = new ParameterizedThreadStart(writeGedcom);
                     Thread oThread = new Thread(oThreadMethod);
                     oThread.Start(userOptions_.gedcomOptions);
                 }
                 else
                 {
                     // Save the gedcom into the specified file				
-                    WriteGedcom(userOptions_.gedcomOptions);
+                    writeGedcom(userOptions_.gedcomOptions);
                 }
 #pragma warning restore 162
 
@@ -1673,132 +1673,134 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         /// <summary>Writes gedcom data into the specified file.  Why is this in the main form would expect this to be in FTObjects?</summary>
-        /// <param name="oParameter">Specifies the filename of the gedcom file to create.</param>		
-        private void WriteGedcom(object oParameter)
+        /// <param name="parameter">Specifies the filename of the gedcom file to create.</param>		
+        private void writeGedcom(object parameter)
         {
             // Show the wait cursor.
             cursorWait();
 
             // Estimate the number of steps required.
             walton.XmlNode xmlGedcom = config_.getNode("gedcom");
-            int nNumSteps = xmlGedcom.getAttributeValue("steps", 1000, true);
-            progressBarInitialise(nNumSteps);
+            int numSteps = xmlGedcom.getAttributeValue("steps", 1000, true);
+            progressBarInitialise(numSteps);
             progressBarVisible(true);
 
             // Decode the parameter.
-            GedcomOptions oOptions = (GedcomOptions)oParameter;
-            string sFilename = oOptions.fileName;
+            GedcomOptions options = (GedcomOptions)parameter;
+            string fileName = options.fileName;
 
             // Open the output file.
-            StreamWriter oFile = new StreamWriter(sFilename, false);
+            StreamWriter file = new StreamWriter(fileName, false);
 
             // Write the Gedcom header.
-            oFile.WriteLine("0 HEAD");
-            oFile.WriteLine("1 SOUR FamilyTree");
-            oFile.WriteLine("2 NAME FamilyTree");
-            oFile.WriteLine("2 VERS 1.0.0");
-            oFile.WriteLine("1 DEST DISKETTE");
-            oFile.WriteLine("1 DATE " + DateTime.Now.ToString("d MMM yyyy"));
-            oFile.WriteLine("2 TIME " + DateTime.Now.ToString("HH:mm:ss"));
-            oFile.WriteLine("1 CHAR UTF-8");
-            oFile.WriteLine("1 FILE " + Path.GetFileName(oOptions.fileName));
+            file.WriteLine("0 HEAD");
+            file.WriteLine("1 SOUR FamilyTree");
+            file.WriteLine("2 NAME FamilyTree");
+            file.WriteLine("2 VERS 1.0.0");
+            file.WriteLine("1 DEST DISKETTE");
+            file.WriteLine("1 DATE " + DateTime.Now.ToString("d MMM yyyy"));
+            file.WriteLine("2 TIME " + DateTime.Now.ToString("HH:mm:ss"));
+            file.WriteLine("1 CHAR UTF-8");
+            file.WriteLine("1 FILE " + Path.GetFileName(options.fileName));
 
             // Create a list of Gedcom families objects @F1@ etc ...
-            clsFamilies oFamilies = new clsFamilies();
+            Families families = new Families();
 
             // Write the individuals.
-            IndexName[] oAllPeople = database_.getPeople();
-            for (int nI = 0; nI < oAllPeople.Length; nI++)
+            IndexName[] allPeople = database_.getPeople();
+            for (int i = 0; i < allPeople.Length; i++)
             {
                 // Create an object for this person.
-                Person oPerson = database_.getPerson(oAllPeople[nI].index);
+                Person person = database_.getPerson(allPeople[i].index);
 
                 // Check that this person is included in the gedcom file.
                 // The person will also need to be excluded from any families that try to reference him.
-                if (oPerson.isIncludeInGedcom)
+                if (person.isIncludeInGedcom)
                 {
                     // Create Gedcom record for this person
-                    oFile.WriteLine("0 @I" + oPerson.index.ToString("0000") + "@ INDI");
+                    file.WriteLine("0 @I" + person.index.ToString("0000") + "@ INDI");
 
                     // Create an intial list of sources for this person
-                    ArrayList oPersonSources = new ArrayList();
-                    oPerson.sourceNonSpecific.gedcomAdd(oPersonSources);
+                    ArrayList personSources = new ArrayList();
+                    person.sourceNonSpecific.gedcomAdd(personSources);
 
-                    oFile.WriteLine("1 NAME " + oPerson.forenames + " /" + oPerson.birthSurname + "/");
-                    oFile.WriteLine("2 GIVN " + oPerson.forenames);
-                    oFile.WriteLine("2 SURN " + oPerson.birthSurname);
+                    file.WriteLine("1 NAME " + person.forenames + " /" + person.birthSurname + "/");
+                    file.WriteLine("2 GIVN " + person.forenames);
+                    file.WriteLine("2 SURN " + person.birthSurname);
                     // oPerson.SourceName.WriteGedcom(2,oFile,null);
-                    oPerson.sourceName.gedcomAdd(oPersonSources);
+                    person.sourceName.gedcomAdd(personSources);
 
-                    // Get the occupation information
-                    clsFact[] oFacts = oPerson.getFacts(20);
-                    if (oFacts.Length > 0)
+                    // Get the occupation information.
+                    Fact[] facts = person.getFacts(20);
+                    if (facts.Length > 0)
                     {
-                        oFile.Write("2 OCCU ");
-                        bool bFirst = true;
-                        foreach (clsFact oFact in oFacts)
+                        file.Write("2 OCCU ");
+                        bool isFirst = true;
+                        foreach (Fact fact in facts)
                         {
-                            if (bFirst)
+                            if (isFirst)
                             {
-                                bFirst = false;
+                                isFirst = false;
                             }
                             else
                             {
-                                oFile.Write(", ");
+                                file.Write(", ");
                             }
-                            oFile.Write(oFact.information);
+                            file.Write(fact.information);
                             // oFact.Sources.WriteGedcom(3,oFile,null);
                         }
-                        oFile.WriteLine();
+                        file.WriteLine();
                     }
 
-                    oFile.Write("1 SEX ");
-                    if (oPerson.isMale)
+                    file.Write("1 SEX ");
+                    if (person.isMale)
                     {
-                        oFile.WriteLine("M");
+                        file.WriteLine("M");
                     }
                     else
                     {
-                        oFile.WriteLine("F");
+                        file.WriteLine("F");
                     }
-                    oFile.WriteLine("1 BIRT");
-                    oFile.WriteLine("2 DATE " + oPerson.dob.format(DateFormat.GEDCOM));
-                    database_.writeGedcomPlace(oFile, 2, oPerson.getSimpleFact(10), oOptions);
+                    file.WriteLine("1 BIRT");
+                    file.WriteLine("2 DATE " + person.dob.format(DateFormat.GEDCOM));
+                    database_.writeGedcomPlace(file, 2, person.getSimpleFact(10), options);
 
                     // oPerson.SourceDoB.WriteGedcom(2,oFile,null);
-                    oPerson.sourceDoB.gedcomAdd(oPersonSources);
+                    person.sourceDoB.gedcomAdd(personSources);
 
-                    if (!oPerson.dod.isEmpty())
+                    if (!person.dod.isEmpty())
                     {
-                        oFile.WriteLine("1 DEAT Y");
-                        if (!oPerson.dod.isEmpty())
+                        file.WriteLine("1 DEAT Y");
+                        if (!person.dod.isEmpty())
                         {
-                            oFile.WriteLine("2 DATE " + oPerson.dod.format(DateFormat.GEDCOM));
+                            file.WriteLine("2 DATE " + person.dod.format(DateFormat.GEDCOM));
                         }
-                        database_.writeGedcomPlace(oFile, 2, oPerson.getSimpleFact(90), oOptions);
-                        string sCauseOfDeath = oPerson.getSimpleFact(92);
-                        if (sCauseOfDeath != "")
+                        database_.writeGedcomPlace(file, 2, person.getSimpleFact(90), options);
+                        string causeOfDeath = person.getSimpleFact(92);
+                        if (causeOfDeath != "")
                         {
-                            oFile.WriteLine("2 CAUS " + sCauseOfDeath);
+                            file.WriteLine("2 CAUS " + causeOfDeath);
                         }
                         // oPerson.SourceDoD.WriteGedcom(2,oFile,null);
-                        oPerson.SourceDoD.gedcomAdd(oPersonSources);
+                        person.sourceDoD.gedcomAdd(personSources);
                     }
 
                     // Create a list of the partners
                     ArrayList oPartners = new ArrayList();
 
                     // Get the relationship information				
-                    Relationship[] oRelationships = oPerson.getRelationships();
+                    Relationship[] oRelationships = person.getRelationships();
                     for (int nJ = 0; nJ < oRelationships.Length; nJ++)
                     {
                         // Check that the partner is included in the Gedcom file
                         Person oPartner = new Person(oRelationships[nJ].partnerIndex, database_);
                         if (oPartner.isIncludeInGedcom)
                         {
-                            clsFamily oMarriage = oFamilies.getMarriageFamily(oRelationships[nJ].maleIndex, oRelationships[nJ].femaleIndex, oRelationships[nJ].index);
-                            oFile.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
+                            Family oMarriage = families.getMarriageFamily(oRelationships[nJ].maleIndex, oRelationships[nJ].femaleIndex, oRelationships[nJ].index);
+                            file.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
 
                             // Add to the list of partners
                             oPartners.Add(oRelationships[nJ].partnerIndex);
@@ -1806,13 +1808,13 @@ namespace FamilyTree.Viewer
                     }
 
                     // Add the partners in children not already picked up
-                    int[] nChildren = oPerson.getChildren();
+                    int[] nChildren = person.getChildren();
                     for (int nJ = 0; nJ < nChildren.Length; nJ++)
                     {
                         Person oChild = database_.getPerson(nChildren[nJ]);
 
                         // Check that the childs parent is already a partner
-                        if (oPerson.isMale)
+                        if (person.isMale)
                         {
                             if (!oPartners.Contains(oChild.motherIndex))
                             {
@@ -1825,8 +1827,8 @@ namespace FamilyTree.Viewer
                                 }
 
                                 // Create families for new partner
-                                clsFamily oMarriage = oFamilies.getMarriageFamily(oPerson.index, nMotherID, 0);
-                                oFile.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
+                                Family oMarriage = families.getMarriageFamily(person.index, nMotherID, 0);
+                                file.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
 
                                 // Add to the list of partners
                                 oPartners.Add(nMotherID);
@@ -1845,8 +1847,8 @@ namespace FamilyTree.Viewer
                                 }
 
                                 // Create families for new partner
-                                clsFamily oMarriage = oFamilies.getMarriageFamily(nFatherID, oPerson.index, 0);
-                                oFile.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
+                                Family oMarriage = families.getMarriageFamily(nFatherID, person.index, 0);
+                                file.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
 
                                 // Add to the list of partners
                                 oPartners.Add(nFatherID);
@@ -1855,10 +1857,10 @@ namespace FamilyTree.Viewer
                     }
 
                     // Add this person to the parents family
-                    if (oPerson.fatherIndex > 0 || oPerson.motherIndex > 0)
+                    if (person.fatherIndex > 0 || person.motherIndex > 0)
                     {
                         // Check that the father is included in the gedcom file.
-                        int nFatherID = oPerson.fatherIndex;
+                        int nFatherID = person.fatherIndex;
                         Person oFather = new Person(nFatherID, database_);
                         if (!oFather.isIncludeInGedcom)
                         {
@@ -1866,7 +1868,7 @@ namespace FamilyTree.Viewer
                         }
 
                         // Check that the mother is included in the gedcom file.
-                        int nMotherID = oPerson.motherIndex;
+                        int nMotherID = person.motherIndex;
                         Person oMother = new Person(nMotherID, database_);
                         if (!oMother.isIncludeInGedcom)
                         {
@@ -1876,50 +1878,50 @@ namespace FamilyTree.Viewer
                         //  Get the parent family information
                         if (nMotherID != 0 || nFatherID != 0)
                         {
-                            clsFamily oFamily = oFamilies.getParentFamily(oPerson.fatherIndex, oPerson.motherIndex);
-                            oFamily.addChild(oPerson);
-                            oFile.WriteLine("1 FAMC @F" + oFamily.gedcomIndex.ToString("0000") + "@");
+                            Family oFamily = families.getParentFamily(person.fatherIndex, person.motherIndex);
+                            oFamily.addChild(person);
+                            file.WriteLine("1 FAMC @F" + oFamily.gedcomIndex.ToString("0000") + "@");
                         }
                     }
 
                     // Get Census records
-                    clsCensusPerson[] oCensui = database_.censusForPerson(oPerson.index);
+                    clsCensusPerson[] oCensui = database_.censusForPerson(person.index);
                     foreach (clsCensusPerson oCensus in oCensui)
                     {
-                        oFile.WriteLine("1 CENS");
-                        oFile.WriteLine("2 DATE " + oCensus.date.ToString("d MMM yyyy"));
-                        database_.writeGedcomPlace(oFile, 2, oCensus.houseHoldName, oOptions);
+                        file.WriteLine("1 CENS");
+                        file.WriteLine("2 DATE " + oCensus.date.ToString("d MMM yyyy"));
+                        database_.writeGedcomPlace(file, 2, oCensus.houseHoldName, options);
                         if (oCensus.occupation != "")
                         {
-                            oFile.WriteLine("2 OCCU " + oCensus.occupation);
+                            file.WriteLine("2 OCCU " + oCensus.occupation);
                         }
-                        oFile.WriteLine("2 NOTE " + oCensus.livingWith(database_));
+                        file.WriteLine("2 NOTE " + oCensus.livingWith(database_));
                         Sources oSources = oCensus.getSources(database_);
                         if (oSources != null)
                         {
                             // oSources.WriteGedcom(2,oFile,null);
-                            oSources.gedcomAdd(oPersonSources);
+                            oSources.gedcomAdd(personSources);
                         }
                     }
 
                     // Attach the  media
-                    database_.GedcomWritePersonMedia(oFile, oPerson.index, oPerson.MediaID);
+                    database_.GedcomWritePersonMedia(file, person.index, person.mediaIndex);
 
                     // Attached the list of sources
-                    foreach (int nSourceID in oPersonSources)
+                    foreach (int nSourceID in personSources)
                     {
-                        oFile.WriteLine("1 SOUR @S" + nSourceID.ToString("0000") + "@");
+                        file.WriteLine("1 SOUR @S" + nSourceID.ToString("0000") + "@");
                     }
 
                     // Write the last edit information
-                    if (oPerson.lastEditBy != "")
+                    if (person.lastEditBy != "")
                     {
-                        oFile.WriteLine("1 CHAN");
-                        oFile.WriteLine("2 DATE " + oPerson.lastEditDate.ToString("d MMM yyyy"));
-                        oFile.WriteLine("3 TIME " + oPerson.lastEditDate.ToString("HH:mm:ss"));
-                        if (oOptions.isIncludePGVU)
+                        file.WriteLine("1 CHAN");
+                        file.WriteLine("2 DATE " + person.lastEditDate.ToString("d MMM yyyy"));
+                        file.WriteLine("3 TIME " + person.lastEditDate.ToString("HH:mm:ss"));
+                        if (options.isIncludePGVU)
                         {
-                            oFile.WriteLine("2 _PGVU " + oPerson.lastEditBy);
+                            file.WriteLine("2 _PGVU " + person.lastEditBy);
                         }
                     }
                 }
@@ -1929,22 +1931,22 @@ namespace FamilyTree.Viewer
             }
 
             // Write the family records @F1@...
-            oFamilies.WriteGedcom(oFile, database_, progressBarPerformStep, oOptions);
+            families.WriteGedcom(file, database_, progressBarPerformStep, options);
 
             // Write all the source records @S1@ etc...
-            database_.WriteSourcesGedcom(oFile, progressBarPerformStep, oOptions);
+            database_.WriteSourcesGedcom(file, progressBarPerformStep, options);
 
             // Write all the media records @M1@ etc...
-            database_.GedcomWriteMedia(oFile);
+            database_.GedcomWriteMedia(file);
 
             // Write the repository records @R1@ etc ...
-            database_.WriteRepositoriesGedcom(oFile);
+            database_.WriteRepositoriesGedcom(file);
 
             // Close the Gedcom header
-            oFile.WriteLine("0 TRLR");
+            file.WriteLine("0 TRLR");
 
             // Close the output file
-            oFile.Close();
+            file.Close();
 
             // Save the number of steps for next time
             xmlGedcom.setAttributeValue("steps", numSteps_);
@@ -2467,7 +2469,7 @@ namespace FamilyTree.Viewer
             frmEditMedia oDialog = new frmEditMedia(database_);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
-                int nMediaID = oDialog.MediaID;
+                int nMediaID = oDialog.mediaIndex;
                 ShowMedia(nMediaID, true);
             }
         }
@@ -2498,7 +2500,7 @@ namespace FamilyTree.Viewer
             if (Current.content == Pages.PERSON)
             {
                 Person oPerson = new Person(Current.index, database_);
-                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
             }
         }
 
@@ -2516,7 +2518,7 @@ namespace FamilyTree.Viewer
             {
             case Pages.PERSON:
                 Person oPerson = new Person(Current.index, database_);
-                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.Description(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
                 break;
 
             case Pages.PLACE:

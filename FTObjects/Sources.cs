@@ -359,8 +359,10 @@ namespace FamilyTree.Objects
             return results;
         }
 
-        /// <summary>Returns the sources as an array of clsSource objects.</summary>
-        /// <returns>An array of clsSource objects.</returns>
+
+
+        /// <summary>Returns the sources as an array of source objects.</summary>
+        /// <returns>An array of source objects.</returns>
         public Source[] getAsSources()
         {
             // If no sources then an empty array.
@@ -369,7 +371,7 @@ namespace FamilyTree.Objects
                 loadSources();
             }
 
-            // Build an array of clsSource objects.
+            // Build an array of source objects.
             Source[] sources;
             QuickSource quickSource;
             sources = new Source[sources_.Count];
@@ -378,7 +380,7 @@ namespace FamilyTree.Objects
                 quickSource = (QuickSource)sources_[i];
                 if (quickSource.isDelete)
                 {
-                    sources[i] = null; // clsSource("[Deleted]");
+                    sources[i] = null;
                 }
                 else
                 {
@@ -387,7 +389,7 @@ namespace FamilyTree.Objects
                 }
             }
 
-            // Return the array of clsSource objects.
+            // Return the array of source objects.
             return sources;
         }
 

@@ -112,7 +112,7 @@ namespace FamilyTree.Viewer
                 clsCensus oCensus = new clsCensus(nInitialRecord, m_oDb);
 
                 // Move to the specified year
-                string sYear = oCensus.CensusDate.Year.ToString();
+                string sYear = oCensus.censusDate.Year.ToString();
                 foreach (string sItem in m_cboYear.Items)
                 {
                     if (sItem == sYear)

@@ -54,7 +54,7 @@ namespace FamilyTree.Objects
         private bool isAllChildrenKnown_;
 
         /// <summary>Index of the media object attached to this person.</summary>
-        private int mediaIndex;
+        private int mediaIndex_;
 
         /// <summary>User comments for the person.</summary>
         private string comments_;
@@ -222,7 +222,7 @@ namespace FamilyTree.Objects
                 isAllChildrenKnown_ = dataReader.GetBoolean(10);
                 isIncludeGedcom_ = walton.Database.getBool(dataReader, "Gedcom", true);
                 comments_ = Database.getString(dataReader, "Comments", "");
-                mediaIndex = Database.GetInt(dataReader, "MediaID", 0);
+                mediaIndex_ = Database.GetInt(dataReader, "MediaID", 0);
                 lastEditBy_ = Database.getString(dataReader, "LastEditBy", "Steve Walton");
                 lastEditDate_ = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
             }
@@ -291,7 +291,7 @@ namespace FamilyTree.Objects
                     "MotherID = " + Database.toDb(motherIndex_, 0) + ", " +
                     "Sex = " + Database.iif(isMale_, "'M'", "'F'") + ", " +
                     "GedCom = " + walton.Database.toDb(isIncludeGedcom_) + ", " +
-                    "MediaID = " + Database.toDb(mediaIndex, 0) + ", " +
+                    "MediaID = " + Database.toDb(mediaIndex_, 0) + ", " +
                     "LastEditBy = " + Database.toDb(lastEditBy_) + ", " +
                     "LastEditDate = #" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#, " +
                     "Comments = " + Database.toDb(comments_) + " " +
@@ -329,7 +329,7 @@ namespace FamilyTree.Objects
             // Save the facts don't bother to attach them to the person. We are destroying the person object shortly.
             if (facts_ != null)
             {
-                foreach (clsFact fact in facts_)
+                foreach (Fact fact in facts_)
                 {
                     fact.save();
 
@@ -741,15 +741,12 @@ namespace FamilyTree.Objects
 
         #region Facts
 
-        /// <summary>
-        /// Adds a fact to the list of facts for this person.
-        /// </summary>
-        /// <param name="oFact">Specifies the fact to add to this person.</param>
+
+
+        /// <summary>Adds a fact to the list of facts for this person.</summary>
+        /// <param name="fact">Specifies the fact to add to this person.</param>
         /// <returns>True for success.  False, otherwise.</returns>
-        public bool AddFact
-            (
-            clsFact oFact
-            )
+        public bool addFact(Fact fact)
         {
             // Check if the facts array exists
             if (facts_ == null)
@@ -757,10 +754,10 @@ namespace FamilyTree.Objects
                 facts_ = new ArrayList();
             }
 
-            // Add to the list of facts
-            facts_.Add(oFact);
+            // Add to the list of facts.
+            facts_.Add(fact);
 
-            // Return success
+            // Return success.
             return true;
         }
 
@@ -787,7 +784,7 @@ namespace FamilyTree.Objects
                 {
                     rank = dataReader.GetInt32(2);
                 }
-                clsFact fact = new clsFact(dataReader.GetInt32(0), this, dataReader.GetInt32(1), rank, dataReader.GetString(3));
+                Fact fact = new Fact(dataReader.GetInt32(0), this, dataReader.GetInt32(1), rank, dataReader.GetString(3));
                 facts_.Add(fact);
             }
             dataReader.Close();
@@ -801,7 +798,7 @@ namespace FamilyTree.Objects
         /// <summary>Returns an array of facts of the specified type.</summary>
         /// <param name="factTypeIndex">Specify the type of fact.</param>
         /// <returns>An array of facts of the required type.</returns>
-        public clsFact[] getFacts(int factTypeIndex)
+        public Fact[] getFacts(int factTypeIndex)
         {
             // Check that some facts exist.
             if (facts_ == null)
@@ -812,7 +809,7 @@ namespace FamilyTree.Objects
 
             // Build a list of relivant facts.
             ArrayList result = new ArrayList();
-            foreach (clsFact fact in facts_)
+            foreach (Fact fact in facts_)
             {
                 if (fact.typeIndex == factTypeIndex && fact.isValid())
                 {
@@ -820,15 +817,15 @@ namespace FamilyTree.Objects
                 }
             }
 
-            // Return the list of facts
-            return (clsFact[])(result.ToArray(typeof(clsFact)));
+            // Return the list of facts.
+            return (Fact[])(result.ToArray(typeof(Fact)));
         }
 
 
 
         /// <summary>Returns all the facts.</summary>
         /// <returns>Array of all facts for this person.</returns>
-        public clsFact[] getFacts()
+        public Fact[] getFacts()
         {
             // Check that some facts exist.
             if (facts_ == null)
@@ -837,7 +834,7 @@ namespace FamilyTree.Objects
                 getAllFacts();
             }
 
-            return (clsFact[])(facts_.ToArray(typeof(clsFact)));
+            return (Fact[])(facts_.ToArray(typeof(Fact)));
         }
 
 
@@ -847,7 +844,7 @@ namespace FamilyTree.Objects
         /// <returns>The information field as a string.</returns>
         public string getSimpleFact(int factTypeIndex)
         {
-            clsFact[] fact = getFacts(factTypeIndex);
+            Fact[] fact = getFacts(factTypeIndex);
             if (fact.Length == 0)
             {
                 return "";
@@ -861,12 +858,14 @@ namespace FamilyTree.Objects
 
         #region Description
 
+
+
         /// <summary>A long description of the person, covering most all of the facts about this person.</summary>
         /// <param name="isHtml">Specify true for a html string, false for a plain ASCII text string.</param>
         /// <param name="isFootnotes">Specify true for footnotes that detail the sources.  (Really RTF only).</param>
         /// <param name="isShowImages">Specify true to show images in the description.  Only in html format output.</param>
         /// <returns>A long description of the person.</returns>
-        public string Description(bool isHtml, bool isFootnotes, bool isShowImages, bool isIncludePlaces, bool isIncludeToDo)
+        public string getDescription(bool isHtml, bool isFootnotes, bool isShowImages, bool isIncludePlaces, bool isIncludeToDo)
         {
             // Initialise a string to hold the result.
             StringBuilder description = new StringBuilder();
@@ -902,10 +901,10 @@ namespace FamilyTree.Objects
                 // Primary image.
                 if (isShowImages)
                 {
-                    if (mediaIndex != 0)
+                    if (mediaIndex_ != 0)
                     {
-                        clsMedia primaryMedia = new clsMedia(database_, mediaIndex);
-                        description.Append("<a href=\"media:" + mediaIndex.ToString() + "\">");
+                        Media primaryMedia = new Media(database_, mediaIndex_);
+                        description.Append("<a href=\"media:" + mediaIndex_.ToString() + "\">");
                         description.Append("<img align=\"right\" src=\"" + primaryMedia.fullFileName + "\" border=\"no\" alt=\"" + primaryMedia.title + "\" height=\"" + primaryMedia.heightForSpecifiedWidth(150) + "\" width=\"150\" />");
                         description.Append("</a>");
                     }
@@ -941,7 +940,7 @@ namespace FamilyTree.Objects
                     description.Append(getFootnote(sourceDoB, sources, footnoteCharacter, footnote, ref nextChar));
                 }
             }
-            clsFact[] facts = getFacts(10);
+            Fact[] facts = getFacts(10);
             if (facts.Length > 0)
             {
                 description.Append(" in ");
@@ -1083,21 +1082,21 @@ namespace FamilyTree.Objects
 
             // Children
             // Don't display children information for people who are known be less than 14 years old.
-            int nAge = 15;
+            int age = 15;
             if (!dod.isEmpty())
             {
-                nAge = dod.date.Year - dob.date.Year;
+                age = dod.date.Year - dob.date.Year;
             }
             else
             {
-                nAge = DateTime.Now.Year - dob.date.Year;
+                age = DateTime.Now.Year - dob.date.Year;
             }
-            if (nAge > 14)
+            if (age > 14)
             {
-                int[] Children = getChildren();
+                int[] children = getChildren();
                 if (isAllChildrenKnown)
                 {
-                    switch (Children.Length)
+                    switch (children.Length)
                     {
                     case 0:
                         description.Append(thirdPerson(true) + " had no children. ");
@@ -1106,13 +1105,13 @@ namespace FamilyTree.Objects
                         description.Append(thirdPerson(true) + " had 1 child. ");
                         break;
                     default:
-                        description.Append(thirdPerson(true) + " had " + Children.Length.ToString() + " children. ");
+                        description.Append(thirdPerson(true) + " had " + children.Length.ToString() + " children. ");
                         break;
                     }
                 }
                 else
                 {
-                    switch (Children.Length)
+                    switch (children.Length)
                     {
                     case 0:
                         break;
@@ -1120,52 +1119,52 @@ namespace FamilyTree.Objects
                         description.Append(thirdPerson(true) + " had at least 1 child. ");
                         break;
                     default:
-                        description.Append(thirdPerson(true) + " had at least " + Children.Length.ToString() + " children. ");
+                        description.Append(thirdPerson(true) + " had at least " + children.Length.ToString() + " children. ");
                         break;
                     }
                 }
             }
 
             // Census information.
-            clsCensusPerson[] oCensuses = database_.censusForPerson(personIndex_);
-            string sLastLocation = "";
-            foreach (clsCensusPerson oCensus in oCensuses)
+            clsCensusPerson[] censuses = database_.censusForPerson(personIndex_);
+            string lastLocation = "";
+            foreach (clsCensusPerson census in censuses)
             {
-                string sLocation = "";
+                string location = "";
                 if (isHtml)
                 {
-                    sLocation = database_.placeToHtml(oCensus.houseHoldName);
+                    location = database_.placeToHtml(census.houseHoldName);
                 }
                 else
                 {
-                    sLocation = oCensus.houseHoldName;
+                    location = census.houseHoldName;
                 }
-                if (sLocation != sLastLocation)
+                if (location != lastLocation)
                 {
                     description.Append(thirdPerson(true) + " lived at ");
-                    description.Append(sLocation);
-                    sLastLocation = sLocation;
+                    description.Append(location);
+                    lastLocation = location;
                 }
                 else
                 {
                     description.Remove(description.Length - 2, 2);
                     description.Append(" and");
                 }
-                description.Append(" on " + oCensus.date.ToString("d MMMM yyyy"));
+                description.Append(" on " + census.date.ToString("d MMMM yyyy"));
                 if (isFootnotes)
                 {
-                    description.Append(getFootnote(oCensus.houseHoldIndex, sources, footnoteCharacter, footnote, ref nextChar, true));
+                    description.Append(getFootnote(census.houseHoldIndex, sources, footnoteCharacter, footnote, ref nextChar, true));
                 }
                 description.Append(". ");
             }
 
-            // Died
+            // Died.
             if (!dod.isEmpty())
             {
                 description.Append(thirdPerson(true) + " died " + dod.format(DateFormat.FULL_LONG, CompoundDate.DatePrefix.ON_IN_BEFORE_AFTER));
                 if (isFootnotes)
                 {
-                    description.Append(getFootnote(SourceDoD, sources, footnoteCharacter, footnote, ref nextChar));
+                    description.Append(getFootnote(sourceDoD, sources, footnoteCharacter, footnote, ref nextChar));
                 }
                 facts = getFacts(90);
                 if (facts.Length > 0)
@@ -1195,20 +1194,20 @@ namespace FamilyTree.Objects
                 description.AppendLine("</p>");
             }
 
-            // Display the comments
-            // bIncludeToDo is not really the "correct" flag
+            // Display the comments.
+            // isIncludeToDo is not really the "correct" flag.
             if (isHtml && isIncludeToDo && comments_ != string.Empty)
             {
                 description.AppendLine("<p class=\"Small\" style=\"line-height: 100%\"><strong>Private Comments</strong>: " + comments_ + "</p>");
             }
 
-            // Include the places 
+            // Include the places.
             if (isHtml && isIncludePlaces)
             {
                 description.AppendLine(places.googleMap(600, 300));
             }
 
-            // Show the footnotes
+            // Show the footnotes.
             if (isFootnotes)
             {
                 if (footnote.Length > 0)
@@ -1229,7 +1228,7 @@ namespace FamilyTree.Objects
                     description.AppendLine("<table>");
                     foreach (int mediaIndex in mediaIndexes)
                     {
-                        clsMedia media = new clsMedia(database_, mediaIndex);
+                        Media media = new Media(database_, mediaIndex);
                         description.Append("<tr valign=\"top\">");
                         description.Append("<td>");
                         description.Append("<a href=\"media:" + mediaIndex.ToString() + "\">");
@@ -1285,7 +1284,7 @@ namespace FamilyTree.Objects
             StringBuilder description = new StringBuilder();
 
             // Get the collection of facts and loop through them.
-            clsFact[] facts = this.getFacts(factTypeIndex);
+            Fact[] facts = this.getFacts(factTypeIndex);
             bool isFirst = true;
             bool isFullStop = false;
             for (int factCount = 0; factCount < facts.Length; factCount++)
@@ -1562,7 +1561,7 @@ namespace FamilyTree.Objects
                 Places places = new Places();
 
                 // Add the born place.
-                clsFact[] facts = getFacts(10);
+                Fact[] facts = getFacts(10);
                 if (facts.Length > 0)
                 {
                     string sBorn = facts[0].information;
@@ -1587,41 +1586,41 @@ namespace FamilyTree.Objects
                     }
                 }
 
-                // Add the location of born children
-                int[] nChildren = getChildren();
-                foreach (int nChild in nChildren)
+                // Add the location of born children.
+                int[] childrenIndexes = getChildren();
+                foreach (int childIndex in childrenIndexes)
                 {
-                    Person oChild = new Person(nChild, database_);
-                    clsFact[] oChildFacts = oChild.getFacts(10);
-                    if (oChildFacts.Length > 0)
+                    Person child = new Person(childIndex, database_);
+                    Fact[] childFacts = child.getFacts(10);
+                    if (childFacts.Length > 0)
                     {
-                        string sChildBorn = oChildFacts[0].information;
-                        Place oPlace = database_.getPlace(sChildBorn);
-                        if (oPlace != null)
+                        string childBorn = childFacts[0].information;
+                        Place place = database_.getPlace(childBorn);
+                        if (place != null)
                         {
-                            places.addPlace(oPlace);
+                            places.addPlace(place);
                         }
                     }
                 }
 
-                // Add the census places
-                clsCensusPerson[] oCensuses = database_.censusForPerson(personIndex_);
+                // Add the census places.
+                clsCensusPerson[] censuses = database_.censusForPerson(personIndex_);
                 // string sLastLocation = "";
-                foreach (clsCensusPerson oCensus in oCensuses)
+                foreach (clsCensusPerson census in censuses)
                 {
-                    Place oHousehold = database_.getPlace(oCensus.houseHoldName);
-                    places.addPlace(oHousehold);
+                    Place household = database_.getPlace(census.houseHoldName);
+                    places.addPlace(household);
                 }
 
-                // Add the died place
+                // Add the died place.
                 facts = getFacts(90);
                 if (facts.Length > 0)
                 {
-                    string sDied = facts[0].information;
-                    Place oPlace = database_.getPlace(sDied);
-                    if (oPlace != null)
+                    string diedPlace = facts[0].information;
+                    Place place = database_.getPlace(diedPlace);
+                    if (place != null)
                     {
-                        places.addPlace(oPlace);
+                        places.addPlace(place);
                     }
                 }
 
@@ -1648,7 +1647,7 @@ namespace FamilyTree.Objects
             int excludeIndex = -1;
             if (isExcludePrimary)
             {
-                excludeIndex = mediaIndex;
+                excludeIndex = mediaIndex_;
             }
 
             ArrayList media = new ArrayList();
@@ -1675,14 +1674,14 @@ namespace FamilyTree.Objects
         /// <summary>Returns an array of media objects associated with this person.</summary>
         /// <param name="isExcludePrimary">Specify true not to include the primary media object index.</param>
         /// <returns>An array of media objects.</returns>
-        public clsMedia[] getMedia(bool isExcludePrimary)
+        public Media[] getMedia(bool isExcludePrimary)
         {
             int[] mediaIndexes = getMediaIndexes(isExcludePrimary);
-            clsMedia[] result = new clsMedia[mediaIndexes.Length];
+            Media[] result = new Media[mediaIndexes.Length];
             int i = 0;
             foreach (int mediaIndex in mediaIndexes)
             {
-                clsMedia media = new clsMedia(database_, mediaIndex);
+                Media media = new Media(database_, mediaIndex);
                 result[i++] = media;
             }
 
@@ -1758,22 +1757,28 @@ namespace FamilyTree.Objects
 
         #region Image
 
+
+
         /// <summary>Index of the media object attached to this person.</summary>
-		public int MediaID { get { return mediaIndex; } set { mediaIndex = value; } }
+		public int mediaIndex { get { return mediaIndex_; } set { mediaIndex_ = value; } }
+
+
 
         /// <summary>Full filename for an image for the person.  Empty string if no image is specified or can not be found on the hard disk.</summary>
-        public string GetImageFilename()
+        public string getImageFilename()
         {
             // Check that a media object is attached to this person
-            if (mediaIndex == 0)
+            if (mediaIndex_ == 0)
             {
                 return "";
             }
 
             // Find the full filename of the media object
-            clsMedia oMedia = new clsMedia(database_, mediaIndex);
-            return oMedia.fullFileName;
+            Media media = new Media(database_, mediaIndex_);
+            return media.fullFileName;
         }
+
+
 
         #endregion
 
@@ -1842,6 +1847,8 @@ namespace FamilyTree.Objects
         /// <summary>User comments for this person.</summary>
         public string comments { get { return comments_; } set { comments_ = value; } }
 
+
+
         /// <summary>A sources object for the person name.</summary>
 		public Sources sourceName
         {
@@ -1854,6 +1861,8 @@ namespace FamilyTree.Objects
                 return sourcesName_;
             }
         }
+
+
 
         /// <summary>A clsSources object for the person date of birth.</summary>
         public Sources sourceDoB
@@ -1868,8 +1877,10 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>A clsSources object for the person date of death.</summary>
-        public Sources SourceDoD
+        public Sources sourceDoD
         {
             get
             {
@@ -1880,6 +1891,8 @@ namespace FamilyTree.Objects
                 return sourcesDoD_;
             }
         }
+
+
 
         /// <summary>A collection of all the sources used for this person.  Including the non specific sources.</summary>
         public Sources sourceNonSpecific
@@ -1894,12 +1907,16 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>Short term information about the person.  This is not saved in the database.</summary>
         public string tag
         {
             get { return tag_; }
             set { tag_ = value; }
         }
+
+
 
         /// <summary>Name of the user who wrote the last edit.</summary>
         public string lastEditBy { get { return lastEditBy_; } set { lastEditBy_ = value; } }

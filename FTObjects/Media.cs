@@ -15,7 +15,7 @@ using System.Collections;
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent a media object.</summary>
-    public class clsMedia
+    public class Media
     {
         #region Member Variables
 
@@ -57,7 +57,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Empty class constructor in the specified database.</summary>
         /// <param name="database">Specifies the database that contains the media object.</param>
-        public clsMedia(Database database)
+        public Media(Database database)
         {
             // Save the input parameters.
             database_ = database;
@@ -79,7 +79,7 @@ namespace FamilyTree.Objects
         /// <summary>Creates a clsMedia object that represents the specified media object in the specified database.</summary>
         /// <param name="database">Specifies the database that contains the media object.</param>
         /// <param name="mediaIndex">Specifies the ID of the media object.</param>
-        public clsMedia(Database database, int mediaIndex)
+        public Media(Database database, int mediaIndex)
         {
             // Save the input parameters.
             database_ = database;
@@ -106,6 +106,8 @@ namespace FamilyTree.Objects
 
 
         #endregion
+
+        #region IO
 
 
 
@@ -134,11 +136,11 @@ namespace FamilyTree.Objects
             }
             else
             {
-                // Find the ID for the new Media object
+                // Find the ID for the new Media object.
                 sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Media;", database_.cndb);
                 index_ = 1 + int.Parse(sqlCommand.ExecuteScalar().ToString());
 
-                // Insert a new media object
+                // Insert a new media object.
                 sql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail) VALUES (");
                 sql.Append(index_.ToString() + ",");
                 sql.Append(walton.Database.toDb(fileName) + ", ");
@@ -188,6 +190,8 @@ namespace FamilyTree.Objects
 
 
 
+        #endregion
+
         #region Sizing
 
 
@@ -226,6 +230,8 @@ namespace FamilyTree.Objects
 
         #endregion
 
+        #region html
+
 
 
         /// <summary>Returns a html description of the media object. </summary>
@@ -263,6 +269,8 @@ namespace FamilyTree.Objects
         }
 
 
+
+        #endregion
 
         #region Attached People
 

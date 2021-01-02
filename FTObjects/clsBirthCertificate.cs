@@ -131,6 +131,8 @@ namespace FamilyTree.Objects
             return html.ToString();
         }
 
+
+
         private string hisHer(string sex)
         {
             if(sex.ToLower() =="girl")
@@ -140,6 +142,8 @@ namespace FamilyTree.Objects
             return "His";
         }
         
+
+
         /// <summary>Return the birth certificate information in format for a webtrees birth certificate.</summary>
         /// <returns>The html to build a webtrees birth certificate.</returns>
         public string toWebtrees()

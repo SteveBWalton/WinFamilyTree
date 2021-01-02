@@ -45,7 +45,7 @@ namespace FamilyTree.Viewer
             m_oDb = oDb;
 
             // Show the additional information types
-            IndexName[] oSources = m_oDb.GetSourceAdditionalTypes();
+            IndexName[] oSources = m_oDb.getSourceAdditionalTypes();
             foreach(IndexName oAdditional in oSources)
             {
                 m_cboAdditionalInfo.Items.Add(oAdditional);
@@ -245,20 +245,20 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    m_txtDeathDistrict.Text = m_ActiveSource.additionalDeath.RegistrationDistrict;
-                    m_txtDeathWhen.Text = m_ActiveSource.additionalDeath.When;
-                    m_txtDeathWhere.Text = m_ActiveSource.additionalDeath.Place;
-                    m_txtDeathName.Text = m_ActiveSource.additionalDeath.Name;
-                    m_txtDeathSex.Text = m_ActiveSource.additionalDeath.Sex;
-                    m_txtDeathDatePlace.Text = m_ActiveSource.additionalDeath.DatePlaceOfBirth;
-                    m_txtDeathOccupation.Text = m_ActiveSource.additionalDeath.Occupation;
-                    m_txtDeathUsualAddress.Text = m_ActiveSource.additionalDeath.UsualAddress;
-                    m_txtDeathCause.Text = m_ActiveSource.additionalDeath.CauseOfDeath;
-                    m_txtDeathInformant.Text = m_ActiveSource.additionalDeath.Informant;
-                    m_txtDeathInformantDescription.Text = m_ActiveSource.additionalDeath.InformantDescription;
-                    m_txtDeathInformantAddress.Text = m_ActiveSource.additionalDeath.InformantAddress;
-                    m_txtDeathWhenReg.Text = m_ActiveSource.additionalDeath.WhenRegistered;
-                    m_txtDeathReference.Text = m_ActiveSource.additionalDeath.GroReference;
+                    m_txtDeathDistrict.Text = m_ActiveSource.additionalDeath.registrationDistrict;
+                    m_txtDeathWhen.Text = m_ActiveSource.additionalDeath.when;
+                    m_txtDeathWhere.Text = m_ActiveSource.additionalDeath.place;
+                    m_txtDeathName.Text = m_ActiveSource.additionalDeath.name;
+                    m_txtDeathSex.Text = m_ActiveSource.additionalDeath.sex;
+                    m_txtDeathDatePlace.Text = m_ActiveSource.additionalDeath.datePlaceOfBirth;
+                    m_txtDeathOccupation.Text = m_ActiveSource.additionalDeath.occupation;
+                    m_txtDeathUsualAddress.Text = m_ActiveSource.additionalDeath.usualAddress;
+                    m_txtDeathCause.Text = m_ActiveSource.additionalDeath.causeOfDeath;
+                    m_txtDeathInformant.Text = m_ActiveSource.additionalDeath.informant;
+                    m_txtDeathInformantDescription.Text = m_ActiveSource.additionalDeath.informantDescription;
+                    m_txtDeathInformantAddress.Text = m_ActiveSource.additionalDeath.informantAddress;
+                    m_txtDeathWhenReg.Text = m_ActiveSource.additionalDeath.whenRegistered;
+                    m_txtDeathReference.Text = m_ActiveSource.additionalDeath.groReference;
                 }
                 break;
 
@@ -278,11 +278,11 @@ namespace FamilyTree.Viewer
                 }
                 else
                 {
-                    m_txtCensusAddress.Text = m_ActiveSource.additionalCensus.Address;
-                    m_txtCensusSeries.Text = m_ActiveSource.additionalCensus.Series;
-                    m_txtCensusPiece.Text = m_ActiveSource.additionalCensus.Piece;
-                    m_txtCensusFolio.Text = m_ActiveSource.additionalCensus.Folio;
-                    m_txtCensusPage.Text = m_ActiveSource.additionalCensus.Page;
+                    m_txtCensusAddress.Text = m_ActiveSource.additionalCensus.address;
+                    m_txtCensusSeries.Text = m_ActiveSource.additionalCensus.series;
+                    m_txtCensusPiece.Text = m_ActiveSource.additionalCensus.piece;
+                    m_txtCensusFolio.Text = m_ActiveSource.additionalCensus.folio;
+                    m_txtCensusPage.Text = m_ActiveSource.additionalCensus.page;
                 }
                 break;
             }
@@ -554,11 +554,11 @@ namespace FamilyTree.Viewer
 			}
 
 			// Update the census object.
-            m_ActiveSource.additionalCensus.Address = m_txtCensusAddress.Text;
-            m_ActiveSource.additionalCensus.Series = m_txtCensusSeries.Text;
-            m_ActiveSource.additionalCensus.Piece = m_txtCensusPiece.Text;
-            m_ActiveSource.additionalCensus.Folio = m_txtCensusFolio.Text;
-            m_ActiveSource.additionalCensus.Page = m_txtCensusPage.Text;
+            m_ActiveSource.additionalCensus.address = m_txtCensusAddress.Text;
+            m_ActiveSource.additionalCensus.series = m_txtCensusSeries.Text;
+            m_ActiveSource.additionalCensus.piece = m_txtCensusPiece.Text;
+            m_ActiveSource.additionalCensus.folio = m_txtCensusFolio.Text;
+            m_ActiveSource.additionalCensus.page = m_txtCensusPage.Text;
         }
 
 		/// <summary>
@@ -676,20 +676,20 @@ namespace FamilyTree.Viewer
 			}
 
 			// Update the additional death information
-			m_ActiveSource.additionalDeath.RegistrationDistrict = m_txtDeathDistrict.Text;
-			m_ActiveSource.additionalDeath.When = m_txtDeathWhen.Text;
-            m_ActiveSource.additionalDeath.Place = m_txtDeathWhere.Text;
-			m_ActiveSource.additionalDeath.Name = m_txtDeathName.Text;
-			m_ActiveSource.additionalDeath.Sex = m_txtDeathSex.Text;
-			m_ActiveSource.additionalDeath.DatePlaceOfBirth = m_txtDeathDatePlace.Text;
-			m_ActiveSource.additionalDeath.Occupation = m_txtDeathOccupation.Text;
-			m_ActiveSource.additionalDeath.UsualAddress = m_txtDeathUsualAddress.Text;
-			m_ActiveSource.additionalDeath.CauseOfDeath = m_txtDeathCause.Text;
-			m_ActiveSource.additionalDeath.Informant = m_txtDeathInformant.Text;
-			m_ActiveSource.additionalDeath.InformantDescription = m_txtDeathInformantDescription.Text;
-			m_ActiveSource.additionalDeath.InformantAddress = m_txtDeathInformantAddress.Text;
-			m_ActiveSource.additionalDeath.WhenRegistered = m_txtDeathWhenReg.Text;
-            m_ActiveSource.additionalDeath.GroReference = m_txtDeathReference.Text;
+			m_ActiveSource.additionalDeath.registrationDistrict = m_txtDeathDistrict.Text;
+			m_ActiveSource.additionalDeath.when = m_txtDeathWhen.Text;
+            m_ActiveSource.additionalDeath.place = m_txtDeathWhere.Text;
+			m_ActiveSource.additionalDeath.name = m_txtDeathName.Text;
+			m_ActiveSource.additionalDeath.sex = m_txtDeathSex.Text;
+			m_ActiveSource.additionalDeath.datePlaceOfBirth = m_txtDeathDatePlace.Text;
+			m_ActiveSource.additionalDeath.occupation = m_txtDeathOccupation.Text;
+			m_ActiveSource.additionalDeath.usualAddress = m_txtDeathUsualAddress.Text;
+			m_ActiveSource.additionalDeath.causeOfDeath = m_txtDeathCause.Text;
+			m_ActiveSource.additionalDeath.informant = m_txtDeathInformant.Text;
+			m_ActiveSource.additionalDeath.informantDescription = m_txtDeathInformantDescription.Text;
+			m_ActiveSource.additionalDeath.informantAddress = m_txtDeathInformantAddress.Text;
+			m_ActiveSource.additionalDeath.whenRegistered = m_txtDeathWhenReg.Text;
+            m_ActiveSource.additionalDeath.groReference = m_txtDeathReference.Text;
 		}
 
 		/// <summary>
