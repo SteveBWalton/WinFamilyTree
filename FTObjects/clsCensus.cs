@@ -132,7 +132,7 @@ namespace FamilyTree.Objects
             // Initialise the Html description.
             StringBuilder html = new StringBuilder();
 
-            html.Append("<table align=\"center\" bgcolor=\"lightcyan\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\">");
+            html.Append("<table style=\"background-color: lightcyan; border: 1px solid black;\" align=\"center\" cellpadding=\"5\" cellspacing=\"0\">");
             html.Append("<tr><td colspan=\"5\"><table width=\"100%\"><tr>");
             html.Append("<td align=\"center\"><span class=\"Census\">Series</span></td>");
             html.Append("<td align=\"center\"><span class=\"Census\">Piece</span></td>");

@@ -188,9 +188,9 @@ namespace FamilyTree.Objects
             // Initialise the Html description.
             StringBuilder html = new StringBuilder();
 
-            html.Append("<TABLE align=center bgcolor=#ccff99 border=0 cellpadding=5 cellspacing=0>");
+            html.Append("<table style=\"background-color: #ccff99; border: 1px solid black;\" align=\"center\" cellpadding=\"5\" cellspacing=\"0\">");
             html.Append("<TR><TD colspan=7>" + when.Year.ToString() + " <SPAN class=\"Marriage\">Marriage solemnized at</SPAN> ");
-            html.Append(database.placeToHtml(location) + "</TD></TR>");
+            html.Append(database.placeToHtml(location) + "</td></tr>");
             html.Append("<TR>");
             html.Append("<TD><SPAN class=\"Marriage\">When Married</SPAN></TD>");
             html.Append("<TD><SPAN class=\"Marriage\">Name</SPAN></TD>");
@@ -222,7 +222,7 @@ namespace FamilyTree.Objects
             html.Append(witness + "</TD></TR>");
             html.Append("<TR><TD colspan=7 align=center><SPAN class=\"Marriage\">GRO Reference</SPAN> ");
             html.Append(groReference + "</TD></TR>");
-            html.Append("</TABLE>");
+            html.Append("</table>");
 
             // Return the Html description.
             return html.ToString();

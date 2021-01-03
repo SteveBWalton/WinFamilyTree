@@ -4,728 +4,702 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-// Family tree objects
+// Family tree objects.
 using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-	/// <summary>
-	/// Dialog to allow the user to edit the complete list of sources.
-	/// </summary>
-    public partial class frmEditSources : System.Windows.Forms.Form
+    /// <summary>Dialog to allow the user to edit the complete list of sources.</summary>
+    public partial class EditSourcesDialog : System.Windows.Forms.Form
     {
-		#region Member Variables
+        #region Member Variables
 
-		/// <summary>Database that to edit the sources in.</summary>
-		private Database m_oDb;
+        /// <summary>Database that to edit the sources in.</summary>
+        private Database database_;
 
-		/// <summary>The source that we are currently editing.</summary>
-		private Source m_ActiveSource;
+        /// <summary>The source that we are currently editing.</summary>
+        private Source activeSource_;
 
-		/// <summary>True when we are allowing events.</summary>
-		private bool m_bAllowEvents;
+        /// <summary>True when we are allowing events.</summary>
+        private bool isAllowEvents_;
 
-		#endregion
+        #endregion
 
-		#region Constructors etc ...
+        #region Constructors etc ...
 
-        // Class constructor.
-        /// <summary>
-        /// Class constructor.
-        /// Specify the specific source to start editting.
-		/// </summary>
-        /// <param name="oDb">Specify the database to show the sources from.</param>
-        /// <param name="nSourceID">Specify the ID of the source to edit initially.</param>
-        public frmEditSources(Database oDb, int nSourceID)
+
+
+        /// <summary>Class constructor.  Specify the specific source to start editting.</summary>
+        /// <param name="database">Specify the database to show the sources from.</param>
+        /// <param name="sourceIndex">Specify the ID of the source to edit initially.</param>
+        public EditSourcesDialog(Database database, int sourceIndex)
         {
             // Required for Windows Form Designer support
             InitializeComponent();
 
-            // Initialise member variables
-            m_oDb = oDb;
+            // Initialise member variables.
+            database_ = database;
 
-            // Show the additional information types
-            IndexName[] oSources = m_oDb.getSourceAdditionalTypes();
-            foreach(IndexName oAdditional in oSources)
+            // Show the additional information types.
+            IndexName[] sources = database_.getSourceAdditionalTypes();
+            foreach (IndexName additional in sources)
             {
-                m_cboAdditionalInfo.Items.Add(oAdditional);
+                cboAdditionalInfo_.Items.Add(additional);
             }
 
-            // Add the repositories
-            oSources = m_oDb.getRepositories();
-            foreach(IndexName oRepository in oSources)
+            // Add the repositories.
+            sources = database_.getRepositories();
+            foreach (IndexName repository in sources)
             {
-                m_cboRepository.Items.Add(oRepository);
+                cboRepository_.Items.Add(repository);
             }
 
-            // Add the sources to the dialog box
-            Source oSelected = null;
-            oSources = oDb.getSources(Objects.SortOrder.DATE);
-            for(int nI = 0; nI < oSources.Length; nI++)
+            // Add the sources to the dialog box.
+            Source selected = null;
+            sources = database.getSources(Objects.SortOrder.DATE);
+            for (int i = 0; i < sources.Length; i++)
             {
-                Source oSource = new Source(m_oDb, oSources[nI].index);
-                m_lstSources.Items.Add(oSource);
-                if(oSources[nI].index == nSourceID)
+                Source source = new Source(database_, sources[i].index);
+                lstSources_.Items.Add(source);
+                if (sources[i].index == sourceIndex)
                 {
-                    oSelected = oSource;
+                    selected = source;
                 }
             }
 
-            // Select the specified source
-            if(oSelected != null)
+            // Select the specified source.
+            if (selected != null)
             {
-                m_lstSources.SelectedItem = oSelected;
+                lstSources_.SelectedItem = selected;
             }
 
-            // Allow events
-            m_bAllowEvents = true;
+            // Allow events.
+            isAllowEvents_ = true;
         }
 
-        /// <summary>
-        /// Class constructor
-        /// Open the edit sources dialog box without specifing a particular source to edit.
-        /// </summary>
-        /// <param name="oDb">Specify the database to show the sources from.</param>
-        public frmEditSources
-        (
-            Database oDb
-        ) : this(oDb,0)
+
+
+        /// <summary>Class constructor.  Open the edit sources dialog box without specifing a particular source to edit.</summary>
+        /// <param name="database">Specify the database to show the sources from.</param>
+        public EditSourcesDialog(Database database) : this(database, 0)
         {
         }
 
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
 
-		#endregion
+        /// <summary>Clean up any resources being used.</summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+
+
+        #endregion
 
         #region Additional Information / Form Specific Information
 
-        /// <summary>
-        /// Display the optional additional information for this source.
-        /// </summary>
-        private void ShowAdditionalInfo()
-        {
-            // Disable events
-            bool bEvents = m_bAllowEvents;
-            m_bAllowEvents = false;
 
-            // Activate the additional information
-            switch(m_ActiveSource.additionalInfoTypeIndex)
+
+        /// <summary>Display the optional additional information for this source.</summary>
+        private void showAdditionalInfo()
+        {
+            // Disable events.
+            bool isEvents = isAllowEvents_;
+            isAllowEvents_ = false;
+
+            // Activate the additional information.
+            switch (activeSource_.additionalInfoTypeIndex)
             {
             case 0: // None
-                HideAllAditionalInfo();
+            default: // Unknown.
+                hideAllAditionalInfo();
                 break;
             case 1:
-                m_grpBirth.Visible = true;
-                m_grpCensus.Visible = false;
-                m_grpDeath.Visible = false;
-                m_grpMarriage.Visible = false;
-                if(m_ActiveSource.additionalBirth == null)
+                grpBirth_.Visible = true;
+                grpCensus_.Visible = false;
+                grpDeath_.Visible = false;
+                grpMarriage_.Visible = false;
+                grpFreeTable_.Visible = false;
+
+                if (activeSource_.additionalBirth == null)
                 {
-                    m_txtBirthDistrict.Text = "";
-                    m_dtpBirthWhen.Value = DateTime.Now;
-                    m_txtBirthWhenWhere.Text = "";
-                    m_txtBirthName.Text = "";
-                    m_txtBirthSex.Text = "";
-                    m_txtBirthFather.Text = "";
-                    m_txtBirthFatherOccupation.Text = "";
-                    m_txtBirthMother.Text = "";
-                    m_txtBirthMotherDetails.Text = "";
-                    m_txtBirthInformant.Text = "";
-                    m_txtBirthInformantAddress.Text = "";
-                    m_txtBirthWhenReg.Text = "";
-                    m_txtBirthReference.Text = "";
+                    txtBirthDistrict_.Text = "";
+                    dtpBirthWhen_.Value = DateTime.Now;
+                    txtBirthWhenWhere_.Text = "";
+                    txtBirthName_.Text = "";
+                    txtBirthSex_.Text = "";
+                    txtBirthFather_.Text = "";
+                    txtBirthFatherOccupation_.Text = "";
+                    txtBirthMother_.Text = "";
+                    txtBirthMotherDetails_.Text = "";
+                    txtBirthInformant_.Text = "";
+                    txtBirthInformantAddress_.Text = "";
+                    txtBirthWhenReg_.Text = "";
+                    txtBirthReference_.Text = "";
                 }
                 else
                 {
-                    m_txtBirthDistrict.Text = m_ActiveSource.additionalBirth.registrationDistrict;
+                    txtBirthDistrict_.Text = activeSource_.additionalBirth.registrationDistrict;
                     try
                     {
-                        m_dtpBirthWhen.Value = m_ActiveSource.additionalBirth.when;
+                        dtpBirthWhen_.Value = activeSource_.additionalBirth.when;
                     }
                     catch { }
-                    m_txtBirthWhenWhere.Text = m_ActiveSource.additionalBirth.whenAndWhere;
-                    m_txtBirthName.Text = m_ActiveSource.additionalBirth.name;
-                    m_txtBirthSex.Text = m_ActiveSource.additionalBirth.sex;
-                    m_txtBirthFather.Text = m_ActiveSource.additionalBirth.father;
-                    m_txtBirthFatherOccupation.Text = m_ActiveSource.additionalBirth.fatherOccupation;
-                    m_txtBirthMother.Text = m_ActiveSource.additionalBirth.mother;
-                    m_txtBirthMotherDetails.Text = m_ActiveSource.additionalBirth.motherDetails;
-                    m_txtBirthInformant.Text = m_ActiveSource.additionalBirth.informant;
-                    m_txtBirthInformantAddress.Text = m_ActiveSource.additionalBirth.informantAddress;
-                    m_txtBirthWhenReg.Text = m_ActiveSource.additionalBirth.whenRegistered;
-                    m_txtBirthReference.Text = m_ActiveSource.additionalBirth.groReference;
+                    txtBirthWhenWhere_.Text = activeSource_.additionalBirth.whenAndWhere;
+                    txtBirthName_.Text = activeSource_.additionalBirth.name;
+                    txtBirthSex_.Text = activeSource_.additionalBirth.sex;
+                    txtBirthFather_.Text = activeSource_.additionalBirth.father;
+                    txtBirthFatherOccupation_.Text = activeSource_.additionalBirth.fatherOccupation;
+                    txtBirthMother_.Text = activeSource_.additionalBirth.mother;
+                    txtBirthMotherDetails_.Text = activeSource_.additionalBirth.motherDetails;
+                    txtBirthInformant_.Text = activeSource_.additionalBirth.informant;
+                    txtBirthInformantAddress_.Text = activeSource_.additionalBirth.informantAddress;
+                    txtBirthWhenReg_.Text = activeSource_.additionalBirth.whenRegistered;
+                    txtBirthReference_.Text = activeSource_.additionalBirth.groReference;
                 }
                 break;
 
             case 2:
-                m_grpBirth.Visible = false;
-                m_grpCensus.Visible = false;
-                m_grpDeath.Visible = false;
-                m_grpMarriage.Visible = true;
+                grpBirth_.Visible = false;
+                grpCensus_.Visible = false;
+                grpDeath_.Visible = false;
+                grpMarriage_.Visible = true;
+                grpFreeTable_.Visible = false;
 
-                if(m_ActiveSource.additionalMarriage == null)
+                if (activeSource_.additionalMarriage == null)
                 {
-                    m_dtpMarrWhen.Value = DateTime.Now;
-                    m_txtMarrLocation.Text = "";
-                    m_txtMarrGroom.Text = "";
-                    m_txtMarrGroomAge.Text = "";
-                    m_txtMarrGroomOccu.Text = "";
-                    m_txtMarrGroomLoca.Text = "";
-                    m_txtMarrGroomFather.Text = "";
-                    m_txtMarrGroomFatherOcc.Text = "";
-                    m_txtMarrBride.Text = "";
-                    m_txtMarrBrideAge.Text = "";
-                    m_txtMarrBrideOccu.Text = "";
-                    m_txtMarrBrideLoca.Text = "";
-                    m_txtMarrBrideFather.Text = "";
-                    m_txtMarrBrideFatherOcc.Text = "";
-                    m_txtMarrWitness.Text = "";
-                    m_txtMarrGro.Text = "";
+                    dtpMarrWhen_.Value = DateTime.Now;
+                    txtMarrLocation_.Text = "";
+                    txtMarrGroom_.Text = "";
+                    txtMarrGroomAge_.Text = "";
+                    txtMarrGroomOccu_.Text = "";
+                    txtMarrGroomLoca_.Text = "";
+                    txtMarrGroomFather_.Text = "";
+                    txtMarrGroomFatherOcc_.Text = "";
+                    txtMarrBride_.Text = "";
+                    txtMarrBrideAge_.Text = "";
+                    txtMarrBrideOccu_.Text = "";
+                    txtMarrBrideLoca_.Text = "";
+                    txtMarrBrideFather_.Text = "";
+                    txtMarrBrideFatherOcc_.Text = "";
+                    txtMarrWitness_.Text = "";
+                    txtMarrGro_.Text = "";
                 }
                 else
                 {
                     try
                     {
-                        m_dtpMarrWhen.Value = m_ActiveSource.additionalMarriage.when;
+                        dtpMarrWhen_.Value = activeSource_.additionalMarriage.when;
                     }
                     catch { }
-                    m_txtMarrLocation.Text = m_ActiveSource.additionalMarriage.location;
-                    m_txtMarrGroom.Text = m_ActiveSource.additionalMarriage.groomName;
-                    m_txtMarrGroomAge.Text = m_ActiveSource.additionalMarriage.groomAge;
-                    m_txtMarrGroomOccu.Text = m_ActiveSource.additionalMarriage.groomOccupation;
-                    m_txtMarrGroomLoca.Text = m_ActiveSource.additionalMarriage.groomLiving;
-                    m_txtMarrGroomFather.Text = m_ActiveSource.additionalMarriage.groomFather;
-                    m_txtMarrGroomFatherOcc.Text = m_ActiveSource.additionalMarriage.groomFatherOccupation;
-                    m_txtMarrBride.Text = m_ActiveSource.additionalMarriage.brideName;
-                    m_txtMarrBrideAge.Text = m_ActiveSource.additionalMarriage.brideAge;
-                    m_txtMarrBrideOccu.Text = m_ActiveSource.additionalMarriage.brideOccupation;
-                    m_txtMarrBrideLoca.Text = m_ActiveSource.additionalMarriage.brideLiving;
-                    m_txtMarrBrideFather.Text = m_ActiveSource.additionalMarriage.brideFather;
-                    m_txtMarrBrideFatherOcc.Text = m_ActiveSource.additionalMarriage.brideFatherOccupation;
-                    m_txtMarrWitness.Text = m_ActiveSource.additionalMarriage.witness;
-                    m_txtMarrGro.Text = m_ActiveSource.additionalMarriage.groReference;
+                    txtMarrLocation_.Text = activeSource_.additionalMarriage.location;
+                    txtMarrGroom_.Text = activeSource_.additionalMarriage.groomName;
+                    txtMarrGroomAge_.Text = activeSource_.additionalMarriage.groomAge;
+                    txtMarrGroomOccu_.Text = activeSource_.additionalMarriage.groomOccupation;
+                    txtMarrGroomLoca_.Text = activeSource_.additionalMarriage.groomLiving;
+                    txtMarrGroomFather_.Text = activeSource_.additionalMarriage.groomFather;
+                    txtMarrGroomFatherOcc_.Text = activeSource_.additionalMarriage.groomFatherOccupation;
+                    txtMarrBride_.Text = activeSource_.additionalMarriage.brideName;
+                    txtMarrBrideAge_.Text = activeSource_.additionalMarriage.brideAge;
+                    txtMarrBrideOccu_.Text = activeSource_.additionalMarriage.brideOccupation;
+                    txtMarrBrideLoca_.Text = activeSource_.additionalMarriage.brideLiving;
+                    txtMarrBrideFather_.Text = activeSource_.additionalMarriage.brideFather;
+                    txtMarrBrideFatherOcc_.Text = activeSource_.additionalMarriage.brideFatherOccupation;
+                    txtMarrWitness_.Text = activeSource_.additionalMarriage.witness;
+                    txtMarrGro_.Text = activeSource_.additionalMarriage.groReference;
                 }
                 break;
 
             case 3:
-                m_grpBirth.Visible = false;
-                m_grpCensus.Visible = false;
-                m_grpDeath.Visible = true;
-                m_grpMarriage.Visible = false;
-                if(m_ActiveSource.additionalDeath == null)
+                grpBirth_.Visible = false;
+                grpCensus_.Visible = false;
+                grpDeath_.Visible = true;
+                grpMarriage_.Visible = false;
+                grpFreeTable_.Visible = false;
+
+                if (activeSource_.additionalDeath == null)
                 {
-                    m_txtDeathDistrict.Text = "";
-                    m_txtDeathWhen.Text = "";
-                    m_txtDeathWhere.Text = "";
-                    m_txtDeathName.Text = "";
-                    m_txtDeathSex.Text = "";
-                    m_txtDeathDatePlace.Text = "";
-                    m_txtDeathOccupation.Text = "";
-                    m_txtDeathUsualAddress.Text = "";
-                    m_txtDeathCause.Text = "";
-                    m_txtDeathInformant.Text = "";
-                    m_txtDeathInformantDescription.Text = "";
-                    m_txtDeathInformantAddress.Text = "";
-                    m_txtDeathWhenReg.Text = "";
-                    m_txtDeathReference.Text = "";
+                    txtDeathDistrict_.Text = "";
+                    txtDeathWhen_.Text = "";
+                    txtDeathWhere_.Text = "";
+                    txtDeathName_.Text = "";
+                    txtDeathSex_.Text = "";
+                    txtDeathDatePlace_.Text = "";
+                    txtDeathOccupation_.Text = "";
+                    txtDeathUsualAddress_.Text = "";
+                    txtDeathCause_.Text = "";
+                    txtDeathInformant_.Text = "";
+                    txtDeathInformantDescription_.Text = "";
+                    txtDeathInformantAddress_.Text = "";
+                    txtDeathWhenReg_.Text = "";
+                    txtDeathReference_.Text = "";
                 }
                 else
                 {
-                    m_txtDeathDistrict.Text = m_ActiveSource.additionalDeath.registrationDistrict;
-                    m_txtDeathWhen.Text = m_ActiveSource.additionalDeath.when;
-                    m_txtDeathWhere.Text = m_ActiveSource.additionalDeath.place;
-                    m_txtDeathName.Text = m_ActiveSource.additionalDeath.name;
-                    m_txtDeathSex.Text = m_ActiveSource.additionalDeath.sex;
-                    m_txtDeathDatePlace.Text = m_ActiveSource.additionalDeath.datePlaceOfBirth;
-                    m_txtDeathOccupation.Text = m_ActiveSource.additionalDeath.occupation;
-                    m_txtDeathUsualAddress.Text = m_ActiveSource.additionalDeath.usualAddress;
-                    m_txtDeathCause.Text = m_ActiveSource.additionalDeath.causeOfDeath;
-                    m_txtDeathInformant.Text = m_ActiveSource.additionalDeath.informant;
-                    m_txtDeathInformantDescription.Text = m_ActiveSource.additionalDeath.informantDescription;
-                    m_txtDeathInformantAddress.Text = m_ActiveSource.additionalDeath.informantAddress;
-                    m_txtDeathWhenReg.Text = m_ActiveSource.additionalDeath.whenRegistered;
-                    m_txtDeathReference.Text = m_ActiveSource.additionalDeath.groReference;
+                    txtDeathDistrict_.Text = activeSource_.additionalDeath.registrationDistrict;
+                    txtDeathWhen_.Text = activeSource_.additionalDeath.when;
+                    txtDeathWhere_.Text = activeSource_.additionalDeath.place;
+                    txtDeathName_.Text = activeSource_.additionalDeath.name;
+                    txtDeathSex_.Text = activeSource_.additionalDeath.sex;
+                    txtDeathDatePlace_.Text = activeSource_.additionalDeath.datePlaceOfBirth;
+                    txtDeathOccupation_.Text = activeSource_.additionalDeath.occupation;
+                    txtDeathUsualAddress_.Text = activeSource_.additionalDeath.usualAddress;
+                    txtDeathCause_.Text = activeSource_.additionalDeath.causeOfDeath;
+                    txtDeathInformant_.Text = activeSource_.additionalDeath.informant;
+                    txtDeathInformantDescription_.Text = activeSource_.additionalDeath.informantDescription;
+                    txtDeathInformantAddress_.Text = activeSource_.additionalDeath.informantAddress;
+                    txtDeathWhenReg_.Text = activeSource_.additionalDeath.whenRegistered;
+                    txtDeathReference_.Text = activeSource_.additionalDeath.groReference;
                 }
                 break;
 
             case 4:
-                m_grpBirth.Visible = false;
-                m_grpCensus.Visible = true;
-                m_grpDeath.Visible = false;
-                m_grpMarriage.Visible = false;
+                grpBirth_.Visible = false;
+                grpCensus_.Visible = true;
+                grpDeath_.Visible = false;
+                grpMarriage_.Visible = false;
+                grpFreeTable_.Visible = false;
 
-                if(m_ActiveSource.additionalCensus == null)
+                if (activeSource_.additionalCensus == null)
                 {
-                    m_txtCensusAddress.Text = "Null";
-                    m_txtCensusSeries.Text = "Null";
-                    m_txtCensusPiece.Text = "Null";
-                    m_txtCensusFolio.Text = "Null";
-                    m_txtCensusPage.Text = "Null";
+                    txtCensusAddress_.Text = "Null";
+                    txtCensusSeries_.Text = "Null";
+                    txtCensusPiece_.Text = "Null";
+                    txtCensusFolio_.Text = "Null";
+                    txtCensusPage_.Text = "Null";
                 }
                 else
                 {
-                    m_txtCensusAddress.Text = m_ActiveSource.additionalCensus.address;
-                    m_txtCensusSeries.Text = m_ActiveSource.additionalCensus.series;
-                    m_txtCensusPiece.Text = m_ActiveSource.additionalCensus.piece;
-                    m_txtCensusFolio.Text = m_ActiveSource.additionalCensus.folio;
-                    m_txtCensusPage.Text = m_ActiveSource.additionalCensus.page;
+                    txtCensusAddress_.Text = activeSource_.additionalCensus.address;
+                    txtCensusSeries_.Text = activeSource_.additionalCensus.series;
+                    txtCensusPiece_.Text = activeSource_.additionalCensus.piece;
+                    txtCensusFolio_.Text = activeSource_.additionalCensus.folio;
+                    txtCensusPage_.Text = activeSource_.additionalCensus.page;
                 }
+                break;
+
+            case 5:
+                grpBirth_.Visible = false;
+                grpCensus_.Visible = false;
+                grpDeath_.Visible = false;
+                grpMarriage_.Visible = false;
+                grpFreeTable_.Visible = true;
                 break;
             }
 
-            // Enable events
-            m_bAllowEvents = bEvents;
+            // Enable events.
+            isAllowEvents_ = isEvents;
         }
 
-        /// <summary>
-        /// Hide all the optional information sections.
-        /// </summary>
-        private void HideAllAditionalInfo()
+
+
+        /// <summary>Hide all the optional additonal information sections.</summary>
+        private void hideAllAditionalInfo()
         {
-            m_grpBirth.Visible = false;
-            m_grpCensus.Visible = false;
-            m_grpDeath.Visible = false;
-            m_grpMarriage.Visible = false;
+            grpBirth_.Visible = false;
+            grpCensus_.Visible = false;
+            grpDeath_.Visible = false;
+            grpMarriage_.Visible = false;
+            grpFreeTable_.Visible = false;
         }
+
+
 
         #endregion
 
-		#region Message Handlers
+        #region Message Handlers
 
         #region Form Events
 
-        // Message handler for the form shown event.
-        /// <summary>
-        /// Message handler for the form shown event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the form shown event.</summary>
         private void frmEditSources_Shown(object sender, EventArgs e)
         {
             // Select the first source if nothing is already selected
-            if(m_lstSources.SelectedIndex < 0)
+            if (lstSources_.SelectedIndex < 0)
             {
-                m_lstSources.SelectedIndex = 0;
+                lstSources_.SelectedIndex = 0;
             }
         }
 
+
         #endregion
+
+
 
         private void radioDate_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if(this.radioDate.Checked)
-			{
-				this.m_lstSources.Sorted = false;
-				/*
-				clsIDName[] oSources = m_oDb.GetSources(enumSortOrder.Date);
-				this.lstSources.Items.Clear();
-				for(int nI=0;nI<oSources.Length;nI++)
-				{
-					this.lstSources.Items.Add(oSources[nI]);
-				}
-				*/
-			}
-		}
-
-		private void radioAlpha_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if(this.radioAlpha.Checked)
-			{
-				this.m_lstSources.Sorted = true;
-				/*
-				clsIDName[] oSources = m_oDb.GetSources(enumSortOrder.Alphabetical);
-				this.lstSources.Items.Clear();
-				for(int nI=0;nI<oSources.Length;nI++)
-				{
-					this.lstSources.Items.Add(oSources[nI]);
-				}
-				*/
-			}
-		}
-
-		/// <summary>
-		/// Message handler for the selection on the list of sources changing.
-		/// Load and display the selected source object.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lstSources_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			m_ActiveSource = (Source)this.m_lstSources.SelectedItem;
-			if(m_ActiveSource==null)
-			{
-				// Clear the controls
-			}
-			else if(m_ActiveSource.isValid())
-			{
-				// Populate the controls
-				this.txtDescription.Text = m_ActiveSource.description;
-				this.dateTheDate.Value = m_ActiveSource.theDate;
-				this.txtComments.Text = m_ActiveSource.comments;
-				m_cboAdditionalInfo.SelectedIndex = m_ActiveSource.additionalInfoTypeIndex;
-				m_cboRepository.SelectedIndex = m_ActiveSource.repository; // This is not really correct
-
-				DataGridTableStyle oTableStyle = new DataGridTableStyle();
-			
-				// Sets the MappingName to the class name plus brackets.    
-				oTableStyle.MappingName= "clsReferences[]";
-
-				// Sets the AlternatingBackColor so you can see the difference.
-				oTableStyle.AlternatingBackColor= System.Drawing.Color.LightBlue;
-
-				// Creates 2 column styles.
-				DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
-				columnPerson.MappingName= "PersonName";
-				columnPerson.HeaderText= "Person";
-				columnPerson.ReadOnly = true;
-				columnPerson.Width = 250;
-
-				DataGridTextBoxColumn columnReferences = new DataGridTextBoxColumn();
-				columnReferences.MappingName= "References";
-				columnReferences.HeaderText= "References";
-				columnReferences.ReadOnly = true;
-				columnReferences.Width = 500;
-
-				// Adds the column styles to the grid table style.
-				oTableStyle.GridColumnStyles.Add(columnPerson);
-				oTableStyle.GridColumnStyles.Add(columnReferences);
-
-				// Add the table style to the collection, but clear the collection first.
-				this.gridReferences.TableStyles.Clear();
-				this.gridReferences.TableStyles.Add(oTableStyle);
-				this.gridReferences.ReadOnly = true;
-
-				// Update the references to this source.
-				References[] references = m_ActiveSource.getReferences();
-				this.gridReferences.SetDataBinding(references,"");
-
-				// Show the additional information for this source (birth certificate etc...)
-				ShowAdditionalInfo();
-			}
-			else
-			{
-				this.txtDescription.Text = "[Deleted]";				
-				this.txtComments.Text = "[Deleted]";
-
-				HideAllAditionalInfo();
-			}
-		}
-
-		/// <summary>
-		/// Message handler for the description text box changing value.
-		/// Update the active source.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void txtDescription_TextChanged(object sender, System.EventArgs e)
-		{
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-			m_ActiveSource.description = this.txtDescription.Text;
-		}
-
-		/// <summary>
-		/// Message handler for the date of the source control changing value.
-		/// Update the active source.
-		/// </summary>
-		/// <param name="oSender"></param>
-		private void dateTheDate_evtValueChanged(object oSender)
-		{
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-			m_ActiveSource.theDate.date = this.dateTheDate.GetDate();		
-			m_ActiveSource.theDate.status = this.dateTheDate.GetStatus();
-		}
-
-		/// <summary>
-		/// Message handler for the comments textbox changing value.
-		/// Update the active source.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void txtComments_TextChanged(object sender, System.EventArgs e)
-		{
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-			m_ActiveSource.comments = this.txtComments.Text;		
-		}
-
-		private void cmdOK_Click(object sender, System.EventArgs e)
-		{
-			int				nI;			// Loop variable
-
-			// Save all the sources
-			for(nI=0;nI<this.m_lstSources.Items.Count;nI++)
-			{
-				Source oSource = (Source)this.m_lstSources.Items[nI];
-				oSource.save();
-			}
-		}
-
-		private void cmdDeleteSource_Click(object sender, System.EventArgs e)
-		{
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-			m_ActiveSource.delete();
-		}
-
-		private void cmdAddSource_Click(object sender, System.EventArgs e)
-		{
-			Source oNewSource = new Source(m_oDb);
-			oNewSource.description = "New Source";
-			int nNew = this.m_lstSources.Items.Add(oNewSource);			 
-			this.m_lstSources.SelectedIndex = nNew;
-		}
-
-		private void cboPrefix_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if(this.cboPrefix.SelectedIndex>=0)
-			{
-				this.txtDescription.Text = this.cboPrefix.SelectedItem.ToString() + " " + this.txtDescription.Text;
-				this.cboPrefix.SelectedIndex = -1;
-			}
-		}
-
-		/// <summary>
-		/// Message handler for the addition information type combo box changing.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cboAdditionalInfo_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-
-			IndexName oType = (IndexName)m_cboAdditionalInfo.SelectedItem;
-			m_ActiveSource.additionalInfoTypeIndex = oType.index;		
-
-			ShowAdditionalInfo();
+        {
+            if (radioDate.Checked)
+            {
+                lstSources_.Sorted = false;
+            }
         }
 
-		/// <summary>
-		/// Message handler for the census address changing.
-		/// Update the census object inside the current source.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void evtAdditionalCensus_Changed(object sender, System.EventArgs e)
-		{
-            // Allow events
-            if(!m_bAllowEvents)
+
+
+        private void radioAlpha_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (radioAlpha.Checked)
+            {
+                lstSources_.Sorted = true;
+            }
+        }
+
+
+
+        /// <summary>Message handler for the selection on the list of sources changing.  Load and display the selected source object.</summary>
+        private void lstSources_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            activeSource_ = (Source)this.lstSources_.SelectedItem;
+            if (activeSource_ == null)
+            {
+                // Clear the controls.
+            }
+            else if (activeSource_.isValid())
+            {
+                // Populate the controls.
+                txtDescription_.Text = activeSource_.description;
+                dateTheDate_.Value = activeSource_.theDate;
+                txtComments_.Text = activeSource_.comments;
+                cboAdditionalInfo_.SelectedIndex = activeSource_.additionalInfoTypeIndex;
+                cboRepository_.SelectedIndex = activeSource_.repository; // This is not really correct.
+
+                DataGridTableStyle tableStyle = new DataGridTableStyle();
+
+                // Sets the MappingName to the class name plus brackets.
+                tableStyle.MappingName = "References[]";
+
+                // Sets the AlternatingBackColor so you can see the difference.
+                tableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+
+                // Creates 2 column styles.
+                DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
+                columnPerson.MappingName = "personName";
+                columnPerson.HeaderText = "Person";
+                columnPerson.ReadOnly = true;
+                columnPerson.Width = 250;
+
+                DataGridTextBoxColumn columnReferences = new DataGridTextBoxColumn();
+                columnReferences.MappingName = "references";
+                columnReferences.HeaderText = "References";
+                columnReferences.ReadOnly = true;
+                columnReferences.Width = 500;
+
+                // Adds the column styles to the grid table style.
+                tableStyle.GridColumnStyles.Add(columnPerson);
+                tableStyle.GridColumnStyles.Add(columnReferences);
+
+                // Add the table style to the collection, but clear the collection first.
+                this.gridReferences.TableStyles.Clear();
+                this.gridReferences.TableStyles.Add(tableStyle);
+                this.gridReferences.ReadOnly = true;
+
+                // Update the references to this source.
+                References[] references = activeSource_.getReferences();
+                this.gridReferences.SetDataBinding(references, "");
+
+                // Show the additional information for this source (birth certificate etc...)
+                showAdditionalInfo();
+            }
+            else
+            {
+                txtDescription_.Text = "[Deleted]";
+                txtComments_.Text = "[Deleted]";
+
+                hideAllAditionalInfo();
+            }
+        }
+
+
+
+        /// <summary>Message handler for the description text box changing value.  Update the active source.</summary>
+        private void txtDescription_TextChanged(object sender, System.EventArgs e)
+        {
+            if (activeSource_ == null)
+            {
+                return;
+            }
+            activeSource_.description = txtDescription_.Text;
+        }
+
+
+
+        /// <summary>Message handler for the date of the source control changing value.  Update the active source.</summary>
+        private void dateTheDate_evtValueChanged(object oSender)
+        {
+            if (activeSource_ == null)
+            {
+                return;
+            }
+            activeSource_.theDate.date = dateTheDate_.GetDate();
+            activeSource_.theDate.status = dateTheDate_.GetStatus();
+        }
+
+
+
+        /// <summary>Message handler for the comments textbox changing value.  Update the active source.</summary>
+        private void txtComments_TextChanged(object sender, System.EventArgs e)
+        {
+            if (activeSource_ == null)
+            {
+                return;
+            }
+            activeSource_.comments = txtComments_.Text;
+        }
+
+
+
+        private void cmdOK_Click(object sender, System.EventArgs e)
+        {
+            // Save all the sources
+            for (int i = 0; i < lstSources_.Items.Count; i++)
+            {
+                Source source = (Source)lstSources_.Items[i];
+                source.save();
+            }
+        }
+
+
+
+        private void cmdDeleteSource_Click(object sender, System.EventArgs e)
+        {
+            if (activeSource_ == null)
+            {
+                return;
+            }
+            activeSource_.delete();
+        }
+
+
+
+        private void cmdAddSource_Click(object sender, System.EventArgs e)
+        {
+            Source newSource = new Source(database_);
+            newSource.description = "New Source";
+            int newIndex = lstSources_.Items.Add(newSource);
+            lstSources_.SelectedIndex = newIndex;
+        }
+
+
+
+        private void cboPrefix_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if (cboPrefix_.SelectedIndex >= 0)
+            {
+                txtDescription_.Text = cboPrefix_.SelectedItem.ToString() + " " + txtDescription_.Text;
+                cboPrefix_.SelectedIndex = -1;
+            }
+        }
+
+
+
+        /// <summary>Message handler for the addition information type combo box changing.</summary>
+        private void cboAdditionalInfo_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Check that a source is selected.
+            if (activeSource_ == null)
             {
                 return;
             }
 
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-			
-			// Check that a Census object is available
-			if(m_ActiveSource.additionalCensus==null)
-			{
-				return;
-			}
+            IndexName additionalType = (IndexName)cboAdditionalInfo_.SelectedItem;
+            activeSource_.additionalInfoTypeIndex = additionalType.index;
 
-			// Update the census object.
-            m_ActiveSource.additionalCensus.address = m_txtCensusAddress.Text;
-            m_ActiveSource.additionalCensus.series = m_txtCensusSeries.Text;
-            m_ActiveSource.additionalCensus.piece = m_txtCensusPiece.Text;
-            m_ActiveSource.additionalCensus.folio = m_txtCensusFolio.Text;
-            m_ActiveSource.additionalCensus.page = m_txtCensusPage.Text;
+            showAdditionalInfo();
         }
 
-		/// <summary>
-		/// Message handler for the launch census editor button click.
-		/// Open the frmEditCensus dialog display the census data for this source.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cmdCensusOpen_Click(object sender, System.EventArgs e)
-		{
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
 
-			// Create a dialog to show the full census record
-			frmEditCensus oCensus = new frmEditCensus(m_oDb,m_ActiveSource.index);
 
-			// Show the dialog and wait for the dialog to close
-			oCensus.ShowDialog(this);
-			oCensus.Dispose();
-		}
-
-		/// <summary>
-		/// Message handler for any of the additional information Marriage fields changing.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void evtAdditionalMarriage_Changed(object sender, System.EventArgs e)
-		{
-			// Allow events
-			if(!m_bAllowEvents)
-			{
-				return;
-			}
-
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-
-			// Update the additional marriage information
-            m_ActiveSource.additionalMarriage.when = m_dtpMarrWhen.Value;
-            m_ActiveSource.additionalMarriage.location = m_txtMarrLocation.Text;
-			m_ActiveSource.additionalMarriage.groomName = m_txtMarrGroom.Text;
-			m_ActiveSource.additionalMarriage.groomAge = m_txtMarrGroomAge.Text;
-			m_ActiveSource.additionalMarriage.groomOccupation = m_txtMarrGroomOccu.Text;
-			m_ActiveSource.additionalMarriage.groomLiving = m_txtMarrGroomLoca.Text;
-			m_ActiveSource.additionalMarriage.groomFather = m_txtMarrGroomFather.Text;
-			m_ActiveSource.additionalMarriage.groomFatherOccupation = m_txtMarrGroomFatherOcc.Text;
-			m_ActiveSource.additionalMarriage.brideName = m_txtMarrBride.Text;
-			m_ActiveSource.additionalMarriage.brideAge = m_txtMarrBrideAge.Text;
-			m_ActiveSource.additionalMarriage.brideOccupation = m_txtMarrBrideOccu.Text;
-			m_ActiveSource.additionalMarriage.brideLiving = m_txtMarrBrideLoca.Text;
-			m_ActiveSource.additionalMarriage.brideFather = m_txtMarrBrideFather.Text;
-			m_ActiveSource.additionalMarriage.brideFatherOccupation = m_txtMarrBrideFatherOcc.Text;
-			m_ActiveSource.additionalMarriage.witness = m_txtMarrWitness.Text;
-            m_ActiveSource.additionalMarriage.groReference = m_txtMarrGro.Text;
-		}
-
-		/// <summary>
-		/// Message handler for any of the additional information birth fields changing.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void evtAdditionalBirth_Changed(object sender, System.EventArgs e)
-		{
-			// Allow events
-			if(!m_bAllowEvents)
-			{
-				return;
-			}
-
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-
-			// Update the additional birth information
-			m_ActiveSource.additionalBirth.registrationDistrict = m_txtBirthDistrict.Text;
-            m_ActiveSource.additionalBirth.when = m_dtpBirthWhen.Value;
-            m_ActiveSource.additionalBirth.whenAndWhere = m_txtBirthWhenWhere.Text;
-			m_ActiveSource.additionalBirth.name = m_txtBirthName.Text;
-			m_ActiveSource.additionalBirth.sex = m_txtBirthSex.Text;
-			m_ActiveSource.additionalBirth.father = m_txtBirthFather.Text;
-			m_ActiveSource.additionalBirth.fatherOccupation = m_txtBirthFatherOccupation.Text;
-            m_ActiveSource.additionalBirth.mother = m_txtBirthMother.Text;
-            m_ActiveSource.additionalBirth.motherDetails = m_txtBirthMotherDetails.Text;
-            m_ActiveSource.additionalBirth.informant = m_txtBirthInformant.Text;
-            m_ActiveSource.additionalBirth.informantAddress = m_txtBirthInformantAddress.Text;
-            m_ActiveSource.additionalBirth.whenRegistered = m_txtBirthWhenReg.Text;
-            m_ActiveSource.additionalBirth.groReference = m_txtBirthReference.Text;
-		}
-
-		/// <summary>
-		/// Message handler for any of the additional information death fields changing.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void evtAdditionalDeath_Changed(object sender, System.EventArgs e)
-		{
-            // Allow events
-            if(!m_bAllowEvents)
+        /// <summary>Message handler for the census address changing.  Update the census object inside the current source.</summary>
+        private void evtAdditionalCensus_Changed(object sender, System.EventArgs e)
+        {
+            // Allow events.
+            if (!isAllowEvents_)
             {
                 return;
             }
 
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
+            // Check that a source is selected.
+            if (activeSource_ == null)
+            {
+                return;
+            }
 
-			// Update the additional death information
-			m_ActiveSource.additionalDeath.registrationDistrict = m_txtDeathDistrict.Text;
-			m_ActiveSource.additionalDeath.when = m_txtDeathWhen.Text;
-            m_ActiveSource.additionalDeath.place = m_txtDeathWhere.Text;
-			m_ActiveSource.additionalDeath.name = m_txtDeathName.Text;
-			m_ActiveSource.additionalDeath.sex = m_txtDeathSex.Text;
-			m_ActiveSource.additionalDeath.datePlaceOfBirth = m_txtDeathDatePlace.Text;
-			m_ActiveSource.additionalDeath.occupation = m_txtDeathOccupation.Text;
-			m_ActiveSource.additionalDeath.usualAddress = m_txtDeathUsualAddress.Text;
-			m_ActiveSource.additionalDeath.causeOfDeath = m_txtDeathCause.Text;
-			m_ActiveSource.additionalDeath.informant = m_txtDeathInformant.Text;
-			m_ActiveSource.additionalDeath.informantDescription = m_txtDeathInformantDescription.Text;
-			m_ActiveSource.additionalDeath.informantAddress = m_txtDeathInformantAddress.Text;
-			m_ActiveSource.additionalDeath.whenRegistered = m_txtDeathWhenReg.Text;
-            m_ActiveSource.additionalDeath.groReference = m_txtDeathReference.Text;
-		}
+            // Check that a Census object is available.
+            if (activeSource_.additionalCensus == null)
+            {
+                return;
+            }
 
-		/// <summary>
-        /// Message handler for the repository combo box value changed event.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void cboRepository_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			// Check that a source is selected
-			if(m_ActiveSource==null)
-			{
-				return;
-			}
-
-			IndexName oRepository = (IndexName)this.m_cboRepository.SelectedItem;
-			m_ActiveSource.repository = oRepository.index;
+            // Update the census object.
+            activeSource_.additionalCensus.address = txtCensusAddress_.Text;
+            activeSource_.additionalCensus.series = txtCensusSeries_.Text;
+            activeSource_.additionalCensus.piece = txtCensusPiece_.Text;
+            activeSource_.additionalCensus.folio = txtCensusFolio_.Text;
+            activeSource_.additionalCensus.page = txtCensusPage_.Text;
         }
 
-        #endregion
 
-        // Message handler for the "Census Address" button click.
-        /// <summary>
-        /// Message handler for the "Census Address" button click.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+        /// <summary>Message handler for the launch census editor button click.  Open the frmEditCensus dialog display the census data for this source.</summary>
+        private void cmdCensusOpen_Click(object sender, System.EventArgs e)
+        {
+            // Check that a source is selected.
+            if (activeSource_ == null)
+            {
+                return;
+            }
+
+            // Create a dialog to show the full census record.
+            frmEditCensus censusDialog = new frmEditCensus(database_, activeSource_.index);
+
+            // Show the dialog and wait for the dialog to close.
+            censusDialog.ShowDialog(this);
+            censusDialog.Dispose();
+        }
+
+
+
+        /// <summary>Message handler for any of the additional information Marriage fields changing.</summary>
+        private void evtAdditionalMarriage_Changed(object sender, System.EventArgs e)
+        {
+            // Allow events.
+            if (!isAllowEvents_)
+            {
+                return;
+            }
+
+            // Check that a source is selected.
+            if (activeSource_ == null)
+            {
+                return;
+            }
+
+            // Update the additional marriage information.
+            activeSource_.additionalMarriage.when = dtpMarrWhen_.Value;
+            activeSource_.additionalMarriage.location = txtMarrLocation_.Text;
+            activeSource_.additionalMarriage.groomName = txtMarrGroom_.Text;
+            activeSource_.additionalMarriage.groomAge = txtMarrGroomAge_.Text;
+            activeSource_.additionalMarriage.groomOccupation = txtMarrGroomOccu_.Text;
+            activeSource_.additionalMarriage.groomLiving = txtMarrGroomLoca_.Text;
+            activeSource_.additionalMarriage.groomFather = txtMarrGroomFather_.Text;
+            activeSource_.additionalMarriage.groomFatherOccupation = txtMarrGroomFatherOcc_.Text;
+            activeSource_.additionalMarriage.brideName = txtMarrBride_.Text;
+            activeSource_.additionalMarriage.brideAge = txtMarrBrideAge_.Text;
+            activeSource_.additionalMarriage.brideOccupation = txtMarrBrideOccu_.Text;
+            activeSource_.additionalMarriage.brideLiving = txtMarrBrideLoca_.Text;
+            activeSource_.additionalMarriage.brideFather = txtMarrBrideFather_.Text;
+            activeSource_.additionalMarriage.brideFatherOccupation = txtMarrBrideFatherOcc_.Text;
+            activeSource_.additionalMarriage.witness = txtMarrWitness_.Text;
+            activeSource_.additionalMarriage.groReference = txtMarrGro_.Text;
+        }
+
+
+
+        /// <summary>Message handler for any of the additional information birth fields changing.</summary>
+        private void evtAdditionalBirth_Changed(object sender, System.EventArgs e)
+        {
+            // Allow events.
+            if (!isAllowEvents_)
+            {
+                return;
+            }
+
+            // Check that a source is selected.
+            if (activeSource_ == null)
+            {
+                return;
+            }
+
+            // Update the additional birth information.
+            activeSource_.additionalBirth.registrationDistrict = txtBirthDistrict_.Text;
+            activeSource_.additionalBirth.when = dtpBirthWhen_.Value;
+            activeSource_.additionalBirth.whenAndWhere = txtBirthWhenWhere_.Text;
+            activeSource_.additionalBirth.name = txtBirthName_.Text;
+            activeSource_.additionalBirth.sex = txtBirthSex_.Text;
+            activeSource_.additionalBirth.father = txtBirthFather_.Text;
+            activeSource_.additionalBirth.fatherOccupation = txtBirthFatherOccupation_.Text;
+            activeSource_.additionalBirth.mother = txtBirthMother_.Text;
+            activeSource_.additionalBirth.motherDetails = txtBirthMotherDetails_.Text;
+            activeSource_.additionalBirth.informant = txtBirthInformant_.Text;
+            activeSource_.additionalBirth.informantAddress = txtBirthInformantAddress_.Text;
+            activeSource_.additionalBirth.whenRegistered = txtBirthWhenReg_.Text;
+            activeSource_.additionalBirth.groReference = txtBirthReference_.Text;
+        }
+
+
+
+        /// <summary>Message handler for any of the additional information death fields changing.</summary>
+        private void evtAdditionalDeath_Changed(object sender, System.EventArgs e)
+        {
+            // Allow events.
+            if (!isAllowEvents_)
+            {
+                return;
+            }
+
+            // Check that a source is selected.
+            if (activeSource_ == null)
+            {
+                return;
+            }
+
+            // Update the additional death information.
+            activeSource_.additionalDeath.registrationDistrict = txtDeathDistrict_.Text;
+            activeSource_.additionalDeath.when = txtDeathWhen_.Text;
+            activeSource_.additionalDeath.place = txtDeathWhere_.Text;
+            activeSource_.additionalDeath.name = txtDeathName_.Text;
+            activeSource_.additionalDeath.sex = txtDeathSex_.Text;
+            activeSource_.additionalDeath.datePlaceOfBirth = txtDeathDatePlace_.Text;
+            activeSource_.additionalDeath.occupation = txtDeathOccupation_.Text;
+            activeSource_.additionalDeath.usualAddress = txtDeathUsualAddress_.Text;
+            activeSource_.additionalDeath.causeOfDeath = txtDeathCause_.Text;
+            activeSource_.additionalDeath.informant = txtDeathInformant_.Text;
+            activeSource_.additionalDeath.informantDescription = txtDeathInformantDescription_.Text;
+            activeSource_.additionalDeath.informantAddress = txtDeathInformantAddress_.Text;
+            activeSource_.additionalDeath.whenRegistered = txtDeathWhenReg_.Text;
+            activeSource_.additionalDeath.groReference = txtDeathReference_.Text;
+        }
+
+
+
+        /// <summary>Message handler for the repository combo box value changed event.</summary>
+        private void cboRepository_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            // Check that a source is selected.
+            if (activeSource_ == null)
+            {
+                return;
+            }
+
+            IndexName repository = (IndexName)this.cboRepository_.SelectedItem;
+            activeSource_.repository = repository.index;
+        }
+
+
+
+        /// <summary>Message handler for the "Census Address" button click.</summary>
         private void cmdCensusAddress_Click(object sender, EventArgs e)
         {
-            frmSelectLocation oDialog = new frmSelectLocation(m_oDb, m_txtCensusAddress.Text);
-            if(oDialog.ShowDialog(this) == DialogResult.OK)
+            frmSelectLocation dialog = new frmSelectLocation(database_, txtCensusAddress_.Text);
+            if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                m_txtCensusAddress.Text = oDialog.locationName;
+                txtCensusAddress_.Text = dialog.locationName;
             }
         }
 
+
+
+        #endregion
 
     }
 }

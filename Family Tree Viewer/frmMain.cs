@@ -37,10 +37,7 @@ namespace FamilyTree.Viewer
 
     #endregion
 
-    /// <summary>
-    /// This is the main window of the application.
-    /// This displays the current person and allows the user to move from person to person and select actions.
-    /// </summary>
+    /// <summary>This is the main window of the application.  This displays the current person and allows the user to move from person to person and select actions.</summary>
     public partial class MainWindow : System.Windows.Forms.Form
     {
         #region Member Variables and Types
@@ -1245,7 +1242,7 @@ namespace FamilyTree.Viewer
 
             case Pages.SOURCE:
                 // Create a dialog to edit this source
-                frmEditSources oEditSource = new frmEditSources(database_, Current.index);
+                EditSourcesDialog oEditSource = new EditSourcesDialog(database_, Current.index);
                 if (oEditSource.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source
@@ -1349,7 +1346,7 @@ namespace FamilyTree.Viewer
         private bool EditSources()
         {
             // Create a dialog to edit the sources
-            frmEditSources oEdit = new frmEditSources(database_);
+            EditSourcesDialog oEdit = new EditSourcesDialog(database_);
 
             // Show the dialog and wait for the dialog to close
             oEdit.ShowDialog(this);

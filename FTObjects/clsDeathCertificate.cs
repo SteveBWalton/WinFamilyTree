@@ -165,7 +165,7 @@ namespace FamilyTree.Objects
             // Initialise the Html description
             StringBuilder html = new StringBuilder();
 
-            html.Append("<TABLE align=center bgcolor=thistle border=0 cellpadding=5 cellspacing=0>");
+            html.Append("<table style=\"background-color: thistle; border: 1px solid black;\" align=center cellpadding=5 cellspacing=0>");
             html.Append("<TR><TD align=right><SPAN class=\"Death\">Registration District</SPAN></TD><TD colspan=3>" + registrationDistrict + "</TD></TR>");
             html.Append("<TR><TD align=right><SPAN class=\"Death\">When and Where</SPAN></TD><TD colspan=3>" + when + "</TD></TR>");
             html.Append("<TR><TD align=right><SPAN class=\"Death\">Name</SPAN></TD><TD>" + name + "</TD>");
@@ -179,7 +179,7 @@ namespace FamilyTree.Objects
             html.Append("<TR><TD align=right><SPAN class=\"Death\">Informant Address</SPAN></TD><TD colspan=3>" + informantAddress + "</TD></TR>");
             html.Append("<TR><TD align=right><SPAN class=\"Death\">When Registered</SPAN></TD><TD>" + whenRegistered + "</TD>");
             html.Append("<TD align=right><SPAN class=\"Death\">Reference</SPAN></TD><TD>" + groReference + "</TD></TR>");
-            html.Append("</TABLE>");
+            html.Append("</table>");
 
             // Return the Html description.
             return html.ToString();

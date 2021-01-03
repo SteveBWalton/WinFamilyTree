@@ -993,7 +993,7 @@ namespace FamilyTree.Objects
             ArrayList types = new ArrayList();
 
             // Open the list from the database.
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID,Name FROM tlk_AdditionalInfoTypes ORDER BY ID;", cndb_);
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, Name FROM tlk_AdditionalInfoTypes ORDER BY ID;", cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmEditSources : System.Windows.Forms.Form
+    public partial class EditSourcesDialog : System.Windows.Forms.Form
     {
         /// <summary>
         /// Required designer variable.
@@ -63,74 +63,75 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Label label40;
             System.Windows.Forms.Button cmdCensusAddress;
             System.Windows.Forms.Button cmdCensusOpen;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditSources));
-            FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
-            this.m_lstSources = new System.Windows.Forms.ListBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditSourcesDialog));
+            FamilyTree.Objects.CompoundDate compoundDate2 = new FamilyTree.Objects.CompoundDate();
+            this.lstSources_ = new System.Windows.Forms.ListBox();
             this.imageList16x16 = new System.Windows.Forms.ImageList(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.gridReferences = new System.Windows.Forms.DataGrid();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.m_cboRepository = new System.Windows.Forms.ComboBox();
-            this.m_cboAdditionalInfo = new System.Windows.Forms.ComboBox();
-            this.dateTheDate = new FamilyTree.Viewer.ucDate();
+            this.grpFreeTable_ = new System.Windows.Forms.GroupBox();
+            this.cboRepository_ = new System.Windows.Forms.ComboBox();
+            this.cboAdditionalInfo_ = new System.Windows.Forms.ComboBox();
+            this.dateTheDate_ = new FamilyTree.Viewer.ucDate();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.txtComments = new System.Windows.Forms.TextBox();
-            this.cboPrefix = new System.Windows.Forms.ComboBox();
-            this.txtDescription = new System.Windows.Forms.TextBox();
-            this.m_grpCensus = new System.Windows.Forms.GroupBox();
-            this.m_txtCensusPage = new System.Windows.Forms.TextBox();
-            this.m_txtCensusFolio = new System.Windows.Forms.TextBox();
-            this.m_txtCensusPiece = new System.Windows.Forms.TextBox();
-            this.m_txtCensusSeries = new System.Windows.Forms.TextBox();
-            this.m_txtCensusAddress = new System.Windows.Forms.TextBox();
-            this.m_grpDeath = new System.Windows.Forms.GroupBox();
-            this.m_txtDeathReference = new System.Windows.Forms.TextBox();
-            this.m_txtDeathWhere = new System.Windows.Forms.TextBox();
-            this.m_txtDeathWhenReg = new System.Windows.Forms.TextBox();
-            this.m_txtDeathInformantDescription = new System.Windows.Forms.TextBox();
-            this.m_txtDeathInformantAddress = new System.Windows.Forms.TextBox();
-            this.m_txtDeathInformant = new System.Windows.Forms.TextBox();
-            this.m_txtDeathUsualAddress = new System.Windows.Forms.TextBox();
-            this.m_txtDeathCause = new System.Windows.Forms.TextBox();
-            this.m_txtDeathOccupation = new System.Windows.Forms.TextBox();
-            this.m_txtDeathDatePlace = new System.Windows.Forms.TextBox();
-            this.m_txtDeathSex = new System.Windows.Forms.TextBox();
-            this.m_txtDeathName = new System.Windows.Forms.TextBox();
-            this.m_txtDeathWhen = new System.Windows.Forms.TextBox();
-            this.m_txtDeathDistrict = new System.Windows.Forms.TextBox();
-            this.m_grpBirth = new System.Windows.Forms.GroupBox();
-            this.m_txtBirthReference = new System.Windows.Forms.TextBox();
-            this.m_txtBirthMotherDetails = new System.Windows.Forms.TextBox();
-            this.m_txtBirthInformantAddress = new System.Windows.Forms.TextBox();
-            this.m_dtpBirthWhen = new System.Windows.Forms.DateTimePicker();
-            this.m_txtBirthWhenReg = new System.Windows.Forms.TextBox();
-            this.m_txtBirthInformant = new System.Windows.Forms.TextBox();
-            this.m_txtBirthMother = new System.Windows.Forms.TextBox();
-            this.m_txtBirthFatherOccupation = new System.Windows.Forms.TextBox();
-            this.m_txtBirthFather = new System.Windows.Forms.TextBox();
-            this.m_txtBirthSex = new System.Windows.Forms.TextBox();
-            this.m_txtBirthName = new System.Windows.Forms.TextBox();
-            this.m_txtBirthWhenWhere = new System.Windows.Forms.TextBox();
-            this.m_txtBirthDistrict = new System.Windows.Forms.TextBox();
-            this.m_grpMarriage = new System.Windows.Forms.GroupBox();
-            this.m_txtMarrGro = new System.Windows.Forms.TextBox();
-            this.m_dtpMarrWhen = new System.Windows.Forms.DateTimePicker();
-            this.m_txtMarrWitness = new System.Windows.Forms.TextBox();
-            this.m_txtMarrLocation = new System.Windows.Forms.TextBox();
-            this.m_txtMarrBrideFatherOcc = new System.Windows.Forms.TextBox();
-            this.m_txtMarrBrideFather = new System.Windows.Forms.TextBox();
-            this.m_txtMarrBrideLoca = new System.Windows.Forms.TextBox();
-            this.m_txtMarrBrideOccu = new System.Windows.Forms.TextBox();
-            this.m_txtMarrBrideAge = new System.Windows.Forms.TextBox();
-            this.m_txtMarrBride = new System.Windows.Forms.TextBox();
-            this.m_txtMarrGroomFatherOcc = new System.Windows.Forms.TextBox();
-            this.m_txtMarrGroomFather = new System.Windows.Forms.TextBox();
-            this.m_txtMarrGroomLoca = new System.Windows.Forms.TextBox();
-            this.m_txtMarrGroomOccu = new System.Windows.Forms.TextBox();
-            this.m_txtMarrGroomAge = new System.Windows.Forms.TextBox();
-            this.m_txtMarrGroom = new System.Windows.Forms.TextBox();
+            this.txtComments_ = new System.Windows.Forms.TextBox();
+            this.cboPrefix_ = new System.Windows.Forms.ComboBox();
+            this.txtDescription_ = new System.Windows.Forms.TextBox();
+            this.grpBirth_ = new System.Windows.Forms.GroupBox();
+            this.txtBirthReference_ = new System.Windows.Forms.TextBox();
+            this.txtBirthMotherDetails_ = new System.Windows.Forms.TextBox();
+            this.txtBirthInformantAddress_ = new System.Windows.Forms.TextBox();
+            this.dtpBirthWhen_ = new System.Windows.Forms.DateTimePicker();
+            this.txtBirthWhenReg_ = new System.Windows.Forms.TextBox();
+            this.txtBirthInformant_ = new System.Windows.Forms.TextBox();
+            this.txtBirthMother_ = new System.Windows.Forms.TextBox();
+            this.txtBirthFatherOccupation_ = new System.Windows.Forms.TextBox();
+            this.txtBirthFather_ = new System.Windows.Forms.TextBox();
+            this.txtBirthSex_ = new System.Windows.Forms.TextBox();
+            this.txtBirthName_ = new System.Windows.Forms.TextBox();
+            this.txtBirthWhenWhere_ = new System.Windows.Forms.TextBox();
+            this.txtBirthDistrict_ = new System.Windows.Forms.TextBox();
+            this.grpMarriage_ = new System.Windows.Forms.GroupBox();
+            this.txtMarrGro_ = new System.Windows.Forms.TextBox();
+            this.dtpMarrWhen_ = new System.Windows.Forms.DateTimePicker();
+            this.txtMarrWitness_ = new System.Windows.Forms.TextBox();
+            this.txtMarrLocation_ = new System.Windows.Forms.TextBox();
+            this.txtMarrBrideFatherOcc_ = new System.Windows.Forms.TextBox();
+            this.txtMarrBrideFather_ = new System.Windows.Forms.TextBox();
+            this.txtMarrBrideLoca_ = new System.Windows.Forms.TextBox();
+            this.txtMarrBrideOccu_ = new System.Windows.Forms.TextBox();
+            this.txtMarrBrideAge_ = new System.Windows.Forms.TextBox();
+            this.txtMarrBride_ = new System.Windows.Forms.TextBox();
+            this.txtMarrGroomFatherOcc_ = new System.Windows.Forms.TextBox();
+            this.txtMarrGroomFather_ = new System.Windows.Forms.TextBox();
+            this.txtMarrGroomLoca_ = new System.Windows.Forms.TextBox();
+            this.txtMarrGroomOccu_ = new System.Windows.Forms.TextBox();
+            this.txtMarrGroomAge_ = new System.Windows.Forms.TextBox();
+            this.txtMarrGroom_ = new System.Windows.Forms.TextBox();
+            this.grpCensus_ = new System.Windows.Forms.GroupBox();
+            this.txtCensusPage_ = new System.Windows.Forms.TextBox();
+            this.txtCensusFolio_ = new System.Windows.Forms.TextBox();
+            this.txtCensusPiece_ = new System.Windows.Forms.TextBox();
+            this.txtCensusSeries_ = new System.Windows.Forms.TextBox();
+            this.txtCensusAddress_ = new System.Windows.Forms.TextBox();
+            this.grpDeath_ = new System.Windows.Forms.GroupBox();
+            this.txtDeathReference_ = new System.Windows.Forms.TextBox();
+            this.txtDeathWhere_ = new System.Windows.Forms.TextBox();
+            this.txtDeathWhenReg_ = new System.Windows.Forms.TextBox();
+            this.txtDeathInformantDescription_ = new System.Windows.Forms.TextBox();
+            this.txtDeathInformantAddress_ = new System.Windows.Forms.TextBox();
+            this.txtDeathInformant_ = new System.Windows.Forms.TextBox();
+            this.txtDeathUsualAddress_ = new System.Windows.Forms.TextBox();
+            this.txtDeathCause_ = new System.Windows.Forms.TextBox();
+            this.txtDeathOccupation_ = new System.Windows.Forms.TextBox();
+            this.txtDeathDatePlace_ = new System.Windows.Forms.TextBox();
+            this.txtDeathSex_ = new System.Windows.Forms.TextBox();
+            this.txtDeathName_ = new System.Windows.Forms.TextBox();
+            this.txtDeathWhen_ = new System.Windows.Forms.TextBox();
+            this.txtDeathDistrict_ = new System.Windows.Forms.TextBox();
             this.radioDate = new System.Windows.Forms.RadioButton();
             this.radioAlpha = new System.Windows.Forms.RadioButton();
             this.m_panList = new System.Windows.Forms.Panel();
@@ -181,10 +182,10 @@ namespace FamilyTree.Viewer
             cmdCensusOpen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridReferences)).BeginInit();
             this.panel1.SuspendLayout();
-            this.m_grpCensus.SuspendLayout();
-            this.m_grpDeath.SuspendLayout();
-            this.m_grpBirth.SuspendLayout();
-            this.m_grpMarriage.SuspendLayout();
+            this.grpBirth_.SuspendLayout();
+            this.grpMarriage_.SuspendLayout();
+            this.grpCensus_.SuspendLayout();
+            this.grpDeath_.SuspendLayout();
             this.m_panList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -571,16 +572,16 @@ namespace FamilyTree.Viewer
             cmdCensusOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdCensusOpen.Click += new System.EventHandler(this.cmdCensusOpen_Click);
             // 
-            // m_lstSources
+            // lstSources_
             // 
-            this.m_lstSources.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_lstSources.Location = new System.Drawing.Point(0, 25);
-            this.m_lstSources.Name = "m_lstSources";
-            this.m_lstSources.Size = new System.Drawing.Size(400, 433);
-            this.m_lstSources.TabIndex = 0;
-            this.m_lstSources.SelectedIndexChanged += new System.EventHandler(this.lstSources_SelectedIndexChanged);
+            this.lstSources_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstSources_.Location = new System.Drawing.Point(0, 25);
+            this.lstSources_.Name = "lstSources_";
+            this.lstSources_.Size = new System.Drawing.Size(400, 433);
+            this.lstSources_.TabIndex = 0;
+            this.lstSources_.SelectedIndexChanged += new System.EventHandler(this.lstSources_SelectedIndexChanged);
             // 
             // imageList16x16
             // 
@@ -621,22 +622,23 @@ namespace FamilyTree.Viewer
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.grpFreeTable_);
             this.panel1.Controls.Add(label31);
             this.panel1.Controls.Add(label30);
             this.panel1.Controls.Add(label29);
             this.panel1.Controls.Add(label28);
-            this.panel1.Controls.Add(this.m_cboRepository);
-            this.panel1.Controls.Add(this.m_cboAdditionalInfo);
-            this.panel1.Controls.Add(this.dateTheDate);
+            this.panel1.Controls.Add(this.cboRepository_);
+            this.panel1.Controls.Add(this.cboAdditionalInfo_);
+            this.panel1.Controls.Add(this.dateTheDate_);
             this.panel1.Controls.Add(this.cmdCancel);
             this.panel1.Controls.Add(this.cmdOK);
-            this.panel1.Controls.Add(this.txtComments);
-            this.panel1.Controls.Add(this.cboPrefix);
-            this.panel1.Controls.Add(this.txtDescription);
-            this.panel1.Controls.Add(this.m_grpBirth);
-            this.panel1.Controls.Add(this.m_grpMarriage);
-            this.panel1.Controls.Add(this.m_grpCensus);
-            this.panel1.Controls.Add(this.m_grpDeath);
+            this.panel1.Controls.Add(this.txtComments_);
+            this.panel1.Controls.Add(this.cboPrefix_);
+            this.panel1.Controls.Add(this.txtDescription_);
+            this.panel1.Controls.Add(this.grpBirth_);
+            this.panel1.Controls.Add(this.grpMarriage_);
+            this.panel1.Controls.Add(this.grpCensus_);
+            this.panel1.Controls.Add(this.grpDeath_);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(408, 0);
@@ -644,37 +646,46 @@ namespace FamilyTree.Viewer
             this.panel1.Size = new System.Drawing.Size(576, 505);
             this.panel1.TabIndex = 19;
             // 
-            // m_cboRepository
+            // grpFreeTable_
             // 
-            this.m_cboRepository.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.m_cboRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboRepository.Location = new System.Drawing.Point(135, 470);
-            this.m_cboRepository.Name = "m_cboRepository";
-            this.m_cboRepository.Size = new System.Drawing.Size(152, 21);
-            this.m_cboRepository.TabIndex = 30;
-            this.m_cboRepository.SelectedIndexChanged += new System.EventHandler(this.cboRepository_SelectedIndexChanged);
+            this.grpFreeTable_.Location = new System.Drawing.Point(29, 122);
+            this.grpFreeTable_.Name = "grpFreeTable_";
+            this.grpFreeTable_.Size = new System.Drawing.Size(200, 100);
+            this.grpFreeTable_.TabIndex = 35;
+            this.grpFreeTable_.TabStop = false;
+            this.grpFreeTable_.Text = "Free Table";
             // 
-            // m_cboAdditionalInfo
+            // cboRepository_
             // 
-            this.m_cboAdditionalInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.m_cboAdditionalInfo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboAdditionalInfo.Location = new System.Drawing.Point(8, 470);
-            this.m_cboAdditionalInfo.Name = "m_cboAdditionalInfo";
-            this.m_cboAdditionalInfo.Size = new System.Drawing.Size(121, 21);
-            this.m_cboAdditionalInfo.TabIndex = 25;
-            this.m_cboAdditionalInfo.SelectedIndexChanged += new System.EventHandler(this.cboAdditionalInfo_SelectedIndexChanged);
+            this.cboRepository_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cboRepository_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRepository_.Location = new System.Drawing.Point(135, 470);
+            this.cboRepository_.Name = "cboRepository_";
+            this.cboRepository_.Size = new System.Drawing.Size(152, 21);
+            this.cboRepository_.TabIndex = 30;
+            this.cboRepository_.SelectedIndexChanged += new System.EventHandler(this.cboRepository_SelectedIndexChanged);
+            // 
+            // cboAdditionalInfo_
+            // 
+            this.cboAdditionalInfo_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cboAdditionalInfo_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAdditionalInfo_.Location = new System.Drawing.Point(8, 470);
+            this.cboAdditionalInfo_.Name = "cboAdditionalInfo_";
+            this.cboAdditionalInfo_.Size = new System.Drawing.Size(121, 21);
+            this.cboAdditionalInfo_.TabIndex = 25;
+            this.cboAdditionalInfo_.SelectedIndexChanged += new System.EventHandler(this.cboAdditionalInfo_SelectedIndexChanged);
             // 
             // dateTheDate
             // 
-            this.dateTheDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTheDate.Location = new System.Drawing.Point(424, 32);
-            this.dateTheDate.Name = "dateTheDate";
-            this.dateTheDate.Size = new System.Drawing.Size(144, 24);
-            this.dateTheDate.TabIndex = 24;
-            clsDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate1.status = 0;
-            this.dateTheDate.Value = clsDate1;
-            this.dateTheDate.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateTheDate_evtValueChanged);
+            this.dateTheDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateTheDate_.Location = new System.Drawing.Point(424, 32);
+            this.dateTheDate_.Name = "dateTheDate";
+            this.dateTheDate_.Size = new System.Drawing.Size(144, 24);
+            this.dateTheDate_.TabIndex = 24;
+            compoundDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            compoundDate2.status = 0;
+            this.dateTheDate_.Value = compoundDate2;
+            this.dateTheDate_.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateTheDate_evtValueChanged);
             // 
             // cmdCancel
             // 
@@ -705,20 +716,20 @@ namespace FamilyTree.Viewer
             // 
             // txtComments
             // 
-            this.txtComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtComments.Location = new System.Drawing.Point(80, 56);
-            this.txtComments.Multiline = true;
-            this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(488, 64);
-            this.txtComments.TabIndex = 19;
-            this.txtComments.Text = "textBox2";
-            this.txtComments.TextChanged += new System.EventHandler(this.txtComments_TextChanged);
+            this.txtComments_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtComments_.Location = new System.Drawing.Point(80, 56);
+            this.txtComments_.Multiline = true;
+            this.txtComments_.Name = "txtComments";
+            this.txtComments_.Size = new System.Drawing.Size(488, 64);
+            this.txtComments_.TabIndex = 19;
+            this.txtComments_.Text = "textBox2";
+            this.txtComments_.TextChanged += new System.EventHandler(this.txtComments_TextChanged);
             // 
             // cboPrefix
             // 
-            this.cboPrefix.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPrefix.Items.AddRange(new object[] {
+            this.cboPrefix_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPrefix_.Items.AddRange(new object[] {
             "Birth Certificate:",
             "Census 1861:",
             "Census 1901:",
@@ -726,604 +737,604 @@ namespace FamilyTree.Viewer
             "Interview:",
             "Letter:",
             "Marriage Certificate:"});
-            this.cboPrefix.Location = new System.Drawing.Point(80, 32);
-            this.cboPrefix.Name = "cboPrefix";
-            this.cboPrefix.Size = new System.Drawing.Size(208, 21);
-            this.cboPrefix.TabIndex = 18;
-            this.cboPrefix.SelectedIndexChanged += new System.EventHandler(this.cboPrefix_SelectedIndexChanged);
+            this.cboPrefix_.Location = new System.Drawing.Point(80, 32);
+            this.cboPrefix_.Name = "cboPrefix";
+            this.cboPrefix_.Size = new System.Drawing.Size(208, 21);
+            this.cboPrefix_.TabIndex = 18;
+            this.cboPrefix_.SelectedIndexChanged += new System.EventHandler(this.cboPrefix_SelectedIndexChanged);
             // 
             // txtDescription
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(80, 8);
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(488, 21);
-            this.txtDescription.TabIndex = 17;
-            this.txtDescription.Text = "txtDescription";
-            this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
+            this.txtDescription_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDescription_.Location = new System.Drawing.Point(80, 8);
+            this.txtDescription_.Name = "txtDescription";
+            this.txtDescription_.Size = new System.Drawing.Size(488, 21);
+            this.txtDescription_.TabIndex = 17;
+            this.txtDescription_.Text = "txtDescription";
+            this.txtDescription_.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
-            // m_grpCensus
+            // grpBirth_
             // 
-            this.m_grpCensus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_grpCensus.Controls.Add(cmdCensusAddress);
-            this.m_grpCensus.Controls.Add(label36);
-            this.m_grpCensus.Controls.Add(label35);
-            this.m_grpCensus.Controls.Add(label34);
-            this.m_grpCensus.Controls.Add(label33);
-            this.m_grpCensus.Controls.Add(label32);
-            this.m_grpCensus.Controls.Add(this.m_txtCensusPage);
-            this.m_grpCensus.Controls.Add(this.m_txtCensusFolio);
-            this.m_grpCensus.Controls.Add(this.m_txtCensusPiece);
-            this.m_grpCensus.Controls.Add(this.m_txtCensusSeries);
-            this.m_grpCensus.Controls.Add(cmdCensusOpen);
-            this.m_grpCensus.Controls.Add(this.m_txtCensusAddress);
-            this.m_grpCensus.Location = new System.Drawing.Point(8, 139);
-            this.m_grpCensus.Name = "m_grpCensus";
-            this.m_grpCensus.Size = new System.Drawing.Size(560, 321);
-            this.m_grpCensus.TabIndex = 26;
-            this.m_grpCensus.TabStop = false;
-            this.m_grpCensus.Text = "Census";
-            // 
-            // m_txtCensusPage
-            // 
-            this.m_txtCensusPage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtCensusPage.Location = new System.Drawing.Point(248, 40);
-            this.m_txtCensusPage.Name = "m_txtCensusPage";
-            this.m_txtCensusPage.Size = new System.Drawing.Size(75, 21);
-            this.m_txtCensusPage.TabIndex = 6;
-            this.m_txtCensusPage.Text = "textBox1";
-            this.m_txtCensusPage.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
-            // 
-            // m_txtCensusFolio
-            // 
-            this.m_txtCensusFolio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtCensusFolio.Location = new System.Drawing.Point(167, 40);
-            this.m_txtCensusFolio.Name = "m_txtCensusFolio";
-            this.m_txtCensusFolio.Size = new System.Drawing.Size(75, 21);
-            this.m_txtCensusFolio.TabIndex = 5;
-            this.m_txtCensusFolio.Text = "textBox1";
-            this.m_txtCensusFolio.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
-            // 
-            // m_txtCensusPiece
-            // 
-            this.m_txtCensusPiece.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtCensusPiece.Location = new System.Drawing.Point(86, 40);
-            this.m_txtCensusPiece.Name = "m_txtCensusPiece";
-            this.m_txtCensusPiece.Size = new System.Drawing.Size(75, 21);
-            this.m_txtCensusPiece.TabIndex = 4;
-            this.m_txtCensusPiece.Text = "textBox1";
-            this.m_txtCensusPiece.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
-            // 
-            // m_txtCensusSeries
-            // 
-            this.m_txtCensusSeries.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtCensusSeries.Location = new System.Drawing.Point(8, 40);
-            this.m_txtCensusSeries.Name = "m_txtCensusSeries";
-            this.m_txtCensusSeries.Size = new System.Drawing.Size(75, 21);
-            this.m_txtCensusSeries.TabIndex = 3;
-            this.m_txtCensusSeries.Text = "textBox1";
-            this.m_txtCensusSeries.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
-            // 
-            // m_txtCensusAddress
-            // 
-            this.m_txtCensusAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtCensusAddress.Location = new System.Drawing.Point(8, 91);
-            this.m_txtCensusAddress.Name = "m_txtCensusAddress";
-            this.m_txtCensusAddress.Size = new System.Drawing.Size(520, 21);
-            this.m_txtCensusAddress.TabIndex = 1;
-            this.m_txtCensusAddress.Text = "textBox1";
-            this.m_txtCensusAddress.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
-            // 
-            // m_grpDeath
-            // 
-            this.m_grpDeath.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_grpDeath.Controls.Add(this.m_txtDeathReference);
-            this.m_grpDeath.Controls.Add(label40);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathWhere);
-            this.m_grpDeath.Controls.Add(label27);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathWhenReg);
-            this.m_grpDeath.Controls.Add(label26);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathInformantDescription);
-            this.m_grpDeath.Controls.Add(label25);
-            this.m_grpDeath.Controls.Add(label24);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathInformantAddress);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathInformant);
-            this.m_grpDeath.Controls.Add(label23);
-            this.m_grpDeath.Controls.Add(label22);
-            this.m_grpDeath.Controls.Add(label21);
-            this.m_grpDeath.Controls.Add(label20);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathUsualAddress);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathCause);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathOccupation);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathDatePlace);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathSex);
-            this.m_grpDeath.Controls.Add(label16);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathName);
-            this.m_grpDeath.Controls.Add(label17);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathWhen);
-            this.m_grpDeath.Controls.Add(label18);
-            this.m_grpDeath.Controls.Add(label19);
-            this.m_grpDeath.Controls.Add(this.m_txtDeathDistrict);
-            this.m_grpDeath.Location = new System.Drawing.Point(8, 139);
-            this.m_grpDeath.Name = "m_grpDeath";
-            this.m_grpDeath.Size = new System.Drawing.Size(560, 321);
-            this.m_grpDeath.TabIndex = 29;
-            this.m_grpDeath.TabStop = false;
-            this.m_grpDeath.Text = "Death Certificate";
-            // 
-            // m_txtDeathReference
-            // 
-            this.m_txtDeathReference.Location = new System.Drawing.Point(128, 274);
-            this.m_txtDeathReference.Name = "m_txtDeathReference";
-            this.m_txtDeathReference.Size = new System.Drawing.Size(288, 21);
-            this.m_txtDeathReference.TabIndex = 33;
-            this.m_txtDeathReference.Text = "textBox1";
-            this.m_txtDeathReference.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathWhere
-            // 
-            this.m_txtDeathWhere.Location = new System.Drawing.Point(508, 48);
-            this.m_txtDeathWhere.Name = "m_txtDeathWhere";
-            this.m_txtDeathWhere.Size = new System.Drawing.Size(44, 21);
-            this.m_txtDeathWhere.TabIndex = 12;
-            this.m_txtDeathWhere.Text = "Where";
-            this.m_txtDeathWhere.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathWhenReg
-            // 
-            this.m_txtDeathWhenReg.Location = new System.Drawing.Point(344, 248);
-            this.m_txtDeathWhenReg.Name = "m_txtDeathWhenReg";
-            this.m_txtDeathWhenReg.Size = new System.Drawing.Size(208, 21);
-            this.m_txtDeathWhenReg.TabIndex = 30;
-            this.m_txtDeathWhenReg.Text = "textBox2";
-            this.m_txtDeathWhenReg.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathInformantDescription
-            // 
-            this.m_txtDeathInformantDescription.Location = new System.Drawing.Point(344, 224);
-            this.m_txtDeathInformantDescription.Name = "m_txtDeathInformantDescription";
-            this.m_txtDeathInformantDescription.Size = new System.Drawing.Size(208, 21);
-            this.m_txtDeathInformantDescription.TabIndex = 28;
-            this.m_txtDeathInformantDescription.Text = "textBox2";
-            this.m_txtDeathInformantDescription.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathInformantAddress
-            // 
-            this.m_txtDeathInformantAddress.Location = new System.Drawing.Point(128, 248);
-            this.m_txtDeathInformantAddress.Name = "m_txtDeathInformantAddress";
-            this.m_txtDeathInformantAddress.Size = new System.Drawing.Size(136, 21);
-            this.m_txtDeathInformantAddress.TabIndex = 25;
-            this.m_txtDeathInformantAddress.Text = "textBox1";
-            this.m_txtDeathInformantAddress.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathInformant
-            // 
-            this.m_txtDeathInformant.Location = new System.Drawing.Point(128, 224);
-            this.m_txtDeathInformant.Name = "m_txtDeathInformant";
-            this.m_txtDeathInformant.Size = new System.Drawing.Size(136, 21);
-            this.m_txtDeathInformant.TabIndex = 24;
-            this.m_txtDeathInformant.Text = "textBox1";
-            this.m_txtDeathInformant.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathUsualAddress
-            // 
-            this.m_txtDeathUsualAddress.Location = new System.Drawing.Point(344, 120);
-            this.m_txtDeathUsualAddress.Name = "m_txtDeathUsualAddress";
-            this.m_txtDeathUsualAddress.Size = new System.Drawing.Size(208, 21);
-            this.m_txtDeathUsualAddress.TabIndex = 19;
-            this.m_txtDeathUsualAddress.Text = "textBox2";
-            this.m_txtDeathUsualAddress.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathCause
-            // 
-            this.m_txtDeathCause.AcceptsReturn = true;
-            this.m_txtDeathCause.Location = new System.Drawing.Point(128, 144);
-            this.m_txtDeathCause.Multiline = true;
-            this.m_txtDeathCause.Name = "m_txtDeathCause";
-            this.m_txtDeathCause.Size = new System.Drawing.Size(424, 72);
-            this.m_txtDeathCause.TabIndex = 18;
-            this.m_txtDeathCause.Text = "textBox1";
-            this.m_txtDeathCause.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathOccupation
-            // 
-            this.m_txtDeathOccupation.Location = new System.Drawing.Point(128, 120);
-            this.m_txtDeathOccupation.Name = "m_txtDeathOccupation";
-            this.m_txtDeathOccupation.Size = new System.Drawing.Size(136, 21);
-            this.m_txtDeathOccupation.TabIndex = 17;
-            this.m_txtDeathOccupation.Text = "textBox2";
-            this.m_txtDeathOccupation.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathDatePlace
-            // 
-            this.m_txtDeathDatePlace.Location = new System.Drawing.Point(128, 96);
-            this.m_txtDeathDatePlace.Name = "m_txtDeathDatePlace";
-            this.m_txtDeathDatePlace.Size = new System.Drawing.Size(424, 21);
-            this.m_txtDeathDatePlace.TabIndex = 16;
-            this.m_txtDeathDatePlace.Text = "m_txtDeathDatePlace";
-            this.m_txtDeathDatePlace.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathSex
-            // 
-            this.m_txtDeathSex.Location = new System.Drawing.Point(392, 72);
-            this.m_txtDeathSex.Name = "m_txtDeathSex";
-            this.m_txtDeathSex.Size = new System.Drawing.Size(160, 21);
-            this.m_txtDeathSex.TabIndex = 15;
-            this.m_txtDeathSex.Text = "m_txtDeathSex";
-            this.m_txtDeathSex.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathName
-            // 
-            this.m_txtDeathName.Location = new System.Drawing.Point(128, 72);
-            this.m_txtDeathName.Name = "m_txtDeathName";
-            this.m_txtDeathName.Size = new System.Drawing.Size(136, 21);
-            this.m_txtDeathName.TabIndex = 13;
-            this.m_txtDeathName.Text = "m_txtDeathName";
-            this.m_txtDeathName.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathWhen
-            // 
-            this.m_txtDeathWhen.Location = new System.Drawing.Point(128, 48);
-            this.m_txtDeathWhen.Name = "m_txtDeathWhen";
-            this.m_txtDeathWhen.Size = new System.Drawing.Size(374, 21);
-            this.m_txtDeathWhen.TabIndex = 11;
-            this.m_txtDeathWhen.Text = "When";
-            this.m_txtDeathWhen.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_txtDeathDistrict
-            // 
-            this.m_txtDeathDistrict.Location = new System.Drawing.Point(128, 24);
-            this.m_txtDeathDistrict.Name = "m_txtDeathDistrict";
-            this.m_txtDeathDistrict.Size = new System.Drawing.Size(424, 21);
-            this.m_txtDeathDistrict.TabIndex = 8;
-            this.m_txtDeathDistrict.Text = "m_txtDeathDistrict";
-            this.m_txtDeathDistrict.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
-            // 
-            // m_grpBirth
-            // 
-            this.m_grpBirth.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_grpBirth.Controls.Add(this.m_txtBirthReference);
-            this.m_grpBirth.Controls.Add(label39);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthMotherDetails);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthInformantAddress);
-            this.m_grpBirth.Controls.Add(this.m_dtpBirthWhen);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthWhenReg);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthInformant);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthMother);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthFatherOccupation);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthFather);
-            this.m_grpBirth.Controls.Add(label15);
-            this.m_grpBirth.Controls.Add(label14);
-            this.m_grpBirth.Controls.Add(label13);
-            this.m_grpBirth.Controls.Add(label12);
-            this.m_grpBirth.Controls.Add(label11);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthSex);
-            this.m_grpBirth.Controls.Add(label10);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthName);
-            this.m_grpBirth.Controls.Add(label9);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthWhenWhere);
-            this.m_grpBirth.Controls.Add(label8);
-            this.m_grpBirth.Controls.Add(label7);
-            this.m_grpBirth.Controls.Add(this.m_txtBirthDistrict);
-            this.m_grpBirth.Location = new System.Drawing.Point(8, 139);
-            this.m_grpBirth.Name = "m_grpBirth";
-            this.m_grpBirth.Size = new System.Drawing.Size(560, 321);
-            this.m_grpBirth.TabIndex = 28;
-            this.m_grpBirth.TabStop = false;
-            this.m_grpBirth.Text = "Birth Certificate";
+            this.grpBirth_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpBirth_.Controls.Add(this.txtBirthReference_);
+            this.grpBirth_.Controls.Add(label39);
+            this.grpBirth_.Controls.Add(this.txtBirthMotherDetails_);
+            this.grpBirth_.Controls.Add(this.txtBirthInformantAddress_);
+            this.grpBirth_.Controls.Add(this.dtpBirthWhen_);
+            this.grpBirth_.Controls.Add(this.txtBirthWhenReg_);
+            this.grpBirth_.Controls.Add(this.txtBirthInformant_);
+            this.grpBirth_.Controls.Add(this.txtBirthMother_);
+            this.grpBirth_.Controls.Add(this.txtBirthFatherOccupation_);
+            this.grpBirth_.Controls.Add(this.txtBirthFather_);
+            this.grpBirth_.Controls.Add(label15);
+            this.grpBirth_.Controls.Add(label14);
+            this.grpBirth_.Controls.Add(label13);
+            this.grpBirth_.Controls.Add(label12);
+            this.grpBirth_.Controls.Add(label11);
+            this.grpBirth_.Controls.Add(this.txtBirthSex_);
+            this.grpBirth_.Controls.Add(label10);
+            this.grpBirth_.Controls.Add(this.txtBirthName_);
+            this.grpBirth_.Controls.Add(label9);
+            this.grpBirth_.Controls.Add(this.txtBirthWhenWhere_);
+            this.grpBirth_.Controls.Add(label8);
+            this.grpBirth_.Controls.Add(label7);
+            this.grpBirth_.Controls.Add(this.txtBirthDistrict_);
+            this.grpBirth_.Location = new System.Drawing.Point(8, 139);
+            this.grpBirth_.Name = "grpBirth_";
+            this.grpBirth_.Size = new System.Drawing.Size(560, 321);
+            this.grpBirth_.TabIndex = 28;
+            this.grpBirth_.TabStop = false;
+            this.grpBirth_.Text = "Birth Certificate";
             // 
             // m_txtBirthReference
             // 
-            this.m_txtBirthReference.Location = new System.Drawing.Point(128, 168);
-            this.m_txtBirthReference.Name = "m_txtBirthReference";
-            this.m_txtBirthReference.Size = new System.Drawing.Size(288, 21);
-            this.m_txtBirthReference.TabIndex = 27;
-            this.m_txtBirthReference.Text = "textBox1";
-            this.m_txtBirthReference.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthReference_.Location = new System.Drawing.Point(128, 168);
+            this.txtBirthReference_.Name = "m_txtBirthReference";
+            this.txtBirthReference_.Size = new System.Drawing.Size(288, 21);
+            this.txtBirthReference_.TabIndex = 27;
+            this.txtBirthReference_.Text = "textBox1";
+            this.txtBirthReference_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthMotherDetails
             // 
-            this.m_txtBirthMotherDetails.Location = new System.Drawing.Point(270, 120);
-            this.m_txtBirthMotherDetails.Name = "m_txtBirthMotherDetails";
-            this.m_txtBirthMotherDetails.Size = new System.Drawing.Size(282, 21);
-            this.m_txtBirthMotherDetails.TabIndex = 16;
-            this.m_txtBirthMotherDetails.Text = "textBox1";
-            this.toolTip1.SetToolTip(this.m_txtBirthMotherDetails, "Mother details");
-            this.m_txtBirthMotherDetails.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthMotherDetails_.Location = new System.Drawing.Point(270, 120);
+            this.txtBirthMotherDetails_.Name = "m_txtBirthMotherDetails";
+            this.txtBirthMotherDetails_.Size = new System.Drawing.Size(282, 21);
+            this.txtBirthMotherDetails_.TabIndex = 16;
+            this.txtBirthMotherDetails_.Text = "textBox1";
+            this.toolTip1.SetToolTip(this.txtBirthMotherDetails_, "Mother details");
+            this.txtBirthMotherDetails_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthInformantAddress
             // 
-            this.m_txtBirthInformantAddress.Location = new System.Drawing.Point(270, 144);
-            this.m_txtBirthInformantAddress.Name = "m_txtBirthInformantAddress";
-            this.m_txtBirthInformantAddress.Size = new System.Drawing.Size(282, 21);
-            this.m_txtBirthInformantAddress.TabIndex = 19;
-            this.m_txtBirthInformantAddress.Text = "textBox1";
-            this.toolTip1.SetToolTip(this.m_txtBirthInformantAddress, "Informant address");
-            this.m_txtBirthInformantAddress.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthInformantAddress_.Location = new System.Drawing.Point(270, 144);
+            this.txtBirthInformantAddress_.Name = "m_txtBirthInformantAddress";
+            this.txtBirthInformantAddress_.Size = new System.Drawing.Size(282, 21);
+            this.txtBirthInformantAddress_.TabIndex = 19;
+            this.txtBirthInformantAddress_.Text = "textBox1";
+            this.toolTip1.SetToolTip(this.txtBirthInformantAddress_, "Informant address");
+            this.txtBirthInformantAddress_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_dtpBirthWhen
             // 
-            this.m_dtpBirthWhen.CustomFormat = "d MMM yyyy";
-            this.m_dtpBirthWhen.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.m_dtpBirthWhen.Location = new System.Drawing.Point(128, 47);
-            this.m_dtpBirthWhen.Name = "m_dtpBirthWhen";
-            this.m_dtpBirthWhen.Size = new System.Drawing.Size(136, 21);
-            this.m_dtpBirthWhen.TabIndex = 1;
-            this.m_dtpBirthWhen.ValueChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.dtpBirthWhen_.CustomFormat = "d MMM yyyy";
+            this.dtpBirthWhen_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpBirthWhen_.Location = new System.Drawing.Point(128, 47);
+            this.dtpBirthWhen_.Name = "m_dtpBirthWhen";
+            this.dtpBirthWhen_.Size = new System.Drawing.Size(136, 21);
+            this.dtpBirthWhen_.TabIndex = 1;
+            this.dtpBirthWhen_.ValueChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthWhenReg
             // 
-            this.m_txtBirthWhenReg.Location = new System.Drawing.Point(392, 197);
-            this.m_txtBirthWhenReg.Name = "m_txtBirthWhenReg";
-            this.m_txtBirthWhenReg.Size = new System.Drawing.Size(160, 21);
-            this.m_txtBirthWhenReg.TabIndex = 20;
-            this.m_txtBirthWhenReg.Text = "textBox1";
-            this.m_txtBirthWhenReg.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthWhenReg_.Location = new System.Drawing.Point(392, 197);
+            this.txtBirthWhenReg_.Name = "m_txtBirthWhenReg";
+            this.txtBirthWhenReg_.Size = new System.Drawing.Size(160, 21);
+            this.txtBirthWhenReg_.TabIndex = 20;
+            this.txtBirthWhenReg_.Text = "textBox1";
+            this.txtBirthWhenReg_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthInformant
             // 
-            this.m_txtBirthInformant.Location = new System.Drawing.Point(128, 144);
-            this.m_txtBirthInformant.Name = "m_txtBirthInformant";
-            this.m_txtBirthInformant.Size = new System.Drawing.Size(136, 21);
-            this.m_txtBirthInformant.TabIndex = 17;
-            this.m_txtBirthInformant.Text = "textBox1";
-            this.m_txtBirthInformant.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthInformant_.Location = new System.Drawing.Point(128, 144);
+            this.txtBirthInformant_.Name = "m_txtBirthInformant";
+            this.txtBirthInformant_.Size = new System.Drawing.Size(136, 21);
+            this.txtBirthInformant_.TabIndex = 17;
+            this.txtBirthInformant_.Text = "textBox1";
+            this.txtBirthInformant_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthMother
             // 
-            this.m_txtBirthMother.Location = new System.Drawing.Point(128, 120);
-            this.m_txtBirthMother.Name = "m_txtBirthMother";
-            this.m_txtBirthMother.Size = new System.Drawing.Size(136, 21);
-            this.m_txtBirthMother.TabIndex = 15;
-            this.m_txtBirthMother.Text = "textBox1";
-            this.m_txtBirthMother.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthMother_.Location = new System.Drawing.Point(128, 120);
+            this.txtBirthMother_.Name = "m_txtBirthMother";
+            this.txtBirthMother_.Size = new System.Drawing.Size(136, 21);
+            this.txtBirthMother_.TabIndex = 15;
+            this.txtBirthMother_.Text = "textBox1";
+            this.txtBirthMother_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthFatherOccupation
             // 
-            this.m_txtBirthFatherOccupation.Location = new System.Drawing.Point(392, 96);
-            this.m_txtBirthFatherOccupation.Name = "m_txtBirthFatherOccupation";
-            this.m_txtBirthFatherOccupation.Size = new System.Drawing.Size(160, 21);
-            this.m_txtBirthFatherOccupation.TabIndex = 14;
-            this.m_txtBirthFatherOccupation.Text = "textBox1";
-            this.m_txtBirthFatherOccupation.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthFatherOccupation_.Location = new System.Drawing.Point(392, 96);
+            this.txtBirthFatherOccupation_.Name = "m_txtBirthFatherOccupation";
+            this.txtBirthFatherOccupation_.Size = new System.Drawing.Size(160, 21);
+            this.txtBirthFatherOccupation_.TabIndex = 14;
+            this.txtBirthFatherOccupation_.Text = "textBox1";
+            this.txtBirthFatherOccupation_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthFather
             // 
-            this.m_txtBirthFather.Location = new System.Drawing.Point(128, 96);
-            this.m_txtBirthFather.Name = "m_txtBirthFather";
-            this.m_txtBirthFather.Size = new System.Drawing.Size(136, 21);
-            this.m_txtBirthFather.TabIndex = 13;
-            this.m_txtBirthFather.Text = "textBox1";
-            this.m_txtBirthFather.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthFather_.Location = new System.Drawing.Point(128, 96);
+            this.txtBirthFather_.Name = "m_txtBirthFather";
+            this.txtBirthFather_.Size = new System.Drawing.Size(136, 21);
+            this.txtBirthFather_.TabIndex = 13;
+            this.txtBirthFather_.Text = "textBox1";
+            this.txtBirthFather_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthSex
             // 
-            this.m_txtBirthSex.Location = new System.Drawing.Point(392, 72);
-            this.m_txtBirthSex.Name = "m_txtBirthSex";
-            this.m_txtBirthSex.Size = new System.Drawing.Size(160, 21);
-            this.m_txtBirthSex.TabIndex = 7;
-            this.m_txtBirthSex.Text = "textBox1";
-            this.m_txtBirthSex.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthSex_.Location = new System.Drawing.Point(392, 72);
+            this.txtBirthSex_.Name = "m_txtBirthSex";
+            this.txtBirthSex_.Size = new System.Drawing.Size(160, 21);
+            this.txtBirthSex_.TabIndex = 7;
+            this.txtBirthSex_.Text = "textBox1";
+            this.txtBirthSex_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthName
             // 
-            this.m_txtBirthName.Location = new System.Drawing.Point(128, 72);
-            this.m_txtBirthName.Name = "m_txtBirthName";
-            this.m_txtBirthName.Size = new System.Drawing.Size(136, 21);
-            this.m_txtBirthName.TabIndex = 5;
-            this.m_txtBirthName.Text = "textBox1";
-            this.m_txtBirthName.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthName_.Location = new System.Drawing.Point(128, 72);
+            this.txtBirthName_.Name = "m_txtBirthName";
+            this.txtBirthName_.Size = new System.Drawing.Size(136, 21);
+            this.txtBirthName_.TabIndex = 5;
+            this.txtBirthName_.Text = "textBox1";
+            this.txtBirthName_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthWhenWhere
             // 
-            this.m_txtBirthWhenWhere.Location = new System.Drawing.Point(275, 48);
-            this.m_txtBirthWhenWhere.Name = "m_txtBirthWhenWhere";
-            this.m_txtBirthWhenWhere.Size = new System.Drawing.Size(277, 21);
-            this.m_txtBirthWhenWhere.TabIndex = 2;
-            this.m_txtBirthWhenWhere.Text = "textBox1";
-            this.m_txtBirthWhenWhere.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthWhenWhere_.Location = new System.Drawing.Point(275, 48);
+            this.txtBirthWhenWhere_.Name = "m_txtBirthWhenWhere";
+            this.txtBirthWhenWhere_.Size = new System.Drawing.Size(277, 21);
+            this.txtBirthWhenWhere_.TabIndex = 2;
+            this.txtBirthWhenWhere_.Text = "textBox1";
+            this.txtBirthWhenWhere_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
             // m_txtBirthDistrict
             // 
-            this.m_txtBirthDistrict.Location = new System.Drawing.Point(128, 24);
-            this.m_txtBirthDistrict.Name = "m_txtBirthDistrict";
-            this.m_txtBirthDistrict.Size = new System.Drawing.Size(424, 21);
-            this.m_txtBirthDistrict.TabIndex = 0;
-            this.m_txtBirthDistrict.Text = "textBox1";
-            this.m_txtBirthDistrict.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthDistrict_.Location = new System.Drawing.Point(128, 24);
+            this.txtBirthDistrict_.Name = "m_txtBirthDistrict";
+            this.txtBirthDistrict_.Size = new System.Drawing.Size(424, 21);
+            this.txtBirthDistrict_.TabIndex = 0;
+            this.txtBirthDistrict_.Text = "textBox1";
+            this.txtBirthDistrict_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
             // 
-            // m_grpMarriage
+            // grpMarriage_
             // 
-            this.m_grpMarriage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGro);
-            this.m_grpMarriage.Controls.Add(label38);
-            this.m_grpMarriage.Controls.Add(label37);
-            this.m_grpMarriage.Controls.Add(this.m_dtpMarrWhen);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrWitness);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrLocation);
-            this.m_grpMarriage.Controls.Add(label6);
-            this.m_grpMarriage.Controls.Add(label5);
-            this.m_grpMarriage.Controls.Add(label4);
-            this.m_grpMarriage.Controls.Add(label3);
-            this.m_grpMarriage.Controls.Add(label2);
-            this.m_grpMarriage.Controls.Add(label1);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrBrideFatherOcc);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrBrideFather);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrBrideLoca);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrBrideOccu);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrBrideAge);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrBride);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGroomFatherOcc);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGroomFather);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGroomLoca);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGroomOccu);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGroomAge);
-            this.m_grpMarriage.Controls.Add(this.m_txtMarrGroom);
-            this.m_grpMarriage.Location = new System.Drawing.Point(8, 140);
-            this.m_grpMarriage.Name = "m_grpMarriage";
-            this.m_grpMarriage.Size = new System.Drawing.Size(560, 320);
-            this.m_grpMarriage.TabIndex = 27;
-            this.m_grpMarriage.TabStop = false;
-            this.m_grpMarriage.Text = "Marriage Certificate";
+            this.grpMarriage_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpMarriage_.Controls.Add(this.txtMarrGro_);
+            this.grpMarriage_.Controls.Add(label38);
+            this.grpMarriage_.Controls.Add(label37);
+            this.grpMarriage_.Controls.Add(this.dtpMarrWhen_);
+            this.grpMarriage_.Controls.Add(this.txtMarrWitness_);
+            this.grpMarriage_.Controls.Add(this.txtMarrLocation_);
+            this.grpMarriage_.Controls.Add(label6);
+            this.grpMarriage_.Controls.Add(label5);
+            this.grpMarriage_.Controls.Add(label4);
+            this.grpMarriage_.Controls.Add(label3);
+            this.grpMarriage_.Controls.Add(label2);
+            this.grpMarriage_.Controls.Add(label1);
+            this.grpMarriage_.Controls.Add(this.txtMarrBrideFatherOcc_);
+            this.grpMarriage_.Controls.Add(this.txtMarrBrideFather_);
+            this.grpMarriage_.Controls.Add(this.txtMarrBrideLoca_);
+            this.grpMarriage_.Controls.Add(this.txtMarrBrideOccu_);
+            this.grpMarriage_.Controls.Add(this.txtMarrBrideAge_);
+            this.grpMarriage_.Controls.Add(this.txtMarrBride_);
+            this.grpMarriage_.Controls.Add(this.txtMarrGroomFatherOcc_);
+            this.grpMarriage_.Controls.Add(this.txtMarrGroomFather_);
+            this.grpMarriage_.Controls.Add(this.txtMarrGroomLoca_);
+            this.grpMarriage_.Controls.Add(this.txtMarrGroomOccu_);
+            this.grpMarriage_.Controls.Add(this.txtMarrGroomAge_);
+            this.grpMarriage_.Controls.Add(this.txtMarrGroom_);
+            this.grpMarriage_.Location = new System.Drawing.Point(8, 140);
+            this.grpMarriage_.Name = "grpMarriage_";
+            this.grpMarriage_.Size = new System.Drawing.Size(560, 320);
+            this.grpMarriage_.TabIndex = 27;
+            this.grpMarriage_.TabStop = false;
+            this.grpMarriage_.Text = "Marriage Certificate";
             // 
             // m_txtMarrGro
             // 
-            this.m_txtMarrGro.Location = new System.Drawing.Point(86, 190);
-            this.m_txtMarrGro.Name = "m_txtMarrGro";
-            this.m_txtMarrGro.Size = new System.Drawing.Size(288, 21);
-            this.m_txtMarrGro.TabIndex = 25;
-            this.m_txtMarrGro.Text = "textBox1";
-            this.m_txtMarrGro.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGro_.Location = new System.Drawing.Point(86, 190);
+            this.txtMarrGro_.Name = "m_txtMarrGro";
+            this.txtMarrGro_.Size = new System.Drawing.Size(288, 21);
+            this.txtMarrGro_.TabIndex = 25;
+            this.txtMarrGro_.Text = "textBox1";
+            this.txtMarrGro_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_dtpMarrWhen
             // 
-            this.m_dtpMarrWhen.CustomFormat = "d MMM yyyy";
-            this.m_dtpMarrWhen.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.m_dtpMarrWhen.Location = new System.Drawing.Point(86, 20);
-            this.m_dtpMarrWhen.Name = "m_dtpMarrWhen";
-            this.m_dtpMarrWhen.Size = new System.Drawing.Size(136, 21);
-            this.m_dtpMarrWhen.TabIndex = 22;
-            this.m_dtpMarrWhen.ValueChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.dtpMarrWhen_.CustomFormat = "d MMM yyyy";
+            this.dtpMarrWhen_.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpMarrWhen_.Location = new System.Drawing.Point(86, 20);
+            this.dtpMarrWhen_.Name = "m_dtpMarrWhen";
+            this.dtpMarrWhen_.Size = new System.Drawing.Size(136, 21);
+            this.dtpMarrWhen_.TabIndex = 22;
+            this.dtpMarrWhen_.ValueChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrWitness
             // 
-            this.m_txtMarrWitness.Location = new System.Drawing.Point(86, 165);
-            this.m_txtMarrWitness.Name = "m_txtMarrWitness";
-            this.m_txtMarrWitness.Size = new System.Drawing.Size(288, 21);
-            this.m_txtMarrWitness.TabIndex = 18;
-            this.m_txtMarrWitness.Text = "textBox1";
-            this.m_txtMarrWitness.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrWitness_.Location = new System.Drawing.Point(86, 165);
+            this.txtMarrWitness_.Name = "m_txtMarrWitness";
+            this.txtMarrWitness_.Size = new System.Drawing.Size(288, 21);
+            this.txtMarrWitness_.TabIndex = 18;
+            this.txtMarrWitness_.Text = "textBox1";
+            this.txtMarrWitness_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrLocation
             // 
-            this.m_txtMarrLocation.Location = new System.Drawing.Point(86, 45);
-            this.m_txtMarrLocation.Name = "m_txtMarrLocation";
-            this.m_txtMarrLocation.Size = new System.Drawing.Size(464, 21);
-            this.m_txtMarrLocation.TabIndex = 0;
-            this.m_txtMarrLocation.Text = "m_txtMarrLocation";
-            this.m_txtMarrLocation.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrLocation_.Location = new System.Drawing.Point(86, 45);
+            this.txtMarrLocation_.Name = "m_txtMarrLocation";
+            this.txtMarrLocation_.Size = new System.Drawing.Size(464, 21);
+            this.txtMarrLocation_.TabIndex = 0;
+            this.txtMarrLocation_.Text = "m_txtMarrLocation";
+            this.txtMarrLocation_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrBrideFatherOcc
             // 
-            this.m_txtMarrBrideFatherOcc.Location = new System.Drawing.Point(254, 141);
-            this.m_txtMarrBrideFatherOcc.Name = "m_txtMarrBrideFatherOcc";
-            this.m_txtMarrBrideFatherOcc.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrBrideFatherOcc.TabIndex = 12;
-            this.m_txtMarrBrideFatherOcc.Text = "textBox1";
-            this.m_txtMarrBrideFatherOcc.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideFatherOcc_.Location = new System.Drawing.Point(254, 141);
+            this.txtMarrBrideFatherOcc_.Name = "m_txtMarrBrideFatherOcc";
+            this.txtMarrBrideFatherOcc_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrBrideFatherOcc_.TabIndex = 12;
+            this.txtMarrBrideFatherOcc_.Text = "textBox1";
+            this.txtMarrBrideFatherOcc_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrBrideFather
             // 
-            this.m_txtMarrBrideFather.Location = new System.Drawing.Point(86, 141);
-            this.m_txtMarrBrideFather.Name = "m_txtMarrBrideFather";
-            this.m_txtMarrBrideFather.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrBrideFather.TabIndex = 11;
-            this.m_txtMarrBrideFather.Text = "textBox1";
-            this.m_txtMarrBrideFather.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideFather_.Location = new System.Drawing.Point(86, 141);
+            this.txtMarrBrideFather_.Name = "m_txtMarrBrideFather";
+            this.txtMarrBrideFather_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrBrideFather_.TabIndex = 11;
+            this.txtMarrBrideFather_.Text = "textBox1";
+            this.txtMarrBrideFather_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrBrideLoca
             // 
-            this.m_txtMarrBrideLoca.Location = new System.Drawing.Point(382, 93);
-            this.m_txtMarrBrideLoca.Name = "m_txtMarrBrideLoca";
-            this.m_txtMarrBrideLoca.Size = new System.Drawing.Size(168, 21);
-            this.m_txtMarrBrideLoca.TabIndex = 8;
-            this.m_txtMarrBrideLoca.Text = "textBox1";
-            this.m_txtMarrBrideLoca.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideLoca_.Location = new System.Drawing.Point(382, 93);
+            this.txtMarrBrideLoca_.Name = "m_txtMarrBrideLoca";
+            this.txtMarrBrideLoca_.Size = new System.Drawing.Size(168, 21);
+            this.txtMarrBrideLoca_.TabIndex = 8;
+            this.txtMarrBrideLoca_.Text = "textBox1";
+            this.txtMarrBrideLoca_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrBrideOccu
             // 
-            this.m_txtMarrBrideOccu.Location = new System.Drawing.Point(254, 93);
-            this.m_txtMarrBrideOccu.Name = "m_txtMarrBrideOccu";
-            this.m_txtMarrBrideOccu.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrBrideOccu.TabIndex = 7;
-            this.m_txtMarrBrideOccu.Text = "textBox1";
-            this.m_txtMarrBrideOccu.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideOccu_.Location = new System.Drawing.Point(254, 93);
+            this.txtMarrBrideOccu_.Name = "m_txtMarrBrideOccu";
+            this.txtMarrBrideOccu_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrBrideOccu_.TabIndex = 7;
+            this.txtMarrBrideOccu_.Text = "textBox1";
+            this.txtMarrBrideOccu_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrBrideAge
             // 
-            this.m_txtMarrBrideAge.Location = new System.Drawing.Point(214, 93);
-            this.m_txtMarrBrideAge.Name = "m_txtMarrBrideAge";
-            this.m_txtMarrBrideAge.Size = new System.Drawing.Size(32, 21);
-            this.m_txtMarrBrideAge.TabIndex = 6;
-            this.m_txtMarrBrideAge.Text = "textBox1";
-            this.m_txtMarrBrideAge.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideAge_.Location = new System.Drawing.Point(214, 93);
+            this.txtMarrBrideAge_.Name = "m_txtMarrBrideAge";
+            this.txtMarrBrideAge_.Size = new System.Drawing.Size(32, 21);
+            this.txtMarrBrideAge_.TabIndex = 6;
+            this.txtMarrBrideAge_.Text = "textBox1";
+            this.txtMarrBrideAge_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrBride
             // 
-            this.m_txtMarrBride.Location = new System.Drawing.Point(86, 93);
-            this.m_txtMarrBride.Name = "m_txtMarrBride";
-            this.m_txtMarrBride.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrBride.TabIndex = 5;
-            this.m_txtMarrBride.Text = "textBox1";
-            this.m_txtMarrBride.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBride_.Location = new System.Drawing.Point(86, 93);
+            this.txtMarrBride_.Name = "m_txtMarrBride";
+            this.txtMarrBride_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrBride_.TabIndex = 5;
+            this.txtMarrBride_.Text = "textBox1";
+            this.txtMarrBride_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrGroomFatherOcc
             // 
-            this.m_txtMarrGroomFatherOcc.Location = new System.Drawing.Point(254, 117);
-            this.m_txtMarrGroomFatherOcc.Name = "m_txtMarrGroomFatherOcc";
-            this.m_txtMarrGroomFatherOcc.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrGroomFatherOcc.TabIndex = 10;
-            this.m_txtMarrGroomFatherOcc.Text = "textBox1";
-            this.m_txtMarrGroomFatherOcc.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomFatherOcc_.Location = new System.Drawing.Point(254, 117);
+            this.txtMarrGroomFatherOcc_.Name = "m_txtMarrGroomFatherOcc";
+            this.txtMarrGroomFatherOcc_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrGroomFatherOcc_.TabIndex = 10;
+            this.txtMarrGroomFatherOcc_.Text = "textBox1";
+            this.txtMarrGroomFatherOcc_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrGroomFather
             // 
-            this.m_txtMarrGroomFather.Location = new System.Drawing.Point(86, 117);
-            this.m_txtMarrGroomFather.Name = "m_txtMarrGroomFather";
-            this.m_txtMarrGroomFather.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrGroomFather.TabIndex = 9;
-            this.m_txtMarrGroomFather.Text = "textBox1";
-            this.m_txtMarrGroomFather.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomFather_.Location = new System.Drawing.Point(86, 117);
+            this.txtMarrGroomFather_.Name = "m_txtMarrGroomFather";
+            this.txtMarrGroomFather_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrGroomFather_.TabIndex = 9;
+            this.txtMarrGroomFather_.Text = "textBox1";
+            this.txtMarrGroomFather_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrGroomLoca
             // 
-            this.m_txtMarrGroomLoca.Location = new System.Drawing.Point(382, 69);
-            this.m_txtMarrGroomLoca.Name = "m_txtMarrGroomLoca";
-            this.m_txtMarrGroomLoca.Size = new System.Drawing.Size(168, 21);
-            this.m_txtMarrGroomLoca.TabIndex = 4;
-            this.m_txtMarrGroomLoca.Text = "textBox1";
-            this.m_txtMarrGroomLoca.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomLoca_.Location = new System.Drawing.Point(382, 69);
+            this.txtMarrGroomLoca_.Name = "m_txtMarrGroomLoca";
+            this.txtMarrGroomLoca_.Size = new System.Drawing.Size(168, 21);
+            this.txtMarrGroomLoca_.TabIndex = 4;
+            this.txtMarrGroomLoca_.Text = "textBox1";
+            this.txtMarrGroomLoca_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrGroomOccu
             // 
-            this.m_txtMarrGroomOccu.Location = new System.Drawing.Point(254, 69);
-            this.m_txtMarrGroomOccu.Name = "m_txtMarrGroomOccu";
-            this.m_txtMarrGroomOccu.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrGroomOccu.TabIndex = 3;
-            this.m_txtMarrGroomOccu.Text = "textBox1";
-            this.m_txtMarrGroomOccu.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomOccu_.Location = new System.Drawing.Point(254, 69);
+            this.txtMarrGroomOccu_.Name = "m_txtMarrGroomOccu";
+            this.txtMarrGroomOccu_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrGroomOccu_.TabIndex = 3;
+            this.txtMarrGroomOccu_.Text = "textBox1";
+            this.txtMarrGroomOccu_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrGroomAge
             // 
-            this.m_txtMarrGroomAge.Location = new System.Drawing.Point(214, 69);
-            this.m_txtMarrGroomAge.Name = "m_txtMarrGroomAge";
-            this.m_txtMarrGroomAge.Size = new System.Drawing.Size(32, 21);
-            this.m_txtMarrGroomAge.TabIndex = 2;
-            this.m_txtMarrGroomAge.Text = "textBox1";
-            this.m_txtMarrGroomAge.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomAge_.Location = new System.Drawing.Point(214, 69);
+            this.txtMarrGroomAge_.Name = "m_txtMarrGroomAge";
+            this.txtMarrGroomAge_.Size = new System.Drawing.Size(32, 21);
+            this.txtMarrGroomAge_.TabIndex = 2;
+            this.txtMarrGroomAge_.Text = "textBox1";
+            this.txtMarrGroomAge_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
             // 
             // m_txtMarrGroom
             // 
-            this.m_txtMarrGroom.Location = new System.Drawing.Point(86, 69);
-            this.m_txtMarrGroom.Name = "m_txtMarrGroom";
-            this.m_txtMarrGroom.Size = new System.Drawing.Size(120, 21);
-            this.m_txtMarrGroom.TabIndex = 1;
-            this.m_txtMarrGroom.Text = "textBox1";
-            this.m_txtMarrGroom.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroom_.Location = new System.Drawing.Point(86, 69);
+            this.txtMarrGroom_.Name = "m_txtMarrGroom";
+            this.txtMarrGroom_.Size = new System.Drawing.Size(120, 21);
+            this.txtMarrGroom_.TabIndex = 1;
+            this.txtMarrGroom_.Text = "textBox1";
+            this.txtMarrGroom_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            // 
+            // grpCensus_
+            // 
+            this.grpCensus_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpCensus_.Controls.Add(cmdCensusAddress);
+            this.grpCensus_.Controls.Add(label36);
+            this.grpCensus_.Controls.Add(label35);
+            this.grpCensus_.Controls.Add(label34);
+            this.grpCensus_.Controls.Add(label33);
+            this.grpCensus_.Controls.Add(label32);
+            this.grpCensus_.Controls.Add(this.txtCensusPage_);
+            this.grpCensus_.Controls.Add(this.txtCensusFolio_);
+            this.grpCensus_.Controls.Add(this.txtCensusPiece_);
+            this.grpCensus_.Controls.Add(this.txtCensusSeries_);
+            this.grpCensus_.Controls.Add(cmdCensusOpen);
+            this.grpCensus_.Controls.Add(this.txtCensusAddress_);
+            this.grpCensus_.Location = new System.Drawing.Point(8, 139);
+            this.grpCensus_.Name = "grpCensus_";
+            this.grpCensus_.Size = new System.Drawing.Size(560, 321);
+            this.grpCensus_.TabIndex = 26;
+            this.grpCensus_.TabStop = false;
+            this.grpCensus_.Text = "Census";
+            // 
+            // m_txtCensusPage
+            // 
+            this.txtCensusPage_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCensusPage_.Location = new System.Drawing.Point(248, 40);
+            this.txtCensusPage_.Name = "m_txtCensusPage";
+            this.txtCensusPage_.Size = new System.Drawing.Size(75, 21);
+            this.txtCensusPage_.TabIndex = 6;
+            this.txtCensusPage_.Text = "textBox1";
+            this.txtCensusPage_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            // 
+            // m_txtCensusFolio
+            // 
+            this.txtCensusFolio_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCensusFolio_.Location = new System.Drawing.Point(167, 40);
+            this.txtCensusFolio_.Name = "m_txtCensusFolio";
+            this.txtCensusFolio_.Size = new System.Drawing.Size(75, 21);
+            this.txtCensusFolio_.TabIndex = 5;
+            this.txtCensusFolio_.Text = "textBox1";
+            this.txtCensusFolio_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            // 
+            // m_txtCensusPiece
+            // 
+            this.txtCensusPiece_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCensusPiece_.Location = new System.Drawing.Point(86, 40);
+            this.txtCensusPiece_.Name = "m_txtCensusPiece";
+            this.txtCensusPiece_.Size = new System.Drawing.Size(75, 21);
+            this.txtCensusPiece_.TabIndex = 4;
+            this.txtCensusPiece_.Text = "textBox1";
+            this.txtCensusPiece_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            // 
+            // m_txtCensusSeries
+            // 
+            this.txtCensusSeries_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCensusSeries_.Location = new System.Drawing.Point(8, 40);
+            this.txtCensusSeries_.Name = "m_txtCensusSeries";
+            this.txtCensusSeries_.Size = new System.Drawing.Size(75, 21);
+            this.txtCensusSeries_.TabIndex = 3;
+            this.txtCensusSeries_.Text = "textBox1";
+            this.txtCensusSeries_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            // 
+            // txtCensusAddress_
+            // 
+            this.txtCensusAddress_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCensusAddress_.Location = new System.Drawing.Point(8, 91);
+            this.txtCensusAddress_.Name = "txtCensusAddress_";
+            this.txtCensusAddress_.Size = new System.Drawing.Size(520, 21);
+            this.txtCensusAddress_.TabIndex = 1;
+            this.txtCensusAddress_.Text = "textBox1";
+            this.txtCensusAddress_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            // 
+            // grpDeath_
+            // 
+            this.grpDeath_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpDeath_.Controls.Add(this.txtDeathReference_);
+            this.grpDeath_.Controls.Add(label40);
+            this.grpDeath_.Controls.Add(this.txtDeathWhere_);
+            this.grpDeath_.Controls.Add(label27);
+            this.grpDeath_.Controls.Add(this.txtDeathWhenReg_);
+            this.grpDeath_.Controls.Add(label26);
+            this.grpDeath_.Controls.Add(this.txtDeathInformantDescription_);
+            this.grpDeath_.Controls.Add(label25);
+            this.grpDeath_.Controls.Add(label24);
+            this.grpDeath_.Controls.Add(this.txtDeathInformantAddress_);
+            this.grpDeath_.Controls.Add(this.txtDeathInformant_);
+            this.grpDeath_.Controls.Add(label23);
+            this.grpDeath_.Controls.Add(label22);
+            this.grpDeath_.Controls.Add(label21);
+            this.grpDeath_.Controls.Add(label20);
+            this.grpDeath_.Controls.Add(this.txtDeathUsualAddress_);
+            this.grpDeath_.Controls.Add(this.txtDeathCause_);
+            this.grpDeath_.Controls.Add(this.txtDeathOccupation_);
+            this.grpDeath_.Controls.Add(this.txtDeathDatePlace_);
+            this.grpDeath_.Controls.Add(this.txtDeathSex_);
+            this.grpDeath_.Controls.Add(label16);
+            this.grpDeath_.Controls.Add(this.txtDeathName_);
+            this.grpDeath_.Controls.Add(label17);
+            this.grpDeath_.Controls.Add(this.txtDeathWhen_);
+            this.grpDeath_.Controls.Add(label18);
+            this.grpDeath_.Controls.Add(label19);
+            this.grpDeath_.Controls.Add(this.txtDeathDistrict_);
+            this.grpDeath_.Location = new System.Drawing.Point(8, 139);
+            this.grpDeath_.Name = "grpDeath_";
+            this.grpDeath_.Size = new System.Drawing.Size(560, 321);
+            this.grpDeath_.TabIndex = 29;
+            this.grpDeath_.TabStop = false;
+            this.grpDeath_.Text = "Death Certificate";
+            // 
+            // m_txtDeathReference
+            // 
+            this.txtDeathReference_.Location = new System.Drawing.Point(128, 274);
+            this.txtDeathReference_.Name = "m_txtDeathReference";
+            this.txtDeathReference_.Size = new System.Drawing.Size(288, 21);
+            this.txtDeathReference_.TabIndex = 33;
+            this.txtDeathReference_.Text = "textBox1";
+            this.txtDeathReference_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathWhere
+            // 
+            this.txtDeathWhere_.Location = new System.Drawing.Point(508, 48);
+            this.txtDeathWhere_.Name = "m_txtDeathWhere";
+            this.txtDeathWhere_.Size = new System.Drawing.Size(44, 21);
+            this.txtDeathWhere_.TabIndex = 12;
+            this.txtDeathWhere_.Text = "Where";
+            this.txtDeathWhere_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathWhenReg
+            // 
+            this.txtDeathWhenReg_.Location = new System.Drawing.Point(344, 248);
+            this.txtDeathWhenReg_.Name = "m_txtDeathWhenReg";
+            this.txtDeathWhenReg_.Size = new System.Drawing.Size(208, 21);
+            this.txtDeathWhenReg_.TabIndex = 30;
+            this.txtDeathWhenReg_.Text = "textBox2";
+            this.txtDeathWhenReg_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathInformantDescription
+            // 
+            this.txtDeathInformantDescription_.Location = new System.Drawing.Point(344, 224);
+            this.txtDeathInformantDescription_.Name = "m_txtDeathInformantDescription";
+            this.txtDeathInformantDescription_.Size = new System.Drawing.Size(208, 21);
+            this.txtDeathInformantDescription_.TabIndex = 28;
+            this.txtDeathInformantDescription_.Text = "textBox2";
+            this.txtDeathInformantDescription_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathInformantAddress
+            // 
+            this.txtDeathInformantAddress_.Location = new System.Drawing.Point(128, 248);
+            this.txtDeathInformantAddress_.Name = "m_txtDeathInformantAddress";
+            this.txtDeathInformantAddress_.Size = new System.Drawing.Size(136, 21);
+            this.txtDeathInformantAddress_.TabIndex = 25;
+            this.txtDeathInformantAddress_.Text = "textBox1";
+            this.txtDeathInformantAddress_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathInformant
+            // 
+            this.txtDeathInformant_.Location = new System.Drawing.Point(128, 224);
+            this.txtDeathInformant_.Name = "m_txtDeathInformant";
+            this.txtDeathInformant_.Size = new System.Drawing.Size(136, 21);
+            this.txtDeathInformant_.TabIndex = 24;
+            this.txtDeathInformant_.Text = "textBox1";
+            this.txtDeathInformant_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathUsualAddress
+            // 
+            this.txtDeathUsualAddress_.Location = new System.Drawing.Point(344, 120);
+            this.txtDeathUsualAddress_.Name = "m_txtDeathUsualAddress";
+            this.txtDeathUsualAddress_.Size = new System.Drawing.Size(208, 21);
+            this.txtDeathUsualAddress_.TabIndex = 19;
+            this.txtDeathUsualAddress_.Text = "textBox2";
+            this.txtDeathUsualAddress_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathCause
+            // 
+            this.txtDeathCause_.AcceptsReturn = true;
+            this.txtDeathCause_.Location = new System.Drawing.Point(128, 144);
+            this.txtDeathCause_.Multiline = true;
+            this.txtDeathCause_.Name = "m_txtDeathCause";
+            this.txtDeathCause_.Size = new System.Drawing.Size(424, 72);
+            this.txtDeathCause_.TabIndex = 18;
+            this.txtDeathCause_.Text = "textBox1";
+            this.txtDeathCause_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathOccupation
+            // 
+            this.txtDeathOccupation_.Location = new System.Drawing.Point(128, 120);
+            this.txtDeathOccupation_.Name = "m_txtDeathOccupation";
+            this.txtDeathOccupation_.Size = new System.Drawing.Size(136, 21);
+            this.txtDeathOccupation_.TabIndex = 17;
+            this.txtDeathOccupation_.Text = "textBox2";
+            this.txtDeathOccupation_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathDatePlace
+            // 
+            this.txtDeathDatePlace_.Location = new System.Drawing.Point(128, 96);
+            this.txtDeathDatePlace_.Name = "m_txtDeathDatePlace";
+            this.txtDeathDatePlace_.Size = new System.Drawing.Size(424, 21);
+            this.txtDeathDatePlace_.TabIndex = 16;
+            this.txtDeathDatePlace_.Text = "m_txtDeathDatePlace";
+            this.txtDeathDatePlace_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathSex
+            // 
+            this.txtDeathSex_.Location = new System.Drawing.Point(392, 72);
+            this.txtDeathSex_.Name = "m_txtDeathSex";
+            this.txtDeathSex_.Size = new System.Drawing.Size(160, 21);
+            this.txtDeathSex_.TabIndex = 15;
+            this.txtDeathSex_.Text = "m_txtDeathSex";
+            this.txtDeathSex_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathName
+            // 
+            this.txtDeathName_.Location = new System.Drawing.Point(128, 72);
+            this.txtDeathName_.Name = "m_txtDeathName";
+            this.txtDeathName_.Size = new System.Drawing.Size(136, 21);
+            this.txtDeathName_.TabIndex = 13;
+            this.txtDeathName_.Text = "m_txtDeathName";
+            this.txtDeathName_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathWhen
+            // 
+            this.txtDeathWhen_.Location = new System.Drawing.Point(128, 48);
+            this.txtDeathWhen_.Name = "m_txtDeathWhen";
+            this.txtDeathWhen_.Size = new System.Drawing.Size(374, 21);
+            this.txtDeathWhen_.TabIndex = 11;
+            this.txtDeathWhen_.Text = "When";
+            this.txtDeathWhen_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            // 
+            // m_txtDeathDistrict
+            // 
+            this.txtDeathDistrict_.Location = new System.Drawing.Point(128, 24);
+            this.txtDeathDistrict_.Name = "m_txtDeathDistrict";
+            this.txtDeathDistrict_.Size = new System.Drawing.Size(424, 21);
+            this.txtDeathDistrict_.TabIndex = 8;
+            this.txtDeathDistrict_.Text = "m_txtDeathDistrict";
+            this.txtDeathDistrict_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
             // 
             // radioDate
             // 
@@ -1347,7 +1358,7 @@ namespace FamilyTree.Viewer
             // 
             // m_panList
             // 
-            this.m_panList.Controls.Add(this.m_lstSources);
+            this.m_panList.Controls.Add(this.lstSources_);
             this.m_panList.Controls.Add(this.cmdAddSource);
             this.m_panList.Controls.Add(this.cmdDeleteSource);
             this.m_panList.Controls.Add(this.radioDate);
@@ -1405,14 +1416,14 @@ namespace FamilyTree.Viewer
             ((System.ComponentModel.ISupportInitialize)(this.gridReferences)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.m_grpCensus.ResumeLayout(false);
-            this.m_grpCensus.PerformLayout();
-            this.m_grpDeath.ResumeLayout(false);
-            this.m_grpDeath.PerformLayout();
-            this.m_grpBirth.ResumeLayout(false);
-            this.m_grpBirth.PerformLayout();
-            this.m_grpMarriage.ResumeLayout(false);
-            this.m_grpMarriage.PerformLayout();
+            this.grpBirth_.ResumeLayout(false);
+            this.grpBirth_.PerformLayout();
+            this.grpMarriage_.ResumeLayout(false);
+            this.grpMarriage_.PerformLayout();
+            this.grpCensus_.ResumeLayout(false);
+            this.grpCensus_.PerformLayout();
+            this.grpDeath_.ResumeLayout(false);
+            this.grpDeath_.PerformLayout();
             this.m_panList.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1420,76 +1431,77 @@ namespace FamilyTree.Viewer
         #endregion
 
         private System.Windows.Forms.ImageList imageList16x16;
-        private System.Windows.Forms.ListBox m_lstSources;
+        private System.Windows.Forms.ListBox lstSources_;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.DataGrid gridReferences;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button cmdDeleteSource;
         private System.Windows.Forms.Button cmdAddSource;
-        private System.Windows.Forms.TextBox txtDescription;
-        private System.Windows.Forms.ComboBox cboPrefix;
-        private System.Windows.Forms.TextBox txtComments;
+        private System.Windows.Forms.TextBox txtDescription_;
+        private System.Windows.Forms.ComboBox cboPrefix_;
+        private System.Windows.Forms.TextBox txtComments_;
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.RadioButton radioAlpha;
         private System.Windows.Forms.RadioButton radioDate;
-        private FamilyTree.Viewer.ucDate dateTheDate;
+        private FamilyTree.Viewer.ucDate dateTheDate_;
         private System.Windows.Forms.Panel m_panList;
-        private System.Windows.Forms.ComboBox m_cboAdditionalInfo;
-        private System.Windows.Forms.GroupBox m_grpCensus;
-        private System.Windows.Forms.GroupBox m_grpMarriage;
-        private System.Windows.Forms.GroupBox m_grpBirth;
-        private System.Windows.Forms.GroupBox m_grpDeath;
-        private System.Windows.Forms.TextBox m_txtCensusAddress;
-        private System.Windows.Forms.TextBox m_txtMarrGroom;
-        private System.Windows.Forms.TextBox m_txtMarrGroomAge;
-        private System.Windows.Forms.TextBox m_txtMarrGroomOccu;
-        private System.Windows.Forms.TextBox m_txtMarrGroomLoca;
-        private System.Windows.Forms.TextBox m_txtMarrGroomFather;
-        private System.Windows.Forms.TextBox m_txtMarrGroomFatherOcc;
-        private System.Windows.Forms.TextBox m_txtMarrBrideLoca;
-        private System.Windows.Forms.TextBox m_txtMarrBrideOccu;
-        private System.Windows.Forms.TextBox m_txtMarrBrideAge;
-        private System.Windows.Forms.TextBox m_txtMarrBride;
-        private System.Windows.Forms.TextBox m_txtMarrBrideFatherOcc;
-        private System.Windows.Forms.TextBox m_txtMarrBrideFather;
-        private System.Windows.Forms.TextBox m_txtMarrLocation;
-        private System.Windows.Forms.TextBox m_txtMarrWitness;
-        private System.Windows.Forms.TextBox m_txtBirthDistrict;
-        private System.Windows.Forms.TextBox m_txtBirthName;
-        private System.Windows.Forms.TextBox m_txtBirthSex;
-        private System.Windows.Forms.TextBox m_txtBirthFather;
-        private System.Windows.Forms.TextBox m_txtBirthMother;
-        private System.Windows.Forms.TextBox m_txtBirthInformant;
-        private System.Windows.Forms.TextBox m_txtBirthWhenReg;
-        private System.Windows.Forms.TextBox m_txtBirthWhenWhere;
-        private System.Windows.Forms.TextBox m_txtBirthFatherOccupation;
-        private System.Windows.Forms.TextBox m_txtDeathSex;
-        private System.Windows.Forms.TextBox m_txtDeathName;
-        private System.Windows.Forms.TextBox m_txtDeathWhen;
-        private System.Windows.Forms.TextBox m_txtDeathDistrict;
-        private System.Windows.Forms.TextBox m_txtDeathDatePlace;
-        private System.Windows.Forms.TextBox m_txtDeathOccupation;
-        private System.Windows.Forms.TextBox m_txtDeathCause;
-        private System.Windows.Forms.TextBox m_txtDeathInformant;
-        private System.Windows.Forms.TextBox m_txtDeathInformantAddress;
-        private System.Windows.Forms.TextBox m_txtDeathWhenReg;
-        private System.Windows.Forms.TextBox m_txtDeathUsualAddress;
-        private System.Windows.Forms.TextBox m_txtDeathInformantDescription;
-        private System.Windows.Forms.ComboBox m_cboRepository;
-        private TextBox m_txtDeathWhere;
-        private TextBox m_txtCensusPiece;
-        private TextBox m_txtCensusSeries;
-        private TextBox m_txtCensusPage;
-        private TextBox m_txtCensusFolio;
-        private DateTimePicker m_dtpBirthWhen;
-        private TextBox m_txtBirthInformantAddress;
-        private TextBox m_txtBirthMotherDetails;
-        private DateTimePicker m_dtpMarrWhen;
-        private TextBox m_txtMarrGro;
-        private TextBox m_txtBirthReference;
-        private TextBox m_txtDeathReference;
+        private System.Windows.Forms.ComboBox cboAdditionalInfo_;
+        private System.Windows.Forms.GroupBox grpCensus_;
+        private System.Windows.Forms.GroupBox grpMarriage_;
+        private System.Windows.Forms.GroupBox grpBirth_;
+        private System.Windows.Forms.GroupBox grpDeath_;
+        private System.Windows.Forms.TextBox txtCensusAddress_;
+        private System.Windows.Forms.TextBox txtMarrGroom_;
+        private System.Windows.Forms.TextBox txtMarrGroomAge_;
+        private System.Windows.Forms.TextBox txtMarrGroomOccu_;
+        private System.Windows.Forms.TextBox txtMarrGroomLoca_;
+        private System.Windows.Forms.TextBox txtMarrGroomFather_;
+        private System.Windows.Forms.TextBox txtMarrGroomFatherOcc_;
+        private System.Windows.Forms.TextBox txtMarrBrideLoca_;
+        private System.Windows.Forms.TextBox txtMarrBrideOccu_;
+        private System.Windows.Forms.TextBox txtMarrBrideAge_;
+        private System.Windows.Forms.TextBox txtMarrBride_;
+        private System.Windows.Forms.TextBox txtMarrBrideFatherOcc_;
+        private System.Windows.Forms.TextBox txtMarrBrideFather_;
+        private System.Windows.Forms.TextBox txtMarrLocation_;
+        private System.Windows.Forms.TextBox txtMarrWitness_;
+        private System.Windows.Forms.TextBox txtBirthDistrict_;
+        private System.Windows.Forms.TextBox txtBirthName_;
+        private System.Windows.Forms.TextBox txtBirthSex_;
+        private System.Windows.Forms.TextBox txtBirthFather_;
+        private System.Windows.Forms.TextBox txtBirthMother_;
+        private System.Windows.Forms.TextBox txtBirthInformant_;
+        private System.Windows.Forms.TextBox txtBirthWhenReg_;
+        private System.Windows.Forms.TextBox txtBirthWhenWhere_;
+        private System.Windows.Forms.TextBox txtBirthFatherOccupation_;
+        private System.Windows.Forms.TextBox txtDeathSex_;
+        private System.Windows.Forms.TextBox txtDeathName_;
+        private System.Windows.Forms.TextBox txtDeathWhen_;
+        private System.Windows.Forms.TextBox txtDeathDistrict_;
+        private System.Windows.Forms.TextBox txtDeathDatePlace_;
+        private System.Windows.Forms.TextBox txtDeathOccupation_;
+        private System.Windows.Forms.TextBox txtDeathCause_;
+        private System.Windows.Forms.TextBox txtDeathInformant_;
+        private System.Windows.Forms.TextBox txtDeathInformantAddress_;
+        private System.Windows.Forms.TextBox txtDeathWhenReg_;
+        private System.Windows.Forms.TextBox txtDeathUsualAddress_;
+        private System.Windows.Forms.TextBox txtDeathInformantDescription_;
+        private System.Windows.Forms.ComboBox cboRepository_;
+        private TextBox txtDeathWhere_;
+        private TextBox txtCensusPiece_;
+        private TextBox txtCensusSeries_;
+        private TextBox txtCensusPage_;
+        private TextBox txtCensusFolio_;
+        private DateTimePicker dtpBirthWhen_;
+        private TextBox txtBirthInformantAddress_;
+        private TextBox txtBirthMotherDetails_;
+        private DateTimePicker dtpMarrWhen_;
+        private TextBox txtMarrGro_;
+        private TextBox txtBirthReference_;
+        private TextBox txtDeathReference_;
         private ToolTip toolTip1;
+        private GroupBox grpFreeTable_;
     }
 }

@@ -60,6 +60,9 @@ namespace FamilyTree.Objects
         /// <summary>The optional additional death certificate information.</summary>
         private clsDeathCertificate additionalDeath_;
 
+        /// <summary>The optional additional free table information for this source.</summary>
+        private SourceFreeTable freeTable_;
+
         /// <summary>The index for the source.  Zero represents no repository.</summary>
         private int repositoryIndex_;
 
@@ -330,6 +333,12 @@ namespace FamilyTree.Objects
                     html.Append(additionalCensus.toHtml());
                 }
                 break;
+            case 5:
+                if (freeTable != null)
+                {
+                    html.Append(freeTable.toHtml());
+                }
+                break;
             }
 
             // Show the public comments.
@@ -520,6 +529,9 @@ namespace FamilyTree.Objects
         /// <summary>ID to this source record in the database.</summary>
         public int index { get { return index_; } }
 
+        /// <summary>The database that contains this source.</summary>
+        public Database database {  get { return database_; } }
+
         /// <summary>Human readable summary of this source.</summary>
         public string label { get { return this.ToString(); } }
 
@@ -596,6 +608,19 @@ namespace FamilyTree.Objects
                     additionalDeath_ = new clsDeathCertificate(index_, database_.cndb);
                 }
                 return additionalDeath_;
+            }
+        }
+
+        /// <summary>The optional additional free table information.  Only valid if the additionalTypeIndex == Free Table (5).</summary>
+        public SourceFreeTable freeTable
+        {
+            get 
+            {
+                if (freeTable_ == null)
+                {
+                    freeTable_ = new SourceFreeTable(this);
+                }
+                return freeTable_;
             }
         }
 

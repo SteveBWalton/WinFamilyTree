@@ -105,7 +105,7 @@ namespace FamilyTree.Objects
             // Initialise the Html description
             StringBuilder html = new StringBuilder();
 
-            html.Append("<table align=\"center\" bgcolor=\"mistyrose\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\">");
+            html.Append("<table style=\"background-color: mistyrose; border: 1px solid black;\" align=\"center\" cellpadding=\"5\" cellspacing=\"0\">");
             html.Append("<tr><td colspan=\"8\">" + when.Year.ToString() + " <span class=\"Birth\">Birth in the registration district of</span> " + registrationDistrict + "</td></tr>");
             html.Append("<tr valign=\"bottom\"><td><span class=\"Birth\">When and<br/>Where Born</span></td>");
             html.Append("<td class=\"Birth\">Name</td>");

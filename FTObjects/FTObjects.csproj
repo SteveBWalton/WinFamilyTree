@@ -156,6 +156,7 @@
     <Compile Include="Source.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SourceFreeTable.cs" />
     <Compile Include="Sources.cs">
       <SubType>Code</SubType>
     </Compile>

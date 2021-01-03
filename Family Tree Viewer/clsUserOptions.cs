@@ -191,6 +191,8 @@ namespace FamilyTree.Viewer
 
         #region Public Methods
 
+
+
         /// <summary>Adds the html headers to the specified html content, ready for display.</summary>
         /// <param name="htmlContent">Specifies the body content of the html page.</param>
         /// <returns>Fully specified html ready for display.</returns>
@@ -222,9 +224,10 @@ namespace FamilyTree.Viewer
             htmlStyles.AppendLine("p {font-family: '" + fontBody.name + "'; font-size: " + fontBody.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt;line-height: " + (fontBody.size + 6).ToString() + "pt;}");
             htmlStyles.AppendLine("td {font-family: '" + fontBody.name + "'; font-size:" + fontBody.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
             htmlStyles.AppendLine("h1 {font-family: '" + fontHeader.name + "'; font-size:" + fontHeader.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
-            htmlStyles.AppendLine("a {text-decoration: none}");
-            htmlStyles.AppendLine("a:hover {text-decoration: underline}");
-            htmlStyles.AppendLine("a:visited {color: blue}");
+            htmlStyles.AppendLine("a {text-decoration: none;}");
+            htmlStyles.AppendLine("a:hover {text-decoration: underline;}");
+            htmlStyles.AppendLine("a:link {color: black;}");
+            htmlStyles.AppendLine("a:visited {color: black;}");
             htmlStyles.AppendLine(".Superscript {font-family: '" + fontHtmlSuperscript.name + "'; font-size:" + fontHtmlSuperscript.size.ToString() + "pt; vertical-align: super;}"); // line-height: " + (fontBody.Size + 6).ToString() + "pt;
             htmlStyles.AppendLine(".Small {font-family: '" + fontSmall.name + "'; font-size: " + fontSmall.size.ToString() + "pt; margin-top: 3pt; margin-bottom: 3pt}");
             htmlStyles.AppendLine(".Background {font-family: 'Verdana'; font-size: 8pt; color: silver; margin-top: 3pt; margin-bottom: 3pt}");
