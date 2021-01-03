@@ -32,9 +32,9 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSelectLocation));
-            this.m_TreeView = new System.Windows.Forms.TreeView();
-            this.m_txtLocation = new System.Windows.Forms.TextBox();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.treeView_ = new System.Windows.Forms.TreeView();
+            this.txtLocation_ = new System.Windows.Forms.TextBox();
+            this.imageList_ = new System.Windows.Forms.ImageList(this.components);
             cmdCancel = new System.Windows.Forms.Button();
             cmdOK = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -68,35 +68,35 @@ namespace FamilyTree.Viewer
             // 
             // m_TreeView
             // 
-            this.m_TreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.treeView_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_TreeView.FullRowSelect = true;
-            this.m_TreeView.HideSelection = false;
-            this.m_TreeView.ImageIndex = 0;
-            this.m_TreeView.ImageList = this.imageList1;
-            this.m_TreeView.Location = new System.Drawing.Point(12, 39);
-            this.m_TreeView.Name = "m_TreeView";
-            this.m_TreeView.SelectedImageIndex = 0;
-            this.m_TreeView.Size = new System.Drawing.Size(268, 338);
-            this.m_TreeView.TabIndex = 7;
-            this.m_TreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.m_TreeView_AfterSelect);
+            this.treeView_.FullRowSelect = true;
+            this.treeView_.HideSelection = false;
+            this.treeView_.ImageIndex = 0;
+            this.treeView_.ImageList = this.imageList_;
+            this.treeView_.Location = new System.Drawing.Point(12, 39);
+            this.treeView_.Name = "m_TreeView";
+            this.treeView_.SelectedImageIndex = 0;
+            this.treeView_.Size = new System.Drawing.Size(268, 338);
+            this.treeView_.TabIndex = 7;
+            this.treeView_.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
             // m_txtLocation
             // 
-            this.m_txtLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtLocation_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtLocation.Location = new System.Drawing.Point(12, 12);
-            this.m_txtLocation.Name = "m_txtLocation";
-            this.m_txtLocation.Size = new System.Drawing.Size(268, 21);
-            this.m_txtLocation.TabIndex = 8;
+            this.txtLocation_.Location = new System.Drawing.Point(12, 12);
+            this.txtLocation_.Name = "m_txtLocation";
+            this.txtLocation_.Size = new System.Drawing.Size(268, 21);
+            this.txtLocation_.TabIndex = 8;
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Silver;
-            this.imageList1.Images.SetKeyName(0, "Earth.png");
-            this.imageList1.Images.SetKeyName(1, "Home.png");
+            this.imageList_.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList_.TransparentColor = System.Drawing.Color.Silver;
+            this.imageList_.Images.SetKeyName(0, "Earth.png");
+            this.imageList_.Images.SetKeyName(1, "Home.png");
             // 
             // frmSelectLocation
             // 
@@ -105,8 +105,8 @@ namespace FamilyTree.Viewer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = cmdCancel;
             this.ClientSize = new System.Drawing.Size(292, 425);
-            this.Controls.Add(this.m_txtLocation);
-            this.Controls.Add(this.m_TreeView);
+            this.Controls.Add(this.txtLocation_);
+            this.Controls.Add(this.treeView_);
             this.Controls.Add(cmdCancel);
             this.Controls.Add(cmdOK);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -121,8 +121,8 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        private System.Windows.Forms.TreeView m_TreeView;
-        private System.Windows.Forms.TextBox m_txtLocation;
-        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.TreeView treeView_;
+        private System.Windows.Forms.TextBox txtLocation_;
+        private System.Windows.Forms.ImageList imageList_;
     }
 }

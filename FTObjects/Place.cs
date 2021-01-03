@@ -114,10 +114,10 @@ namespace FamilyTree.Objects
 
         private void read(OleDbDataReader dataReader)
         {
-            index_ = Database.GetInt(dataReader, "ID", 0);
+            index_ = Database.getInt(dataReader, "ID", 0);
             name_ = Database.getString(dataReader, "Name", "Error");
-            parentIndex_ = Database.GetInt(dataReader, "ParentID", 0);
-            status_ = Database.GetInt(dataReader, "Status", 0);
+            parentIndex_ = Database.getInt(dataReader, "ParentID", 0);
+            status_ = Database.getInt(dataReader, "Status", 0);
             longitude_ = walton.Database.getFloat(dataReader, "Longitude", -999);
             latitude_ = walton.Database.getFloat(dataReader, "Latitude", -999);
             googleZoom_ = walton.Database.getInt(dataReader, "GoogleZoom", 10);
@@ -306,7 +306,7 @@ namespace FamilyTree.Objects
                 html.Append("<a href=\"place:" + dataReader.GetInt32(0).ToString() + "\">");
                 html.Append(dataReader.GetString(1));
                 html.Append("</a>");
-                if (Database.GetInt(dataReader, "Status", 0) == 0)
+                if (Database.getInt(dataReader, "Status", 0) == 0)
                 {
                     html.Append(" (Place)");
                 }

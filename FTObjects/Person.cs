@@ -222,7 +222,7 @@ namespace FamilyTree.Objects
                 isAllChildrenKnown_ = dataReader.GetBoolean(10);
                 isIncludeGedcom_ = walton.Database.getBool(dataReader, "Gedcom", true);
                 comments_ = Database.getString(dataReader, "Comments", "");
-                mediaIndex_ = Database.GetInt(dataReader, "MediaID", 0);
+                mediaIndex_ = Database.getInt(dataReader, "MediaID", 0);
                 lastEditBy_ = Database.getString(dataReader, "LastEditBy", "Steve Walton");
                 lastEditDate_ = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
             }
@@ -879,7 +879,7 @@ namespace FamilyTree.Objects
             {
                 nextChar = 'A';
                 footnote = new StringBuilder();
-                sources = database_.GetSources(SortOrder.DATE);
+                sources = database_.getSources(SortOrder.DATE);
                 footnoteCharacter = new char[sources.Length];
                 for (int i = 0; i < sources.Length; i++)
                 {

@@ -159,7 +159,7 @@ namespace FamilyTree.Objects
                 {
                     lastEditDate_ = dataReader.GetDateTime(7);
                 }
-                repositoryIndex_ = Database.GetInt(dataReader, "RepositoryID", 0);
+                repositoryIndex_ = Database.getInt(dataReader, "RepositoryID", 0);
             }
             dataReader.Close();
         }
@@ -438,7 +438,7 @@ namespace FamilyTree.Objects
             {
                 int index = getReferenceIndex(references, dataReader.GetInt32(0));
                 // Don't add the non specific references.
-                if (Database.GetInt(dataReader, "FactID", 0) != 0)
+                if (Database.getInt(dataReader, "FactID", 0) != 0)
                 {
                     ((References)references[index]).addReference(dataReader.GetString(1));
                 }

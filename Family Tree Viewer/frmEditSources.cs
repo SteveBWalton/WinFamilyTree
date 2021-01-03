@@ -52,7 +52,7 @@ namespace FamilyTree.Viewer
             }
 
             // Add the repositories
-            oSources = m_oDb.GetRepositories();
+            oSources = m_oDb.getRepositories();
             foreach(IndexName oRepository in oSources)
             {
                 m_cboRepository.Items.Add(oRepository);
@@ -60,7 +60,7 @@ namespace FamilyTree.Viewer
 
             // Add the sources to the dialog box
             Source oSelected = null;
-            oSources = oDb.GetSources(Objects.SortOrder.DATE);
+            oSources = oDb.getSources(Objects.SortOrder.DATE);
             for(int nI = 0; nI < oSources.Length; nI++)
             {
                 Source oSource = new Source(m_oDb, oSources[nI].index);
@@ -722,7 +722,7 @@ namespace FamilyTree.Viewer
             frmSelectLocation oDialog = new frmSelectLocation(m_oDb, m_txtCensusAddress.Text);
             if(oDialog.ShowDialog(this) == DialogResult.OK)
             {
-                m_txtCensusAddress.Text = oDialog.LocationName;
+                m_txtCensusAddress.Text = oDialog.locationName;
             }
         }
 

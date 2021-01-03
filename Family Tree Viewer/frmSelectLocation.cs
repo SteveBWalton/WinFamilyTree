@@ -12,157 +12,133 @@ namespace FamilyTree.Viewer
 {
     public partial class frmSelectLocation : Form
     {
-        // The database that the control is attached to.
-        /// <summary>
-        /// The database that the control is attached to.
-        /// </summary>
-        private Database m_oDb;
+        /// <summary>The database that the control is attached to.</summary>
+        private Database database_;
 
-        // The location selected by the control.
-        /// <summary>
-        /// The location selected by the control.
-        /// </summary>
-        private string m_sLocation;
+        /// <summary>The location selected by the control.</summary>
+        private string locationName_;
 
-        // Class constructor.
-        /// <summary>
-        /// Class constructor.
-        /// </summary>
-        /// <param name="oDb">Specifies the database to fetch locations from.</param>
-        /// <param name="sInitialValue">Specifies the initial value of the control.</param>
-        public frmSelectLocation(Database oDb,string sInitialValue)
+
+
+        /// <summary>Class constructor.</summary>
+        /// <param name="database">Specifies the database to fetch locations from.</param>
+        /// <param name="initialValue">Specifies the initial value of the control.</param>
+        public frmSelectLocation(Database database, string initialValue)
         {
             InitializeComponent();
 
-            m_oDb = oDb;
+            database_ = database;
 
-            m_txtLocation.Text = sInitialValue;
-            m_sLocation = LocationToPath(sInitialValue);
+            txtLocation_.Text = initialValue;
+            locationName_ = locationToPath(initialValue);
         }
 
-        // The message handler for the form shown event.
-        /// <summary>
-        /// The message handler for the form shown event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>The message handler for the form shown event.</summary>
         private void frmSelectLocation_Shown(object sender, EventArgs e)
         {
-            Place[] oPlaces = m_oDb.getPlaces(0);
-            foreach(Place oPlace in oPlaces)
-            {                
-                TreeNode oChildNode = m_TreeView.Nodes.Add(oPlace.name);
-                if(oChildNode.FullPath == m_sLocation)
-                {
-                    m_TreeView.SelectedNode = oChildNode;
-                }
-                AddTreeNode(oChildNode, oPlace);
-            }
-        }
-
-        // Adds the specified place and its children to the specified node.
-        /// <summary>
-        /// Adds the specified place and its children to the specified tree node.
-        /// </summary>
-        /// <param name="oParent">Specifies the tree node to add to.</param>
-        /// <param name="oPlace">Specifies the place to add to the node.</param>
-        private void AddTreeNode(TreeNode oParent, Place oPlace)
-        {
-            Place[] oChildren = m_oDb.getPlaces(oPlace.index );
-            foreach(Place oChild in oChildren )
+            Place[] places = database_.getPlaces(0);
+            foreach (Place place in places)
             {
-                TreeNode oChildNode = oParent.Nodes.Add(oChild.name, oChild.name, oChild.status, oChild.status);
-                if(oChildNode.FullPath == m_sLocation)
+                TreeNode childNode = treeView_.Nodes.Add(place.name);
+                if (childNode.FullPath == locationName_)
                 {
-                    m_TreeView.SelectedNode = oChildNode;
+                    treeView_.SelectedNode = childNode;
                 }
-                AddTreeNode(oChildNode, oChild);
+                addTreeNode(childNode, place);
             }
         }
 
-        // The location selected by the control.
-        /// <summary>
-        /// The location selected by the control.
-        /// Do not use "Location" this hides a property of the form.
-        /// </summary>
-        public string LocationName
+
+
+        /// <summary>Adds the specified place and its children to the specified tree node.</summary>
+        /// <param name="parent">Specifies the tree node to add to.</param>
+        /// <param name="place">Specifies the place to add to the node.</param>
+        private void addTreeNode(TreeNode parent, Place place)
         {
-            get
+            Place[] children = database_.getPlaces(place.index);
+            foreach (Place child in children)
             {
-                return m_sLocation;
+                TreeNode childNode = parent.Nodes.Add(child.name, child.name, child.status, child.status);
+                if (childNode.FullPath == locationName_)
+                {
+                    treeView_.SelectedNode = childNode;
+                }
+                addTreeNode(childNode, child);
             }
         }
 
-        // Converts a location "Morley, Yorkshire, England" into a path "England/Yorkshire/Morley"
-        /// <summary>
-        /// Converts a location "Morley, Yorkshire, England" into a path "England/Yorkshire/Morley"
-        /// </summary>
-        /// <param name="sPath">Specifies the path to convert.</param>
+
+
+        /// <summary>The location selected by the control.  Do not use "Location" this hides a property of the form.</summary>
+        public string locationName
+        {
+            get { return locationName_; }
+        }
+
+
+
+        /// <summary>Converts a location "Morley, Yorkshire, England" into a path "England/Yorkshire/Morley".</summary>
+        /// <param name="path">Specifies the path to convert.</param>
         /// <returns>A location that represents the specified path.</returns>
-        private string PathToLocation(string sPath)
+        private string pathToLocation(string path)
         {
-            StringBuilder sbPath = new StringBuilder(sPath);
+            StringBuilder sbPath = new StringBuilder(path);
             StringBuilder sbLocation = new StringBuilder();
 
-            int nLast = sbPath.ToString().LastIndexOf("\\");
-            while(nLast > 0)
+            int last = sbPath.ToString().LastIndexOf("\\");
+            while (last > 0)
             {
-                sbLocation.Append(sbPath.ToString().Substring(nLast + 1));
-                sbPath.Remove(nLast, sbPath.Length - nLast);
+                sbLocation.Append(sbPath.ToString().Substring(last + 1));
+                sbPath.Remove(last, sbPath.Length - last);
                 sbLocation.Append(", ");
-                
-                nLast = sbPath.ToString().LastIndexOf("\\");
+
+                last = sbPath.ToString().LastIndexOf("\\");
             }
             sbLocation.Append(sbPath);
 
             return sbLocation.ToString();
         }
 
-        // Converts a path "England/Yorkshire/Morley" into a location "Morley, Yorkshire, England"
-        /// <summary>
-        /// Converts a path "England/Yorkshire/Morley" into a location "Morley, Yorkshire, England"
-        /// </summary>
-        /// <param name="sLocation">Specifies the location to convert.</param>
+
+
+        /// <summary>Converts a path "England/Yorkshire/Morley" into a location "Morley, Yorkshire, England".</summary>
+        /// <param name="location">Specifies the location to convert.</param>
         /// <returns>A path that represents the specified location.</returns>
-        private string LocationToPath(string sLocation)
+        private string locationToPath(string location)
         {
             StringBuilder sbPath = new StringBuilder();
-            StringBuilder sbLocation = new StringBuilder(sLocation);
+            StringBuilder sbLocation = new StringBuilder(location);
 
-            int nLast = sbLocation.ToString().LastIndexOf(",");
-            while(nLast > 0)
+            int last = sbLocation.ToString().LastIndexOf(",");
+            while (last > 0)
             {
-                sbPath.Append(sbLocation.ToString().Substring(nLast + 2));
-                sbLocation.Remove(nLast, sbLocation.Length - nLast);
-                sbPath.Append(m_TreeView.PathSeparator);
-                
-                nLast = sbLocation.ToString().LastIndexOf(",");
+                sbPath.Append(sbLocation.ToString().Substring(last + 2));
+                sbLocation.Remove(last, sbLocation.Length - last);
+                sbPath.Append(treeView_.PathSeparator);
+
+                last = sbLocation.ToString().LastIndexOf(",");
             }
             sbPath.Append(sbLocation);
 
             return sbPath.ToString();
         }
 
-        // Message handler for the "OK" button click event.
-        /// <summary>
-        /// Message handler for the "OK" button click event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the "OK" button click event.</summary>
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            m_sLocation = PathToLocation(m_TreeView.SelectedNode.FullPath);
+            locationName_ = pathToLocation(treeView_.SelectedNode.FullPath);
         }
 
-        // Message handler for the "After Select" event on the tree control.
-        /// <summary>
-        /// Message handler for the "After Select" event on the tree control.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void m_TreeView_AfterSelect(object sender, TreeViewEventArgs e)
+
+
+        /// <summary>Message handler for the "After Select" event on the tree control.</summary>
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            m_txtLocation.Text = PathToLocation(m_TreeView.SelectedNode.FullPath);
+            txtLocation_.Text = pathToLocation(treeView_.SelectedNode.FullPath);
         }
     }
 }

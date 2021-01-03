@@ -39,7 +39,7 @@ namespace FamilyTree.Viewer
             {
                 cboFactType_.Items.Add(factTypes[i]);
             }
-            IndexName[] sources = database.GetSources(Objects.SortOrder.DATE);
+            IndexName[] sources = database.getSources(Objects.SortOrder.DATE);
             for (int i = 0; i < sources.Length; i++)
             {
                 cboSources_.Items.Add(sources[i]);
@@ -149,28 +149,28 @@ namespace FamilyTree.Viewer
 
             // Create a DataGridTabkeStyle object for the facts.
             DataGridTableStyle factsTableStyle = new DataGridTableStyle();
-            factsTableStyle.MappingName = "clsFact[]";
+            factsTableStyle.MappingName = "Fact[]";
 
             // Sets the AlternatingBackColor so you can see the difference.
             factsTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
 
             // Creates a column for the rank.
             DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn();
-            columnRank.MappingName = "Rank";
+            columnRank.MappingName = "rank";
             columnRank.HeaderText = "Rank";
             columnRank.ReadOnly = false;
             columnRank.Width = 40;
 
             // Create a column for the type.
             DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
-            columnName.MappingName = "TypeName";
-            columnName.HeaderText = "TypeName";
+            columnName.MappingName = "typeName";
+            columnName.HeaderText = "Type";
             columnName.ReadOnly = true;
             columnName.Width = 120;
 
             // Create a column for the information.
             DataGridTextBoxColumn columnInfo = new DataGridTextBoxColumn();
-            columnInfo.MappingName = "Information";
+            columnInfo.MappingName = "information";
             columnInfo.HeaderText = "Information";
             columnInfo.Width = 350;
 
@@ -291,7 +291,7 @@ namespace FamilyTree.Viewer
             DataGridTableStyle sourceTableStyle = new DataGridTableStyle();
 
             // Sets the MappingName to the class name plus brackets.
-            sourceTableStyle.MappingName = "source[]";
+            sourceTableStyle.MappingName = "Source[]";
 
             // Sets the AlternatingBackColor so you can see the difference.
             sourceTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
@@ -823,7 +823,7 @@ namespace FamilyTree.Viewer
             m_dateRelationStart.Value = activeRelationship_.start;
             //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
             m_cboTerminated.SelectedIndex = activeRelationship_.terminatedIndex - 1;
-            m_txtRelationLocation.Text = activeRelationship_.location;
+            txtRelationLocation_.Text = activeRelationship_.location;
             m_dateRelationEnd.Value = activeRelationship_.end;
             m_txtRelationComments.Text = activeRelationship_.comments;
             m_cboRelationshipType.SelectedIndex = activeRelationship_.typeIndex - 1;
@@ -896,7 +896,7 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.location = this.m_txtRelationLocation.Text;
+                activeRelationship_.location = this.txtRelationLocation_.Text;
                 activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
@@ -1116,62 +1116,54 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        // Location of the last right click.
-        /// <summary>
-        /// Location of the last right click.
-        /// </summary>
-        DataGrid.HitTestInfo oHitTestInfo;
+        /// <summary>Location of the last right click.</summary>
+        DataGrid.HitTestInfo hitTestInfo_;
+
+
 
         private void menuEditLocation_Click(object sender, EventArgs e)
         {
-            if (oHitTestInfo == null)
+            if (hitTestInfo_ == null)
             {
                 return;
             }
 
-            if (oHitTestInfo.Row < 0)
+            if (hitTestInfo_.Row < 0)
             {
                 return;
             }
 
-            // Find the fact
-            Fact oFact = ((Fact[])gridFacts_.DataSource)[oHitTestInfo.Row];
+            // Find the fact.
+            Fact fact = ((Fact[])gridFacts_.DataSource)[hitTestInfo_.Row];
 
-            frmSelectLocation oDialog = new frmSelectLocation(person_.database, oFact.information);
-            if (oDialog.ShowDialog(this) == DialogResult.OK)
+            frmSelectLocation dialog = new frmSelectLocation(person_.database, fact.information);
+            if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                oFact.information = oDialog.LocationName;
+                fact.information = dialog.locationName;
                 gridFacts_.Refresh();
             }
         }
 
-        // Message handler for the mouse up event of the facts grid.
-        /// <summary>
-        /// Message handler for the mouse up event of the facts grid.
-        /// Store the location of any right clicks for the context menu to use.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the mouse up event of the facts grid.  Store the location of any right clicks for the context menu to use.</summary>
         private void m_gridFacts_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                oHitTestInfo = gridFacts_.HitTest(e.X, e.Y);
+                hitTestInfo_ = gridFacts_.HitTest(e.X, e.Y);
             }
         }
 
-        // Message handler for the relationship location lookup button click.
-        /// <summary>
-        /// Message handler for the relationship location lookup button click.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the relationship location lookup button click.</summary>
         private void cmdRelationshipAddress_Click(object sender, EventArgs e)
         {
-            frmSelectLocation oDialog = new frmSelectLocation(person_.database, m_txtRelationLocation.Text);
-            if (oDialog.ShowDialog(this) == DialogResult.OK)
+            frmSelectLocation dialog = new frmSelectLocation(person_.database, txtRelationLocation_.Text);
+            if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                m_txtRelationLocation.Text = oDialog.LocationName;
+                txtRelationLocation_.Text = dialog.locationName;
             }
         }
 

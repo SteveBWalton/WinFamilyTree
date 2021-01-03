@@ -403,249 +403,238 @@ namespace FamilyTree.Objects
 
         #region Sources
 
-        // Returns all the repositories as an array of IDName pairs.
-        /// <summary>
-        /// Returns all the repositories as an array of IDName pairs.
-        /// This can be used directly in combo boxes etc ...
-        /// </summary>
-        /// <returns>An array of clsIDName objects.</returns>
-        public IndexName[] GetRepositories()
+
+
+        /// <summary>Returns all the repositories as an array of IndexName pairs.  This can be used directly in combo boxes etc ...</summary>
+        /// <returns>An array of IndexName objects.</returns>
+        public IndexName[] getRepositories()
         {
             // Create a list of repositories
-            ArrayList oRepositories = new ArrayList();
+            ArrayList repositories = new ArrayList();
 
             // Open a list of repositories
-            OleDbCommand oSql = new OleDbCommand("SELECT ID,Name FROM tbl_Repositories ORDER BY ID;", cndb_);
-            OleDbDataReader drRepositories = oSql.ExecuteReader();
-            while (drRepositories.Read())
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID,Name FROM tbl_Repositories ORDER BY ID;", cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                IndexName oRepository = new IndexName(drRepositories.GetInt32(0), drRepositories.GetString(1));
-                oRepositories.Add(oRepository);
+                IndexName repository = new IndexName(dataReader.GetInt32(0), dataReader.GetString(1));
+                repositories.Add(repository);
             }
-            drRepositories.Close();
+            dataReader.Close();
 
-            // Get the list of fact types
-            return (IndexName[])(oRepositories.ToArray(typeof(IndexName)));
+            // Get the list of fact types.
+            return (IndexName[])(repositories.ToArray(typeof(IndexName)));
         }
 
-        // Returns all the sources as an array of IDName pairs.
-        /// <summary>
-        /// Returns all the sources as an array of IDName pairs.
-        /// This can be used directly in comboboxes etc
-		/// </summary>
+
+
+        /// <summary>Returns all the sources as an array of IndexName pairs.  This can be used directly in comboboxes etc.</summary>
 		/// <returns>An array of clsIDName objects</returns>
-        public IndexName[] GetSources(SortOrder nOrder)
+        public IndexName[] getSources(SortOrder sortOrder)
         {
             // Build a list of relivant facts
-            ArrayList oSources = new ArrayList();
+            ArrayList sources = new ArrayList();
 
             // Open the list of fact types
-            OleDbCommand oSQL;
-            if (nOrder == SortOrder.DATE)
+            OleDbCommand sqlCommand;
+            if (sortOrder == SortOrder.DATE)
             {
-                oSQL = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID FROM tbl_Sources ORDER BY LastUsed DESC;", cndb_);
+                sqlCommand = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID FROM tbl_Sources ORDER BY LastUsed DESC;", cndb_);
             }
             else
             {
-                oSQL = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID FROM tbl_Sources ORDER BY Name;", cndb_);
+                sqlCommand = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID FROM tbl_Sources ORDER BY Name;", cndb_);
             }
-            OleDbDataReader drSources = oSQL.ExecuteReader();
-            while (drSources.Read())
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                string sName;
-                if (drSources.IsDBNull(2))
+                string name;
+                if (dataReader.IsDBNull(2))
                 {
-                    sName = drSources.GetString(1);
+                    name = dataReader.GetString(1);
                 }
                 else
                 {
-                    sName = drSources.GetString(1) + " (" + drSources.GetDateTime(2).Year.ToString() + ")";
+                    name = dataReader.GetString(1) + " (" + dataReader.GetDateTime(2).Year.ToString() + ")";
                 }
-                IndexName oSource = new IndexName(drSources.GetInt32(0), sName);
-                oSources.Add(oSource);
+                IndexName source = new IndexName(dataReader.GetInt32(0), name);
+                sources.Add(source);
             }
-            drSources.Close();
+            dataReader.Close();
 
-            // Get the list of fact types
-            return (IndexName[])(oSources.ToArray(typeof(IndexName)));
+            // Get the list of fact types.
+            return (IndexName[])(sources.ToArray(typeof(IndexName)));
         }
 
-        // Writes a list of references to additional media objects (gedcom OBJE @M1@) attached to the specified person into the specified Gedcom file.
-        /// <summary>
-        /// Writes a list of references to additional media objects (gedcom OBJE @M1@) attached to the specified person into the specified Gedcom file.
-        /// The primary media is not written again.  It is assumed to be already written into the Gedcom file.
-		/// </summary>
-		/// <param name="oFile">Specifies the gedcom file to write the media references into. </param>
-		/// <param name="nPersonID">Specifies the ID of person to write the media references for.</param>
-        /// <param name="nPrimaryID">Specifies the ID of the primary media reference for this person.</param>
+
+
+        /// <summary>Writes a list of references to additional media objects (gedcom OBJE @M1@) attached to the specified person into the specified Gedcom file.  The primary media is not written again.  It is assumed to be already written into the Gedcom file.</summary>
+		/// <param name="file">Specifies the gedcom file to write the media references into. </param>
+		/// <param name="personIndex">Specifies the ID of person to write the media references for.</param>
+        /// <param name="primaryIndex">Specifies the ID of the primary media reference for this person.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool GedcomWritePersonMedia(StreamWriter oFile, int nPersonID, int nPrimaryID)
+        public bool gedcomWritePersonMedia(StreamWriter file, int personIndex, int primaryIndex)
         {
             // Write the primary media first
-            if (nPrimaryID != 0)
+            if (primaryIndex != 0)
             {
-                oFile.WriteLine("1 OBJE @M" + nPrimaryID.ToString("0000") + "@");
+                file.WriteLine("1 OBJE @M" + primaryIndex.ToString("0000") + "@");
             }
 
             // Now write any additional media objects do not repeat the primary media
-            string sSql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + nPersonID.ToString() + ";";
-            OleDbCommand oSql = new OleDbCommand(sSql, cndb_);
-            OleDbDataReader drMedia = oSql.ExecuteReader();
-            while (drMedia.Read())
+            string sql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIndex.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                int nMediaID = GetInt(drMedia, "MediaID", 0);
-                if (nMediaID != 0 && nMediaID != nPrimaryID)
+                int mediaIndex = getInt(dataReader, "MediaID", 0);
+                if (mediaIndex != 0 && mediaIndex != primaryIndex)
                 {
-                    oFile.WriteLine("1 OBJE @M" + nMediaID.ToString("0000") + "@");
+                    file.WriteLine("1 OBJE @M" + mediaIndex.ToString("0000") + "@");
                 }
             }
-            drMedia.Close();
+            dataReader.Close();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Writes all the media objects (OBJE) into the Gedcom file.
-        /// <summary>
-        /// Writes all the media objects (OBJE) into the Gedcom file.
-        /// </summary>
-		/// <remarks>
-		/// This should not be in this section move somewhere else.
-		/// </remarks>
-		/// <param name="oFile"></param>
+
+
+        /// <summary> Writes all the media objects (OBJE) into the Gedcom file.</summary>
+		/// <remarks>This should not be in this section move somewhere else.</remarks>
+		/// <param name="file"></param>
 		/// <returns></returns>
-        public bool GedcomWriteMedia(StreamWriter oFile)
+        public bool gedcomWriteMedia(StreamWriter file)
         {
             // Select all the media objects.
-            OleDbCommand oSql = new OleDbCommand("SELECT * FROM tbl_Media ORDER BY ID;", cndb_);
-            OleDbDataReader drMedia = oSql.ExecuteReader();
-            while (drMedia.Read())
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT * FROM tbl_Media ORDER BY ID;", cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                int nID = Database.GetInt(drMedia, "ID", 0);
-                oFile.WriteLine("0 @M" + nID.ToString("0000") + "@ OBJE");
-                string sFilename = Database.getString(drMedia, "Filename", "Undefined");
-                oFile.WriteLine("1 FILE media/" + sFilename);
-                oFile.WriteLine("2 FORM");
-                oFile.WriteLine("3 TYPE photo");
-                string sTitle = Database.getString(drMedia, "Title", "Undefined");
-                oFile.WriteLine("2 TITL " + sTitle);
-                bool bPrimary = drMedia.GetBoolean(drMedia.GetOrdinal("Primary"));
-                if (bPrimary)
+                int index = Database.getInt(dataReader, "ID", 0);
+                file.WriteLine("0 @M" + index.ToString("0000") + "@ OBJE");
+                string fileName = Database.getString(dataReader, "Filename", "Undefined");
+                file.WriteLine("1 FILE media/" + fileName);
+                file.WriteLine("2 FORM");
+                file.WriteLine("3 TYPE photo");
+                string title = Database.getString(dataReader, "Title", "Undefined");
+                file.WriteLine("2 TITL " + title);
+                bool isPrimary = dataReader.GetBoolean(dataReader.GetOrdinal("Primary"));
+                if (isPrimary)
                 {
-                    oFile.WriteLine("1 _PRIM Y");
+                    file.WriteLine("1 _PRIM Y");
                 }
                 else
                 {
-                    oFile.WriteLine("1 _PRIM N");
+                    file.WriteLine("1 _PRIM N");
                 }
-                bool bThumbnail = drMedia.GetBoolean(drMedia.GetOrdinal("Thumbnail"));
-                if (bThumbnail)
+                bool isThumbnail = dataReader.GetBoolean(dataReader.GetOrdinal("Thumbnail"));
+                if (isThumbnail)
                 {
-                    oFile.WriteLine("1 _THUM Y");
+                    file.WriteLine("1 _THUM Y");
                 }
                 else
                 {
-                    oFile.WriteLine("1 _THUM N");
+                    file.WriteLine("1 _THUM N");
                 }
             }
-            drMedia.Close();
+            dataReader.Close();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Write a Gedcom repository record (@R1@ REPO) record for all the repositories in this database.
-        /// <summary>
-        /// Write a Gedcom repository record (@R1@ REPO) record for all the repositories in this database.
-        /// </summary>
-		/// <param name="oFile">Specifies the file to write the record into.</param>
+
+
+        /// <summary>Write a Gedcom repository record (@R1@ REPO) record for all the repositories in this database.</summary>
+		/// <param name="file">Specifies the file to write the record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool WriteRepositoriesGedcom(StreamWriter oFile)
+        public bool writeRepositoriesGedcom(StreamWriter file)
         {
-            // Select all the sources
-            OleDbCommand oSql = new OleDbCommand("SELECT * FROM tbl_Repositories WHERE ID>0 ORDER BY ID;", cndb_);
-            OleDbDataReader drRepositories = oSql.ExecuteReader();
-            while (drRepositories.Read())
+            // Select all the sources.
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT * FROM tbl_Repositories WHERE ID>0 ORDER BY ID;", cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                int nID = GetInt(drRepositories, "ID", 0);
-                oFile.WriteLine("0 @R" + nID.ToString("0000") + "@ REPO");
-                string sName = getString(drRepositories, "Name", "");
-                oFile.WriteLine("1 NAME " + sName);
-                string sAddress = getString(drRepositories, "Address", "");
-                if (sAddress != "")
+                int index = getInt(dataReader, "ID", 0);
+                file.WriteLine("0 @R" + index.ToString("0000") + "@ REPO");
+                string name = getString(dataReader, "Name", "");
+                file.WriteLine("1 NAME " + name);
+                string address = getString(dataReader, "Address", "");
+                if (address != "")
                 {
-                    gedcomMultiLine(oFile, 1, "ADDR", sAddress);
+                    gedcomMultiLine(file, 1, "ADDR", address);
                 }
-                string sWebURL = getString(drRepositories, "WebURL", "");
-                if (sWebURL != "")
+                string webUrl = getString(dataReader, "WebURL", "");
+                if (webUrl != "")
                 {
-                    oFile.WriteLine("1 WWW " + sWebURL);
+                    file.WriteLine("1 WWW " + webUrl);
                 }
             }
-            drRepositories.Close();
+            dataReader.Close();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Write a Gedcom source (@S1@ SOUR) record for all the sources in this database.
-        /// <summary>
-        /// Write a Gedcom source (@S1@ SOUR) record for all the sources in this database.
-        /// </summary>
-		/// <param name="oFile">Specifies the file to write the record into.</param>
+
+
+        /// <summary>Write a Gedcom source (@S1@ SOUR) record for all the sources in this database.</summary>
+		/// <param name="file">Specifies the file to write the record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool WriteSourcesGedcom(StreamWriter oFile, funcVoid lpfnProgressBar, GedcomOptions oOptions)
+        public bool writeSourcesGedcom(StreamWriter file, funcVoid lpfnProgressBar, GedcomOptions options)
         {
-            // Select all the sources
-            OleDbCommand oSql = new OleDbCommand("SELECT ID,Name,TheDate,TheDateStatusID,Comments,AdditionalInfoTypeID,Gedcom,RepositoryID FROM tbl_Sources ORDER BY ID;", cndb_);
-            OleDbDataReader drSources = oSql.ExecuteReader();
-            while (drSources.Read())
+            // Select all the sources.
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, Name, TheDate, TheDateStatusID, Comments, AdditionalInfoTypeID, Gedcom, RepositoryID FROM tbl_Sources ORDER BY ID;", cndb_);
+            OleDbDataReader dataReader = sqlCommand.ExecuteReader();
+            while (dataReader.Read())
             {
-                if (GetBool(drSources, "Gedcom", true))
+                if (GetBool(dataReader, "Gedcom", true))
                 {
-                    int nID = drSources.GetInt32(0);
-                    oFile.WriteLine("0 @S" + nID.ToString("0000") + "@ SOUR");
-                    string sName = drSources.GetString(1);
-                    oFile.WriteLine("1 TITL " + sName);
-                    if (!drSources.IsDBNull(2))
+                    int index = dataReader.GetInt32(0);
+                    file.WriteLine("0 @S" + index.ToString("0000") + "@ SOUR");
+                    string name = dataReader.GetString(1);
+                    file.WriteLine("1 TITL " + name);
+                    if (!dataReader.IsDBNull(2))
                     {
-                        CompoundDate oDate = new CompoundDate();
-                        oDate.date = drSources.GetDateTime(2);
-                        oDate.status = drSources.GetInt32(3);
-                        oFile.WriteLine("2 DATE " + oDate.format(DateFormat.GEDCOM));
+                        CompoundDate compoundDate = new CompoundDate();
+                        compoundDate.date = dataReader.GetDateTime(2);
+                        compoundDate.status = dataReader.GetInt32(3);
+                        file.WriteLine("2 DATE " + compoundDate.format(DateFormat.GEDCOM));
                     }
 
-                    // Additional Information for the source
-                    if (!drSources.IsDBNull(5))
+                    // Additional Information for the source.
+                    if (!dataReader.IsDBNull(5))
                     {
-                        switch (drSources.GetInt32(5))
+                        switch (dataReader.GetInt32(5))
                         {
-                        case 1: // Birth Certifcate
-                            SourceBirthCertificate(oFile, nID);
+                        case 1: // Birth Certifcate.
+                            sourceBirthCertificate(file, index);
                             break;
-                        case 2: // Marriage Certifcate
-                            SourceMarriageCertificate(oFile, nID, oOptions);
+                        case 2: // Marriage Certifcate.
+                            sourceMarriageCertificate(file, index, options);
                             break;
-                        case 3: // Death Certificate
-                            sourceDeathCertificate(oFile, nID);
+                        case 3: // Death Certificate.
+                            sourceDeathCertificate(file, index);
                             break;
-                        case 4: // Census Information
-                            sourceCensusInfo(oFile, nID, oOptions);
+                        case 4: // Census Information.
+                            sourceCensusInfo(file, index, options);
                             break;
                         }
                     }
 
                     // The note for the source.
-                    if (!drSources.IsDBNull(4))
+                    if (!dataReader.IsDBNull(4))
                     {
-                        gedcomMultiLine(oFile, 1, "NOTE", drSources.GetString(4));
+                        gedcomMultiLine(file, 1, "NOTE", dataReader.GetString(4));
                     }
 
-                    // The repository for this source
-                    int nRepositoryID = Database.GetInt(drSources, "RepositoryID", 0);
-                    if (nRepositoryID > 0)
+                    // The repository for this source.
+                    int repositoryIndex = Database.getInt(dataReader, "RepositoryID", 0);
+                    if (repositoryIndex > 0)
                     {
-                        oFile.WriteLine("1 REPO @R" + nRepositoryID.ToString("0000") + "@");
+                        file.WriteLine("1 REPO @R" + repositoryIndex.ToString("0000") + "@");
                     }
                 }
 
@@ -654,9 +643,9 @@ namespace FamilyTree.Objects
                     lpfnProgressBar();
                 }
             }
-            drSources.Close();
+            dataReader.Close();
 
-            // Return success
+            // Return success.
             return true;
         }
 
@@ -666,7 +655,7 @@ namespace FamilyTree.Objects
         /// </summary>
 		/// <param name="oFile">Specifies the file to write the information into.</param>
 		/// <param name="nID">Specifies the ID of the birth certificate (and the parent source record).</param>
-        private void SourceBirthCertificate(StreamWriter oFile, int nID)
+        private void sourceBirthCertificate(StreamWriter oFile, int nID)
         {
             // Connect to the database again (to open a second datareader)
             OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
@@ -716,7 +705,7 @@ namespace FamilyTree.Objects
         /// <summary>Write the additional marriage certificate information for a source.</summary>
 		/// <param name="file">Specifies the file to write the information into.</param>
 		/// <param name="sourceIndex">Specifies the ID of the marriage certificate (and the parent source record).</param>
-        private void SourceMarriageCertificate(StreamWriter file, int sourceIndex, GedcomOptions options)
+        private void sourceMarriageCertificate(StreamWriter file, int sourceIndex, GedcomOptions options)
         {
             // Connect to the database again (to open a second datareader).
             OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
@@ -1805,7 +1794,7 @@ namespace FamilyTree.Objects
             {
                 html.Append("<tr bgcolor=\"silver\">");
                 html.Append("<td><span class=\"Small\">");
-                int nPersonID = GetInt(dataReader, "PersonID", 0);
+                int nPersonID = getInt(dataReader, "PersonID", 0);
                 html.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
                 Person oPerson = new Person(nPersonID, this);
                 html.Append(oPerson.getName(true, true));
@@ -1813,7 +1802,7 @@ namespace FamilyTree.Objects
                 html.Append("</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetInt(drChanges,"Priority",0).ToString() + "</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetString(drChanges,"Description","") + "</span></td>");
-                html.Append("<td align=\"right\">" + GetInt(dataReader, "Priority", 0).ToString() + "</td>");
+                html.Append("<td align=\"right\">" + getInt(dataReader, "Priority", 0).ToString() + "</td>");
                 html.Append("<td>" + getString(dataReader, "Description", "") + "</td>");
                 html.Append("</tr>");
             }
@@ -1863,7 +1852,7 @@ namespace FamilyTree.Objects
                 switch (getString(drChanges, "Type", ""))
                 {
                 case "Person":
-                    html.Append("<a href=\"person:" + GetInt(drChanges, "ID", 0) + "\">");
+                    html.Append("<a href=\"person:" + getInt(drChanges, "ID", 0) + "\">");
                     break;
                 }
                 html.Append(getString(drChanges, "Name", ""));
@@ -2060,7 +2049,7 @@ namespace FamilyTree.Objects
 		/// <param name="columnName">Specifies the label of the column to read.</param>
 		/// <param name="nullValue">Specifies the value to return if the field is null.</param>
 		/// <returns>The int value of the specified column.</returns>
-		public static int GetInt(OleDbDataReader dataReader, string columnName, int nullValue)
+		public static int getInt(OleDbDataReader dataReader, string columnName, int nullValue)
         {
             int ordinal = dataReader.GetOrdinal(columnName);
             if (dataReader.IsDBNull(ordinal))

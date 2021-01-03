@@ -73,7 +73,7 @@ namespace FamilyTree.Viewer
             this.m_cboRelationshipType = new System.Windows.Forms.ComboBox();
             this.m_cboTerminated = new System.Windows.Forms.ComboBox();
             this.m_txtRelationComments = new System.Windows.Forms.TextBox();
-            this.m_txtRelationLocation = new System.Windows.Forms.TextBox();
+            this.txtRelationLocation_ = new System.Windows.Forms.TextBox();
             this.cboAddPartner_ = new System.Windows.Forms.ComboBox();
             this.m_dateRelationEnd = new FamilyTree.Viewer.ucDate();
             this.m_dateRelationStart = new FamilyTree.Viewer.ucDate();
@@ -324,7 +324,7 @@ namespace FamilyTree.Viewer
             tabRelationships.Controls.Add(this.m_cboTerminated);
             tabRelationships.Controls.Add(this.m_txtRelationComments);
             tabRelationships.Controls.Add(label10);
-            tabRelationships.Controls.Add(this.m_txtRelationLocation);
+            tabRelationships.Controls.Add(this.txtRelationLocation_);
             tabRelationships.Controls.Add(label9);
             tabRelationships.Controls.Add(label8);
             tabRelationships.Controls.Add(this.cboAddPartner_);
@@ -400,13 +400,13 @@ namespace FamilyTree.Viewer
             // 
             // m_txtRelationLocation
             // 
-            this.m_txtRelationLocation.Location = new System.Drawing.Point(328, 40);
-            this.m_txtRelationLocation.Name = "m_txtRelationLocation";
-            this.m_txtRelationLocation.Size = new System.Drawing.Size(306, 21);
-            this.m_txtRelationLocation.TabIndex = 7;
-            this.m_txtRelationLocation.Text = "textBox1";
-            this.m_txtRelationLocation.TextChanged += new System.EventHandler(this.txtRelationLocation_TextChanged);
-            this.m_txtRelationLocation.Enter += new System.EventHandler(this.txtRelationLocation_Enter);
+            this.txtRelationLocation_.Location = new System.Drawing.Point(328, 40);
+            this.txtRelationLocation_.Name = "m_txtRelationLocation";
+            this.txtRelationLocation_.Size = new System.Drawing.Size(306, 21);
+            this.txtRelationLocation_.TabIndex = 7;
+            this.txtRelationLocation_.Text = "textBox1";
+            this.txtRelationLocation_.TextChanged += new System.EventHandler(this.txtRelationLocation_TextChanged);
+            this.txtRelationLocation_.Enter += new System.EventHandler(this.txtRelationLocation_Enter);
             // 
             // label9
             // 
@@ -926,7 +926,7 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.ComboBox m_cboRelationshipType;
         private Label labDescription_;
         private GroupBox grpSources_;
-        private TextBox m_txtRelationLocation;
+        private TextBox txtRelationLocation_;
         private ComboBox cboMainImage_;
         private DataGrid gridToDo_;
         private ComboBox m_cboEditor;

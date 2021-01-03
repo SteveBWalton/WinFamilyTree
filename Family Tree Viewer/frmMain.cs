@@ -278,6 +278,28 @@ namespace FamilyTree.Viewer
 
         #endregion
 
+        #region Supporting Functions
+
+
+
+        /// <summary>Convert an object to an int without raising an error.</summary>
+        /// <param name="value">Specifies the object to convert to an int.</param>
+        /// <returns>An int which represents the specified object.</returns>
+        int toInt(object value)
+        {
+            int result = 0;
+            try
+            {
+                result = (int)value;
+            }
+            catch { }
+            return result;
+        }
+
+
+
+        #endregion
+
         #region Thread Safe UI Functions
 
 
@@ -1905,7 +1927,7 @@ namespace FamilyTree.Viewer
                     }
 
                     // Attach the  media
-                    database_.GedcomWritePersonMedia(file, person.index, person.mediaIndex);
+                    database_.gedcomWritePersonMedia(file, person.index, person.mediaIndex);
 
                     // Attached the list of sources
                     foreach (int nSourceID in personSources)
@@ -1934,13 +1956,13 @@ namespace FamilyTree.Viewer
             families.WriteGedcom(file, database_, progressBarPerformStep, options);
 
             // Write all the source records @S1@ etc...
-            database_.WriteSourcesGedcom(file, progressBarPerformStep, options);
+            database_.writeSourcesGedcom(file, progressBarPerformStep, options);
 
             // Write all the media records @M1@ etc...
-            database_.GedcomWriteMedia(file);
+            database_.gedcomWriteMedia(file);
 
             // Write the repository records @R1@ etc ...
-            database_.WriteRepositoriesGedcom(file);
+            database_.writeRepositoriesGedcom(file);
 
             // Close the Gedcom header
             file.WriteLine("0 TRLR");
@@ -2092,69 +2114,68 @@ namespace FamilyTree.Viewer
             // Draw lines up for the children
             if (psnChildren_ != null)
             {
-                int nBarHeight = psnChildren_[0].Top - (padding_.y / 2);
-                int nNumMarriages = 0;
+                int barHeight = psnChildren_[0].Top - (padding_.y / 2);
+                int numMarriages = 0;
                 if (partnersConntections_ != null)
                 {
-                    nNumMarriages = partnersConntections_.Length;
+                    numMarriages = partnersConntections_.Length;
                 }
 
-                for (int nType = -1; nType < nNumMarriages; nType++)
+                for (int marriageIndex = -1; marriageIndex < numMarriages; marriageIndex++)
                 {
-                    bool bDrawBar = false;
-                    if (nType == -1)
+                    bool isDrawBar = false;
+                    if (marriageIndex == -1)
                     {
                         pos = labPerson_.Left + labPerson_.Width / 2;
                     }
                     else
                     {
-                        pos = partnersConntections_[nType].Left + partnersConntections_[nType].Width / 2;
+                        pos = partnersConntections_[marriageIndex].Left + partnersConntections_[marriageIndex].Width / 2;
                     }
-                    int nMin = pos;
-                    int nMax = pos;
+                    int minPos = pos;
+                    int maxPos = pos;
 
                     for (int i = 0; i < psnChildren_.Length; i++)
                     {
-
                         // Todo: check this it crashes.
                         if (psnChildren_[i] != null)
                         {
-                            if ((int)psnChildren_[i].Tag == nType)
+                            if ((int)psnChildren_[i].Tag == marriageIndex)
                             {
-                                bDrawBar = true;
+                                isDrawBar = true;
                                 pos = psnChildren_[i].Left + psnChildren_[i].Width / 2;
-                                if (pos < nMin)
+                                if (pos < minPos)
                                 {
-                                    nMin = pos;
+                                    minPos = pos;
                                 }
-                                if (pos > nMax)
+                                if (pos > maxPos)
                                 {
-                                    nMax = pos;
+                                    maxPos = pos;
                                 }
-                                e.Graphics.DrawLine(pen, pos, psnChildren_[0].Top, pos, nBarHeight);
+                                e.Graphics.DrawLine(pen, pos, psnChildren_[0].Top, pos, barHeight);
                             }
                         }
                     }
 
-                    if (bDrawBar)
+                    if (isDrawBar)
                     {
                         // Draw a bar to hang the Siblings on
-                        e.Graphics.DrawLine(pen, nMin, nBarHeight, nMax, nBarHeight);
+                        e.Graphics.DrawLine(pen, minPos, barHeight, maxPos, barHeight);
 
                         int nHeight;
-                        if (nType == -1)
+                        if (marriageIndex == -1)
                         {
                             pos = labPerson_.Left + labPerson_.Width / 2;
                             nHeight = labPerson_.Top + labPerson_.Height;
                         }
                         else
                         {
-                            pos = partnersConntections_[nType].Left + partnersConntections_[nType].Width / 2;
-                            nHeight = partnersConntections_[nType].Top + partnersConntections_[nType].Height;
+                            pos = partnersConntections_[marriageIndex].Left + partnersConntections_[marriageIndex].Width / 2;
+                            nHeight = partnersConntections_[marriageIndex].Top + partnersConntections_[marriageIndex].Height;
                         }
-                        e.Graphics.DrawLine(pen, pos, nBarHeight, pos, nHeight);
+                        e.Graphics.DrawLine(pen, pos, barHeight, pos, nHeight);
 
-                        nBarHeight += 5;
+                        barHeight += 5;
                     }
                 }
 
