@@ -64,7 +64,7 @@ namespace FamilyTree.Objects
 
 
 
-        SourceFreeTableRow[] getRows()
+        public SourceFreeTableRow[] getRows()
         {
             return (SourceFreeTableRow[])rows_.ToArray(typeof(SourceFreeTableRow));
         }
@@ -106,10 +106,10 @@ namespace FamilyTree.Objects
         private SourceFreeTable sourceFreeTable_;
 
         /// <summary>The label for the row of free text.  [Think of a better variable name.]</summary>
-        public string labelText;
+        public string labelText_;
 
         /// <summary>The text for the row of free text.  [Think of a better variable name.]</summary>
-        public string valueText;
+        public string freeText_;
 
         #endregion
 
@@ -120,8 +120,8 @@ namespace FamilyTree.Objects
         public SourceFreeTableRow(SourceFreeTable sourceFreeTable, string label, string freeText)
         {
             sourceFreeTable_ = sourceFreeTable;
-            this.labelText = label;
-            this.valueText = freeText;
+            this.labelText_ = label;
+            this.freeText_ = freeText;
         }
 
 
@@ -134,9 +134,9 @@ namespace FamilyTree.Objects
         {
             StringBuilder html = new StringBuilder();
             html.Append("<tr><td style=\"font-family: 'Times New Roman'; font-size: 8pt; color: grey;\">");
-            html.Append(this.labelText);
+            html.Append(labelText_);
             html.Append("</td><td>");
-            html.Append(this.valueText);
+            html.Append(freeText_);
             html.Append("</td></tr>");
 
             // Return the built html.
@@ -149,6 +149,14 @@ namespace FamilyTree.Objects
 
         /// <summary>The ID of the parent source free table and the parent source object.</summary>
         public int sourceIndex { get { return sourceFreeTable_.index; } }
+
+        /// <summary>The label for the row of free text.</summary>
+        public string labelText { get { return labelText_; } set { labelText_ = value; } }
+ 
+
+        /// <summary>The text for the row of free text.</summary>
+        public string freeText { get { return freeText_; } set { freeText_ = value; } }
+
 
         #endregion
     }

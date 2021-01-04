@@ -292,6 +292,8 @@ namespace FamilyTree.Viewer
                 grpDeath_.Visible = false;
                 grpMarriage_.Visible = false;
                 grpFreeTable_.Visible = true;
+
+                populateSourceFreeTable();
                 break;
             }
 
@@ -354,7 +356,45 @@ namespace FamilyTree.Viewer
             }
         }
 
+        bool populateSourceFreeTable()
+        {
+            DataGridTableStyle tableStyle = new DataGridTableStyle();
 
+            // Sets the MappingName to the class name plus brackets.
+            tableStyle.MappingName = "SourceFreeTableRow[]";
+
+            // Sets the AlternatingBackColor so you can see the difference.
+            tableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+
+            // Creates 2 column styles.
+            DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
+            columnPerson.MappingName = "labelText";
+            columnPerson.HeaderText = "Label";
+            columnPerson.ReadOnly = false;
+            columnPerson.Width = 100;
+
+            DataGridTextBoxColumn columnReferences = new DataGridTextBoxColumn();
+            columnReferences.MappingName = "freeText";
+            columnReferences.HeaderText = "Value";
+            columnReferences.ReadOnly = false;
+            columnReferences.Width = 400;
+
+            // Adds the column styles to the grid table style.
+            tableStyle.GridColumnStyles.Add(columnPerson);
+            tableStyle.GridColumnStyles.Add(columnReferences);
+
+            // Add the table style to the collection, but clear the collection first.
+            gridSourceFreeTable_.TableStyles.Clear();
+            gridSourceFreeTable_.TableStyles.Add(tableStyle);
+            gridSourceFreeTable_.ReadOnly = false;
+
+            // Update the references to this source.
+            SourceFreeTableRow[] rows = activeSource_.freeTable.getRows();
+            gridSourceFreeTable_.SetDataBinding(rows, "");
+
+            // Return success.
+            return true;
+        }
 
         /// <summary>Message handler for the selection on the list of sources changing.  Load and display the selected source object.</summary>
         private void lstSources_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -399,13 +439,13 @@ namespace FamilyTree.Viewer
                 tableStyle.GridColumnStyles.Add(columnReferences);
 
                 // Add the table style to the collection, but clear the collection first.
-                this.gridReferences.TableStyles.Clear();
-                this.gridReferences.TableStyles.Add(tableStyle);
-                this.gridReferences.ReadOnly = true;
+                this.gridReferences_.TableStyles.Clear();
+                this.gridReferences_.TableStyles.Add(tableStyle);
+                this.gridReferences_.ReadOnly = true;
 
                 // Update the references to this source.
                 References[] references = activeSource_.getReferences();
-                this.gridReferences.SetDataBinding(references, "");
+                this.gridReferences_.SetDataBinding(references, "");
 
                 // Show the additional information for this source (birth certificate etc...)
                 showAdditionalInfo();
