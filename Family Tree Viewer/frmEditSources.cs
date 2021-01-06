@@ -356,45 +356,35 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         bool populateSourceFreeTable()
         {
-            DataGridTableStyle tableStyle = new DataGridTableStyle();
+            // Remove any existing data binding so that we can edit the columns.
+            dataGridViewSourceFreeTable_.DataSource = null;
+            dataGridViewSourceFreeTable_.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.LightBlue;
 
-            // Sets the MappingName to the class name plus brackets.
-            tableStyle.MappingName = "SourceFreeTableRow[]";
+            // Define the columns that are required and stop the data binding adding it's own.
+            dataGridViewSourceFreeTable_.AutoGenerateColumns = false;
+            dataGridViewSourceFreeTable_.ColumnCount = 2;
+            dataGridViewSourceFreeTable_.Columns[0].Name = "Label";
+            dataGridViewSourceFreeTable_.Columns[0].DataPropertyName = "labelText";
+            dataGridViewSourceFreeTable_.Columns[0].ReadOnly = false;
+            dataGridViewSourceFreeTable_.Columns[0].Width = 120;
+            dataGridViewSourceFreeTable_.Columns[1].Name = "Value";
+            dataGridViewSourceFreeTable_.Columns[1].DataPropertyName = "freeText";
+            dataGridViewSourceFreeTable_.Columns[1].ReadOnly = false;
+            dataGridViewSourceFreeTable_.Columns[1].Width = 370;
 
-            // Sets the AlternatingBackColor so you can see the difference.
-            tableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
-
-            // Creates 2 column styles.
-            DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
-            columnPerson.MappingName = "labelText";
-            columnPerson.HeaderText = "Label";
-            columnPerson.ReadOnly = false;
-            columnPerson.Width = 100;
-
-            DataGridTextBoxColumn columnReferences = new DataGridTextBoxColumn();
-            columnReferences.MappingName = "freeText";
-            columnReferences.HeaderText = "Value";
-            columnReferences.ReadOnly = false;
-            columnReferences.Width = 400;
-
-            // Adds the column styles to the grid table style.
-            tableStyle.GridColumnStyles.Add(columnPerson);
-            tableStyle.GridColumnStyles.Add(columnReferences);
-
-            // Add the table style to the collection, but clear the collection first.
-            gridSourceFreeTable_.TableStyles.Clear();
-            gridSourceFreeTable_.TableStyles.Add(tableStyle);
-            gridSourceFreeTable_.ReadOnly = false;
-
-            // Update the references to this source.
+            // Bind the data to this grid.
             SourceFreeTableRow[] rows = activeSource_.freeTable.getRows();
-            gridSourceFreeTable_.SetDataBinding(rows, "");
+            dataGridViewSourceFreeTable_.DataSource = rows;
 
             // Return success.
             return true;
         }
+
+
 
         /// <summary>Message handler for the selection on the list of sources changing.  Load and display the selected source object.</summary>
         private void lstSources_SelectedIndexChanged(object sender, System.EventArgs e)
