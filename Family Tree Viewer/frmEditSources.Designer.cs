@@ -64,6 +64,8 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCensusAddress;
             System.Windows.Forms.Button cmdCensusOpen;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditSourcesDialog));
+            System.Windows.Forms.Button buttonAddFreeTableRow;
+            System.Windows.Forms.Button buttonRemoveFreeTableRow;
             FamilyTree.Objects.CompoundDate compoundDate1 = new FamilyTree.Objects.CompoundDate();
             this.lstSources_ = new System.Windows.Forms.ListBox();
             this.imageList16x16 = new System.Windows.Forms.ImageList(this.components);
@@ -72,6 +74,7 @@ namespace FamilyTree.Viewer
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel1 = new System.Windows.Forms.Panel();
             this.grpFreeTable_ = new System.Windows.Forms.GroupBox();
+            this.dataGridViewSourceFreeTable_ = new System.Windows.Forms.DataGridView();
             this.cboRepository_ = new System.Windows.Forms.ComboBox();
             this.cboAdditionalInfo_ = new System.Windows.Forms.ComboBox();
             this.cmdCancel = new System.Windows.Forms.Button();
@@ -137,7 +140,7 @@ namespace FamilyTree.Viewer
             this.cmdAddSource = new System.Windows.Forms.Button();
             this.cmdDeleteSource = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.dataGridViewSourceFreeTable_ = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.dateTheDate_ = new FamilyTree.Viewer.ucDate();
             label32 = new System.Windows.Forms.Label();
             label33 = new System.Windows.Forms.Label();
@@ -181,15 +184,18 @@ namespace FamilyTree.Viewer
             label40 = new System.Windows.Forms.Label();
             cmdCensusAddress = new System.Windows.Forms.Button();
             cmdCensusOpen = new System.Windows.Forms.Button();
+            buttonAddFreeTableRow = new System.Windows.Forms.Button();
+            buttonRemoveFreeTableRow = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridReferences_)).BeginInit();
             this.panel1.SuspendLayout();
             this.grpFreeTable_.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSourceFreeTable_)).BeginInit();
             this.grpBirth_.SuspendLayout();
             this.grpMarriage_.SuspendLayout();
             this.grpCensus_.SuspendLayout();
             this.grpDeath_.SuspendLayout();
             this.m_panList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSourceFreeTable_)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label32
@@ -652,12 +658,22 @@ namespace FamilyTree.Viewer
             // grpFreeTable_
             // 
             this.grpFreeTable_.Controls.Add(this.dataGridViewSourceFreeTable_);
+            this.grpFreeTable_.Controls.Add(this.panel2);
             this.grpFreeTable_.Location = new System.Drawing.Point(8, 139);
             this.grpFreeTable_.Name = "grpFreeTable_";
             this.grpFreeTable_.Size = new System.Drawing.Size(560, 321);
             this.grpFreeTable_.TabIndex = 35;
             this.grpFreeTable_.TabStop = false;
             this.grpFreeTable_.Text = "Free Table";
+            // 
+            // dataGridViewSourceFreeTable_
+            // 
+            this.dataGridViewSourceFreeTable_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSourceFreeTable_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewSourceFreeTable_.Location = new System.Drawing.Point(3, 17);
+            this.dataGridViewSourceFreeTable_.Name = "dataGridViewSourceFreeTable_";
+            this.dataGridViewSourceFreeTable_.Size = new System.Drawing.Size(554, 265);
+            this.dataGridViewSourceFreeTable_.TabIndex = 19;
             // 
             // cboRepository_
             // 
@@ -1388,14 +1404,39 @@ namespace FamilyTree.Viewer
             this.cmdDeleteSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cmdDeleteSource.Click += new System.EventHandler(this.cmdDeleteSource_Click);
             // 
-            // dataGridViewSourceFreeTable_
+            // panel2
             // 
-            this.dataGridViewSourceFreeTable_.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewSourceFreeTable_.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewSourceFreeTable_.Location = new System.Drawing.Point(3, 17);
-            this.dataGridViewSourceFreeTable_.Name = "dataGridViewSourceFreeTable_";
-            this.dataGridViewSourceFreeTable_.Size = new System.Drawing.Size(554, 301);
-            this.dataGridViewSourceFreeTable_.TabIndex = 19;
+            this.panel2.Controls.Add(buttonRemoveFreeTableRow);
+            this.panel2.Controls.Add(buttonAddFreeTableRow);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(3, 282);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(554, 36);
+            this.panel2.TabIndex = 20;
+            // 
+            // buttonAddFreeTableRow
+            // 
+            buttonAddFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            buttonAddFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            buttonAddFreeTableRow.Location = new System.Drawing.Point(3, 3);
+            buttonAddFreeTableRow.Name = "buttonAddFreeTableRow";
+            buttonAddFreeTableRow.Size = new System.Drawing.Size(100, 30);
+            buttonAddFreeTableRow.TabIndex = 17;
+            buttonAddFreeTableRow.Text = "Add";
+            buttonAddFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buttonAddFreeTableRow.Click += new System.EventHandler(this.buttonAddFreeTableRow_Click);
+            // 
+            // buttonRemoveFreeTableRow
+            // 
+            buttonRemoveFreeTableRow.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            buttonRemoveFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            buttonRemoveFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            buttonRemoveFreeTableRow.Location = new System.Drawing.Point(109, 3);
+            buttonRemoveFreeTableRow.Name = "buttonRemoveFreeTableRow";
+            buttonRemoveFreeTableRow.Size = new System.Drawing.Size(100, 30);
+            buttonRemoveFreeTableRow.TabIndex = 18;
+            buttonRemoveFreeTableRow.Text = "Delete";
+            buttonRemoveFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // dateTheDate_
             // 
@@ -1430,6 +1471,7 @@ namespace FamilyTree.Viewer
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.grpFreeTable_.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSourceFreeTable_)).EndInit();
             this.grpBirth_.ResumeLayout(false);
             this.grpBirth_.PerformLayout();
             this.grpMarriage_.ResumeLayout(false);
@@ -1439,7 +1481,7 @@ namespace FamilyTree.Viewer
             this.grpDeath_.ResumeLayout(false);
             this.grpDeath_.PerformLayout();
             this.m_panList.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSourceFreeTable_)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1519,5 +1561,6 @@ namespace FamilyTree.Viewer
         private ToolTip toolTip1;
         private GroupBox grpFreeTable_;
         private DataGridView dataGridViewSourceFreeTable_;
+        private Panel panel2;
     }
 }

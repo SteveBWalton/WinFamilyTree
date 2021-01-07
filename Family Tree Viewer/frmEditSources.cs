@@ -731,5 +731,14 @@ namespace FamilyTree.Viewer
 
         #endregion
 
+        private void buttonAddFreeTableRow_Click(object sender, EventArgs e)
+        {
+            activeSource_.freeTable.addRow("New", "New");
+
+            // Bind the data to this grid.
+            SourceFreeTableRow[] rows = activeSource_.freeTable.getRows();
+            dataGridViewSourceFreeTable_.DataSource = rows;
+
+        }
     }
 }
