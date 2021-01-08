@@ -270,6 +270,13 @@ namespace FamilyTree.Objects
                     additionCensus_.save(database_);
                 }
                 break;
+            
+            case 5:
+                if (freeTable_!= null)
+                {
+                    freeTable.save();
+                }
+                break;
             }
 
             // Return success.
@@ -559,6 +566,8 @@ namespace FamilyTree.Objects
         /// <summary>This is the ranking of the source within a collection.  This is not the property of the source but of the source collection table.</summary>
         public int ranking { get { return ranking_; } set { ranking_ = value; } }
 
+
+
         /// <summary>The additional census information.  Only valid if AdditionalTypeID == Census (4).</summary>
         public clsCensus additionalCensus
         {
@@ -571,6 +580,8 @@ namespace FamilyTree.Objects
                 return additionCensus_;
             }
         }
+
+
 
         /// <summary>The optional additional marriage information.  Only valid in AdditionalTypeID == Marriage (2).</summary>
         public MarriageCertificate additionalMarriage
@@ -585,6 +596,8 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>The optional additional birth certificate information.  Only valid if the AdditionalTypeID == Birth (1).</summary>
         public clsBirthCertificate additionalBirth
         {
@@ -597,6 +610,8 @@ namespace FamilyTree.Objects
                 return additionalBirth_;
             }
         }
+
+
 
         /// <summary>The optional additional death certificate information.  Only valid if the AdditionalTypeID == Death (3).</summary>
         public clsDeathCertificate additionalDeath
@@ -611,6 +626,8 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>The optional additional free table information.  Only valid if the additionalTypeIndex == Free Table (5).</summary>
         public SourceFreeTable freeTable
         {
@@ -623,6 +640,8 @@ namespace FamilyTree.Objects
                 return freeTable_;
             }
         }
+
+
 
         /// <summary>The index for the source.  Zero represents no repository.</summary>
         public int repository { get { return repositoryIndex_; } set { repositoryIndex_ = value; } }

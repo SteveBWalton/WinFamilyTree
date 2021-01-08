@@ -33,7 +33,7 @@ namespace FamilyTree.Objects
             // Store the parameters.
             source_ = source;
             rows_ = new ArrayList();
-            
+
             // Fetch any existing rows in the database.
             string sql = "SELECT LABEL, FREE_TEXT FROM SOURCES_FREE_TABLE_ROWS WHERE SOURCE_ID = " + source.index.ToString() + " ORDER BY ROW;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, source.database.cndb);
@@ -46,8 +46,37 @@ namespace FamilyTree.Objects
             dataReader.Close();
         }
 
+
+
+        /// <summary>Write this free table to the database.</summary>
+        public void save()
+        {
+            // Remove the existing rows.
+            string sql = "DELETE FROM SOURCES_FREE_TABLE_ROWS WHERE SOURCE_ID = " + source_.index.ToString() + ";";
+            OleDbCommand sqlCommand = new OleDbCommand(sql, source_.database.cndb);
+            sqlCommand.ExecuteNonQuery();
+
+            // Add the rows in the collection.
+            SourceFreeTableRow[] rows = getRows();
+            for (int i = 0; i < rows.Length; i++)
+            {
+                sql = "INSERT INTO SOURCES_FREE_TABLE_ROWS (SOURCE_ID, ROW, LABEL, FREE_TEXT) VALUES (" + source_.index.ToString() + ", " + (i + 1).ToString() + ", " + Database.toDb(rows[i].labelText) + ", +" + Database.toDb(rows[i].freeText) + ")";
+                sqlCommand = new OleDbCommand(sql, source_.database.cndb);
+                sqlCommand.ExecuteNonQuery();
+            }
+        }
+
+
+
         #endregion
 
+        #region Rows
+
+
+
+        /// <summary>Add a row to the collection.</summary>
+        /// <param name="row">Specifies the row to add to the collection.</param>
+        /// <returns>True for success, false otherwise.</returns>
         public bool addRow(SourceFreeTableRow row)
         {
             rows_.Add(row);
@@ -64,10 +93,25 @@ namespace FamilyTree.Objects
 
 
 
+        /// <summary>Remove the specified free table row.</summary>
+        /// <param name="index">Specifies the free table row to remove.</param>
+        /// <returns>True for success, false otherwise.</returns>
+        public bool deleteRow(int index)
+        {
+            rows_.RemoveAt(index);
+            return true;
+        }
+
+
+
         public SourceFreeTableRow[] getRows()
         {
             return (SourceFreeTableRow[])rows_.ToArray(typeof(SourceFreeTableRow));
         }
+
+
+
+        #endregion
 
 
 
@@ -76,7 +120,7 @@ namespace FamilyTree.Objects
             StringBuilder html = new StringBuilder();
             html.AppendLine("<table style=\"margin-left: 50px; border: 1pt solid black; background-color: lightgray;\">");
             SourceFreeTableRow[] rows = getRows();
-            foreach(SourceFreeTableRow row in rows)
+            foreach (SourceFreeTableRow row in rows)
             {
                 html.AppendLine(row.toHtml());
             }
@@ -152,7 +196,7 @@ namespace FamilyTree.Objects
 
         /// <summary>The label for the row of free text.</summary>
         public string labelText { get { return labelText_; } set { labelText_ = value; } }
- 
+
 
         /// <summary>The text for the row of free text.</summary>
         public string freeText { get { return freeText_; } set { freeText_ = value; } }

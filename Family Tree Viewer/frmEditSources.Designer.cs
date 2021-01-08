@@ -1437,6 +1437,7 @@ namespace FamilyTree.Viewer
             buttonRemoveFreeTableRow.TabIndex = 18;
             buttonRemoveFreeTableRow.Text = "Delete";
             buttonRemoveFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buttonRemoveFreeTableRow.Click += new System.EventHandler(this.buttonRemoveFreeTableRow_Click);
             // 
             // dateTheDate_
             // 

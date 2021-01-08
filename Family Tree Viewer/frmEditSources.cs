@@ -733,12 +733,26 @@ namespace FamilyTree.Viewer
 
         private void buttonAddFreeTableRow_Click(object sender, EventArgs e)
         {
+            // Add a new row to the free table.
             activeSource_.freeTable.addRow("New", "New");
 
-            // Bind the data to this grid.
+            // Bind the data to the grid.
             SourceFreeTableRow[] rows = activeSource_.freeTable.getRows();
             dataGridViewSourceFreeTable_.DataSource = rows;
 
+        }
+
+        private void buttonRemoveFreeTableRow_Click(object sender, EventArgs e)
+        {
+            // Find the active row in the free table.
+            int row = dataGridViewSourceFreeTable_.CurrentCell.RowIndex;
+
+            // Remove this row.
+            activeSource_.freeTable.deleteRow(row);
+
+            // Bind the data to the grid.
+            SourceFreeTableRow[] rows = activeSource_.freeTable.getRows();
+            dataGridViewSourceFreeTable_.DataSource = rows;
         }
     }
 }
