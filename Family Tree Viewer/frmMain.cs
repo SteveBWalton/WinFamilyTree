@@ -2080,19 +2080,22 @@ namespace FamilyTree.Viewer
                 // Draw a line down for the siblings with descendants.
                 for (int i = 0; i < psnSiblings_.Length; i++)
                 {
-                    Person sibling = database_.getPerson(psnSiblings_[i].getPersonIndex());
-                    if (sibling.hasChildren())
+                    if (psnSiblings_[i] != null)
                     {
-                        e.Graphics.DrawLine(pen, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height + 3);
+                        Person sibling = database_.getPerson(psnSiblings_[i].getPersonIndex());
+                        if (sibling.hasChildren())
+                        {
+                            e.Graphics.DrawLine(pen, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height + 3);
+                        }
                     }
                 }
             }
 
-            // There is always a line up to the parents
+            // There is always a line up to the parents.
             pos = m_marParents.Left + m_marParents.Width / 2;
             e.Graphics.DrawLine(pen, pos, labPerson_.Top - padding_.y, pos, m_marParents.Top + m_marParents.Height);
 
-            // Draw a line from the father to his parents
+            // Draw a line from the father to his parents.
             if (psnFather_.Visible)
             {
                 e.Graphics.DrawLine(pen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8);

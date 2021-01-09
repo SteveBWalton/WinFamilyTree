@@ -793,7 +793,7 @@ namespace FamilyTree.Objects
             cndb.Open();
 
             // Create a Marriage Certificate object.
-            clsDeathCertificate deathCertificate = new clsDeathCertificate(index, cndb);
+            DeathCertificate deathCertificate = new DeathCertificate(index, cndb);
 
             // Close the database.
             cndb.Close();

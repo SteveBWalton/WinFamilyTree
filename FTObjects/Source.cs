@@ -58,7 +58,7 @@ namespace FamilyTree.Objects
         private BirthCertificate additionalBirth_;
 
         /// <summary>The optional additional death certificate information.</summary>
-        private clsDeathCertificate additionalDeath_;
+        private DeathCertificate additionalDeath_;
 
         /// <summary>The optional additional free table information for this source.</summary>
         private SourceFreeTable freeTable_;
@@ -614,13 +614,13 @@ namespace FamilyTree.Objects
 
 
         /// <summary>The optional additional death certificate information.  Only valid if the AdditionalTypeID == Death (3).</summary>
-        public clsDeathCertificate additionalDeath
+        public DeathCertificate additionalDeath
         {
             get
             {
                 if (additionalDeath_ == null)
                 {
-                    additionalDeath_ = new clsDeathCertificate(index_, database_.cndb);
+                    additionalDeath_ = new DeathCertificate(index_, database_.cndb);
                 }
                 return additionalDeath_;
             }

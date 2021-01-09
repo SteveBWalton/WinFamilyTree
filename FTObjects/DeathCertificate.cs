@@ -8,7 +8,7 @@ using System.Text;
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent the additional information on a death certificate source.  This is closely related to the tbl_DeathCertificates table.</summary>
-    public class clsDeathCertificate
+    public class DeathCertificate
     {
         #region Member Variables
 
@@ -63,7 +63,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Class constructor.</summary>
         /// <param name="index">Specifies the ID of the source record.</param>
-        public clsDeathCertificate(int index)
+        public DeathCertificate(int index)
         {
             index_ = index;
         }
@@ -73,7 +73,7 @@ namespace FamilyTree.Objects
         /// <summary>Class constructor that loads the current values from the specified database.</summary>
         /// <param name="index">Specifies the ID of the parent source record.</param>
         /// <param name="cndb">Specifies the database connection to load the information from.</param>
-        public clsDeathCertificate(int index, OleDbConnection cndb) : this(index)
+        public DeathCertificate(int index, OleDbConnection cndb) : this(index)
         {
             string sql = "SELECT * FROM tbl_DeathCertificates WHERE ID=" + index_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
