@@ -662,7 +662,7 @@ namespace FamilyTree.Objects
             cnDb.Open();
 
             // Create a birth certificate object
-            clsBirthCertificate oBirth = new clsBirthCertificate(nID, cnDb);
+            BirthCertificate oBirth = new BirthCertificate(nID, cnDb);
 
             // Close the database
             cnDb.Close();

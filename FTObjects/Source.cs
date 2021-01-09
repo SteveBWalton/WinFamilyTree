@@ -55,7 +55,7 @@ namespace FamilyTree.Objects
         private MarriageCertificate additionMarriage_;
 
         /// <summary>The optional additional birth certificate information.</summary>
-        private clsBirthCertificate additionalBirth_;
+        private BirthCertificate additionalBirth_;
 
         /// <summary>The optional additional death certificate information.</summary>
         private clsDeathCertificate additionalDeath_;
@@ -599,13 +599,13 @@ namespace FamilyTree.Objects
 
 
         /// <summary>The optional additional birth certificate information.  Only valid if the AdditionalTypeID == Birth (1).</summary>
-        public clsBirthCertificate additionalBirth
+        public BirthCertificate additionalBirth
         {
             get
             {
                 if (additionalBirth_ == null)
                 {
-                    additionalBirth_ = new clsBirthCertificate(index_, database_.cndb);
+                    additionalBirth_ = new BirthCertificate(index_, database_.cndb);
                 }
                 return additionalBirth_;
             }

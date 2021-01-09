@@ -56,7 +56,7 @@ namespace FamilyTree.Objects
             OleDbCommand sqlCommand = new OleDbCommand(sql, source_.database.cndb);
             sqlCommand.ExecuteNonQuery();
 
-            // Add the rows in the collection.
+            // Add the current rows in the collection.
             SourceFreeTableRow[] rows = getRows();
             for (int i = 0; i < rows.Length; i++)
             {
