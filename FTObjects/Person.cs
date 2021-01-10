@@ -398,8 +398,8 @@ namespace FamilyTree.Objects
             {
                 database_.addPlace(diedLocation, 1, personIndex_);
             }
-            clsCensusPerson[] censusPeople = database_.censusForPerson(personIndex_);
-            foreach (clsCensusPerson censusPerson in censusPeople)
+            CensusPerson[] censusPeople = database_.censusForPerson(personIndex_);
+            foreach (CensusPerson censusPerson in censusPeople)
             {
                 database_.addPlace(censusPerson.houseHoldName, 1, personIndex_);
             }
@@ -1126,9 +1126,9 @@ namespace FamilyTree.Objects
             }
 
             // Census information.
-            clsCensusPerson[] censuses = database_.censusForPerson(personIndex_);
+            CensusPerson[] censuses = database_.censusForPerson(personIndex_);
             string lastLocation = "";
-            foreach (clsCensusPerson census in censuses)
+            foreach (CensusPerson census in censuses)
             {
                 string location = "";
                 if (isHtml)
@@ -1604,9 +1604,9 @@ namespace FamilyTree.Objects
                 }
 
                 // Add the census places.
-                clsCensusPerson[] censuses = database_.censusForPerson(personIndex_);
+                CensusPerson[] censuses = database_.censusForPerson(personIndex_);
                 // string sLastLocation = "";
-                foreach (clsCensusPerson census in censuses)
+                foreach (CensusPerson census in censuses)
                 {
                     Place household = database_.getPlace(census.houseHoldName);
                     places.addPlace(household);

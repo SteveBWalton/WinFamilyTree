@@ -49,7 +49,7 @@ namespace FamilyTree.Objects
         private DateTime lastEditDate_;
 
         /// <summary>The optional additional census information.</summary>
-        private clsCensus additionCensus_;
+        private Census additionCensus_;
 
         /// <summary>The optional additional marriage information.</summary>
         private MarriageCertificate additionMarriage_;
@@ -569,13 +569,13 @@ namespace FamilyTree.Objects
 
 
         /// <summary>The additional census information.  Only valid if AdditionalTypeID == Census (4).</summary>
-        public clsCensus additionalCensus
+        public Census additionalCensus
         {
             get
             {
                 if (additionCensus_ == null)
                 {
-                    additionCensus_ = new clsCensus(index_, database_);
+                    additionCensus_ = new Census(index_, database_);
                 }
                 return additionCensus_;
             }

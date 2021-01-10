@@ -108,10 +108,10 @@
     <Compile Include="BirthCertificate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsCensus.cs">
+    <Compile Include="Census.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsCensusPerson.cs">
+    <Compile Include="CensusPerson.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Database.cs">

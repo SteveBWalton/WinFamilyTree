@@ -1904,8 +1904,8 @@ namespace FamilyTree.Viewer
                     }
 
                     // Get Census records
-                    clsCensusPerson[] oCensui = database_.censusForPerson(person.index);
-                    foreach (clsCensusPerson oCensus in oCensui)
+                    CensusPerson[] oCensui = database_.censusForPerson(person.index);
+                    foreach (CensusPerson oCensus in oCensui)
                     {
                         file.WriteLine("1 CENS");
                         file.WriteLine("2 DATE " + oCensus.date.ToString("d MMM yyyy"));

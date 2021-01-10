@@ -52,7 +52,7 @@ namespace FamilyTree.Viewer
             // Intialise the grid to display CensusPerson objects
             // Create a DataGridTabkeStyle object for the facts
             DataGridTableStyle oMembersTable = new DataGridTableStyle();
-            oMembersTable.MappingName = "clsCensusPerson[]";
+            oMembersTable.MappingName = "CensusPerson[]";
 
             // Sets the AlternatingBackColor so you can see the difference.
             oMembersTable.AlternatingBackColor = System.Drawing.Color.LightBlue;
@@ -109,7 +109,7 @@ namespace FamilyTree.Viewer
             if (nInitialRecord != 0)
             {
                 // Find the initial object
-                clsCensus oCensus = new clsCensus(nInitialRecord, m_oDb);
+                Census oCensus = new Census(nInitialRecord, m_oDb);
 
                 // Move to the specified year
                 string sYear = oCensus.censusDate.Year.ToString();
@@ -149,8 +149,8 @@ namespace FamilyTree.Viewer
 
         private bool Save()
         {
-            clsCensusPerson[] oMembers = (clsCensusPerson[])m_PeopleGrid.DataSource;
-            foreach (clsCensusPerson oPerson in oMembers)
+            CensusPerson[] oMembers = (CensusPerson[])m_PeopleGrid.DataSource;
+            foreach (CensusPerson oPerson in oMembers)
             {
                 oPerson.save(m_oDb);
             }
@@ -518,7 +518,7 @@ namespace FamilyTree.Viewer
             Person oPerson = new Person(oLookup.index, m_oDb);
 
             // Create a new object to add to the list box
-            clsCensusPerson oMember = new clsCensusPerson();
+            CensusPerson oMember = new CensusPerson();
             oMember.index = 0;
             oMember.houseHoldIndex = oHousehold.index;
             oMember.personIndex = oPerson.index;
@@ -540,7 +540,7 @@ namespace FamilyTree.Viewer
             }
 
             // Find the fact
-            clsCensusPerson oMember = ((clsCensusPerson[])m_PeopleGrid.DataSource)[m_PeopleGrid.CurrentCell.RowNumber];
+            CensusPerson oMember = ((CensusPerson[])m_PeopleGrid.DataSource)[m_PeopleGrid.CurrentCell.RowNumber];
             int nHouseholdID = oMember.houseHoldIndex;
             oMember.delete();
             Save();

@@ -43,19 +43,19 @@ namespace FamilyTree.Objects
         /// <summary>Year to count down from to store BC years.</summary>
         private const int BCBASE = 9800;
 
-        /// <summary>Status to indicate that the day information in m_dtDate is only a guess.</summary>
+        /// <summary>Status to indicate that the day information in theDate_ is only a guess.</summary>
         public const int GUESSDAY = 1;
 
-        /// <summary>Status to indicate that the month information in m_dtDate is only a guess.</summary>
+        /// <summary>Status to indicate that the month information in theDate_ is only a guess.</summary>
         public const int GUESSMONTH = 2;
 
-        /// <summary>Status to indicate that the year information in m_dtDate is only a guess.</summary>
+        /// <summary>Status to indicate that the year information in theDate_ is only a guess.</summary>
         public const int GUESSYEAR = 4;
 
-        /// <summary>Status to indicate that no information is stored in m_dtDate.  Not even a guess.</summary>
+        /// <summary>Status to indicate that no information is stored in theDate_.  Not even a guess.</summary>
         private const int EMPTYFLAG = 8;
 
-        /// <summary>Status to indicate that no information is stored in m_dtDate.</summary>
+        /// <summary>Status to indicate that no information is stored in theDate_.</summary>
         public const int EMPTY = 15;
 
         /// <summary>Flag to indicate that actual date is before this date.</summary>
@@ -70,7 +70,7 @@ namespace FamilyTree.Objects
         /// <summary>The date and time value.  Not all may be valid or used.</summary>
         private DateTime theDate_;
 
-        /// <summary>The components of m_dtDate that are valid and in use.</summary>
+        /// <summary>The components of theDate_ that are valid and in use.</summary>
         private int status_;
 
         #endregion

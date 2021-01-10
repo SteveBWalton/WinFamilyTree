@@ -1113,10 +1113,10 @@ namespace FamilyTree.Objects
 
 
 
-        /// <summary>Returns an array clsCensusPerson objects representing the member of the specified census household.</summary>
-		/// <param name="houseHoldIndex">Specifies the ID of the census household.</param>
-		/// <returns>An array of clsCensusPerson objects representing the members of the specified census household.</returns>
-        public clsCensusPerson[] censusHouseholdMembers(int houseHoldIndex)
+        /// <summary>Returns an array CensusPerson objects representing the member of the specified census household.</summary>
+        /// <param name="houseHoldIndex">Specifies the ID of the census household.</param>
+        /// <returns>An array of CensusPerson objects representing the members of the specified census household.</returns>
+        public CensusPerson[] censusHouseholdMembers(int houseHoldIndex)
         {
             string sql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
                 "FROM (tbl_CensusPeople LEFT JOIN tbl_People ON tbl_CensusPeople.PersonID = tbl_People.ID) INNER JOIN tbl_CensusHouseholds ON tbl_CensusPeople.HouseHoldID = tbl_CensusHouseholds.ID " +
@@ -1127,10 +1127,10 @@ namespace FamilyTree.Objects
 
 
 
-        /// <summary>Returns an array of clsCensusPerson objects as specified in the Sql command.</summary>
-		/// <param name="sql">Specifies a Sql command to fetch a collection of census members.</param>
-		/// <returns>An array of clsCensusPerson objects as specified in the Sql command.</returns>
-        private clsCensusPerson[] censusGetRecords(string sql)
+        /// <summary>Returns an array of CensusPerson objects as specified in the Sql command.</summary>
+        /// <param name="sql">Specifies a Sql command to fetch a collection of census members.</param>
+        /// <returns>An array of CensusPerson objects as specified in the Sql command.</returns>
+        private CensusPerson[] censusGetRecords(string sql)
         {
             // Build a list of household members
             ArrayList members = new ArrayList();
@@ -1139,7 +1139,7 @@ namespace FamilyTree.Objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                clsCensusPerson censusPerson = new clsCensusPerson();
+                CensusPerson censusPerson = new CensusPerson();
                 censusPerson.index = dataReader.GetInt32(0);
                 censusPerson.houseHoldIndex = dataReader.GetInt32(1);
                 if (!dataReader.IsDBNull(2))
@@ -1178,22 +1178,22 @@ namespace FamilyTree.Objects
             dataReader.Close();
 
             // Return the members found.
-            return (clsCensusPerson[])members.ToArray(typeof(clsCensusPerson));
+            return (CensusPerson[])members.ToArray(typeof(CensusPerson));
         }
 
 
 
-        /// <summary>Writes the specified clsCensusPerson record to the database.</summary>
-		/// <param name="censusPerson">Specifies the clsCensusPerson record to write to the database.</param>
-		/// <returns>True for success, false otherwise.</returns>
-        public bool censusSavePerson(clsCensusPerson censusPerson)
+        /// <summary>Writes the specified CensusPerson record to the database.</summary>
+        /// <param name="censusPerson">Specifies the CensusPerson record to write to the database.</param>
+        /// <returns>True for success, false otherwise.</returns>
+        public bool censusSavePerson(CensusPerson censusPerson)
         {
             // Delete this person if required.
             if (!censusPerson.isValid())
             {
                 if (censusPerson.index != 0)
                 {
-                    OleDbCommand sqlCommand = new OleDbCommand("DELETE FROM tbl_CensusPeople WHERE ID=" + censusPerson.index.ToString() + ";", cndb_);
+                    OleDbCommand sqlCommand = new OleDbCommand("DELETE FROM tbl_CensusPeople WHERE ID = " + censusPerson.index.ToString() + ";", cndb_);
                     sqlCommand.ExecuteNonQuery();
                 }
                 return true;
@@ -1234,7 +1234,7 @@ namespace FamilyTree.Objects
         /// <summary>Returns an array of census records that contain the specified person.</summary>
 		/// <param name="personIndex"></param>
 		/// <returns></returns>
-        public clsCensusPerson[] censusForPerson(int personIndex)
+        public CensusPerson[] censusForPerson(int personIndex)
         {
             string sSql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
                 "FROM (tbl_CensusPeople LEFT JOIN tbl_People ON tbl_CensusPeople.PersonID = tbl_People.ID) INNER JOIN tbl_CensusHouseholds ON tbl_CensusPeople.HouseHoldID = tbl_CensusHouseholds.ID " +
@@ -1248,7 +1248,7 @@ namespace FamilyTree.Objects
         /// <summary>Returns a human readable string representing the people that the specified person is living with according to the census record.</summary>
 		/// <param name="censusPerson">Specifies the person who should not be mentioned in the returned description.</param>
 		/// <returns>A human readable string representing the people that the specified person is living with according to the census record.</returns>
-        public string censusLivingWith(clsCensusPerson censusPerson)
+        public string censusLivingWith(CensusPerson censusPerson)
         {
             StringBuilder livingWith = new StringBuilder();
             string sql = "SELECT NameGiven, Age FROM tbl_CensusPeople WHERE HouseHoldID=" + censusPerson.houseHoldIndex.ToString() + " AND PersonID<>" + censusPerson.personIndex.ToString() + " ORDER BY tbl_CensusPeople.ID;";

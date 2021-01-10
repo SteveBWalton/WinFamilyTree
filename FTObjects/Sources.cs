@@ -160,7 +160,7 @@ namespace FamilyTree.Objects
         /// <summary>Class constructor to initialise the clsSources object to look at the census records.</summary>
         /// <param name="censusPerson">Specifies the census record.</param>
         /// <param name="database">Specify the database that these sources are attached to</param>
-        public Sources(clsCensusPerson censusPerson, Database database)
+        public Sources(CensusPerson censusPerson, Database database)
         {
             sourceTable_ = SourceTable.CENSUS_RECORDS;
             censusHouseholdIndex_ = censusPerson.houseHoldIndex;

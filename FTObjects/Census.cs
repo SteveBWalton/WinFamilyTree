@@ -7,8 +7,8 @@ using System.Text;
 
 namespace FamilyTree.Objects
 {
-    /// <summary>Class to represent the additional information on a census source.  The clsCensusPerson records are children of these objects.</summary>
-	public class clsCensus
+    /// <summary>Class to represent the additional information on a census source.  The CensusPerson records are children of these objects.</summary>
+	public class Census
     {
         #region Member Variables
 
@@ -44,7 +44,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Class constructor.  Can not have an empty constructor since these must always be attached to a source object.</summary>
         /// <param name="index">Specifies the ID of the parent source record and hence the ID of this census object.</param>
-        public clsCensus(int index)
+        public Census(int index)
         {
             index_ = index;
             database_ = null;
@@ -55,7 +55,7 @@ namespace FamilyTree.Objects
         /// <summary>Class constructor where the current data is loaded from the specified database.</summary>
         /// <param name="index">Specifies the ID of the parent source record and hence the ID of this census object.</param>
         /// <param name="database">Specifies the database to load the information from.</param>
-        public clsCensus(int index, Database database) : this(index)
+        public Census(int index, Database database) : this(index)
         {
             database_ = database;
 
@@ -156,8 +156,8 @@ namespace FamilyTree.Objects
             html.Append("<td><span class=\"Census\">Born Location</span></td>");
             html.Append("</tr>");
 
-            clsCensusPerson[] members = getMembers();
-            foreach (clsCensusPerson member in members)
+            CensusPerson[] members = getMembers();
+            foreach (CensusPerson member in members)
             {
                 html.Append("<tr>");
                 html.Append("<td>");
@@ -191,7 +191,7 @@ namespace FamilyTree.Objects
         public string toWebtrees()
         {
             // Get the first person in this census
-            clsCensusPerson[] members = getMembers();
+            CensusPerson[] members = getMembers();
             string head = members[0].censusName;
 
             // Initialise the Html description.
@@ -219,7 +219,7 @@ namespace FamilyTree.Objects
             html.Append("&lt;tr&gt;&lt;td&gt;Name&lt;/td&gt;&lt;td&gt;Relation&lt;br/&gt;To Head&lt;/td&gt;&lt;td&gt;Age&lt;/td&gt;&lt;td&gt;Occupation&lt;/td&gt;&lt;td&gt;Born Location&lt;/td&gt;&lt;/tr&gt;<br/>");
 
 
-            foreach (clsCensusPerson member in members)
+            foreach (CensusPerson member in members)
             {
                 html.Append("&lt;tr&gt;");
                 html.Append("&lt;td class=\"data\"&gt;");
@@ -238,7 +238,7 @@ namespace FamilyTree.Objects
             html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Media Title&lt;/td&gt;&lt;td class=\"value\"&gt;" + head + " Census " + censusDate.Year.ToString() + "&lt;/td&gt;&lt;/tr&gt;<br/>");
             html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Title&lt;/td&gt;&lt;td class=\"value\"&gt;Birth Certificate: " + head + " " + censusDate.Year.ToString() + "&lt;/td&gt;&lt;/tr&gt;<br/>");
             html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Text&lt;/td&gt;&lt;td class=\"value\"&gt;");
-            foreach (clsCensusPerson member in members)
+            foreach (CensusPerson member in members)
             {
                 html.Append(member.censusName + " (" + member.age + ") ");
                 if (member.occupation != "")
@@ -254,7 +254,7 @@ namespace FamilyTree.Objects
             html.Append("&lt;/td&gt;&lt;/tr&gt;<br/>");
             html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Source Note&lt;/td&gt;&lt;td class=\"value\"&gt;Series " + series + " Piece " + piece + " Folio " + folio + " Page " + page + ".&lt;/td&gt;&lt;/tr&gt;<br/>");
             html.Append("&lt;tr&gt;&lt;td class=\"label\"&gt;Citation Text&lt;/td&gt;&lt;td class=\"value\"&gt;Living with ");
-            foreach (clsCensusPerson member in members)
+            foreach (CensusPerson member in members)
             {
                 html.Append(member.censusName + " (" + member.age + "), ");
             }
@@ -267,9 +267,9 @@ namespace FamilyTree.Objects
 
 
 
-        /// <summary>Return the members of this census record as clsCensusPerson records.</summary>
-        /// <returns>A collection of clsCensusPerson records representing people in the census record.</returns>
-        public clsCensusPerson[] getMembers()
+        /// <summary>Return the members of this census record as CensusPerson records.</summary>
+        /// <returns>A collection of CensusPerson records representing people in the census record.</returns>
+        public CensusPerson[] getMembers()
         {
             return database_.censusHouseholdMembers(index_);
         }
@@ -277,7 +277,7 @@ namespace FamilyTree.Objects
 
 
         /// <summary>The ID of the census record.  This should match with the ID the parent source.</summary>
-		public int index { get { return index_; } set { index_ = value; } }
+        public int index { get { return index_; } set { index_ = value; } }
 
         #endregion
     }
