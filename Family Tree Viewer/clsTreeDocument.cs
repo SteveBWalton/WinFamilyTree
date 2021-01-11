@@ -96,7 +96,7 @@ namespace FamilyTree.Viewer
         /// <param name="database">Specify the database to work from.</param>
         /// <param name="userOptions">Specify the user options to initialise the tree with.</param>
         /// <param name="personIndex">Specify the person to draw a tree for.</param>
-        public clsTreeDocument(Database database, clsUserOptions userOptions, int personIndex)
+        public clsTreeDocument(Database database, UserOptions userOptions, int personIndex)
         {
             // Save the input parameters.
             database_ = database;

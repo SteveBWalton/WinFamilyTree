@@ -11,198 +11,183 @@ namespace FamilyTree.Viewer
     {
         #region Member Variables
 
-        // ID of the person this report will be about.
-        /// <summary>
-        /// ID of the person this report will be about.
-        /// </summary>
-        int m_nPersonID;
+        /// <summary>ID of the person this report will be about.</summary>
+        private int personIndex_;
 
-        // Database that contains the person and their relations.
-        /// <summary>
-        /// Database that contains the person and their relations.
-        /// </summary>
-        Database m_oDb;
+        /// <summary>Database that contains the person and their relations.</summary>
+        private Database database_;
 
-        // User options to use to build this report.
-        /// <summary>
-        /// User options to use to build this report.
-        /// </summary>
-        clsUserOptions m_oOptions;
+        /// <summary>User options to use to build this report.</summary>
+        private UserOptions userOptions_;
 
         #endregion
 
         #region Constructors etc ...
 
-		// Class constructor.
-        /// <summary>
-		/// Class constructor.
-		/// Specify the person this report is about, the database to gather information and the user options to use when building the document.
-		/// </summary>
-		/// <param name="nPersonID">Specify the ID of the person to build the document about</param>
-		/// <param name="oDB">Specify the database from which to gather the information</param>
-		/// <param name="oOptions">Specify the user option to use when building the document</param>
-        public clsReport(int nPersonID, Database oDB, clsUserOptions oOptions)
+
+
+        /// <summary>Class constructor.  Specify the person this report is about, the database to gather information and the user options to use when building the document.</summary>
+        /// <param name="personIndex">Specify the ID of the person to build the document about</param>
+        /// <param name="database">Specify the database from which to gather the information</param>
+        /// <param name="userOptions">Specify the user option to use when building the document</param>
+        public clsReport(int personIndex, Database database, UserOptions userOptions)
         {
             // Record the construction parameters
-            m_nPersonID = nPersonID;
-            m_oDb = oDB;
-            m_oOptions = oOptions;
+            personIndex_ = personIndex;
+            database_ = database;
+            userOptions_ = userOptions;
         }
+
+
 
         #endregion
 
         #region Values and Building
 
-        /// <summary>
-        /// Adds the specified person to the specified collection of people.
-        /// </summary>
-        /// <remarks>
-        /// The collection of people is keyed on the date of birth.
-        /// No two entries can have the same date of birth.
-        /// But we do not really care about the time of birth, so if the date of birth is already taken then simply use a slightly later time of birth.
-        /// </remarks>
-        /// <param name="oPerson">Specifies the person to add to the collection of people</param>
-        /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddPerson            (            Person oPerson,            ref SortedList oPeople            )
+
+
+        /// <summary>Adds the specified person to the specified collection of people.</summary>
+        /// <remarks>The collection of people is keyed on the date of birth.  No two entries can have the same date of birth.  But we do not really care about the time of birth, so if the date of birth is already taken then simply use a slightly later time of birth.</remarks>
+        /// <param name="person">Specifies the person to add to the collection of people</param>
+        /// <param name="people">Specifies the collection of people to add to</param>
+        private void addPerson(Person person, ref SortedList people)
         {
             // Add this person at their date of birth date specified.
             // Modify the time if the dates clash because we don't care about the time.
-            DateTime oDate = oPerson.dob.date;
-            bool bTryAgain = true;
-            while(bTryAgain)
+            DateTime theDate = person.dob.date;
+            bool isTryAgain = true;
+            while (isTryAgain)
             {
                 try
                 {
-                    oPeople.Add(oDate, oPerson);
-                    bTryAgain = false;
+                    people.Add(theDate, person);
+                    isTryAgain = false;
                 }
                 catch
                 {
-                    oDate = oDate.AddSeconds(1);
+                    theDate = theDate.AddSeconds(1);
                 }
             }
         }
 
-        /// <summary>
-        /// Adds the forebears of the specified person to the specified collection of people
-        /// </summary>
-        /// <param name="oPerson">Specifies the person to add the forebears of</param>
-        /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddForebears            (            Person oPerson,            ref SortedList oPeople            )
-        {
-            // Add the father to the list
-            if(oPerson.fatherIndex != 0)
-            {
-                Person oFather = new Person(oPerson.fatherIndex, m_oDb);
-                oFather.tag = oPerson.tag + "F";
-                AddPerson(oFather, ref oPeople);
 
-                // Add the father's parents
-                AddForebears(oFather, ref oPeople);
+
+        /// <summary>Adds the forebears of the specified person to the specified collection of people.</summary>
+        /// <param name="person">Specifies the person to add the forebears of</param>
+        /// <param name="people">Specifies the collection of people to add to</param>
+        private void addForebears(Person person, ref SortedList people)
+        {
+            // Add the father to the list.
+            if (person.fatherIndex != 0)
+            {
+                Person father = new Person(person.fatherIndex, database_);
+                father.tag = person.tag + "F";
+                addPerson(father, ref people);
+
+                // Add the father's parents.
+                addForebears(father, ref people);
             }
 
-            // Add the mother to the list
-            if(oPerson.motherIndex != 0)
+            // Add the mother to the list.
+            if (person.motherIndex != 0)
             {
-                Person oMother = new Person(oPerson.motherIndex, m_oDb);
-                oMother.tag = oPerson.tag + "M";
-                AddPerson(oMother, ref oPeople);
+                Person mother = new Person(person.motherIndex, database_);
+                mother.tag = person.tag + "M";
+                addPerson(mother, ref people);
 
-                // Add the mother's parents
-                AddForebears(oMother, ref oPeople);
-            }
-        }
-
-        /// <summary>
-        /// Adds the descendants of the specified person to the specified collection of people
-        /// </summary>
-        /// <param name="oPerson">Specifies the person to add the descendants of</param>
-        /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddDescendants            (            Person oPerson,            ref SortedList oPeople            )
-        {
-            int[] Children = oPerson.getChildren();
-            for(int nChild = 0; nChild < Children.Length; nChild++)
-            {
-                Person oChild = new Person(Children[nChild], m_oDb);
-                oChild.tag = oPerson.tag + (nChild + 1).ToString() + ".";
-                AddPerson(oChild, ref oPeople);
-
-                // Add the child's children
-                AddDescendants(oChild, ref oPeople);
+                // Add the mother's parents.
+                addForebears(mother, ref people);
             }
         }
 
-        /// <summary>
-        /// Add the siblings of the specified person to the specified collection of people
-        /// </summary>
-        /// <param name="oPerson">Specifies the person to add the siblings of</param>
-        /// <param name="oPeople">Specifies the collection of people to add to</param>
-        private void AddSiblings
-            (
-            Person oPerson,
-            ref SortedList oPeople
-            )
+
+
+        /// <summary>Adds the descendants of the specified person to the specified collection of people.</summary>
+        /// <param name="person">Specifies the person to add the descendants of</param>
+        /// <param name="people">Specifies the collection of people to add to</param>
+        private void addDescendants(Person person, ref SortedList people)
         {
-            int[] Siblings = oPerson.getSiblings();
-            for(int nChild = 0; nChild < Siblings.Length; nChild++)
+            int[] children = person.getChildren();
+            for (int i = 0; i < children.Length; i++)
             {
-                Person oChild = new Person(Siblings[nChild], m_oDb);
-                if(oChild.isMale)
+                Person child = new Person(children[i], database_);
+                child.tag = person.tag + (i + 1).ToString() + ".";
+                addPerson(child, ref people);
+
+                // Add the child's children.
+                addDescendants(child, ref people);
+            }
+        }
+
+
+
+        /// <summary>Add the siblings of the specified person to the specified collection of people.</summary>
+        /// <param name="person">Specifies the person to add the siblings of</param>
+        /// <param name="people">Specifies the collection of people to add to</param>
+        private void addSiblings(Person person, ref SortedList people)
+        {
+            int[] siblings = person.getSiblings();
+            for (int i = 0; i < siblings.Length; i++)
+            {
+                Person child = new Person(siblings[i], database_);
+                if (child.isMale)
                 {
-                    oChild.tag = "Brother";
+                    child.tag = "Brother";
                 }
                 else
                 {
-                    oChild.tag = "Sister";
+                    child.tag = "Sister";
                 }
-                AddPerson(oChild, ref oPeople);
+                addPerson(child, ref people);
             }
         }
+
+
 
         #endregion
 
         #region Display
 
-        /// <summary>
-        /// Displays MS Word and shows the collection of people related to the main person
-        /// </summary>
+        /// <summary>Displays MS Word and shows the collection of people related to the main person.</summary>
         /// <returns>True for success.  False otherwise.</returns>
-        public string GetReport()
+        public string getReport()
         {
             // Create (an empty) list of people to display
-            SortedList oPeople = new SortedList();
+            SortedList people = new SortedList();
 
             // Add the base person
-            Person oPerson = new Person(m_nPersonID, m_oDb);
-            oPeople.Add(oPerson.dob.date, oPerson);
+            Person person = new Person(personIndex_, database_);
+            people.Add(person.dob.date, person);
 
             // Add the parents
-            AddForebears(oPerson, ref oPeople);
+            addForebears(person, ref people);
 
             // Add the descendants
-            AddDescendants(oPerson, ref oPeople);
+            addDescendants(person, ref people);
 
             // Add the siblings
-            AddSiblings(oPerson, ref oPeople);
+            addSiblings(person, ref people);
 
             // Build html around the people found
-            StringBuilder sbHtml = new StringBuilder();
-            for(int nI = 0; nI < oPeople.Count; nI++)
+            StringBuilder html = new StringBuilder();
+            for (int i = 0; i < people.Count; i++)
             {
-                oPerson = (Person)oPeople.GetByIndex(nI);
+                person = (Person)people.GetByIndex(i);
 
-                sbHtml.Append("<p>");
-                if(oPerson.tag != "")
+                html.Append("<p>");
+                if (person.tag != "")
                 {
-                    sbHtml.Append("(" + oPerson.tag + ") ");
+                    html.Append("(" + person.tag + ") ");
                 }
-                sbHtml.Append(oPerson.getDescription(true, false, false, false, false));
-                sbHtml.AppendLine("</p>");
+                html.Append(person.getDescription(true, false, false, false, false));
+                html.AppendLine("</p>");
             }
 
-            // return success
-            return sbHtml.ToString();
+            // return success.
+            return html.ToString();
         }
+
+
 
         #endregion
     }

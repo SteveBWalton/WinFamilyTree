@@ -39,7 +39,7 @@ namespace FamilyTree.Viewer
         #region Constructors etc...
 
         /// <summary>Class constructor with initial values taken from user options.</summary>
-        public clsTreeOptions(clsUserOptions userOptions)
+        public clsTreeOptions(UserOptions userOptions)
         {
             // Copy the values from the user options.
             mainFontName_ = userOptions.treeMainFontName;

@@ -115,7 +115,7 @@ namespace FamilyTree.Viewer
         private Database database_;
 
         /// <summary>User options.</summary>
-        private clsUserOptions userOptions_;
+        private UserOptions userOptions_;
 
         /// <summary>Array of person graphical controls to display siblings of the main person.</summary>
         private FamilyTree.Viewer.ucPerson[] psnSiblings_;
@@ -187,7 +187,7 @@ namespace FamilyTree.Viewer
 
             // Initialise objects / variables
             database_ = null;
-            userOptions_ = new clsUserOptions(config_);
+            userOptions_ = new UserOptions(config_);
             history_ = new Page[5];
             historyIndex_ = -1;
 
@@ -1366,7 +1366,7 @@ namespace FamilyTree.Viewer
             frmUserOptions oOptions = new frmUserOptions();
 
             // Show the dialog and wait for the dialog to close
-            if (oOptions.UpdateOptions(this, ref userOptions_))
+            if (oOptions.updateOptions(this, ref userOptions_))
             {
                 // Update the display for the new user options
                 ShowCurrentPage();
@@ -1455,7 +1455,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oReport.GetReport());
+            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oReport.getReport());
 
             // Return success
             return true;

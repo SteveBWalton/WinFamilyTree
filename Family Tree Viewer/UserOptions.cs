@@ -6,11 +6,8 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    // Class to represent the user options
-    /// <summary>
-    /// Class to represent the user options
-    /// </summary>
-	public class clsUserOptions
+    /// <summary>Class to represent the user options.</summary>
+	public class UserOptions
     {
         #region Member Variables
 
@@ -61,7 +58,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Class constructor. The values are loaded from the specified configuration file.</summary>
         /// <param name="xmlConfig">Specifies the configuration file to load the settings from.</param>
-        public clsUserOptions(walton.XmlDocument xmlConfig)
+        public UserOptions(walton.XmlDocument xmlConfig)
         {
             config_ = xmlConfig;
 
@@ -103,7 +100,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Class constructor. Creates a copy of the specified clsUserOptions object.</summary>
         /// <param name="userOptions">Specifies the options to take the values from.</param>
-        public clsUserOptions(clsUserOptions userOptions)
+        public UserOptions(UserOptions userOptions)
         {
             config_ = userOptions.config_;
 
@@ -304,8 +301,12 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         /// <summary>The gedcom options.</summary>
         public GedcomOptions gedcomOptions { get { return gedcomOptions_; } }
+
+
 
         #endregion
     }
