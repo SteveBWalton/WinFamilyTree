@@ -169,7 +169,7 @@
     <Compile Include="ClipboardMetafileHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsReport.cs" />
+    <Compile Include="Report.cs" />
     <Compile Include="clsTreeConnection.cs">
       <SubType>Code</SubType>
     </Compile>

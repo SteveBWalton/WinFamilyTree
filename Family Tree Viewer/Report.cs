@@ -7,7 +7,7 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    public class clsReport
+    public class Report
     {
         #region Member Variables
 
@@ -30,7 +30,7 @@ namespace FamilyTree.Viewer
         /// <param name="personIndex">Specify the ID of the person to build the document about</param>
         /// <param name="database">Specify the database from which to gather the information</param>
         /// <param name="userOptions">Specify the user option to use when building the document</param>
-        public clsReport(int personIndex, Database database, UserOptions userOptions)
+        public Report(int personIndex, Database database, UserOptions userOptions)
         {
             // Record the construction parameters
             personIndex_ = personIndex;
@@ -148,27 +148,29 @@ namespace FamilyTree.Viewer
 
         #region Display
 
+
+
         /// <summary>Displays MS Word and shows the collection of people related to the main person.</summary>
         /// <returns>True for success.  False otherwise.</returns>
         public string getReport()
         {
-            // Create (an empty) list of people to display
+            // Create (an empty) list of people to display.
             SortedList people = new SortedList();
 
-            // Add the base person
+            // Add the base person.
             Person person = new Person(personIndex_, database_);
             people.Add(person.dob.date, person);
 
-            // Add the parents
+            // Add the parents.
             addForebears(person, ref people);
 
-            // Add the descendants
+            // Add the descendants.
             addDescendants(person, ref people);
 
-            // Add the siblings
+            // Add the siblings.
             addSiblings(person, ref people);
 
-            // Build html around the people found
+            // Build html around the people found.
             StringBuilder html = new StringBuilder();
             for (int i = 0; i < people.Count; i++)
             {

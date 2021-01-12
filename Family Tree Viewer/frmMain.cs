@@ -330,10 +330,10 @@ namespace FamilyTree.Viewer
                 return;
             }
 
-            // Now we are on the UI thread.    
+            // Now we are on the UI thread.
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
-            // Cursor = Cursors.WaitCursor;                        
+            // Cursor = Cursors.WaitCursor;
         }
 
 
@@ -348,7 +348,7 @@ namespace FamilyTree.Viewer
                 Invoke(new funcTextBool(setStatusBarText), new object[2] { text, isError });
             }
 
-            // Now we are on the UI thread
+            // Now we are on the UI thread.
             tslabStatus_.Text = text;
         }
 
@@ -357,14 +357,14 @@ namespace FamilyTree.Viewer
         /// <summary>Thread safe advance the progress bar one step.</summary>
         private void progressBarPerformStep()
         {
-            // Check that we are no the UI thread
+            // Check that we are no the UI thread.
             if (InvokeRequired)
             {
                 Invoke(new funcVoid(progressBarPerformStep));
                 return;
             }
 
-            // Now we are on the UI thread.       
+            // Now we are on the UI thread.
             numSteps_++;
             tsProgressBar_.PerformStep();
         }
@@ -375,14 +375,14 @@ namespace FamilyTree.Viewer
         /// <param name="isVisible"></param>
         private void progressBarVisible(bool isVisible)
         {
-            // Check that we are on the UI thread
+            // Check that we are on the UI thread.
             if (InvokeRequired)
             {
                 Invoke(new dgtSetBool(progressBarVisible), new object[1] { isVisible });
                 return;
             }
 
-            // Now we are on the UI thread
+            // Now we are on the UI thread.
             tsProgressBar_.Visible = isVisible;
         }
 
@@ -392,14 +392,14 @@ namespace FamilyTree.Viewer
         /// <param name="maximum">Specify the maximum value for the progress bar.  This is the number of steps.</param>
         private void progressBarInitialise(int maximum)
         {
-            // Check that we are on the UI thread
+            // Check that we are on the UI thread.
             if (InvokeRequired)
             {
                 Invoke(new dgtSetInt(progressBarInitialise), new object[1] { maximum });
                 return;
             }
 
-            // Now we are on the UI thread
+            // Now we are on the UI thread.
             numSteps_ = 0;
             tsProgressBar_.Value = 0;
             tsProgressBar_.Maximum = maximum;
@@ -573,254 +573,246 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Show the specified media object on the main window.</summary>
-        /// <param name="nMediaID">Specifies the ID of the media object.</param>
-        /// <param name="bAddHistory">Specifies true to add the page to history.</param>
+        /// <param name="mediaIndex">Specifies the ID of the media object.</param>
+        /// <param name="isAddHistory">Specifies true to add the page to history.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private bool ShowMedia(int nMediaID, bool bAddHistory)
+        private bool showMedia(int mediaIndex, bool isAddHistory)
         {
             // Hide the person tree panel
             panelTree_.Visible = false;
 
             // Find the place
-            Media oMedia = new Media(database_, nMediaID);
-            Text = oMedia.fileName + " - Family Tree Viewer";
-            if (bAddHistory)
+            Media media = new Media(database_, mediaIndex);
+            Text = media.fileName + " - Family Tree Viewer";
+            if (isAddHistory)
             {
-                HistoryAdd(Pages.MEDIA, nMediaID, "Media: " + oMedia.fileName);
+                historyAdd(Pages.MEDIA, mediaIndex, "Media: " + media.fileName);
             }
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oMedia.toHtml());
-
-            // Return success
-            return true;
-        }
-
-        // Show the specifed place on the main window.
-        /// <summary>
-        /// Show the specifed place on the main window.
-        /// </summary>
-        /// <param name="nPlaceID">Specifies the ID of the place to show.</param>
-        /// <param name="bAddHistory">Specifies true to add the page to history.</param>
-        /// <returns>True for success, false otherwise.</returns>
-        private bool ShowPlace(int nPlaceID, bool bAddHistory)
-        {
-            // Hide the person tree panel
-            panelTree_.Visible = false;
-
-            // Find the place
-            Place oPlace = new Place(nPlaceID, database_);
-            Text = oPlace.name + " - Family Tree Viewer";
-            if (bAddHistory)
-            {
-                HistoryAdd(Pages.PLACE, nPlaceID, "Place: " + oPlace.name);
-            }
-
-            // Display the Html description of the source.
-            string sPlace = oPlace.toHtml(m_menuLocation.Checked);
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(sPlace);
-
-            // Return success
-            return true;
-        }
-
-        /// <summary>
-        /// Show the specified source on the main window.
-        /// </summary>
-        /// <param name="nSourceID">Specifies the ID of the source to show.</param>
-        /// <param name="bAddHistory">Specifies true to add the page to history.</param>
-        /// <returns>True for success, false otherwise.</returns>
-        private bool ShowSource(int nSourceID, bool bAddHistory)
-        {
-            // Hide the person tree panel.
-            panelTree_.Visible = false;
-
-            // Find the source ID.
-            Source oSource = new Source(database_, nSourceID);
-            Text = oSource.description + " - Family Tree Viewer";
-            if (bAddHistory)
-            {
-                HistoryAdd(Pages.SOURCE, nSourceID, "Source: " + oSource.description);
-            }
-
-            // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oSource.toHtml());
+            webBrowser_.DocumentText = userOptions_.renderHtml(media.toHtml());
 
             // Return success.
             return true;
         }
 
-        // Show the specified person.
-        /// <summary>
-        /// Show the specified person.
-        /// </summary>
-		/// <param name="nID">Specifies the ID of the person to show.</param>
-        /// <param name="bAddHistory">Specifies to add this page to the Back / Forward list.</param>
+
+
+        /// <summary>Show the specifed place on the main window.</summary>
+        /// <param name="placeIndex">Specifies the ID of the place to show.</param>
+        /// <param name="isAddHistory">Specifies true to add the page to history.</param>
+        /// <returns>True for success, false otherwise.</returns>
+        private bool showPlace(int placeIndex, bool isAddHistory)
+        {
+            // Hide the person tree panel.
+            panelTree_.Visible = false;
+
+            // Find the place.
+            Place place = new Place(placeIndex, database_);
+            Text = place.name + " - Family Tree Viewer";
+            if (isAddHistory)
+            {
+                historyAdd(Pages.PLACE, placeIndex, "Place: " + place.name);
+            }
+
+            // Display the Html description of the source.
+            string placeHtml = place.toHtml(m_menuLocation.Checked);
+            webBrowser_.DocumentText = userOptions_.renderHtml(placeHtml);
+
+            // Return success.
+            return true;
+        }
+
+
+
+        /// <summary>Show the specified source on the main window.</summary>
+        /// <param name="sourceIndex">Specifies the ID of the source to show.</param>
+        /// <param name="isAddHistory">Specifies true to add the page to history.</param>
+        /// <returns>True for success, false otherwise.</returns>
+        private bool showSource(int sourceIndex, bool isAddHistory)
+        {
+            // Hide the person tree panel.
+            panelTree_.Visible = false;
+
+            // Find the source.
+            Source source = new Source(database_, sourceIndex);
+            Text = source.description + " - Family Tree Viewer";
+            if (isAddHistory)
+            {
+                historyAdd(Pages.SOURCE, sourceIndex, "Source: " + source.description);
+            }
+
+            // Display the Html description of the source.
+            webBrowser_.DocumentText = userOptions_.renderHtml(source.toHtml());
+
+            // Return success.
+            return true;
+        }
+
+
+
+        /// <summary>Show the specified person.</summary>
+		/// <param name="personIndex">Specifies the ID of the person to show.</param>
+        /// <param name="isAddHistory">Specifies to add this page to the Back / Forward list.</param>
         /// <returns>True for sucess, false for failure.</returns>
-        private bool ShowPerson(int nID, bool bAddHistory)
+        private bool showPerson(int personIndex, bool isAddHistory)
         {
             const int TOP = 2;
-            Person oRelation;
-            int nI;				// Loop variable
-            int nJ;				// Loop variable
-            int nPos;			// Horizontal position for the next control
-            bool bShownPerson;	// True when the actual person has been shown
-            int nTag;			// Workspace for the tag value for the person controls
 
-            // Show the person tree panel
+            // Show the person tree panel.
             panelTree_.Visible = true;
 
-            // Show the specified person
-            Person oPerson = database_.getPerson(nID);
-            Text = oPerson.getName(true, false) + " - Family Tree Viewer";
+            // Show the specified person.
+            Person person = database_.getPerson(personIndex);
+            Text = person.getName(true, false) + " - Family Tree Viewer";
 
             // Build the rich text file description of the person
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+            webBrowser_.DocumentText = userOptions_.renderHtml(person.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
 
-            // Update the back button            
-            if (bAddHistory)
+            // Update the back button.
+            if (isAddHistory)
             {
-                HistoryAdd(Pages.PERSON, nID, oPerson.getName(true, false));
+                historyAdd(Pages.PERSON, personIndex, person.getName(true, false));
             }
             // Font oFont = new System.Drawing.Font("Tahoma",m_dFontSize,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((System.Byte)(0)));
-            Font oFont = userOptions_.fontBase.getFont();
+            Font font = userOptions_.fontBase.getFont();
 
-            // Show the father
-            if (oPerson.fatherIndex == 0)
+            // Show the father.
+            if (person.fatherIndex == 0)
             {
                 psnFather_.Visible = false;
                 psnFatherFather_.Visible = false;
                 psnFatherMother_.Visible = false;
-                m_marFatherParents.Visible = false;
+                marFatherParents_.Visible = false;
             }
             else
             {
-                Person oFather = database_.getPerson(oPerson.fatherIndex);
+                Person father = database_.getPerson(person.fatherIndex);
                 psnFather_.Width = personSize_.x;
                 psnFather_.Height = personSize_.y;
-                psnFather_.setPerson(oFather);
+                psnFather_.setPerson(father);
                 psnFather_.Top = personSize_.y + padding_.y + TOP;
-                psnFather_.Font = oFont;
+                psnFather_.Font = font;
                 psnFather_.Visible = true;
 
-                // Show the father's father
-                if (oFather.fatherIndex == 0)
+                // Show the father's father.
+                if (father.fatherIndex == 0)
                 {
                     psnFatherFather_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandFather = database_.getPerson(oFather.fatherIndex);
+                    Person grandFather = database_.getPerson(father.fatherIndex);
                     psnFatherFather_.Width = personSize_.x;
                     psnFatherFather_.Height = personSize_.y;
-                    psnFatherFather_.setPerson(oGrandFather);
+                    psnFatherFather_.setPerson(grandFather);
                     psnFatherFather_.Top = TOP;
-                    psnFatherFather_.Font = oFont;
+                    psnFatherFather_.Font = font;
                     psnFatherFather_.Visible = true;
                 }
 
-                // Show the father's mother
-                if (oFather.motherIndex == 0)
+                // Show the father's mother.
+                if (father.motherIndex == 0)
                 {
                     psnFatherMother_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandMother = database_.getPerson(oFather.motherIndex);
+                    Person grandMother = database_.getPerson(father.motherIndex);
                     psnFatherMother_.Width = personSize_.x;
                     psnFatherMother_.Height = personSize_.y;
-                    psnFatherMother_.setPerson(oGrandMother);
+                    psnFatherMother_.setPerson(grandMother);
                     psnFatherMother_.Top = TOP;
-                    psnFatherMother_.Font = oFont;
+                    psnFatherMother_.Font = font;
                     psnFatherMother_.Visible = true;
                 }
 
-                // Show the relationship between these 2
-                if (oFather.fatherIndex == 0 || oFather.motherIndex == 0)
+                // Show the relationship between these two.
+                if (father.fatherIndex == 0 || father.motherIndex == 0)
                 {
-                    m_marFatherParents.Visible = false;
+                    marFatherParents_.Visible = false;
                 }
                 else
                 {
-                    m_marFatherParents.Visible = true;
-                    m_marFatherParents.Width = marriedWidth_;
-                    m_marFatherParents.Top = TOP;
+                    marFatherParents_.Visible = true;
+                    marFatherParents_.Width = marriedWidth_;
+                    marFatherParents_.Top = TOP;
                 }
             }
 
-            // Show the mother
-            if (oPerson.motherIndex == 0)
+            // Show the mother.
+            if (person.motherIndex == 0)
             {
                 psnMother_.Visible = false;
                 psnMotherFather_.Visible = false;
                 psnMotherMother_.Visible = false;
-                m_marMotherParents.Visible = false;
+                marMotherParents_.Visible = false;
             }
             else
             {
-                Person oMother = database_.getPerson(oPerson.motherIndex);
+                Person mother = database_.getPerson(person.motherIndex);
                 psnMother_.Width = personSize_.x;
                 psnMother_.Height = personSize_.y;
-                psnMother_.setPerson(oMother);
+                psnMother_.setPerson(mother);
                 psnMother_.Top = personSize_.y + padding_.y + TOP;
-                psnMother_.Font = oFont;
+                psnMother_.Font = font;
                 psnMother_.Visible = true;
 
-                // Show the mother's father
-                if (oMother.fatherIndex == 0)
+                // Show the mother's father.
+                if (mother.fatherIndex == 0)
                 {
                     psnMotherFather_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandFather = database_.getPerson(oMother.fatherIndex);
+                    Person grandFather = database_.getPerson(mother.fatherIndex);
                     psnMotherFather_.Width = personSize_.x;
                     psnMotherFather_.Height = personSize_.y;
-                    psnMotherFather_.setPerson(oGrandFather);
+                    psnMotherFather_.setPerson(grandFather);
                     psnMotherFather_.Top = TOP;
-                    psnMotherFather_.Font = oFont;
+                    psnMotherFather_.Font = font;
                     psnMotherFather_.Visible = true;
                 }
 
-                // Show the mother's mother
-                if (oMother.motherIndex == 0)
+                // Show the mother's mother.
+                if (mother.motherIndex == 0)
                 {
                     psnMotherMother_.Visible = false;
                 }
                 else
                 {
-                    Person oGrandMother = database_.getPerson(oMother.motherIndex);
+                    Person grandMother = database_.getPerson(mother.motherIndex);
                     psnMotherMother_.Width = personSize_.x;
                     psnMotherMother_.Height = personSize_.y;
-                    psnMotherMother_.setPerson(oGrandMother);
+                    psnMotherMother_.setPerson(grandMother);
                     psnMotherMother_.Top = TOP;
-                    psnMotherMother_.Font = oFont;
+                    psnMotherMother_.Font = font;
                     psnMotherMother_.Visible = true;
                 }
 
-                // Show the relationship between these 2
-                if (oMother.fatherIndex == 0 || oMother.motherIndex == 0)
+                // Show the relationship between these two.
+                if (mother.fatherIndex == 0 || mother.motherIndex == 0)
                 {
-                    m_marMotherParents.Visible = false;
+                    marMotherParents_.Visible = false;
                 }
                 else
                 {
-                    m_marMotherParents.Visible = true;
-                    m_marMotherParents.Width = marriedWidth_;
-                    m_marMotherParents.Top = TOP;
+                    marMotherParents_.Visible = true;
+                    marMotherParents_.Width = marriedWidth_;
+                    marMotherParents_.Top = TOP;
                 }
             }
 
-            // Show the actual person
+            // Show the actual person.
             labPerson_.Font = userOptions_.fontBaseTitle.getFont();
             labPerson_.Top = 2 * (personSize_.y + padding_.y) + TOP;
-            labPerson_.Text = oPerson.getName(false, false);
+            labPerson_.Text = person.getName(false, false);
             labPerson_.Width = 2 * personSize_.x + marriedWidth_;
             labPersonDates_.Top = labPerson_.Top + 23;
-            labPersonDates_.Text = oPerson.shortDescription(true);
+            labPersonDates_.Text = person.shortDescription(true);
             labPersonDates_.Width = labPerson_.Width;
             labPersonDates_.Height = personSize_.y - 23;
-            if (oPerson.isMale)
+            if (person.isMale)
             {
                 labPerson_.BackColor = backgroundBoy_;
             }
@@ -832,176 +824,178 @@ namespace FamilyTree.Viewer
 
             cleanupDynamicControls();
 
-            Relationship[] Marriages = oPerson.getRelationships();
-            if (Marriages.Length > 0)
+            Relationship[] marriages = person.getRelationships();
+            if (marriages.Length > 0)
             {
-                psnPartners_ = new FamilyTree.Viewer.ucPerson[Marriages.Length];
-                partnersConntections_ = new FamilyTree.Viewer.ucRelationship[Marriages.Length];
+                psnPartners_ = new FamilyTree.Viewer.ucPerson[marriages.Length];
+                partnersConntections_ = new FamilyTree.Viewer.ucRelationship[marriages.Length];
             }
 
-            // Show the siblings            
-            int[] Siblings = oPerson.getSiblings();
-            nPos = 3;
-            bShownPerson = false;
-            if (Siblings.Length > 0)
+            // Show the siblings.
+            int[] siblings = person.getSiblings();
+            int pos = 3;
+            bool isShownPerson = false;
+            if (siblings.Length > 0)
             {
-                psnSiblings_ = new FamilyTree.Viewer.ucPerson[Siblings.Length];
+                psnSiblings_ = new FamilyTree.Viewer.ucPerson[siblings.Length];
 
-                for (nI = 0; nI < Siblings.Length; nI++)
+                for (int i = 0; i < siblings.Length; i++)
                 {
-                    oRelation = database_.getPerson(Siblings[nI]);
+                    Person relation = database_.getPerson(siblings[i]);
 
-                    // Show the person if he is older than the current sibling (and not already shown)
-                    if (oPerson.dob.date < oRelation.dob.date && !bShownPerson)
+                    // Show the person if he is older than the current sibling (and not already shown).
+                    if (person.dob.date < relation.dob.date && !isShownPerson)
                     {
-                        drawMainPerson(ref oPerson, ref Marriages, ref nPos, oFont);
-                        bShownPerson = true;
+                        drawMainPerson(ref person, ref marriages, ref pos, font);
+                        isShownPerson = true;
                     }
 
-                    // Show the sibling
-                    psnSiblings_[nI] = new FamilyTree.Viewer.ucPerson();
-                    if (oRelation.isMale)
+                    // Show the sibling.
+                    psnSiblings_[i] = new FamilyTree.Viewer.ucPerson();
+                    if (relation.isMale)
                     {
-                        psnSiblings_[nI].BackColor = backgroundBoy_;
+                        psnSiblings_[i].BackColor = backgroundBoy_;
                     }
                     else
                     {
-                        psnSiblings_[nI].BackColor = backgroundGirl_;
+                        psnSiblings_[i].BackColor = backgroundGirl_;
                     }
-                    psnSiblings_[nI].Font = oFont;
-                    psnSiblings_[nI].Location = new System.Drawing.Point(nPos, labPerson_.Top);
-                    psnSiblings_[nI].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
-                    psnSiblings_[nI].setPerson(oRelation);
-                    psnSiblings_[nI].evtClick += new dgtClick(ucPerson_evtClick);
+                    psnSiblings_[i].Font = font;
+                    psnSiblings_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
+                    psnSiblings_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
+                    psnSiblings_[i].setPerson(relation);
+                    psnSiblings_[i].evtClick += new dgtClick(ucPerson_evtClick);
 
-                    // Build a tag value that represents which parents this sibling shares
-                    nTag = 0;
-                    if (oRelation.fatherIndex == oPerson.fatherIndex)
+                    // Build a tag value that represents which parents this sibling shares.
+                    int tag = 0;
+                    if (relation.fatherIndex == person.fatherIndex)
                     {
-                        nTag |= 1;
+                        tag |= 1;
                     }
-                    if (oRelation.motherIndex == oPerson.motherIndex)
+                    if (relation.motherIndex == person.motherIndex)
                     {
-                        nTag |= 2;
+                        tag |= 2;
                     }
-                    psnSiblings_[nI].Tag = nTag;
+                    psnSiblings_[i].Tag = tag;
 
                     // this.Controls.Add(m_psnSiblings[nI]);
-                    panelTree_.Controls.Add(psnSiblings_[nI]);
-                    nPos += personSize_.x + padding_.x;
+                    panelTree_.Controls.Add(psnSiblings_[i]);
+                    pos += personSize_.x + padding_.x;
                 }
             }
-            if (!bShownPerson)
+            if (!isShownPerson)
             {
-                drawMainPerson(ref oPerson, ref Marriages, ref nPos, oFont);
+                drawMainPerson(ref person, ref marriages, ref pos, font);
             }
 
-            // Reposition the parents (X direction)
+            // Reposition the parents (X direction).
             psnFather_.Left = labPerson_.Left;
-            m_marParents.Left = psnFather_.Left + personSize_.x;
-            m_marParents.Top = psnFather_.Top;
-            m_marParents.Width = marriedWidth_;
+            marParents_.Left = psnFather_.Left + personSize_.x;
+            marParents_.Top = psnFather_.Top;
+            marParents_.Width = marriedWidth_;
             psnMother_.Left = labPerson_.Left + personSize_.x + marriedWidth_;
 
-            // Reposition the grandparents (X direction)
+            // Reposition the grandparents (X direction).
             psnFatherMother_.Left = labPerson_.Left;
             psnFatherFather_.Left = psnFatherMother_.Left - marriedWidth_ - personSize_.x;
             psnMotherFather_.Left = labPerson_.Left + personSize_.x + marriedWidth_;
-            psnMotherMother_.Left = psnMotherFather_.Left + psnMotherFather_.Width + m_marParents.Width;
+            psnMotherMother_.Left = psnMotherFather_.Left + psnMotherFather_.Width + marParents_.Width;
             if (psnFatherFather_.Left < 3)
             {
-                int nOffset = 3 - psnFatherFather_.Left;
-                psnFatherFather_.Left += nOffset;
-                psnFatherMother_.Left += nOffset;
-                psnMotherFather_.Left += nOffset;
-                psnMotherMother_.Left += nOffset;
+                int offset = 3 - psnFatherFather_.Left;
+                psnFatherFather_.Left += offset;
+                psnFatherMother_.Left += offset;
+                psnMotherFather_.Left += offset;
+                psnMotherMother_.Left += offset;
             }
-            m_marFatherParents.Left = psnFatherFather_.Left + personSize_.x;
-            m_marFatherParents.Top = psnFatherFather_.Top + 8;
-            m_marMotherParents.Left = psnMotherFather_.Left + personSize_.x;
-            m_marMotherParents.Top = psnMotherFather_.Top + 8;
+            marFatherParents_.Left = psnFatherFather_.Left + personSize_.x;
+            marFatherParents_.Top = psnFatherFather_.Top + 8;
+            marMotherParents_.Left = psnMotherFather_.Left + personSize_.x;
+            marMotherParents_.Top = psnMotherFather_.Top + 8;
 
-            // Show the children
-            int[] Children = oPerson.getChildren();
-            int nHeight = labPerson_.Top + personSize_.y + padding_.y;
-            if (oPerson.isMale)
+            // Show the children.
+            int[] children = person.getChildren();
+            int height = labPerson_.Top + personSize_.y + padding_.y;
+            if (person.isMale)
             {
-                nPos = labPerson_.Left;
+                pos = labPerson_.Left;
             }
             else
             {
                 if (partnersConntections_ != null)
                 {
-                    nPos = psnPartners_[partnersConntections_.Length - 1].Left;
+                    pos = psnPartners_[partnersConntections_.Length - 1].Left;
                 }
                 else
                 {
-                    nPos = labPerson_.Left;
+                    pos = labPerson_.Left;
                 }
             }
 
-            if (Children.Length > 0)
+            if (children.Length > 0)
             {
-                psnChildren_ = new FamilyTree.Viewer.ucPerson[Children.Length];
+                psnChildren_ = new FamilyTree.Viewer.ucPerson[children.Length];
 
-                for (nI = 0; nI < Children.Length; nI++)
+                for (int i = 0; i < children.Length; i++)
                 {
-                    oRelation = database_.getPerson(Children[nI]);
+                    Person relation = database_.getPerson(children[i]);
 
-                    psnChildren_[nI] = new FamilyTree.Viewer.ucPerson();
-                    if (oRelation.isMale)
+                    psnChildren_[i] = new FamilyTree.Viewer.ucPerson();
+                    if (relation.isMale)
                     {
-                        psnChildren_[nI].BackColor = backgroundBoy_;
+                        psnChildren_[i].BackColor = backgroundBoy_;
                     }
                     else
                     {
-                        psnChildren_[nI].BackColor = backgroundGirl_;
+                        psnChildren_[i].BackColor = backgroundGirl_;
                     }
-                    psnChildren_[nI].Font = oFont;
-                    psnChildren_[nI].Location = new System.Drawing.Point(nPos, nHeight);
-                    psnChildren_[nI].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
-                    psnChildren_[nI].setPerson(oRelation);
-                    psnChildren_[nI].evtClick += new dgtClick(ucPerson_evtClick);
+                    psnChildren_[i].Font = font;
+                    psnChildren_[i].Location = new System.Drawing.Point(pos, height);
+                    psnChildren_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
+                    psnChildren_[i].setPerson(relation);
+                    psnChildren_[i].evtClick += new dgtClick(ucPerson_evtClick);
 
-                    // Decide which relationship this child belongs to
-                    nTag = -1;
+                    // Decide which relationship this child belongs to.
+                    int tag = -1;
                     if (partnersConntections_ != null)
                     {
-                        for (nJ = 0; nJ < partnersConntections_.Length; nJ++)
+                        for (int j = 0; j < partnersConntections_.Length; j++)
                         {
-                            if (partnersConntections_[nJ].MotherID == oRelation.motherIndex && partnersConntections_[nJ].FatherID == oRelation.fatherIndex)
+                            if (partnersConntections_[j].MotherID == relation.motherIndex && partnersConntections_[j].FatherID == relation.fatherIndex)
                             {
-                                nTag = nJ;
+                                tag = j;
                             }
                         }
                     }
-                    psnChildren_[nI].Tag = nTag;
+                    psnChildren_[i].Tag = tag;
 
                     // this.Controls.Add(m_psnChildren[nI]);
-                    panelTree_.Controls.Add(psnChildren_[nI]);
-                    nPos += personSize_.x + padding_.x;
+                    panelTree_.Controls.Add(psnChildren_[i]);
+                    pos += personSize_.x + padding_.x;
                 }
             }
 
-            // Reposition the children if off the right edge
-            if (Children.Length > 0)
+            // Reposition the children if off the right edge.
+            if (children.Length > 0)
             {
-                if (psnChildren_[Children.Length - 1].Left + personSize_.x > Width)
+                if (psnChildren_[children.Length - 1].Left + personSize_.x > Width)
                 {
-                    int nOffset = psnChildren_[Children.Length - 1].Left + personSize_.x - Width;
-                    for (nI = 0; nI < Children.Length; nI++)
+                    int nOffset = psnChildren_[children.Length - 1].Left + personSize_.x - Width;
+                    for (int i = 0; i < children.Length; i++)
                     {
-                        psnChildren_[nI].Left -= nOffset;
+                        psnChildren_[i].Left -= nOffset;
                     }
                 }
             }
 
-            // This causes the parent / child lines to be redrawn
+            // This causes the parent / child lines to be redrawn.
             Refresh();
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         #endregion
 
@@ -1009,10 +1003,10 @@ namespace FamilyTree.Viewer
 
         #region Back / Forward / History
 
-        /// <summary>
-        /// Returns the current page, according to the history.
-        /// </summary>
-        private Page Current
+
+
+        /// <summary>Returns the current page, according to the history.</summary>
+        private Page currentPage
         {
             get
             {
@@ -1024,65 +1018,64 @@ namespace FamilyTree.Viewer
             }
         }
 
-        /// <summary>
-        /// Add the current page to the history.
-        /// </summary>
-        /// <param name="nType">Specifies the type of page.</param>
-        /// <param name="nID">Specifies the ID of the page.</param>
-        /// <param name="sLabel">Specifies a human readable label for the page.</param>
-        private void HistoryAdd(Pages nType, int nID, string sLabel)
+
+
+        /// <summary>Add the current page to the history.</summary>
+        /// <param name="pageType">Specifies the type of page.</param>
+        /// <param name="pageIndex">Specifies the ID of the page.</param>
+        /// <param name="pageLabel">Specifies a human readable label for the page.</param>
+        private void historyAdd(Pages pageType, int pageIndex, string pageLabel)
         {
             // Check that some thing has changed.
-            if (Current.content == nType && Current.index == nID)
+            if (currentPage.content == pageType && currentPage.index == pageIndex)
             {
                 return;
             }
 
-            // Add to the history
+            // Add to the history.
             historyIndex_++;
             if (historyIndex_ >= history_.Length)
             {
                 // Move all the page down one.
-                for (int nIndex = 0; nIndex < history_.Length - 1; nIndex++)
+                for (int i = 0; i < history_.Length - 1; i++)
                 {
-                    history_[nIndex] = history_[nIndex + 1];
+                    history_[i] = history_[i + 1];
                 }
 
-                // Move back to the end of the history
+                // Move back to the end of the history.
                 historyIndex_--;
             }
 
-            // Set the current page
-            history_[historyIndex_].index = nID;
-            history_[historyIndex_].content = nType;
-            history_[historyIndex_].label = sLabel;
+            // Set the current page.
+            history_[historyIndex_].index = pageIndex;
+            history_[historyIndex_].content = pageType;
+            history_[historyIndex_].label = pageLabel;
             historyLast_ = historyIndex_;
 
-            // Update the back button
-            UpdateBackButton();
+            // Update the back button.
+            updateBackButton();
         }
 
-        /// <summary>
-        /// Move to the page that is back in the history.
-        /// </summary>
-        private void HistoryBack()
+
+
+        /// <summary>Move to the page that is back in the history.</summary>
+        private void historyBack()
         {
-            // Check that there is some history to move back into
+            // Check that there is some history to move back into.
             if (historyIndex_ < 1)
             {
                 return;
             }
 
-            // Move back in the history            
+            // Move back in the history.
             historyIndex_--;
-            ShowCurrentPage();
+            showCurrentPage();
         }
 
-        /// <summary>
-        /// Move to the page that is forward in the history (if available).
-        /// If no page is available then nothing happens.
-        /// </summary>
-        private void HistoryForward()
+
+
+        /// <summary>Move to the page that is forward in the history (if available).  If no page is available then nothing happens.</summary>
+        private void historyForward()
         {
             // Check that there is some history to move into.
             if (historyIndex_ == historyLast_)
@@ -1090,77 +1083,76 @@ namespace FamilyTree.Viewer
                 return;
             }
 
-            // Move forward in the history
+            // Move forward in the history.
             historyIndex_++;
-            ShowCurrentPage();
+            showCurrentPage();
         }
 
-        /// <summary>
-        /// Shows the current page.
-        /// Does not add the page to the history.
-        /// Does update the back history drop down list.
-        /// </summary>
-        private void ShowCurrentPage()
+
+
+        /// <summary>Shows the current page.  Does not add the page to the history.  Does update the back history drop down list.</summary>
+        private void showCurrentPage()
         {
             // Show the current page
             switch (history_[historyIndex_].content)
             {
             case Pages.PERSON:
-                ShowPerson(history_[historyIndex_].index, false);
+                showPerson(history_[historyIndex_].index, false);
                 break;
             case Pages.SOURCE:
-                ShowSource(history_[historyIndex_].index, false);
+                showSource(history_[historyIndex_].index, false);
                 break;
             case Pages.PLACE:
-                ShowPlace(history_[historyIndex_].index, false);
+                showPlace(history_[historyIndex_].index, false);
                 break;
             }
 
             // Update the back button
-            UpdateBackButton();
+            updateBackButton();
         }
 
-        // Updates the back (and forward) buttons and combo boxes based on the current history.
-        /// <summary>
-        /// Updates the back (and forward) buttons and combo boxes based on the current history.
-        /// </summary>
-        private void UpdateBackButton()
+
+
+        /// <summary>Updates the back (and forward) buttons and combo boxes based on the current history.</summary>
+        private void updateBackButton()
         {
             // Update the back button
             if (historyIndex_ > 0)
             {
-                m_tsbBack.Enabled = true;
-                m_tsddbBack.Enabled = true;
+                tsbBack_.Enabled = true;
+                tsddbBack_.Enabled = true;
 
-                m_tsddbBack.DropDownItems.Clear();
-                for (int nI = historyIndex_ - 1; nI >= 0; nI--)
+                tsddbBack_.DropDownItems.Clear();
+                for (int i = historyIndex_ - 1; i >= 0; i--)
                 {
-                    m_tsddbBack.DropDownItems.Add(history_[nI].label, null, IndividualBackItem_Click);
+                    tsddbBack_.DropDownItems.Add(history_[i].label, null, IndividualBackItem_Click);
                 }
             }
             else
             {
-                m_tsbBack.Enabled = false;
-                m_tsddbBack.Enabled = false;
+                tsbBack_.Enabled = false;
+                tsddbBack_.Enabled = false;
             }
 
             // Update the forward button
             if (historyIndex_ == historyLast_)
             {
-                m_tsbForward.Enabled = false;
-                m_tsddbForward.Enabled = false;
+                tsbForward_.Enabled = false;
+                tsddbForward_.Enabled = false;
             }
             else
             {
-                m_tsbForward.Enabled = true;
-                m_tsddbForward.Enabled = true;
-                m_tsddbForward.DropDownItems.Clear();
-                for (int nI = historyIndex_ + 1; nI <= historyLast_; nI++)
+                tsbForward_.Enabled = true;
+                tsddbForward_.Enabled = true;
+                tsddbForward_.DropDownItems.Clear();
+                for (int i = historyIndex_ + 1; i <= historyLast_; i++)
                 {
-                    m_tsddbForward.DropDownItems.Add(history_[nI].label, null, IndividualBackItem_Click);
+                    tsddbForward_.DropDownItems.Add(history_[i].label, null, IndividualBackItem_Click);
                 }
             }
         }
+
+
 
         #endregion
 
@@ -1171,7 +1163,7 @@ namespace FamilyTree.Viewer
             // Find the home person and display them
             walton.XmlNode oHome = config_.getNode("useroptions/home");
             int nHomeID = oHome.getAttributeValue("id", 1, true);
-            ShowPerson(nHomeID, true);
+            showPerson(nHomeID, true);
 
             // Return success
             return true;
@@ -1190,7 +1182,7 @@ namespace FamilyTree.Viewer
             // If the user did select a person then show that person
             if (nPersonID >= 0)
             {
-                ShowPerson(nPersonID, true);
+                showPerson(nPersonID, true);
             }
 
             // Return success
@@ -1212,52 +1204,52 @@ namespace FamilyTree.Viewer
 		/// <returns>True for success, false otherwise.</returns>
 		private bool Edit()
         {
-            switch (Current.content)
+            switch (currentPage.content)
             {
             case Pages.PERSON:
                 // Create a dialog to edit this person
-                frmEditPerson dlgEdit = new frmEditPerson(Current.index, database_);
+                frmEditPerson dlgEdit = new frmEditPerson(currentPage.index, database_);
 
                 // Show the dialog and wait for the dialog to close
                 if (dlgEdit.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of the current person
-                    ShowPerson(Current.index, false);
+                    showPerson(currentPage.index, false);
                 }
                 dlgEdit.Dispose();
                 break;
 
             case Pages.PLACE:
                 // Create a dialog to edit this place
-                frmEditPlace oEditPlace = new frmEditPlace(Current.index, database_);
+                frmEditPlace oEditPlace = new frmEditPlace(currentPage.index, database_);
 
                 // Show the dialog and wait for the dialog to close
                 if (oEditPlace.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this place
-                    ShowPlace(Current.index, false);
+                    showPlace(currentPage.index, false);
                 }
                 oEditPlace.Dispose();
                 break;
 
             case Pages.SOURCE:
                 // Create a dialog to edit this source
-                EditSourcesDialog oEditSource = new EditSourcesDialog(database_, Current.index);
+                EditSourcesDialog oEditSource = new EditSourcesDialog(database_, currentPage.index);
                 if (oEditSource.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source
-                    ShowSource(Current.index, false);
+                    showSource(currentPage.index, false);
                 }
                 oEditSource.Dispose();
                 break;
 
             case Pages.MEDIA:
                 // Create a dialog to edit this media
-                frmEditMedia oEditMedia = new frmEditMedia(database_, Current.index);
+                frmEditMedia oEditMedia = new frmEditMedia(database_, currentPage.index);
                 if (oEditMedia.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source
-                    ShowMedia(Current.index, false);
+                    showMedia(currentPage.index, false);
                 }
                 oEditMedia.Dispose();
                 break;
@@ -1287,27 +1279,27 @@ namespace FamilyTree.Viewer
                 switch (Relation)
                 {
                 case RelatedPerson.FATHER:
-                    oPerson = new Person(Current.index, database_);
+                    oPerson = new Person(currentPage.index, database_);
                     oPerson.fatherIndex = nNewPersonID;
                     oPerson.save();
                     break;
 
                 case RelatedPerson.MOTHER:
-                    oPerson = new Person(Current.index, database_);
+                    oPerson = new Person(currentPage.index, database_);
                     oPerson.motherIndex = nNewPersonID;
                     oPerson.save();
                     break;
 
                 case RelatedPerson.SIBLING:
                     Person oNewPerson = new Person(nNewPersonID, database_);
-                    oPerson = new Person(Current.index, database_);
+                    oPerson = new Person(currentPage.index, database_);
                     oNewPerson.fatherIndex = oPerson.fatherIndex;
                     oNewPerson.motherIndex = oPerson.motherIndex;
                     oNewPerson.save();
                     break;
 
                 case RelatedPerson.PARTNER:
-                    oPerson = new Person(Current.index, database_);
+                    oPerson = new Person(currentPage.index, database_);
                     Relationship oRelationship = new Relationship(oPerson, nNewPersonID);
                     oRelationship.save();
                     oPerson.addRelationship(oRelationship);
@@ -1315,14 +1307,14 @@ namespace FamilyTree.Viewer
 
                 case RelatedPerson.CHILD:
                     oNewPerson = new Person(nNewPersonID, database_);
-                    oPerson = new Person(Current.index, database_);
+                    oPerson = new Person(currentPage.index, database_);
                     if (oPerson.isMale)
                     {
-                        oNewPerson.fatherIndex = Current.index;
+                        oNewPerson.fatherIndex = currentPage.index;
                     }
                     else
                     {
-                        oNewPerson.motherIndex = Current.index;
+                        oNewPerson.motherIndex = currentPage.index;
                     }
                     oNewPerson.save();
                     break;
@@ -1330,7 +1322,7 @@ namespace FamilyTree.Viewer
                 }
 
                 // Refresh the display of the current person
-                ShowPerson(Current.index, false);
+                showPerson(currentPage.index, false);
             }
             dlgEdit.Dispose();
 
@@ -1369,7 +1361,7 @@ namespace FamilyTree.Viewer
             if (oOptions.updateOptions(this, ref userOptions_))
             {
                 // Update the display for the new user options
-                ShowCurrentPage();
+                showCurrentPage();
             }
             oOptions.Dispose();
 
@@ -1384,7 +1376,7 @@ namespace FamilyTree.Viewer
         private bool CreateTree()
         {
             // Create the tree document
-            clsTreeDocument oTree = new clsTreeDocument(database_, userOptions_, Current.index);
+            clsTreeDocument oTree = new clsTreeDocument(database_, userOptions_, currentPage.index);
 
             // Create a tree preview window
             frmViewTree oTreeWindow = new frmViewTree(oTree);
@@ -1446,20 +1438,22 @@ namespace FamilyTree.Viewer
 
         /// <summary>Create a html report about the current person.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool ReportToHtml()
+        private bool reportToHtml()
         {
-            // Create a report object
-            clsReport oReport = new clsReport(Current.index, database_, userOptions_);
+            // Create a report object.
+            Report report = new Report(currentPage.index, database_, userOptions_);
 
-            // Hide the person tree panel
+            // Hide the person tree panel.
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(oReport.getReport());
+            webBrowser_.DocumentText = userOptions_.renderHtml(report.getReport());
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         ///// <summary>
         ///// Create a report in Microsoft Word about the current person.
@@ -1482,7 +1476,7 @@ namespace FamilyTree.Viewer
         private bool ShowAge()
         {
             // Create the age window
-            frmAge oAge = new frmAge(database_, Current.index);
+            frmAge oAge = new frmAge(database_, currentPage.index);
             oAge.ShowDialog(this);
 
             // Return success;
@@ -1521,7 +1515,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(database_.getRecentChangesAsHtml());
+            webBrowser_.DocumentText = userOptions_.renderHtml(database_.getRecentChangesAsHtml());
 
             // Return success
             return true;
@@ -1537,7 +1531,7 @@ namespace FamilyTree.Viewer
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
-            m_oWebBrowser.DocumentText = userOptions_.renderHtml(database_.getToDoAsHtml());
+            webBrowser_.DocumentText = userOptions_.renderHtml(database_.getToDoAsHtml());
 
             // Return success
             return true;
@@ -2092,23 +2086,23 @@ namespace FamilyTree.Viewer
             }
 
             // There is always a line up to the parents.
-            pos = m_marParents.Left + m_marParents.Width / 2;
-            e.Graphics.DrawLine(pen, pos, labPerson_.Top - padding_.y, pos, m_marParents.Top + m_marParents.Height);
+            pos = marParents_.Left + marParents_.Width / 2;
+            e.Graphics.DrawLine(pen, pos, labPerson_.Top - padding_.y, pos, marParents_.Top + marParents_.Height);
 
             // Draw a line from the father to his parents.
             if (psnFather_.Visible)
             {
                 e.Graphics.DrawLine(pen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8);
-                e.Graphics.DrawLine(pen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8, m_marFatherParents.Left + m_marFatherParents.Width / 2, psnFather_.Top - 8);
-                e.Graphics.DrawLine(pen, m_marFatherParents.Left + m_marFatherParents.Width / 2, psnFather_.Top - 8, m_marFatherParents.Left + m_marFatherParents.Width / 2, m_marFatherParents.Top + m_marFatherParents.Height);
+                e.Graphics.DrawLine(pen, psnFather_.Left + psnFather_.Width / 2, psnFather_.Top - 8, marFatherParents_.Left + marFatherParents_.Width / 2, psnFather_.Top - 8);
+                e.Graphics.DrawLine(pen, marFatherParents_.Left + marFatherParents_.Width / 2, psnFather_.Top - 8, marFatherParents_.Left + marFatherParents_.Width / 2, marFatherParents_.Top + marFatherParents_.Height);
             }
 
             // Draw a line from the mother to her parents
             if (psnMother_.Visible)
             {
                 e.Graphics.DrawLine(pen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8);
-                e.Graphics.DrawLine(pen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8, m_marMotherParents.Left + m_marMotherParents.Width / 2, psnMother_.Top - 8);
-                e.Graphics.DrawLine(pen, m_marMotherParents.Left + m_marMotherParents.Width / 2, psnMother_.Top - 8, m_marMotherParents.Left + m_marMotherParents.Width / 2, m_marMotherParents.Top + m_marMotherParents.Height);
+                e.Graphics.DrawLine(pen, psnMother_.Left + psnMother_.Width / 2, psnMother_.Top - 8, marMotherParents_.Left + marMotherParents_.Width / 2, psnMother_.Top - 8);
+                e.Graphics.DrawLine(pen, marMotherParents_.Left + marMotherParents_.Width / 2, psnMother_.Top - 8, marMotherParents_.Left + marMotherParents_.Width / 2, marMotherParents_.Top + marMotherParents_.Height);
             }
 
             // Draw lines up for the children
@@ -2303,7 +2297,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuBack_Click(object sender, EventArgs e)
         {
-            HistoryBack();
+            historyBack();
         }
 
 
@@ -2313,7 +2307,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuForward_Click(object sender, EventArgs e)
         {
-            HistoryForward();
+            historyForward();
         }
 
 
@@ -2491,7 +2485,7 @@ namespace FamilyTree.Viewer
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 int nMediaID = oDialog.mediaIndex;
-                ShowMedia(nMediaID, true);
+                showMedia(nMediaID, true);
             }
         }
 
@@ -2518,10 +2512,10 @@ namespace FamilyTree.Viewer
         {
             m_menuImage.Checked = !m_menuImage.Checked;
             m_tsbImage.Checked = m_menuImage.Checked;
-            if (Current.content == Pages.PERSON)
+            if (currentPage.content == Pages.PERSON)
             {
-                Person oPerson = new Person(Current.index, database_);
-                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                Person oPerson = new Person(currentPage.index, database_);
+                webBrowser_.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
             }
         }
 
@@ -2535,15 +2529,15 @@ namespace FamilyTree.Viewer
             m_menuLocation.Checked = !m_menuLocation.Checked;
             m_tsbLocation.Checked = m_menuLocation.Checked;
 
-            switch (Current.content)
+            switch (currentPage.content)
             {
             case Pages.PERSON:
-                Person oPerson = new Person(Current.index, database_);
-                m_oWebBrowser.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
+                Person oPerson = new Person(currentPage.index, database_);
+                webBrowser_.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
                 break;
 
             case Pages.PLACE:
-                ShowPlace(Current.index, false);
+                showPlace(currentPage.index, false);
                 break;
             }
         }
@@ -2597,11 +2591,11 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuReduceWidth_Click(object sender, EventArgs e)
         {
-            if (Current.content == Pages.PERSON)
+            if (currentPage.content == Pages.PERSON)
             {
                 personSize_.x -= 8;
                 fontSize_ = 7.0f;
-                ShowPerson(Current.index, false);
+                showPerson(currentPage.index, false);
             }
         }
 
@@ -2612,11 +2606,11 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuStandardWidth_Click(object sender, EventArgs e)
         {
-            if (Current.content == Pages.PERSON)
+            if (currentPage.content == Pages.PERSON)
             {
                 personSize_.x = 130;
                 fontSize_ = userOptions_.fontBase.size;
-                ShowPerson(Current.index, false);
+                showPerson(currentPage.index, false);
             }
         }
 
@@ -2633,7 +2627,7 @@ namespace FamilyTree.Viewer
 
             // Open the filename for output.
             StreamWriter oFile = new StreamWriter(sFilename, false);
-            oFile.Write(m_oWebBrowser.DocumentText);
+            oFile.Write(webBrowser_.DocumentText);
             oFile.Close();
 
             // Open the new file in notepad.
@@ -2670,7 +2664,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuReportToHtml_Click(object sender, EventArgs e)
         {
-            ReportToHtml();
+            reportToHtml();
         }
 
         #endregion
@@ -2683,7 +2677,7 @@ namespace FamilyTree.Viewer
 		private void ucPerson_evtClick(object oSender)
         {
             FamilyTree.Viewer.ucPerson psnPerson = (FamilyTree.Viewer.ucPerson)oSender;
-            ShowPerson(psnPerson.getPersonIndex(), true);
+            showPerson(psnPerson.getPersonIndex(), true);
         }
 
         /// <summary>Message handler for the web browser trying to follow a link.</summary>
@@ -2701,66 +2695,70 @@ namespace FamilyTree.Viewer
                 case "person":
                     e.Cancel = true;
                     int nPersonID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    ShowPerson(nPersonID, true);
+                    showPerson(nPersonID, true);
                     break;
                 case "source":
                     e.Cancel = true;
                     int nSourceID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    ShowSource(nSourceID, true);
+                    showSource(nSourceID, true);
                     break;
                 case "place":
                     e.Cancel = true;
                     int nPlaceID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    ShowPlace(nPlaceID, true);
+                    showPlace(nPlaceID, true);
                     break;
                 case "media":
                     e.Cancel = true;
                     int nMediaID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    ShowMedia(nMediaID, true);
+                    showMedia(nMediaID, true);
                     break;
                 }
             }
         }
 
+
+
         /// <summary>Message handler for a individual back (or forward) item click.  This is the drop down combo next to the back and forward buttons.</summary>
-        /// <param name="oSender"></param>
+        /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void IndividualBackItem_Click(object oSender, EventArgs e)
+        private void IndividualBackItem_Click(object sender, EventArgs e)
         {
             // Find the label of the sending button.
-            string sLabel = oSender.ToString();
+            string buttonLabel = sender.ToString();
 
             // Find the index of the button in the back section.
-            int nIndex = -1;
-            for (int nI = historyIndex_ - 1; nI >= 0; nI--)
+            int buttonIndex = -1;
+            for (int i = historyIndex_ - 1; i >= 0; i--)
             {
-                if (history_[nI].label == sLabel)
+                if (history_[i].label == buttonLabel)
                 {
-                    nIndex = nI;
-                    nI = -1;
+                    buttonIndex = i;
+                    i = -1;
                 }
             }
 
             // Search in the forward section if nothing found so far.
-            if (nIndex < 0)
+            if (buttonIndex < 0)
             {
-                for (int nI = historyIndex_; nI <= historyLast_; nI++)
+                for (int i = historyIndex_; i <= historyLast_; i++)
                 {
-                    if (history_[nI].label == sLabel)
+                    if (history_[i].label == buttonLabel)
                     {
-                        nIndex = nI;
-                        nI = historyLast_ + 1;
+                        buttonIndex = i;
+                        i = historyLast_ + 1;
                     }
                 }
             }
 
-            // Show the specified page
-            if (nIndex >= 0)
+            // Show the specified page.
+            if (buttonIndex >= 0)
             {
-                historyIndex_ = nIndex;
-                ShowCurrentPage();
+                historyIndex_ = buttonIndex;
+                showCurrentPage();
             }
         }
+
+
 
         #endregion
 

@@ -79,10 +79,10 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.ToolStripMenuItem menuReportToHtml;
             System.Windows.Forms.StatusStrip oStatusStrip;
             System.Windows.Forms.ToolStripStatusLabel tslabUserName;
-            this.m_tsddbBack = new System.Windows.Forms.ToolStripDropDownButton();
-            this.m_tsbBack = new System.Windows.Forms.ToolStripButton();
-            this.m_tsddbForward = new System.Windows.Forms.ToolStripDropDownButton();
-            this.m_tsbForward = new System.Windows.Forms.ToolStripButton();
+            this.tsddbBack_ = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsbBack_ = new System.Windows.Forms.ToolStripButton();
+            this.tsddbForward_ = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsbForward_ = new System.Windows.Forms.ToolStripButton();
             this.m_tsbImage = new System.Windows.Forms.ToolStripButton();
             this.m_tsbLocation = new System.Windows.Forms.ToolStripButton();
             this.m_menuRecentFile1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,16 +98,16 @@ namespace FamilyTree.Viewer
             this.m_OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.m_SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelTree_ = new System.Windows.Forms.Panel();
-            this.m_marMotherParents = new FamilyTree.Viewer.ucRelationship();
-            this.m_marFatherParents = new FamilyTree.Viewer.ucRelationship();
-            this.m_marParents = new FamilyTree.Viewer.ucRelationship();
+            this.marMotherParents_ = new FamilyTree.Viewer.ucRelationship();
+            this.marFatherParents_ = new FamilyTree.Viewer.ucRelationship();
+            this.marParents_ = new FamilyTree.Viewer.ucRelationship();
             this.psnFatherFather_ = new FamilyTree.Viewer.ucPerson();
             this.psnMother_ = new FamilyTree.Viewer.ucPerson();
             this.psnMotherMother_ = new FamilyTree.Viewer.ucPerson();
             this.psnFather_ = new FamilyTree.Viewer.ucPerson();
             this.psnFatherMother_ = new FamilyTree.Viewer.ucPerson();
             this.psnMotherFather_ = new FamilyTree.Viewer.ucPerson();
-            this.m_oWebBrowser = new System.Windows.Forms.WebBrowser();
+            this.webBrowser_ = new System.Windows.Forms.WebBrowser();
             menuExportGedcom = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
@@ -309,10 +309,10 @@ namespace FamilyTree.Viewer
             // 
             oToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             tsbHome,
-            this.m_tsddbBack,
-            this.m_tsbBack,
-            this.m_tsddbForward,
-            this.m_tsbForward,
+            this.tsddbBack_,
+            this.tsbBack_,
+            this.tsddbForward_,
+            this.tsbForward_,
             tsbGoto,
             tsbEdit,
             tsbSources,
@@ -339,39 +339,39 @@ namespace FamilyTree.Viewer
             // 
             // m_tsddbBack
             // 
-            this.m_tsddbBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.m_tsddbBack.Image = global::FamilyTree.Viewer.Properties.Resources.Back;
-            this.m_tsddbBack.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.m_tsddbBack.Name = "m_tsddbBack";
-            this.m_tsddbBack.Size = new System.Drawing.Size(13, 22);
-            this.m_tsddbBack.Text = "Back";
+            this.tsddbBack_.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
+            this.tsddbBack_.Image = global::FamilyTree.Viewer.Properties.Resources.Back;
+            this.tsddbBack_.ImageTransparentColor = System.Drawing.Color.Silver;
+            this.tsddbBack_.Name = "m_tsddbBack";
+            this.tsddbBack_.Size = new System.Drawing.Size(13, 22);
+            this.tsddbBack_.Text = "Back";
             // 
             // m_tsbBack
             // 
-            this.m_tsbBack.Image = global::FamilyTree.Viewer.Properties.Resources.Back;
-            this.m_tsbBack.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.m_tsbBack.Name = "m_tsbBack";
-            this.m_tsbBack.Size = new System.Drawing.Size(49, 22);
-            this.m_tsbBack.Text = "Back";
-            this.m_tsbBack.Click += new System.EventHandler(this.menuBack_Click);
+            this.tsbBack_.Image = global::FamilyTree.Viewer.Properties.Resources.Back;
+            this.tsbBack_.ImageTransparentColor = System.Drawing.Color.Silver;
+            this.tsbBack_.Name = "m_tsbBack";
+            this.tsbBack_.Size = new System.Drawing.Size(49, 22);
+            this.tsbBack_.Text = "Back";
+            this.tsbBack_.Click += new System.EventHandler(this.menuBack_Click);
             // 
             // m_tsddbForward
             // 
-            this.m_tsddbForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.m_tsddbForward.Image = ((System.Drawing.Image)(resources.GetObject("m_tsddbForward.Image")));
-            this.m_tsddbForward.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.m_tsddbForward.Name = "m_tsddbForward";
-            this.m_tsddbForward.Size = new System.Drawing.Size(13, 22);
-            this.m_tsddbForward.Text = "Forward";
+            this.tsddbForward_.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
+            this.tsddbForward_.Image = ((System.Drawing.Image)(resources.GetObject("m_tsddbForward.Image")));
+            this.tsddbForward_.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddbForward_.Name = "m_tsddbForward";
+            this.tsddbForward_.Size = new System.Drawing.Size(13, 22);
+            this.tsddbForward_.Text = "Forward";
             // 
             // m_tsbForward
             // 
-            this.m_tsbForward.Image = global::FamilyTree.Viewer.Properties.Resources.Forward;
-            this.m_tsbForward.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.m_tsbForward.Name = "m_tsbForward";
-            this.m_tsbForward.Size = new System.Drawing.Size(67, 22);
-            this.m_tsbForward.Text = "Forward";
-            this.m_tsbForward.Click += new System.EventHandler(this.menuForward_Click);
+            this.tsbForward_.Image = global::FamilyTree.Viewer.Properties.Resources.Forward;
+            this.tsbForward_.ImageTransparentColor = System.Drawing.Color.Silver;
+            this.tsbForward_.Name = "m_tsbForward";
+            this.tsbForward_.Size = new System.Drawing.Size(67, 22);
+            this.tsbForward_.Text = "Forward";
+            this.tsbForward_.Click += new System.EventHandler(this.menuForward_Click);
             // 
             // tsbGoto
             // 
@@ -779,10 +779,10 @@ namespace FamilyTree.Viewer
             // m_oPanelTree
             // 
             this.panelTree_.Controls.Add(this.labPersonDates_);
-            this.panelTree_.Controls.Add(this.m_marMotherParents);
+            this.panelTree_.Controls.Add(this.marMotherParents_);
             this.panelTree_.Controls.Add(this.labPerson_);
-            this.panelTree_.Controls.Add(this.m_marFatherParents);
-            this.panelTree_.Controls.Add(this.m_marParents);
+            this.panelTree_.Controls.Add(this.marFatherParents_);
+            this.panelTree_.Controls.Add(this.marParents_);
             this.panelTree_.Controls.Add(this.psnFatherFather_);
             this.panelTree_.Controls.Add(this.psnMother_);
             this.panelTree_.Controls.Add(this.psnMotherMother_);
@@ -798,24 +798,24 @@ namespace FamilyTree.Viewer
             // 
             // m_marMotherParents
             // 
-            this.m_marMotherParents.Location = new System.Drawing.Point(403, 109);
-            this.m_marMotherParents.Name = "m_marMotherParents";
-            this.m_marMotherParents.Size = new System.Drawing.Size(16, 16);
-            this.m_marMotherParents.TabIndex = 15;
+            this.marMotherParents_.Location = new System.Drawing.Point(403, 109);
+            this.marMotherParents_.Name = "m_marMotherParents";
+            this.marMotherParents_.Size = new System.Drawing.Size(16, 16);
+            this.marMotherParents_.TabIndex = 15;
             // 
             // m_marFatherParents
             // 
-            this.m_marFatherParents.Location = new System.Drawing.Point(440, 109);
-            this.m_marFatherParents.Name = "m_marFatherParents";
-            this.m_marFatherParents.Size = new System.Drawing.Size(16, 16);
-            this.m_marFatherParents.TabIndex = 14;
+            this.marFatherParents_.Location = new System.Drawing.Point(440, 109);
+            this.marFatherParents_.Name = "m_marFatherParents";
+            this.marFatherParents_.Size = new System.Drawing.Size(16, 16);
+            this.marFatherParents_.TabIndex = 14;
             // 
             // m_marParents
             // 
-            this.m_marParents.Location = new System.Drawing.Point(316, 79);
-            this.m_marParents.Name = "m_marParents";
-            this.m_marParents.Size = new System.Drawing.Size(16, 16);
-            this.m_marParents.TabIndex = 6;
+            this.marParents_.Location = new System.Drawing.Point(316, 79);
+            this.marParents_.Name = "m_marParents";
+            this.marParents_.Size = new System.Drawing.Size(16, 16);
+            this.marParents_.TabIndex = 6;
             // 
             // m_psnFatherFather
             // 
@@ -879,19 +879,19 @@ namespace FamilyTree.Viewer
             // 
             // m_oWebBrowser
             // 
-            this.m_oWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_oWebBrowser.Location = new System.Drawing.Point(0, 387);
-            this.m_oWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.m_oWebBrowser.Name = "m_oWebBrowser";
-            this.m_oWebBrowser.Size = new System.Drawing.Size(804, 78);
-            this.m_oWebBrowser.TabIndex = 18;
-            this.m_oWebBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
+            this.webBrowser_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser_.Location = new System.Drawing.Point(0, 387);
+            this.webBrowser_.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_.Name = "m_oWebBrowser";
+            this.webBrowser_.Size = new System.Drawing.Size(804, 78);
+            this.webBrowser_.TabIndex = 18;
+            this.webBrowser_.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
             // 
             // frmMain
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(804, 490);
-            this.Controls.Add(this.m_oWebBrowser);
+            this.Controls.Add(this.webBrowser_);
             this.Controls.Add(this.panelTree_);
             this.Controls.Add(oToolStrip);
             this.Controls.Add(oMainMenu);
@@ -926,21 +926,21 @@ namespace FamilyTree.Viewer
         private FamilyTree.Viewer.ucPerson psnFatherMother_;
         private FamilyTree.Viewer.ucPerson psnMotherFather_;
         private FamilyTree.Viewer.ucPerson psnMotherMother_;
-        private FamilyTree.Viewer.ucRelationship m_marParents;
-        private FamilyTree.Viewer.ucRelationship m_marFatherParents;
-        private FamilyTree.Viewer.ucRelationship m_marMotherParents;
+        private FamilyTree.Viewer.ucRelationship marParents_;
+        private FamilyTree.Viewer.ucRelationship marFatherParents_;
+        private FamilyTree.Viewer.ucRelationship marMotherParents_;
         private System.Windows.Forms.SaveFileDialog m_SaveFileDialog;
         private Panel panelTree_;
-        private WebBrowser m_oWebBrowser;
+        private WebBrowser webBrowser_;
         private ToolStripMenuItem m_menuRecentFile1;
         private ToolStripMenuItem m_menuRecentFile2;
         private ToolStripMenuItem m_menuRecentFile3;
         private ToolStripMenuItem m_menuRecentFile4;
         private ToolStripMenuItem m_menuImage;
-        private ToolStripDropDownButton m_tsddbBack;
-        private ToolStripButton m_tsbBack;
-        private ToolStripButton m_tsbForward;
-        private ToolStripDropDownButton m_tsddbForward;
+        private ToolStripDropDownButton tsddbBack_;
+        private ToolStripButton tsbBack_;
+        private ToolStripButton tsbForward_;
+        private ToolStripDropDownButton tsddbForward_;
         private ToolStripStatusLabel tslabStatus_;
         private ToolStripProgressBar tsProgressBar_;
         private ToolStripMenuItem m_menuLocation;
