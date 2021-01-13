@@ -8,23 +8,23 @@ namespace FamilyTree.Viewer
     #region Supporting Types etc ...
 
     /// <summary>The devices that the tree document can be rendered on.  Makes a difference to the size of fonts.</summary>
-    public enum enumDevice
+    public enum DisplayDevice
     {
         /// <summary>Try to be device independent.</summary>
-        None,
+        NONE,
         /// <summary>The tree is been drawn directly onto a window.</summary>
-        Screen,
+        SCREEN,
         /// <summary>The tree is been draw directly onto the printer.</summary>
-        Printer,
+        PRINTER,
         /// <summary>The tree is been draw into a metafile.  The metafile will proably be used on the screen.</summary>
-        Metafile
+        METAFILE
     }
 
     #endregion
 
     /// <summary>Class to represent a graphical tree document.  Device dependant information keep to a minimum.  Devices that I have in mind are screen, printer, metafile.  I don't think the screen zoom factor and (possibly) the fonts should be in this object but they are for now.
     /// </summary>
-    public class clsTreeDocument
+    public class TreeDocument
     {
         #region Member Variables
 
@@ -50,7 +50,7 @@ namespace FamilyTree.Viewer
         private System.Drawing.PointF bottomRight_;
 
         /// <summary>Device for which the positions are calculated.</summary>
-        private enumDevice currentDevice_;
+        private DisplayDevice currentDevice_;
 
         /// <summary>Height of a person.</summary>
         private float personHeight_;
@@ -92,11 +92,13 @@ namespace FamilyTree.Viewer
 
         #region Constructors etc ...
 
+
+
         /// <summary>Class constructor.</summary>
         /// <param name="database">Specify the database to work from.</param>
         /// <param name="userOptions">Specify the user options to initialise the tree with.</param>
         /// <param name="personIndex">Specify the person to draw a tree for.</param>
-        public clsTreeDocument(Database database, UserOptions userOptions, int personIndex)
+        public TreeDocument(Database database, UserOptions userOptions, int personIndex)
         {
             // Save the input parameters.
             database_ = database;
@@ -108,7 +110,7 @@ namespace FamilyTree.Viewer
             penBlackThick_ = new System.Drawing.Pen(System.Drawing.Color.Black, 2);
             brushBoy_ = new System.Drawing.SolidBrush(System.Drawing.Color.LightBlue);
             brushGirl_ = new System.Drawing.SolidBrush(System.Drawing.Color.Pink);
-            currentDevice_ = enumDevice.None;
+            currentDevice_ = DisplayDevice.NONE;
 
             // Initialise the tree document.
             people_ = new ArrayList();
@@ -130,17 +132,17 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Class constructor for a .tree document.</summary>
-        /// <param name="oDb">Specifies the database to work from.</param>
-        /// <param name="oTreeOptions">Specifies the .tree file to load the options from.</param>
-        public clsTreeDocument(Database oDb, walton.XmlDocument oTreeOptions)
+        /// <param name="database">Specifies the database to work from.</param>
+        /// <param name="xmlTreeOptions">Specifies the .tree file to load the options from.</param>
+        public TreeDocument(Database database, walton.XmlDocument xmlTreeOptions)
         {
-            // Save the input parameters
-            database_ = oDb;
-            treeOptions_ = new clsTreeOptions(oTreeOptions);
+            // Save the input parameters.
+            database_ = database;
+            treeOptions_ = new clsTreeOptions(xmlTreeOptions);
             zoom_ = 100;
 
-            // Find the base person            
-            walton.XmlNode xmlTree = oTreeOptions.getNode("tree");
+            // Find the base person.
+            walton.XmlNode xmlTree = xmlTreeOptions.getNode("tree");
             int nPersonID = xmlTree.getAttributeValue("mainperson", 1, false);
 
             brushBlack_ = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
@@ -148,32 +150,30 @@ namespace FamilyTree.Viewer
             penBlackThick_ = new System.Drawing.Pen(System.Drawing.Color.Black, 2);
             brushBoy_ = new System.Drawing.SolidBrush(System.Drawing.Color.LightBlue);
             brushGirl_ = new System.Drawing.SolidBrush(System.Drawing.Color.Pink);
-            currentDevice_ = enumDevice.None;
+            currentDevice_ = DisplayDevice.NONE;
 
-            // Initialise the tree document
+            // Initialise the tree document.
             people_ = new ArrayList();
             families_ = new ArrayList();
             offset = new System.Drawing.PointF(0, 0);
             basePerson_ = new clsTreePerson(this, nPersonID);
             people_.Add(basePerson_);
 
-            // Get the rules for this tree
-            clsTreeRule[] oRules = treeOptions_.getRules();
+            // Get the rules for this tree.
+            clsTreeRule[] rules = treeOptions_.getRules();
 
-            // Add the descendants of the specified person
-            basePerson_.addDescendants(oRules);
+            // Add the descendants of the specified person.
+            basePerson_.addDescendants(rules);
 
-            // Add the ancestors of the specified person
-            basePerson_.AddAncestors(true, oRules);
+            // Add the ancestors of the specified person.
+            basePerson_.AddAncestors(true, rules);
         }
 
-        // Create the fonts that will be used on this device.
-        /// <summary>
-        /// Create the fonts that will be used on this device.
-        /// This allows for different fonts on different devices.
-        /// </summary>
-        /// <param name="Device"></param>
-        public void GenerateFonts(enumDevice Device)
+
+
+        /// <summary>Create the fonts that will be used on this device.  This allows for different fonts on different devices.</summary>
+        /// <param name="device"></param>
+        public void generateFonts(DisplayDevice device)
         {
             /*
             if(Device == enumDevice.Printer)
@@ -193,21 +193,19 @@ namespace FamilyTree.Viewer
             fontDescription_ = new System.Drawing.Font(treeOptions_.subFontName_, treeOptions_.subFontSize_ * scalingFactor);
         }
 
-        // Regenerate the tree document.
-        /// <summary>
-        /// Regenerate the tree document.
-        /// This would most usually be done after the options have changed.
-        /// </summary>
-        public void Regenerate()
+
+
+        /// <summary>Regenerate the tree document.  This would most usually be done after the options have changed.</summary>
+        public void regenerate()
         {
             brushBlack_ = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
             penBlackThin_ = new System.Drawing.Pen(System.Drawing.Color.Black, 0);
             penBlackThick_ = new System.Drawing.Pen(System.Drawing.Color.Black, 2);
             brushBoy_ = new System.Drawing.SolidBrush(System.Drawing.Color.LightBlue);
             brushGirl_ = new System.Drawing.SolidBrush(System.Drawing.Color.Pink);
-            currentDevice_ = enumDevice.None;
+            currentDevice_ = DisplayDevice.NONE;
 
-            // Initialise the tree document
+            // Initialise the tree document.
             people_ = new ArrayList();
             families_ = new ArrayList();
             int nPersonID = basePerson_.PersonID;
@@ -215,144 +213,136 @@ namespace FamilyTree.Viewer
             basePerson_ = new clsTreePerson(this, nPersonID);
             people_.Add(basePerson_);
 
-            // Get the rules for this tree
-            clsTreeRule[] oRules = treeOptions_.getRules();
+            // Get the rules for this tree.
+            clsTreeRule[] rules = treeOptions_.getRules();
 
-            // Add the descendants of the specified person
-            basePerson_.addDescendants(oRules);
+            // Add the descendants of the specified person.
+            basePerson_.addDescendants(rules);
 
-            // Add the ancestors of the specified person
+            // Add the ancestors of the specified person.
             if (!treeOptions_.isInRules(clsTreeRule.RuleAction.EXCLUDE_ANCESTORS, basePerson_.PersonID))
             {
-                basePerson_.AddAncestors(true, oRules);
+                basePerson_.AddAncestors(true, rules);
             }
 
-            // Force a recalculation of the positions
-            currentDevice_ = enumDevice.None;
+            // Force a recalculation of the positions.
+            currentDevice_ = DisplayDevice.NONE;
         }
+
+
 
         #endregion
 
         #region Building
 
-        /// <summary>
-        /// Add the person to the collection of people in this tree.
-        /// </summary>
-        /// <param name="oPerson">Specifies the person to add to the tree.</param>
-        public void AddPerson
-            (
-            clsTreePerson oPerson
-            )
+
+
+        /// <summary>Add the person to the collection of people in this tree.</summary>
+        /// <param name="person">Specifies the person to add to the tree.</param>
+        public void addPerson(clsTreePerson person)
         {
-            people_.Add(oPerson);
+            people_.Add(person);
         }
 
-        /// <summary>
-        /// Add a family to the collection of families in this tree.
-        /// </summary>
-        /// <param name="oFamily">Specifies the the family to add to the tree.</param>
-        public void AddFamily
-            (
-            clsTreeConnection oFamily
-            )
+
+
+        /// <summary>Add a family to the collection of families in this tree.</summary>
+        /// <param name="family">Specifies the the family to add to the tree.</param>
+        public void addFamily(clsTreeConnection family)
         {
-            families_.Add(oFamily);
+            families_.Add(family);
         }
+
+
 
         #endregion
 
         #region Position Calculations
 
-        /// <summary>
-		/// Calculate the positions for all the objects in the document given the specified graphics object (device).
-		/// The tree can be drawn many times on the device once the positions have been calculated.  But the positions
-		/// need to be recalculated for a different device.
-		/// </summary>
-		/// <param name="oGraphics">Specify the graphic object (device) that the tree will be drawn on</param>
-		/// <param name="Device">Specify the device that we calculating the positions for</param>
-		/// <returns>True for success, false otherwise.</returns>
-		public bool CalculatePositions
-            (
-            System.Drawing.Graphics oGraphics,
-            enumDevice Device
-            )
+
+
+        /// <summary>Calculate the positions for all the objects in the document given the specified graphics object (device).  The tree can be drawn many times on the device once the positions have been calculated.  But the positions need to be recalculated for a different device.</summary>
+        /// <param name="graphics">Specify the graphic object (device) that the tree will be drawn on</param>
+        /// <param name="device">Specify the device that we calculating the positions for</param>
+        /// <returns>True for success, false otherwise.</returns>
+        public bool calculatePositions(System.Drawing.Graphics graphics, DisplayDevice device)
         {
-            // Check if the position have already been calculated for this device
-            if (currentDevice_ == Device)
+            // Check if the position have already been calculated for this device.
+            if (currentDevice_ == device)
             {
-                // The positions are already calculated
+                // The positions are already calculated.
                 return true;
             }
-            currentDevice_ = Device;
+            currentDevice_ = device;
 
-            // Rework the fonts
-            GenerateFonts(Device);
+            // Rework the fonts.
+            generateFonts(device);
 
-            // Calculate the size of some standard objects
-            System.Drawing.SizeF oSize = oGraphics.MeasureString("A", this.fontName);
-            personHeight_ = oSize.Height;
-            relationshipY_ = oSize.Height / 2;
-            oSize = oGraphics.MeasureString("1900", this.fontDescription);
-            relationshipX_ = oSize.Width;
-            personHeight_ += oSize.Height * 3;
+            // Calculate the size of some standard objects.
+            System.Drawing.SizeF size = graphics.MeasureString("A", this.fontName);
+            personHeight_ = size.Height;
+            relationshipY_ = size.Height / 2;
+            size = graphics.MeasureString("1900", this.fontDescription);
+            relationshipX_ = size.Width;
+            personHeight_ += size.Height * 3;
 
-            // Calculate the position of the objects in the document
+            // Calculate the position of the objects in the document.
             topLeft_ = new System.Drawing.PointF(0, 0);
             bottomRight_ = new System.Drawing.PointF(0, 0);
 
-            // Reset the position known flag
-            foreach (clsTreePerson oPerson in getPeople())
+            // Reset the position known flag.
+            foreach (clsTreePerson person in getPeople())
             {
-                oPerson.PositionKnown = false;
+                person.PositionKnown = false;
             }
 
-            // Loop through the people and position them relative to the people around them                        
-            bool bFirstPerson = true;
-            foreach (clsTreePerson oPerson in getPeople())
+            // Loop through the people and position them relative to the people around them.
+            bool isFirstPerson = true;
+            foreach (clsTreePerson person in getPeople())
             {
-                // The first person is at the origin
-                if (bFirstPerson)
+                // The first person is at the origin.
+                if (isFirstPerson)
                 {
-                    bFirstPerson = false;
-                    oPerson.SetPosition(oGraphics, 0, 0);
+                    isFirstPerson = false;
+                    person.SetPosition(graphics, 0, 0);
                 }
 
-                // Fix the relations of this person
-                oPerson.CalculatePosition(oGraphics);
+                // Fix the relations of this person.
+                person.CalculatePosition(graphics);
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Notify the tree of the position of an object.
-        /// <summary>
-        /// Notify the tree of the position of an object.
-        /// This is so the tree can know the extent of itself
-		/// </summary>
-		/// <param name="dLeft">Specifies the left position of the object.</param>
-		/// <param name="dTop">Specifies the top position of the object.</param>
-		/// <param name="dRight">Specifies the right position of the object.</param>
-		/// <param name="dBottom">Specifies the bottom position of the object.</param>
-        public void NotifyPosition(float dLeft, float dTop, float dRight, float dBottom)
+
+
+        /// <summary>Notify the tree of the position of an object.  This is so the tree can know the extent of itself.</summary>
+        /// <param name="left">Specifies the left position of the object.</param>
+        /// <param name="top">Specifies the top position of the object.</param>
+        /// <param name="right">Specifies the right position of the object.</param>
+        /// <param name="bottom">Specifies the bottom position of the object.</param>
+        public void notifyPosition(float left, float top, float right, float bottom)
         {
-            if (dLeft < topLeft_.X)
+            if (left < topLeft_.X)
             {
-                topLeft_.X = dLeft;
+                topLeft_.X = left;
             }
-            if (dTop < topLeft_.Y)
+            if (top < topLeft_.Y)
             {
-                topLeft_.Y = dTop;
+                topLeft_.Y = top;
             }
-            if (dRight > bottomRight_.X)
+            if (right > bottomRight_.X)
             {
-                bottomRight_.X = dRight;
+                bottomRight_.X = right;
             }
-            if (dBottom > bottomRight_.Y)
+            if (bottom > bottomRight_.Y)
             {
-                bottomRight_.Y = dBottom;
+                bottomRight_.Y = bottom;
             }
         }
+
+
 
         #endregion
 
@@ -360,11 +350,7 @@ namespace FamilyTree.Viewer
 
 
 
-        /// <summary>
-        /// Draw the tree onto the specified graphic object.
-        /// 
-        /// Probably will end up drawing slightly different things for screen, printer and metafile.
-        /// </summary>
+        /// <summary>Draw the tree onto the specified graphic object.  Probably will end up drawing slightly different things for screen, printer and metafile.</summary>
         /// <param name="graphics">Specify the graphic to draw the tree on</param>
         /// <returns>True for success, false otherwise</returns>
         public bool draw(System.Drawing.Graphics graphics)
@@ -378,7 +364,7 @@ namespace FamilyTree.Viewer
             clsTreePerson[] people = getPeople();
             foreach (clsTreePerson person in people)
             {
-                person.Draw(graphics);
+                person.draw(graphics);
             }
 
             return true; //  m_oBasePerson.Draw(oGraphics,enumTreeDirection.Both);
@@ -403,7 +389,7 @@ namespace FamilyTree.Viewer
         public bool isPersonBox { get { return treeOptions_.isTreePersonBox_; } }
 
         /// <summary>The last device that the tree was drawn on.  If the current device is different then the width need recalulating for the current device.</summary>
-        public enumDevice lastDevice { get { return currentDevice_; } }
+        public DisplayDevice lastDevice { get { return currentDevice_; } }
 
         /// <summary>The co-ordinates of the top-left corner of the tree.</summary>
         public System.Drawing.PointF topLeft { get { return topLeft_; } }
@@ -420,7 +406,7 @@ namespace FamilyTree.Viewer
         #region Object Spacing Properties
 
         /// <summary>NOT SURE!  Half the width of the symbol used to mark a relationship.</summary>
-        public float RelationshipSymbol { get { return 6; } }
+        public float relationshipSymbol { get { return 6; } }
 
         /// <summary>The height of box around a person.</summary>
         public float spcPersonHeight { get { return personHeight_; } }
@@ -499,10 +485,10 @@ namespace FamilyTree.Viewer
             {
                 switch (currentDevice_)
                 {
-                case enumDevice.Screen:
+                case DisplayDevice.SCREEN:
                     return ((float)zoom_) / 100f;
 
-                case enumDevice.Printer:
+                case DisplayDevice.PRINTER:
                     //return 0.43f;
                     return 0.5f;
 

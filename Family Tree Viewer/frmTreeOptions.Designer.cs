@@ -36,17 +36,17 @@ namespace FamilyTree.Viewer
             this.m_cmdOK = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.chkTreePersonBox = new System.Windows.Forms.CheckBox();
+            this.chkTreePersonBox_ = new System.Windows.Forms.CheckBox();
             this.cmdTreeSubFont = new System.Windows.Forms.Button();
             this.cmdTreeMainFont = new System.Windows.Forms.Button();
-            this.labTreeSubFont = new System.Windows.Forms.Label();
-            this.labTreeMainFont = new System.Windows.Forms.Label();
+            this.labTreeSubFont_ = new System.Windows.Forms.Label();
+            this.labTreeMainFont_ = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.m_cmdAdd = new System.Windows.Forms.Button();
             this.m_txtRuleParameter = new System.Windows.Forms.TextBox();
-            this.m_cboRulePeople = new System.Windows.Forms.ComboBox();
-            this.m_cboRules = new System.Windows.Forms.ComboBox();
-            this.m_oRules = new System.Windows.Forms.WebBrowser();
+            this.cboRulePeople_ = new System.Windows.Forms.ComboBox();
+            this.cboRules_ = new System.Windows.Forms.ComboBox();
+            this.webRules_ = new System.Windows.Forms.WebBrowser();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
@@ -101,7 +101,7 @@ namespace FamilyTree.Viewer
             this.m_cmdOK.Text = "OK";
             this.m_cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.m_cmdOK.UseVisualStyleBackColor = true;
-            this.m_cmdOK.Click += new System.EventHandler(this.m_cmdOK_Click);
+            this.m_cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // tabControl1
             // 
@@ -117,11 +117,11 @@ namespace FamilyTree.Viewer
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.chkTreePersonBox);
+            this.tabPage1.Controls.Add(this.chkTreePersonBox_);
             this.tabPage1.Controls.Add(this.cmdTreeSubFont);
             this.tabPage1.Controls.Add(this.cmdTreeMainFont);
-            this.tabPage1.Controls.Add(this.labTreeSubFont);
-            this.tabPage1.Controls.Add(this.labTreeMainFont);
+            this.tabPage1.Controls.Add(this.labTreeSubFont_);
+            this.tabPage1.Controls.Add(this.labTreeMainFont_);
             this.tabPage1.ImageIndex = 3;
             this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
@@ -133,11 +133,11 @@ namespace FamilyTree.Viewer
             // 
             // chkTreePersonBox
             // 
-            this.chkTreePersonBox.Location = new System.Drawing.Point(93, 243);
-            this.chkTreePersonBox.Name = "chkTreePersonBox";
-            this.chkTreePersonBox.Size = new System.Drawing.Size(224, 24);
-            this.chkTreePersonBox.TabIndex = 9;
-            this.chkTreePersonBox.Text = "Box around people";
+            this.chkTreePersonBox_.Location = new System.Drawing.Point(93, 243);
+            this.chkTreePersonBox_.Name = "chkTreePersonBox";
+            this.chkTreePersonBox_.Size = new System.Drawing.Size(224, 24);
+            this.chkTreePersonBox_.TabIndex = 9;
+            this.chkTreePersonBox_.Text = "Box around people";
             // 
             // cmdTreeSubFont
             // 
@@ -167,31 +167,31 @@ namespace FamilyTree.Viewer
             // 
             // labTreeSubFont
             // 
-            this.labTreeSubFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labTreeSubFont.Location = new System.Drawing.Point(181, 187);
-            this.labTreeSubFont.Name = "labTreeSubFont";
-            this.labTreeSubFont.Size = new System.Drawing.Size(336, 32);
-            this.labTreeSubFont.TabIndex = 6;
-            this.labTreeSubFont.Text = "Sub Font: Tahoma 8";
-            this.labTreeSubFont.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labTreeSubFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labTreeSubFont_.Location = new System.Drawing.Point(181, 187);
+            this.labTreeSubFont_.Name = "labTreeSubFont";
+            this.labTreeSubFont_.Size = new System.Drawing.Size(336, 32);
+            this.labTreeSubFont_.TabIndex = 6;
+            this.labTreeSubFont_.Text = "Sub Font: Tahoma 8";
+            this.labTreeSubFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labTreeMainFont
             // 
-            this.labTreeMainFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labTreeMainFont.Location = new System.Drawing.Point(181, 147);
-            this.labTreeMainFont.Name = "labTreeMainFont";
-            this.labTreeMainFont.Size = new System.Drawing.Size(336, 32);
-            this.labTreeMainFont.TabIndex = 5;
-            this.labTreeMainFont.Text = "Main Font: Tahoma 11";
-            this.labTreeMainFont.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labTreeMainFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labTreeMainFont_.Location = new System.Drawing.Point(181, 147);
+            this.labTreeMainFont_.Name = "labTreeMainFont";
+            this.labTreeMainFont_.Size = new System.Drawing.Size(336, 32);
+            this.labTreeMainFont_.TabIndex = 5;
+            this.labTreeMainFont_.Text = "Main Font: Tahoma 11";
+            this.labTreeMainFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.m_cmdAdd);
             this.tabPage2.Controls.Add(this.m_txtRuleParameter);
-            this.tabPage2.Controls.Add(this.m_cboRulePeople);
-            this.tabPage2.Controls.Add(this.m_cboRules);
-            this.tabPage2.Controls.Add(this.m_oRules);
+            this.tabPage2.Controls.Add(this.cboRulePeople_);
+            this.tabPage2.Controls.Add(this.cboRules_);
+            this.tabPage2.Controls.Add(this.webRules_);
             this.tabPage2.ImageIndex = 2;
             this.tabPage2.Location = new System.Drawing.Point(4, 23);
             this.tabPage2.Name = "tabPage2";
@@ -224,29 +224,29 @@ namespace FamilyTree.Viewer
             // 
             // m_cboRulePeople
             // 
-            this.m_cboRulePeople.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboRulePeople.FormattingEnabled = true;
-            this.m_cboRulePeople.Location = new System.Drawing.Point(270, 384);
-            this.m_cboRulePeople.Name = "m_cboRulePeople";
-            this.m_cboRulePeople.Size = new System.Drawing.Size(226, 21);
-            this.m_cboRulePeople.TabIndex = 2;
+            this.cboRulePeople_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRulePeople_.FormattingEnabled = true;
+            this.cboRulePeople_.Location = new System.Drawing.Point(270, 384);
+            this.cboRulePeople_.Name = "m_cboRulePeople";
+            this.cboRulePeople_.Size = new System.Drawing.Size(226, 21);
+            this.cboRulePeople_.TabIndex = 2;
             // 
             // m_cboRules
             // 
-            this.m_cboRules.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboRules.FormattingEnabled = true;
-            this.m_cboRules.Location = new System.Drawing.Point(8, 384);
-            this.m_cboRules.Name = "m_cboRules";
-            this.m_cboRules.Size = new System.Drawing.Size(256, 21);
-            this.m_cboRules.TabIndex = 1;
+            this.cboRules_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRules_.FormattingEnabled = true;
+            this.cboRules_.Location = new System.Drawing.Point(8, 384);
+            this.cboRules_.Name = "m_cboRules";
+            this.cboRules_.Size = new System.Drawing.Size(256, 21);
+            this.cboRules_.TabIndex = 1;
             // 
             // m_oRules
             // 
-            this.m_oRules.Location = new System.Drawing.Point(8, 6);
-            this.m_oRules.MinimumSize = new System.Drawing.Size(20, 20);
-            this.m_oRules.Name = "m_oRules";
-            this.m_oRules.Size = new System.Drawing.Size(594, 339);
-            this.m_oRules.TabIndex = 0;
+            this.webRules_.Location = new System.Drawing.Point(8, 6);
+            this.webRules_.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webRules_.Name = "m_oRules";
+            this.webRules_.Size = new System.Drawing.Size(594, 339);
+            this.webRules_.TabIndex = 0;
             // 
             // frmTreeOptions
             // 
@@ -278,16 +278,16 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.CheckBox chkTreePersonBox;
+        private System.Windows.Forms.CheckBox chkTreePersonBox_;
         private System.Windows.Forms.Button cmdTreeSubFont;
         private System.Windows.Forms.Button cmdTreeMainFont;
-        private System.Windows.Forms.Label labTreeSubFont;
-        private System.Windows.Forms.Label labTreeMainFont;
+        private System.Windows.Forms.Label labTreeSubFont_;
+        private System.Windows.Forms.Label labTreeMainFont_;
         private System.Windows.Forms.FontDialog fontDialog1;
-        private System.Windows.Forms.WebBrowser m_oRules;
+        private System.Windows.Forms.WebBrowser webRules_;
         private System.Windows.Forms.TextBox m_txtRuleParameter;
-        private System.Windows.Forms.ComboBox m_cboRulePeople;
-        private System.Windows.Forms.ComboBox m_cboRules;
+        private System.Windows.Forms.ComboBox cboRulePeople_;
+        private System.Windows.Forms.ComboBox cboRules_;
         private System.Windows.Forms.Button m_cmdAdd;
     }
 }

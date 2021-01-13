@@ -24,7 +24,7 @@ namespace FamilyTree.Viewer
         #endregion
 
         /// <summary>Tree document that this person is attached to.</summary>
-        clsTreeDocument tree_;
+        TreeDocument tree_;
 
         /// <summary>ID of this person in the database.</summary>
         int personIndex_;
@@ -60,33 +60,29 @@ namespace FamilyTree.Viewer
 
         #region Constructors etc ...
 
-        /// <summary>
-        /// Create a person for a tree document.
-        /// </summary>
-        /// <param name="oTree">Specify the tree document that contains the person.</param>
-        /// <param name="nPersonID">Specify the ID of the person.</param>
-        public clsTreePerson
-            (
-            clsTreeDocument oTree,
-            int nPersonID
-            )
-        {
-            // Save the supplied values
-            tree_ = oTree;
-            personIndex_ = nPersonID;
 
-            // Initialise the object
+
+        /// <summary>Create a person for a tree document.</summary>
+        /// <param name="tree">Specify the tree document that contains the person.</param>
+        /// <param name="personIndex">Specify the ID of the person.</param>
+        public clsTreePerson(TreeDocument tree, int personIndex)
+        {
+            // Save the supplied values.
+            tree_ = tree;
+            personIndex_ = personIndex;
+
+            // Initialise the object.
             pos_ = new System.Drawing.PointF(0, 0);
             descendants_ = null;
             ancestors_ = null;
             connection_ = ParentConnection.BOTH;
 
-            // Get the information required from the database
-            Person oPerson = new Person(nPersonID, tree_.database);
-            name_ = oPerson.getName(false, true);
-            description_ = oPerson.shortDescription(false);
-            nameWithYears_ = oPerson.getName(true, true);
-            isMale_ = oPerson.isMale;
+            // Get the information required from the database.
+            Person person = new Person(personIndex, tree_.database);
+            name_ = person.getName(false, true);
+            description_ = person.shortDescription(false);
+            nameWithYears_ = person.getName(true, true);
+            isMale_ = person.isMale;
         }
 
         #endregion
@@ -406,23 +402,19 @@ namespace FamilyTree.Viewer
             pos_.Y = Y;
 
             // Notify the tree with the position of this person
-            tree_.NotifyPosition(pos_.X, pos_.Y, pos_.X + GetWidth(oGraphics), pos_.Y + tree_.spcPersonHeight);
+            tree_.notifyPosition(pos_.X, pos_.Y, pos_.X + GetWidth(oGraphics), pos_.Y + tree_.spcPersonHeight);
         }
 
         #endregion
 
         #region Drawing
 
-        /// <summary>
-        /// Draws the specified person.
-        /// Previously this would also draw his relations but it does not anymore.
-        /// </summary>
-        /// <param name="oGraphics">Specifies the graphics device to draw the person on to.</param>
-        /// <returns>True for success, false otherwise.</returns>        
-        public bool Draw
-        (
-        System.Drawing.Graphics oGraphics
-        )
+
+
+        /// <summary>Draws the specified person.  Previously this would also draw his relations but it does not anymore.</summary>
+        /// <param name="graphics">Specifies the graphics device to draw the person on to.</param>
+        /// <returns>True for success, false otherwise.</returns>
+        public bool draw(System.Drawing.Graphics graphics)
         {
             if (isPositionKnown_)
             {
@@ -433,22 +425,22 @@ namespace FamilyTree.Viewer
                 {
                     if (isMale_)
                     {
-                        oGraphics.FillRectangle(tree_.brushBoy, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, GetWidth(oGraphics), tree_.spcPersonHeight);
+                        graphics.FillRectangle(tree_.brushBoy, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, GetWidth(graphics), tree_.spcPersonHeight);
                     }
                     else
                     {
-                        oGraphics.FillRectangle(tree_.brushGirl, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, GetWidth(oGraphics), tree_.spcPersonHeight);
+                        graphics.FillRectangle(tree_.brushGirl, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, GetWidth(graphics), tree_.spcPersonHeight);
                     }
 
-                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY);
-                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY + tree_.spcPersonHeight);
-                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX + GetWidth(oGraphics), pos_.Y - tree_.offsetY + tree_.spcPersonHeight, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY + tree_.spcPersonHeight);
-                    oGraphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY + tree_.spcPersonHeight, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY);
+                    graphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY, pos_.X - tree_.offsetX + GetWidth(graphics), pos_.Y - tree_.offsetY);
+                    graphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX + GetWidth(graphics), pos_.Y - tree_.offsetY, pos_.X - tree_.offsetX + GetWidth(graphics), pos_.Y - tree_.offsetY + tree_.spcPersonHeight);
+                    graphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX + GetWidth(graphics), pos_.Y - tree_.offsetY + tree_.spcPersonHeight, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY + tree_.spcPersonHeight);
+                    graphics.DrawLine(tree_.penBlackThin, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY + tree_.spcPersonHeight, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY);
                 }
 
                 // Draw the person's name and description
-                oGraphics.DrawString(name_, tree_.fontName, tree_.brushBlack, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY);
-                oGraphics.DrawString(description_, tree_.fontDescription, tree_.brushBlack, pos_.X - tree_.offsetX, pos_.Y + tree_.fontName.Height - tree_.offsetY);
+                graphics.DrawString(name_, tree_.fontName, tree_.brushBlack, pos_.X - tree_.offsetX, pos_.Y - tree_.offsetY);
+                graphics.DrawString(description_, tree_.fontDescription, tree_.brushBlack, pos_.X - tree_.offsetX, pos_.Y + tree_.fontName.Height - tree_.offsetY);
             }
             else
             {
@@ -497,14 +489,14 @@ namespace FamilyTree.Viewer
             Person person = new Person(personIndex_, tree_.database);
 
             // Add the partners to the person
-            enumConMainPerson nType;
+            ConnectionMainPerson nType;
             if (person.isMale)
             {
-                nType = enumConMainPerson.Father;
+                nType = ConnectionMainPerson.FATHER;
             }
             else
             {
-                nType = enumConMainPerson.Mother;
+                nType = ConnectionMainPerson.MOTHER;
             }
             Relationship[] relationships = person.getRelationships();
             descendants_ = new clsTreeConnection[relationships.Length];
@@ -520,18 +512,18 @@ namespace FamilyTree.Viewer
                     nIndex = nI;
                 }
                 descendants_[nI] = new clsTreeConnection(tree_, this, nType, nI);
-                tree_.AddFamily(descendants_[nI]);
+                tree_.addFamily(descendants_[nI]);
                 if (person.isMale)
                 {
                     clsTreePerson oMother = new clsTreePerson(tree_, relationships[nIndex].partnerIndex);
                     descendants_[nI].AddMother(oMother);
-                    tree_.AddPerson(oMother);
+                    tree_.addPerson(oMother);
                 }
                 else
                 {
                     clsTreePerson oFather = new clsTreePerson(tree_, relationships[nIndex].partnerIndex);
                     descendants_[nI].AddFather(oFather);
-                    tree_.AddPerson(oFather);
+                    tree_.addPerson(oFather);
                 }
                 if (relationships[nIndex].terminatedIndex == 2)
                 {
@@ -552,7 +544,7 @@ namespace FamilyTree.Viewer
 
                 // Create a person in the tree document for this child
                 clsTreePerson oChild = new clsTreePerson(tree_, Children[nI]);
-                tree_.AddPerson(oChild);
+                tree_.addPerson(oChild);
 
                 // Add the child to the selected relationship / connection
                 descendants_[nConnection].AddChild(oChild);
@@ -577,13 +569,13 @@ namespace FamilyTree.Viewer
                 descendants_ = new clsTreeConnection[1];
                 if (isMale_)
                 {
-                    descendants_[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Father, 0);
+                    descendants_[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.FATHER, 0);
                 }
                 else
                 {
-                    descendants_[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Mother, 0);
+                    descendants_[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.MOTHER, 0);
                 }
-                tree_.AddFamily(descendants_[0]);
+                tree_.addFamily(descendants_[0]);
             }
 
             // Create the child person object
@@ -622,14 +614,14 @@ namespace FamilyTree.Viewer
             }
             if (isMale_)
             {
-                oNewDescendants[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Father, descendants_.Length);
+                oNewDescendants[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.FATHER, descendants_.Length);
             }
             else
             {
-                oNewDescendants[0] = new clsTreeConnection(tree_, this, enumConMainPerson.Mother, descendants_.Length);
+                oNewDescendants[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.MOTHER, descendants_.Length);
             }
             descendants_ = oNewDescendants;
-            tree_.AddFamily(descendants_[0]);
+            tree_.addFamily(descendants_[0]);
 
             // Default to the first connection object
             return 0;
@@ -657,23 +649,23 @@ namespace FamilyTree.Viewer
             // Create an ancestors object for this person
             if (bPrimaryPerson)
             {
-                ancestors_ = new clsTreeConnection(tree_, this, enumConMainPerson.Child, 0);
+                ancestors_ = new clsTreeConnection(tree_, this, ConnectionMainPerson.CHILD, 0);
             }
             else if (isMale_)
             {
-                ancestors_ = new clsTreeConnection(tree_, this, enumConMainPerson.ChildBoy, 0);
+                ancestors_ = new clsTreeConnection(tree_, this, ConnectionMainPerson.CHILD_BOY, 0);
             }
             else
             {
-                ancestors_ = new clsTreeConnection(tree_, this, enumConMainPerson.ChildGirl, 0);
+                ancestors_ = new clsTreeConnection(tree_, this, ConnectionMainPerson.CHILD_GIRL, 0);
             }
-            tree_.AddFamily(ancestors_);
+            tree_.addFamily(ancestors_);
 
             // Add the father of this person
             if (oPerson.fatherIndex != 0)
             {
                 clsTreePerson oFather = new clsTreePerson(tree_, oPerson.fatherIndex);
-                tree_.AddPerson(oFather);
+                tree_.addPerson(oFather);
                 ancestors_.AddFather(oFather);
 
                 // Add the ancestors for the father
@@ -684,7 +676,7 @@ namespace FamilyTree.Viewer
             if (oPerson.motherIndex != 0)
             {
                 clsTreePerson oMother = new clsTreePerson(tree_, oPerson.motherIndex);
-                tree_.AddPerson(oMother);
+                tree_.addPerson(oMother);
                 ancestors_.AddMother(oMother);
 
                 // Add the ancestors for the mother
@@ -719,7 +711,7 @@ namespace FamilyTree.Viewer
                     nIndex = nI;
                 }
                 clsTreePerson oSibling = new clsTreePerson(tree_, Siblings[nIndex]);
-                tree_.AddPerson(oSibling);
+                tree_.addPerson(oSibling);
 
                 Person oHalfSibling = new Person(Siblings[nIndex], tree_.database);
                 if (oHalfSibling.fatherIndex != oPerson.fatherIndex)

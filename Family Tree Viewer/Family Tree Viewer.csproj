@@ -173,7 +173,7 @@
     <Compile Include="clsTreeConnection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsTreeDocument.cs">
+    <Compile Include="TreeDocument.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsTreeOptions.cs" />

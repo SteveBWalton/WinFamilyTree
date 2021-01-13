@@ -95,7 +95,7 @@ namespace FamilyTree.Viewer
             this.tsProgressBar_ = new System.Windows.Forms.ToolStripProgressBar();
             this.labPerson_ = new System.Windows.Forms.Label();
             this.labPersonDates_ = new System.Windows.Forms.Label();
-            this.m_OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog_ = new System.Windows.Forms.OpenFileDialog();
             this.m_SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelTree_ = new System.Windows.Forms.Panel();
             this.marMotherParents_ = new FamilyTree.Viewer.ucRelationship();
@@ -917,7 +917,7 @@ namespace FamilyTree.Viewer
         }
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog m_OpenFileDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_;
         private System.Windows.Forms.Label labPerson_;
         private System.Windows.Forms.Label labPersonDates_;
         private FamilyTree.Viewer.ucPerson psnFather_;

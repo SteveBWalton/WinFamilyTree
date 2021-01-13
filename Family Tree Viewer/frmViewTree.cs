@@ -13,7 +13,7 @@ namespace FamilyTree.Viewer
         #region Member Variables
 
         /// <summary>Tree to display in this window.</summary>
-        private clsTreeDocument tree_;
+        private TreeDocument tree_;
 
         /// <summary>The point at the centre of the window.</summary>
         private System.Drawing.Point centre_;
@@ -30,7 +30,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Constructor for the window that displays the specified tree document.</summary>
         /// <param name="tree">Specifies the tree document to display in the window</param>
-        public frmViewTree(clsTreeDocument tree)
+        public frmViewTree(TreeDocument tree)
         {
             // Required for Windows Form Designer support
             InitializeComponent();
@@ -119,7 +119,7 @@ namespace FamilyTree.Viewer
             graphics.Dispose();
 
             System.Drawing.Graphics metaGraphics = Graphics.FromImage(metafile);
-            tree_.CalculatePositions(metaGraphics, enumDevice.Metafile);
+            tree_.calculatePositions(metaGraphics, DisplayDevice.METAFILE);
             tree_.draw(metaGraphics);
             metaGraphics.Dispose();
 
@@ -201,7 +201,7 @@ namespace FamilyTree.Viewer
             m_tsLabel.Text = "Zoom: " + tree_.screenZoom.ToString() + "%";
 
             // Redraw the tree
-            tree_.Regenerate();
+            tree_.regenerate();
             TreeResized();
             Refresh();
         }
@@ -327,7 +327,7 @@ namespace FamilyTree.Viewer
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // Enact the new options
-                tree_.Regenerate();
+                tree_.regenerate();
             }
         }
 
@@ -394,7 +394,7 @@ namespace FamilyTree.Viewer
         private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             // This switches the document into printer mode if not already in printer mode
-            tree_.CalculatePositions(e.Graphics, enumDevice.Printer);
+            tree_.calculatePositions(e.Graphics, DisplayDevice.PRINTER);
 
             //			// This gives the page width
             //			nPageWidth = e.PageSettings.PaperSize.Height; 
@@ -471,9 +471,9 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void PictureBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            if (tree_.lastDevice != enumDevice.Screen)
+            if (tree_.lastDevice != DisplayDevice.SCREEN)
             {
-                tree_.CalculatePositions(e.Graphics, enumDevice.Screen);
+                tree_.calculatePositions(e.Graphics, DisplayDevice.SCREEN);
                 TreeResized();
             }
             tree_.draw(e.Graphics);

@@ -1125,7 +1125,7 @@ namespace FamilyTree.Viewer
                 tsddbBack_.DropDownItems.Clear();
                 for (int i = historyIndex_ - 1; i >= 0; i--)
                 {
-                    tsddbBack_.DropDownItems.Add(history_[i].label, null, IndividualBackItem_Click);
+                    tsddbBack_.DropDownItems.Add(history_[i].label, null, individualBackItem_Click);
                 }
             }
             else
@@ -1147,7 +1147,7 @@ namespace FamilyTree.Viewer
                 tsddbForward_.DropDownItems.Clear();
                 for (int i = historyIndex_ + 1; i <= historyLast_; i++)
                 {
-                    tsddbForward_.DropDownItems.Add(history_[i].label, null, IndividualBackItem_Click);
+                    tsddbForward_.DropDownItems.Add(history_[i].label, null, individualBackItem_Click);
                 }
             }
         }
@@ -1369,66 +1369,65 @@ namespace FamilyTree.Viewer
             return true;
         }
 
-        /// <summary>
-        /// Create a tree document for the current person and displays it in a tree view window.
-        /// </summary>
+
+
+        /// <summary>Create a tree document for the current person and displays it in a tree view window.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool CreateTree()
+        private bool createTree()
         {
-            // Create the tree document
-            clsTreeDocument oTree = new clsTreeDocument(database_, userOptions_, currentPage.index);
+            // Create the tree document.
+            TreeDocument tree = new TreeDocument(database_, userOptions_, currentPage.index);
 
-            // Create a tree preview window
-            frmViewTree oTreeWindow = new frmViewTree(oTree);
-            oTreeWindow.Show(this);
+            // Create a tree preview window.
+            frmViewTree treeWindow = new frmViewTree(tree);
+            treeWindow.Show(this);
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        /// <summary>
-        /// Display a dialog to allow the user to select a tree file.
-        /// If the user selects one then display the tree in a tree view window.
-        /// </summary>
-        /// <returns>True for success, false otherwise.</returns>
-        private bool OpenTree()
-        {
-            // Set the file open settings
-            m_OpenFileDialog.Title = "Select Tree file";
-            m_OpenFileDialog.CheckFileExists = true;
-            m_OpenFileDialog.CheckPathExists = true;
-            m_OpenFileDialog.DefaultExt = "tree";
-            m_OpenFileDialog.Filter = "Tree Files (*.tree)|*.tree|All Files (*.*)|*.*";
-            m_OpenFileDialog.FilterIndex = 0;
-            m_OpenFileDialog.Multiselect = false;
 
-            // Display the open file dialog
-            if (m_OpenFileDialog.ShowDialog(this) == DialogResult.OK)
+
+        /// <summary>Display a dialog to allow the user to select a tree file.  If the user selects one then display the tree in a tree view window.</summary>
+        /// <returns>True for success, false otherwise.</returns>
+        private bool openTree()
+        {
+            // Set the file open settings.
+            openFileDialog_.Title = "Select Tree file";
+            openFileDialog_.CheckFileExists = true;
+            openFileDialog_.CheckPathExists = true;
+            openFileDialog_.DefaultExt = "tree";
+            openFileDialog_.Filter = "Tree Files (*.tree)|*.tree|All Files (*.*)|*.*";
+            openFileDialog_.FilterIndex = 0;
+            openFileDialog_.Multiselect = false;
+
+            // Display the open file dialog.
+            if (openFileDialog_.ShowDialog(this) == DialogResult.OK)
             {
-                // Open the selected file
-                OpenTree(m_OpenFileDialog.FileName);
+                // Open the selected file.
+                openTree(openFileDialog_.FileName);
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
 
 
         /// <summary>Opens the specified tree file in a new window.</summary>
-        /// <param name="sTreeFile">Specifies the full filename of the tree file.</param>
+        /// <param name="treeFile">Specifies the full filename of the tree file.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private bool OpenTree(string sTreeFile)
+        private bool openTree(string treeFile)
         {
             // Open the .tree file.
-            walton.XmlDocument oTreeFile = new walton.XmlDocument(sTreeFile);
+            walton.XmlDocument xmlTreeFile = new walton.XmlDocument(treeFile);
 
             // Create the tree document.
-            clsTreeDocument oTree = new clsTreeDocument(database_, oTreeFile);
+            TreeDocument tree = new TreeDocument(database_, xmlTreeFile);
 
             // Create a tree preview window.
-            frmViewTree oTreeWindow = new frmViewTree(oTree);
-            oTreeWindow.Show();
+            frmViewTree treeWindow = new frmViewTree(tree);
+            treeWindow.Show();
 
             // Return success.
             return true;
@@ -1547,17 +1546,17 @@ namespace FamilyTree.Viewer
 		private bool OpenDatabase()
         {
             // Show the open file dialog
-            m_OpenFileDialog.Title = "Select Family Tree File";
-            m_OpenFileDialog.Filter = "Database Files (*.mdb)|*.mdb";
-            m_OpenFileDialog.FilterIndex = 1;
-            if (m_OpenFileDialog.ShowDialog(this) == DialogResult.Cancel)
+            openFileDialog_.Title = "Select Family Tree File";
+            openFileDialog_.Filter = "Database Files (*.mdb)|*.mdb";
+            openFileDialog_.FilterIndex = 1;
+            if (openFileDialog_.ShowDialog(this) == DialogResult.Cancel)
             {
                 // User selected cancel
                 return false;
             }
 
             // Open the selected file
-            return OpenDatabase(m_OpenFileDialog.FileName);
+            return OpenDatabase(openFileDialog_.FileName);
         }
 
         /// Opens the specified database file (if valid).
@@ -2238,7 +2237,7 @@ namespace FamilyTree.Viewer
             if (treeToOpen_ != "")
             {
                 // MessageBox.Show(this,m_sTreeToOpen,"TreeToOpen");
-                OpenTree(treeToOpen_);
+                openTree(treeToOpen_);
             }
         }
 
@@ -2355,7 +2354,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuOpenTree_Click(object sender, EventArgs e)
         {
-            OpenTree();
+            openTree();
         }
 
 
@@ -2653,7 +2652,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuToTree_Click(object sender, EventArgs e)
         {
-            CreateTree();
+            createTree();
         }
 
         // Message handler for the "Reports" -> "To Html" menu point click.
@@ -2719,9 +2718,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for a individual back (or forward) item click.  This is the drop down combo next to the back and forward buttons.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void IndividualBackItem_Click(object sender, EventArgs e)
+        private void individualBackItem_Click(object sender, EventArgs e)
         {
             // Find the label of the sending button.
             string buttonLabel = sender.ToString();

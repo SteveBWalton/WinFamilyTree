@@ -6,21 +6,19 @@ namespace FamilyTree.Viewer
 {
     #region Supporting Types etc
 
-    /// <summary>
-    /// Reason this connection has come into the tree.
-    /// </summary>
-    public enum enumConMainPerson
+    /// <summary>Reason this connection has come into the tree.</summary>
+    public enum ConnectionMainPerson
     {
         /// <summary>Main person is the father.</summary>
-        Father,
+        FATHER,
         /// <summary>Main person is the mother.</summary>
-        Mother,
+        MOTHER,
         /// <summary>Main person is child[0] he must be shown on the left.</summary>
-        ChildBoy,
+        CHILD_BOY,
         /// <summary>Main person is child[0] she must be shown on the right.</summary>
-        ChildGirl,
+        CHILD_GIRL,
         /// <summary>Main person is child[0] he/she can be shown sysmetrically.</summary>
-        Child
+        CHILD
     }
 
     #endregion
@@ -35,10 +33,10 @@ namespace FamilyTree.Viewer
         #region Member Variables
 
         /// <summary>Tree document that this contains this connection.</summary>
-        private clsTreeDocument tree_;
+        private TreeDocument tree_;
 
         /// <summary>The reason this connection was created.</summary>
-        private enumConMainPerson mainPersonType_;
+        private ConnectionMainPerson mainPersonType_;
 
         /// <summary>The father in this connection.</summary>
         private clsTreePerson father_;
@@ -75,62 +73,56 @@ namespace FamilyTree.Viewer
         /// Class constructor.
         /// Creates a new tree connection object.
         /// </summary>
-        /// <param name="oTree">Specifies the tree document that contains this connection.</param>
-        /// <param name="oPerson">Specifies the main person in this connection.</param>
-        /// <param name="nPersonType">Specifies the role of the main person in this connection.</param>
-        /// <param name="nIndex">Specify the count of this relationship in context of the main person.  Usually 0.</param>
-        public clsTreeConnection
-            (
-            clsTreeDocument oTree,
-            clsTreePerson oPerson,
-            enumConMainPerson nPersonType,
-            int nIndex
-            )
+        /// <param name="tree">Specifies the tree document that contains this connection.</param>
+        /// <param name="person">Specifies the main person in this connection.</param>
+        /// <param name="personType">Specifies the role of the main person in this connection.</param>
+        /// <param name="index">Specify the count of this relationship in context of the main person.  Usually 0.</param>
+        public clsTreeConnection(TreeDocument tree, clsTreePerson person, ConnectionMainPerson personType, int index)
         {
-            // Save the input parametrs
-            tree_ = oTree;
-            mainPersonType_ = nPersonType;
-            index_ = nIndex;
+            // Save the input parametrs.
+            tree_ = tree;
+            mainPersonType_ = personType;
+            index_ = index;
 
-            // Initialise the object
+            // Initialise the object.
             posRelationship_ = new System.Drawing.PointF(0, 0);
             status_ = enumRelationshipStatus.Married;
             start_ = null;
 
             switch (mainPersonType_)
             {
-            case enumConMainPerson.Father:
-                father_ = oPerson;
+            case ConnectionMainPerson.FATHER:
+                father_ = person;
                 mother_ = null;
                 children_ = null;
                 isMale_ = true;
                 break;
 
-            case enumConMainPerson.Mother:
+            case ConnectionMainPerson.MOTHER:
                 father_ = null;
-                mother_ = oPerson;
+                mother_ = person;
                 children_ = null;
                 isMale_ = false;
                 break;
 
-            case enumConMainPerson.ChildBoy:
-            case enumConMainPerson.ChildGirl:
-            case enumConMainPerson.Child:
+            case ConnectionMainPerson.CHILD_BOY:
+            case ConnectionMainPerson.CHILD_GIRL:
+            case ConnectionMainPerson.CHILD:
                 father_ = null;
                 mother_ = null;
-                AddChild(oPerson);
+                AddChild(person);
                 switch (mainPersonType_)
                 {
-                case enumConMainPerson.ChildBoy:
+                case ConnectionMainPerson.CHILD_BOY:
                     isMale_ = true;
                     break;
 
-                case enumConMainPerson.ChildGirl:
+                case ConnectionMainPerson.CHILD_GIRL:
                     isMale_ = false;
                     break;
 
-                case enumConMainPerson.Child:
-                    Person oMainPerson = new Person(oPerson.PersonID, tree_.database);
+                case ConnectionMainPerson.CHILD:
+                    Person oMainPerson = new Person(person.PersonID, tree_.database);
                     isMale_ = oMainPerson.isMale;
                     break;
 
@@ -138,6 +130,8 @@ namespace FamilyTree.Viewer
                 break;
             }
         }
+
+
 
         #endregion
 
@@ -352,10 +346,10 @@ namespace FamilyTree.Viewer
         {
             switch (mainPersonType_)
             {
-            case enumConMainPerson.Father:
+            case ConnectionMainPerson.FATHER:
                 return mother_.X + mother_.GetWidth(oGraphics, false, false);
 
-            case enumConMainPerson.Mother:
+            case ConnectionMainPerson.MOTHER:
                 return father_.X;
             }
 
@@ -402,7 +396,7 @@ namespace FamilyTree.Viewer
         {
             switch (mainPersonType_)
             {
-            case enumConMainPerson.Father:
+            case ConnectionMainPerson.FATHER:
                 // Position the mother relative to the father				
                 posRelationship_.Y = father_.Y;
                 if (mother_ != null)
@@ -420,7 +414,7 @@ namespace FamilyTree.Viewer
                 }
                 break;
 
-            case enumConMainPerson.Mother:
+            case ConnectionMainPerson.MOTHER:
                 // Position the father realive to the mother				
                 posRelationship_.Y = mother_.Y;
                 if (father_ != null)
@@ -438,9 +432,9 @@ namespace FamilyTree.Viewer
                 // CalculateChildPositionFixedParents(oGraphics,nIndex,ref dNextChild);
                 break;
 
-            case enumConMainPerson.ChildBoy:
-            case enumConMainPerson.ChildGirl:
-            case enumConMainPerson.Child:
+            case ConnectionMainPerson.CHILD_BOY:
+            case ConnectionMainPerson.CHILD_GIRL:
+            case ConnectionMainPerson.CHILD:
                 // This is an error
                 throw (new System.Exception("Children not allowed here"));
             }
@@ -466,8 +460,8 @@ namespace FamilyTree.Viewer
 
             switch (mainPersonType_)
             {
-            case enumConMainPerson.Father:
-            case enumConMainPerson.Mother:
+            case ConnectionMainPerson.FATHER:
+            case ConnectionMainPerson.MOTHER:
                 if (children_ == null)
                 {
                     childBarHeight_ = 0;
@@ -534,9 +528,9 @@ namespace FamilyTree.Viewer
 
                 break;
 
-            case enumConMainPerson.ChildBoy:
-            case enumConMainPerson.ChildGirl:
-            case enumConMainPerson.Child:
+            case ConnectionMainPerson.CHILD_BOY:
+            case ConnectionMainPerson.CHILD_GIRL:
+            case ConnectionMainPerson.CHILD:
                 // This is an error
                 throw (new System.Exception("Children not allowed here"));
             }
@@ -573,11 +567,11 @@ namespace FamilyTree.Viewer
 
             switch (mainPersonType_)
             {
-            case enumConMainPerson.Father:
-            case enumConMainPerson.Mother:
+            case ConnectionMainPerson.FATHER:
+            case ConnectionMainPerson.MOTHER:
                 throw (new System.Exception("Parents not allowed here"));
 
-            case enumConMainPerson.Child:	// This is the main person in the tree
+            case ConnectionMainPerson.CHILD:	// This is the main person in the tree
                 // If both parents are known
                 if (father_ != null && mother_ != null)
                 {
@@ -621,7 +615,7 @@ namespace FamilyTree.Viewer
                 }
                 break;
 
-            case enumConMainPerson.ChildBoy:	// This is a random boy ancestor in the tree
+            case ConnectionMainPerson.CHILD_BOY:	// This is a random boy ancestor in the tree
                 // If both parents are known
                 if (father_ != null && mother_ != null)
                 {
@@ -668,7 +662,7 @@ namespace FamilyTree.Viewer
                 }
                 break;
 
-            case enumConMainPerson.ChildGirl:	// This is a random girl ancestor in the tree
+            case ConnectionMainPerson.CHILD_GIRL:	// This is a random girl ancestor in the tree
                 // If both parents are known
                 if (father_ != null && mother_ != null)
                 {
@@ -749,7 +743,7 @@ namespace FamilyTree.Viewer
                         float dFullWidth = oSibling.GetWidth(oGraphics, true, false);
                         float dNameWidth = oSibling.GetWidth(oGraphics, false, false);
 
-                        if (mainPersonType_ == enumConMainPerson.Child)
+                        if (mainPersonType_ == ConnectionMainPerson.CHILD)
                         {
                             // Position the main person's siblings to left and right of him / according to age.
                             bOnLeft = !MainPerson.IsOlder(oSibling.PersonID);
@@ -834,11 +828,11 @@ namespace FamilyTree.Viewer
             {
                 if (status_ == enumRelationshipStatus.Married || status_ == enumRelationshipStatus.Divorced)
                 {
-                    graphics.DrawLine(tree_.penBlackThick, posRelationship_.X - tree_.RelationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker - tree_.offsetY, posRelationship_.X + tree_.RelationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker - tree_.offsetY);
-                    graphics.DrawLine(tree_.penBlackThick, posRelationship_.X - tree_.RelationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker + 4 - tree_.offsetY, posRelationship_.X + tree_.RelationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker + 4 - tree_.offsetY);
+                    graphics.DrawLine(tree_.penBlackThick, posRelationship_.X - tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker - tree_.offsetY, posRelationship_.X + tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker - tree_.offsetY);
+                    graphics.DrawLine(tree_.penBlackThick, posRelationship_.X - tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker + 4 - tree_.offsetY, posRelationship_.X + tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker + 4 - tree_.offsetY);
                     if (status_ == enumRelationshipStatus.Divorced)
                     {
-                        graphics.DrawLine(tree_.penBlackThin, posRelationship_.X - tree_.RelationshipSymbol - tree_.offsetX + 1, posRelationship_.Y + tree_.spcRelationsMarker + 7 - tree_.offsetY, posRelationship_.X + tree_.RelationshipSymbol - tree_.offsetX - 2, posRelationship_.Y + tree_.spcRelationsMarker - 3 - tree_.offsetY);
+                        graphics.DrawLine(tree_.penBlackThin, posRelationship_.X - tree_.relationshipSymbol - tree_.offsetX + 1, posRelationship_.Y + tree_.spcRelationsMarker + 7 - tree_.offsetY, posRelationship_.X + tree_.relationshipSymbol - tree_.offsetX - 2, posRelationship_.Y + tree_.spcRelationsMarker - 3 - tree_.offsetY);
                     }
 
                     // Write the start date
