@@ -39,10 +39,10 @@ namespace FamilyTree.Viewer
         private ConnectionMainPerson mainPersonType_;
 
         /// <summary>The father in this connection.</summary>
-        private clsTreePerson father_;
+        private TreePerson father_;
 
         /// <summary>The mother in this connection.</summary>
-        private clsTreePerson mother_;
+        private TreePerson mother_;
 
         /// <summary>The children in this connection.</summary>
         private ArrayList children_;
@@ -54,7 +54,7 @@ namespace FamilyTree.Viewer
         private float childBarHeight_;
 
         /// <summary>Status of the relationship.</summary>
-        private enumRelationshipStatus status_;
+        private RelationshipStatus status_;
 
         /// <summary>Is the main person male.</summary>
         private bool isMale_;
@@ -77,7 +77,7 @@ namespace FamilyTree.Viewer
         /// <param name="person">Specifies the main person in this connection.</param>
         /// <param name="personType">Specifies the role of the main person in this connection.</param>
         /// <param name="index">Specify the count of this relationship in context of the main person.  Usually 0.</param>
-        public clsTreeConnection(TreeDocument tree, clsTreePerson person, ConnectionMainPerson personType, int index)
+        public clsTreeConnection(TreeDocument tree, TreePerson person, ConnectionMainPerson personType, int index)
         {
             // Save the input parametrs.
             tree_ = tree;
@@ -86,7 +86,7 @@ namespace FamilyTree.Viewer
 
             // Initialise the object.
             posRelationship_ = new System.Drawing.PointF(0, 0);
-            status_ = enumRelationshipStatus.Married;
+            status_ = RelationshipStatus.MARRIED;
             start_ = null;
 
             switch (mainPersonType_)
@@ -122,7 +122,7 @@ namespace FamilyTree.Viewer
                     break;
 
                 case ConnectionMainPerson.CHILD:
-                    Person oMainPerson = new Person(person.PersonID, tree_.database);
+                    Person oMainPerson = new Person(person.personIndex, tree_.database);
                     isMale_ = oMainPerson.isMale;
                     break;
 
@@ -144,7 +144,7 @@ namespace FamilyTree.Viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool AddFather
             (
-            clsTreePerson oFather
+            TreePerson oFather
             )
         {
             father_ = oFather; // new clsTreePerson(m_oTree,nFatherID);
@@ -160,7 +160,7 @@ namespace FamilyTree.Viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool AddMother
             (
-            clsTreePerson oMother
+            TreePerson oMother
             )
         {
             mother_ = oMother;			// new clsTreePerson(m_oTree,nMotherID);
@@ -176,7 +176,7 @@ namespace FamilyTree.Viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool AddChild
             (
-            clsTreePerson oChild
+            TreePerson oChild
             )
         {
             if (children_ == null)
@@ -199,20 +199,20 @@ namespace FamilyTree.Viewer
             {
                 return 0;
             }
-            return father_.PersonID;
+            return father_.personIndex;
         }
 
         /// <summary>
         /// Returns the children in this connection as an array of clsTreePerson objects.
         /// </summary>
         /// <returns></returns>
-        public clsTreePerson[] GetChildren()
+        public TreePerson[] GetChildren()
         {
             if (children_ == null)
             {
-                return new clsTreePerson[0];
+                return new TreePerson[0];
             }
-            return (clsTreePerson[])children_.ToArray(typeof(clsTreePerson));
+            return (TreePerson[])children_.ToArray(typeof(TreePerson));
         }
 
         /// <summary>
@@ -225,20 +225,20 @@ namespace FamilyTree.Viewer
             {
                 return 0;
             }
-            return mother_.PersonID;
+            return mother_.personIndex;
         }
 
         /// <summary>Returns the father in this connection.</summary>
-        public clsTreePerson Father { get { return father_; } }
+        public TreePerson Father { get { return father_; } }
 
         /// <summary>Returns the mother in this connection.</summary>
-        public clsTreePerson Mother { get { return mother_; } }
+        public TreePerson Mother { get { return mother_; } }
 
         /// <summary>Returns the major person in this connection.  Cause of the connection existance.</summary>
-        private clsTreePerson MainPerson { get { return (clsTreePerson)children_[0]; } }
+        private TreePerson MainPerson { get { return (TreePerson)children_[0]; } }
 
         /// <summary>Returns the status of this connection.</summary>
-        public enumRelationshipStatus Status { get { return status_; } set { status_ = value; } }
+        public RelationshipStatus Status { get { return status_; } set { status_ = value; } }
 
         /// <summary>Returns the start date of this connection.</summary>
         public CompoundDate Start { get { return start_; } set { start_ = value; } }
@@ -286,7 +286,7 @@ namespace FamilyTree.Viewer
             float dWidth = 0;
             if (father_ != null)
             {
-                dWidth += father_.GetWidth(oGraphics, false, false);
+                dWidth += father_.getWidth(oGraphics, false, false);
                 if (mother_ != null)
                 {
                     dWidth += tree_.spcRelationshipSpace;
@@ -294,7 +294,7 @@ namespace FamilyTree.Viewer
             }
             if (mother_ != null)
             {
-                dWidth += mother_.GetWidth(oGraphics, false, false);
+                dWidth += mother_.getWidth(oGraphics, false, false);
             }
 
             // Return the calculated width
@@ -316,10 +316,10 @@ namespace FamilyTree.Viewer
             // Calcualte the width of the children			
             if (children_ != null)
             {
-                clsTreePerson[] oChildren = GetChildren();
-                foreach (clsTreePerson oChild in oChildren)
+                TreePerson[] oChildren = GetChildren();
+                foreach (TreePerson oChild in oChildren)
                 {
-                    dWidth += oChild.GetWidth(oGraphics, true, false) + tree_.spcSiblingSpace;
+                    dWidth += oChild.getWidth(oGraphics, true, false) + tree_.spcSiblingSpace;
                 }
             }
 
@@ -347,10 +347,10 @@ namespace FamilyTree.Viewer
             switch (mainPersonType_)
             {
             case ConnectionMainPerson.FATHER:
-                return mother_.X + mother_.GetWidth(oGraphics, false, false);
+                return mother_.x + mother_.getWidth(oGraphics, false, false);
 
             case ConnectionMainPerson.MOTHER:
-                return father_.X;
+                return father_.x;
             }
 
             // This is an error
@@ -373,12 +373,12 @@ namespace FamilyTree.Viewer
             {
                 if (father_ != null)
                 {
-                    return father_.X;
+                    return father_.x;
                 }
-                return mother_.X;
+                return mother_.x;
             }
-            clsTreePerson oLastChild = (clsTreePerson)children_[children_.Count - 1];
-            return oLastChild.X + oLastChild.GetWidth(oGraphics, true, false);
+            TreePerson oLastChild = (TreePerson)children_[children_.Count - 1];
+            return oLastChild.x + oLastChild.getWidth(oGraphics, true, false);
         }
 
         /// <summary>
@@ -398,36 +398,36 @@ namespace FamilyTree.Viewer
             {
             case ConnectionMainPerson.FATHER:
                 // Position the mother relative to the father				
-                posRelationship_.Y = father_.Y;
+                posRelationship_.Y = father_.y;
                 if (mother_ != null)
                 {
-                    if (!mother_.PositionKnown)
+                    if (!mother_.isPositionKnown)
                     {
                         posRelationship_.X = father_.GetSpousePosition(oGraphics, nIndex) + tree_.spcRelationshipSpace / 2;
 
-                        mother_.SetPosition(oGraphics, posRelationship_.X + tree_.spcRelationshipSpace / 2, father_.Y);
+                        mother_.setPosition(oGraphics, posRelationship_.X + tree_.spcRelationshipSpace / 2, father_.y);
                     }
                 }
                 else
                 {
-                    posRelationship_.X = father_.X + father_.GetWidth(oGraphics, false, false) / 2;
+                    posRelationship_.X = father_.x + father_.getWidth(oGraphics, false, false) / 2;
                 }
                 break;
 
             case ConnectionMainPerson.MOTHER:
                 // Position the father realive to the mother				
-                posRelationship_.Y = mother_.Y;
+                posRelationship_.Y = mother_.y;
                 if (father_ != null)
                 {
-                    if (!father_.PositionKnown)
+                    if (!father_.isPositionKnown)
                     {
                         posRelationship_.X = mother_.GetSpousePosition(oGraphics, nIndex) - tree_.spcRelationshipSpace / 2;
-                        father_.SetPosition(oGraphics, posRelationship_.X - tree_.spcRelationshipSpace / 2 - father_.GetWidth(oGraphics, false, false), mother_.Y);
+                        father_.setPosition(oGraphics, posRelationship_.X - tree_.spcRelationshipSpace / 2 - father_.getWidth(oGraphics, false, false), mother_.y);
                     }
                 }
                 else
                 {
-                    posRelationship_.X = mother_.X + mother_.GetWidth(oGraphics, false, false) / 2;
+                    posRelationship_.X = mother_.x + mother_.getWidth(oGraphics, false, false) / 2;
                 }
                 // CalculateChildPositionFixedParents(oGraphics,nIndex,ref dNextChild);
                 break;
@@ -470,11 +470,11 @@ namespace FamilyTree.Viewer
 
                 if (father_ != null)
                 {
-                    dTop = father_.Y;
+                    dTop = father_.y;
                 }
                 else
                 {
-                    dTop = mother_.Y;
+                    dTop = mother_.y;
                 }
 
                 // The height of the bars changes for second marriages etc ...
@@ -488,8 +488,8 @@ namespace FamilyTree.Viewer
                 // Get the collection of rules
                 clsTreeRule[] oRules = tree_.options.getRules();
 
-                clsTreePerson[] oChildren = GetChildren();
-                foreach (clsTreePerson oChild in oChildren)
+                TreePerson[] oChildren = GetChildren();
+                foreach (TreePerson oChild in oChildren)
                 {
                     if (oChild.hasDescendants())
                     {
@@ -503,7 +503,7 @@ namespace FamilyTree.Viewer
                     // Check for any rules to be applied
                     foreach (clsTreeRule oRule in oRules)
                     {
-                        if (oRule.personIndex == oChild.PersonID && oRule.action == clsTreeRule.RuleAction.HORIZONTAL_OFFSET)
+                        if (oRule.personIndex == oChild.personIndex && oRule.action == clsTreeRule.RuleAction.HORIZONTAL_OFFSET)
                         {
                             dX_Base += oRule.parameterAsFloat * tree_.scalingFactor;
                             dNextChildWith += oRule.parameterAsFloat * tree_.scalingFactor;
@@ -511,15 +511,15 @@ namespace FamilyTree.Viewer
                     }
 
                     // Offetset female children to make space for their partners
-                    dX_Person = dX_Base + oChild.GetHusbandSpace(oGraphics);
+                    dX_Person = dX_Base + oChild.getHusbandSpace(oGraphics);
 
                     // Position the child
-                    oChild.SetPosition(oGraphics, dX_Person, dY);
+                    oChild.setPosition(oGraphics, dX_Person, dY);
 
                     // Calculate 2 positions for the next child (one for a child that needs space for descendants and one for a child that does not need dependant space)
                     // However, ensure that dNextChildWith does not decrease that space has already gone.
-                    dNextChildOut = dX_Person + oChild.GetWidth(oGraphics, false, false) + oChild.GetWifeSpace(oGraphics) + tree_.spcSiblingSpace;
-                    float dMinimumChildWith = dX_Base + oChild.GetWidth(oGraphics, true, false) + tree_.spcSiblingSpace;
+                    dNextChildOut = dX_Person + oChild.getWidth(oGraphics, false, false) + oChild.getWifeSpace(oGraphics) + tree_.spcSiblingSpace;
+                    float dMinimumChildWith = dX_Base + oChild.getWidth(oGraphics, true, false) + tree_.spcSiblingSpace;
                     if (dMinimumChildWith > dNextChildWith)
                     {
                         dNextChildWith = dMinimumChildWith;
@@ -559,7 +559,7 @@ namespace FamilyTree.Viewer
 
             // The y position of all types of parent will be the same
             float dX = 0;
-            float dY = MainPerson.Y - tree_.spcPersonY;
+            float dY = MainPerson.y - tree_.spcPersonY;
 
             // Only one bar per ancestor so always the same height.
             // The height is varied when an "uncle" is only attached to one of the "parents" in the drawing routine.  The 4*m_nIndex has no effect since m_nIndex is alway 0.
@@ -576,40 +576,40 @@ namespace FamilyTree.Viewer
                 if (father_ != null && mother_ != null)
                 {
                     // Both parents are known
-                    if (!father_.PositionKnown && !mother_.PositionKnown)
+                    if (!father_.isPositionKnown && !mother_.isPositionKnown)
                     {
-                        dX = this.MainPerson.X + this.MainPerson.GetWidth(oGraphics, false, false) / 2 - father_.GetWidth(oGraphics, false, false) - tree_.spcRelationshipSpace / 2;
-                        father_.SetPosition(oGraphics, dX, dY);
+                        dX = this.MainPerson.x + this.MainPerson.getWidth(oGraphics, false, false) / 2 - father_.getWidth(oGraphics, false, false) - tree_.spcRelationshipSpace / 2;
+                        father_.setPosition(oGraphics, dX, dY);
 
-                        dX += father_.GetWidth(oGraphics, false, false);
+                        dX += father_.getWidth(oGraphics, false, false);
                         posRelationship_.Y = dY;
                         posRelationship_.X = dX + tree_.spcRelationshipSpace / 2;
 
                         dX += tree_.spcRelationshipSpace;
-                        mother_.SetPosition(oGraphics, dX, dY);
+                        mother_.setPosition(oGraphics, dX, dY);
                     }
                 }
                 else if (father_ != null)
                 {
                     // Father only is known
-                    if (!father_.PositionKnown)
+                    if (!father_.isPositionKnown)
                     {
-                        dX = MainPerson.X + MainPerson.GetWidth(oGraphics, false, false) / 2 - father_.GetWidth(oGraphics, false, false) / 2;
-                        father_.SetPosition(oGraphics, dX, dY);
+                        dX = MainPerson.x + MainPerson.getWidth(oGraphics, false, false) / 2 - father_.getWidth(oGraphics, false, false) / 2;
+                        father_.setPosition(oGraphics, dX, dY);
 
-                        posRelationship_.X = dX + father_.GetWidth(oGraphics, false, false) / 2;
+                        posRelationship_.X = dX + father_.getWidth(oGraphics, false, false) / 2;
                         posRelationship_.Y = dY; //  + m_oTree.PersonHeight;
                     }
                 }
                 else
                 {
                     // Mother only is known
-                    if (!mother_.PositionKnown)
+                    if (!mother_.isPositionKnown)
                     {
-                        dX = MainPerson.X + MainPerson.GetWidth(oGraphics, false, false) / 2 - mother_.GetWidth(oGraphics, false, false) / 2;
-                        mother_.SetPosition(oGraphics, dX, dY);
+                        dX = MainPerson.x + MainPerson.getWidth(oGraphics, false, false) / 2 - mother_.getWidth(oGraphics, false, false) / 2;
+                        mother_.setPosition(oGraphics, dX, dY);
 
-                        posRelationship_.X = dX + mother_.GetWidth(oGraphics, false, false);
+                        posRelationship_.X = dX + mother_.getWidth(oGraphics, false, false);
                         posRelationship_.Y = dY; // + m_oTree.PersonHeight;
                     }
                 }
@@ -620,43 +620,43 @@ namespace FamilyTree.Viewer
                 if (father_ != null && mother_ != null)
                 {
                     // Both parents are known
-                    if (!father_.PositionKnown && !mother_.PositionKnown)
+                    if (!father_.isPositionKnown && !mother_.isPositionKnown)
                     {
 
-                        dX = MainPerson.X + MainPerson.GetWidth(oGraphics, false, false) - mother_.GetWidth(oGraphics, true, true);
-                        mother_.SetPosition(oGraphics, dX, dY);
+                        dX = MainPerson.x + MainPerson.getWidth(oGraphics, false, false) - mother_.getWidth(oGraphics, true, true);
+                        mother_.setPosition(oGraphics, dX, dY);
 
                         dX -= tree_.spcRelationshipSpace;
                         posRelationship_.X = dX + tree_.spcRelationshipSpace / 2;
                         posRelationship_.Y = dY;
 
-                        dX -= father_.GetWidth(oGraphics, false, false);
-                        father_.SetPosition(oGraphics, dX, dY);
+                        dX -= father_.getWidth(oGraphics, false, false);
+                        father_.setPosition(oGraphics, dX, dY);
                     }
                 }
                 else if (father_ != null)
                 {
                     // Father only is known
-                    if (!father_.PositionKnown)
+                    if (!father_.isPositionKnown)
                     {
 
-                        dX = MainPerson.X + MainPerson.GetWidth(oGraphics, false, false) - father_.GetWidth(oGraphics, false, false);
-                        father_.SetPosition(oGraphics, dX, dY);
+                        dX = MainPerson.x + MainPerson.getWidth(oGraphics, false, false) - father_.getWidth(oGraphics, false, false);
+                        father_.setPosition(oGraphics, dX, dY);
 
-                        posRelationship_.X = dX + father_.GetWidth(oGraphics, false, false) / 2;
+                        posRelationship_.X = dX + father_.getWidth(oGraphics, false, false) / 2;
                         posRelationship_.Y = dY; //  + m_oTree.PersonHeight;
                     }
                 }
                 else
                 {
                     // Mother only is known
-                    if (!mother_.PositionKnown)
+                    if (!mother_.isPositionKnown)
                     {
 
-                        dX = MainPerson.X + MainPerson.GetWidth(oGraphics, false, false) - mother_.GetWidth(oGraphics, true, true);
-                        mother_.SetPosition(oGraphics, dX, dY);
+                        dX = MainPerson.x + MainPerson.getWidth(oGraphics, false, false) - mother_.getWidth(oGraphics, true, true);
+                        mother_.setPosition(oGraphics, dX, dY);
 
-                        posRelationship_.X = dX + mother_.GetWidth(oGraphics, false, false);
+                        posRelationship_.X = dX + mother_.getWidth(oGraphics, false, false);
                         posRelationship_.Y = dY; // + m_oTree.PersonHeight;
                     }
                 }
@@ -667,44 +667,44 @@ namespace FamilyTree.Viewer
                 if (father_ != null && mother_ != null)
                 {
                     // Both parents are known
-                    if (!father_.PositionKnown && !mother_.PositionKnown)
+                    if (!father_.isPositionKnown && !mother_.isPositionKnown)
                     {
 
-                        dX = this.MainPerson.X + father_.GetWidth(oGraphics, true, true) - father_.GetWidth(oGraphics, false, false);
-                        father_.SetPosition(oGraphics, dX, dY);
+                        dX = this.MainPerson.x + father_.getWidth(oGraphics, true, true) - father_.getWidth(oGraphics, false, false);
+                        father_.setPosition(oGraphics, dX, dY);
 
-                        dX += father_.GetWidth(oGraphics, false, false);
+                        dX += father_.getWidth(oGraphics, false, false);
                         posRelationship_.X = dX + tree_.spcRelationshipSpace / 2;
                         posRelationship_.Y = dY;
 
                         dX += tree_.spcRelationshipSpace;
-                        mother_.SetPosition(oGraphics, dX, dY);
+                        mother_.setPosition(oGraphics, dX, dY);
                     }
                 }
                 else if (father_ != null)
                 {
                     // Father only is known
-                    if (!father_.PositionKnown)
+                    if (!father_.isPositionKnown)
                     {
 
-                        dX = this.MainPerson.X + father_.GetWidth(oGraphics, true, true) - father_.GetWidth(oGraphics, false, false);
-                        father_.SetPosition(oGraphics, dX, dY);
+                        dX = this.MainPerson.x + father_.getWidth(oGraphics, true, true) - father_.getWidth(oGraphics, false, false);
+                        father_.setPosition(oGraphics, dX, dY);
 
-                        posRelationship_.X = dX + father_.GetWidth(oGraphics, false, false) / 2;
+                        posRelationship_.X = dX + father_.getWidth(oGraphics, false, false) / 2;
                         posRelationship_.Y = dY; //  + m_oTree.PersonHeight;
                     }
                 }
                 else
                 {
                     // Mother only is known
-                    if (!mother_.PositionKnown)
+                    if (!mother_.isPositionKnown)
                     {
                         // TODO: Not really sure about this.  I just copied it from above
 
-                        dX = this.MainPerson.X + this.MainPerson.GetWidth(oGraphics, false, false) - mother_.GetWidth(oGraphics, true, true);
-                        mother_.SetPosition(oGraphics, dX, dY);
+                        dX = this.MainPerson.x + this.MainPerson.getWidth(oGraphics, false, false) - mother_.getWidth(oGraphics, true, true);
+                        mother_.setPosition(oGraphics, dX, dY);
 
-                        posRelationship_.X = dX + mother_.GetWidth(oGraphics, false, false) / 2;
+                        posRelationship_.X = dX + mother_.getWidth(oGraphics, false, false) / 2;
                         posRelationship_.Y = dY; // + m_oTree.PersonHeight;
                     }
                 }
@@ -717,36 +717,36 @@ namespace FamilyTree.Viewer
             float dRightX = 0;
             bool bOnLeft = true;
             bool bFirstSibling = true;
-            clsTreePerson[] oSiblings = GetChildren();
+            TreePerson[] oSiblings = GetChildren();
 
-            foreach (clsTreePerson oSibling in oSiblings)
+            foreach (TreePerson oSibling in oSiblings)
             {
                 if (bFirstSibling)
                 {
                     bFirstSibling = false;
                     if (isMale_)
                     {
-                        dLeftX = oSibling.X;
-                        dRightX = oSibling.X + oSibling.GetWidth(oGraphics) + oSibling.GetPartnerSpace(oGraphics) + tree_.spcSiblingSpace;
+                        dLeftX = oSibling.x;
+                        dRightX = oSibling.x + oSibling.getWidth(oGraphics) + oSibling.getPartnerSpace(oGraphics) + tree_.spcSiblingSpace;
                     }
                     else
                     {
-                        dLeftX = oSibling.X - oSibling.GetPartnerSpace(oGraphics);
-                        dRightX = oSibling.X + oSibling.GetWidth(oGraphics) + tree_.spcSiblingSpace;
+                        dLeftX = oSibling.x - oSibling.getPartnerSpace(oGraphics);
+                        dRightX = oSibling.x + oSibling.getWidth(oGraphics) + tree_.spcSiblingSpace;
                     }
-                    dY = oSibling.Y;
+                    dY = oSibling.y;
                 }
                 else
                 {
-                    if (!oSibling.PositionKnown)
+                    if (!oSibling.isPositionKnown)
                     {
-                        float dFullWidth = oSibling.GetWidth(oGraphics, true, false);
-                        float dNameWidth = oSibling.GetWidth(oGraphics, false, false);
+                        float dFullWidth = oSibling.getWidth(oGraphics, true, false);
+                        float dNameWidth = oSibling.getWidth(oGraphics, false, false);
 
                         if (mainPersonType_ == ConnectionMainPerson.CHILD)
                         {
                             // Position the main person's siblings to left and right of him / according to age.
-                            bOnLeft = !MainPerson.IsOlder(oSibling.PersonID);
+                            bOnLeft = !MainPerson.isOlder(oSibling.personIndex);
                         }
                         else
                         {
@@ -756,7 +756,7 @@ namespace FamilyTree.Viewer
 
                         if (bOnLeft)
                         {
-                            if (oSibling.IsMale())
+                            if (oSibling.isMale())
                             {
                                 dLeftX -= (dFullWidth + tree_.spcSiblingSpace);
                             }
@@ -764,16 +764,16 @@ namespace FamilyTree.Viewer
                             {
                                 dLeftX -= (dNameWidth + tree_.spcSiblingSpace);
                             }
-                            oSibling.SetPosition(oGraphics, dLeftX, dY);
-                            if (!oSibling.IsMale())
+                            oSibling.setPosition(oGraphics, dLeftX, dY);
+                            if (!oSibling.isMale())
                             {
                                 dLeftX -= (dFullWidth - dNameWidth);
                             }
                         }
                         else
                         {
-                            oSibling.SetPosition(oGraphics, dRightX, dY);
-                            dRightX += (oSibling.GetWidth(oGraphics, true, false) + tree_.spcSiblingSpace);
+                            oSibling.setPosition(oGraphics, dRightX, dY);
+                            dRightX += (oSibling.getWidth(oGraphics, true, false) + tree_.spcSiblingSpace);
                         }
                     }
                 }
@@ -798,9 +798,9 @@ namespace FamilyTree.Viewer
             {
                 for (int nChild = 0; nChild < children_.Count; nChild++)
                 {
-                    clsTreePerson oChild = (clsTreePerson)children_[nChild];
-                    dWidth += oChild.GetWidth(oGraphics, false, false);
-                    dWidth += oChild.GetPartnerSpace(oGraphics);
+                    TreePerson oChild = (TreePerson)children_[nChild];
+                    dWidth += oChild.getWidth(oGraphics, false, false);
+                    dWidth += oChild.getPartnerSpace(oGraphics);
                     if (nChild > 0)
                     {
                         dWidth += tree_.spcSiblingSpace;
@@ -826,11 +826,11 @@ namespace FamilyTree.Viewer
             // Draw a connection between the mother and father
             if (father_ != null && mother_ != null)
             {
-                if (status_ == enumRelationshipStatus.Married || status_ == enumRelationshipStatus.Divorced)
+                if (status_ == RelationshipStatus.MARRIED || status_ == RelationshipStatus.DIVORCED)
                 {
                     graphics.DrawLine(tree_.penBlackThick, posRelationship_.X - tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker - tree_.offsetY, posRelationship_.X + tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker - tree_.offsetY);
                     graphics.DrawLine(tree_.penBlackThick, posRelationship_.X - tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker + 4 - tree_.offsetY, posRelationship_.X + tree_.relationshipSymbol - tree_.offsetX, posRelationship_.Y + tree_.spcRelationsMarker + 4 - tree_.offsetY);
-                    if (status_ == enumRelationshipStatus.Divorced)
+                    if (status_ == RelationshipStatus.DIVORCED)
                     {
                         graphics.DrawLine(tree_.penBlackThin, posRelationship_.X - tree_.relationshipSymbol - tree_.offsetX + 1, posRelationship_.Y + tree_.spcRelationsMarker + 7 - tree_.offsetY, posRelationship_.X + tree_.relationshipSymbol - tree_.offsetX - 2, posRelationship_.Y + tree_.spcRelationsMarker - 3 - tree_.offsetY);
                     }
@@ -865,28 +865,28 @@ namespace FamilyTree.Viewer
                 // Draw the children
                 for (int nI = 0; nI < children_.Count; nI++)
                 {
-                    clsTreePerson oChild = (clsTreePerson)children_[nI];
+                    TreePerson oChild = (TreePerson)children_[nI];
 
                     // Draw the connections to all children (including main children)					
-                    float X = oChild.X + oChild.GetWidth(graphics, false, false) / 2;
+                    float X = oChild.x + oChild.getWidth(graphics, false, false) / 2;
 
-                    switch (oChild.Connection)
+                    switch (oChild.connection)
                     {
-                    case clsTreePerson.ParentConnection.BOTH:
-                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, oChild.Y - tree_.offsetY, X - tree_.offsetX, childBarHeight_ - tree_.offsetY);
+                    case TreePerson.ParentConnection.BOTH:
+                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, oChild.y - tree_.offsetY, X - tree_.offsetX, childBarHeight_ - tree_.offsetY);
                         graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, childBarHeight_ - tree_.offsetY, posRelationship_.X - tree_.offsetX, childBarHeight_ - tree_.offsetY);
                         nDropLinesRequired |= 1;
                         break;
 
-                    case clsTreePerson.ParentConnection.FATHER_ONLY:
-                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, oChild.Y - tree_.offsetY, X - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY);
-                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY, father_.X + father_.GetWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY);
+                    case TreePerson.ParentConnection.FATHER_ONLY:
+                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, oChild.y - tree_.offsetY, X - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY);
+                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY, father_.x + father_.getWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY);
                         nDropLinesRequired |= 2;
                         break;
 
-                    case clsTreePerson.ParentConnection.MOTHER_ONLY:
-                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, oChild.Y - tree_.offsetY, X - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY);
-                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY, mother_.X + mother_.GetWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY);
+                    case TreePerson.ParentConnection.MOTHER_ONLY:
+                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, oChild.y - tree_.offsetY, X - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY);
+                        graphics.DrawLine(tree_.penBlackThick, X - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY, mother_.x + mother_.getWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY);
                         nDropLinesRequired |= 4;
                         break;
 
@@ -910,12 +910,12 @@ namespace FamilyTree.Viewer
                 if ((nDropLinesRequired & 2) == 2)
                 {
                     // Draw a line down from the father to the (offset) horizontal bar
-                    graphics.DrawLine(tree_.penBlackThick, father_.X + father_.GetWidth(graphics, false, false) / 2 - tree_.offsetX, father_.Y + tree_.spcPersonHeight - tree_.offsetY, father_.X + father_.GetWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY);
+                    graphics.DrawLine(tree_.penBlackThick, father_.x + father_.getWidth(graphics, false, false) / 2 - tree_.offsetX, father_.y + tree_.spcPersonHeight - tree_.offsetY, father_.x + father_.getWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 4 - tree_.offsetY);
                 }
                 if ((nDropLinesRequired & 4) == 4)
                 {
                     // Draw a line down from the mother to the (offset) horizontal bar
-                    graphics.DrawLine(tree_.penBlackThick, mother_.X + mother_.GetWidth(graphics, false, false) / 2 - tree_.offsetX, mother_.Y + tree_.spcPersonHeight - tree_.offsetY, mother_.X + mother_.GetWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY);
+                    graphics.DrawLine(tree_.penBlackThick, mother_.x + mother_.getWidth(graphics, false, false) / 2 - tree_.offsetX, mother_.y + tree_.spcPersonHeight - tree_.offsetY, mother_.x + mother_.getWidth(graphics, false, false) / 2 - tree_.offsetX, childBarHeight_ - 8 - tree_.offsetY);
                 }
             }
 

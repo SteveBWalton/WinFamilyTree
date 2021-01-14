@@ -7,19 +7,17 @@ namespace FamilyTree.Objects
 {
     #region Supporting Types etc
 
-    /// <summary>
-    /// Possible status of a relationship
-    /// </summary>
-    public enum enumRelationshipStatus
+    /// <summary>Possible status of a relationship.</summary>
+    public enum RelationshipStatus
     {
         /// <summary>Married.</summary>
-        Married,
+        MARRIED,
+        
         /// <summary>The relationship ended with a divorce.</summary>
-        Divorced,
-        /// <summary>
-        /// Not really relevant here.
-        /// </summary>
-        None
+        DIVORCED,
+        
+        /// <summary>Not really relevant here.</summary>
+        NONE
     }
 
     #endregion

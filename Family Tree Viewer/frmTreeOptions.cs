@@ -85,8 +85,8 @@ namespace FamilyTree.Viewer
             }
 
             // Populate the people combo box.
-            clsTreePerson[] people = tree_.getPeople();
-            foreach (clsTreePerson person in people)
+            TreePerson[] people = tree_.getPeople();
+            foreach (TreePerson person in people)
             {
                 cboRulePeople_.Items.Add(person);
             }
@@ -133,11 +133,11 @@ namespace FamilyTree.Viewer
             }
 
             clsTreeRule.RuleAction action = (clsTreeRule.RuleAction)cboRules_.SelectedIndex;
-            clsTreePerson person = (clsTreePerson)cboRulePeople_.SelectedItem;
+            TreePerson person = (TreePerson)cboRulePeople_.SelectedItem;
 
             clsTreeRule newRule = new clsTreeRule();
             newRule.action = action;
-            newRule.personIndex = person.PersonID;
+            newRule.personIndex = person.personIndex;
             newRule.parameter = m_txtRuleParameter.Text;
             tree_.options.addRule(newRule);
 

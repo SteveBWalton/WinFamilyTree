@@ -35,7 +35,7 @@ namespace FamilyTree.Viewer
         private clsTreeOptions treeOptions_;
 
         /// <summary>Main person in the tree.  The person that starts the drawing.</summary>
-        private clsTreePerson basePerson_;
+        private TreePerson basePerson_;
 
         /// <summary>The collection of people in this tree.</summary>
         private ArrayList people_;
@@ -116,7 +116,7 @@ namespace FamilyTree.Viewer
             people_ = new ArrayList();
             families_ = new ArrayList();
             offset = new System.Drawing.PointF(0, 0);
-            basePerson_ = new clsTreePerson(this, personIndex);
+            basePerson_ = new TreePerson(this, personIndex);
             people_.Add(basePerson_);
 
             // Get the rules for this tree.
@@ -126,7 +126,7 @@ namespace FamilyTree.Viewer
             basePerson_.addDescendants(rules);
 
             // Add the ancestors of the specified person.
-            basePerson_.AddAncestors(true, rules);
+            basePerson_.addAncestors(true, rules);
         }
 
 
@@ -156,7 +156,7 @@ namespace FamilyTree.Viewer
             people_ = new ArrayList();
             families_ = new ArrayList();
             offset = new System.Drawing.PointF(0, 0);
-            basePerson_ = new clsTreePerson(this, nPersonID);
+            basePerson_ = new TreePerson(this, nPersonID);
             people_.Add(basePerson_);
 
             // Get the rules for this tree.
@@ -166,7 +166,7 @@ namespace FamilyTree.Viewer
             basePerson_.addDescendants(rules);
 
             // Add the ancestors of the specified person.
-            basePerson_.AddAncestors(true, rules);
+            basePerson_.addAncestors(true, rules);
         }
 
 
@@ -208,9 +208,9 @@ namespace FamilyTree.Viewer
             // Initialise the tree document.
             people_ = new ArrayList();
             families_ = new ArrayList();
-            int nPersonID = basePerson_.PersonID;
+            int nPersonID = basePerson_.personIndex;
             offset = new System.Drawing.PointF(0, 0);
-            basePerson_ = new clsTreePerson(this, nPersonID);
+            basePerson_ = new TreePerson(this, nPersonID);
             people_.Add(basePerson_);
 
             // Get the rules for this tree.
@@ -220,9 +220,9 @@ namespace FamilyTree.Viewer
             basePerson_.addDescendants(rules);
 
             // Add the ancestors of the specified person.
-            if (!treeOptions_.isInRules(clsTreeRule.RuleAction.EXCLUDE_ANCESTORS, basePerson_.PersonID))
+            if (!treeOptions_.isInRules(clsTreeRule.RuleAction.EXCLUDE_ANCESTORS, basePerson_.personIndex))
             {
-                basePerson_.AddAncestors(true, rules);
+                basePerson_.addAncestors(true, rules);
             }
 
             // Force a recalculation of the positions.
@@ -239,7 +239,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Add the person to the collection of people in this tree.</summary>
         /// <param name="person">Specifies the person to add to the tree.</param>
-        public void addPerson(clsTreePerson person)
+        public void addPerson(TreePerson person)
         {
             people_.Add(person);
         }
@@ -291,24 +291,24 @@ namespace FamilyTree.Viewer
             bottomRight_ = new System.Drawing.PointF(0, 0);
 
             // Reset the position known flag.
-            foreach (clsTreePerson person in getPeople())
+            foreach (TreePerson person in getPeople())
             {
-                person.PositionKnown = false;
+                person.isPositionKnown = false;
             }
 
             // Loop through the people and position them relative to the people around them.
             bool isFirstPerson = true;
-            foreach (clsTreePerson person in getPeople())
+            foreach (TreePerson person in getPeople())
             {
                 // The first person is at the origin.
                 if (isFirstPerson)
                 {
                     isFirstPerson = false;
-                    person.SetPosition(graphics, 0, 0);
+                    person.setPosition(graphics, 0, 0);
                 }
 
                 // Fix the relations of this person.
-                person.CalculatePosition(graphics);
+                person.calculatePosition(graphics);
             }
 
             // Return success.
@@ -361,8 +361,8 @@ namespace FamilyTree.Viewer
                 family.draw(graphics);
             }
 
-            clsTreePerson[] people = getPeople();
-            foreach (clsTreePerson person in people)
+            TreePerson[] people = getPeople();
+            foreach (TreePerson person in people)
             {
                 person.draw(graphics);
             }
@@ -383,7 +383,7 @@ namespace FamilyTree.Viewer
         public clsTreeOptions options { get { return treeOptions_; } }
 
         /// <summary> The ID of the person that started this tree.</summary>
-        public int basePersonIndex { get { return basePerson_.PersonID; } }
+        public int basePersonIndex { get { return basePerson_.personIndex; } }
 
         /// <summary>True to draw boxes around people in this tree.</summary>
         public bool isPersonBox { get { return treeOptions_.isTreePersonBox_; } }
@@ -463,9 +463,9 @@ namespace FamilyTree.Viewer
 
         /// <summary>Returns the collection of clsTreePeople objects in this tree document.</summary>
         /// <returns>An array of people who are in this tree document.</returns>
-        public clsTreePerson[] getPeople()
+        public TreePerson[] getPeople()
         {
-            return (clsTreePerson[])people_.ToArray(typeof(clsTreePerson));
+            return (TreePerson[])people_.ToArray(typeof(TreePerson));
         }
 
         /// <summary>Returns the collection of families in this tree document.</summary>
