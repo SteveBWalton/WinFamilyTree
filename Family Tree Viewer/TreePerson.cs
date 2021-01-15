@@ -48,10 +48,10 @@ namespace FamilyTree.Viewer
         System.Drawing.PointF pos_;
 
         /// <summary>Array of connections to descendants.</summary>
-        clsTreeConnection[] descendants_;
+        TreeConnection[] descendants_;
 
         /// <summary>Connection to the ancestors of this tree person.</summary>
-        clsTreeConnection ancestors_;
+        TreeConnection ancestors_;
 
         /// <summary>True if the position of this person is known.</summary>
         private bool isPositionKnown_;
@@ -125,10 +125,10 @@ namespace FamilyTree.Viewer
                     // Expect that the children will be wider than the parents but it may not be the case.
                     float widthChildren = 0;
                     float widthParents = maxWidth;
-                    foreach (clsTreeConnection descendant in descendants_)
+                    foreach (TreeConnection descendant in descendants_)
                     {
-                        widthChildren += descendant.GetWidthChildren(graphics);
-                        widthParents += descendant.GetWidthParents(graphics) - maxWidth;
+                        widthChildren += descendant.getWidthChildren(graphics);
+                        widthParents += descendant.getWidthParents(graphics) - maxWidth;
                     }
                     float width = Math.Max(widthChildren, widthParents);
 
@@ -146,17 +146,17 @@ namespace FamilyTree.Viewer
                 if (ancestors_ != null)
                 {
                     float width = 0;
-                    if (ancestors_.Father != null)
+                    if (ancestors_.father != null)
                     {
-                        width += ancestors_.Father.getWidth(graphics, false, true);
-                        if (ancestors_.Mother != null)
+                        width += ancestors_.father.getWidth(graphics, false, true);
+                        if (ancestors_.mother != null)
                         {
                             width += tree_.spcRelationshipSpace;
                         }
                     }
-                    if (ancestors_.Mother != null)
+                    if (ancestors_.mother != null)
                     {
-                        width += ancestors_.Mother.getWidth(graphics, false, true);
+                        width += ancestors_.mother.getWidth(graphics, false, true);
                     }
 
                     if (width > maxWidth)
@@ -165,7 +165,7 @@ namespace FamilyTree.Viewer
                     }
 
                     // Check the width of siblings.
-                    width = ancestors_.GetChildrenSpace(graphics);
+                    width = ancestors_.getChildrenSpace(graphics);
                     if (width > maxWidth)
                     {
                         maxWidth = width;
@@ -211,17 +211,17 @@ namespace FamilyTree.Viewer
             if (descendants_ != null)
             {
                 int partnerCount = 0;
-                foreach (clsTreeConnection descendant in descendants_)
+                foreach (TreeConnection descendant in descendants_)
                 {
                     // Position the partner relative to this person.
-                    descendant.SetPartnerPosition(graphics, partnerCount);
+                    descendant.setPartnerPosition(graphics, partnerCount);
 
                     // Line the children up with the leftmost man.
-                    if (descendant.Father != null)
+                    if (descendant.father != null)
                     {
-                        if (descendant.Father.x < nextChildWith)
+                        if (descendant.father.x < nextChildWith)
                         {
-                            nextChildWith = descendant.Father.x;
+                            nextChildWith = descendant.father.x;
                         }
                     }
                     partnerCount++;
@@ -234,9 +234,9 @@ namespace FamilyTree.Viewer
             if (descendants_ != null)
             {
                 int partnerCount = 0;
-                foreach (clsTreeConnection descendant in descendants_)
+                foreach (TreeConnection descendant in descendants_)
                 {
-                    descendant.SetChildrenPosition(graphics, partnerCount, ref nextChildWith, ref nextChildOut);
+                    descendant.setChildrenPosition(graphics, partnerCount, ref nextChildWith, ref nextChildOut);
                     partnerCount++;
                 }
             }
@@ -244,7 +244,7 @@ namespace FamilyTree.Viewer
             // Calculate the position for the parents (ancestors).
             if (ancestors_ != null)
             {
-                ancestors_.CalculatePositionsParents(graphics);
+                ancestors_.calculatePositionsParents(graphics);
             }
 
             return false;
@@ -272,24 +272,24 @@ namespace FamilyTree.Viewer
                 }
             }
             // Check that a spouse exists.  If not then look at the earlier connection.
-            clsTreeConnection treeConnection = (clsTreeConnection)descendants_[spouseIndex - 1];
+            TreeConnection treeConnection = (TreeConnection)descendants_[spouseIndex - 1];
             if (isMale_)
             {
-                if (treeConnection.Mother == null)
+                if (treeConnection.mother == null)
                 {
                     return GetSpousePosition(graphics, spouseIndex - 1);
                 }
             }
             else
             {
-                if (treeConnection.Father == null)
+                if (treeConnection.father == null)
                 {
                     return GetSpousePosition(graphics, spouseIndex - 1);
                 }
             }
 
             // Return the position of the previous spouse
-            return treeConnection.SpousePosition(graphics);
+            return treeConnection.spousePosition(graphics);
         }
 
 
@@ -348,11 +348,11 @@ namespace FamilyTree.Viewer
             {
                 if (isMale_)
                 {
-                    partner = ((clsTreeConnection)descendants_[i]).Mother;
+                    partner = ((TreeConnection)descendants_[i]).mother;
                 }
                 else
                 {
-                    partner = ((clsTreeConnection)descendants_[i]).Father;
+                    partner = ((TreeConnection)descendants_[i]).father;
                 }
                 if (partner != null)
                 {
@@ -486,7 +486,7 @@ namespace FamilyTree.Viewer
                 personType = ConnectionMainPerson.MOTHER;
             }
             Relationship[] relationships = person.getRelationships();
-            descendants_ = new clsTreeConnection[relationships.Length];
+            descendants_ = new TreeConnection[relationships.Length];
             int relationshipIndex;
             for (int i = 0; i < relationships.Length; i++)
             {
@@ -498,27 +498,27 @@ namespace FamilyTree.Viewer
                 {
                     relationshipIndex = i;
                 }
-                descendants_[i] = new clsTreeConnection(tree_, this, personType, i);
+                descendants_[i] = new TreeConnection(tree_, this, personType, i);
                 tree_.addFamily(descendants_[i]);
                 if (person.isMale)
                 {
                     TreePerson mother = new TreePerson(tree_, relationships[relationshipIndex].partnerIndex);
-                    descendants_[i].AddMother(mother);
+                    descendants_[i].addMother(mother);
                     tree_.addPerson(mother);
                 }
                 else
                 {
                     TreePerson father = new TreePerson(tree_, relationships[relationshipIndex].partnerIndex);
-                    descendants_[i].AddFather(father);
+                    descendants_[i].addFather(father);
                     tree_.addPerson(father);
                 }
                 if (relationships[relationshipIndex].terminatedIndex == 2)
                 {
-                    descendants_[i].Status = RelationshipStatus.DIVORCED;
+                    descendants_[i].status = RelationshipStatus.DIVORCED;
                 }
                 if (!relationships[relationshipIndex].start.isEmpty())
                 {
-                    descendants_[i].Start = relationships[relationshipIndex].start;
+                    descendants_[i].start = relationships[relationshipIndex].start;
                 }
             }
 
@@ -534,7 +534,7 @@ namespace FamilyTree.Viewer
                 tree_.addPerson(child);
 
                 // Add the child to the selected relationship / connection.
-                descendants_[connection].AddChild(child);
+                descendants_[connection].addChild(child);
                 
                 // Add the descendants of this child.
                 child.addDescendants(rules);
@@ -552,14 +552,14 @@ namespace FamilyTree.Viewer
             if (descendants_.Length == 0)
             {
                 // Child of no relationship
-                descendants_ = new clsTreeConnection[1];
+                descendants_ = new TreeConnection[1];
                 if (isMale_)
                 {
-                    descendants_[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.FATHER, 0);
+                    descendants_[0] = new TreeConnection(tree_, this, ConnectionMainPerson.FATHER, 0);
                 }
                 else
                 {
-                    descendants_[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.MOTHER, 0);
+                    descendants_[0] = new TreeConnection(tree_, this, ConnectionMainPerson.MOTHER, 0);
                 }
                 tree_.addFamily(descendants_[0]);
             }
@@ -586,30 +586,30 @@ namespace FamilyTree.Viewer
                     }
                 }
                 */
-                if (child.motherIndex == descendants_[i].GetMotherID() && child.fatherIndex == descendants_[i].GetFatherID())
+                if (child.motherIndex == descendants_[i].getMotherIndex() && child.fatherIndex == descendants_[i].getFatherIndex())
                 {
                     return i;
                 }
             }
 
-            // This adds a new partner-less connection to pick the children for whom both parents are not known		
-            clsTreeConnection[] newDescendants = new clsTreeConnection[descendants_.Length + 1];
+            // This adds a new partner-less connection to pick the children for whom both parents are not known.
+            TreeConnection[] newDescendants = new TreeConnection[descendants_.Length + 1];
             for (int i = 0; i < descendants_.Length; i++)
             {
                 newDescendants[i + 1] = descendants_[i];
             }
             if (isMale_)
             {
-                newDescendants[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.FATHER, descendants_.Length);
+                newDescendants[0] = new TreeConnection(tree_, this, ConnectionMainPerson.FATHER, descendants_.Length);
             }
             else
             {
-                newDescendants[0] = new clsTreeConnection(tree_, this, ConnectionMainPerson.MOTHER, descendants_.Length);
+                newDescendants[0] = new TreeConnection(tree_, this, ConnectionMainPerson.MOTHER, descendants_.Length);
             }
             descendants_ = newDescendants;
             tree_.addFamily(descendants_[0]);
 
-            // Default to the first connection object
+            // Default to the first connection object.
             return 0;
         }
 
@@ -632,15 +632,15 @@ namespace FamilyTree.Viewer
             // Create an ancestors object for this person.
             if (isPrimaryPerson)
             {
-                ancestors_ = new clsTreeConnection(tree_, this, ConnectionMainPerson.CHILD, 0);
+                ancestors_ = new TreeConnection(tree_, this, ConnectionMainPerson.CHILD, 0);
             }
             else if (isMale_)
             {
-                ancestors_ = new clsTreeConnection(tree_, this, ConnectionMainPerson.CHILD_BOY, 0);
+                ancestors_ = new TreeConnection(tree_, this, ConnectionMainPerson.CHILD_BOY, 0);
             }
             else
             {
-                ancestors_ = new clsTreeConnection(tree_, this, ConnectionMainPerson.CHILD_GIRL, 0);
+                ancestors_ = new TreeConnection(tree_, this, ConnectionMainPerson.CHILD_GIRL, 0);
             }
             tree_.addFamily(ancestors_);
 
@@ -649,7 +649,7 @@ namespace FamilyTree.Viewer
             {
                 TreePerson father = new TreePerson(tree_, person.fatherIndex);
                 tree_.addPerson(father);
-                ancestors_.AddFather(father);
+                ancestors_.addFather(father);
 
                 // Add the ancestors for the father.
                 father.addAncestors(false, rules);
@@ -660,7 +660,7 @@ namespace FamilyTree.Viewer
             {
                 TreePerson mother = new TreePerson(tree_, person.motherIndex);
                 tree_.addPerson(mother);
-                ancestors_.AddMother(mother);
+                ancestors_.addMother(mother);
 
                 // Add the ancestors for the mother.
                 mother.addAncestors(false, rules);
@@ -672,10 +672,10 @@ namespace FamilyTree.Viewer
                 Relationship relationship = tree_.database.getRelationship(person.fatherIndex, person.motherIndex);
                 if (relationship != null)
                 {
-                    ancestors_.Start = relationship.start;
+                    ancestors_.start = relationship.start;
                     if (relationship.terminatedIndex == 2)
                     {
-                        ancestors_.Status = RelationshipStatus.DIVORCED;
+                        ancestors_.status = RelationshipStatus.DIVORCED;
                     }
                 }
             }
@@ -715,7 +715,7 @@ namespace FamilyTree.Viewer
                     }
                 }
 
-                ancestors_.AddChild(sibling);
+                ancestors_.addChild(sibling);
             }
         }
 

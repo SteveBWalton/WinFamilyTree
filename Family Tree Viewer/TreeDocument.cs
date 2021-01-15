@@ -248,7 +248,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Add a family to the collection of families in this tree.</summary>
         /// <param name="family">Specifies the the family to add to the tree.</param>
-        public void addFamily(clsTreeConnection family)
+        public void addFamily(TreeConnection family)
         {
             families_.Add(family);
         }
@@ -355,8 +355,8 @@ namespace FamilyTree.Viewer
         /// <returns>True for success, false otherwise</returns>
         public bool draw(System.Drawing.Graphics graphics)
         {
-            clsTreeConnection[] families = getFamilies();
-            foreach (clsTreeConnection family in families)
+            TreeConnection[] families = getFamilies();
+            foreach (TreeConnection family in families)
             {
                 family.draw(graphics);
             }
@@ -470,9 +470,9 @@ namespace FamilyTree.Viewer
 
         /// <summary>Returns the collection of families in this tree document.</summary>
         /// <returns>An array of the families in this tree document.</returns>
-        public clsTreeConnection[] getFamilies()
+        public TreeConnection[] getFamilies()
         {
-            return (clsTreeConnection[])families_.ToArray(typeof(clsTreeConnection));
+            return (TreeConnection[])families_.ToArray(typeof(TreeConnection));
         }
 
         /// <summary>The zoom factor for the screen display in percent.</summary>

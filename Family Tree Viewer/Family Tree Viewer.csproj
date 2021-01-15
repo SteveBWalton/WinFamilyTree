@@ -170,7 +170,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Report.cs" />
-    <Compile Include="clsTreeConnection.cs">
+    <Compile Include="TreeConnection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TreeDocument.cs">
