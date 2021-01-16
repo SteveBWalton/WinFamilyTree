@@ -7,12 +7,8 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    // Class to represent the options used on a tree diagram.
-    /// <summary>
-    /// Class to represent the options used on a tree diagram.
-    /// This information could have simply been included in the TreeDocument object.
-    /// </summary>
-    public class clsTreeOptions
+    /// <summary>Class to represent the options used on a tree diagram.  This information could have simply been included in the TreeDocument object.</summary>
+    public class TreeOptions
     {
         #region Member Variables
 
@@ -39,7 +35,7 @@ namespace FamilyTree.Viewer
         #region Constructors etc...
 
         /// <summary>Class constructor with initial values taken from user options.</summary>
-        public clsTreeOptions(UserOptions userOptions)
+        public TreeOptions(UserOptions userOptions)
         {
             // Copy the values from the user options.
             mainFontName_ = userOptions.treeMainFontName;
@@ -56,7 +52,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Class constructor with initial value taken from the specified .tree file.</summary>
         /// <param name="xmlTreeOptions">Specifies the .tree file to load the options from.</param>
-        public clsTreeOptions(walton.XmlDocument xmlTreeOptions)
+        public TreeOptions(walton.XmlDocument xmlTreeOptions)
         {
             walton.XmlNode xmlOptions = xmlTreeOptions.getNode("options");
 
@@ -170,7 +166,7 @@ namespace FamilyTree.Viewer
 
 
 
-        /// <summary>Return a Html representation of the rules.</summary>
+        /// <summary>Return a html representation of the rules.</summary>
         /// <param name="database">Specifies the database to look up human readable information from.</param>
         /// <returns>A html representation of the rules.</returns>
         public string rulesToHtml(Database database)
@@ -220,6 +216,8 @@ namespace FamilyTree.Viewer
 
             return false;
         }
+
+
 
         #endregion
     }

@@ -32,7 +32,7 @@ namespace FamilyTree.Viewer
         private Database database_;
 
         /// <summary>The options for this tree.</summary>
-        private clsTreeOptions treeOptions_;
+        private TreeOptions treeOptions_;
 
         /// <summary>Main person in the tree.  The person that starts the drawing.</summary>
         private TreePerson basePerson_;
@@ -102,7 +102,7 @@ namespace FamilyTree.Viewer
         {
             // Save the input parameters.
             database_ = database;
-            treeOptions_ = new clsTreeOptions(userOptions);
+            treeOptions_ = new TreeOptions(userOptions);
             zoom_ = 100;
 
             brushBlack_ = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
@@ -138,7 +138,7 @@ namespace FamilyTree.Viewer
         {
             // Save the input parameters.
             database_ = database;
-            treeOptions_ = new clsTreeOptions(xmlTreeOptions);
+            treeOptions_ = new TreeOptions(xmlTreeOptions);
             zoom_ = 100;
 
             // Find the base person.
@@ -380,7 +380,7 @@ namespace FamilyTree.Viewer
         public Database database { get { return database_; } }
 
         /// <summary>The options specified for this tree document.</summary>
-        public clsTreeOptions options { get { return treeOptions_; } }
+        public TreeOptions options { get { return treeOptions_; } }
 
         /// <summary> The ID of the person that started this tree.</summary>
         public int basePersonIndex { get { return basePerson_.personIndex; } }

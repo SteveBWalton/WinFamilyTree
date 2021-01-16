@@ -51,7 +51,11 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        /// <summary>Convert a ERuleAction value into a human readable string.</summary>
+        #region Supporting Functions
+
+
+
+        /// <summary>Convert a RuleAction value into a human readable string.</summary>
         /// <param name="action">Specifies the value to return as a string.</param>
         /// <returns>A string that represents the specified value.</returns>
         public static string actionToString(RuleAction action)
@@ -75,6 +79,8 @@ namespace FamilyTree.Viewer
 
 
 
+        #endregion
+
         #region File IO
 
 
@@ -84,10 +90,10 @@ namespace FamilyTree.Viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool save(walton.XmlNode xmlRules)
         {
-            walton.XmlNode oRule = xmlRules.addNode("rule");
-            oRule.setAttributeValue("action", (int)action);
-            oRule.setAttributeValue("person", personIndex);
-            oRule.setAttributeValue("parameter", parameter);
+            walton.XmlNode xmlRule = xmlRules.addNode("rule");
+            xmlRule.setAttributeValue("action", (int)action);
+            xmlRule.setAttributeValue("person", personIndex);
+            xmlRule.setAttributeValue("parameter", parameter);
 
             // Return success.
             return true;

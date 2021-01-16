@@ -176,7 +176,7 @@
     <Compile Include="TreeDocument.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsTreeOptions.cs" />
+    <Compile Include="TreeOptions.cs" />
     <Compile Include="TreePerson.cs">
       <SubType>Code</SubType>
     </Compile>
