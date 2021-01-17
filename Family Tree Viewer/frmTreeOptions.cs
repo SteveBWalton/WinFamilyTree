@@ -79,9 +79,9 @@ namespace FamilyTree.Viewer
         private void frmTreeOptions_Load(object sender, EventArgs e)
         {
             // Populate the type of rules combo box.
-            for (clsTreeRule.RuleAction action = clsTreeRule.RuleAction.INCLUDE_DESCENDANTS; action <= clsTreeRule.RuleAction.HORIZONTAL_OFFSET; action++)
+            for (TreeRule.RuleAction action = TreeRule.RuleAction.INCLUDE_DESCENDANTS; action <= TreeRule.RuleAction.HORIZONTAL_OFFSET; action++)
             {
-                cboRules_.Items.Add(clsTreeRule.actionToString(action));
+                cboRules_.Items.Add(TreeRule.actionToString(action));
             }
 
             // Populate the people combo box.
@@ -132,10 +132,10 @@ namespace FamilyTree.Viewer
                 return;
             }
 
-            clsTreeRule.RuleAction action = (clsTreeRule.RuleAction)cboRules_.SelectedIndex;
+            TreeRule.RuleAction action = (TreeRule.RuleAction)cboRules_.SelectedIndex;
             TreePerson person = (TreePerson)cboRulePeople_.SelectedItem;
 
-            clsTreeRule newRule = new clsTreeRule();
+            TreeRule newRule = new TreeRule();
             newRule.action = action;
             newRule.personIndex = person.personIndex;
             newRule.parameter = m_txtRuleParameter.Text;

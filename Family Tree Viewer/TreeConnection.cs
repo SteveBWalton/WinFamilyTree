@@ -452,7 +452,7 @@ namespace FamilyTree.Viewer
                 y = top + tree_.spcPersonY;
 
                 // Get the collection of rules.
-                clsTreeRule[] rules = tree_.options.getRules();
+                TreeRule[] rules = tree_.options.getRules();
 
                 TreePerson[] children = getChildren();
                 foreach (TreePerson child in children)
@@ -467,9 +467,9 @@ namespace FamilyTree.Viewer
                     }
 
                     // Check for any rules to be applied.
-                    foreach (clsTreeRule rule in rules)
+                    foreach (TreeRule rule in rules)
                     {
-                        if (rule.personIndex == child.personIndex && rule.action == clsTreeRule.RuleAction.HORIZONTAL_OFFSET)
+                        if (rule.personIndex == child.personIndex && rule.action == TreeRule.RuleAction.HORIZONTAL_OFFSET)
                         {
                             xBase += rule.parameterAsFloat * tree_.scalingFactor;
                             nextChildWith += rule.parameterAsFloat * tree_.scalingFactor;

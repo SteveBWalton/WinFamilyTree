@@ -4,11 +4,8 @@ using System.Text;
 
 namespace FamilyTree.Viewer
 {
-    /// <summary>
-    /// Object a represent a modification (rule) to apply to a tree document,
-    /// These objects will be contained inside a clsTreeOptions object.
-    /// </summary>
-    public class clsTreeRule
+    /// <summary>Object to represent a modification (rule) to apply to a tree document.  These objects will be contained inside a TreeOptions object.</summary>
+    public class TreeRule
     {
         #region Member Variables
 
@@ -44,10 +41,14 @@ namespace FamilyTree.Viewer
 
         #region Constructors
 
+
+
         /// <summary>Class constructor.</summary>
-        public clsTreeRule()
+        public TreeRule()
         {
         }
+
+
 
         #endregion
 

@@ -180,7 +180,7 @@
     <Compile Include="TreePerson.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="clsTreeRule.cs" />
+    <Compile Include="TreeRule.cs" />
     <Compile Include="UserOptions.cs">
       <SubType>Code</SubType>
     </Compile>

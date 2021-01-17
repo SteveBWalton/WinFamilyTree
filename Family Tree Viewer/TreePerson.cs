@@ -461,12 +461,12 @@ namespace FamilyTree.Viewer
 
         /// <summary>Add the descendants of this person to the current document.</summary>
         /// <param name="rules">Specify the current set of document rules.</param>
-        public void addDescendants(clsTreeRule[] rules)
+        public void addDescendants(TreeRule[] rules)
         {
-            foreach (clsTreeRule rule in rules)
+            foreach (TreeRule rule in rules)
             {
                 // Check that this person's descendants have not been excluded.
-                if (rule.action == clsTreeRule.RuleAction.EXCLUDE_DESCENDANTS && rule.personIndex == personIndex_)
+                if (rule.action == TreeRule.RuleAction.EXCLUDE_DESCENDANTS && rule.personIndex == personIndex_)
                 {
                     return;
                 }
@@ -619,7 +619,7 @@ namespace FamilyTree.Viewer
         /// <remarks>The primary person has ancestors symetrically above him, everyone else has to be space efficiently.</remarks>
         /// <param name="isPrimaryPerson">Specify true for the primary person, false otherwise (usually).</param>
         /// <param name="rules">Specify the rules that apply to this tree.</param>
-        public void addAncestors(bool isPrimaryPerson, clsTreeRule[] rules)
+        public void addAncestors(bool isPrimaryPerson, TreeRule[] rules)
         {
             // Get this person.
             Person person = new Person(personIndex_, tree_.database);
@@ -707,9 +707,9 @@ namespace FamilyTree.Viewer
                 }
 
                 // Apply the rules to the siblings.
-                foreach (clsTreeRule rule in rules)
+                foreach (TreeRule rule in rules)
                 {
-                    if (rule.action == clsTreeRule.RuleAction.INCLUDE_DESCENDANTS && rule.personIndex == sibling.personIndex)
+                    if (rule.action == TreeRule.RuleAction.INCLUDE_DESCENDANTS && rule.personIndex == sibling.personIndex)
                     {
                         sibling.addDescendants(rules);
                     }

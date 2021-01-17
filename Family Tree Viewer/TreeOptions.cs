@@ -74,7 +74,7 @@ namespace FamilyTree.Viewer
             for (int ruleIndex = 0; ruleIndex < numRules; ruleIndex++)
             {
                 walton.XmlNode xmlRule = rules.getNode(ruleIndex);
-                clsTreeRule rule = new clsTreeRule();
+                TreeRule rule = new TreeRule();
                 rule.load(xmlRule);
                 addRule(rule);
             }
@@ -113,8 +113,8 @@ namespace FamilyTree.Viewer
                 xmlRules.delete();
             }
             xmlRules = xmlOptions.getNode("rules");
-            clsTreeRule[] rules = getRules();
-            foreach (clsTreeRule rule in rules)
+            TreeRule[] rules = getRules();
+            foreach (TreeRule rule in rules)
             {
                 rule.save(xmlRules);
             }
@@ -131,9 +131,9 @@ namespace FamilyTree.Viewer
 
         /// <summary>Returns an array of rules that apply to this tree.</summary>
         /// <returns>An array of rules that apply to this tree.</returns>
-        public clsTreeRule[] getRules()
+        public TreeRule[] getRules()
         {
-            return (clsTreeRule[])rules_.ToArray(typeof(clsTreeRule));
+            return (TreeRule[])rules_.ToArray(typeof(TreeRule));
         }
 
 
@@ -141,7 +141,7 @@ namespace FamilyTree.Viewer
         /// <summary>Add the specified rule to the collection of rules.</summary>
         /// <param name="rule">Specifies the rule to add to the collection.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool addRule(clsTreeRule rule)
+        public bool addRule(TreeRule rule)
         {
             // Add the rule to the collection.
             rules_.Add(rule);
@@ -155,7 +155,7 @@ namespace FamilyTree.Viewer
         /// <summary>Removes the specified rule from the collection of rules.</summary>
         /// <param name="rule">Specifies the rule to remove from the collection.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool removeRule(clsTreeRule rule)
+        public bool removeRule(TreeRule rule)
         {
             // Remove the rule from the collection.
             rules_.Remove(rule);
@@ -173,7 +173,7 @@ namespace FamilyTree.Viewer
         {
             StringBuilder html = new StringBuilder("<table>");
             bool isEven = true;
-            foreach (clsTreeRule rule in getRules())
+            foreach (TreeRule rule in getRules())
             {
                 if (isEven)
                 {
@@ -186,7 +186,7 @@ namespace FamilyTree.Viewer
                     isEven = true;
                 }
                 html.Append("<td>");
-                html.Append(clsTreeRule.actionToString(rule.action));
+                html.Append(TreeRule.actionToString(rule.action));
                 html.Append("</td><td>");
                 Person oPerson = new Person(rule.personIndex, database);
                 html.Append(oPerson.getName(true, true));
@@ -202,11 +202,11 @@ namespace FamilyTree.Viewer
 
 
 
-        public bool isInRules(clsTreeRule.RuleAction action, int personIndex)
+        public bool isInRules(TreeRule.RuleAction action, int personIndex)
         {
-            clsTreeRule[] rules = getRules();
+            TreeRule[] rules = getRules();
 
-            foreach (clsTreeRule rule in rules)
+            foreach (TreeRule rule in rules)
             {
                 if (rule.action == action && rule.personIndex == personIndex)
                 {

@@ -120,7 +120,7 @@ namespace FamilyTree.Viewer
             people_.Add(basePerson_);
 
             // Get the rules for this tree.
-            clsTreeRule[] rules = treeOptions_.getRules();
+            TreeRule[] rules = treeOptions_.getRules();
 
             // Add the descendants of the specified person.
             basePerson_.addDescendants(rules);
@@ -160,7 +160,7 @@ namespace FamilyTree.Viewer
             people_.Add(basePerson_);
 
             // Get the rules for this tree.
-            clsTreeRule[] rules = treeOptions_.getRules();
+            TreeRule[] rules = treeOptions_.getRules();
 
             // Add the descendants of the specified person.
             basePerson_.addDescendants(rules);
@@ -214,13 +214,13 @@ namespace FamilyTree.Viewer
             people_.Add(basePerson_);
 
             // Get the rules for this tree.
-            clsTreeRule[] rules = treeOptions_.getRules();
+            TreeRule[] rules = treeOptions_.getRules();
 
             // Add the descendants of the specified person.
             basePerson_.addDescendants(rules);
 
             // Add the ancestors of the specified person.
-            if (!treeOptions_.isInRules(clsTreeRule.RuleAction.EXCLUDE_ANCESTORS, basePerson_.personIndex))
+            if (!treeOptions_.isInRules(TreeRule.RuleAction.EXCLUDE_ANCESTORS, basePerson_.personIndex))
             {
                 basePerson_.addAncestors(true, rules);
             }
