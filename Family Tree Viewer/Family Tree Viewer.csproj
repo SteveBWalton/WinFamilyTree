@@ -137,6 +137,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ucDate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ucPerson.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ucRelationship.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="walton\datapaths.cs" />
     <Compile Include="walton\filelist.cs" />
     <Content Include="App.ico" />
@@ -267,15 +276,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ucDate.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ucPerson.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ucRelationship.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <EmbeddedResource Include="Controls\ucDate.resx">
+      <DependentUpon>ucDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ucPerson.resx">
+      <DependentUpon>ucPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ucRelationship.resx">
+      <DependentUpon>ucRelationship.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAge.resx">
       <DependentUpon>frmAge.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -336,18 +345,6 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ucDate.resx">
-      <DependentUpon>ucDate.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ucPerson.resx">
-      <DependentUpon>ucPerson.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ucRelationship.resx">
-      <DependentUpon>ucRelationship.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
