@@ -141,7 +141,7 @@ namespace FamilyTree.Viewer
             this.cmdDeleteSource = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dateTheDate_ = new FamilyTree.Viewer.ucDate();
+            this.dateSourceDate_ = new FamilyTree.Viewer.CompoundDateEditBox();
             label32 = new System.Windows.Forms.Label();
             label33 = new System.Windows.Forms.Label();
             label34 = new System.Windows.Forms.Label();
@@ -638,7 +638,7 @@ namespace FamilyTree.Viewer
             this.panel1.Controls.Add(label28);
             this.panel1.Controls.Add(this.cboRepository_);
             this.panel1.Controls.Add(this.cboAdditionalInfo_);
-            this.panel1.Controls.Add(this.dateTheDate_);
+            this.panel1.Controls.Add(this.dateSourceDate_);
             this.panel1.Controls.Add(this.cmdCancel);
             this.panel1.Controls.Add(this.cmdOK);
             this.panel1.Controls.Add(this.txtComments_);
@@ -1441,15 +1441,15 @@ namespace FamilyTree.Viewer
             // 
             // dateTheDate_
             // 
-            this.dateTheDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTheDate_.Location = new System.Drawing.Point(424, 32);
-            this.dateTheDate_.Name = "dateTheDate_";
-            this.dateTheDate_.Size = new System.Drawing.Size(144, 24);
-            this.dateTheDate_.TabIndex = 24;
+            this.dateSourceDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateSourceDate_.Location = new System.Drawing.Point(424, 32);
+            this.dateSourceDate_.Name = "dateTheDate_";
+            this.dateSourceDate_.Size = new System.Drawing.Size(144, 24);
+            this.dateSourceDate_.TabIndex = 24;
             compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate1.status = 0;
-            this.dateTheDate_.Value = compoundDate1;
-            this.dateTheDate_.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateTheDate_evtValueChanged);
+            this.dateSourceDate_.theDate = compoundDate1;
+            this.dateSourceDate_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateTheDate_evtValueChanged);
             // 
             // EditSourcesDialog
             // 
@@ -1503,7 +1503,7 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.RadioButton radioAlpha;
         private System.Windows.Forms.RadioButton radioDate;
-        private FamilyTree.Viewer.ucDate dateTheDate_;
+        private FamilyTree.Viewer.CompoundDateEditBox dateSourceDate_;
         private System.Windows.Forms.Panel m_panList;
         private System.Windows.Forms.ComboBox cboAdditionalInfo_;
         private System.Windows.Forms.GroupBox grpCensus_;

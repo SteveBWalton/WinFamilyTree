@@ -56,8 +56,8 @@ namespace FamilyTree.Viewer
 			this.labDoB.Text = m_oPerson.dob.format(DateFormat.FULL_LONG);
 
 			// Default date
-			this.ucDate1.Value = new CompoundDate(new DateTime(1901,3,31));
-			this.labTheAge.Text = m_oPerson.getAge(this.ucDate1.Value);
+			this.ucDate1.theDate = new CompoundDate(new DateTime(1901,3,31));
+			this.labTheAge.Text = m_oPerson.getAge(this.ucDate1.theDate);
 		}
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace FamilyTree.Viewer
 		/// <param name="oSender"></param>
 		private void ucDate1_evtValueChanged(object oSender)
 		{
-			labTheAge.Text = m_oPerson.getAge(this.ucDate1.Value);
+			labTheAge.Text = m_oPerson.getAge(this.ucDate1.theDate);
 		}
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace FamilyTree.Viewer
 			IndexName oPerson = (IndexName)this.cboPerson.SelectedItem;
 			m_oPerson = new Person(oPerson.index,m_oDB);
 			labDoB.Text = m_oPerson.dob.format(DateFormat.FULL_LONG);
-			labTheAge.Text = m_oPerson.getAge(this.ucDate1.Value);
+			labTheAge.Text = m_oPerson.getAge(this.ucDate1.theDate);
 		}
 
 		#endregion

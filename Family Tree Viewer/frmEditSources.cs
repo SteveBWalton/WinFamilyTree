@@ -398,7 +398,7 @@ namespace FamilyTree.Viewer
             {
                 // Populate the controls.
                 txtDescription_.Text = activeSource_.description;
-                dateTheDate_.Value = activeSource_.theDate;
+                dateSourceDate_.theDate = activeSource_.theDate;
                 txtComments_.Text = activeSource_.comments;
                 cboAdditionalInfo_.SelectedIndex = activeSource_.additionalInfoTypeIndex;
                 cboRepository_.SelectedIndex = activeSource_.repository; // This is not really correct.
@@ -470,8 +470,8 @@ namespace FamilyTree.Viewer
             {
                 return;
             }
-            activeSource_.theDate.date = dateTheDate_.GetDate();
-            activeSource_.theDate.status = dateTheDate_.GetStatus();
+            activeSource_.theDate.date = dateSourceDate_.getDate();
+            activeSource_.theDate.status = dateSourceDate_.getStatus();
         }
 
 

@@ -74,7 +74,7 @@ namespace FamilyTree.Objects
         /// <param name="file">Specifies the Gedcom file to write the data into.</param>
         /// <param name="database">Specifies the database to fetch additional information from.</param>
         /// <param name="lpfnProgressBar">Specifies a function to call to perform step the progress bar.</param>
-        public void WriteGedcom(StreamWriter file, Database database, funcVoid lpfnProgressBar, GedcomOptions options)
+        public void WriteGedcom(StreamWriter file, Database database, FuncVoid lpfnProgressBar, GedcomOptions options)
         {
             foreach (Family family in collection_)
             {

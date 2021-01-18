@@ -12,7 +12,7 @@ namespace FamilyTree.Objects
     #region Supporting types, enums, etc...
 
     /// <summary>Delegate for functions that refresh the UI.</summary>
-    public delegate void funcVoid();
+    public delegate void FuncVoid();
 
     /// <summary>When searching for people.  Pre-select one sex or not.</summary>
 	public enum ChooseSex
@@ -583,7 +583,7 @@ namespace FamilyTree.Objects
         /// <summary>Write a Gedcom source (@S1@ SOUR) record for all the sources in this database.</summary>
 		/// <param name="file">Specifies the file to write the record into.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool writeSourcesGedcom(StreamWriter file, funcVoid lpfnProgressBar, GedcomOptions options)
+        public bool writeSourcesGedcom(StreamWriter file, FuncVoid lpfnProgressBar, GedcomOptions options)
         {
             // Select all the sources.
             OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, Name, TheDate, TheDateStatusID, Comments, AdditionalInfoTypeID, Gedcom, RepositoryID FROM tbl_Sources ORDER BY ID;", cndb_);

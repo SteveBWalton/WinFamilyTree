@@ -137,13 +137,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ucDate.cs">
+    <Compile Include="Controls\date.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ucPerson.cs">
+    <Compile Include="Controls\person.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ucRelationship.cs">
+    <Compile Include="Controls\relationship.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="walton\datapaths.cs" />
@@ -276,14 +276,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\ucDate.resx">
-      <DependentUpon>ucDate.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\date.resx">
+      <DependentUpon>date.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ucPerson.resx">
-      <DependentUpon>ucPerson.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\person.resx">
+      <DependentUpon>person.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ucRelationship.resx">
-      <DependentUpon>ucRelationship.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\relationship.resx">
+      <DependentUpon>relationship.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAge.resx">
       <DependentUpon>frmAge.cs</DependentUpon>

@@ -25,8 +25,8 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage tabBasic;
-            FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
-            FamilyTree.Objects.CompoundDate clsDate2 = new FamilyTree.Objects.CompoundDate();
+            FamilyTree.Objects.CompoundDate compoundDate1 = new FamilyTree.Objects.CompoundDate();
+            FamilyTree.Objects.CompoundDate compoundDate2 = new FamilyTree.Objects.CompoundDate();
             System.Windows.Forms.Label label7;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
@@ -40,8 +40,8 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Label label8;
             System.Windows.Forms.Button cmdDeleteRelationship;
             System.Windows.Forms.Button AddRelationship;
-            FamilyTree.Objects.CompoundDate clsDate3 = new FamilyTree.Objects.CompoundDate();
-            FamilyTree.Objects.CompoundDate clsDate4 = new FamilyTree.Objects.CompoundDate();
+            FamilyTree.Objects.CompoundDate compoundDate3 = new FamilyTree.Objects.CompoundDate();
+            FamilyTree.Objects.CompoundDate compoundDate4 = new FamilyTree.Objects.CompoundDate();
             System.Windows.Forms.ImageList oImageList16x16;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditPerson));
             System.Windows.Forms.TabPage tabFacts;
@@ -61,8 +61,8 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             System.Windows.Forms.Button cmdRelationshipAddress;
-            this.dateDoB_ = new FamilyTree.Viewer.ucDate();
-            this.dateDoD_ = new FamilyTree.Viewer.ucDate();
+            this.dateDoB_ = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.dateDoD_ = new FamilyTree.Viewer.CompoundDateEditBox();
             this.txtComments_ = new System.Windows.Forms.TextBox();
             this.chkChildrenKnown_ = new System.Windows.Forms.CheckBox();
             this.cboSex_ = new System.Windows.Forms.ComboBox();
@@ -75,8 +75,8 @@ namespace FamilyTree.Viewer
             this.m_txtRelationComments = new System.Windows.Forms.TextBox();
             this.txtRelationLocation_ = new System.Windows.Forms.TextBox();
             this.cboAddPartner_ = new System.Windows.Forms.ComboBox();
-            this.m_dateRelationEnd = new FamilyTree.Viewer.ucDate();
-            this.m_dateRelationStart = new FamilyTree.Viewer.ucDate();
+            this.dateRelationEnd_ = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.dateRelationStart_ = new FamilyTree.Viewer.CompoundDateEditBox();
             this.lstRelationships_ = new System.Windows.Forms.ListBox();
             this.cboFactType_ = new System.Windows.Forms.ComboBox();
             this.gridFacts_ = new System.Windows.Forms.DataGrid();
@@ -172,10 +172,10 @@ namespace FamilyTree.Viewer
             this.dateDoB_.Name = "m_dateDoB";
             this.dateDoB_.Size = new System.Drawing.Size(144, 24);
             this.dateDoB_.TabIndex = 36;
-            clsDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate1.status = 0;
-            this.dateDoB_.Value = clsDate1;
-            this.dateDoB_.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoB_evtValueChanged);
+            compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            compoundDate1.status = 0;
+            this.dateDoB_.theDate = compoundDate1;
+            this.dateDoB_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateDoB_evtValueChanged);
             this.dateDoB_.Enter += new System.EventHandler(this.dateDoB_Enter);
             // 
             // m_dateDoD
@@ -184,10 +184,10 @@ namespace FamilyTree.Viewer
             this.dateDoD_.Name = "m_dateDoD";
             this.dateDoD_.Size = new System.Drawing.Size(144, 24);
             this.dateDoD_.TabIndex = 35;
-            clsDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate2.status = 0;
-            this.dateDoD_.Value = clsDate2;
-            this.dateDoD_.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateDoD_evtValueChanged);
+            compoundDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            compoundDate2.status = 0;
+            this.dateDoD_.theDate = compoundDate2;
+            this.dateDoD_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateDoD_evtValueChanged);
             this.dateDoD_.Enter += new System.EventHandler(this.dateDoD_Enter);
             // 
             // m_txtComments
@@ -330,8 +330,8 @@ namespace FamilyTree.Viewer
             tabRelationships.Controls.Add(this.cboAddPartner_);
             tabRelationships.Controls.Add(cmdDeleteRelationship);
             tabRelationships.Controls.Add(AddRelationship);
-            tabRelationships.Controls.Add(this.m_dateRelationEnd);
-            tabRelationships.Controls.Add(this.m_dateRelationStart);
+            tabRelationships.Controls.Add(this.dateRelationEnd_);
+            tabRelationships.Controls.Add(this.dateRelationStart_);
             tabRelationships.Controls.Add(this.lstRelationships_);
             tabRelationships.ImageIndex = 5;
             tabRelationships.Location = new System.Drawing.Point(4, 23);
@@ -460,26 +460,26 @@ namespace FamilyTree.Viewer
             // 
             // m_dateRelationEnd
             // 
-            this.m_dateRelationEnd.Location = new System.Drawing.Point(512, 64);
-            this.m_dateRelationEnd.Name = "m_dateRelationEnd";
-            this.m_dateRelationEnd.Size = new System.Drawing.Size(144, 24);
-            this.m_dateRelationEnd.TabIndex = 15;
-            clsDate3.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate3.status = 0;
-            this.m_dateRelationEnd.Value = clsDate3;
-            this.m_dateRelationEnd.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateRelationEnd_evtValueChanged);
+            this.dateRelationEnd_.Location = new System.Drawing.Point(512, 64);
+            this.dateRelationEnd_.Name = "m_dateRelationEnd";
+            this.dateRelationEnd_.Size = new System.Drawing.Size(144, 24);
+            this.dateRelationEnd_.TabIndex = 15;
+            compoundDate3.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            compoundDate3.status = 0;
+            this.dateRelationEnd_.theDate = compoundDate3;
+            this.dateRelationEnd_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateRelationEnd_evtValueChanged);
             // 
             // m_dateRelationStart
             // 
-            this.m_dateRelationStart.Location = new System.Drawing.Point(328, 16);
-            this.m_dateRelationStart.Name = "m_dateRelationStart";
-            this.m_dateRelationStart.Size = new System.Drawing.Size(144, 24);
-            this.m_dateRelationStart.TabIndex = 14;
-            clsDate4.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            clsDate4.status = 0;
-            this.m_dateRelationStart.Value = clsDate4;
-            this.m_dateRelationStart.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.dateRelationStart_evtValueChanged);
-            this.m_dateRelationStart.Enter += new System.EventHandler(this.dateRelationStart_Enter);
+            this.dateRelationStart_.Location = new System.Drawing.Point(328, 16);
+            this.dateRelationStart_.Name = "m_dateRelationStart";
+            this.dateRelationStart_.Size = new System.Drawing.Size(144, 24);
+            this.dateRelationStart_.TabIndex = 14;
+            compoundDate4.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            compoundDate4.status = 0;
+            this.dateRelationStart_.theDate = compoundDate4;
+            this.dateRelationStart_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateRelationStart_evtValueChanged);
+            this.dateRelationStart_.Enter += new System.EventHandler(this.dateRelationStart_Enter);
             // 
             // m_lstRelationships
             // 
@@ -919,10 +919,10 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.DataGrid gridFacts_;
         private System.Windows.Forms.DataGrid gridSources_;
         private System.Windows.Forms.ComboBox cboSources_;
-        private FamilyTree.Viewer.ucDate dateDoD_;
-        private FamilyTree.Viewer.ucDate dateDoB_;
-        private FamilyTree.Viewer.ucDate m_dateRelationStart;
-        private FamilyTree.Viewer.ucDate m_dateRelationEnd;
+        private FamilyTree.Viewer.CompoundDateEditBox dateDoD_;
+        private FamilyTree.Viewer.CompoundDateEditBox dateDoB_;
+        private FamilyTree.Viewer.CompoundDateEditBox dateRelationStart_;
+        private FamilyTree.Viewer.CompoundDateEditBox dateRelationEnd_;
         private System.Windows.Forms.ComboBox m_cboRelationshipType;
         private Label labDescription_;
         private GroupBox grpSources_;

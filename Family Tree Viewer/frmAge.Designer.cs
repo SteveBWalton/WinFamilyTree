@@ -4,7 +4,7 @@ namespace FamilyTree.Viewer
     {
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboPerson;
-        private FamilyTree.Viewer.ucDate ucDate1;
+        private FamilyTree.Viewer.CompoundDateEditBox ucDate1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -31,7 +31,7 @@ namespace FamilyTree.Viewer
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.labTheAge = new System.Windows.Forms.Label();
-            this.ucDate1 = new FamilyTree.Viewer.ucDate();
+            this.ucDate1 = new FamilyTree.Viewer.CompoundDateEditBox();
             this.cmdOK = new System.Windows.Forms.Button();
             oImageList16 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
@@ -117,8 +117,8 @@ namespace FamilyTree.Viewer
             this.ucDate1.TabIndex = 4;
             clsDate1.date = new System.DateTime(2008, 2, 20, 0, 0, 0, 0);
             clsDate1.status = 0;
-            this.ucDate1.Value = clsDate1;
-            this.ucDate1.evtValueChanged += new FamilyTree.Viewer.dgtValueChanged(this.ucDate1_evtValueChanged);
+            this.ucDate1.theDate = clsDate1;
+            this.ucDate1.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.ucDate1_evtValueChanged);
             // 
             // cmdOK
             // 

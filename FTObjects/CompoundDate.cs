@@ -7,7 +7,7 @@ namespace FamilyTree.Objects
 {
     #region Supporting Types etc ...
 
-    /// <summary>Formats for human readable output of clsDate objects.</summary>
+    /// <summary>Formats for human readable output of CompoundDate objects.</summary>
     public enum DateFormat
     {
         /// <summary>Only show the year.</summary>
@@ -89,7 +89,7 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Class constructor from a .NET DateTime value.</summary>
-        /// <param name="theDate">Specify the DateTime value to initialise the value of the clsDate.</param>
+        /// <param name="theDate">Specify the DateTime value to initialise the value of the CompoundDate.</param>
         public CompoundDate(DateTime theDate)
         {
             theDate_ = theDate;
@@ -119,7 +119,7 @@ namespace FamilyTree.Objects
 
         /// <summary>Formats the date for display using both the date and status information.</summary>
         /// <param name="dateFormat">Specifies the style of the returned string.</param>
-        /// <returns>A human readable string which represents the clsDate object.</returns>
+        /// <returns>A human readable string which represents the CompoundDate object.</returns>
         public string format
             (
             DateFormat dateFormat
@@ -297,10 +297,10 @@ namespace FamilyTree.Objects
 
 
 
-        /// <summary>Formats the date for display using both the date and status information.  A prefix is added to non empty clsDate values.</summary>
+        /// <summary>Formats the date for display using both the date and status information.  A prefix is added to non empty CompoundDate values.</summary>
         /// <param name="dateFormat">Specifies the style of the output string.</param>
         /// <param name="prefix">Specifies a prefix for non empty values.</param>
-        /// <returns>A human readable representation of the clsDate value plus a prefix.</returns>
+        /// <returns>A human readable representation of the CompoundDate value plus a prefix.</returns>
         public string format(DateFormat dateFormat, string prefix)
         {
             // Return unknown dates as an empty string.
@@ -317,7 +317,7 @@ namespace FamilyTree.Objects
         /// <summary>Formats the date for display using both the date and status information.  A prefix is calculated from the information in the date and the options specified.</summary>
         /// <param name="dateFormat">Specifies the style of the output date.</param>
         /// <param name="datePrefix">Specifies the options for the prefix.</param>
-        /// <returns>A human readable representation of the clsDate value plus a prefix.</returns>
+        /// <returns>A human readable representation of the CompoundDate value plus a prefix.</returns>
         public string format(DateFormat dateFormat, DatePrefix datePrefix)
         {
             // Return unknown dates as an empty string.

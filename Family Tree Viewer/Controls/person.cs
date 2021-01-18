@@ -10,18 +10,18 @@ using FamilyTree.Objects;
 namespace FamilyTree.Viewer
 {
     /// <summary>Delegate type for the Click event.</summary>
-	public delegate void dgtClick(object oSender);
+    public delegate void FuncClick(object sender);
 
     /// <summary>User control to display a person.</summary>
-    public class ucPerson : System.Windows.Forms.UserControl
+    public class PersonDisplay : System.Windows.Forms.UserControl
     {
         #region Member Variables
 
         /// <summary>ID of the person to display.</summary>
         private int personIndex_;
 
-        /// <summary>This is the evtClick event of with signiture dgtClick() (delegate)</summary>
-        public event dgtClick evtClick;
+        /// <summary>This is the click event for the control.</summary>
+        public event FuncClick eventClick;
 
         private System.Windows.Forms.Label labName_;
         private System.Windows.Forms.Label labBorn_;
@@ -36,7 +36,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Class Constructor.</summary>
-        public ucPerson()
+        public PersonDisplay()
         {
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();
@@ -132,9 +132,9 @@ namespace FamilyTree.Viewer
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ucPerson";
             this.Size = new System.Drawing.Size(148, 78);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ucPerson_Paint);
-            this.Click += new System.EventHandler(this.ucPerson_Click);
-            this.Resize += new System.EventHandler(this.ucPerson_Resize);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.personDisplay_Paint);
+            this.Click += new System.EventHandler(this.personDisplay_Click);
+            this.Resize += new System.EventHandler(this.personDisplay_Resize);
             this.ResumeLayout(false);
 
         }
@@ -142,55 +142,52 @@ namespace FamilyTree.Viewer
 
         #region Message Handlers
 
-        private void ucPerson_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+
+
+        private void personDisplay_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             // e.Graphics.DrawLine(new Pen(Color.Black),0,0,this.Width,this.Height);
         }
 
-        private void ucPerson_Resize(object sender, System.EventArgs e)
+
+
+        private void personDisplay_Resize(object sender, System.EventArgs e)
         {
             /*
-			this.labBorn.Width = this.Width / 2;
-			this.labDied.Width = this.labBorn.Width;
-			this.labDied.Left = this.labBorn.Width;
-			*/
+            this.labBorn.Width = this.Width / 2;
+            this.labDied.Width = this.labBorn.Width;
+            this.labDied.Left = this.labBorn.Width;
+            */
         }
 
-        /// <summary>
-        /// Message handler for the click event on the name label.
-        /// Raise the click event to the parent control.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the click event on the name label.  Raise the click event to the parent control.</summary>
         private void labName_Click(object sender, EventArgs e)
         {
-            // Raise the click event in the parent.  Call the delegates that the parent has assigned
-            this.evtClick(this);
+            // Raise the click event in the parent.  Call the delegates that the parent has assigned.
+            this.eventClick(this);
         }
 
-        /// <summary>
-        /// Message handler for the click event on the born label.
-        /// Raise the click event to the parent control.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the click event on the born label.  Raise the click event to the parent control.</summary>
         private void labBorn_Click(object sender, EventArgs e)
         {
-            // Raise the click event in the parent.  Call the delegates that the parent has assigned
-            this.evtClick(this);
+            // Raise the click event in the parent.  Call the delegates that the parent has assigned.
+            this.eventClick(this);
         }
 
-        /// <summary>
-        /// Message handler for the click event on the background of the control.
-        /// Raise the click event to the parent control.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ucPerson_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the click event on the background of the control.  Raise the click event to the parent control.</summary>
+        private void personDisplay_Click(object sender, EventArgs e)
         {
-            // Raise the click event in the parent.  Call the delegates that the parent has assigned
-            this.evtClick(this);
+            // Raise the click event in the parent.  Call the delegates that the parent has assigned.
+            this.eventClick(this);
         }
+
+
 
         #endregion
 

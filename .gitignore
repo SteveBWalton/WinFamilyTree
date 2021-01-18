@@ -13,3 +13,6 @@ Family Tree.ndoc
 UpgradeLog.XML
 keysync.xml
 Notes.txt
+Family Tree Viewer/clsGedcomOptions.cs
+Family Tree Viewer/clsMSWord.cs
+Family Tree Viewer/clsRegistry.cs

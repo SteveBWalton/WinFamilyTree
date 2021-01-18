@@ -67,8 +67,8 @@ namespace FamilyTree.Viewer
             txtSurname_.Text = person_.surname;
             txtForename_.Text = person_.forenames;
             txtMaidenName_.Text = person_.maidenname;
-            dateDoB_.Value = person_.dob;
-            dateDoD_.Value = person_.dod;
+            dateDoB_.theDate = person_.dob;
+            dateDoD_.theDate = person_.dod;
             chkChildrenKnown_.Checked = person_.isAllChildrenKnown;
             txtComments_.Text = person_.comments;
             // m_labEditor.Text = "Last Edit by "+m_oPerson.LastEditBy+" on "+m_oPerson.LastEditDate.ToString("d-MMM-yyyy HH:mm:ss");
@@ -650,8 +650,8 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the date of birth control changing value.  Update the person object and display the person description.</summary>
 		private void dateDoB_evtValueChanged(object oSender)
         {
-            person_.dob.date = dateDoB_.GetDate();
-            person_.dob.status = dateDoB_.GetStatus();
+            person_.dob.date = dateDoB_.getDate();
+            person_.dob.status = dateDoB_.getStatus();
 
             // Update the description.
             labDescription_.Text = person_.getDescription(false, false, false, false, false);
@@ -662,8 +662,8 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the date of death control changing value.  Update the person object and display the person description.</summary>
 		private void dateDoD_evtValueChanged(object oSender)
         {
-            person_.dod.date = dateDoD_.GetDate();
-            person_.dod.status = dateDoD_.GetStatus();
+            person_.dod.date = dateDoD_.getDate();
+            person_.dod.status = dateDoD_.getStatus();
 
             // Update the description.
             labDescription_.Text = person_.getDescription(false, false, false, false, false);
@@ -820,11 +820,11 @@ namespace FamilyTree.Viewer
             activeRelationship_ = (Relationship)this.lstRelationships_.SelectedItem;
 
             // Update the form
-            m_dateRelationStart.Value = activeRelationship_.start;
+            dateRelationStart_.theDate = activeRelationship_.start;
             //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
             m_cboTerminated.SelectedIndex = activeRelationship_.terminatedIndex - 1;
             txtRelationLocation_.Text = activeRelationship_.location;
-            m_dateRelationEnd.Value = activeRelationship_.end;
+            dateRelationEnd_.theDate = activeRelationship_.end;
             m_txtRelationComments.Text = activeRelationship_.comments;
             m_cboRelationshipType.SelectedIndex = activeRelationship_.typeIndex - 1;
 
@@ -909,8 +909,8 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.start.date = m_dateRelationStart.GetDate();
-                activeRelationship_.start.status = m_dateRelationStart.GetStatus();
+                activeRelationship_.start.date = dateRelationStart_.getDate();
+                activeRelationship_.start.status = dateRelationStart_.getStatus();
                 activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description
@@ -923,8 +923,8 @@ namespace FamilyTree.Viewer
             // Update the active relationship
             if (activeRelationship_ != null)
             {
-                activeRelationship_.end.date = m_dateRelationEnd.GetDate();
-                activeRelationship_.end.status = m_dateRelationEnd.GetStatus();
+                activeRelationship_.end.date = dateRelationEnd_.getDate();
+                activeRelationship_.end.status = dateRelationEnd_.getStatus();
                 activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
 
                 // Update the description

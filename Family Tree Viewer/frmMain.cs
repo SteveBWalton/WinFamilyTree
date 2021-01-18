@@ -13,27 +13,18 @@ namespace FamilyTree.Viewer
 {
     #region Delegate Functions
 
-    // Delegate for functions that specify a single bool parameter
-    /// <summary>
-    /// Delegate for functions that specify a single bool parameter
-    /// </summary>
-    /// <param name="bPara">Specify the boolean value.</param>
-    public delegate void dgtSetBool(bool bPara);
+    /// <summary>Delegate for functions that specify a single bool parameter.</summary>
+    /// <param name="isTrue">Specify the boolean value.</param>
+    public delegate void FuncSetBool(bool isTrue);
 
-    // Delegate for functions that specifiy a single string and bool parameter.
-    /// <summary>
-    /// Delegate for functions that specifiy a single string and bool parameter.
-    /// </summary>
-    /// <param name="sText">Specify the string value.</param>
-    /// <param name="bTrueFalse">Specify the boolean value.</param>
-    public delegate void funcTextBool(string sText, bool bTrueFalse);
+    /// <summary>Delegate for functions that specifiy a single string and bool parameter.</summary>
+    /// <param name="textValue">Specify the string value.</param>
+    /// <param name="isTrue">Specify the boolean value.</param>
+    public delegate void FuncTextBool(string textValue, bool isTrue);
 
-    // Delefate for functions that specify a single integer parameter.
-    /// <summary>
-    /// Delefate for functions that specify a single integer parameter.
-    /// </summary>
-    /// <param name="nValue">Specify the value of the integer parameter.</param>
-    public delegate void dgtSetInt(int nValue);
+    /// <summary>Delegate for functions that specify a single integer parameter.</summary>
+    /// <param name="integerValue">Specify the value of the integer parameter.</param>
+    public delegate void FuncSetInt(int integerValue);
 
     #endregion
 
@@ -118,16 +109,16 @@ namespace FamilyTree.Viewer
         private UserOptions userOptions_;
 
         /// <summary>Array of person graphical controls to display siblings of the main person.</summary>
-        private FamilyTree.Viewer.ucPerson[] psnSiblings_;
+        private FamilyTree.Viewer.PersonDisplay[] psnSiblings_;
 
         /// <summary>Array of person graphical controls to display children of the main person.</summary>
-        private FamilyTree.Viewer.ucPerson[] psnChildren_;
+        private FamilyTree.Viewer.PersonDisplay[] psnChildren_;
 
         /// <summary>Array of person graphical controls to display partners of the main person.</summary>
-        private FamilyTree.Viewer.ucPerson[] psnPartners_;
+        private FamilyTree.Viewer.PersonDisplay[] psnPartners_;
 
         /// <summary>Array of relationship graphical controls to display connections to partners of the main person.</summary>
-        private FamilyTree.Viewer.ucRelationship[] partnersConntections_;
+        private FamilyTree.Viewer.RelationshipDisplay[] partnersConntections_;
 
         /// <summary>Background colour for a boy.</summary>
         private System.Drawing.Color backgroundBoy_;
@@ -169,12 +160,12 @@ namespace FamilyTree.Viewer
             InitializeComponent();
 
             // Add any constructor code after InitializeComponent call
-            psnFather_.evtClick += new dgtClick(ucPerson_evtClick);
-            psnMother_.evtClick += new dgtClick(ucPerson_evtClick);
-            psnFatherFather_.evtClick += new dgtClick(ucPerson_evtClick);
-            psnFatherMother_.evtClick += new dgtClick(ucPerson_evtClick);
-            psnMotherFather_.evtClick += new dgtClick(ucPerson_evtClick);
-            psnMotherMother_.evtClick += new dgtClick(ucPerson_evtClick);
+            psnFather_.eventClick += new FuncClick(ucPerson_evtClick);
+            psnMother_.eventClick += new FuncClick(ucPerson_evtClick);
+            psnFatherFather_.eventClick += new FuncClick(ucPerson_evtClick);
+            psnFatherMother_.eventClick += new FuncClick(ucPerson_evtClick);
+            psnMotherFather_.eventClick += new FuncClick(ucPerson_evtClick);
+            psnMotherMother_.eventClick += new FuncClick(ucPerson_evtClick);
 
             // Open the configuration file			
             string configFile = walton.DataPaths.getUserDirectory("Walton", "Family Tree Viewer", "1.0");
@@ -307,7 +298,7 @@ namespace FamilyTree.Viewer
             // Check that we are on the UI thread.
             if (InvokeRequired)
             {
-                Invoke(new funcVoid(cursorDefault));
+                Invoke(new FuncVoid(cursorDefault));
                 return;
             }
 
@@ -326,7 +317,7 @@ namespace FamilyTree.Viewer
             // Check that we are on the UI thread.
             if (InvokeRequired)
             {
-                Invoke(new funcVoid(cursorWait));
+                Invoke(new FuncVoid(cursorWait));
                 return;
             }
 
@@ -345,7 +336,7 @@ namespace FamilyTree.Viewer
         {
             if (InvokeRequired)
             {
-                Invoke(new funcTextBool(setStatusBarText), new object[2] { text, isError });
+                Invoke(new FuncTextBool(setStatusBarText), new object[2] { text, isError });
             }
 
             // Now we are on the UI thread.
@@ -360,7 +351,7 @@ namespace FamilyTree.Viewer
             // Check that we are no the UI thread.
             if (InvokeRequired)
             {
-                Invoke(new funcVoid(progressBarPerformStep));
+                Invoke(new FuncVoid(progressBarPerformStep));
                 return;
             }
 
@@ -378,7 +369,7 @@ namespace FamilyTree.Viewer
             // Check that we are on the UI thread.
             if (InvokeRequired)
             {
-                Invoke(new dgtSetBool(progressBarVisible), new object[1] { isVisible });
+                Invoke(new FuncSetBool(progressBarVisible), new object[1] { isVisible });
                 return;
             }
 
@@ -395,7 +386,7 @@ namespace FamilyTree.Viewer
             // Check that we are on the UI thread.
             if (InvokeRequired)
             {
-                Invoke(new dgtSetInt(progressBarInitialise), new object[1] { maximum });
+                Invoke(new FuncSetInt(progressBarInitialise), new object[1] { maximum });
                 return;
             }
 
@@ -501,11 +492,11 @@ namespace FamilyTree.Viewer
                         Person relationPerson = database_.getPerson(marriages[i].partnerIndex);
 
                         // Create a person control to show the partner
-                        psnPartners_[i] = new FamilyTree.Viewer.ucPerson();
+                        psnPartners_[i] = new FamilyTree.Viewer.PersonDisplay();
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                         psnPartners_[i].setPerson(relationPerson);
-                        psnPartners_[i].evtClick += new dgtClick(ucPerson_evtClick);
+                        psnPartners_[i].eventClick += new FuncClick(ucPerson_evtClick);
                         psnPartners_[i].BackColor = backgroundBoy_;
                         psnPartners_[i].Font = font;
                         psnPartners_[i].setPerson(relationPerson);
@@ -513,10 +504,10 @@ namespace FamilyTree.Viewer
                         pos += personSize_.x;
 
                         // Create a relationship control to show the relationship to the partner
-                        partnersConntections_[i] = new FamilyTree.Viewer.ucRelationship();
+                        partnersConntections_[i] = new FamilyTree.Viewer.RelationshipDisplay();
                         partnersConntections_[i].Location = new System.Drawing.Point(pos, labPerson_.Top + 8);
                         partnersConntections_[i].Size = new System.Drawing.Size(marriedWidth_, 16);
-                        partnersConntections_[i].SetRelationship(marriages[i]);
+                        partnersConntections_[i].setRelationship(marriages[i]);
                         panelTree_.Controls.Add(partnersConntections_[i]);
                         pos += marriedWidth_;
                     }
@@ -542,19 +533,19 @@ namespace FamilyTree.Viewer
                         Person relationPerson = database_.getPerson(marriages[i].partnerIndex);
 
                         // Create a relationship control to show the relationship to the partner.
-                        partnersConntections_[i] = new FamilyTree.Viewer.ucRelationship();
+                        partnersConntections_[i] = new FamilyTree.Viewer.RelationshipDisplay();
                         partnersConntections_[i].Location = new System.Drawing.Point(pos, labPerson_.Top + 8);
                         partnersConntections_[i].Size = new System.Drawing.Size(marriedWidth_, 16);
-                        partnersConntections_[i].SetRelationship(marriages[i]);
+                        partnersConntections_[i].setRelationship(marriages[i]);
                         panelTree_.Controls.Add(partnersConntections_[i]);
                         pos += marriedWidth_;
 
                         // Create a person control to show the partner.
-                        psnPartners_[i] = new FamilyTree.Viewer.ucPerson();
+                        psnPartners_[i] = new FamilyTree.Viewer.PersonDisplay();
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                         psnPartners_[i].setPerson(relationPerson);
-                        psnPartners_[i].evtClick += new dgtClick(ucPerson_evtClick);
+                        psnPartners_[i].eventClick += new FuncClick(ucPerson_evtClick);
                         psnPartners_[i].BackColor = backgroundGirl_;
                         psnPartners_[i].Font = font;
                         psnPartners_[i].setPerson(relationPerson);
@@ -827,8 +818,8 @@ namespace FamilyTree.Viewer
             Relationship[] marriages = person.getRelationships();
             if (marriages.Length > 0)
             {
-                psnPartners_ = new FamilyTree.Viewer.ucPerson[marriages.Length];
-                partnersConntections_ = new FamilyTree.Viewer.ucRelationship[marriages.Length];
+                psnPartners_ = new FamilyTree.Viewer.PersonDisplay[marriages.Length];
+                partnersConntections_ = new FamilyTree.Viewer.RelationshipDisplay[marriages.Length];
             }
 
             // Show the siblings.
@@ -837,7 +828,7 @@ namespace FamilyTree.Viewer
             bool isShownPerson = false;
             if (siblings.Length > 0)
             {
-                psnSiblings_ = new FamilyTree.Viewer.ucPerson[siblings.Length];
+                psnSiblings_ = new FamilyTree.Viewer.PersonDisplay[siblings.Length];
 
                 for (int i = 0; i < siblings.Length; i++)
                 {
@@ -851,7 +842,7 @@ namespace FamilyTree.Viewer
                     }
 
                     // Show the sibling.
-                    psnSiblings_[i] = new FamilyTree.Viewer.ucPerson();
+                    psnSiblings_[i] = new FamilyTree.Viewer.PersonDisplay();
                     if (relation.isMale)
                     {
                         psnSiblings_[i].BackColor = backgroundBoy_;
@@ -864,7 +855,7 @@ namespace FamilyTree.Viewer
                     psnSiblings_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                     psnSiblings_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                     psnSiblings_[i].setPerson(relation);
-                    psnSiblings_[i].evtClick += new dgtClick(ucPerson_evtClick);
+                    psnSiblings_[i].eventClick += new FuncClick(ucPerson_evtClick);
 
                     // Build a tag value that represents which parents this sibling shares.
                     int tag = 0;
@@ -934,13 +925,13 @@ namespace FamilyTree.Viewer
 
             if (children.Length > 0)
             {
-                psnChildren_ = new FamilyTree.Viewer.ucPerson[children.Length];
+                psnChildren_ = new FamilyTree.Viewer.PersonDisplay[children.Length];
 
                 for (int i = 0; i < children.Length; i++)
                 {
                     Person relation = database_.getPerson(children[i]);
 
-                    psnChildren_[i] = new FamilyTree.Viewer.ucPerson();
+                    psnChildren_[i] = new FamilyTree.Viewer.PersonDisplay();
                     if (relation.isMale)
                     {
                         psnChildren_[i].BackColor = backgroundBoy_;
@@ -953,7 +944,7 @@ namespace FamilyTree.Viewer
                     psnChildren_[i].Location = new System.Drawing.Point(pos, height);
                     psnChildren_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                     psnChildren_[i].setPerson(relation);
-                    psnChildren_[i].evtClick += new dgtClick(ucPerson_evtClick);
+                    psnChildren_[i].eventClick += new FuncClick(ucPerson_evtClick);
 
                     // Decide which relationship this child belongs to.
                     int tag = -1;
@@ -961,7 +952,7 @@ namespace FamilyTree.Viewer
                     {
                         for (int j = 0; j < partnersConntections_.Length; j++)
                         {
-                            if (partnersConntections_[j].MotherID == relation.motherIndex && partnersConntections_[j].FatherID == relation.fatherIndex)
+                            if (partnersConntections_[j].motherIndex == relation.motherIndex && partnersConntections_[j].fatherIndex == relation.fatherIndex)
                             {
                                 tag = j;
                             }
@@ -2130,8 +2121,8 @@ namespace FamilyTree.Viewer
 
                     for (int i = 0; i < psnChildren_.Length; i++)
                     {
-                        // Todo: check this it crashes.
-                        if (psnChildren_[i] != null)
+                        // TODO: check this, it crashes.
+                        if (psnChildren_[i] != null && psnChildren_[i].Tag!= null)
                         {
                             if ((int)psnChildren_[i].Tag == marriageIndex)
                             {
@@ -2152,7 +2143,7 @@ namespace FamilyTree.Viewer
 
                     if (isDrawBar)
                     {
-                        // Draw a bar to hang the Siblings on
+                        // Draw a bar to hang the Siblings on.
                         e.Graphics.DrawLine(pen, minPos, barHeight, maxPos, barHeight);
 
                         int nHeight;
@@ -2675,7 +2666,7 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the click on a ucPerson object event.  Responds the user clicking on a person object by displaying the person shown in the person object.  This is a bit like a message handler, but for my own event with my own signiture.</summary>
 		private void ucPerson_evtClick(object oSender)
         {
-            FamilyTree.Viewer.ucPerson psnPerson = (FamilyTree.Viewer.ucPerson)oSender;
+            FamilyTree.Viewer.PersonDisplay psnPerson = (FamilyTree.Viewer.PersonDisplay)oSender;
             showPerson(psnPerson.getPersonIndex(), true);
         }
 
