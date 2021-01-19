@@ -1466,7 +1466,7 @@ namespace FamilyTree.Viewer
         private bool ShowAge()
         {
             // Create the age window
-            frmAge oAge = new frmAge(database_, currentPage.index);
+            AgeDialog oAge = new AgeDialog(database_, currentPage.index);
             oAge.ShowDialog(this);
 
             // Return success;

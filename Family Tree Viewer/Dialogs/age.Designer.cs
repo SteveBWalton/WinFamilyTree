@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    public partial class frmAge : System.Windows.Forms.Form
+    public partial class AgeDialog : System.Windows.Forms.Form
     {
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboPerson;
@@ -8,8 +8,8 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label labTheAge;
-        private System.Windows.Forms.Label labDoB;
+        private System.Windows.Forms.Label labTheAge_;
+        private System.Windows.Forms.Label labDoB_;
         private System.Windows.Forms.Button cmdOK;
         private System.ComponentModel.IContainer components;
 
@@ -22,15 +22,15 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAge));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgeDialog));
             FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
             this.label1 = new System.Windows.Forms.Label();
             this.cboPerson = new System.Windows.Forms.ComboBox();
-            this.labDoB = new System.Windows.Forms.Label();
+            this.labDoB_ = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.labTheAge = new System.Windows.Forms.Label();
+            this.labTheAge_ = new System.Windows.Forms.Label();
             this.ucDate1 = new FamilyTree.Viewer.CompoundDateEditBox();
             this.cmdOK = new System.Windows.Forms.Button();
             oImageList16 = new System.Windows.Forms.ImageList(this.components);
@@ -62,12 +62,12 @@ namespace FamilyTree.Viewer
             // 
             // labDoB
             // 
-            this.labDoB.Location = new System.Drawing.Point(112, 32);
-            this.labDoB.Name = "labDoB";
-            this.labDoB.Size = new System.Drawing.Size(208, 23);
-            this.labDoB.TabIndex = 3;
-            this.labDoB.Text = "labDoB";
-            this.labDoB.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labDoB_.Location = new System.Drawing.Point(112, 32);
+            this.labDoB_.Name = "labDoB";
+            this.labDoB_.Size = new System.Drawing.Size(208, 23);
+            this.labDoB_.TabIndex = 3;
+            this.labDoB_.Text = "labDoB";
+            this.labDoB_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -101,13 +101,13 @@ namespace FamilyTree.Viewer
             // 
             // labTheAge
             // 
-            this.labTheAge.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labTheAge.Location = new System.Drawing.Point(112, 96);
-            this.labTheAge.Name = "labTheAge";
-            this.labTheAge.Size = new System.Drawing.Size(144, 23);
-            this.labTheAge.TabIndex = 7;
-            this.labTheAge.Text = "label6";
-            this.labTheAge.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labTheAge_.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labTheAge_.Location = new System.Drawing.Point(112, 96);
+            this.labTheAge_.Name = "labTheAge";
+            this.labTheAge_.Size = new System.Drawing.Size(144, 23);
+            this.labTheAge_.TabIndex = 7;
+            this.labTheAge_.Text = "label6";
+            this.labTheAge_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ucDate1
             // 
@@ -137,11 +137,11 @@ namespace FamilyTree.Viewer
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(400, 125);
             this.Controls.Add(this.cmdOK);
-            this.Controls.Add(this.labTheAge);
+            this.Controls.Add(this.labTheAge_);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ucDate1);
-            this.Controls.Add(this.labDoB);
+            this.Controls.Add(this.labDoB_);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cboPerson);
             this.Controls.Add(this.label1);

@@ -146,11 +146,11 @@
     <Compile Include="Controls\relationship.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dialogs\frmAge.cs">
+    <Compile Include="Dialogs\age.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\frmAge.designer.cs">
-      <DependentUpon>frmAge.cs</DependentUpon>
+    <Compile Include="Dialogs\age.Designer.cs">
+      <DependentUpon>age.cs</DependentUpon>
     </Compile>
     <Compile Include="walton\datapaths.cs" />
     <Compile Include="walton\filelist.cs" />
@@ -285,8 +285,8 @@
     <EmbeddedResource Include="Controls\relationship.resx">
       <DependentUpon>relationship.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\frmAge.resx">
-      <DependentUpon>frmAge.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\age.resx">
+      <DependentUpon>age.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmBirthday.resx">
       <SubType>Designer</SubType>
