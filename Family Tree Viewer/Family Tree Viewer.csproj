@@ -152,6 +152,18 @@
     <Compile Include="Dialogs\age.Designer.cs">
       <DependentUpon>age.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\birthday.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\birthday.designer.cs">
+      <DependentUpon>birthday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\edit_sources.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\edit_sources.designer.cs">
+      <DependentUpon>edit_sources.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,12 +217,6 @@
     <Compile Include="UserOptions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="frmBirthday.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmBirthday.Designer.cs">
-      <DependentUpon>frmBirthday.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmEditCensus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,12 +231,6 @@
     </Compile>
     <Compile Include="frmEditPerson.Designer.cs">
       <DependentUpon>frmEditPerson.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmEditSources.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEditSources.Designer.cs">
-      <DependentUpon>frmEditSources.cs</DependentUpon>
     </Compile>
     <Compile Include="frmGedcomOptions.cs">
       <SubType>Form</SubType>
@@ -288,12 +288,14 @@
     <EmbeddedResource Include="Dialogs\age.resx">
       <DependentUpon>age.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\birthday.resx">
+      <DependentUpon>birthday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\edit_sources.resx">
+      <DependentUpon>edit_sources.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\main.resx">
       <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmBirthday.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmBirthday.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditCensus.resx">
       <DependentUpon>frmEditCensus.cs</DependentUpon>
@@ -305,10 +307,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEditPerson.resx">
       <DependentUpon>frmEditPerson.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEditSources.resx">
-      <DependentUpon>frmEditSources.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGedcomOptions.resx">

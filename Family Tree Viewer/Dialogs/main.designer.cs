@@ -85,10 +85,10 @@ namespace FamilyTree.Viewer
             this.tsbForward_ = new System.Windows.Forms.ToolStripButton();
             this.m_tsbImage = new System.Windows.Forms.ToolStripButton();
             this.m_tsbLocation = new System.Windows.Forms.ToolStripButton();
-            this.m_menuRecentFile1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_menuRecentFile2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_menuRecentFile3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_menuRecentFile4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRecentFile1_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRecentFile2_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRecentFile3_ = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRecentFile4_ = new System.Windows.Forms.ToolStripMenuItem();
             this.m_menuImage = new System.Windows.Forms.ToolStripMenuItem();
             this.m_menuLocation = new System.Windows.Forms.ToolStripMenuItem();
             this.tslabStatus_ = new System.Windows.Forms.ToolStripStatusLabel();
@@ -96,7 +96,7 @@ namespace FamilyTree.Viewer
             this.labPerson_ = new System.Windows.Forms.Label();
             this.labPersonDates_ = new System.Windows.Forms.Label();
             this.openFileDialog_ = new System.Windows.Forms.OpenFileDialog();
-            this.m_SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog_ = new System.Windows.Forms.SaveFileDialog();
             this.panelTree_ = new System.Windows.Forms.Panel();
             this.marMotherParents_ = new FamilyTree.Viewer.RelationshipDisplay();
             this.marFatherParents_ = new FamilyTree.Viewer.RelationshipDisplay();
@@ -479,10 +479,10 @@ namespace FamilyTree.Viewer
             toolStripMenuItem9,
             menuHome,
             toolStripMenuItem10,
-            this.m_menuRecentFile1,
-            this.m_menuRecentFile2,
-            this.m_menuRecentFile3,
-            this.m_menuRecentFile4,
+            this.menuRecentFile1_,
+            this.menuRecentFile2_,
+            this.menuRecentFile3_,
+            this.menuRecentFile4_,
             toolStripMenuItem11,
             menuExit});
             menuFile.Name = "menuFile";
@@ -525,31 +525,31 @@ namespace FamilyTree.Viewer
             // 
             // m_menuRecentFile1
             // 
-            this.m_menuRecentFile1.Name = "m_menuRecentFile1";
-            this.m_menuRecentFile1.Size = new System.Drawing.Size(180, 22);
-            this.m_menuRecentFile1.Text = "1";
-            this.m_menuRecentFile1.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile1_.Name = "m_menuRecentFile1";
+            this.menuRecentFile1_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile1_.Text = "1";
+            this.menuRecentFile1_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
             // m_menuRecentFile2
             // 
-            this.m_menuRecentFile2.Name = "m_menuRecentFile2";
-            this.m_menuRecentFile2.Size = new System.Drawing.Size(180, 22);
-            this.m_menuRecentFile2.Text = "2";
-            this.m_menuRecentFile2.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile2_.Name = "m_menuRecentFile2";
+            this.menuRecentFile2_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile2_.Text = "2";
+            this.menuRecentFile2_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
             // m_menuRecentFile3
             // 
-            this.m_menuRecentFile3.Name = "m_menuRecentFile3";
-            this.m_menuRecentFile3.Size = new System.Drawing.Size(180, 22);
-            this.m_menuRecentFile3.Text = "3";
-            this.m_menuRecentFile3.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile3_.Name = "m_menuRecentFile3";
+            this.menuRecentFile3_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile3_.Text = "3";
+            this.menuRecentFile3_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
             // m_menuRecentFile4
             // 
-            this.m_menuRecentFile4.Name = "m_menuRecentFile4";
-            this.m_menuRecentFile4.Size = new System.Drawing.Size(180, 22);
-            this.m_menuRecentFile4.Text = "4";
-            this.m_menuRecentFile4.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile4_.Name = "m_menuRecentFile4";
+            this.menuRecentFile4_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile4_.Text = "4";
+            this.menuRecentFile4_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
             // menuExit
             // 
@@ -929,13 +929,13 @@ namespace FamilyTree.Viewer
         private FamilyTree.Viewer.RelationshipDisplay marParents_;
         private FamilyTree.Viewer.RelationshipDisplay marFatherParents_;
         private FamilyTree.Viewer.RelationshipDisplay marMotherParents_;
-        private System.Windows.Forms.SaveFileDialog m_SaveFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_;
         private Panel panelTree_;
         private WebBrowser webBrowser_;
-        private ToolStripMenuItem m_menuRecentFile1;
-        private ToolStripMenuItem m_menuRecentFile2;
-        private ToolStripMenuItem m_menuRecentFile3;
-        private ToolStripMenuItem m_menuRecentFile4;
+        private ToolStripMenuItem menuRecentFile1_;
+        private ToolStripMenuItem menuRecentFile2_;
+        private ToolStripMenuItem menuRecentFile3_;
+        private ToolStripMenuItem menuRecentFile4_;
         private ToolStripMenuItem m_menuImage;
         private ToolStripDropDownButton tsddbBack_;
         private ToolStripButton tsbBack_;

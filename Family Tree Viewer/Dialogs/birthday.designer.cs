@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    partial class frmBirthday
+    partial class BirthdayDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmBirthday));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BirthdayDialog));
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
@@ -38,17 +38,17 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Button cmdCopy;
-            this.m_nudAge1 = new System.Windows.Forms.NumericUpDown();
-            this.m_dtpDate1 = new System.Windows.Forms.DateTimePicker();
-            this.m_dtpDate2 = new System.Windows.Forms.DateTimePicker();
-            this.m_nudAge2 = new System.Windows.Forms.NumericUpDown();
-            this.m_labReport = new System.Windows.Forms.Label();
+            this.nudAge1_ = new System.Windows.Forms.NumericUpDown();
+            this.dtpDate1_ = new System.Windows.Forms.DateTimePicker();
+            this.dtpDate2_ = new System.Windows.Forms.DateTimePicker();
+            this.nudAge2_ = new System.Windows.Forms.NumericUpDown();
+            this.labReport_ = new System.Windows.Forms.Label();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.m_picTick1 = new System.Windows.Forms.PictureBox();
-            this.m_picTick2 = new System.Windows.Forms.PictureBox();
-            this.m_picTick3 = new System.Windows.Forms.PictureBox();
-            this.m_dtpDate3 = new System.Windows.Forms.DateTimePicker();
-            this.m_nudAge3 = new System.Windows.Forms.NumericUpDown();
+            this.picTick1_ = new System.Windows.Forms.PictureBox();
+            this.picTick2_ = new System.Windows.Forms.PictureBox();
+            this.picTick3_ = new System.Windows.Forms.PictureBox();
+            this.dtpDate3_ = new System.Windows.Forms.DateTimePicker();
+            this.nudAge3_ = new System.Windows.Forms.NumericUpDown();
             oImageList16 = new System.Windows.Forms.ImageList(this.components);
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -57,12 +57,12 @@ namespace FamilyTree.Viewer
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             cmdCopy = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudAge1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudAge2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_picTick1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_picTick2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_picTick3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudAge3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAge1_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAge2_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTick1_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTick2_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTick3_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAge3_)).BeginInit();
             this.SuspendLayout();
             // 
             // oImageList16
@@ -140,44 +140,44 @@ namespace FamilyTree.Viewer
             // 
             // m_nudAge1
             // 
-            this.m_nudAge1.Location = new System.Drawing.Point(96, 34);
-            this.m_nudAge1.Name = "m_nudAge1";
-            this.m_nudAge1.Size = new System.Drawing.Size(48, 21);
-            this.m_nudAge1.TabIndex = 10;
-            this.m_nudAge1.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.nudAge1_.Location = new System.Drawing.Point(96, 34);
+            this.nudAge1_.Name = "m_nudAge1";
+            this.nudAge1_.Size = new System.Drawing.Size(48, 21);
+            this.nudAge1_.TabIndex = 10;
+            this.nudAge1_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
             // 
             // m_dtpDate1
             // 
-            this.m_dtpDate1.Location = new System.Drawing.Point(175, 32);
-            this.m_dtpDate1.Name = "m_dtpDate1";
-            this.m_dtpDate1.Size = new System.Drawing.Size(200, 21);
-            this.m_dtpDate1.TabIndex = 13;
-            this.m_dtpDate1.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.dtpDate1_.Location = new System.Drawing.Point(175, 32);
+            this.dtpDate1_.Name = "m_dtpDate1";
+            this.dtpDate1_.Size = new System.Drawing.Size(200, 21);
+            this.dtpDate1_.TabIndex = 13;
+            this.dtpDate1_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
             // 
             // m_dtpDate2
             // 
-            this.m_dtpDate2.Location = new System.Drawing.Point(175, 69);
-            this.m_dtpDate2.Name = "m_dtpDate2";
-            this.m_dtpDate2.Size = new System.Drawing.Size(200, 21);
-            this.m_dtpDate2.TabIndex = 17;
-            this.m_dtpDate2.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.dtpDate2_.Location = new System.Drawing.Point(175, 69);
+            this.dtpDate2_.Name = "m_dtpDate2";
+            this.dtpDate2_.Size = new System.Drawing.Size(200, 21);
+            this.dtpDate2_.TabIndex = 17;
+            this.dtpDate2_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
             // 
             // m_nudAge2
             // 
-            this.m_nudAge2.Location = new System.Drawing.Point(96, 71);
-            this.m_nudAge2.Name = "m_nudAge2";
-            this.m_nudAge2.Size = new System.Drawing.Size(48, 21);
-            this.m_nudAge2.TabIndex = 14;
-            this.m_nudAge2.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.nudAge2_.Location = new System.Drawing.Point(96, 71);
+            this.nudAge2_.Name = "m_nudAge2";
+            this.nudAge2_.Size = new System.Drawing.Size(48, 21);
+            this.nudAge2_.TabIndex = 14;
+            this.nudAge2_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
             // 
             // m_labReport
             // 
-            this.m_labReport.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labReport.Location = new System.Drawing.Point(26, 148);
-            this.m_labReport.Name = "m_labReport";
-            this.m_labReport.Size = new System.Drawing.Size(349, 60);
-            this.m_labReport.TabIndex = 18;
-            this.m_labReport.Text = "label5";
+            this.labReport_.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labReport_.Location = new System.Drawing.Point(26, 148);
+            this.labReport_.Name = "m_labReport";
+            this.labReport_.Size = new System.Drawing.Size(349, 60);
+            this.labReport_.TabIndex = 18;
+            this.labReport_.Text = "label5";
             // 
             // cmdOK
             // 
@@ -193,49 +193,49 @@ namespace FamilyTree.Viewer
             // 
             // m_picTick1
             // 
-            this.m_picTick1.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
-            this.m_picTick1.Location = new System.Drawing.Point(42, 34);
-            this.m_picTick1.Name = "m_picTick1";
-            this.m_picTick1.Size = new System.Drawing.Size(16, 16);
-            this.m_picTick1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.m_picTick1.TabIndex = 19;
-            this.m_picTick1.TabStop = false;
+            this.picTick1_.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
+            this.picTick1_.Location = new System.Drawing.Point(42, 34);
+            this.picTick1_.Name = "m_picTick1";
+            this.picTick1_.Size = new System.Drawing.Size(16, 16);
+            this.picTick1_.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.picTick1_.TabIndex = 19;
+            this.picTick1_.TabStop = false;
             // 
             // m_picTick2
             // 
-            this.m_picTick2.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
-            this.m_picTick2.Location = new System.Drawing.Point(42, 73);
-            this.m_picTick2.Name = "m_picTick2";
-            this.m_picTick2.Size = new System.Drawing.Size(16, 16);
-            this.m_picTick2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.m_picTick2.TabIndex = 20;
-            this.m_picTick2.TabStop = false;
+            this.picTick2_.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
+            this.picTick2_.Location = new System.Drawing.Point(42, 73);
+            this.picTick2_.Name = "m_picTick2";
+            this.picTick2_.Size = new System.Drawing.Size(16, 16);
+            this.picTick2_.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.picTick2_.TabIndex = 20;
+            this.picTick2_.TabStop = false;
             // 
             // m_picTick3
             // 
-            this.m_picTick3.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
-            this.m_picTick3.Location = new System.Drawing.Point(42, 112);
-            this.m_picTick3.Name = "m_picTick3";
-            this.m_picTick3.Size = new System.Drawing.Size(16, 16);
-            this.m_picTick3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.m_picTick3.TabIndex = 25;
-            this.m_picTick3.TabStop = false;
+            this.picTick3_.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
+            this.picTick3_.Location = new System.Drawing.Point(42, 112);
+            this.picTick3_.Name = "m_picTick3";
+            this.picTick3_.Size = new System.Drawing.Size(16, 16);
+            this.picTick3_.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.picTick3_.TabIndex = 25;
+            this.picTick3_.TabStop = false;
             // 
             // m_dtpDate3
             // 
-            this.m_dtpDate3.Location = new System.Drawing.Point(175, 108);
-            this.m_dtpDate3.Name = "m_dtpDate3";
-            this.m_dtpDate3.Size = new System.Drawing.Size(200, 21);
-            this.m_dtpDate3.TabIndex = 24;
-            this.m_dtpDate3.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.dtpDate3_.Location = new System.Drawing.Point(175, 108);
+            this.dtpDate3_.Name = "m_dtpDate3";
+            this.dtpDate3_.Size = new System.Drawing.Size(200, 21);
+            this.dtpDate3_.TabIndex = 24;
+            this.dtpDate3_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
             // 
             // m_nudAge3
             // 
-            this.m_nudAge3.Location = new System.Drawing.Point(96, 110);
-            this.m_nudAge3.Name = "m_nudAge3";
-            this.m_nudAge3.Size = new System.Drawing.Size(48, 21);
-            this.m_nudAge3.TabIndex = 21;
-            this.m_nudAge3.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.nudAge3_.Location = new System.Drawing.Point(96, 110);
+            this.nudAge3_.Name = "m_nudAge3";
+            this.nudAge3_.Size = new System.Drawing.Size(48, 21);
+            this.nudAge3_.TabIndex = 21;
+            this.nudAge3_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
             // 
             // frmBirthday
             // 
@@ -244,34 +244,34 @@ namespace FamilyTree.Viewer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 273);
             this.Controls.Add(cmdCopy);
-            this.Controls.Add(this.m_picTick3);
-            this.Controls.Add(this.m_dtpDate3);
+            this.Controls.Add(this.picTick3_);
+            this.Controls.Add(this.dtpDate3_);
             this.Controls.Add(label5);
             this.Controls.Add(label6);
-            this.Controls.Add(this.m_nudAge3);
-            this.Controls.Add(this.m_picTick2);
-            this.Controls.Add(this.m_picTick1);
-            this.Controls.Add(this.m_labReport);
-            this.Controls.Add(this.m_dtpDate2);
+            this.Controls.Add(this.nudAge3_);
+            this.Controls.Add(this.picTick2_);
+            this.Controls.Add(this.picTick1_);
+            this.Controls.Add(this.labReport_);
+            this.Controls.Add(this.dtpDate2_);
             this.Controls.Add(label3);
             this.Controls.Add(label4);
-            this.Controls.Add(this.m_nudAge2);
-            this.Controls.Add(this.m_dtpDate1);
+            this.Controls.Add(this.nudAge2_);
+            this.Controls.Add(this.dtpDate1_);
             this.Controls.Add(label2);
             this.Controls.Add(label1);
-            this.Controls.Add(this.m_nudAge1);
+            this.Controls.Add(this.nudAge1_);
             this.Controls.Add(this.cmdOK);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmBirthday";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Birthday Range";
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudAge1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudAge2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_picTick1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_picTick2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_picTick3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudAge3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAge1_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAge2_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTick1_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTick2_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTick3_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudAge3_)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,15 +280,15 @@ namespace FamilyTree.Viewer
         #endregion
 
         private System.Windows.Forms.Button cmdOK;
-        private System.Windows.Forms.NumericUpDown m_nudAge1;
-        private System.Windows.Forms.DateTimePicker m_dtpDate1;
-        private System.Windows.Forms.DateTimePicker m_dtpDate2;
-        private System.Windows.Forms.NumericUpDown m_nudAge2;
-        private System.Windows.Forms.Label m_labReport;
-        private System.Windows.Forms.PictureBox m_picTick1;
-        private System.Windows.Forms.PictureBox m_picTick2;
-        private System.Windows.Forms.PictureBox m_picTick3;
-        private System.Windows.Forms.DateTimePicker m_dtpDate3;
-        private System.Windows.Forms.NumericUpDown m_nudAge3;
+        private System.Windows.Forms.NumericUpDown nudAge1_;
+        private System.Windows.Forms.DateTimePicker dtpDate1_;
+        private System.Windows.Forms.DateTimePicker dtpDate2_;
+        private System.Windows.Forms.NumericUpDown nudAge2_;
+        private System.Windows.Forms.Label labReport_;
+        private System.Windows.Forms.PictureBox picTick1_;
+        private System.Windows.Forms.PictureBox picTick2_;
+        private System.Windows.Forms.PictureBox picTick3_;
+        private System.Windows.Forms.DateTimePicker dtpDate3_;
+        private System.Windows.Forms.NumericUpDown nudAge3_;
     }
 }

@@ -1475,6 +1475,7 @@ namespace FamilyTree.Viewer
             // Create and show the age dialog.
             AgeDialog ageDialog = new AgeDialog(database_, currentPage.index);
             ageDialog.ShowDialog(this);
+            ageDialog.Dispose();
 
             // Return success;
             return true;
@@ -1593,84 +1594,86 @@ namespace FamilyTree.Viewer
         {
             if (recentFiles_.getRecentFilename(0) != "")
             {
-                m_menuRecentFile1.Text = "1 " + recentFiles_.getDisplayName(0);
-                m_menuRecentFile1.Visible = true;
+                menuRecentFile1_.Text = "1 " + recentFiles_.getDisplayName(0);
+                menuRecentFile1_.Visible = true;
             }
             else
             {
-                m_menuRecentFile1.Visible = false;
+                menuRecentFile1_.Visible = false;
             }
             if (recentFiles_.getRecentFilename(1) != "")
             {
-                m_menuRecentFile2.Text = "2 " + recentFiles_.getDisplayName(1);
-                m_menuRecentFile2.Visible = true;
+                menuRecentFile2_.Text = "2 " + recentFiles_.getDisplayName(1);
+                menuRecentFile2_.Visible = true;
             }
             else
             {
-                m_menuRecentFile2.Visible = false;
+                menuRecentFile2_.Visible = false;
             }
             if (recentFiles_.getRecentFilename(2) != "")
             {
-                m_menuRecentFile3.Text = "3 " + recentFiles_.getDisplayName(2);
-                m_menuRecentFile3.Visible = true;
+                menuRecentFile3_.Text = "3 " + recentFiles_.getDisplayName(2);
+                menuRecentFile3_.Visible = true;
             }
             else
             {
-                m_menuRecentFile3.Visible = false;
+                menuRecentFile3_.Visible = false;
             }
             if (recentFiles_.getRecentFilename(3) != "")
             {
-                m_menuRecentFile4.Text = "4 " + recentFiles_.getDisplayName(3);
-                m_menuRecentFile4.Visible = true;
+                menuRecentFile4_.Text = "4 " + recentFiles_.getDisplayName(3);
+                menuRecentFile4_.Visible = true;
             }
             else
             {
-                m_menuRecentFile4.Visible = false;
+                menuRecentFile4_.Visible = false;
             }
         }
 
 
 
         /// <summary>Allows the user to select an output file to write gedcom into.  Currently this is a the gedcom of the whole database.</summary>
-        private void ExportGedcom()
+        private void exportGedcom()
         {
-            frmGedcomOptions oDialog = new frmGedcomOptions(userOptions_.gedcomOptions);
-            if (oDialog.ShowDialog(this) == DialogResult.OK)
+            frmGedcomOptions gedcomOptionsDialog = new frmGedcomOptions(userOptions_.gedcomOptions);
+            if (gedcomOptionsDialog.ShowDialog(this) == DialogResult.OK)
             {
-                // Save the user options
+                // Save the user options.
                 userOptions_.save();
 
-                // Unreachable code
+                // Unreachable code.
 #pragma warning disable 162
                 if (true)
                 {
                     // Create a new thread to do the work.
-                    ParameterizedThreadStart oThreadMethod = new ParameterizedThreadStart(writeGedcom);
-                    Thread oThread = new Thread(oThreadMethod);
-                    oThread.Start(userOptions_.gedcomOptions);
+                    ParameterizedThreadStart threadMethod = new ParameterizedThreadStart(writeGedcom);
+                    Thread thread = new Thread(threadMethod);
+                    thread.Start(userOptions_.gedcomOptions);
                 }
                 else
                 {
-                    // Save the gedcom into the specified file				
+                    // Save the gedcom into the specified file.
                     writeGedcom(userOptions_.gedcomOptions);
                 }
 #pragma warning restore 162
-
             }
+            gedcomOptionsDialog.Dispose();
         }
 
+
+
         /// <summary>Allows the user to export a SQL script.</summary>
-        private void ExportSQL()
+        private void exportSql()
         {
             // Initialise the select save file dialog
-            m_SaveFileDialog.Title = "Select output file";
-            m_SaveFileDialog.Filter = "SQL Files (*.sql)|*.sql";
-            m_SaveFileDialog.FilterIndex = 1;
-            m_SaveFileDialog.FileName = "walton.sql";
+            saveFileDialog_.Title = "Select output file";
+            saveFileDialog_.Filter = "SQL Files (*.sql)|*.sql";
+            saveFileDialog_.FilterIndex = 1;
+            saveFileDialog_.FileName = "walton.sql";
 
-            if (m_SaveFileDialog.ShowDialog(this) == DialogResult.OK)
+            if (saveFileDialog_.ShowDialog(this) == DialogResult.OK)
             {
-                database_.writeSql(m_SaveFileDialog.FileName);
+                database_.writeSql(saveFileDialog_.FileName);
             }
         }
 
@@ -2323,7 +2326,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuExportGedcom_Click(object sender, EventArgs e)
         {
-            ExportGedcom();
+            exportGedcom();
         }
 
 
@@ -2333,7 +2336,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuExportSQLScript_Click(object sender, EventArgs e)
         {
-            ExportSQL();
+            exportSql();
         }
 
 
@@ -2563,13 +2566,12 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the View → Calculate Birthday menu point click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void menuBirthday_Click(object sender, EventArgs e)
         {
-            // Display the birthday dialog
-            frmBirthday oDialog = new frmBirthday();
-            oDialog.ShowDialog(this);
+            // Display the birthday dialog.
+            BirthdayDialog birthdayDialog = new BirthdayDialog();
+            birthdayDialog.ShowDialog(this);
+            birthdayDialog.Dispose();
         }
 
 
