@@ -174,7 +174,7 @@ namespace FamilyTree.Viewer
 
             // Open the recent files list
             recentFiles_ = new walton.FileList(4, config_);
-            UpdateRecentFiles();
+            updateRecentFiles();
 
             // Initialise objects / variables
             database_ = null;
@@ -222,7 +222,7 @@ namespace FamilyTree.Viewer
             // Open the database.
             if (document != "")
             {
-                OpenDatabase(document);
+                openDatabase(document);
             }
         }
 
@@ -1147,16 +1147,18 @@ namespace FamilyTree.Viewer
 
         #endregion
 
+
+
         /// <summary>Displays the home / default person.</summary>
         /// <returns>True, if successful.  False, otherwise.</returns>
-        private bool GoHome()
+        private bool goHome()
         {
-            // Find the home person and display them
-            walton.XmlNode oHome = config_.getNode("useroptions/home");
-            int nHomeID = oHome.getAttributeValue("id", 1, true);
-            showPerson(nHomeID, true);
+            // Find the home person and display them.
+            walton.XmlNode xmlHome = config_.getNode("useroptions/home");
+            int homePersonIndex = xmlHome.getAttributeValue("id", 1, true);
+            showPerson(homePersonIndex, true);
 
-            // Return success
+            // Return success.
             return true;
         }
 
@@ -1164,25 +1166,27 @@ namespace FamilyTree.Viewer
 
         /// <summary>Display a dialog box and allow the user to select the person to show.</summary>
         /// <returns></returns>
-        private bool GotoPerson()
+        private bool gotoPerson()
         {
-            // Allow the user to select a person
-            frmSelectPerson oDialog = new frmSelectPerson();
-            int nPersonID = oDialog.SelectPerson(this, database_);
+            // Allow the user to select a person.
+            frmSelectPerson selectPersonDialog = new frmSelectPerson();
+            int personIndex = selectPersonDialog.SelectPerson(this, database_);
 
-            // If the user did select a person then show that person
-            if (nPersonID >= 0)
+            // If the user did select a person then show that person.
+            if (personIndex >= 0)
             {
-                showPerson(nPersonID, true);
+                showPerson(personIndex, true);
             }
 
             // Return success
             return true;
         }
 
+
+
         /// <summary>Exits the program.</summary>
-		/// <returns>True, if successful.  False, otherwise.</returns>
-		private bool AbsoluteEnd()
+        /// <returns>True, if successful.  False, otherwise.</returns>
+        private bool absoluteEnd()
         {
             // End the program by closing the main window
             Close();
@@ -1191,17 +1195,19 @@ namespace FamilyTree.Viewer
             return true;
         }
 
+
+
         /// <summary>Displays a dialog that allows the user to edit the currently shown person / object.</summary>
-		/// <returns>True for success, false otherwise.</returns>
-		private bool Edit()
+        /// <returns>True for success, false otherwise.</returns>
+        private bool edit()
         {
             switch (currentPage.content)
             {
             case Pages.PERSON:
-                // Create a dialog to edit this person
+                // Create a dialog to edit this person.
                 frmEditPerson dlgEdit = new frmEditPerson(currentPage.index, database_);
 
-                // Show the dialog and wait for the dialog to close
+                // Show the dialog and wait for the dialog to close.
                 if (dlgEdit.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of the current person
@@ -1211,133 +1217,134 @@ namespace FamilyTree.Viewer
                 break;
 
             case Pages.PLACE:
-                // Create a dialog to edit this place
+                // Create a dialog to edit this place.
                 frmEditPlace oEditPlace = new frmEditPlace(currentPage.index, database_);
 
-                // Show the dialog and wait for the dialog to close
+                // Show the dialog and wait for the dialog to close.
                 if (oEditPlace.ShowDialog(this) == DialogResult.OK)
                 {
-                    // Refresh the display of this place
+                    // Refresh the display of this place.
                     showPlace(currentPage.index, false);
                 }
                 oEditPlace.Dispose();
                 break;
 
             case Pages.SOURCE:
-                // Create a dialog to edit this source
+                // Create a dialog to edit this source.
                 EditSourcesDialog oEditSource = new EditSourcesDialog(database_, currentPage.index);
                 if (oEditSource.ShowDialog(this) == DialogResult.OK)
                 {
-                    // Refresh the display of this source
+                    // Refresh the display of this source.
                     showSource(currentPage.index, false);
                 }
                 oEditSource.Dispose();
                 break;
 
             case Pages.MEDIA:
-                // Create a dialog to edit this media
+                // Create a dialog to edit this media.
                 frmEditMedia oEditMedia = new frmEditMedia(database_, currentPage.index);
                 if (oEditMedia.ShowDialog(this) == DialogResult.OK)
                 {
-                    // Refresh the display of this source
+                    // Refresh the display of this source.
                     showMedia(currentPage.index, false);
                 }
                 oEditMedia.Dispose();
                 break;
             }
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        /// <summary>
-        /// Adds a new person to database.
-        /// </summary>
-        /// <param name="Relation">Specifies the relationship of the new person to the current person.</param>
+
+
+        /// <summary>Adds a new person to database.</summary>
+        /// <param name="relation">Specifies the relationship of the new person to the current person.</param>
         /// <returns>True, if a new person was created.  False, otherwise.</returns>
-        private bool AddPerson(RelatedPerson Relation)
+        private bool addPerson(RelatedPerson relation)
         {
-            // Create a dialog to edit the new person
-            frmEditPerson dlgEdit = new frmEditPerson(database_);
+            // Create a dialog to edit the new person.
+            frmEditPerson editPersonDialog = new frmEditPerson(database_);
 
-            // Show the dialog and wait for the dialig to close
-            if (dlgEdit.ShowDialog(this) == DialogResult.OK)
+            // Show the dialog and wait for the dialig to close.
+            if (editPersonDialog.ShowDialog(this) == DialogResult.OK)
             {
-                // A new person was created link to the current person in the required way
-                int nNewPersonID = dlgEdit.getPersonIndex();
+                // A new person was created.  Link to the current person in the required way.
+                int newPersonIndex = editPersonDialog.getPersonIndex();
 
-                Person oPerson;
-                switch (Relation)
+                Person person;
+                switch (relation)
                 {
                 case RelatedPerson.FATHER:
-                    oPerson = new Person(currentPage.index, database_);
-                    oPerson.fatherIndex = nNewPersonID;
-                    oPerson.save();
+                    person = new Person(currentPage.index, database_);
+                    person.fatherIndex = newPersonIndex;
+                    person.save();
                     break;
 
                 case RelatedPerson.MOTHER:
-                    oPerson = new Person(currentPage.index, database_);
-                    oPerson.motherIndex = nNewPersonID;
-                    oPerson.save();
+                    person = new Person(currentPage.index, database_);
+                    person.motherIndex = newPersonIndex;
+                    person.save();
                     break;
 
                 case RelatedPerson.SIBLING:
-                    Person oNewPerson = new Person(nNewPersonID, database_);
-                    oPerson = new Person(currentPage.index, database_);
-                    oNewPerson.fatherIndex = oPerson.fatherIndex;
-                    oNewPerson.motherIndex = oPerson.motherIndex;
-                    oNewPerson.save();
+                    Person newPerson = new Person(newPersonIndex, database_);
+                    person = new Person(currentPage.index, database_);
+                    newPerson.fatherIndex = person.fatherIndex;
+                    newPerson.motherIndex = person.motherIndex;
+                    newPerson.save();
                     break;
 
                 case RelatedPerson.PARTNER:
-                    oPerson = new Person(currentPage.index, database_);
-                    Relationship oRelationship = new Relationship(oPerson, nNewPersonID);
-                    oRelationship.save();
-                    oPerson.addRelationship(oRelationship);
+                    person = new Person(currentPage.index, database_);
+                    Relationship relationship = new Relationship(person, newPersonIndex);
+                    relationship.save();
+                    person.addRelationship(relationship);
                     break;
 
                 case RelatedPerson.CHILD:
-                    oNewPerson = new Person(nNewPersonID, database_);
-                    oPerson = new Person(currentPage.index, database_);
-                    if (oPerson.isMale)
+                    newPerson = new Person(newPersonIndex, database_);
+                    person = new Person(currentPage.index, database_);
+                    if (person.isMale)
                     {
-                        oNewPerson.fatherIndex = currentPage.index;
+                        newPerson.fatherIndex = currentPage.index;
                     }
                     else
                     {
-                        oNewPerson.motherIndex = currentPage.index;
+                        newPerson.motherIndex = currentPage.index;
                     }
-                    oNewPerson.save();
+                    newPerson.save();
                     break;
 
                 }
 
-                // Refresh the display of the current person
+                // Refresh the display of the current person.
                 showPerson(currentPage.index, false);
             }
-            dlgEdit.Dispose();
+            editPersonDialog.Dispose();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        /// <summary>
-        /// Edit all the sources.
-        /// This displays a dialog that allows the user to edit the existing sources and add new sources.
-        /// </summary>
+
+
+        /// <summary>Edit all the sources.  This displays a dialog that allows the user to edit the existing sources and add new sources.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool EditSources()
+        private bool showEditSourcesDialog()
         {
-            // Create a dialog to edit the sources
-            EditSourcesDialog oEdit = new EditSourcesDialog(database_);
+            // Create a dialog to edit the sources.
+            EditSourcesDialog editSourcesDialog = new EditSourcesDialog(database_);
 
-            // Show the dialog and wait for the dialog to close
-            oEdit.ShowDialog(this);
-            oEdit.Dispose();
+            // Show the dialog and wait for the dialog to close.
+            editSourcesDialog.ShowDialog(this);
+            editSourcesDialog.Dispose();
 
-            // Return success
+            // Return success.
             return true;
         }
+
+
 
         /// <summary>
         /// Display a dialog that allows the user to change the user options.
@@ -1459,82 +1466,75 @@ namespace FamilyTree.Viewer
         //    return true;
         //}
 
-        /// <summary>
-        /// Displays a dialog that allows the age of a person to be calculated on specified dates.
-        /// </summary>
+
+
+        /// <summary>Displays a dialog that allows the age of a person to be calculated on specified dates.</summary>
         /// <returns>True of success, false otherwise.</returns>
-        private bool ShowAge()
+        private bool showAgeDialog()
         {
-            // Create the age window
-            AgeDialog oAge = new AgeDialog(database_, currentPage.index);
-            oAge.ShowDialog(this);
+            // Create and show the age dialog.
+            AgeDialog ageDialog = new AgeDialog(database_, currentPage.index);
+            ageDialog.ShowDialog(this);
 
             // Return success;
             return true;
         }
 
-        /// <summary>
-        /// Display the edit census dialog.
-        /// This allows the user to edit the census data.
-        /// </summary>
+
+
+        /// <summary>Display the edit census dialog.  This allows the user to edit the census data.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool EditCensus()
+        private bool showEditCensusDialog()
         {
-            // Create a dialog to edit the sources
-            frmEditCensus oCensus = new frmEditCensus(database_, 0);
+            // Create a dialog to edit the sources.
+            frmEditCensus editCensusDialog = new frmEditCensus(database_, 0);
 
-            // Show the dialog and wait for the dialog to close
-            oCensus.ShowDialog(this);
-            oCensus.Dispose();
+            // Show the dialog and wait for the dialog to close.
+            editCensusDialog.ShowDialog(this);
+            editCensusDialog.Dispose();
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Display the recent changes on the main window.
-        /// <summary>
-        /// Display the recent changes on the main window.
-        /// </summary>
-        /// <remarks>
-        /// This was previously in a separate window.
-        /// </remarks>
-		/// <returns>True for success, false otherwise.</returns>
-		private bool ShowRecentChanges()
+
+
+        /// <summary>Display the recent changes on the main window.</summary>
+        /// <remarks>This was previously in a separate window.</remarks>
+        /// <returns>True for success, false otherwise.</returns>
+        private bool showRecentChanges()
         {
-            // Hide the person tree panel
+            // Hide the person tree panel.
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
             webBrowser_.DocumentText = userOptions_.renderHtml(database_.getRecentChangesAsHtml());
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        /// <summary>
-        /// Display the To Do list on the main window.
-        /// </summary>
+
+
+        /// <summary>Display the To Do list on the main window.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool ShowToDo()
+        private bool showToDo()
         {
-            // Hide the person tree panel
+            // Hide the person tree panel.
             panelTree_.Visible = false;
 
             // Display the Html description of the source.
             webBrowser_.DocumentText = userOptions_.renderHtml(database_.getToDoAsHtml());
 
-            // Return success
+            // Return success.
             return true;
         }
 
-        // Show a select file dialog and allow the user to select a new database file.
-        /// <summary>
-        /// Show a select file dialog and allow the user to select a new database file.
-        /// Open the selected database file if valid.
-		/// Returns true if a new database has been selected, false otherwise.
-		/// </summary>
-		/// <returns>True, if a new database was selected.  False, otherwise.</returns>		
-		private bool OpenDatabase()
+
+
+        /// <summary>Show a select file dialog and allow the user to select a new database file.  Open the selected database file if valid.  Returns true if a new database has been selected, false otherwise.</summary>
+        /// <returns>True, if a new database was selected.  False, otherwise.</returns>		
+        private bool openDatabase()
         {
             // Show the open file dialog
             openFileDialog_.Title = "Select Family Tree File";
@@ -1547,20 +1547,18 @@ namespace FamilyTree.Viewer
             }
 
             // Open the selected file
-            return OpenDatabase(openFileDialog_.FileName);
+            return openDatabase(openFileDialog_.FileName);
         }
 
-        /// Opens the specified database file (if valid).
-        /// <summary>
-        /// Opens the specified database file (if valid).
-        /// Returns true if a new database has been selected, false otherwise.
-		/// </summary>
-		/// <param name="sFilename">Specifies the filename of the database to open.</param>
-		/// <returns>True, if a new database was selected.  False, otherwise.</returns>		
-        private bool OpenDatabase(string sFilename)
+
+
+        /// <summary>Opens the specified database file (if valid).  Returns true if a new database has been selected, false otherwise.</summary>
+        /// <param name="fileName">Specifies the filename of the database to open.</param>
+        /// <returns>True, if a new database was selected.  False, otherwise.</returns>		
+        private bool openDatabase(string fileName)
         {
-            // Validate the selected file
-            if (!File.Exists(sFilename))
+            // Validate the selected file.
+            if (!File.Exists(fileName))
             {
                 return false;
             }
@@ -1571,27 +1569,27 @@ namespace FamilyTree.Viewer
                 database_.Dispose();
             }
 
-            // Open the new database
-            database_ = new Database(sFilename);
+            // Open the new database.
+            database_ = new Database(fileName);
 
-            // Update the recent files
-            recentFiles_.openFile(sFilename);
-            UpdateRecentFiles();
+            // Update the recent files.
+            recentFiles_.openFile(fileName);
+            updateRecentFiles();
 
-            // Show the default person
-            GoHome();
+            // Show the default person.
+            goHome();
 
-            // Update the status bar
-            setStatusBarText("Opened " + sFilename, false);
+            // Update the status bar.
+            setStatusBarText("Opened " + fileName, false);
 
-            // Return new database
+            // Return new database.
             return true;
         }
 
 
 
         /// <summary>Updates the recent file menu.</summary>
-        private void UpdateRecentFiles()
+        private void updateRecentFiles()
         {
             if (recentFiles_.getRecentFilename(0) != "")
             {
@@ -2267,7 +2265,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuOpen_Click(object sender, EventArgs e)
         {
-            OpenDatabase();
+            openDatabase();
         }
 
 
@@ -2277,7 +2275,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuHome_Click(object sender, EventArgs e)
         {
-            GoHome();
+            goHome();
         }
 
 
@@ -2315,7 +2313,7 @@ namespace FamilyTree.Viewer
             string sFilename = recentFiles_.getRecentFilename(nIndex);
 
             // Open this file.
-            OpenDatabase(sFilename);
+            openDatabase(sFilename);
         }
 
 
@@ -2355,7 +2353,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuExit_Click(object sender, EventArgs e)
         {
-            AbsoluteEnd();
+            absoluteEnd();
         }
 
         #endregion
@@ -2371,7 +2369,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuEdit_Click(object sender, EventArgs e)
         {
-            Edit();
+            edit();
         }
 
         /// <summary>
@@ -2381,7 +2379,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuEditSources_Click(object sender, EventArgs e)
         {
-            EditSources();
+            showEditSourcesDialog();
         }
 
         /// <summary>
@@ -2391,7 +2389,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuAddFather_Click(object sender, EventArgs e)
         {
-            AddPerson(RelatedPerson.FATHER);
+            addPerson(RelatedPerson.FATHER);
         }
 
         /// <summary>
@@ -2401,7 +2399,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuAddMother_Click(object sender, EventArgs e)
         {
-            AddPerson(RelatedPerson.MOTHER);
+            addPerson(RelatedPerson.MOTHER);
         }
 
         /// <summary>
@@ -2411,7 +2409,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuAddSibling_Click(object sender, EventArgs e)
         {
-            AddPerson(RelatedPerson.SIBLING);
+            addPerson(RelatedPerson.SIBLING);
         }
 
         /// <summary>
@@ -2421,7 +2419,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuAddChild_Click(object sender, EventArgs e)
         {
-            AddPerson(RelatedPerson.CHILD);
+            addPerson(RelatedPerson.CHILD);
         }
 
         /// <summary>
@@ -2431,7 +2429,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuAddPartner_Click(object sender, EventArgs e)
         {
-            AddPerson(RelatedPerson.PARTNER);
+            addPerson(RelatedPerson.PARTNER);
         }
 
         /// <summary>
@@ -2441,7 +2439,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuCensus_Click(object sender, EventArgs e)
         {
-            EditCensus();
+            showEditCensusDialog();
         }
 
         /// <summary>
@@ -2490,7 +2488,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuGoto_Click(object sender, EventArgs e)
         {
-            GotoPerson();
+            gotoPerson();
         }
 
 
@@ -2539,7 +2537,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuRecentChanges_Click(object sender, EventArgs e)
         {
-            ShowRecentChanges();
+            showRecentChanges();
         }
 
 
@@ -2549,7 +2547,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuToDo_Click(object sender, EventArgs e)
         {
-            ShowToDo();
+            showToDo();
         }
 
 
@@ -2559,7 +2557,7 @@ namespace FamilyTree.Viewer
         /// <param name="e"></param>
         private void menuCalcAge_Click(object sender, EventArgs e)
         {
-            ShowAge();
+            showAgeDialog();
         }
 
 

@@ -3,8 +3,8 @@ namespace FamilyTree.Viewer
     public partial class AgeDialog : System.Windows.Forms.Form
     {
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cboPerson;
-        private FamilyTree.Viewer.CompoundDateEditBox ucDate1;
+        private System.Windows.Forms.ComboBox cboPerson_;
+        private FamilyTree.Viewer.CompoundDateEditBox ucDate_;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -25,13 +25,13 @@ namespace FamilyTree.Viewer
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgeDialog));
             FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
             this.label1 = new System.Windows.Forms.Label();
-            this.cboPerson = new System.Windows.Forms.ComboBox();
+            this.cboPerson_ = new System.Windows.Forms.ComboBox();
             this.labDoB_ = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.labTheAge_ = new System.Windows.Forms.Label();
-            this.ucDate1 = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.ucDate_ = new FamilyTree.Viewer.CompoundDateEditBox();
             this.cmdOK = new System.Windows.Forms.Button();
             oImageList16 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
@@ -53,12 +53,12 @@ namespace FamilyTree.Viewer
             // 
             // cboPerson
             // 
-            this.cboPerson.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPerson.Location = new System.Drawing.Point(112, 8);
-            this.cboPerson.Name = "cboPerson";
-            this.cboPerson.Size = new System.Drawing.Size(280, 21);
-            this.cboPerson.TabIndex = 1;
-            this.cboPerson.SelectedIndexChanged += new System.EventHandler(this.cboPerson_SelectedIndexChanged);
+            this.cboPerson_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPerson_.Location = new System.Drawing.Point(112, 8);
+            this.cboPerson_.Name = "cboPerson";
+            this.cboPerson_.Size = new System.Drawing.Size(280, 21);
+            this.cboPerson_.TabIndex = 1;
+            this.cboPerson_.SelectedIndexChanged += new System.EventHandler(this.cboPerson_SelectedIndexChanged);
             // 
             // labDoB
             // 
@@ -111,14 +111,14 @@ namespace FamilyTree.Viewer
             // 
             // ucDate1
             // 
-            this.ucDate1.Location = new System.Drawing.Point(112, 64);
-            this.ucDate1.Name = "ucDate1";
-            this.ucDate1.Size = new System.Drawing.Size(144, 24);
-            this.ucDate1.TabIndex = 4;
+            this.ucDate_.Location = new System.Drawing.Point(112, 64);
+            this.ucDate_.Name = "ucDate1";
+            this.ucDate_.Size = new System.Drawing.Size(144, 24);
+            this.ucDate_.TabIndex = 4;
             clsDate1.date = new System.DateTime(2008, 2, 20, 0, 0, 0, 0);
             clsDate1.status = 0;
-            this.ucDate1.theDate = clsDate1;
-            this.ucDate1.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.ucDate1_evtValueChanged);
+            this.ucDate_.theDate = clsDate1;
+            this.ucDate_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.ucDate1_evtValueChanged);
             // 
             // cmdOK
             // 
@@ -140,10 +140,10 @@ namespace FamilyTree.Viewer
             this.Controls.Add(this.labTheAge_);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.ucDate1);
+            this.Controls.Add(this.ucDate_);
             this.Controls.Add(this.labDoB_);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.cboPerson);
+            this.Controls.Add(this.cboPerson_);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

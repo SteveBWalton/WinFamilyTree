@@ -38,20 +38,20 @@ namespace FamilyTree.Viewer
             IndexName[] people = database.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE, 0, 3000);
             for (int i = 0; i < people.Length; i++)
             {
-                this.cboPerson.Items.Add(people[i]);
+                cboPerson_.Items.Add(people[i]);
                 if (people[i].index == personIndex)
                 {
-                    this.cboPerson.SelectedItem = people[i];
+                    cboPerson_.SelectedItem = people[i];
                 }
             }
 
             // Find the current person.
             person_ = new Person(personIndex, database_);
-            this.labDoB_.Text = person_.dob.format(DateFormat.FULL_LONG);
+            labDoB_.Text = person_.dob.format(DateFormat.FULL_LONG);
 
             // Default date.
-            this.ucDate1.theDate = new CompoundDate(new DateTime(1901, 3, 31));
-            this.labTheAge_.Text = person_.getAge(this.ucDate1.theDate);
+            ucDate_.theDate = new CompoundDate(new DateTime(1901, 3, 31));
+            labTheAge_.Text = person_.getAge(this.ucDate_.theDate);
         }
 
 
@@ -80,7 +80,7 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the Date1 value changed event.  Update the displayed age of the person, since the date has just changed.</summary>
         private void ucDate1_evtValueChanged(object sender)
         {
-            labTheAge_.Text = person_.getAge(this.ucDate1.theDate);
+            labTheAge_.Text = person_.getAge(this.ucDate_.theDate);
         }
 
 
@@ -88,10 +88,10 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the seleted person value changed event.  Update the displayed age of the person, since the person has just changed.</summary>
         private void cboPerson_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            IndexName person = (IndexName)this.cboPerson.SelectedItem;
+            IndexName person = (IndexName)this.cboPerson_.SelectedItem;
             person_ = new Person(person.index, database_);
             labDoB_.Text = person_.dob.format(DateFormat.FULL_LONG);
-            labTheAge_.Text = person_.getAge(this.ucDate1.theDate);
+            labTheAge_.Text = person_.getAge(this.ucDate_.theDate);
         }
 
 
