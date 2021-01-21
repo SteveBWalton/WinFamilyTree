@@ -2017,7 +2017,7 @@ namespace FamilyTree.Viewer
                     for (int i = 0; i < psnSiblings_.Length; i++)
                     {
                         // TODO: Check this.  This was crashing.
-                        if (psnSiblings_[i] != null)
+                        if (psnSiblings_[i] != null && psnSiblings_[i].Tag != null)
                         {
                             if ((int)psnSiblings_[i].Tag == connectionType)
                             {
@@ -2123,7 +2123,7 @@ namespace FamilyTree.Viewer
                     for (int i = 0; i < psnChildren_.Length; i++)
                     {
                         // TODO: check this, it crashes.
-                        if (psnChildren_[i] != null && psnChildren_[i].Tag!= null)
+                        if (psnChildren_[i] != null && psnChildren_[i].Tag != null)
                         {
                             if ((int)psnChildren_[i].Tag == marriageIndex)
                             {

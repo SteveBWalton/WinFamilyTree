@@ -177,11 +177,65 @@ namespace FamilyTree.Objects
         public string toHtml()
         {
             StringBuilder html = new StringBuilder();
-            html.Append("<tr><td style=\"font-family: 'Times New Roman'; font-size: 8pt; color: grey;\">");
-            html.Append(labelText_);
-            html.Append("</td><td>");
-            html.Append(freeText_);
-            html.Append("</td></tr>");
+
+            switch (labelText_)
+            {
+            case "Header Row":
+                string[] headerCells = freeText_.Split('|');
+                html.Append("<tr>");
+                foreach (string cell in headerCells)
+                {
+                    html.Append("<td style=\"font-family: 'Times New Roman'; font-size: 8pt; color: grey;\">");
+                    html.Append(cell);
+                    html.Append("</td>");
+                }
+                html.Append("</tr>");
+                break;
+
+            case "Row":
+                string[] cells = freeText_.Split('|');
+                html.Append("<tr>");
+                foreach (string cell in cells)
+                {
+                    if (cell.Length <= 3)
+                    {
+                        html.Append("<td style=\"text-align: center;\">");
+                    }
+                    else
+                    {
+                        html.Append("<td>");
+                    }
+                    html.Append(cell);
+                    html.Append("</td>");
+                }
+                html.Append("</tr>");
+                break;
+
+            case "Multi Row":
+                string[] multiCells = freeText_.Split('|');
+                int numColumns = 2;
+                try
+                {
+                    numColumns = int.Parse(multiCells[0]);
+                }
+                catch { }
+                html.Append("<tr><td colspan=\"" + numColumns.ToString() + "\">");
+                if (multiCells.Length >= 2)
+                {
+                    html.Append(multiCells[1]);
+                }
+                html.Append("</td></tr>");
+                break;
+
+            default:
+                // This is the expected 2 column render.
+                html.Append("<tr><td style=\"font-family: 'Times New Roman'; font-size: 8pt; color: grey;\">");
+                html.Append(labelText_);
+                html.Append("</td><td>");
+                html.Append(freeText_);
+                html.Append("</td></tr>");
+                break;
+            }
 
             // Return the built html.
             return html.ToString();
