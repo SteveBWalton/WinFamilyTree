@@ -15,7 +15,7 @@ namespace FamilyTree.Objects
     public delegate void FuncVoid();
 
     /// <summary>When searching for people.  Pre-select one sex or not.</summary>
-	public enum ChooseSex
+    public enum ChooseSex
     {
         /// <summary>Search for male people only.</summary>
         MALE,
@@ -26,7 +26,7 @@ namespace FamilyTree.Objects
     }
 
     /// <summary>The sort order for results of a search.</summary>
-	public enum SortOrder
+    public enum SortOrder
     {
         /// <summary>Return the data in date order.</summary>
         DATE,
@@ -67,7 +67,7 @@ namespace FamilyTree.Objects
             factTypes_ = null;
             marriedRange_ = 20;
 
-            // Open the connection to the database				 
+            // Open the connection to the database.
             cndb_ = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + ";");
             cndb_.Open();
         }
@@ -120,13 +120,7 @@ namespace FamilyTree.Objects
         /// <param name="startYear">Specify the earliest birth year of the required people</param>
         /// <param name="endYear">Specify the latest birth year of the required people.</param>
         /// <returns>An array of IDName pairs representing people who match the specified criteria.</returns>
-        public IndexName[] getPeople
-            (
-            ChooseSex sex,
-            SortOrder order,
-            int startYear,
-            int endYear
-            )
+        public IndexName[] getPeople(ChooseSex sex, SortOrder order, int startYear, int endYear)
         {
             // Build the SQL command.
             string sql = "SELECT ID, Forenames, Surname, Maidenname, Born, BornStatusID, Died, DiedStatusID FROM tbl_People WHERE ";
@@ -160,10 +154,7 @@ namespace FamilyTree.Objects
         /// <summary>Returns a list of people in an array of clsIDName objects who are returned by the specified Sql command.</summary>
         /// <param name="sql">Specifies an Sql command that will return a list of people.</param>
         /// <returns>An array of clsIDName objects representing the people in the specified Sql command.</returns>
-        public IndexName[] getPeople
-            (
-            string sql
-            )
+        public IndexName[] getPeople(string sql)
         {
             // Initialise the list of people to return
             ArrayList items = new ArrayList();
@@ -242,12 +233,7 @@ namespace FamilyTree.Objects
         /// <param name="order">Specifies the order of the array to return.</param>
         /// <param name="yearAlive">Specifies the year when the returned people must have been alive.</param>
         /// <returns>An array of clsIDName objects representing the people alive at the specified year.</returns>
-        public IndexName[] GetPeople
-            (
-            ChooseSex sex,
-            SortOrder order,
-            int yearAlive
-            )
+        public IndexName[] getPeople(ChooseSex sex, SortOrder order, int yearAlive)
         {
             // Build the SQL command.
             string sql = "SELECT ID, Forenames, Surname, Maidenname, Born, BornStatusID, Died, DiedStatusID FROM tbl_People WHERE ";
@@ -282,11 +268,7 @@ namespace FamilyTree.Objects
         /// <param name="sex">Specifies the sex of the required people.</param>
         /// <param name="order">Specifies the order of the array to return.</param>
         /// <returns>An array of clsIDName objects representing the specified people in the specified order.</returns>
-        public IndexName[] getPeople
-            (
-            ChooseSex sex,
-            SortOrder order
-            )
+        public IndexName[] getPeople(ChooseSex sex, SortOrder order)
         {
             // Build the SQL command.
             string sql = "SELECT ID, Forenames, Surname, Maidenname, Born, BornStatusID, Died, DiedStatusID FROM tbl_People ";
@@ -1758,19 +1740,19 @@ namespace FamilyTree.Objects
         /// <returns>A list of the editors on this database.</returns>
         public string[] getEditors()
         {
-            // Open a dataset of editors
+            // Open a dataset of editors.
             string sql = "SELECT Name FROM tbl_Editors ORDER BY Name;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
 
-            // Create an array list of the editors
+            // Create an array list of the editors.
             ArrayList editors = new ArrayList();
             while (dataReader.Read())
             {
                 editors.Add(dataReader.GetString(0));
             }
 
-            // Return the list of editors
+            // Return the list of editors.
             return (string[])editors.ToArray(typeof(string));
         }
 

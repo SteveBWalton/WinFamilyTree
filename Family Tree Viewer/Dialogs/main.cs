@@ -1488,7 +1488,7 @@ namespace FamilyTree.Viewer
         private bool showEditCensusDialog()
         {
             // Create a dialog to edit the sources.
-            frmEditCensus editCensusDialog = new frmEditCensus(database_, 0);
+            EditCensusDialog editCensusDialog = new EditCensusDialog(database_, 0);
 
             // Show the dialog and wait for the dialog to close.
             editCensusDialog.ShowDialog(this);

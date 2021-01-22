@@ -590,7 +590,7 @@ namespace FamilyTree.Viewer
             }
 
             // Create a dialog to show the full census record.
-            frmEditCensus censusDialog = new frmEditCensus(database_, activeSource_.index);
+            EditCensusDialog censusDialog = new EditCensusDialog(database_, activeSource_.index);
 
             // Show the dialog and wait for the dialog to close.
             censusDialog.ShowDialog(this);
