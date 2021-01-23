@@ -63,9 +63,9 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Label label40;
             System.Windows.Forms.Button cmdCensusAddress;
             System.Windows.Forms.Button cmdCensusOpen;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditSourcesDialog));
             System.Windows.Forms.Button buttonAddFreeTableRow;
             System.Windows.Forms.Button buttonRemoveFreeTableRow;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditSourcesDialog));
             FamilyTree.Objects.CompoundDate compoundDate1 = new FamilyTree.Objects.CompoundDate();
             this.lstSources_ = new System.Windows.Forms.ListBox();
             this.imageList16x16 = new System.Windows.Forms.ImageList(this.components);
@@ -75,8 +75,10 @@ namespace FamilyTree.Viewer
             this.panel1 = new System.Windows.Forms.Panel();
             this.grpFreeTable_ = new System.Windows.Forms.GroupBox();
             this.dataGridViewSourceFreeTable_ = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.cboRepository_ = new System.Windows.Forms.ComboBox();
             this.cboAdditionalInfo_ = new System.Windows.Forms.ComboBox();
+            this.dateSourceDate_ = new FamilyTree.Viewer.CompoundDateEditBox();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.txtComments_ = new System.Windows.Forms.TextBox();
@@ -140,8 +142,6 @@ namespace FamilyTree.Viewer
             this.cmdAddSource = new System.Windows.Forms.Button();
             this.cmdDeleteSource = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.dateSourceDate_ = new FamilyTree.Viewer.CompoundDateEditBox();
             label32 = new System.Windows.Forms.Label();
             label33 = new System.Windows.Forms.Label();
             label34 = new System.Windows.Forms.Label();
@@ -190,12 +190,12 @@ namespace FamilyTree.Viewer
             this.panel1.SuspendLayout();
             this.grpFreeTable_.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSourceFreeTable_)).BeginInit();
+            this.panel2.SuspendLayout();
             this.grpBirth_.SuspendLayout();
             this.grpMarriage_.SuspendLayout();
             this.grpCensus_.SuspendLayout();
             this.grpDeath_.SuspendLayout();
             this.m_panList.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label32
@@ -581,6 +581,31 @@ namespace FamilyTree.Viewer
             cmdCensusOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdCensusOpen.Click += new System.EventHandler(this.cmdCensusOpen_Click);
             // 
+            // buttonAddFreeTableRow
+            // 
+            buttonAddFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            buttonAddFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            buttonAddFreeTableRow.Location = new System.Drawing.Point(3, 3);
+            buttonAddFreeTableRow.Name = "buttonAddFreeTableRow";
+            buttonAddFreeTableRow.Size = new System.Drawing.Size(100, 30);
+            buttonAddFreeTableRow.TabIndex = 17;
+            buttonAddFreeTableRow.Text = "Add";
+            buttonAddFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buttonAddFreeTableRow.Click += new System.EventHandler(this.buttonAddFreeTableRow_Click);
+            // 
+            // buttonRemoveFreeTableRow
+            // 
+            buttonRemoveFreeTableRow.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            buttonRemoveFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            buttonRemoveFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            buttonRemoveFreeTableRow.Location = new System.Drawing.Point(109, 3);
+            buttonRemoveFreeTableRow.Name = "buttonRemoveFreeTableRow";
+            buttonRemoveFreeTableRow.Size = new System.Drawing.Size(100, 30);
+            buttonRemoveFreeTableRow.TabIndex = 18;
+            buttonRemoveFreeTableRow.Text = "Delete";
+            buttonRemoveFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buttonRemoveFreeTableRow.Click += new System.EventHandler(this.buttonRemoveFreeTableRow_Click);
+            // 
             // lstSources_
             // 
             this.lstSources_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -675,6 +700,16 @@ namespace FamilyTree.Viewer
             this.dataGridViewSourceFreeTable_.Size = new System.Drawing.Size(554, 265);
             this.dataGridViewSourceFreeTable_.TabIndex = 19;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(buttonRemoveFreeTableRow);
+            this.panel2.Controls.Add(buttonAddFreeTableRow);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(3, 282);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(554, 36);
+            this.panel2.TabIndex = 20;
+            // 
             // cboRepository_
             // 
             this.cboRepository_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -694,6 +729,18 @@ namespace FamilyTree.Viewer
             this.cboAdditionalInfo_.Size = new System.Drawing.Size(121, 21);
             this.cboAdditionalInfo_.TabIndex = 25;
             this.cboAdditionalInfo_.SelectedIndexChanged += new System.EventHandler(this.cboAdditionalInfo_SelectedIndexChanged);
+            // 
+            // dateSourceDate_
+            // 
+            this.dateSourceDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateSourceDate_.Location = new System.Drawing.Point(424, 32);
+            this.dateSourceDate_.Name = "dateSourceDate_";
+            this.dateSourceDate_.Size = new System.Drawing.Size(144, 24);
+            this.dateSourceDate_.TabIndex = 24;
+            compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
+            compoundDate1.status = 0;
+            this.dateSourceDate_.theDate = compoundDate1;
+            this.dateSourceDate_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateTheDate_evtValueChanged);
             // 
             // cmdCancel
             // 
@@ -739,12 +786,13 @@ namespace FamilyTree.Viewer
             this.cboPrefix_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPrefix_.Items.AddRange(new object[] {
             "Birth Certificate:",
+            "Marriage Certificate:",
+            "Death Certificate:",
             "Census 1861:",
             "Census 1901:",
-            "Death Certificate:",
+            "1939 Register:",
             "Interview:",
-            "Letter:",
-            "Marriage Certificate:"});
+            "Letter:"});
             this.cboPrefix_.Location = new System.Drawing.Point(80, 32);
             this.cboPrefix_.Name = "cboPrefix_";
             this.cboPrefix_.Size = new System.Drawing.Size(208, 21);
@@ -1404,53 +1452,6 @@ namespace FamilyTree.Viewer
             this.cmdDeleteSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cmdDeleteSource.Click += new System.EventHandler(this.cmdDeleteSource_Click);
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(buttonRemoveFreeTableRow);
-            this.panel2.Controls.Add(buttonAddFreeTableRow);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(3, 282);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(554, 36);
-            this.panel2.TabIndex = 20;
-            // 
-            // buttonAddFreeTableRow
-            // 
-            buttonAddFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.add;
-            buttonAddFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            buttonAddFreeTableRow.Location = new System.Drawing.Point(3, 3);
-            buttonAddFreeTableRow.Name = "buttonAddFreeTableRow";
-            buttonAddFreeTableRow.Size = new System.Drawing.Size(100, 30);
-            buttonAddFreeTableRow.TabIndex = 17;
-            buttonAddFreeTableRow.Text = "Add";
-            buttonAddFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonAddFreeTableRow.Click += new System.EventHandler(this.buttonAddFreeTableRow_Click);
-            // 
-            // buttonRemoveFreeTableRow
-            // 
-            buttonRemoveFreeTableRow.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            buttonRemoveFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
-            buttonRemoveFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            buttonRemoveFreeTableRow.Location = new System.Drawing.Point(109, 3);
-            buttonRemoveFreeTableRow.Name = "buttonRemoveFreeTableRow";
-            buttonRemoveFreeTableRow.Size = new System.Drawing.Size(100, 30);
-            buttonRemoveFreeTableRow.TabIndex = 18;
-            buttonRemoveFreeTableRow.Text = "Delete";
-            buttonRemoveFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonRemoveFreeTableRow.Click += new System.EventHandler(this.buttonRemoveFreeTableRow_Click);
-            // 
-            // dateTheDate_
-            // 
-            this.dateSourceDate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateSourceDate_.Location = new System.Drawing.Point(424, 32);
-            this.dateSourceDate_.Name = "dateTheDate_";
-            this.dateSourceDate_.Size = new System.Drawing.Size(144, 24);
-            this.dateSourceDate_.TabIndex = 24;
-            compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
-            compoundDate1.status = 0;
-            this.dateSourceDate_.theDate = compoundDate1;
-            this.dateSourceDate_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateTheDate_evtValueChanged);
-            // 
             // EditSourcesDialog
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
@@ -1473,6 +1474,7 @@ namespace FamilyTree.Viewer
             this.panel1.PerformLayout();
             this.grpFreeTable_.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSourceFreeTable_)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.grpBirth_.ResumeLayout(false);
             this.grpBirth_.PerformLayout();
             this.grpMarriage_.ResumeLayout(false);
@@ -1482,7 +1484,6 @@ namespace FamilyTree.Viewer
             this.grpDeath_.ResumeLayout(false);
             this.grpDeath_.PerformLayout();
             this.m_panList.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

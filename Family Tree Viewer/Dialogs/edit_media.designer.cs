@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    partial class frmEditMedia
+    partial class EditMediaDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Panel LeftPanel;
             System.Windows.Forms.Button cmdRemovePerson;
             System.Windows.Forms.ImageList oImageList16x16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditMedia));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditMediaDialog));
             System.Windows.Forms.Button cmdAddPerson;
             System.Windows.Forms.Button cmdOpen;
             System.Windows.Forms.Label label4;

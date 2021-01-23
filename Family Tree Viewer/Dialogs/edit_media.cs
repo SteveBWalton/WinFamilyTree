@@ -13,7 +13,7 @@ using FamilyTree.Objects;
 namespace FamilyTree.Viewer
 {
     /// <summary>Form to edit a media object.  Currently media objects have to be images.</summary>
-    public partial class frmEditMedia : Form
+    public partial class EditMediaDialog : Form
     {
         #region Member Varibles
 
@@ -35,7 +35,7 @@ namespace FamilyTree.Viewer
         /// <summary>Initialise the form to edit an existing media object.</summary>
         /// <param name="database">Specifies the database to load / save the media object in.</param>
         /// <param name="mediaIndex">Specifies the ID of an existing media object.</param>
-        public frmEditMedia(Database database, int mediaIndex)
+        public EditMediaDialog(Database database, int mediaIndex)
         {
             InitializeComponent();
 
@@ -76,7 +76,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Initialise the form to edit a new media object.</summary>
         /// <param name="database">Specifies the database to add the media object to.</param>
-        public frmEditMedia(Database database) : this(database, 0)
+        public EditMediaDialog(Database database) : this(database, 0)
         {
         }
 

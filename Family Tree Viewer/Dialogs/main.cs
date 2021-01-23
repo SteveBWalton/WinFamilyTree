@@ -1231,24 +1231,24 @@ namespace FamilyTree.Viewer
 
             case Pages.SOURCE:
                 // Create a dialog to edit this source.
-                EditSourcesDialog oEditSource = new EditSourcesDialog(database_, currentPage.index);
-                if (oEditSource.ShowDialog(this) == DialogResult.OK)
+                EditSourcesDialog editSourceDialog = new EditSourcesDialog(database_, currentPage.index);
+                if (editSourceDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source.
                     showSource(currentPage.index, false);
                 }
-                oEditSource.Dispose();
+                editSourceDialog.Dispose();
                 break;
 
             case Pages.MEDIA:
                 // Create a dialog to edit this media.
-                frmEditMedia oEditMedia = new frmEditMedia(database_, currentPage.index);
-                if (oEditMedia.ShowDialog(this) == DialogResult.OK)
+                EditMediaDialog editMediaDialog = new EditMediaDialog(database_, currentPage.index);
+                if (editMediaDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source.
                     showMedia(currentPage.index, false);
                 }
-                oEditMedia.Dispose();
+                editMediaDialog.Dispose();
                 break;
             }
 
@@ -1346,24 +1346,22 @@ namespace FamilyTree.Viewer
 
 
 
-        /// <summary>
-        /// Display a dialog that allows the user to change the user options.
-        /// </summary>
+        /// <summary>Display a dialog that allows the user to change the user options.</summary>
         /// <returns>True for success, false otherwise.</returns>
-        private bool UserOptions()
+        private bool showUserOptions()
         {
-            // Create a dialog to edit the user options
-            frmUserOptions oOptions = new frmUserOptions();
+            // Create a dialog to edit the user options.
+            frmUserOptions userOptionsDialog = new frmUserOptions();
 
-            // Show the dialog and wait for the dialog to close
-            if (oOptions.updateOptions(this, ref userOptions_))
+            // Show the dialog and wait for the dialog to close.
+            if (userOptionsDialog.updateOptions(this, ref userOptions_))
             {
-                // Update the display for the new user options
+                // Update the display for the new user options.
                 showCurrentPage();
             }
-            oOptions.Dispose();
+            userOptionsDialog.Dispose();
 
-            // Return success
+            // Return success.
             return true;
         }
 
@@ -2456,29 +2454,28 @@ namespace FamilyTree.Viewer
             MessageBox.Show(this, nCount.ToString() + " unlinked place(s) were removed.", "Unlinked Places", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> User Options... menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the Edit -> User Options... menu point click.</summary>
         private void menuOptions_Click(object sender, EventArgs e)
         {
-            UserOptions();
+            showUserOptions();
         }
 
-        /// <summary>Message handler for the Edit -> Add Media menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the Edit -> Add Media menu point click.</summary>
         private void menuAddMedia_Click(object sender, EventArgs e)
         {
-            frmEditMedia oDialog = new frmEditMedia(database_);
-            if (oDialog.ShowDialog(this) == DialogResult.OK)
+            EditMediaDialog editMediaDialog = new EditMediaDialog(database_);
+            if (editMediaDialog.ShowDialog(this) == DialogResult.OK)
             {
-                int nMediaID = oDialog.mediaIndex;
-                showMedia(nMediaID, true);
+                int mediaIndex = editMediaDialog.mediaIndex;
+                showMedia(mediaIndex, true);
             }
         }
+
+
 
         #endregion
 
