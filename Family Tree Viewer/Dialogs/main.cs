@@ -1205,7 +1205,7 @@ namespace FamilyTree.Viewer
             {
             case Pages.PERSON:
                 // Create a dialog to edit this person.
-                frmEditPerson dlgEdit = new frmEditPerson(currentPage.index, database_);
+                EditPersonDialog dlgEdit = new EditPersonDialog(currentPage.index, database_);
 
                 // Show the dialog and wait for the dialog to close.
                 if (dlgEdit.ShowDialog(this) == DialogResult.OK)
@@ -1264,7 +1264,7 @@ namespace FamilyTree.Viewer
         private bool addPerson(RelatedPerson relation)
         {
             // Create a dialog to edit the new person.
-            frmEditPerson editPersonDialog = new frmEditPerson(database_);
+            EditPersonDialog editPersonDialog = new EditPersonDialog(database_);
 
             // Show the dialog and wait for the dialig to close.
             if (editPersonDialog.ShowDialog(this) == DialogResult.OK)

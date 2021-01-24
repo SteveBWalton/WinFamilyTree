@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace FamilyTree.Viewer
 {
     /// <summary>Form to allow a person to be edited.</summary>
-    public partial class frmEditPerson : System.Windows.Forms.Form
+    public partial class EditPersonDialog : System.Windows.Forms.Form
     {
         #region Member Variables
 
@@ -28,7 +28,7 @@ namespace FamilyTree.Viewer
         /// <summary>Initialises the edit person dialog with the specified person in the specified database.</summary>
         /// <param name="personIndex">Specifies the ID of the person to edit.</param>
         /// <param name="database">Specifies the database to save the person into.</param>
-        public frmEditPerson(int personIndex, Database database)
+        public EditPersonDialog(int personIndex, Database database)
         {
             // Required for Windows Form Designer support.
             InitializeComponent();
@@ -100,15 +100,15 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Initialise the edit person dialog with a new person.</summary>
-		/// <param name="database">Specifies the database to write this person to.</param>
-		public frmEditPerson(Database database) : this((int)0, database)
+        /// <param name="database">Specifies the database to write this person to.</param>
+        public EditPersonDialog(Database database) : this((int)0, database)
         {
         }
 
 
 
         /// <summary>Clean up any resources being used.</summary>
-		protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -327,98 +327,90 @@ namespace FamilyTree.Viewer
 
         #region Form Events
 
-        /// <summary>
-        /// Message handler for the Form load event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the Form load event.</summary>
         private void frmEditPerson_Load(object sender, System.EventArgs e)
         {
-            // Label for the dialog
+            // Label for the dialog.
             Text = person_.getName(true, false);
         }
 
-        /// <summary>
-        /// Message handler for the form shown event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the form shown event.</summary>
         private void frmEditPerson_Shown(object sender, EventArgs e)
         {
-            // Initialise the editor combo with the possible editors
-            string[] sEditors = person_.database.getEditors();
-            foreach (string sEditor in sEditors)
+            // Initialise the editor combo with the possible editors.
+            string[] editors = person_.database.getEditors();
+            foreach (string editor in editors)
             {
-                m_cboEditor.Items.Add(sEditor);
-                if (sEditor == "Steve Walton")
+                cboEditor_.Items.Add(editor);
+                if (editor == "Steve Walton")
                 {
-                    m_cboEditor.SelectedIndex = m_cboEditor.Items.Count - 1;
+                    cboEditor_.SelectedIndex = cboEditor_.Items.Count - 1;
                 }
             }
         }
 
-        /// <summary>
-        /// This is called when the user clicks the OK button.
-        /// It saves the data on the form into a person record.
-        /// If does not handle closing the form that is handled by .NET
-        /// </summary>
+
+
+        /// <summary>This is called when the user clicks the OK button.  It saves the data on the form into a person record.  If does not handle closing the form that is handled by .NET.</summary>
         private void cmdOK_Click(object sender, System.EventArgs e)
         {
-            // Save the record to the database
-            person_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+            // Save the record to the database.
+            person_.lastEditBy = cboEditor_.SelectedItem.ToString();
             person_.save();
         }
 
-        /// <summary>
-        /// This is called when the user clicks the add source button
-        /// This adds a source to the active soruce collection.
-        /// The active source is defined when each control adds it source to the dialog.  The last source is active
-        /// </summary>
+
+
+        /// <summary>This is called when the user clicks the add source button.  This adds a source to the active source collection.  The active source is defined when each control adds it source to the dialog.  The last source is active.</summary>
         private void cmdAddSource_Click(object sender, System.EventArgs e)
         {
-            // Check that a source is selected
+            // Check that a source is selected.
             if (cboSources_.SelectedIndex < 0)
             {
                 return;
             }
 
-            // Check that a sources object is available
+            // Check that a sources object is available.
             if (sources_ == null)
             {
                 return;
             }
 
-            // Find the SourceID
-            IndexName oSource = (IndexName)cboSources_.Items[cboSources_.SelectedIndex];
+            // Find the Source index.
+            IndexName source = (IndexName)cboSources_.Items[cboSources_.SelectedIndex];
 
-            // Add the source to this fact
-            sources_.add(oSource.index);
+            // Add the source to this fact.
+            sources_.add(source.index);
 
-            // Update the display
+            // Update the display.
             refreshSources(sources_);
             cboSources_.SelectedIndex = -1;
         }
 
+
+
         private void cmdDeleteSource_Click(object sender, System.EventArgs e)
         {
-            // Validate the active cell
+            // Validate the active cell.
             if (gridSources_.CurrentCell.RowNumber < 0)
             {
                 return;
             }
 
-            // Mark the source as deleted
+            // Mark the source as deleted.
             sources_.delete(gridSources_.CurrentCell.RowNumber);
 
-            // Update the display
+            // Update the display.
             refreshSources(sources_);
         }
 
-        /// <summary>
-        /// Message handler for a drag-drop object passing over the window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for a drag-drop object passing over the window.</summary>
         private void frmEditPerson_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             // If the data is a file, display the copy cursor.
@@ -431,6 +423,8 @@ namespace FamilyTree.Viewer
                 e.Effect = DragDropEffects.None;
             }
         }
+
+
 
         #endregion
 
@@ -462,9 +456,9 @@ namespace FamilyTree.Viewer
                         if (sources_.getRanking(i) != newRanking)
                         {
                             // Show the message on the screen.
-                            // MessageBox.Show(this,nIndex.ToString()+" = "+nNewRanking.ToString());		
+                            // MessageBox.Show(this,nIndex.ToString()+" = "+nNewRanking.ToString());
 
-                            // Change the ranking on this source		
+                            // Change the ranking on this source.
                             sources_.changeRanking(i, newRanking);
                         }
                     }
@@ -543,6 +537,8 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         #endregion
 
         #region Controls on the Basic Tab
@@ -550,7 +546,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Update the sources when the any of the name fields are active.</summary>
-		private void txtName_Enter(object sender, System.EventArgs e)
+        private void txtName_Enter(object sender, System.EventArgs e)
         {
             refreshSources(person_.sourceName, "Name");
         }
@@ -558,7 +554,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Update the sources when the sex field is active.</summary>
-		private void cboSex_Enter(object sender, System.EventArgs e)
+        private void cboSex_Enter(object sender, System.EventArgs e)
         {
             refreshSources();
         }
@@ -566,7 +562,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Update the sources when the DoB field is active.</summary>
-		private void dateDoB_Enter(object sender, System.EventArgs e)
+        private void dateDoB_Enter(object sender, System.EventArgs e)
         {
             refreshSources(person_.sourceDoB, "Date of Birth");
         }
@@ -574,7 +570,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Update the sources when the DoD field is active.</summary>
-		private void dateDoD_Enter(object sender, System.EventArgs e)
+        private void dateDoD_Enter(object sender, System.EventArgs e)
         {
             refreshSources(person_.sourceDoD, "Date of Death");
         }
@@ -582,7 +578,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the surname changing.  Update the person object and display the person description.</summary>
-		private void txtSurname_TextChanged(object sender, System.EventArgs e)
+        private void txtSurname_TextChanged(object sender, System.EventArgs e)
         {
             person_.surname = this.txtSurname_.Text;
 
@@ -593,7 +589,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the forename changing.  Update the person object and display the person description.</summary>
-		private void txtForename_TextChanged(object sender, System.EventArgs e)
+        private void txtForename_TextChanged(object sender, System.EventArgs e)
         {
             person_.forenames = this.txtForename_.Text;
 
@@ -604,7 +600,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the maiden name changing.  Update the person object and display the person description.</summary>
-		private void txtMaidenName_TextChanged(object sender, System.EventArgs e)
+        private void txtMaidenName_TextChanged(object sender, System.EventArgs e)
         {
             person_.maidenname = this.txtMaidenName_.Text;
 
@@ -615,7 +611,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the sex of the person changing.  Update the person object and display the person description.</summary>
-		private void cboSex_SelectedValueChanged(object sender, System.EventArgs e)
+        private void cboSex_SelectedValueChanged(object sender, System.EventArgs e)
         {
             if (cboSex_.SelectedIndex == 0)
             {
@@ -637,7 +633,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the all children known check box changing value.  Update the person object and display the person description.</summary>
-		private void chkChildrenKnown_CheckedChanged(object sender, System.EventArgs e)
+        private void chkChildrenKnown_CheckedChanged(object sender, System.EventArgs e)
         {
             person_.isAllChildrenKnown = this.chkChildrenKnown_.Checked;
 
@@ -648,7 +644,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the date of birth control changing value.  Update the person object and display the person description.</summary>
-		private void dateDoB_evtValueChanged(object oSender)
+        private void dateDoB_evtValueChanged(object oSender)
         {
             person_.dob.date = dateDoB_.getDate();
             person_.dob.status = dateDoB_.getStatus();
@@ -660,7 +656,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the date of death control changing value.  Update the person object and display the person description.</summary>
-		private void dateDoD_evtValueChanged(object oSender)
+        private void dateDoD_evtValueChanged(object oSender)
         {
             person_.dod.date = dateDoD_.getDate();
             person_.dod.status = dateDoD_.getStatus();
@@ -672,7 +668,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the comments text box contents changing.  Update the comments property of the person object.</summary>
-		private void txtComments_TextChanged(object sender, System.EventArgs e)
+        private void txtComments_TextChanged(object sender, System.EventArgs e)
         {
             person_.comments = this.txtComments_.Text;
         }
@@ -747,12 +743,9 @@ namespace FamilyTree.Viewer
 
         #region Controls on the Relationships tab
 
-        /// <summary>
-        /// Message handler for the marriage terminated combo box getting the focus.
-        /// Display the sources for the marriage termination status.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the marriage terminated combo box getting the focus.  Display the sources for the marriage termination status.</summary>
         private void cboTerminated_Enter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
@@ -765,71 +758,67 @@ namespace FamilyTree.Viewer
             }
         }
 
-        /// <summary>
-        /// Message handler for the marriage terminated combo box chaning value,
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the marriage terminated combo box chaning value.</summary>
         private void cboTerminated_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            // Update the active relationship
+            // Update the active relationship.
             if (activeRelationship_ != null)
             {
-                activeRelationship_.terminatedIndex = this.m_cboTerminated.SelectedIndex + 1;
-                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.terminatedIndex = cboTerminated_.SelectedIndex + 1;
+                activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
             }
         }
 
-        /// <summary>
-        /// Message handler for the relationship type value change event.
-        /// Update the value in the active relationship.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the relationship type value change event.  Update the value in the active relationship.</summary>
         private void cboRelationshipType_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            // Update the active relationship
+            // Update the active relationship.
             if (activeRelationship_ != null)
             {
-                activeRelationship_.typeIndex = m_cboRelationshipType.SelectedIndex + 1;
-                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.typeIndex = cboRelationshipType_.SelectedIndex + 1;
+                activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
             }
         }
 
-        /// <summary>
-        /// Message handler for the relationship type getting the focus.
-        /// Do not record the source for this information (currently) so just clear the sources area.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void m_cboRelationshipType_Enter(object sender, System.EventArgs e)
+
+
+        /// <summary>Message handler for the relationship type getting the focus.  Do not record the source for this information (currently) so just clear the sources area.</summary>
+        private void cboRelationshipType_Enter(object sender, System.EventArgs e)
         {
             refreshSources();
         }
 
+
+
         private void lstRelationships_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            // Validate the selected index
-            if (this.lstRelationships_.SelectedIndex < 0)
+            // Validate the selected index.
+            if (lstRelationships_.SelectedIndex < 0)
             {
                 activeRelationship_ = null;
                 return;
             }
 
-            // Get the selected relationship
+            // Get the selected relationship.
             activeRelationship_ = (Relationship)this.lstRelationships_.SelectedItem;
 
-            // Update the form
+            // Update the form.
             dateRelationStart_.theDate = activeRelationship_.start;
             //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
-            m_cboTerminated.SelectedIndex = activeRelationship_.terminatedIndex - 1;
+            cboTerminated_.SelectedIndex = activeRelationship_.terminatedIndex - 1;
             txtRelationLocation_.Text = activeRelationship_.location;
             dateRelationEnd_.theDate = activeRelationship_.end;
-            m_txtRelationComments.Text = activeRelationship_.comments;
-            m_cboRelationshipType.SelectedIndex = activeRelationship_.typeIndex - 1;
+            txtRelationComments_.Text = activeRelationship_.comments;
+            cboRelationshipType_.SelectedIndex = activeRelationship_.typeIndex - 1;
 
             refreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
         }
+
+
 
         private void dateRelationStart_Enter(object sender, System.EventArgs e)
         {
@@ -843,6 +832,8 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         private void chkTerminated_Enter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
@@ -854,6 +845,8 @@ namespace FamilyTree.Viewer
                 refreshSources(activeRelationship_.sourceTerminated, "Relationship Termination Status");
             }
         }
+
+
 
         private void txtRelationLocation_Enter(object sender, System.EventArgs e)
         {
@@ -867,6 +860,8 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         private void dateRelationEnd_Enter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
@@ -878,6 +873,7 @@ namespace FamilyTree.Viewer
                 refreshSources(activeRelationship_.sourceEnd, "Relationship End Date");
             }
         }
+
 
         private void lstRelationships_Enter(object sender, System.EventArgs e)
         {
@@ -891,199 +887,206 @@ namespace FamilyTree.Viewer
             }
         }
 
+
         private void txtRelationLocation_TextChanged(object sender, System.EventArgs e)
         {
-            // Update the active relationship
+            // Update the active relationship.
             if (activeRelationship_ != null)
             {
                 activeRelationship_.location = this.txtRelationLocation_.Text;
-                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
 
-                // Update the description
+                // Update the description.
                 labDescription_.Text = person_.getDescription(false, false, false, false, false);
             }
         }
 
+
+
         private void dateRelationStart_evtValueChanged(object oSender)
         {
-            // Update the active relationship
+            // Update the active relationship.
             if (activeRelationship_ != null)
             {
                 activeRelationship_.start.date = dateRelationStart_.getDate();
                 activeRelationship_.start.status = dateRelationStart_.getStatus();
-                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
 
-                // Update the description
+                // Update the description.
                 labDescription_.Text = person_.getDescription(false, false, false, false, false);
             }
         }
 
+
+
         private void dateRelationEnd_evtValueChanged(object oSender)
         {
-            // Update the active relationship
+            // Update the active relationship.
             if (activeRelationship_ != null)
             {
                 activeRelationship_.end.date = dateRelationEnd_.getDate();
                 activeRelationship_.end.status = dateRelationEnd_.getStatus();
-                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
 
-                // Update the description
+                // Update the description.
                 labDescription_.Text = person_.getDescription(false, false, false, false, false);
             }
         }
 
+
+
         private void txtRelationComments_TextChanged(object sender, System.EventArgs e)
         {
-            // Update the active relationship
+            // Update the active relationship.
             if (activeRelationship_ != null)
             {
-                activeRelationship_.comments = this.m_txtRelationComments.Text;
-                activeRelationship_.lastEditBy = m_cboEditor.SelectedItem.ToString();
+                activeRelationship_.comments = this.txtRelationComments_.Text;
+                activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
             }
         }
 
+
         private void AddRelationship_Click(object sender, System.EventArgs e)
         {
-            // Check that a person is selected
+            // Check that a person is selected.
             if (cboAddPartner_.SelectedIndex == -1)
             {
                 return;
             }
 
-            // Find the person that is selected
-            IndexName oPartner = (IndexName)cboAddPartner_.SelectedItem;
+            // Find the person that is selected.
+            IndexName partner = (IndexName)cboAddPartner_.SelectedItem;
 
-            // Create a relationship object
-            Relationship oRelationship = new Relationship(person_, oPartner.index);
+            // Create a relationship object.
+            Relationship relationship = new Relationship(person_, partner.index);
 
-            // Add the relationship to the persons collection
-            person_.addRelationship(oRelationship);
+            // Add the relationship to the persons collection.
+            person_.addRelationship(relationship);
 
-            // Add the partner to the list box
-            lstRelationships_.Items.Add(oRelationship);
+            // Add the partner to the list box.
+            lstRelationships_.Items.Add(relationship);
 
-            // Update the description
+            // Update the description.
             labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
 
+
+
         private void cmdDeleteRelationship_Click(object sender, System.EventArgs e)
         {
-            // Get the selected relationship
+            // Get the selected relationship.
             if (activeRelationship_ == null)
             {
                 return;
             }
 
-            // Mark the active relationship for deletion
+            // Mark the active relationship for deletion.
             activeRelationship_.delete();
 
-            // Remove the relationship from the listbox
-            this.lstRelationships_.Items.Remove(activeRelationship_);
+            // Remove the relationship from the listbox.
+            lstRelationships_.Items.Remove(activeRelationship_);
 
-            // No selection any more
+            // No selection any more.
             activeRelationship_ = null;
 
-            // Update the description
+            // Update the description.
             labDescription_.Text = person_.getDescription(false, false, false, false, false);
         }
+
+
 
         #endregion
 
         #region Controls on the Advance tab
 
-        /// <summary>
-        /// Message handler for the father combo box changing value.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the father combo box changing value.</summary>
         private void cboFather_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            // Find the ID of the selected father
-            IndexName oFather = (IndexName)cboFather_.SelectedItem;
+            // Find the index of the selected father.
+            IndexName father = (IndexName)cboFather_.SelectedItem;
 
-            // Save the ID in the person object
-            person_.fatherIndex = oFather.index;
+            // Save the ID in the person object.
+            person_.fatherIndex = father.index;
         }
 
-        /// <summary>
-        /// Message handler for the mother combo box changing value.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the mother combo box changing value.</summary>
         private void cboMother_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the ID the selected mother
-            IndexName oMother = (IndexName)cboMother_.SelectedItem;
+            IndexName mother = (IndexName)cboMother_.SelectedItem;
 
-            // Save the ID in the person object
-            person_.motherIndex = oMother.index;
+            // Save the index in the person object.
+            person_.motherIndex = mother.index;
         }
 
-        /// <summary>
-        /// Update the image on the advance tab.
-        /// </summary>
-        private void ShowImage()
+
+
+        /// <summary>Update the image on the advance tab.</summary>
+        private void showImage()
         {
             if (cboMainImage_.SelectedItem == null)
             {
-                // Nothing to display
-                m_Image.Image = null;
+                // Nothing to display.
+                pictureboximage_.Image = null;
             }
             else
             {
-                Media oMedia = (Media)cboMainImage_.SelectedItem;
+                Media media = (Media)cboMainImage_.SelectedItem;
 
-                // Open the specified image
-                Bitmap oImage = null;
+                // Open the specified image.
+                Bitmap bitmap = null;
                 try
                 {
-                    oImage = new Bitmap(oMedia.fullFileName);
+                    bitmap = new Bitmap(media.fullFileName);
                 }
                 catch
                 {
-                    oImage = null;
+                    bitmap = null;
                 }
-                if (oImage == null)
+                if (bitmap == null)
                 {
-                    // Can't display this image
-                    m_Image.Image = null;
+                    // Can't display this image.
+                    pictureboximage_.Image = null;
                     return;
                 }
 
-                // Display this image
-                m_Image.Image = oImage;
+                // Display this image.
+                pictureboximage_.Image = bitmap;
             }
         }
 
-        /// <summary>
-        /// Message handler for the main image combo box changing value.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the main image combo box changing value.</summary>
         private void cboMainImage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Find the ID the selected media
-            Media oMedia = (Media)cboMainImage_.SelectedItem;
+            // Find the index the selected media.
+            Media media = (Media)cboMainImage_.SelectedItem;
 
-            // Save the ID in the person object
-            person_.mediaIndex = oMedia.index_;
+            // Save the index in the person object.
+            person_.mediaIndex = media.index_;
 
-            // Display the image on the form
-            ShowImage();
+            // Display the image on the form.
+            showImage();
         }
 
-        // Message handler for the include in Gedcom check box value changing.
-        /// <summary>
-        /// Message handler for the include in Gedcom check box value changing.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+
+        /// <summary>Message handler for the include in Gedcom check box value changing.</summary>
         private void chkGedcom_CheckedChanged(object sender, EventArgs e)
         {
             person_.isIncludeInGedcom = chkGedcom_.Checked;
         }
 
+
+
         #endregion
+
+
 
         private void cmdAddToDo_Click(object sender, EventArgs e)
         {
@@ -1097,9 +1100,11 @@ namespace FamilyTree.Viewer
             gridToDo_.SetDataBinding(person_.getToDo(), "");
         }
 
+
+
         private void cmdDeleteToDo_Click(object sender, System.EventArgs e)
         {
-            // Check that a fact is selected in the grid
+            // Check that a fact is selected in the grid.
             if (gridToDo_.CurrentCell.RowNumber < 0)
             {
                 return;
@@ -1109,12 +1114,11 @@ namespace FamilyTree.Viewer
             ToDo toDo = ((ToDo[])gridToDo_.DataSource)[gridToDo_.CurrentCell.RowNumber];
             toDo.delete();
 
-            // Update the display
+            // Update the display.
             gridToDo_.SetDataBinding(person_.getToDo(), "");
         }
 
 
-        #endregion
 
         /// <summary>Location of the last right click.</summary>
         DataGrid.HitTestInfo hitTestInfo_;
@@ -1147,7 +1151,7 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the mouse up event of the facts grid.  Store the location of any right clicks for the context menu to use.</summary>
-        private void m_gridFacts_MouseUp(object sender, MouseEventArgs e)
+        private void gridFacts_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -1166,6 +1170,10 @@ namespace FamilyTree.Viewer
                 txtRelationLocation_.Text = dialog.locationName;
             }
         }
+
+
+
+        #endregion
 
     }
 }

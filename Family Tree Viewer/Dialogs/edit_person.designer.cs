@@ -9,7 +9,7 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmEditPerson : System.Windows.Forms.Form
+    public partial class EditPersonDialog : System.Windows.Forms.Form
     {
         /// <summary>
         /// Required designer variable.
@@ -43,7 +43,7 @@ namespace FamilyTree.Viewer
             FamilyTree.Objects.CompoundDate compoundDate3 = new FamilyTree.Objects.CompoundDate();
             FamilyTree.Objects.CompoundDate compoundDate4 = new FamilyTree.Objects.CompoundDate();
             System.Windows.Forms.ImageList oImageList16x16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditPerson));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditPersonDialog));
             System.Windows.Forms.TabPage tabFacts;
             System.Windows.Forms.Button cmdDeleteFact;
             System.Windows.Forms.ToolStripMenuItem menuEditLocation;
@@ -70,9 +70,9 @@ namespace FamilyTree.Viewer
             this.txtMaidenName_ = new System.Windows.Forms.TextBox();
             this.txtForename_ = new System.Windows.Forms.TextBox();
             this.txtSurname_ = new System.Windows.Forms.TextBox();
-            this.m_cboRelationshipType = new System.Windows.Forms.ComboBox();
-            this.m_cboTerminated = new System.Windows.Forms.ComboBox();
-            this.m_txtRelationComments = new System.Windows.Forms.TextBox();
+            this.cboRelationshipType_ = new System.Windows.Forms.ComboBox();
+            this.cboTerminated_ = new System.Windows.Forms.ComboBox();
+            this.txtRelationComments_ = new System.Windows.Forms.TextBox();
             this.txtRelationLocation_ = new System.Windows.Forms.TextBox();
             this.cboAddPartner_ = new System.Windows.Forms.ComboBox();
             this.dateRelationEnd_ = new FamilyTree.Viewer.CompoundDateEditBox();
@@ -85,14 +85,14 @@ namespace FamilyTree.Viewer
             this.cboMainImage_ = new System.Windows.Forms.ComboBox();
             this.cboMother_ = new System.Windows.Forms.ComboBox();
             this.cboFather_ = new System.Windows.Forms.ComboBox();
-            this.m_Image = new System.Windows.Forms.PictureBox();
+            this.pictureboximage_ = new System.Windows.Forms.PictureBox();
             this.labDescription_ = new System.Windows.Forms.Label();
             this.gridToDo_ = new System.Windows.Forms.DataGrid();
             this.grpSources_ = new System.Windows.Forms.GroupBox();
             this.cboSources_ = new System.Windows.Forms.ComboBox();
             this.gridSources_ = new System.Windows.Forms.DataGrid();
             this.tabControl_ = new System.Windows.Forms.TabControl();
-            this.m_cboEditor = new System.Windows.Forms.ComboBox();
+            this.cboEditor_ = new System.Windows.Forms.ComboBox();
             tabBasic = new System.Windows.Forms.TabPage();
             label7 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
@@ -131,7 +131,7 @@ namespace FamilyTree.Viewer
             ((System.ComponentModel.ISupportInitialize)(this.gridFacts_)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             tabAdvanced.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_Image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureboximage_)).BeginInit();
             groupBox2.SuspendLayout();
             tabToDo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridToDo_)).BeginInit();
@@ -319,10 +319,10 @@ namespace FamilyTree.Viewer
             // tabRelationships
             // 
             tabRelationships.Controls.Add(cmdRelationshipAddress);
-            tabRelationships.Controls.Add(this.m_cboRelationshipType);
+            tabRelationships.Controls.Add(this.cboRelationshipType_);
             tabRelationships.Controls.Add(label11);
-            tabRelationships.Controls.Add(this.m_cboTerminated);
-            tabRelationships.Controls.Add(this.m_txtRelationComments);
+            tabRelationships.Controls.Add(this.cboTerminated_);
+            tabRelationships.Controls.Add(this.txtRelationComments_);
             tabRelationships.Controls.Add(label10);
             tabRelationships.Controls.Add(this.txtRelationLocation_);
             tabRelationships.Controls.Add(label9);
@@ -343,17 +343,17 @@ namespace FamilyTree.Viewer
             // 
             // m_cboRelationshipType
             // 
-            this.m_cboRelationshipType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboRelationshipType.Items.AddRange(new object[] {
+            this.cboRelationshipType_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRelationshipType_.Items.AddRange(new object[] {
             "Regilious Marriage",
             "Civil Marriage",
             "Partners"});
-            this.m_cboRelationshipType.Location = new System.Drawing.Point(472, 16);
-            this.m_cboRelationshipType.Name = "m_cboRelationshipType";
-            this.m_cboRelationshipType.Size = new System.Drawing.Size(184, 21);
-            this.m_cboRelationshipType.TabIndex = 16;
-            this.m_cboRelationshipType.SelectedIndexChanged += new System.EventHandler(this.cboRelationshipType_SelectedIndexChanged);
-            this.m_cboRelationshipType.Enter += new System.EventHandler(this.m_cboRelationshipType_Enter);
+            this.cboRelationshipType_.Location = new System.Drawing.Point(472, 16);
+            this.cboRelationshipType_.Name = "m_cboRelationshipType";
+            this.cboRelationshipType_.Size = new System.Drawing.Size(184, 21);
+            this.cboRelationshipType_.TabIndex = 16;
+            this.cboRelationshipType_.SelectedIndexChanged += new System.EventHandler(this.cboRelationshipType_SelectedIndexChanged);
+            this.cboRelationshipType_.Enter += new System.EventHandler(this.cboRelationshipType_Enter);
             // 
             // label11
             // 
@@ -366,28 +366,28 @@ namespace FamilyTree.Viewer
             // 
             // m_cboTerminated
             // 
-            this.m_cboTerminated.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboTerminated.Items.AddRange(new object[] {
+            this.cboTerminated_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTerminated_.Items.AddRange(new object[] {
             "No",
             "Divorce",
             "He died",
             "She died"});
-            this.m_cboTerminated.Location = new System.Drawing.Point(328, 64);
-            this.m_cboTerminated.Name = "m_cboTerminated";
-            this.m_cboTerminated.Size = new System.Drawing.Size(184, 21);
-            this.m_cboTerminated.TabIndex = 12;
-            this.m_cboTerminated.SelectedIndexChanged += new System.EventHandler(this.cboTerminated_SelectedIndexChanged);
-            this.m_cboTerminated.Enter += new System.EventHandler(this.cboTerminated_Enter);
+            this.cboTerminated_.Location = new System.Drawing.Point(328, 64);
+            this.cboTerminated_.Name = "m_cboTerminated";
+            this.cboTerminated_.Size = new System.Drawing.Size(184, 21);
+            this.cboTerminated_.TabIndex = 12;
+            this.cboTerminated_.SelectedIndexChanged += new System.EventHandler(this.cboTerminated_SelectedIndexChanged);
+            this.cboTerminated_.Enter += new System.EventHandler(this.cboTerminated_Enter);
             // 
             // m_txtRelationComments
             // 
-            this.m_txtRelationComments.Location = new System.Drawing.Point(328, 88);
-            this.m_txtRelationComments.Multiline = true;
-            this.m_txtRelationComments.Name = "m_txtRelationComments";
-            this.m_txtRelationComments.Size = new System.Drawing.Size(328, 96);
-            this.m_txtRelationComments.TabIndex = 10;
-            this.m_txtRelationComments.Text = "textBox1";
-            this.m_txtRelationComments.TextChanged += new System.EventHandler(this.txtRelationComments_TextChanged);
+            this.txtRelationComments_.Location = new System.Drawing.Point(328, 88);
+            this.txtRelationComments_.Multiline = true;
+            this.txtRelationComments_.Name = "m_txtRelationComments";
+            this.txtRelationComments_.Size = new System.Drawing.Size(328, 96);
+            this.txtRelationComments_.TabIndex = 10;
+            this.txtRelationComments_.Text = "textBox1";
+            this.txtRelationComments_.TextChanged += new System.EventHandler(this.txtRelationComments_TextChanged);
             // 
             // label10
             // 
@@ -550,7 +550,7 @@ namespace FamilyTree.Viewer
             this.gridFacts_.Size = new System.Drawing.Size(656, 208);
             this.gridFacts_.TabIndex = 0;
             this.gridFacts_.Enter += new System.EventHandler(this.gridFacts_CurrentCellChanged);
-            this.gridFacts_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.m_gridFacts_MouseUp);
+            this.gridFacts_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridFacts_MouseUp);
             this.gridFacts_.CurrentCellChanged += new System.EventHandler(this.gridFacts_CurrentCellChanged);
             // 
             // contextMenuStrip1
@@ -589,7 +589,7 @@ namespace FamilyTree.Viewer
             tabAdvanced.Controls.Add(this.cboFather_);
             tabAdvanced.Controls.Add(label13);
             tabAdvanced.Controls.Add(label12);
-            tabAdvanced.Controls.Add(this.m_Image);
+            tabAdvanced.Controls.Add(this.pictureboximage_);
             tabAdvanced.ImageIndex = 9;
             tabAdvanced.Location = new System.Drawing.Point(4, 23);
             tabAdvanced.Name = "tabAdvanced";
@@ -665,13 +665,13 @@ namespace FamilyTree.Viewer
             // 
             // m_Image
             // 
-            this.m_Image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_Image.Location = new System.Drawing.Point(426, 8);
-            this.m_Image.Name = "m_Image";
-            this.m_Image.Size = new System.Drawing.Size(240, 240);
-            this.m_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.m_Image.TabIndex = 10;
-            this.m_Image.TabStop = false;
+            this.pictureboximage_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureboximage_.Location = new System.Drawing.Point(426, 8);
+            this.pictureboximage_.Name = "m_Image";
+            this.pictureboximage_.Size = new System.Drawing.Size(240, 240);
+            this.pictureboximage_.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureboximage_.TabIndex = 10;
+            this.pictureboximage_.TabStop = false;
             // 
             // groupBox2
             // 
@@ -840,12 +840,12 @@ namespace FamilyTree.Viewer
             // 
             // m_cboEditor
             // 
-            this.m_cboEditor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboEditor.FormattingEnabled = true;
-            this.m_cboEditor.Location = new System.Drawing.Point(12, 627);
-            this.m_cboEditor.Name = "m_cboEditor";
-            this.m_cboEditor.Size = new System.Drawing.Size(179, 21);
-            this.m_cboEditor.TabIndex = 24;
+            this.cboEditor_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboEditor_.FormattingEnabled = true;
+            this.cboEditor_.Location = new System.Drawing.Point(12, 627);
+            this.cboEditor_.Name = "m_cboEditor";
+            this.cboEditor_.Size = new System.Drawing.Size(179, 21);
+            this.cboEditor_.TabIndex = 24;
             // 
             // cmdRelationshipAddress
             // 
@@ -862,7 +862,7 @@ namespace FamilyTree.Viewer
             this.AllowDrop = true;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(690, 664);
-            this.Controls.Add(this.m_cboEditor);
+            this.Controls.Add(this.cboEditor_);
             this.Controls.Add(this.tabControl_);
             this.Controls.Add(groupBox2);
             this.Controls.Add(this.grpSources_);
@@ -887,7 +887,7 @@ namespace FamilyTree.Viewer
             this.contextMenuStrip1.ResumeLayout(false);
             tabAdvanced.ResumeLayout(false);
             tabAdvanced.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_Image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureboximage_)).EndInit();
             groupBox2.ResumeLayout(false);
             tabToDo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridToDo_)).EndInit();
@@ -910,12 +910,12 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.CheckBox chkChildrenKnown_;
         private System.Windows.Forms.ListBox lstRelationships_;
         private System.Windows.Forms.ComboBox cboAddPartner_;
-        private System.Windows.Forms.TextBox m_txtRelationComments;
+        private System.Windows.Forms.TextBox txtRelationComments_;
         private System.Windows.Forms.TextBox txtComments_;
-        private System.Windows.Forms.ComboBox m_cboTerminated;
+        private System.Windows.Forms.ComboBox cboTerminated_;
         private System.Windows.Forms.ComboBox cboFather_;
         private System.Windows.Forms.ComboBox cboMother_;
-        private System.Windows.Forms.PictureBox m_Image;
+        private System.Windows.Forms.PictureBox pictureboximage_;
         private System.Windows.Forms.DataGrid gridFacts_;
         private System.Windows.Forms.DataGrid gridSources_;
         private System.Windows.Forms.ComboBox cboSources_;
@@ -923,13 +923,13 @@ namespace FamilyTree.Viewer
         private FamilyTree.Viewer.CompoundDateEditBox dateDoB_;
         private FamilyTree.Viewer.CompoundDateEditBox dateRelationStart_;
         private FamilyTree.Viewer.CompoundDateEditBox dateRelationEnd_;
-        private System.Windows.Forms.ComboBox m_cboRelationshipType;
+        private System.Windows.Forms.ComboBox cboRelationshipType_;
         private Label labDescription_;
         private GroupBox grpSources_;
         private TextBox txtRelationLocation_;
         private ComboBox cboMainImage_;
         private DataGrid gridToDo_;
-        private ComboBox m_cboEditor;
+        private ComboBox cboEditor_;
         private CheckBox chkGedcom_;
         private ContextMenuStrip contextMenuStrip1;
 
