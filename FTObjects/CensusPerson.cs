@@ -3,7 +3,7 @@ using System;
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent a member of a census household.  This is usually a one to one relationship with a clsPerson object.  However, some people can be a member of a census without being in the database eg Boarders, Servants.</summary>
-	public class CensusPerson
+    public class CensusPerson
     {
         #region Member Variables
 
@@ -37,6 +37,12 @@ namespace FamilyTree.Objects
         /// <summary>The location the person was born as specified on the census record.</summary>
         private string bornLocation_;
 
+        /// <summary>The date of birth of the person as specified on the census record.  This is only specified on the 1939 register.</summary>
+        private string dateOfBirth_;
+
+        private string sex_;
+        private string maritalStatus_;
+
         /// <summary>True if the record should be removed from the database.</summary>
         private bool isDelete_;
 
@@ -47,10 +53,9 @@ namespace FamilyTree.Objects
 
         #region Constructors
 
-        // Empty class constructor
-        /// <summary>
-        /// Empty class constructor
-        /// </summary>
+
+
+        /// <summary>Empty class constructor.</summary>
         public CensusPerson()
         {
             houseHoldName_ = "";
@@ -60,8 +65,11 @@ namespace FamilyTree.Objects
             age_ = "";
             occupation_ = "";
             bornLocation_ = "";
+            dateOfBirth_ = "";
             isDelete_ = false;
         }
+
+
 
         #endregion
 
@@ -78,8 +86,8 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Returns a human readable string describing the other members of the household.</summary>
-		/// <param name="database">Specifies the database containing the household.</param>
-		/// <returns>A human readable string desribing the other members of the household.</returns>
+        /// <param name="database">Specifies the database containing the household.</param>
+        /// <returns>A human readable string desribing the other members of the household.</returns>
         public string livingWith(Database database)
         {
             return database.censusLivingWith(this);
@@ -88,7 +96,7 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Marks this record for delete.</summary>
-		public void delete()
+        public void delete()
         {
             isDelete_ = true;
         }
@@ -96,8 +104,8 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Returns true if this record is valid.  Otherwise this record should be deleted.</summary>
-		/// <returns>True if the record is valid, false if the record is scheduled for delete.</returns>
-		public bool isValid()
+        /// <returns>True if the record is valid, false if the record is scheduled for delete.</returns>
+        public bool isValid()
         {
             return !isDelete_;
         }
@@ -105,8 +113,8 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Returns the sources for this census member.  In fact the single source attached to census household will be returned.</summary>
-		/// <param name="database">Specifies the database to read the sources from.</param>
-		/// <returns>A clsSources object containing all the sources for this piece of information.</returns>
+        /// <param name="database">Specifies the database to read the sources from.</param>
+        /// <returns>A clsSources object containing all the sources for this piece of information.</returns>
         public Sources getSources(Database database)
         {
             return new Sources(this, database);
@@ -145,6 +153,14 @@ namespace FamilyTree.Objects
 
         /// <summary>The location the person was born as specified on the census record.</summary>
         public string bornLocation { get { return bornLocation_; } set { bornLocation_ = value; } }
+
+        /// <summary>The date of birth of the person as specified on the census record.  This is only available on the 1939 register.</summary>
+        public string dateOfBirth { get { return dateOfBirth_; } set { dateOfBirth_ = value; } }
+        public string sex { get { return sex_; } set { sex_ = value; } }
+
+        public string maritalStatus { get { return maritalStatus_; } set { maritalStatus_ = value; } }
+
+        
 
         /// <summary>The date that the parent census was taken.</summary>
         public DateTime date { get { return date_; } set { date_ = value; } }

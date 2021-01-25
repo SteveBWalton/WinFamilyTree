@@ -1205,28 +1205,28 @@ namespace FamilyTree.Viewer
             {
             case Pages.PERSON:
                 // Create a dialog to edit this person.
-                EditPersonDialog dlgEdit = new EditPersonDialog(currentPage.index, database_);
+                EditPersonDialog editPersonDialog = new EditPersonDialog(currentPage.index, database_);
 
                 // Show the dialog and wait for the dialog to close.
-                if (dlgEdit.ShowDialog(this) == DialogResult.OK)
+                if (editPersonDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of the current person
                     showPerson(currentPage.index, false);
                 }
-                dlgEdit.Dispose();
+                editPersonDialog.Dispose();
                 break;
 
             case Pages.PLACE:
                 // Create a dialog to edit this place.
-                frmEditPlace oEditPlace = new frmEditPlace(currentPage.index, database_);
+                EditPlaceDialog editPlaceDialog = new EditPlaceDialog(currentPage.index, database_);
 
                 // Show the dialog and wait for the dialog to close.
-                if (oEditPlace.ShowDialog(this) == DialogResult.OK)
+                if (editPlaceDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this place.
                     showPlace(currentPage.index, false);
                 }
-                oEditPlace.Dispose();
+                editPlaceDialog.Dispose();
                 break;
 
             case Pages.SOURCE:

@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    partial class frmEditPlace
+    partial class EditPlaceDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -38,14 +38,14 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdUp;
             System.Windows.Forms.Button cmdLeft;
             System.Windows.Forms.Button cmdRefresh;
-            this.m_labName = new System.Windows.Forms.Label();
-            this.m_cboType = new System.Windows.Forms.ComboBox();
-            this.m_nudLatitude = new System.Windows.Forms.NumericUpDown();
-            this.m_nudLongitude = new System.Windows.Forms.NumericUpDown();
-            this.m_nudZoom = new System.Windows.Forms.NumericUpDown();
-            this.m_txtPrivateComments = new System.Windows.Forms.TextBox();
+            this.labName_ = new System.Windows.Forms.Label();
+            this.cboType_ = new System.Windows.Forms.ComboBox();
+            this.nudLatitude_ = new System.Windows.Forms.NumericUpDown();
+            this.nudLongitude_ = new System.Windows.Forms.NumericUpDown();
+            this.nudZoom_ = new System.Windows.Forms.NumericUpDown();
+            this.txtPrivateComments_ = new System.Windows.Forms.TextBox();
             this.m_webBrowser = new System.Windows.Forms.WebBrowser();
-            this.m_chkUseParentLocation = new System.Windows.Forms.CheckBox();
+            this.chkUseParentLocation_ = new System.Windows.Forms.CheckBox();
             this.m_cmdOK = new System.Windows.Forms.Button();
             this.m_cmdCancel = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
@@ -58,9 +58,9 @@ namespace FamilyTree.Viewer
             cmdUp = new System.Windows.Forms.Button();
             cmdLeft = new System.Windows.Forms.Button();
             cmdRefresh = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudLatitude)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudLongitude)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudZoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLatitude_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLongitude_)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudZoom_)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -110,102 +110,102 @@ namespace FamilyTree.Viewer
             // 
             // m_labName
             // 
-            this.m_labName.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.m_labName.Location = new System.Drawing.Point(12, 9);
-            this.m_labName.Name = "m_labName";
-            this.m_labName.Size = new System.Drawing.Size(268, 23);
-            this.m_labName.TabIndex = 0;
-            this.m_labName.Text = "m_labName";
-            this.m_labName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labName_.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labName_.Location = new System.Drawing.Point(12, 9);
+            this.labName_.Name = "m_labName";
+            this.labName_.Size = new System.Drawing.Size(268, 23);
+            this.labName_.TabIndex = 0;
+            this.labName_.Text = "m_labName";
+            this.labName_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // m_cboType
             // 
-            this.m_cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboType.FormattingEnabled = true;
-            this.m_cboType.Items.AddRange(new object[] {
+            this.cboType_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboType_.FormattingEnabled = true;
+            this.cboType_.Items.AddRange(new object[] {
             "Place",
             "Address"});
-            this.m_cboType.Location = new System.Drawing.Point(92, 43);
-            this.m_cboType.Name = "m_cboType";
-            this.m_cboType.Size = new System.Drawing.Size(121, 21);
-            this.m_cboType.TabIndex = 1;
+            this.cboType_.Location = new System.Drawing.Point(92, 43);
+            this.cboType_.Name = "m_cboType";
+            this.cboType_.Size = new System.Drawing.Size(121, 21);
+            this.cboType_.TabIndex = 1;
             // 
             // m_nudLatitude
             // 
-            this.m_nudLatitude.DecimalPlaces = 4;
-            this.m_nudLatitude.Increment = new decimal(new int[] {
+            this.nudLatitude_.DecimalPlaces = 4;
+            this.nudLatitude_.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.m_nudLatitude.Location = new System.Drawing.Point(93, 70);
-            this.m_nudLatitude.Maximum = new decimal(new int[] {
+            this.nudLatitude_.Location = new System.Drawing.Point(93, 70);
+            this.nudLatitude_.Maximum = new decimal(new int[] {
             180,
             0,
             0,
             0});
-            this.m_nudLatitude.Minimum = new decimal(new int[] {
+            this.nudLatitude_.Minimum = new decimal(new int[] {
             180,
             0,
             0,
             -2147483648});
-            this.m_nudLatitude.Name = "m_nudLatitude";
-            this.m_nudLatitude.Size = new System.Drawing.Size(120, 21);
-            this.m_nudLatitude.TabIndex = 6;
+            this.nudLatitude_.Name = "m_nudLatitude";
+            this.nudLatitude_.Size = new System.Drawing.Size(120, 21);
+            this.nudLatitude_.TabIndex = 6;
             // 
             // m_nudLongitude
             // 
-            this.m_nudLongitude.DecimalPlaces = 4;
-            this.m_nudLongitude.Increment = new decimal(new int[] {
+            this.nudLongitude_.DecimalPlaces = 4;
+            this.nudLongitude_.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this.m_nudLongitude.Location = new System.Drawing.Point(93, 97);
-            this.m_nudLongitude.Maximum = new decimal(new int[] {
+            this.nudLongitude_.Location = new System.Drawing.Point(93, 97);
+            this.nudLongitude_.Maximum = new decimal(new int[] {
             180,
             0,
             0,
             0});
-            this.m_nudLongitude.Minimum = new decimal(new int[] {
+            this.nudLongitude_.Minimum = new decimal(new int[] {
             180,
             0,
             0,
             -2147483648});
-            this.m_nudLongitude.Name = "m_nudLongitude";
-            this.m_nudLongitude.Size = new System.Drawing.Size(120, 21);
-            this.m_nudLongitude.TabIndex = 9;
+            this.nudLongitude_.Name = "m_nudLongitude";
+            this.nudLongitude_.Size = new System.Drawing.Size(120, 21);
+            this.nudLongitude_.TabIndex = 9;
             // 
             // m_nudZoom
             // 
-            this.m_nudZoom.Location = new System.Drawing.Point(92, 124);
-            this.m_nudZoom.Maximum = new decimal(new int[] {
+            this.nudZoom_.Location = new System.Drawing.Point(92, 124);
+            this.nudZoom_.Maximum = new decimal(new int[] {
             20,
             0,
             0,
             0});
-            this.m_nudZoom.Minimum = new decimal(new int[] {
+            this.nudZoom_.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.m_nudZoom.Name = "m_nudZoom";
-            this.m_nudZoom.Size = new System.Drawing.Size(120, 21);
-            this.m_nudZoom.TabIndex = 11;
-            this.m_nudZoom.Value = new decimal(new int[] {
+            this.nudZoom_.Name = "m_nudZoom";
+            this.nudZoom_.Size = new System.Drawing.Size(120, 21);
+            this.nudZoom_.TabIndex = 11;
+            this.nudZoom_.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.m_nudZoom.ValueChanged += new System.EventHandler(this.nudZoom_ValueChanged);
+            this.nudZoom_.ValueChanged += new System.EventHandler(this.nudZoom_ValueChanged);
             // 
             // m_txtPrivateComments
             // 
-            this.m_txtPrivateComments.Location = new System.Drawing.Point(97, 303);
-            this.m_txtPrivateComments.Multiline = true;
-            this.m_txtPrivateComments.Name = "m_txtPrivateComments";
-            this.m_txtPrivateComments.Size = new System.Drawing.Size(556, 96);
-            this.m_txtPrivateComments.TabIndex = 12;
+            this.txtPrivateComments_.Location = new System.Drawing.Point(97, 303);
+            this.txtPrivateComments_.Multiline = true;
+            this.txtPrivateComments_.Name = "m_txtPrivateComments";
+            this.txtPrivateComments_.Size = new System.Drawing.Size(556, 96);
+            this.txtPrivateComments_.TabIndex = 12;
             // 
             // m_webBrowser
             // 
@@ -218,13 +218,13 @@ namespace FamilyTree.Viewer
             // 
             // m_chkUseParentLocation
             // 
-            this.m_chkUseParentLocation.AutoSize = true;
-            this.m_chkUseParentLocation.Location = new System.Drawing.Point(92, 151);
-            this.m_chkUseParentLocation.Name = "m_chkUseParentLocation";
-            this.m_chkUseParentLocation.Size = new System.Drawing.Size(127, 17);
-            this.m_chkUseParentLocation.TabIndex = 15;
-            this.m_chkUseParentLocation.Text = "Use Parents Location";
-            this.m_chkUseParentLocation.UseVisualStyleBackColor = true;
+            this.chkUseParentLocation_.AutoSize = true;
+            this.chkUseParentLocation_.Location = new System.Drawing.Point(92, 151);
+            this.chkUseParentLocation_.Name = "m_chkUseParentLocation";
+            this.chkUseParentLocation_.Size = new System.Drawing.Size(127, 17);
+            this.chkUseParentLocation_.TabIndex = 15;
+            this.chkUseParentLocation_.Text = "Use Parents Location";
+            this.chkUseParentLocation_.UseVisualStyleBackColor = true;
             // 
             // m_cmdOK
             // 
@@ -238,7 +238,7 @@ namespace FamilyTree.Viewer
             this.m_cmdOK.Text = "OK";
             this.m_cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.m_cmdOK.UseVisualStyleBackColor = true;
-            this.m_cmdOK.Click += new System.EventHandler(this.m_cmdOK_Click);
+            this.m_cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // m_cmdCancel
             // 
@@ -317,29 +317,29 @@ namespace FamilyTree.Viewer
             this.Controls.Add(cmdDown);
             this.Controls.Add(cmdUp);
             this.Controls.Add(cmdLeft);
-            this.Controls.Add(this.m_chkUseParentLocation);
+            this.Controls.Add(this.chkUseParentLocation_);
             this.Controls.Add(cmdRefresh);
             this.Controls.Add(this.m_webBrowser);
-            this.Controls.Add(this.m_txtPrivateComments);
-            this.Controls.Add(this.m_nudZoom);
+            this.Controls.Add(this.txtPrivateComments_);
+            this.Controls.Add(this.nudZoom_);
             this.Controls.Add(label5);
-            this.Controls.Add(this.m_nudLongitude);
+            this.Controls.Add(this.nudLongitude_);
             this.Controls.Add(label4);
             this.Controls.Add(label3);
-            this.Controls.Add(this.m_nudLatitude);
+            this.Controls.Add(this.nudLatitude_);
             this.Controls.Add(label2);
             this.Controls.Add(this.m_cmdCancel);
             this.Controls.Add(this.m_cmdOK);
             this.Controls.Add(label1);
-            this.Controls.Add(this.m_cboType);
-            this.Controls.Add(this.m_labName);
+            this.Controls.Add(this.cboType_);
+            this.Controls.Add(this.labName_);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmEditPlace";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Place";
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudLatitude)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudLongitude)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_nudZoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLatitude_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLongitude_)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudZoom_)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,15 +347,15 @@ namespace FamilyTree.Viewer
 
         #endregion
 
-        private System.Windows.Forms.Label m_labName;
-        private System.Windows.Forms.ComboBox m_cboType;
+        private System.Windows.Forms.Label labName_;
+        private System.Windows.Forms.ComboBox cboType_;
         private System.Windows.Forms.Button m_cmdOK;
         private System.Windows.Forms.Button m_cmdCancel;
-        private System.Windows.Forms.NumericUpDown m_nudLatitude;
-        private System.Windows.Forms.NumericUpDown m_nudLongitude;
-        private System.Windows.Forms.NumericUpDown m_nudZoom;
-        private System.Windows.Forms.TextBox m_txtPrivateComments;
+        private System.Windows.Forms.NumericUpDown nudLatitude_;
+        private System.Windows.Forms.NumericUpDown nudLongitude_;
+        private System.Windows.Forms.NumericUpDown nudZoom_;
+        private System.Windows.Forms.TextBox txtPrivateComments_;
         private System.Windows.Forms.WebBrowser m_webBrowser;
-        private System.Windows.Forms.CheckBox m_chkUseParentLocation;
+        private System.Windows.Forms.CheckBox chkUseParentLocation_;
     }
 }

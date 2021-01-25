@@ -36,75 +36,21 @@ namespace FamilyTree.Viewer
             // Initialise member variables.
             database_ = database;
 
-            // Intialise the grid to display CensusPerson objects.
-            // Create a DataGridTabkeStyle object for the facts.
-            DataGridTableStyle membersTable = new DataGridTableStyle();
-            membersTable.MappingName = "CensusPerson[]";
-
-            // Sets the AlternatingBackColor so you can see the difference.
-            membersTable.AlternatingBackColor = System.Drawing.Color.LightBlue;
-
-            // Creates a column for the person.
-            DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
-            columnPerson.MappingName = "PersonName";
-            columnPerson.HeaderText = "DB Name";
-            columnPerson.ReadOnly = true;
-            columnPerson.Width = 150;
-
-            DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
-            columnName.MappingName = "CensusName";
-            columnName.HeaderText = "Entered Name";
-            columnName.Width = 150;
-
-            // Create a column for the Relation.
-            DataGridTextBoxColumn columnRelation = new DataGridTextBoxColumn();
-            columnRelation.MappingName = "RelationToHead";
-            columnRelation.HeaderText = "Relation";
-            columnRelation.Width = 50;
-
-            // Create a column for the age.
-            DataGridTextBoxColumn columnAge = new DataGridTextBoxColumn();
-            columnAge.MappingName = "Age";
-            columnAge.HeaderText = "Age";
-            columnAge.Width = 50;
-
-            // Create a column for the Occupation.
-            DataGridTextBoxColumn columnOccupation = new DataGridTextBoxColumn();
-            columnOccupation.MappingName = "Occupation";
-            columnOccupation.HeaderText = "Occupation";
-            columnOccupation.Width = 100;
-
-            // Create a column for the BornLocation.
-            DataGridTextBoxColumn columnBorn = new DataGridTextBoxColumn();
-            columnBorn.MappingName = "BornLocation";
-            columnBorn.HeaderText = "Born";
-            columnBorn.Width = 150;
-
-            // Adds the column styles to the grid table style.
-            membersTable.GridColumnStyles.Add(columnPerson);
-            membersTable.GridColumnStyles.Add(columnName);
-            membersTable.GridColumnStyles.Add(columnRelation);
-            membersTable.GridColumnStyles.Add(columnAge);
-            membersTable.GridColumnStyles.Add(columnOccupation);
-            membersTable.GridColumnStyles.Add(columnBorn);
-
-            // Add the table style to the collection, but clear the collection first.
-            peopleGrid_.TableStyles.Clear();
-            peopleGrid_.TableStyles.Add(membersTable);
-
             // Move to the initial record if specified.
+            int theYear = 0;
             if (initialRecord != 0)
             {
                 // Find the initial object.
                 Census census = new Census(initialRecord, database_);
 
                 // Move to the specified year.
-                string theYear = census.censusDate.Year.ToString();
-                foreach (string sItem in cboYear_.Items)
+                theYear = census.censusDate.Year;
+                string yearName = theYear.ToString();
+                foreach (string item in cboYear_.Items)
                 {
-                    if (sItem == theYear)
+                    if (item == yearName)
                     {
-                        this.cboYear_.SelectedItem = sItem;
+                        cboYear_.SelectedItem = item;
                     }
                 }
 
@@ -117,6 +63,83 @@ namespace FamilyTree.Viewer
                     }
                 }
             }
+
+            // Intialise the grid to display CensusPerson objects.
+            // Create a DataGridTabkeStyle object for the facts.
+            DataGridTableStyle membersTable = new DataGridTableStyle();
+            membersTable.MappingName = "CensusPerson[]";
+
+            // Sets the AlternatingBackColor so you can see the difference.
+            membersTable.AlternatingBackColor = System.Drawing.Color.LightBlue;
+
+            // Creates a column for the person.
+            DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
+            columnPerson.MappingName = "personName";
+            columnPerson.HeaderText = "DB Name";
+            columnPerson.ReadOnly = true;
+            columnPerson.Width = 150;
+
+            DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
+            columnName.MappingName = "censusName";
+            columnName.HeaderText = "Entered Name";
+            columnName.Width = 150;
+
+            // Create a column for the relation.
+            DataGridTextBoxColumn columnRelation = new DataGridTextBoxColumn();
+            columnRelation.MappingName = "relationToHead";
+            columnRelation.HeaderText = "Relation";
+            columnRelation.Width = theYear == 1939 ? 10 : 50;
+
+            // Create a column for the age.
+            DataGridTextBoxColumn columnAge = new DataGridTextBoxColumn();
+            columnAge.MappingName = "age";
+            columnAge.HeaderText = "Age";
+            columnAge.Width = theYear == 1939 ? 10 : 50;
+
+            // Create a column for the date of birth.
+            DataGridTextBoxColumn columnDoB = new DataGridTextBoxColumn();
+            columnDoB.MappingName = "dateOfBirth";
+            columnDoB.HeaderText = "DoB";
+            columnDoB.Width = theYear == 1939 ? 70 : 10;
+
+            // Create a column for the sex.
+            DataGridTextBoxColumn columnSex = new DataGridTextBoxColumn();
+            columnSex.MappingName = "sex";
+            columnSex.HeaderText = "Sex";
+            columnSex.Width = theYear == 1939 ? 50 : 10;
+
+            // Create a column for the occupation.
+            DataGridTextBoxColumn columnOccupation = new DataGridTextBoxColumn();
+            columnOccupation.MappingName = "occupation";
+            columnOccupation.HeaderText = "Occupation";
+            columnOccupation.Width = 100;
+
+            // Create a column for the born location.
+            DataGridTextBoxColumn columnBorn = new DataGridTextBoxColumn();
+            columnBorn.MappingName = "BornLocation";
+            columnBorn.HeaderText = "Born Location";
+            columnBorn.Width = theYear == 1939 ? 10 : 150;
+
+            // Create a column for the martial status.
+            DataGridTextBoxColumn columnMaritalStatus = new DataGridTextBoxColumn();
+            columnMaritalStatus.MappingName = "maritalStatus";
+            columnMaritalStatus.HeaderText = "Marital Status";
+            columnMaritalStatus.Width = theYear == 1939 ? 50 : 10;
+
+            // Adds the column styles to the grid table style.
+            membersTable.GridColumnStyles.Add(columnPerson);
+            membersTable.GridColumnStyles.Add(columnName);
+            membersTable.GridColumnStyles.Add(columnRelation);
+            membersTable.GridColumnStyles.Add(columnAge);
+            membersTable.GridColumnStyles.Add(columnDoB);
+            membersTable.GridColumnStyles.Add(columnSex);
+            membersTable.GridColumnStyles.Add(columnOccupation);
+            membersTable.GridColumnStyles.Add(columnBorn);
+            membersTable.GridColumnStyles.Add(columnMaritalStatus);
+
+            // Add the table style to the collection, but clear the collection first.
+            peopleGrid_.TableStyles.Clear();
+            peopleGrid_.TableStyles.Add(membersTable);
         }
 
 
@@ -168,13 +191,13 @@ namespace FamilyTree.Viewer
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditCensusDialog));
             System.Windows.Forms.ComboBox cboSource;
             System.Windows.Forms.GroupBox grpPerson;
-            this.cboYear_ = new System.Windows.Forms.ComboBox();
-            this.cboAddress_ = new System.Windows.Forms.ComboBox();
-            this.peopleGrid_ = new System.Windows.Forms.DataGrid();
-            this.cmdCreate_ = new System.Windows.Forms.Button();
             this.cmdRemovePerson_ = new System.Windows.Forms.Button();
             this.cmdAddPerson_ = new System.Windows.Forms.Button();
             this.cboPerson_ = new System.Windows.Forms.ComboBox();
+            this.peopleGrid_ = new System.Windows.Forms.DataGrid();
+            this.cboYear_ = new System.Windows.Forms.ComboBox();
+            this.cboAddress_ = new System.Windows.Forms.ComboBox();
+            this.cmdCreate_ = new System.Windows.Forms.Button();
             cmdOK = new System.Windows.Forms.Button();
             cmdCancel = new System.Windows.Forms.Button();
             cmdSave = new System.Windows.Forms.Button();
@@ -184,8 +207,8 @@ namespace FamilyTree.Viewer
             imageList16x16 = new System.Windows.Forms.ImageList(this.components);
             cboSource = new System.Windows.Forms.ComboBox();
             grpPerson = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.peopleGrid_)).BeginInit();
             grpPerson.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.peopleGrid_)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdOK
@@ -255,35 +278,6 @@ namespace FamilyTree.Viewer
             label3.Text = "Source:";
             label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // cboYear_
-            // 
-            this.cboYear_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboYear_.Items.AddRange(new object[] {
-            "1911",
-            "1901",
-            "1891",
-            "1881",
-            "1871",
-            "1861",
-            "1851",
-            "1841"});
-            this.cboYear_.Location = new System.Drawing.Point(48, 32);
-            this.cboYear_.Name = "cboYear_";
-            this.cboYear_.Size = new System.Drawing.Size(80, 21);
-            this.cboYear_.TabIndex = 0;
-            this.cboYear_.SelectedIndexChanged += new System.EventHandler(this.cboYear_SelectedIndexChanged);
-            // 
-            // cboAddress_
-            // 
-            this.cboAddress_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboAddress_.Location = new System.Drawing.Point(200, 32);
-            this.cboAddress_.Name = "cboAddress_";
-            this.cboAddress_.Size = new System.Drawing.Size(423, 21);
-            this.cboAddress_.TabIndex = 3;
-            this.cboAddress_.Text = "comboBox1";
-            this.cboAddress_.TextChanged += new System.EventHandler(this.cboAddress_TextChanged);
-            // 
             // imageList16x16
             // 
             imageList16x16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList16x16.ImageStream")));
@@ -296,31 +290,6 @@ namespace FamilyTree.Viewer
             imageList16x16.Images.SetKeyName(5, "");
             imageList16x16.Images.SetKeyName(6, "");
             imageList16x16.Images.SetKeyName(7, "");
-            // 
-            // peopleGrid_
-            // 
-            this.peopleGrid_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.peopleGrid_.DataMember = "";
-            this.peopleGrid_.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.peopleGrid_.Location = new System.Drawing.Point(8, 26);
-            this.peopleGrid_.Name = "peopleGrid_";
-            this.peopleGrid_.Size = new System.Drawing.Size(705, 202);
-            this.peopleGrid_.TabIndex = 6;
-            // 
-            // cmdCreate_
-            // 
-            this.cmdCreate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCreate_.Enabled = false;
-            this.cmdCreate_.Image = global::FamilyTree.Viewer.Properties.Resources.add;
-            this.cmdCreate_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdCreate_.Location = new System.Drawing.Point(629, 28);
-            this.cmdCreate_.Name = "cmdCreate_";
-            this.cmdCreate_.Size = new System.Drawing.Size(100, 30);
-            this.cmdCreate_.TabIndex = 7;
-            this.cmdCreate_.Text = "Create";
-            this.cmdCreate_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cboSource
             // 
@@ -385,6 +354,61 @@ namespace FamilyTree.Viewer
             this.cboPerson_.Size = new System.Drawing.Size(280, 21);
             this.cboPerson_.TabIndex = 0;
             // 
+            // peopleGrid_
+            // 
+            this.peopleGrid_.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.peopleGrid_.DataMember = "";
+            this.peopleGrid_.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.peopleGrid_.Location = new System.Drawing.Point(8, 26);
+            this.peopleGrid_.Name = "peopleGrid_";
+            this.peopleGrid_.Size = new System.Drawing.Size(705, 202);
+            this.peopleGrid_.TabIndex = 6;
+            // 
+            // cboYear_
+            // 
+            this.cboYear_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboYear_.Items.AddRange(new object[] {
+            "1939",
+            "1911",
+            "1901",
+            "1891",
+            "1881",
+            "1871",
+            "1861",
+            "1851",
+            "1841"});
+            this.cboYear_.Location = new System.Drawing.Point(48, 32);
+            this.cboYear_.Name = "cboYear_";
+            this.cboYear_.Size = new System.Drawing.Size(80, 21);
+            this.cboYear_.TabIndex = 0;
+            this.cboYear_.SelectedIndexChanged += new System.EventHandler(this.cboYear_SelectedIndexChanged);
+            // 
+            // cboAddress_
+            // 
+            this.cboAddress_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboAddress_.Location = new System.Drawing.Point(200, 32);
+            this.cboAddress_.Name = "cboAddress_";
+            this.cboAddress_.Size = new System.Drawing.Size(423, 21);
+            this.cboAddress_.TabIndex = 3;
+            this.cboAddress_.Text = "comboBox1";
+            this.cboAddress_.TextChanged += new System.EventHandler(this.cboAddress_TextChanged);
+            // 
+            // cmdCreate_
+            // 
+            this.cmdCreate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCreate_.Enabled = false;
+            this.cmdCreate_.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            this.cmdCreate_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cmdCreate_.Location = new System.Drawing.Point(629, 28);
+            this.cmdCreate_.Name = "cmdCreate_";
+            this.cmdCreate_.Size = new System.Drawing.Size(100, 30);
+            this.cmdCreate_.TabIndex = 7;
+            this.cmdCreate_.Text = "Create";
+            this.cmdCreate_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // EditCensusDialog
             // 
             this.AcceptButton = cmdOK;
@@ -406,8 +430,8 @@ namespace FamilyTree.Viewer
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Census";
-            ((System.ComponentModel.ISupportInitialize)(this.peopleGrid_)).EndInit();
             grpPerson.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.peopleGrid_)).EndInit();
             this.ResumeLayout(false);
 
         }

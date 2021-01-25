@@ -64,7 +64,7 @@ namespace FamilyTree.Objects
             database_ = database;
             index_ = index;
 
-            string sql = "SELECT ID,Name,ParentID,Status,Longitude,Latitude,GoogleZoom,UseParentLocation,PrivateComments FROM tbl_Places WHERE ID=" + index_.ToString() + ";";
+            string sql = "SELECT ID, Name, ParentID, Status, Longitude, Latitude, GoogleZoom, UseParentLocation, PrivateComments FROM tbl_Places WHERE ID = " + index_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
@@ -153,12 +153,16 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>The status of this place.  0 - Place, 1 - Address.</summary>
         public int status
         {
             get { return status_; }
             set { status_ = value; }
         }
+
+
 
         /// <summary>The longitude of this place in degrees to the east.</summary>
         public float longitude
@@ -181,6 +185,8 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>The latitude of this place in degrees to the north.</summary>
         public float latitude
         {
@@ -201,6 +207,8 @@ namespace FamilyTree.Objects
                 latitude_ = value;
             }
         }
+
+
 
         /// <summary>The zoom to use on a google map of this place.</summary>
         public int googleZoom
@@ -223,12 +231,16 @@ namespace FamilyTree.Objects
             }
         }
 
+
+
         /// <summary>True to use the longitude and latitude of the parent location.</summary>
         public bool isUseParentLocation
         {
             get { return isUseParentLocation_; }
             set { isUseParentLocation_ = value; }
         }
+
+
 
         /// <summary>The private comments attached to this location.</summary>
         public string privateComments
@@ -273,13 +285,13 @@ namespace FamilyTree.Objects
             html.Append(")</span>");
             html.AppendLine("</h1>");
 
-            // Display the private comments
+            // Display the private comments.
             if (privateComments_ != string.Empty)
             {
                 html.AppendLine("<p><strong>Private comments</strong>: " + privateComments_ + "</p>");
             }
 
-            // Add a goggle map of the place
+            // Add a goggle map of the place.
             if (isGoogleMap)
             {
                 html.AppendLine(googleMap(400, 200));
@@ -288,7 +300,7 @@ namespace FamilyTree.Objects
             html.AppendLine("<table border=\"0\">\n<tr valign=\"top\">");
 
             // Show the child places from this place.
-            string sql = "SELECT ID,Name,Status FROM tbl_Places WHERE ParentID=" + index_.ToString() + " ORDER BY Status, Name;";
+            string sql = "SELECT ID, Name, Status FROM tbl_Places WHERE ParentID = " + index_.ToString() + " ORDER BY Status, Name;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             bool isFirst = true;
@@ -326,10 +338,7 @@ namespace FamilyTree.Objects
             dataReader.Close();
 
             // Show the people with a connection to this place.
-            sql = "SELECT tbl_ToPlaces.ObjectID, tbl_People.Forenames, tbl_People.MaidenName, tbl_People.Surname, tbl_People.Born, tbl_People.Died " +
-                "FROM tbl_ToPlaces INNER JOIN tbl_People ON tbl_ToPlaces.ObjectID = tbl_People.ID " +
-                "WHERE (((tbl_ToPlaces.PlaceID)=" + index_.ToString() + ") AND ((tbl_ToPlaces.TypeID)=1)) " +
-                "ORDER BY tbl_People.Born;";
+            sql = "SELECT tbl_ToPlaces.ObjectID, tbl_People.Forenames, tbl_People.MaidenName, tbl_People.Surname, tbl_People.Born, tbl_People.Died FROM tbl_ToPlaces INNER JOIN tbl_People ON tbl_ToPlaces.ObjectID = tbl_People.ID WHERE tbl_ToPlaces.PlaceID = " + index_.ToString() + " AND tbl_ToPlaces.TypeID = 1 ORDER BY tbl_People.Born;";
             sqlCommand = new OleDbCommand(sql, database_.cndb);
             dataReader = sqlCommand.ExecuteReader();
             isFirst = true;

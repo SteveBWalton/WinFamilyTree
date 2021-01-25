@@ -173,6 +173,12 @@
     <Compile Include="Dialogs\edit_person.designer.cs">
       <DependentUpon>edit_person.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\edit_place.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\edit_place.designer.cs">
+      <DependentUpon>edit_place.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\edit_sources.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,12 +268,6 @@
     <Compile Include="frmViewTree.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmEditPlace.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmEditPlace.Designer.cs">
-      <DependentUpon>frmEditPlace.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmViewTree.Designer.cs">
       <DependentUpon>frmViewTree.cs</DependentUpon>
     </Compile>
@@ -300,6 +300,9 @@
     <EmbeddedResource Include="Dialogs\edit_person.resx">
       <DependentUpon>edit_person.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\edit_place.resx">
+      <DependentUpon>edit_place.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\edit_sources.resx">
       <DependentUpon>edit_sources.cs</DependentUpon>
     </EmbeddedResource>
@@ -329,10 +332,6 @@
     <EmbeddedResource Include="frmViewTree.resx">
       <DependentUpon>frmViewTree.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmEditPlace.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmEditPlace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

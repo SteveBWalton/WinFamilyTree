@@ -368,48 +368,51 @@ namespace FamilyTree.Objects
 
             // Development Only.
             // Show a version of this document in the format that we will use on webtrees.
-            switch (additionalInfoTypeIndex_)
+            if (false)
             {
-            case 1:
-                if (additionalBirth != null)
+                switch (additionalInfoTypeIndex_)
                 {
-                    html.Append("<h2>Webtrees</h2><p class=\"small\">");
-                    html.Append(additionalBirth.toWebtrees());
-                    html.Append("</p>\n");
+                case 1:
+                    if (additionalBirth != null)
+                    {
+                        html.Append("<h2>Webtrees</h2><p class=\"small\">");
+                        html.Append(additionalBirth.toWebtrees());
+                        html.Append("</p>\n");
+                    }
+                    break;
+                case 2:
+                    if (additionalMarriage != null)
+                    {
+                        html.Append("<h2>Webtrees</h2><p class=\"small\">");
+                        html.Append(additionalMarriage.toWebtrees(database_));
+                        html.Append("</p>\n");
+                    }
+                    break;
+                case 3:
+                    if (additionalDeath != null)
+                    {
+                        html.Append("<h2>Webtrees</h2><p class=\"small\">");
+                        html.Append(additionalDeath.toWebtrees(database_));
+                        html.Append("</p>\n");
+                    }
+                    break;
+                case 4:
+                    if (additionalCensus != null)
+                    {
+                        html.Append("<h2>Webtrees</h2><p class=\"small\">");
+                        html.Append(additionalCensus.toWebtrees());
+                        html.Append("</p>\n");
+                    }
+                    break;
                 }
-                break;
-            case 2:
-                if (additionalMarriage != null)
-                {
-                    html.Append("<h2>Webtrees</h2><p class=\"small\">");
-                    html.Append(additionalMarriage.toWebtrees(database_));
-                    html.Append("</p>\n");
-                }
-                break;
-            case 3:
-                if (additionalDeath != null)
-                {
-                    html.Append("<h2>Webtrees</h2><p class=\"small\">");
-                    html.Append(additionalDeath.toWebtrees(database_));
-                    html.Append("</p>\n");
-                }
-                break;
-            case 4:
-                if (additionalCensus != null)
-                {
-                    html.Append("<h2>Webtrees</h2><p class=\"small\">");
-                    html.Append(additionalCensus.toWebtrees());
-                    html.Append("</p>\n");
-                }
-                break;
             }
 
-            // Finish the Html document.
-            html.Append("<P align=right><SPAN class=\"Small\">Last edit by " + lastEditBy_ + " on " + lastEditDate_.ToString("d-MMM-yyyy HH:mm:ss") + "</SPAN></P>");
+            // Finish the html document.
+            html.Append("<p style=\"text-align: right;\"><span class=\"small\">Last edit by " + lastEditBy_ + " on " + lastEditDate_.ToString("d-MMM-yyyy HH:mm:ss") + "</span></p>");
             html.Append("</body>");
             html.Append("</html>");
 
-            // Return the Html description.
+            // Return the html description.
             return html.ToString();
         }
 

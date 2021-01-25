@@ -8,7 +8,7 @@ using System.Text;
 namespace FamilyTree.Objects
 {
     /// <summary>Class to represent the additional information on a census source.  The CensusPerson records are children of these objects.</summary>
-	public class Census
+    public class Census
     {
         #region Member Variables
 
@@ -132,6 +132,9 @@ namespace FamilyTree.Objects
             // Initialise the Html description.
             StringBuilder html = new StringBuilder();
 
+            // The year of the census.
+            int theYear = censusDate.Year;
+
             html.Append("<table style=\"background-color: lightcyan; border: 1px solid black;\" align=\"center\" cellpadding=\"5\" cellspacing=\"0\">");
             html.Append("<tr><td colspan=\"5\"><table width=\"100%\"><tr>");
             html.Append("<td align=\"center\"><span class=\"Census\">Series</span></td>");
@@ -150,10 +153,25 @@ namespace FamilyTree.Objects
             html.Append("<tr><td colspan=\"5\"><span class=\"Census\">Address</span> " + database_.placeToHtml(address) + "</td></tr>");
             html.Append("<tr valign=\"bottom\">");
             html.Append("<td><span class=\"Census\">Name</span></td>");
-            html.Append("<td><span class=\"Census\">Relation<br/>To Head</span></td>");
-            html.Append("<td><span class=\"Census\">Age</span></td>");
+            if (theYear == 1939)
+            {
+                html.Append("<td><span class=\"Census\">DoB</span></td>");
+                html.Append("<td><span class=\"Census\">Sex</span></td>");
+            }
+            else
+            {
+                html.Append("<td><span class=\"Census\">Relation<br/>To Head</span></td>");
+                html.Append("<td><span class=\"Census\">Age</span></td>");
+            }
             html.Append("<td><span class=\"Census\">Occupation</span></td>");
-            html.Append("<td><span class=\"Census\">Born Location</span></td>");
+            if (theYear == 1939)
+            {
+                html.Append("<td><span class=\"Census\">Marital Status</span></td>");
+            }
+            else
+            {
+                        html.Append("<td><span class=\"Census\">Born Location</span></td>");
+                    }
             html.Append("</tr>");
 
             CensusPerson[] members = getMembers();
@@ -171,10 +189,25 @@ namespace FamilyTree.Objects
                     html.Append("</a>");
                 }
                 html.Append("</td>");
-                html.Append("<td>" + member.relationToHead + "</td>");
-                html.Append("<td>" + member.age + "</td>");
+                if (theYear == 1939)
+                {
+                    html.Append("<td>" + member.dateOfBirth + "</td>");
+                    html.Append("<td>" + member.sex + "</td>");
+                }
+                else
+                {
+                    html.Append("<td>" + member.relationToHead + "</td>");
+                    html.Append("<td>" + member.age + "</td>");
+                }
                 html.Append("<td>" + member.occupation + "</td>");
-                html.Append("<td>" + member.bornLocation + "</td>");
+                if (theYear == 1939)
+                {
+                    html.Append("<td>" + member.maritalStatus + "</td>");
+                }
+                else
+                {
+                    html.Append("<td>" + member.bornLocation + "</td>");
+                }
                 html.Append("</tr>");
             }
 

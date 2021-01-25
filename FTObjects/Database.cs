@@ -1150,10 +1150,22 @@ namespace FamilyTree.Objects
                 }
                 if (!dataReader.IsDBNull(8))
                 {
-                    censusPerson.personName = dataReader.GetString(8);
+                    censusPerson.dateOfBirth = dataReader.GetString(8);
                 }
-                censusPerson.houseHoldName = dataReader.GetString(9);
-                censusPerson.date = dataReader.GetDateTime(10);
+                if (!dataReader.IsDBNull(9))
+                {
+                    censusPerson.sex = dataReader.GetString(9);
+                }
+                if (!dataReader.IsDBNull(10))
+                {
+                    censusPerson.maritalStatus = dataReader.GetString(10);
+                }
+                if (!dataReader.IsDBNull(11))
+                {
+                    censusPerson.personName = dataReader.GetString(11);
+                }
+                censusPerson.houseHoldName = dataReader.GetString(12);
+                censusPerson.date = dataReader.GetDateTime(13);
 
                 members.Add(censusPerson);
             }
@@ -1189,7 +1201,7 @@ namespace FamilyTree.Objects
                 censusPerson.index = int.Parse(sqlCommand.ExecuteScalar().ToString()) + 1;
 
                 // Create a new record.
-                sql = "INSERT INTO tbl_CensusPeople (ID,HouseholdID) VALUES (" + censusPerson.index.ToString() + "," + censusPerson.houseHoldIndex.ToString() + ");";
+                sql = "INSERT INTO tbl_CensusPeople (ID, HouseholdID) VALUES (" + censusPerson.index.ToString() + ", " + censusPerson.houseHoldIndex.ToString() + ");";
                 sqlCommand = new OleDbCommand(sql, cndb_);
                 sqlCommand.ExecuteNonQuery();
             }
@@ -1197,15 +1209,36 @@ namespace FamilyTree.Objects
             // Update the record.
             StringBuilder updateSql = new StringBuilder();
             updateSql.Append("UPDATE tbl_CensusPeople SET ");
-            updateSql.Append("PersonID=" + censusPerson.personIndex.ToString() + ",");
-            updateSql.Append("NameGiven=" + toDb(censusPerson.censusName) + ",");
-            updateSql.Append("RelationToHead=" + toDb(censusPerson.relationToHead) + ",");
-            updateSql.Append("Age=" + toDb(censusPerson.age) + ",");
-            updateSql.Append("Occupation=" + toDb(censusPerson.occupation) + ",");
-            updateSql.Append("BornLocation=" + toDb(censusPerson.bornLocation) + " ");
+            updateSql.Append("PersonID=" + censusPerson.personIndex.ToString() + ", ");
+            updateSql.Append("NameGiven=" + toDb(censusPerson.censusName) + ", ");
+            updateSql.Append("RelationToHead=" + toDb(censusPerson.relationToHead) + ", ");
+            updateSql.Append("Age=" + toDb(censusPerson.age) + ", ");
+            updateSql.Append("Occupation=" + toDb(censusPerson.occupation) + ", ");
+            updateSql.Append("BornLocation=" + toDb(censusPerson.bornLocation) + ", ");
+            updateSql.Append("DATE_OF_BIRTH = " + toDb(censusPerson.dateOfBirth) + ", ");
+            updateSql.Append("SEX = " + toDb(censusPerson.sex) + ", ");
+            updateSql.Append("MARITAL_STATUS = " + toDb(censusPerson.maritalStatus) + " ");
             updateSql.Append("WHERE ID=" + censusPerson.index.ToString() + ";");
             OleDbCommand updateCommand = new OleDbCommand(updateSql.ToString(), cndb_);
             updateCommand.ExecuteNonQuery();
+
+            // Add a reference to the place.
+            {
+                Census census = new Census(censusPerson.houseHoldIndex, this);
+                string address = census.address;
+                Place place = this.getPlace(address);
+                string sql = "INSERT INTO tbl_ToPlaces (PlaceID, TypeID, ObjectID) VALUES (" + place.index.ToString() + ", 1, " + censusPerson.personIndex.ToString() + ");";
+                OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
+                try
+                {
+                    // This will fail if the record already exists, which is likely.
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
 
             // Return success.
             return true;
@@ -1214,8 +1247,8 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Returns an array of census records that contain the specified person.</summary>
-		/// <param name="personIndex"></param>
-		/// <returns></returns>
+        /// <param name="personIndex"></param>
+        /// <returns></returns>
         public CensusPerson[] censusForPerson(int personIndex)
         {
             string sSql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
@@ -1228,8 +1261,8 @@ namespace FamilyTree.Objects
 
 
         /// <summary>Returns a human readable string representing the people that the specified person is living with according to the census record.</summary>
-		/// <param name="censusPerson">Specifies the person who should not be mentioned in the returned description.</param>
-		/// <returns>A human readable string representing the people that the specified person is living with according to the census record.</returns>
+        /// <param name="censusPerson">Specifies the person who should not be mentioned in the returned description.</param>
+        /// <returns>A human readable string representing the people that the specified person is living with according to the census record.</returns>
         public string censusLivingWith(CensusPerson censusPerson)
         {
             StringBuilder livingWith = new StringBuilder();
@@ -1255,6 +1288,8 @@ namespace FamilyTree.Objects
             // Return the built string.
             return livingWith.ToString();
         }
+
+
 
         #endregion
 
