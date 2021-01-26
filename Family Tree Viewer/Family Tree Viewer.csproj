@@ -185,6 +185,12 @@
     <Compile Include="Dialogs\edit_sources.designer.cs">
       <DependentUpon>edit_sources.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\gedcom_options.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\gedcom_options.designer.cs">
+      <DependentUpon>gedcom_options.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -237,12 +243,6 @@
     <Compile Include="TreeRule.cs" />
     <Compile Include="UserOptions.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="frmGedcomOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmGedcomOptions.Designer.cs">
-      <DependentUpon>frmGedcomOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="frmSelectLocation.cs">
       <SubType>Form</SubType>
@@ -306,12 +306,11 @@
     <EmbeddedResource Include="Dialogs\edit_sources.resx">
       <DependentUpon>edit_sources.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\gedcom_options.resx">
+      <DependentUpon>gedcom_options.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\main.resx">
       <DependentUpon>main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmGedcomOptions.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmGedcomOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectLocation.resx">
       <SubType>Designer</SubType>

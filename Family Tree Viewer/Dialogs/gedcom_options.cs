@@ -11,11 +11,11 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmGedcomOptions : Form
+    public partial class GedcomOptionsDialog : Form
     {
         private GedcomOptions options_;
 
-        public frmGedcomOptions(GedcomOptions options)
+        public GedcomOptionsDialog(GedcomOptions options)
         {
             InitializeComponent();
 
@@ -36,11 +36,11 @@ namespace FamilyTree.Viewer
         private void populateOptions()
         {
             options_.fileName = txtFilename_.Text;
-            options_.isIncludePGVU = m_chkPGVU.Checked;
-            options_.isRemoveADDRfromPLAC = m_chkRemoveAddresses.Checked;
-            options_.isUseADDR = m_chkUseADDR.Checked;
-            options_.isUseCTRY = m_chkUseCTRY.Checked;
-            options_.isUseLongitude = m_chkLongitude.Checked;
+            options_.isIncludePGVU = chkPgvu_.Checked;
+            options_.isRemoveADDRfromPLAC = chkRemoveAddresses_.Checked;
+            options_.isUseADDR = chkUseAddr_.Checked;
+            options_.isUseCTRY = chkUseCtry_.Checked;
+            options_.isUseLongitude = chkLongitude_.Checked;
         }
 
 
@@ -53,8 +53,6 @@ namespace FamilyTree.Viewer
 
 
         /// <summary>Message handler for the "Open" button click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void cmdOpen_Click(object sender, EventArgs e)
         {
             // Initialise the select save file dialog
@@ -84,31 +82,31 @@ namespace FamilyTree.Viewer
         {
             switch(cboScheme_.SelectedIndex)
             {
-            case 0:// Custom do nothing
+            case 0:// Custom do nothing.
                 break;
 
-            case 1:// Neutral
-                m_chkPGVU.Checked = false;
-                m_chkRemoveAddresses.Checked = false;
-                m_chkUseADDR.Checked = false;
-                m_chkUseCTRY.Checked = false;
-                m_chkLongitude.Checked = false;
+            case 1:// Neutral.
+                chkPgvu_.Checked = false;
+                chkRemoveAddresses_.Checked = false;
+                chkUseAddr_.Checked = false;
+                chkUseCtry_.Checked = false;
+                chkLongitude_.Checked = false;
                 break;
             
-            case 2:// Php GedView
-                m_chkPGVU.Checked = true;
-                m_chkRemoveAddresses.Checked = true;
-                m_chkUseADDR.Checked = true;
-                m_chkUseCTRY.Checked = true;
-                m_chkLongitude.Checked = false;
+            case 2:// Php GedView.
+                chkPgvu_.Checked = true;
+                chkRemoveAddresses_.Checked = true;
+                chkUseAddr_.Checked = true;
+                chkUseCtry_.Checked = true;
+                chkLongitude_.Checked = false;
                 break;
 
-            case 3:// Gramps
-                m_chkPGVU.Checked = false;
-                m_chkRemoveAddresses.Checked = false;
-                m_chkUseADDR.Checked = false;
-                m_chkUseCTRY.Checked = false;
-                m_chkLongitude.Checked = true;
+            case 3:// Gramps.
+                chkPgvu_.Checked = false;
+                chkRemoveAddresses_.Checked = false;
+                chkUseAddr_.Checked = false;
+                chkUseCtry_.Checked = false;
+                chkLongitude_.Checked = true;
                 break;
             }
         }

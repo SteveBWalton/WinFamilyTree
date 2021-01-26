@@ -1633,7 +1633,7 @@ namespace FamilyTree.Viewer
         /// <summary>Allows the user to select an output file to write gedcom into.  Currently this is a the gedcom of the whole database.</summary>
         private void exportGedcom()
         {
-            frmGedcomOptions gedcomOptionsDialog = new frmGedcomOptions(userOptions_.gedcomOptions);
+            GedcomOptionsDialog gedcomOptionsDialog = new GedcomOptionsDialog(userOptions_.gedcomOptions);
             if (gedcomOptionsDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // Save the user options.

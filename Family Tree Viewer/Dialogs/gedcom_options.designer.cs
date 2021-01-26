@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    partial class frmGedcomOptions
+    partial class GedcomOptionsDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -36,11 +36,11 @@ namespace FamilyTree.Viewer
             this.txtFilename_ = new System.Windows.Forms.TextBox();
             this.saveFileDialog_ = new System.Windows.Forms.SaveFileDialog();
             this.cboScheme_ = new System.Windows.Forms.ComboBox();
-            this.m_chkPGVU = new System.Windows.Forms.CheckBox();
-            this.m_chkRemoveAddresses = new System.Windows.Forms.CheckBox();
-            this.m_chkUseCTRY = new System.Windows.Forms.CheckBox();
-            this.m_chkLongitude = new System.Windows.Forms.CheckBox();
-            this.m_chkUseADDR = new System.Windows.Forms.CheckBox();
+            this.chkPgvu_ = new System.Windows.Forms.CheckBox();
+            this.chkRemoveAddresses_ = new System.Windows.Forms.CheckBox();
+            this.chkUseCtry_ = new System.Windows.Forms.CheckBox();
+            this.chkLongitude_ = new System.Windows.Forms.CheckBox();
+            this.chkUseAddr_ = new System.Windows.Forms.CheckBox();
             label1 = new System.Windows.Forms.Label();
             cmdOpen = new System.Windows.Forms.Button();
             cmdCancel = new System.Windows.Forms.Button();
@@ -133,64 +133,64 @@ namespace FamilyTree.Viewer
             // 
             // m_chkPGVU
             // 
-            this.m_chkPGVU.AutoSize = true;
-            this.m_chkPGVU.Location = new System.Drawing.Point(35, 158);
-            this.m_chkPGVU.Name = "m_chkPGVU";
-            this.m_chkPGVU.Size = new System.Drawing.Size(163, 17);
-            this.m_chkPGVU.TabIndex = 7;
-            this.m_chkPGVU.Text = "Include _PGVU (Last Edit By)";
-            this.m_chkPGVU.UseVisualStyleBackColor = true;
+            this.chkPgvu_.AutoSize = true;
+            this.chkPgvu_.Location = new System.Drawing.Point(35, 158);
+            this.chkPgvu_.Name = "m_chkPGVU";
+            this.chkPgvu_.Size = new System.Drawing.Size(163, 17);
+            this.chkPgvu_.TabIndex = 7;
+            this.chkPgvu_.Text = "Include _PGVU (Last Edit By)";
+            this.chkPgvu_.UseVisualStyleBackColor = true;
             // 
             // m_chkRemoveAddresses
             // 
-            this.m_chkRemoveAddresses.AutoSize = true;
-            this.m_chkRemoveAddresses.Location = new System.Drawing.Point(35, 181);
-            this.m_chkRemoveAddresses.Name = "m_chkRemoveAddresses";
-            this.m_chkRemoveAddresses.Size = new System.Drawing.Size(256, 17);
-            this.m_chkRemoveAddresses.TabIndex = 8;
-            this.m_chkRemoveAddresses.Text = "Split address from PLAC tags and add ADDR tag";
-            this.m_chkRemoveAddresses.UseVisualStyleBackColor = true;
+            this.chkRemoveAddresses_.AutoSize = true;
+            this.chkRemoveAddresses_.Location = new System.Drawing.Point(35, 181);
+            this.chkRemoveAddresses_.Name = "m_chkRemoveAddresses";
+            this.chkRemoveAddresses_.Size = new System.Drawing.Size(256, 17);
+            this.chkRemoveAddresses_.TabIndex = 8;
+            this.chkRemoveAddresses_.Text = "Split address from PLAC tags and add ADDR tag";
+            this.chkRemoveAddresses_.UseVisualStyleBackColor = true;
             // 
             // m_chkUseCTRY
             // 
-            this.m_chkUseCTRY.AutoSize = true;
-            this.m_chkUseCTRY.Location = new System.Drawing.Point(35, 227);
-            this.m_chkUseCTRY.Name = "m_chkUseCTRY";
-            this.m_chkUseCTRY.Size = new System.Drawing.Size(208, 17);
-            this.m_chkUseCTRY.TabIndex = 9;
-            this.m_chkUseCTRY.Text = "Add CTRY (Country) tag to PLAC tags";
-            this.m_chkUseCTRY.UseVisualStyleBackColor = true;
+            this.chkUseCtry_.AutoSize = true;
+            this.chkUseCtry_.Location = new System.Drawing.Point(35, 227);
+            this.chkUseCtry_.Name = "m_chkUseCTRY";
+            this.chkUseCtry_.Size = new System.Drawing.Size(208, 17);
+            this.chkUseCtry_.TabIndex = 9;
+            this.chkUseCtry_.Text = "Add CTRY (Country) tag to PLAC tags";
+            this.chkUseCtry_.UseVisualStyleBackColor = true;
             // 
             // m_chkLongitude
             // 
-            this.m_chkLongitude.AutoSize = true;
-            this.m_chkLongitude.Location = new System.Drawing.Point(35, 250);
-            this.m_chkLongitude.Name = "m_chkLongitude";
-            this.m_chkLongitude.Size = new System.Drawing.Size(174, 17);
-            this.m_chkLongitude.TabIndex = 10;
-            this.m_chkLongitude.Text = "Include Longitude and Latitude";
-            this.m_chkLongitude.UseVisualStyleBackColor = true;
+            this.chkLongitude_.AutoSize = true;
+            this.chkLongitude_.Location = new System.Drawing.Point(35, 250);
+            this.chkLongitude_.Name = "m_chkLongitude";
+            this.chkLongitude_.Size = new System.Drawing.Size(174, 17);
+            this.chkLongitude_.TabIndex = 10;
+            this.chkLongitude_.Text = "Include Longitude and Latitude";
+            this.chkLongitude_.UseVisualStyleBackColor = true;
             // 
             // m_chkUseADDR
             // 
-            this.m_chkUseADDR.AutoSize = true;
-            this.m_chkUseADDR.Location = new System.Drawing.Point(35, 204);
-            this.m_chkUseADDR.Name = "m_chkUseADDR";
-            this.m_chkUseADDR.Size = new System.Drawing.Size(209, 17);
-            this.m_chkUseADDR.TabIndex = 11;
-            this.m_chkUseADDR.Text = "Add ADDR (address) tag to PLAC tags";
-            this.m_chkUseADDR.UseVisualStyleBackColor = true;
+            this.chkUseAddr_.AutoSize = true;
+            this.chkUseAddr_.Location = new System.Drawing.Point(35, 204);
+            this.chkUseAddr_.Name = "m_chkUseADDR";
+            this.chkUseAddr_.Size = new System.Drawing.Size(209, 17);
+            this.chkUseAddr_.TabIndex = 11;
+            this.chkUseAddr_.Text = "Add ADDR (address) tag to PLAC tags";
+            this.chkUseAddr_.UseVisualStyleBackColor = true;
             // 
             // frmGedcomOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 372);
-            this.Controls.Add(this.m_chkUseADDR);
-            this.Controls.Add(this.m_chkLongitude);
-            this.Controls.Add(this.m_chkUseCTRY);
-            this.Controls.Add(this.m_chkRemoveAddresses);
-            this.Controls.Add(this.m_chkPGVU);
+            this.Controls.Add(this.chkUseAddr_);
+            this.Controls.Add(this.chkLongitude_);
+            this.Controls.Add(this.chkUseCtry_);
+            this.Controls.Add(this.chkRemoveAddresses_);
+            this.Controls.Add(this.chkPgvu_);
             this.Controls.Add(this.cboScheme_);
             this.Controls.Add(label2);
             this.Controls.Add(cmdCancel);
@@ -213,10 +213,10 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.TextBox txtFilename_;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_;
         private System.Windows.Forms.ComboBox cboScheme_;
-        private System.Windows.Forms.CheckBox m_chkPGVU;
-        private System.Windows.Forms.CheckBox m_chkRemoveAddresses;
-        private System.Windows.Forms.CheckBox m_chkUseCTRY;
-        private System.Windows.Forms.CheckBox m_chkLongitude;
-        private System.Windows.Forms.CheckBox m_chkUseADDR;
+        private System.Windows.Forms.CheckBox chkPgvu_;
+        private System.Windows.Forms.CheckBox chkRemoveAddresses_;
+        private System.Windows.Forms.CheckBox chkUseCtry_;
+        private System.Windows.Forms.CheckBox chkLongitude_;
+        private System.Windows.Forms.CheckBox chkUseAddr_;
     }
 }
