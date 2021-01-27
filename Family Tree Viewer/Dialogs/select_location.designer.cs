@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    partial class frmSelectLocation
+    partial class SelectLocationDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace FamilyTree.Viewer
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSelectLocation));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectLocationDialog));
             this.treeView_ = new System.Windows.Forms.TreeView();
             this.txtLocation_ = new System.Windows.Forms.TextBox();
             this.imageList_ = new System.Windows.Forms.ImageList(this.components);

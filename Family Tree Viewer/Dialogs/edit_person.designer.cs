@@ -456,7 +456,7 @@ namespace FamilyTree.Viewer
             AddRelationship.TabIndex = 2;
             AddRelationship.Text = "Add";
             AddRelationship.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            AddRelationship.Click += new System.EventHandler(this.AddRelationship_Click);
+            AddRelationship.Click += new System.EventHandler(this.addRelationship_Click);
             // 
             // m_dateRelationEnd
             // 

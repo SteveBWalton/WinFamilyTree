@@ -137,6 +137,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clipboard_metafile_helper.cs" />
     <Compile Include="Controls\date.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -197,6 +198,18 @@
     <Compile Include="Dialogs\main.Designer.cs">
       <DependentUpon>main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\select_location.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\select_location.designer.cs">
+      <DependentUpon>select_location.cs</DependentUpon>
+    </Compile>
+    <Compile Include="tree_connection.cs" />
+    <Compile Include="tree_document.cs" />
+    <Compile Include="tree_options.cs" />
+    <Compile Include="tree_person.cs" />
+    <Compile Include="tree_rule.cs" />
+    <Compile Include="user_options.cs" />
     <Compile Include="walton\datapaths.cs" />
     <Compile Include="walton\filelist.cs" />
     <Content Include="App.ico" />
@@ -226,30 +239,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClipboardMetafileHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Report.cs" />
-    <Compile Include="TreeConnection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TreeDocument.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TreeOptions.cs" />
-    <Compile Include="TreePerson.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TreeRule.cs" />
-    <Compile Include="UserOptions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="frmSelectLocation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSelectLocation.Designer.cs">
-      <DependentUpon>frmSelectLocation.cs</DependentUpon>
-    </Compile>
+    <Compile Include="report.cs" />
     <Compile Include="frmSelectPerson.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -312,9 +302,8 @@
     <EmbeddedResource Include="Dialogs\main.resx">
       <DependentUpon>main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSelectLocation.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmSelectLocation.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\select_location.resx">
+      <DependentUpon>select_location.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectPerson.resx">
       <DependentUpon>frmSelectPerson.cs</DependentUpon>

@@ -403,26 +403,31 @@ namespace FamilyTree.Viewer
                 cboAdditionalInfo_.SelectedIndex = activeSource_.additionalInfoTypeIndex;
                 cboRepository_.SelectedIndex = activeSource_.repository; // This is not really correct.
 
-                DataGridTableStyle tableStyle = new DataGridTableStyle();
+                DataGridTableStyle tableStyle = new DataGridTableStyle
+                {
+                    // Sets the MappingName to the class name plus brackets.
+                    MappingName = "References[]",
 
-                // Sets the MappingName to the class name plus brackets.
-                tableStyle.MappingName = "References[]";
-
-                // Sets the AlternatingBackColor so you can see the difference.
-                tableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+                    // Sets the AlternatingBackColor so you can see the difference.
+                    AlternatingBackColor = System.Drawing.Color.LightBlue
+                };
 
                 // Creates 2 column styles.
-                DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn();
-                columnPerson.MappingName = "personName";
-                columnPerson.HeaderText = "Person";
-                columnPerson.ReadOnly = true;
-                columnPerson.Width = 250;
+                DataGridTextBoxColumn columnPerson = new DataGridTextBoxColumn
+                {
+                    MappingName = "personName",
+                    HeaderText = "Person",
+                    ReadOnly = true,
+                    Width = 250
+                };
 
-                DataGridTextBoxColumn columnReferences = new DataGridTextBoxColumn();
-                columnReferences.MappingName = "references";
-                columnReferences.HeaderText = "References";
-                columnReferences.ReadOnly = true;
-                columnReferences.Width = 500;
+                DataGridTextBoxColumn columnReferences = new DataGridTextBoxColumn
+                {
+                    MappingName = "references",
+                    HeaderText = "References",
+                    ReadOnly = true,
+                    Width = 500
+                };
 
                 // Adds the column styles to the grid table style.
                 tableStyle.GridColumnStyles.Add(columnPerson);
@@ -513,8 +518,7 @@ namespace FamilyTree.Viewer
 
         private void cmdAddSource_Click(object sender, System.EventArgs e)
         {
-            Source newSource = new Source(database_);
-            newSource.description = "New Source";
+            Source newSource = new Source(database_) { description = "New Source" };
             int newIndex = lstSources_.Items.Add(newSource);
             lstSources_.SelectedIndex = newIndex;
         }
@@ -720,10 +724,10 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the "Census Address" button click.</summary>
         private void cmdCensusAddress_Click(object sender, EventArgs e)
         {
-            frmSelectLocation dialog = new frmSelectLocation(database_, txtCensusAddress_.Text);
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+            SelectLocationDialog selectLocationDialog = new SelectLocationDialog(database_, txtCensusAddress_.Text);
+            if (selectLocationDialog.ShowDialog(this) == DialogResult.OK)
             {
-                txtCensusAddress_.Text = dialog.locationName;
+                txtCensusAddress_.Text = selectLocationDialog.locationName;
             }
         }
 

@@ -10,7 +10,7 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmSelectLocation : Form
+    public partial class SelectLocationDialog : Form
     {
         /// <summary>The database that the control is attached to.</summary>
         private Database database_;
@@ -23,7 +23,7 @@ namespace FamilyTree.Viewer
         /// <summary>Class constructor.</summary>
         /// <param name="database">Specifies the database to fetch locations from.</param>
         /// <param name="initialValue">Specifies the initial value of the control.</param>
-        public frmSelectLocation(Database database, string initialValue)
+        public SelectLocationDialog(Database database, string initialValue)
         {
             InitializeComponent();
 
@@ -84,21 +84,21 @@ namespace FamilyTree.Viewer
         /// <returns>A location that represents the specified path.</returns>
         private string pathToLocation(string path)
         {
-            StringBuilder sbPath = new StringBuilder(path);
-            StringBuilder sbLocation = new StringBuilder();
+            StringBuilder remainingPath = new StringBuilder(path);
+            StringBuilder location = new StringBuilder();
 
-            int last = sbPath.ToString().LastIndexOf("\\");
+            int last = remainingPath.ToString().LastIndexOf("\\");
             while (last > 0)
             {
-                sbLocation.Append(sbPath.ToString().Substring(last + 1));
-                sbPath.Remove(last, sbPath.Length - last);
-                sbLocation.Append(", ");
+                location.Append(remainingPath.ToString().Substring(last + 1));
+                remainingPath.Remove(last, remainingPath.Length - last);
+                location.Append(", ");
 
-                last = sbPath.ToString().LastIndexOf("\\");
+                last = remainingPath.ToString().LastIndexOf("\\");
             }
-            sbLocation.Append(sbPath);
+            location.Append(remainingPath);
 
-            return sbLocation.ToString();
+            return location.ToString();
         }
 
 
@@ -108,21 +108,21 @@ namespace FamilyTree.Viewer
         /// <returns>A path that represents the specified location.</returns>
         private string locationToPath(string location)
         {
-            StringBuilder sbPath = new StringBuilder();
-            StringBuilder sbLocation = new StringBuilder(location);
+            StringBuilder path = new StringBuilder();
+            StringBuilder remainingLocation = new StringBuilder(location);
 
-            int last = sbLocation.ToString().LastIndexOf(",");
+            int last = remainingLocation.ToString().LastIndexOf(",");
             while (last > 0)
             {
-                sbPath.Append(sbLocation.ToString().Substring(last + 2));
-                sbLocation.Remove(last, sbLocation.Length - last);
-                sbPath.Append(treeView_.PathSeparator);
+                path.Append(remainingLocation.ToString().Substring(last + 2));
+                remainingLocation.Remove(last, remainingLocation.Length - last);
+                path.Append(treeView_.PathSeparator);
 
-                last = sbLocation.ToString().LastIndexOf(",");
+                last = remainingLocation.ToString().LastIndexOf(",");
             }
-            sbPath.Append(sbLocation);
+            path.Append(remainingLocation);
 
-            return sbPath.ToString();
+            return path.ToString();
         }
 
 

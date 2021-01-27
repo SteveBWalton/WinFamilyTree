@@ -148,31 +148,39 @@ namespace FamilyTree.Viewer
             // array, and one for the Parts ArrayList.
 
             // Create a DataGridTabkeStyle object for the facts.
-            DataGridTableStyle factsTableStyle = new DataGridTableStyle();
-            factsTableStyle.MappingName = "Fact[]";
+            DataGridTableStyle factsTableStyle = new DataGridTableStyle
+            {
+                MappingName = "Fact[]",
 
-            // Sets the AlternatingBackColor so you can see the difference.
-            factsTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+                // Sets the AlternatingBackColor so you can see the difference.
+                AlternatingBackColor = System.Drawing.Color.LightBlue
+            };
 
             // Creates a column for the rank.
-            DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn();
-            columnRank.MappingName = "rank";
-            columnRank.HeaderText = "Rank";
-            columnRank.ReadOnly = false;
-            columnRank.Width = 40;
+            DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn
+            {
+                MappingName = "rank",
+                HeaderText = "Rank",
+                ReadOnly = false,
+                Width = 40
+            };
 
             // Create a column for the type.
-            DataGridTextBoxColumn columnName = new DataGridTextBoxColumn();
-            columnName.MappingName = "typeName";
-            columnName.HeaderText = "Type";
-            columnName.ReadOnly = true;
-            columnName.Width = 120;
+            DataGridTextBoxColumn columnName = new DataGridTextBoxColumn()
+            {
+                MappingName = "typeName",
+                HeaderText = "Type",
+                ReadOnly = true,
+                Width = 120
+            };
 
             // Create a column for the information.
-            DataGridTextBoxColumn columnInfo = new DataGridTextBoxColumn();
-            columnInfo.MappingName = "information";
-            columnInfo.HeaderText = "Information";
-            columnInfo.Width = 350;
+            DataGridTextBoxColumn columnInfo = new DataGridTextBoxColumn
+            {
+                MappingName = "information",
+                HeaderText = "Information",
+                Width = 350
+            };
 
             /*
             DataGridTextBoxColumn columnUse = new DataGridTextBoxColumn();
@@ -249,26 +257,31 @@ namespace FamilyTree.Viewer
         private void createToDoGridStyle()
         {
             // Define a style to apply to the ToDo grid
-            DataGridTableStyle toDoTableStyle = new DataGridTableStyle();
+            DataGridTableStyle toDoTableStyle = new DataGridTableStyle
+            {
+                // Sets the MappingName to the class name plus brackets.
+                MappingName = "ToDo[]",
 
-            // Sets the MappingName to the class name plus brackets.
-            toDoTableStyle.MappingName = "ToDo[]";
-
-            // Sets the AlternatingBackColor so you can see the difference.
-            toDoTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+                // Sets the AlternatingBackColor so you can see the difference.
+                AlternatingBackColor = System.Drawing.Color.LightBlue
+            };
 
             // Create a column to hold the source.
-            DataGridTextBoxColumn columnPriority = new DataGridTextBoxColumn();
-            columnPriority.MappingName = "priority";
-            columnPriority.HeaderText = "Ranking";
-            columnPriority.ReadOnly = false;
-            columnPriority.Width = 50;
+            DataGridTextBoxColumn columnPriority = new DataGridTextBoxColumn
+            {
+                MappingName = "priority",
+                HeaderText = "Ranking",
+                ReadOnly = false,
+                Width = 50
+            };
 
-            DataGridTextBoxColumn columnDescription = new DataGridTextBoxColumn();
-            columnDescription.MappingName = "description";
-            columnDescription.HeaderText = "Description";
-            columnDescription.ReadOnly = false;
-            columnDescription.Width = 500;
+            DataGridTextBoxColumn columnDescription = new DataGridTextBoxColumn
+            {
+                MappingName = "description",
+                HeaderText = "Description",
+                ReadOnly = false,
+                Width = 500
+            };
 
             // Adds the column styles to the grid table style.
             toDoTableStyle.GridColumnStyles.Add(columnPriority);
@@ -288,26 +301,31 @@ namespace FamilyTree.Viewer
             // Creates two DataGridTableStyle objects, one for the Machine
             // array, and one for the Parts ArrayList.
 
-            DataGridTableStyle sourceTableStyle = new DataGridTableStyle();
+            DataGridTableStyle sourceTableStyle = new DataGridTableStyle
+            {
+                // Sets the MappingName to the class name plus brackets.
+                MappingName = "Source[]",
 
-            // Sets the MappingName to the class name plus brackets.
-            sourceTableStyle.MappingName = "Source[]";
-
-            // Sets the AlternatingBackColor so you can see the difference.
-            sourceTableStyle.AlternatingBackColor = System.Drawing.Color.LightBlue;
+                // Sets the AlternatingBackColor so you can see the difference.
+                AlternatingBackColor = System.Drawing.Color.LightBlue
+            };
 
             // Create a column to hold the source.
-            DataGridTextBoxColumn columnSource = new DataGridTextBoxColumn();
-            columnSource.MappingName = "label";
-            columnSource.HeaderText = "Source";
-            columnSource.ReadOnly = true;
-            columnSource.Width = 500;
+            DataGridTextBoxColumn columnSource = new DataGridTextBoxColumn
+            {
+                MappingName = "label",
+                HeaderText = "Source",
+                ReadOnly = true,
+                Width = 500
+            };
 
-            DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn();
-            columnRank.MappingName = "ranking";
-            columnRank.HeaderText = "Ranking";
-            columnRank.ReadOnly = false;
-            columnRank.Width = 50;
+            DataGridTextBoxColumn columnRank = new DataGridTextBoxColumn
+            {
+                MappingName = "ranking",
+                HeaderText = "Ranking",
+                ReadOnly = false,
+                Width = 50
+            };
 
             // Adds the column styles to the grid table style.
             sourceTableStyle.GridColumnStyles.Add(columnSource);
@@ -946,7 +964,7 @@ namespace FamilyTree.Viewer
         }
 
 
-        private void AddRelationship_Click(object sender, System.EventArgs e)
+        private void addRelationship_Click(object sender, System.EventArgs e)
         {
             // Check that a person is selected.
             if (cboAddPartner_.SelectedIndex == -1)
@@ -1090,13 +1108,8 @@ namespace FamilyTree.Viewer
 
         private void cmdAddToDo_Click(object sender, EventArgs e)
         {
-            ToDo toDo = new ToDo();
-            toDo.personIndex_ = person_.index;
-            toDo.priority = 50;
-            toDo.description = "New ToDo item.";
-
+            ToDo toDo = new ToDo { personIndex_ = person_.index, priority = 50, description = "New ToDo item." };
             person_.addToDo(toDo);
-
             gridToDo_.SetDataBinding(person_.getToDo(), "");
         }
 
@@ -1140,10 +1153,10 @@ namespace FamilyTree.Viewer
             // Find the fact.
             Fact fact = ((Fact[])gridFacts_.DataSource)[hitTestInfo_.Row];
 
-            frmSelectLocation dialog = new frmSelectLocation(person_.database, fact.information);
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+            SelectLocationDialog selectLocationDialog = new SelectLocationDialog(person_.database, fact.information);
+            if (selectLocationDialog.ShowDialog(this) == DialogResult.OK)
             {
-                fact.information = dialog.locationName;
+                fact.information = selectLocationDialog.locationName;
                 gridFacts_.Refresh();
             }
         }
@@ -1164,10 +1177,10 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the relationship location lookup button click.</summary>
         private void cmdRelationshipAddress_Click(object sender, EventArgs e)
         {
-            frmSelectLocation dialog = new frmSelectLocation(person_.database, txtRelationLocation_.Text);
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+            SelectLocationDialog selectLocationDialog = new SelectLocationDialog(person_.database, txtRelationLocation_.Text);
+            if (selectLocationDialog.ShowDialog(this) == DialogResult.OK)
             {
-                txtRelationLocation_.Text = dialog.locationName;
+                txtRelationLocation_.Text = selectLocationDialog.locationName;
             }
         }
 
