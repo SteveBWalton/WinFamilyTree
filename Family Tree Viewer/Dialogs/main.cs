@@ -1169,8 +1169,8 @@ namespace FamilyTree.Viewer
         private bool gotoPerson()
         {
             // Allow the user to select a person.
-            frmSelectPerson selectPersonDialog = new frmSelectPerson();
-            int personIndex = selectPersonDialog.SelectPerson(this, database_);
+            SelectPersonDialog selectPersonDialog = new SelectPersonDialog();
+            int personIndex = selectPersonDialog.selectPerson(this, database_);
 
             // If the user did select a person then show that person.
             if (personIndex >= 0)

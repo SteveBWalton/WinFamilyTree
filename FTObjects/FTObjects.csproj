@@ -105,24 +105,16 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BirthCertificate.cs">
+    <Compile Include="birth_certificate.cs" />
+    <Compile Include="census.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Census.cs">
+    <Compile Include="census_person.cs" />
+    <Compile Include="compound_date.cs" />
+    <Compile Include="database.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CensusPerson.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Database.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CompoundDate.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DeathCertificate.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="death_certificate.cs" />
     <Compile Include="Fact.cs">
       <SubType>Code</SubType>
     </Compile>
