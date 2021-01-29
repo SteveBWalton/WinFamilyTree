@@ -329,6 +329,8 @@ namespace FamilyTree.Objects
 
         #endregion
 
+
+
         /// <summary>Returns an array of source ID for this fact.</summary>
         /// <returns>Returns an array of source ID for this fact.</returns>
         public int[] get()
@@ -538,7 +540,7 @@ namespace FamilyTree.Objects
         /// <returns>True, if the source is allowed into Gedcom files.  False, otherwise.</returns>
         private bool isGedcomEnabled(int sourceIndex)
         {
-            string sql = "SELECT Gedcom FROM tbl_Sources WHERE ID=" + sourceIndex.ToString() + ";";
+            string sql = "SELECT Gedcom FROM tbl_Sources WHERE ID = " + sourceIndex.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             return bool.Parse(sqlCommand.ExecuteScalar().ToString());
         }

@@ -10,11 +10,8 @@ using FamilyTree.Objects;
 
 namespace FamilyTree.Viewer
 {
-    // Form to allow the user to edit the options for a specific tree.
-    /// <summary>
-    /// Form to allow the user to edit the options for a specific tree.
-    /// </summary>
-    public partial class frmTreeOptions : Form
+    /// <summary>Dialog to allow the user to edit the options for a specific tree.</summary>
+    public partial class TreeOptionsDialog : Form
     {
         #region Member Variables
 
@@ -29,7 +26,7 @@ namespace FamilyTree.Viewer
 
         /// <summary>Class constructor.  Copies the values for the specified user options to initialise the tree options.</summary>
         /// <param name="tree">Specifies the user options.</param>
-        public frmTreeOptions(TreeDocument tree)
+        public TreeOptionsDialog(TreeDocument tree)
         {
             InitializeComponent();
 
@@ -37,14 +34,16 @@ namespace FamilyTree.Viewer
             tree_ = tree;
 
             // Update the form with the current options.
-            this.labTreeMainFont_.Font = new System.Drawing.Font(tree_.options.mainFontName_, tree_.options.mainFontSize_);
-            this.labTreeMainFont_.Text = tree_.options.mainFontName_ + " " + tree_.options.mainFontSize_.ToString();
-            this.labTreeSubFont_.Font = new System.Drawing.Font(tree_.options.subFontName_, tree_.options.subFontSize_);
-            this.labTreeSubFont_.Text = tree_.options.subFontName_ + " " + tree_.options.subFontSize_.ToString();
-            this.chkTreePersonBox_.Checked = tree_.options.isTreePersonBox_;
+            labTreeMainFont_.Font = new System.Drawing.Font(tree_.options.mainFontName_, tree_.options.mainFontSize_);
+            labTreeMainFont_.Text = tree_.options.mainFontName_ + " " + tree_.options.mainFontSize_.ToString();
+            labTreeSubFont_.Font = new System.Drawing.Font(tree_.options.subFontName_, tree_.options.subFontSize_);
+            labTreeSubFont_.Text = tree_.options.subFontName_ + " " + tree_.options.subFontSize_.ToString();
+            chkTreePersonBox_.Checked = tree_.options.isTreePersonBox_;
 
             updateRulesDisplay();
         }
+
+
 
         #endregion
 
@@ -55,16 +54,16 @@ namespace FamilyTree.Viewer
         /// <summary>Update the display of the existing rules.  This is probably not working correctly since I removed the styles.</summary>
         private void updateRulesDisplay()
         {
-            // Build a html description of the tree rules
-            StringBuilder sbHtml = new StringBuilder();
-            sbHtml.Append("<html><head>");
+            // Build a html description of the tree rules.
+            StringBuilder html = new StringBuilder();
+            html.Append("<html><head>");
             // sbHtml.Append(m_oTree.Database.HtmlStyles());
-            sbHtml.Append("</head><body>");
-            sbHtml.Append(tree_.options.rulesToHtml(tree_.database));
-            sbHtml.Append("</body></html>");
+            html.Append("</head><body>");
+            html.Append(tree_.options.rulesToHtml(tree_.database));
+            html.Append("</body></html>");
 
-            // Display the html description
-            webRules_.DocumentText = sbHtml.ToString();
+            // Display the html description.
+            webRules_.DocumentText = html.ToString();
         }
 
 
@@ -74,6 +73,8 @@ namespace FamilyTree.Viewer
         #region Message Handlers
 
         #region Form Events
+
+
 
         /// <summary>Message handler for the form loading event.</summary>
         private void frmTreeOptions_Load(object sender, EventArgs e)
@@ -92,38 +93,44 @@ namespace FamilyTree.Viewer
             }
         }
 
+
+
         #endregion
+
+
 
         private void cmdTreeMainFont_Click(object sender, System.EventArgs e)
         {
-            this.fontDialog1.Font = this.labTreeMainFont_.Font;
-            this.fontDialog1.ShowDialog(this);
-            this.labTreeMainFont_.Font = fontDialog1.Font;
-            this.labTreeMainFont_.Text = this.fontDialog1.Font.Name + " " + this.fontDialog1.Font.Size.ToString();
+            fontDialog_.Font = labTreeMainFont_.Font;
+            fontDialog_.ShowDialog(this);
+            labTreeMainFont_.Font = fontDialog_.Font;
+            labTreeMainFont_.Text = fontDialog_.Font.Name + " " + fontDialog_.Font.Size.ToString();
         }
+
+
 
         private void cmdTreeSubFont_Click(object sender, System.EventArgs e)
         {
-            this.fontDialog1.Font = this.labTreeSubFont_.Font;
-            this.fontDialog1.ShowDialog(this);
-            this.labTreeSubFont_.Font = fontDialog1.Font;
-            this.labTreeSubFont_.Text = this.fontDialog1.Font.Name + " " + this.fontDialog1.Font.Size.ToString();
+            fontDialog_.Font = this.labTreeSubFont_.Font;
+            fontDialog_.ShowDialog(this);
+            labTreeSubFont_.Font = fontDialog_.Font;
+            labTreeSubFont_.Text = fontDialog_.Font.Name + " " + fontDialog_.Font.Size.ToString();
         }
+
+
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            tree_.options.mainFontName_ = this.labTreeMainFont_.Font.Name;
-            tree_.options.subFontName_ = this.labTreeSubFont_.Font.Name;
-            tree_.options.mainFontSize_ = this.labTreeMainFont_.Font.Size;
-            tree_.options.subFontSize_ = this.labTreeSubFont_.Font.Size;
-            tree_.options.isTreePersonBox_ = this.chkTreePersonBox_.Checked;
+            tree_.options.mainFontName_ = labTreeMainFont_.Font.Name;
+            tree_.options.subFontName_ = labTreeSubFont_.Font.Name;
+            tree_.options.mainFontSize_ = labTreeMainFont_.Font.Size;
+            tree_.options.subFontSize_ = labTreeSubFont_.Font.Size;
+            tree_.options.isTreePersonBox_ = chkTreePersonBox_.Checked;
         }
 
 
 
         /// <summary>Message handler for the action rule button click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void cmdAdd_Click(object sender, EventArgs e)
         {
             // Check that there is a selection.
@@ -138,7 +145,7 @@ namespace FamilyTree.Viewer
             TreeRule newRule = new TreeRule();
             newRule.action = action;
             newRule.personIndex = person.personIndex;
-            newRule.parameter = m_txtRuleParameter.Text;
+            newRule.parameter = txtRuleParameter_.Text;
             tree_.options.addRule(newRule);
 
             updateRulesDisplay();

@@ -115,45 +115,39 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="death_certificate.cs" />
-    <Compile Include="Fact.cs">
+    <Compile Include="fact.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FactType.cs">
+    <Compile Include="fact_type.cs" />
+    <Compile Include="families.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Families.cs">
+    <Compile Include="family.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Family.cs">
+    <Compile Include="gedcom_options.cs" />
+    <Compile Include="index_name.cs" />
+    <Compile Include="marriage_certificate.cs" />
+    <Compile Include="person.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GedcomOptions.cs" />
-    <Compile Include="IndexName.cs">
+    <Compile Include="place.cs" />
+    <Compile Include="places.cs" />
+    <Compile Include="references.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MarriageCertificate.cs">
+    <Compile Include="relationship.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Person.cs">
+    <Compile Include="source.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Place.cs" />
-    <Compile Include="Places.cs" />
-    <Compile Include="References.cs">
+    <Compile Include="sources.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Relationship.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Source.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SourceFreeTable.cs" />
-    <Compile Include="Sources.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Media.cs" />
-    <Compile Include="ToDo.cs" />
+    <Compile Include="media.cs" />
+    <Compile Include="source_free_table.cs" />
+    <Compile Include="to_do.cs" />
     <Compile Include="walton\database.cs" />
     <Compile Include="walton\xml.cs" />
   </ItemGroup>

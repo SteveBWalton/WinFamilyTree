@@ -1,6 +1,6 @@
 namespace FamilyTree.Viewer
 {
-    partial class frmTreeOptions
+    partial class TreeOptionsDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16x16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTreeOptions));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TreeOptionsDialog));
             this.panel1 = new System.Windows.Forms.Panel();
             this.m_cmdCancel = new System.Windows.Forms.Button();
             this.m_cmdOK = new System.Windows.Forms.Button();
@@ -43,11 +43,11 @@ namespace FamilyTree.Viewer
             this.labTreeMainFont_ = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.m_cmdAdd = new System.Windows.Forms.Button();
-            this.m_txtRuleParameter = new System.Windows.Forms.TextBox();
+            this.txtRuleParameter_ = new System.Windows.Forms.TextBox();
             this.cboRulePeople_ = new System.Windows.Forms.ComboBox();
             this.cboRules_ = new System.Windows.Forms.ComboBox();
             this.webRules_ = new System.Windows.Forms.WebBrowser();
-            this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.fontDialog_ = new System.Windows.Forms.FontDialog();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -188,7 +188,7 @@ namespace FamilyTree.Viewer
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.m_cmdAdd);
-            this.tabPage2.Controls.Add(this.m_txtRuleParameter);
+            this.tabPage2.Controls.Add(this.txtRuleParameter_);
             this.tabPage2.Controls.Add(this.cboRulePeople_);
             this.tabPage2.Controls.Add(this.cboRules_);
             this.tabPage2.Controls.Add(this.webRules_);
@@ -217,10 +217,10 @@ namespace FamilyTree.Viewer
             // 
             // m_txtRuleParameter
             // 
-            this.m_txtRuleParameter.Location = new System.Drawing.Point(502, 384);
-            this.m_txtRuleParameter.Name = "m_txtRuleParameter";
-            this.m_txtRuleParameter.Size = new System.Drawing.Size(100, 21);
-            this.m_txtRuleParameter.TabIndex = 3;
+            this.txtRuleParameter_.Location = new System.Drawing.Point(502, 384);
+            this.txtRuleParameter_.Name = "m_txtRuleParameter";
+            this.txtRuleParameter_.Size = new System.Drawing.Size(100, 21);
+            this.txtRuleParameter_.TabIndex = 3;
             // 
             // m_cboRulePeople
             // 
@@ -283,9 +283,9 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.Button cmdTreeMainFont;
         private System.Windows.Forms.Label labTreeSubFont_;
         private System.Windows.Forms.Label labTreeMainFont_;
-        private System.Windows.Forms.FontDialog fontDialog1;
+        private System.Windows.Forms.FontDialog fontDialog_;
         private System.Windows.Forms.WebBrowser webRules_;
-        private System.Windows.Forms.TextBox m_txtRuleParameter;
+        private System.Windows.Forms.TextBox txtRuleParameter_;
         private System.Windows.Forms.ComboBox cboRulePeople_;
         private System.Windows.Forms.ComboBox cboRules_;
         private System.Windows.Forms.Button m_cmdAdd;

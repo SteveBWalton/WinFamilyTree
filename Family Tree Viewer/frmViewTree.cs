@@ -323,7 +323,7 @@ namespace FamilyTree.Viewer
         private void menuOptions_Click(object sender, EventArgs e)
         {
             // Show the tree options dialog
-            frmTreeOptions oDialog = new frmTreeOptions(tree_);
+            TreeOptionsDialog oDialog = new TreeOptionsDialog(tree_);
             if (oDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // Enact the new options
