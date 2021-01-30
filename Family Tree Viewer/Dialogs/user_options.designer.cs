@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmUserOptions : System.Windows.Forms.Form
+    public partial class UserOptionsDialog : System.Windows.Forms.Form
     {
         /// <summary>
         /// Required designer variable.
@@ -23,7 +23,7 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16x16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUserOptions));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserOptionsDialog));
             System.Windows.Forms.TabControl tabControl;
             System.Windows.Forms.TabPage tabMain;
             System.Windows.Forms.TabPage tabTree;
@@ -33,13 +33,13 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             this.m_cmdChangeHtmlFont = new System.Windows.Forms.Button();
-            this.m_labHtmlStyleFont = new System.Windows.Forms.Label();
-            this.m_cboFont = new System.Windows.Forms.ComboBox();
-            this.m_WebBrowser = new System.Windows.Forms.WebBrowser();
-            this.m_chkTreePersonBox = new System.Windows.Forms.CheckBox();
-            this.m_labTreeSubFont = new System.Windows.Forms.Label();
-            this.m_labTreeMainFont = new System.Windows.Forms.Label();
-            this.m_FontDialog = new System.Windows.Forms.FontDialog();
+            this.labHtmlStyleFont_ = new System.Windows.Forms.Label();
+            this.cboFont_ = new System.Windows.Forms.ComboBox();
+            this.webBrowser_ = new System.Windows.Forms.WebBrowser();
+            this.chkTreePersonBox_ = new System.Windows.Forms.CheckBox();
+            this.labTreeSubFont_ = new System.Windows.Forms.Label();
+            this.labTreeMainFont_ = new System.Windows.Forms.Label();
+            this.fontDialog_ = new System.Windows.Forms.FontDialog();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             tabControl = new System.Windows.Forms.TabControl();
             tabMain = new System.Windows.Forms.TabPage();
@@ -79,9 +79,9 @@ namespace FamilyTree.Viewer
             // tabMain
             // 
             tabMain.Controls.Add(this.m_cmdChangeHtmlFont);
-            tabMain.Controls.Add(this.m_labHtmlStyleFont);
-            tabMain.Controls.Add(this.m_cboFont);
-            tabMain.Controls.Add(this.m_WebBrowser);
+            tabMain.Controls.Add(this.labHtmlStyleFont_);
+            tabMain.Controls.Add(this.cboFont_);
+            tabMain.Controls.Add(this.webBrowser_);
             tabMain.ImageIndex = 2;
             tabMain.Location = new System.Drawing.Point(4, 23);
             tabMain.Name = "tabMain";
@@ -100,44 +100,44 @@ namespace FamilyTree.Viewer
             this.m_cmdChangeHtmlFont.TabIndex = 3;
             this.m_cmdChangeHtmlFont.Text = "Change...";
             this.m_cmdChangeHtmlFont.UseVisualStyleBackColor = true;
-            this.m_cmdChangeHtmlFont.Click += new System.EventHandler(this.m_cmdChangeHtmlFont_Click);
+            this.m_cmdChangeHtmlFont.Click += new System.EventHandler(this.cmdChangeHtmlFont_Click);
             // 
             // m_labHtmlStyleFont
             // 
-            this.m_labHtmlStyleFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_labHtmlStyleFont.Location = new System.Drawing.Point(161, 218);
-            this.m_labHtmlStyleFont.Name = "m_labHtmlStyleFont";
-            this.m_labHtmlStyleFont.Size = new System.Drawing.Size(423, 60);
-            this.m_labHtmlStyleFont.TabIndex = 2;
-            this.m_labHtmlStyleFont.Text = "Main Font: Tahoma 11";
-            this.m_labHtmlStyleFont.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labHtmlStyleFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labHtmlStyleFont_.Location = new System.Drawing.Point(161, 218);
+            this.labHtmlStyleFont_.Name = "m_labHtmlStyleFont";
+            this.labHtmlStyleFont_.Size = new System.Drawing.Size(423, 60);
+            this.labHtmlStyleFont_.TabIndex = 2;
+            this.labHtmlStyleFont_.Text = "Main Font: Tahoma 11";
+            this.labHtmlStyleFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // m_cboFont
             // 
-            this.m_cboFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.m_cboFont.FormattingEnabled = true;
-            this.m_cboFont.Location = new System.Drawing.Point(8, 218);
-            this.m_cboFont.Name = "m_cboFont";
-            this.m_cboFont.Size = new System.Drawing.Size(147, 21);
-            this.m_cboFont.TabIndex = 1;
-            this.m_cboFont.SelectedIndexChanged += new System.EventHandler(this.cboFont_SelectedIndexChanged);
+            this.cboFont_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFont_.FormattingEnabled = true;
+            this.cboFont_.Location = new System.Drawing.Point(8, 218);
+            this.cboFont_.Name = "m_cboFont";
+            this.cboFont_.Size = new System.Drawing.Size(147, 21);
+            this.cboFont_.TabIndex = 1;
+            this.cboFont_.SelectedIndexChanged += new System.EventHandler(this.cboFont_SelectedIndexChanged);
             // 
             // m_WebBrowser
             // 
-            this.m_WebBrowser.Location = new System.Drawing.Point(8, 3);
-            this.m_WebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.m_WebBrowser.Name = "m_WebBrowser";
-            this.m_WebBrowser.Size = new System.Drawing.Size(576, 209);
-            this.m_WebBrowser.TabIndex = 0;
-            this.m_WebBrowser.TabStop = false;
+            this.webBrowser_.Location = new System.Drawing.Point(8, 3);
+            this.webBrowser_.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_.Name = "m_WebBrowser";
+            this.webBrowser_.Size = new System.Drawing.Size(576, 209);
+            this.webBrowser_.TabIndex = 0;
+            this.webBrowser_.TabStop = false;
             // 
             // tabTree
             // 
-            tabTree.Controls.Add(this.m_chkTreePersonBox);
+            tabTree.Controls.Add(this.chkTreePersonBox_);
             tabTree.Controls.Add(cmdTreeSubFont);
             tabTree.Controls.Add(cmdTreeMainFont);
-            tabTree.Controls.Add(this.m_labTreeSubFont);
-            tabTree.Controls.Add(this.m_labTreeMainFont);
+            tabTree.Controls.Add(this.labTreeSubFont_);
+            tabTree.Controls.Add(this.labTreeMainFont_);
             tabTree.ImageIndex = 3;
             tabTree.Location = new System.Drawing.Point(4, 23);
             tabTree.Name = "tabTree";
@@ -148,11 +148,11 @@ namespace FamilyTree.Viewer
             // 
             // m_chkTreePersonBox
             // 
-            this.m_chkTreePersonBox.Location = new System.Drawing.Point(8, 112);
-            this.m_chkTreePersonBox.Name = "m_chkTreePersonBox";
-            this.m_chkTreePersonBox.Size = new System.Drawing.Size(224, 24);
-            this.m_chkTreePersonBox.TabIndex = 4;
-            this.m_chkTreePersonBox.Text = "Box around people";
+            this.chkTreePersonBox_.Location = new System.Drawing.Point(8, 112);
+            this.chkTreePersonBox_.Name = "m_chkTreePersonBox";
+            this.chkTreePersonBox_.Size = new System.Drawing.Size(224, 24);
+            this.chkTreePersonBox_.TabIndex = 4;
+            this.chkTreePersonBox_.Text = "Box around people";
             // 
             // cmdTreeSubFont
             // 
@@ -180,23 +180,23 @@ namespace FamilyTree.Viewer
             // 
             // m_labTreeSubFont
             // 
-            this.m_labTreeSubFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_labTreeSubFont.Location = new System.Drawing.Point(96, 56);
-            this.m_labTreeSubFont.Name = "m_labTreeSubFont";
-            this.m_labTreeSubFont.Size = new System.Drawing.Size(336, 32);
-            this.m_labTreeSubFont.TabIndex = 1;
-            this.m_labTreeSubFont.Text = "Sub Font: Tahoma 8";
-            this.m_labTreeSubFont.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labTreeSubFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labTreeSubFont_.Location = new System.Drawing.Point(96, 56);
+            this.labTreeSubFont_.Name = "m_labTreeSubFont";
+            this.labTreeSubFont_.Size = new System.Drawing.Size(336, 32);
+            this.labTreeSubFont_.TabIndex = 1;
+            this.labTreeSubFont_.Text = "Sub Font: Tahoma 8";
+            this.labTreeSubFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // m_labTreeMainFont
             // 
-            this.m_labTreeMainFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_labTreeMainFont.Location = new System.Drawing.Point(96, 16);
-            this.m_labTreeMainFont.Name = "m_labTreeMainFont";
-            this.m_labTreeMainFont.Size = new System.Drawing.Size(336, 32);
-            this.m_labTreeMainFont.TabIndex = 0;
-            this.m_labTreeMainFont.Text = "Main Font: Tahoma 11";
-            this.m_labTreeMainFont.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labTreeMainFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labTreeMainFont_.Location = new System.Drawing.Point(96, 16);
+            this.labTreeMainFont_.Name = "m_labTreeMainFont";
+            this.labTreeMainFont_.Size = new System.Drawing.Size(336, 32);
+            this.labTreeMainFont_.TabIndex = 0;
+            this.labTreeMainFont_.Text = "Main Font: Tahoma 11";
+            this.labTreeMainFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // oBottomPanel
             // 
@@ -258,14 +258,14 @@ namespace FamilyTree.Viewer
         }
         #endregion
 
-        private System.Windows.Forms.FontDialog m_FontDialog;
-        private System.Windows.Forms.Label m_labTreeMainFont;
-        private System.Windows.Forms.Label m_labTreeSubFont;
-        private System.Windows.Forms.CheckBox m_chkTreePersonBox;
+        private System.Windows.Forms.FontDialog fontDialog_;
+        private System.Windows.Forms.Label labTreeMainFont_;
+        private System.Windows.Forms.Label labTreeSubFont_;
+        private System.Windows.Forms.CheckBox chkTreePersonBox_;
         private Button m_cmdChangeHtmlFont;
-        private Label m_labHtmlStyleFont;
-        private WebBrowser m_WebBrowser;
-        private ComboBox m_cboFont;
+        private Label labHtmlStyleFont_;
+        private WebBrowser webBrowser_;
+        private ComboBox cboFont_;
 
     }
 }

@@ -1351,7 +1351,7 @@ namespace FamilyTree.Viewer
         private bool showUserOptions()
         {
             // Create a dialog to edit the user options.
-            frmUserOptions userOptionsDialog = new frmUserOptions();
+            UserOptionsDialog userOptionsDialog = new UserOptionsDialog();
 
             // Show the dialog and wait for the dialog to close.
             if (userOptionsDialog.updateOptions(this, ref userOptions_))
