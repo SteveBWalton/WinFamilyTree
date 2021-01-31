@@ -213,6 +213,12 @@
     <Compile Include="Dialogs\tree_options.designer.cs">
       <DependentUpon>tree_options.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\tree_view.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\tree_view.designer.cs">
+      <DependentUpon>tree_view.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\user_options.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,12 +261,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="report.cs" />
-    <Compile Include="frmViewTree.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmViewTree.Designer.cs">
-      <DependentUpon>frmViewTree.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -311,12 +311,11 @@
     <EmbeddedResource Include="Dialogs\tree_options.resx">
       <DependentUpon>tree_options.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\tree_view.resx">
+      <DependentUpon>tree_view.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\user_options.resx">
       <DependentUpon>user_options.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmViewTree.resx">
-      <DependentUpon>frmViewTree.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

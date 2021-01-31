@@ -1375,7 +1375,7 @@ namespace FamilyTree.Viewer
             TreeDocument tree = new TreeDocument(database_, userOptions_, currentPage.index);
 
             // Create a tree preview window.
-            frmViewTree treeWindow = new frmViewTree(tree);
+            TreeViewDialog treeWindow = new TreeViewDialog(tree);
             treeWindow.Show(this);
 
             // Return success.
@@ -1422,7 +1422,7 @@ namespace FamilyTree.Viewer
             TreeDocument tree = new TreeDocument(database_, xmlTreeFile);
 
             // Create a tree preview window.
-            frmViewTree treeWindow = new frmViewTree(tree);
+            TreeViewDialog treeWindow = new TreeViewDialog(tree);
             treeWindow.Show();
 
             // Return success.
@@ -2261,7 +2261,7 @@ namespace FamilyTree.Viewer
 
 
 
-        /// <summary>Message handler for the File -> Open menu point click.  Open a family tree database.</summary>
+        /// <summary>Message handler for the File → Open menu point click.  Open a family tree database.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void menuOpen_Click(object sender, EventArgs e)

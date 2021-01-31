@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace FamilyTree.Viewer
 {
-    public partial class frmViewTree : System.Windows.Forms.Form
+    public partial class TreeViewDialog : System.Windows.Forms.Form
     {
         /// <summary>
         /// Required designer variable.
@@ -23,7 +23,7 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16x16;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmViewTree));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TreeViewDialog));
             System.Windows.Forms.MenuStrip oMainMenu;
             System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
@@ -48,12 +48,12 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.ToolStripMenuItem menuZoomOut;
             System.Windows.Forms.ToolStripMenuItem menuZoomReset;
             System.Windows.Forms.ToolStripButton tsbMagnifyReset;
-            this.m_tsLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.m_oPrintDocument = new System.Drawing.Printing.PrintDocument();
-            this.m_hScrollBar = new System.Windows.Forms.HScrollBar();
-            this.m_vScrollBar = new System.Windows.Forms.VScrollBar();
+            this.tsLabel_ = new System.Windows.Forms.ToolStripStatusLabel();
+            this.printDocument_ = new System.Drawing.Printing.PrintDocument();
+            this.horizontalScrollBar_ = new System.Windows.Forms.HScrollBar();
+            this.verticalScrollBar_ = new System.Windows.Forms.VScrollBar();
             this.saveFileDialog_ = new System.Windows.Forms.SaveFileDialog();
-            this.m_PictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox_ = new System.Windows.Forms.PictureBox();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             oMainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +82,7 @@ namespace FamilyTree.Viewer
             oMainMenu.SuspendLayout();
             oToolBar.SuspendLayout();
             oStatusBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_PictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_)).BeginInit();
             this.SuspendLayout();
             // 
             // oImageList16x16
@@ -177,7 +177,7 @@ namespace FamilyTree.Viewer
             // oStatusBar
             // 
             oStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.m_tsLabel});
+            this.tsLabel_});
             oStatusBar.Location = new System.Drawing.Point(0, 331);
             oStatusBar.Name = "oStatusBar";
             oStatusBar.Size = new System.Drawing.Size(535, 22);
@@ -186,48 +186,48 @@ namespace FamilyTree.Viewer
             // 
             // m_tsLabel
             // 
-            this.m_tsLabel.Name = "m_tsLabel";
-            this.m_tsLabel.Size = new System.Drawing.Size(520, 17);
-            this.m_tsLabel.Spring = true;
-            this.m_tsLabel.Text = "toolStripStatusLabel1";
-            this.m_tsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsLabel_.Name = "m_tsLabel";
+            this.tsLabel_.Size = new System.Drawing.Size(520, 17);
+            this.tsLabel_.Spring = true;
+            this.tsLabel_.Text = "toolStripStatusLabel1";
+            this.tsLabel_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // m_oPrintDocument
             // 
-            this.m_oPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
+            this.printDocument_.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument_PrintPage);
             // 
             // m_hScrollBar
             // 
-            this.m_hScrollBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.m_hScrollBar.Location = new System.Drawing.Point(0, 313);
-            this.m_hScrollBar.Name = "m_hScrollBar";
-            this.m_hScrollBar.Size = new System.Drawing.Size(535, 18);
-            this.m_hScrollBar.TabIndex = 3;
-            this.m_hScrollBar.ValueChanged += new System.EventHandler(this.hScrollBar_ValueChanged);
+            this.horizontalScrollBar_.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.horizontalScrollBar_.Location = new System.Drawing.Point(0, 313);
+            this.horizontalScrollBar_.Name = "m_hScrollBar";
+            this.horizontalScrollBar_.Size = new System.Drawing.Size(535, 18);
+            this.horizontalScrollBar_.TabIndex = 3;
+            this.horizontalScrollBar_.ValueChanged += new System.EventHandler(this.horizontalScrollBar_ValueChanged);
             // 
             // m_vScrollBar
             // 
-            this.m_vScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.m_vScrollBar.Location = new System.Drawing.Point(517, 49);
-            this.m_vScrollBar.Name = "m_vScrollBar";
-            this.m_vScrollBar.Size = new System.Drawing.Size(18, 264);
-            this.m_vScrollBar.TabIndex = 4;
-            this.m_vScrollBar.ValueChanged += new System.EventHandler(this.vScrollBar_ValueChanged);
+            this.verticalScrollBar_.Dock = System.Windows.Forms.DockStyle.Right;
+            this.verticalScrollBar_.Location = new System.Drawing.Point(517, 49);
+            this.verticalScrollBar_.Name = "m_vScrollBar";
+            this.verticalScrollBar_.Size = new System.Drawing.Size(18, 264);
+            this.verticalScrollBar_.TabIndex = 4;
+            this.verticalScrollBar_.ValueChanged += new System.EventHandler(this.verticalScrollBar_ValueChanged);
             // 
             // m_PictureBox
             // 
-            this.m_PictureBox.BackColor = System.Drawing.Color.White;
-            this.m_PictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_PictureBox.Location = new System.Drawing.Point(0, 49);
-            this.m_PictureBox.Name = "m_PictureBox";
-            this.m_PictureBox.Size = new System.Drawing.Size(517, 264);
-            this.m_PictureBox.TabIndex = 0;
-            this.m_PictureBox.TabStop = false;
-            this.m_PictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseMove);
-            this.m_PictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseDown);
-            this.m_PictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox_Paint);
-            this.m_PictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseUp);
+            this.pictureBox_.BackColor = System.Drawing.Color.White;
+            this.pictureBox_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox_.Location = new System.Drawing.Point(0, 49);
+            this.pictureBox_.Name = "m_PictureBox";
+            this.pictureBox_.Size = new System.Drawing.Size(517, 264);
+            this.pictureBox_.TabIndex = 0;
+            this.pictureBox_.TabStop = false;
+            this.pictureBox_.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pictureBox_.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBox_.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
+            this.pictureBox_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // tsbSave
             // 
@@ -355,9 +355,9 @@ namespace FamilyTree.Viewer
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(535, 353);
-            this.Controls.Add(this.m_PictureBox);
-            this.Controls.Add(this.m_vScrollBar);
-            this.Controls.Add(this.m_hScrollBar);
+            this.Controls.Add(this.pictureBox_);
+            this.Controls.Add(this.verticalScrollBar_);
+            this.Controls.Add(this.horizontalScrollBar_);
             this.Controls.Add(oToolBar);
             this.Controls.Add(oMainMenu);
             this.Controls.Add(oStatusBar);
@@ -377,19 +377,19 @@ namespace FamilyTree.Viewer
             oToolBar.PerformLayout();
             oStatusBar.ResumeLayout(false);
             oStatusBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_PictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         #endregion
 
-        private System.Windows.Forms.PictureBox m_PictureBox;
-        private System.Windows.Forms.HScrollBar m_hScrollBar;
-        private System.Windows.Forms.VScrollBar m_vScrollBar;
+        private System.Windows.Forms.PictureBox pictureBox_;
+        private System.Windows.Forms.HScrollBar horizontalScrollBar_;
+        private System.Windows.Forms.VScrollBar verticalScrollBar_;
         private SaveFileDialog saveFileDialog_;
-        private ToolStripStatusLabel m_tsLabel;
-        private System.Drawing.Printing.PrintDocument m_oPrintDocument;
+        private ToolStripStatusLabel tsLabel_;
+        private System.Drawing.Printing.PrintDocument printDocument_;
 
 
     }
