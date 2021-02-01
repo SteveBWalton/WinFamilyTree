@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class TreeViewDialog : System.Windows.Forms.Form
     {
@@ -231,7 +231,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbSave
             // 
-            tsbSave.Image = global::FamilyTree.Viewer.Properties.Resources.Save;
+            tsbSave.Image = global::family_tree.viewer.Properties.Resources.Save;
             tsbSave.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbSave.Name = "tsbSave";
             tsbSave.Size = new System.Drawing.Size(51, 22);
@@ -240,7 +240,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbCopy
             // 
-            tsbCopy.Image = global::FamilyTree.Viewer.Properties.Resources.Copy;
+            tsbCopy.Image = global::family_tree.viewer.Properties.Resources.Copy;
             tsbCopy.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbCopy.Name = "tsbCopy";
             tsbCopy.Size = new System.Drawing.Size(52, 22);
@@ -249,7 +249,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbPrintPreview
             // 
-            tsbPrintPreview.Image = global::FamilyTree.Viewer.Properties.Resources.Preview;
+            tsbPrintPreview.Image = global::family_tree.viewer.Properties.Resources.Preview;
             tsbPrintPreview.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbPrintPreview.Name = "tsbPrintPreview";
             tsbPrintPreview.Size = new System.Drawing.Size(65, 22);
@@ -258,7 +258,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbMagnifyPlus
             // 
-            tsbMagnifyPlus.Image = global::FamilyTree.Viewer.Properties.Resources.MagnifyPlus;
+            tsbMagnifyPlus.Image = global::family_tree.viewer.Properties.Resources.MagnifyPlus;
             tsbMagnifyPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
             tsbMagnifyPlus.Name = "tsbMagnifyPlus";
             tsbMagnifyPlus.Size = new System.Drawing.Size(58, 22);
@@ -267,7 +267,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbMagnifyMinus
             // 
-            tsbMagnifyMinus.Image = global::FamilyTree.Viewer.Properties.Resources.MagnifyMinus;
+            tsbMagnifyMinus.Image = global::family_tree.viewer.Properties.Resources.MagnifyMinus;
             tsbMagnifyMinus.ImageTransparentColor = System.Drawing.Color.Magenta;
             tsbMagnifyMinus.Name = "tsbMagnifyMinus";
             tsbMagnifyMinus.Size = new System.Drawing.Size(61, 22);
@@ -276,7 +276,7 @@ namespace FamilyTree.Viewer
             // 
             // saveToolStripMenuItem
             // 
-            saveToolStripMenuItem.Image = global::FamilyTree.Viewer.Properties.Resources.Save;
+            saveToolStripMenuItem.Image = global::family_tree.viewer.Properties.Resources.Save;
             saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
@@ -285,7 +285,7 @@ namespace FamilyTree.Viewer
             // 
             // printPreviewToolStripMenuItem
             // 
-            printPreviewToolStripMenuItem.Image = global::FamilyTree.Viewer.Properties.Resources.Preview;
+            printPreviewToolStripMenuItem.Image = global::family_tree.viewer.Properties.Resources.Preview;
             printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
             printPreviewToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
@@ -294,7 +294,7 @@ namespace FamilyTree.Viewer
             // 
             // printToolStripMenuItem
             // 
-            printToolStripMenuItem.Image = global::FamilyTree.Viewer.Properties.Resources.Print;
+            printToolStripMenuItem.Image = global::family_tree.viewer.Properties.Resources.Print;
             printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
             printToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
@@ -302,7 +302,7 @@ namespace FamilyTree.Viewer
             // 
             // closeToolStripMenuItem
             // 
-            closeToolStripMenuItem.Image = global::FamilyTree.Viewer.Properties.Resources.Exit;
+            closeToolStripMenuItem.Image = global::family_tree.viewer.Properties.Resources.Exit;
             closeToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             closeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
@@ -311,7 +311,7 @@ namespace FamilyTree.Viewer
             // 
             // menuCopy
             // 
-            menuCopy.Image = global::FamilyTree.Viewer.Properties.Resources.Copy;
+            menuCopy.Image = global::family_tree.viewer.Properties.Resources.Copy;
             menuCopy.ImageTransparentColor = System.Drawing.Color.Silver;
             menuCopy.Name = "menuCopy";
             menuCopy.Size = new System.Drawing.Size(134, 22);
@@ -320,7 +320,7 @@ namespace FamilyTree.Viewer
             // 
             // menuZoomIn
             // 
-            menuZoomIn.Image = global::FamilyTree.Viewer.Properties.Resources.MagnifyPlus;
+            menuZoomIn.Image = global::family_tree.viewer.Properties.Resources.MagnifyPlus;
             menuZoomIn.Name = "menuZoomIn";
             menuZoomIn.Size = new System.Drawing.Size(152, 22);
             menuZoomIn.Text = "Zoom In";
@@ -328,7 +328,7 @@ namespace FamilyTree.Viewer
             // 
             // menuZoomOut
             // 
-            menuZoomOut.Image = global::FamilyTree.Viewer.Properties.Resources.MagnifyMinus;
+            menuZoomOut.Image = global::family_tree.viewer.Properties.Resources.MagnifyMinus;
             menuZoomOut.Name = "menuZoomOut";
             menuZoomOut.Size = new System.Drawing.Size(152, 22);
             menuZoomOut.Text = "Zoom Out";
@@ -336,7 +336,7 @@ namespace FamilyTree.Viewer
             // 
             // menuZoomReset
             // 
-            menuZoomReset.Image = global::FamilyTree.Viewer.Properties.Resources.OneHundredPercent;
+            menuZoomReset.Image = global::family_tree.viewer.Properties.Resources.OneHundredPercent;
             menuZoomReset.Name = "menuZoomReset";
             menuZoomReset.Size = new System.Drawing.Size(152, 22);
             menuZoomReset.Text = "Zoom Reset";
@@ -344,7 +344,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbMagnifyReset
             // 
-            tsbMagnifyReset.Image = global::FamilyTree.Viewer.Properties.Resources.OneHundredPercent;
+            tsbMagnifyReset.Image = global::family_tree.viewer.Properties.Resources.OneHundredPercent;
             tsbMagnifyReset.ImageTransparentColor = System.Drawing.Color.Magenta;
             tsbMagnifyReset.Name = "tsbMagnifyReset";
             tsbMagnifyReset.Size = new System.Drawing.Size(55, 22);

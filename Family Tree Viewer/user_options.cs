@@ -2,9 +2,9 @@ using System;
 using System.Text;
 
 // clsGedcomOptions
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Class to represent the user options.</summary>
 	public class UserOptions

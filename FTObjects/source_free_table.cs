@@ -10,7 +10,7 @@ using System.Data;
 using System.Data.OleDb;
 
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent the optional free table additional information for a source.</summary>
     public class SourceFreeTable

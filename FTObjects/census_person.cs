@@ -1,6 +1,6 @@
 using System;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a member of a census household.  This is usually a one to one relationship with a clsPerson object.  However, some people can be a member of a census without being in the database eg Boarders, Servants.</summary>
     public class CensusPerson

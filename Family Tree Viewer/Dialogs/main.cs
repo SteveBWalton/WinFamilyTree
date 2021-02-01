@@ -1,5 +1,5 @@
 ﻿// Family tree objects
-using FamilyTree.Objects;
+using family_tree.objects;
 using System;
 using System.Collections;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     #region Delegate Functions
 
@@ -109,16 +109,16 @@ namespace FamilyTree.Viewer
         private UserOptions userOptions_;
 
         /// <summary>Array of person graphical controls to display siblings of the main person.</summary>
-        private FamilyTree.Viewer.PersonDisplay[] psnSiblings_;
+        private family_tree.viewer.PersonDisplay[] psnSiblings_;
 
         /// <summary>Array of person graphical controls to display children of the main person.</summary>
-        private FamilyTree.Viewer.PersonDisplay[] psnChildren_;
+        private family_tree.viewer.PersonDisplay[] psnChildren_;
 
         /// <summary>Array of person graphical controls to display partners of the main person.</summary>
-        private FamilyTree.Viewer.PersonDisplay[] psnPartners_;
+        private family_tree.viewer.PersonDisplay[] psnPartners_;
 
         /// <summary>Array of relationship graphical controls to display connections to partners of the main person.</summary>
-        private FamilyTree.Viewer.RelationshipDisplay[] partnersConntections_;
+        private family_tree.viewer.RelationshipDisplay[] partnersConntections_;
 
         /// <summary>Background colour for a boy.</summary>
         private System.Drawing.Color backgroundBoy_;
@@ -492,7 +492,7 @@ namespace FamilyTree.Viewer
                         Person relationPerson = database_.getPerson(marriages[i].partnerIndex);
 
                         // Create a person control to show the partner
-                        psnPartners_[i] = new FamilyTree.Viewer.PersonDisplay();
+                        psnPartners_[i] = new family_tree.viewer.PersonDisplay();
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                         psnPartners_[i].setPerson(relationPerson);
@@ -504,7 +504,7 @@ namespace FamilyTree.Viewer
                         pos += personSize_.x;
 
                         // Create a relationship control to show the relationship to the partner
-                        partnersConntections_[i] = new FamilyTree.Viewer.RelationshipDisplay();
+                        partnersConntections_[i] = new family_tree.viewer.RelationshipDisplay();
                         partnersConntections_[i].Location = new System.Drawing.Point(pos, labPerson_.Top + 8);
                         partnersConntections_[i].Size = new System.Drawing.Size(marriedWidth_, 16);
                         partnersConntections_[i].setRelationship(marriages[i]);
@@ -533,7 +533,7 @@ namespace FamilyTree.Viewer
                         Person relationPerson = database_.getPerson(marriages[i].partnerIndex);
 
                         // Create a relationship control to show the relationship to the partner.
-                        partnersConntections_[i] = new FamilyTree.Viewer.RelationshipDisplay();
+                        partnersConntections_[i] = new family_tree.viewer.RelationshipDisplay();
                         partnersConntections_[i].Location = new System.Drawing.Point(pos, labPerson_.Top + 8);
                         partnersConntections_[i].Size = new System.Drawing.Size(marriedWidth_, 16);
                         partnersConntections_[i].setRelationship(marriages[i]);
@@ -541,7 +541,7 @@ namespace FamilyTree.Viewer
                         pos += marriedWidth_;
 
                         // Create a person control to show the partner.
-                        psnPartners_[i] = new FamilyTree.Viewer.PersonDisplay();
+                        psnPartners_[i] = new family_tree.viewer.PersonDisplay();
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                         psnPartners_[i].setPerson(relationPerson);
@@ -818,8 +818,8 @@ namespace FamilyTree.Viewer
             Relationship[] marriages = person.getRelationships();
             if (marriages.Length > 0)
             {
-                psnPartners_ = new FamilyTree.Viewer.PersonDisplay[marriages.Length];
-                partnersConntections_ = new FamilyTree.Viewer.RelationshipDisplay[marriages.Length];
+                psnPartners_ = new family_tree.viewer.PersonDisplay[marriages.Length];
+                partnersConntections_ = new family_tree.viewer.RelationshipDisplay[marriages.Length];
             }
 
             // Show the siblings.
@@ -828,7 +828,7 @@ namespace FamilyTree.Viewer
             bool isShownPerson = false;
             if (siblings.Length > 0)
             {
-                psnSiblings_ = new FamilyTree.Viewer.PersonDisplay[siblings.Length];
+                psnSiblings_ = new family_tree.viewer.PersonDisplay[siblings.Length];
 
                 for (int i = 0; i < siblings.Length; i++)
                 {
@@ -842,7 +842,7 @@ namespace FamilyTree.Viewer
                     }
 
                     // Show the sibling.
-                    psnSiblings_[i] = new FamilyTree.Viewer.PersonDisplay();
+                    psnSiblings_[i] = new family_tree.viewer.PersonDisplay();
                     if (relation.isMale)
                     {
                         psnSiblings_[i].BackColor = backgroundBoy_;
@@ -925,13 +925,13 @@ namespace FamilyTree.Viewer
 
             if (children.Length > 0)
             {
-                psnChildren_ = new FamilyTree.Viewer.PersonDisplay[children.Length];
+                psnChildren_ = new family_tree.viewer.PersonDisplay[children.Length];
 
                 for (int i = 0; i < children.Length; i++)
                 {
                     Person relation = database_.getPerson(children[i]);
 
-                    psnChildren_[i] = new FamilyTree.Viewer.PersonDisplay();
+                    psnChildren_[i] = new family_tree.viewer.PersonDisplay();
                     if (relation.isMale)
                     {
                         psnChildren_[i].BackColor = backgroundBoy_;
@@ -2663,7 +2663,7 @@ namespace FamilyTree.Viewer
         /// <summary>Message handler for the click on a ucPerson object event.  Responds the user clicking on a person object by displaying the person shown in the person object.  This is a bit like a message handler, but for my own event with my own signiture.</summary>
 		private void ucPerson_evtClick(object oSender)
         {
-            FamilyTree.Viewer.PersonDisplay psnPerson = (FamilyTree.Viewer.PersonDisplay)oSender;
+            family_tree.viewer.PersonDisplay psnPerson = (family_tree.viewer.PersonDisplay)oSender;
             showPerson(psnPerson.getPersonIndex(), true);
         }
 

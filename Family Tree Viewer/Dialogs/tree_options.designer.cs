@@ -1,4 +1,4 @@
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     partial class TreeOptionsDialog
     {
@@ -79,7 +79,7 @@ namespace FamilyTree.Viewer
             // m_cmdCancel
             // 
             this.m_cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.m_cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            this.m_cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             this.m_cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_cmdCancel.Location = new System.Drawing.Point(436, 3);
             this.m_cmdCancel.Name = "m_cmdCancel";
@@ -92,7 +92,7 @@ namespace FamilyTree.Viewer
             // m_cmdOK
             // 
             this.m_cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.m_cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.m_cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.m_cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_cmdOK.Location = new System.Drawing.Point(529, 3);
             this.m_cmdOK.Name = "m_cmdOK";

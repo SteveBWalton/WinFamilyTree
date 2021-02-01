@@ -5,7 +5,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Form to display TreeDocument objects.</summary>
     public partial class TreeViewDialog : System.Windows.Forms.Form
@@ -43,7 +43,7 @@ namespace FamilyTree.Viewer
             centre_.Y = 0;
 
             // Initialise the form.
-            FamilyTree.Objects.Person person = new FamilyTree.Objects.Person(tree.basePersonIndex, tree.database);
+            family_tree.objects.Person person = new family_tree.objects.Person(tree.basePersonIndex, tree.database);
             Text = person.getName(true, true) + " - Tree";
 
             // Initialise the print document.

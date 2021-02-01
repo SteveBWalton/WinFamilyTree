@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent the options for a gedcom file.</summary>
     public class GedcomOptions

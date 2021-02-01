@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     #region Supporting Types etc
 

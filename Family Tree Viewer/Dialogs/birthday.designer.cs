@@ -1,4 +1,4 @@
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     partial class BirthdayDialog
     {
@@ -127,7 +127,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdCopy
             // 
-            cmdCopy.Image = global::FamilyTree.Viewer.Properties.Resources.Copy;
+            cmdCopy.Image = global::family_tree.viewer.Properties.Resources.Copy;
             cmdCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCopy.Location = new System.Drawing.Point(169, 231);
             cmdCopy.Name = "cmdCopy";
@@ -182,7 +182,7 @@ namespace FamilyTree.Viewer
             // cmdOK
             // 
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdOK.Location = new System.Drawing.Point(275, 231);
             this.cmdOK.Name = "cmdOK";
@@ -193,7 +193,7 @@ namespace FamilyTree.Viewer
             // 
             // m_picTick1
             // 
-            this.picTick1_.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
+            this.picTick1_.Image = global::family_tree.viewer.Properties.Resources.Tick;
             this.picTick1_.Location = new System.Drawing.Point(42, 34);
             this.picTick1_.Name = "m_picTick1";
             this.picTick1_.Size = new System.Drawing.Size(16, 16);
@@ -203,7 +203,7 @@ namespace FamilyTree.Viewer
             // 
             // m_picTick2
             // 
-            this.picTick2_.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
+            this.picTick2_.Image = global::family_tree.viewer.Properties.Resources.Tick;
             this.picTick2_.Location = new System.Drawing.Point(42, 73);
             this.picTick2_.Name = "m_picTick2";
             this.picTick2_.Size = new System.Drawing.Size(16, 16);
@@ -213,7 +213,7 @@ namespace FamilyTree.Viewer
             // 
             // m_picTick3
             // 
-            this.picTick3_.Image = global::FamilyTree.Viewer.Properties.Resources.Tick;
+            this.picTick3_.Image = global::family_tree.viewer.Properties.Resources.Tick;
             this.picTick3_.Location = new System.Drawing.Point(42, 112);
             this.picTick3_.Name = "m_picTick3";
             this.picTick3_.Size = new System.Drawing.Size(16, 16);

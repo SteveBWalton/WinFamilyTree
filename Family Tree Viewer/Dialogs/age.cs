@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Class to represent a dialog to quickly calculate the age of the specified person on a specified date.</summary>
     public partial class AgeDialog : System.Windows.Forms.Form
@@ -35,7 +35,7 @@ namespace FamilyTree.Viewer
             database_ = database;
 
             // Load a list of all people into the combo box.
-            IndexName[] people = database.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE, 0, 3000);
+            IndexName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 3000);
             for (int i = 0; i < people.Length; i++)
             {
                 cboPerson_.Items.Add(people[i]);

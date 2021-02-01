@@ -7,9 +7,9 @@ using System.Text;
 using System.Windows.Forms;
 
 // clsGedcomOptions
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class GedcomOptionsDialog : Form
     {

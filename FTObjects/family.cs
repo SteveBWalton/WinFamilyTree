@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a GEDCOM family.  These are like clsRelationship objects but more frequent.</summary>
     public class Family

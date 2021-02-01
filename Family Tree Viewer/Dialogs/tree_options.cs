@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Dialog to allow the user to edit the options for a specific tree.</summary>
     public partial class TreeOptionsDialog : Form

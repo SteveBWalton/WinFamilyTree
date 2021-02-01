@@ -13,7 +13,7 @@ using System.Data.OleDb;
 // File
 using System.IO;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a person in a family tree database.</summary>
 	public class Person

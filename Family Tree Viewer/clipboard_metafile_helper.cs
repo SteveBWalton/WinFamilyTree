@@ -3,7 +3,7 @@ using System.Drawing;							// Graphics
 using System.Drawing.Imaging;					// Metafiles
 using System.Runtime.InteropServices;			// [DllImport()]
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>
     /// Class to convert a .NET metafile into Win32 metafile that Word, Excel etc can use

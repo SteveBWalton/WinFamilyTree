@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>
     /// Class to represent a collection of sources for pieces of information.

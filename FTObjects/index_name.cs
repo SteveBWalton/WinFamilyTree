@@ -1,6 +1,6 @@
 using System;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent generic index, Name pairs from a database.  This is most often to used create a list of lookups.</summary>
     public class IndexName

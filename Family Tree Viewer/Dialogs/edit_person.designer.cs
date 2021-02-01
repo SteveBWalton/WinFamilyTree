@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class EditPersonDialog : System.Windows.Forms.Form
     {
@@ -25,8 +25,8 @@ namespace FamilyTree.Viewer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage tabBasic;
-            FamilyTree.Objects.CompoundDate compoundDate1 = new FamilyTree.Objects.CompoundDate();
-            FamilyTree.Objects.CompoundDate compoundDate2 = new FamilyTree.Objects.CompoundDate();
+            family_tree.objects.CompoundDate compoundDate1 = new family_tree.objects.CompoundDate();
+            family_tree.objects.CompoundDate compoundDate2 = new family_tree.objects.CompoundDate();
             System.Windows.Forms.Label label7;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
@@ -40,8 +40,8 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Label label8;
             System.Windows.Forms.Button cmdDeleteRelationship;
             System.Windows.Forms.Button AddRelationship;
-            FamilyTree.Objects.CompoundDate compoundDate3 = new FamilyTree.Objects.CompoundDate();
-            FamilyTree.Objects.CompoundDate compoundDate4 = new FamilyTree.Objects.CompoundDate();
+            family_tree.objects.CompoundDate compoundDate3 = new family_tree.objects.CompoundDate();
+            family_tree.objects.CompoundDate compoundDate4 = new family_tree.objects.CompoundDate();
             System.Windows.Forms.ImageList oImageList16x16;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditPersonDialog));
             System.Windows.Forms.TabPage tabFacts;
@@ -61,8 +61,8 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
             System.Windows.Forms.Button cmdRelationshipAddress;
-            this.dateDoB_ = new FamilyTree.Viewer.CompoundDateEditBox();
-            this.dateDoD_ = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.dateDoB_ = new family_tree.viewer.CompoundDateEditBox();
+            this.dateDoD_ = new family_tree.viewer.CompoundDateEditBox();
             this.txtComments_ = new System.Windows.Forms.TextBox();
             this.chkChildrenKnown_ = new System.Windows.Forms.CheckBox();
             this.cboSex_ = new System.Windows.Forms.ComboBox();
@@ -75,8 +75,8 @@ namespace FamilyTree.Viewer
             this.txtRelationComments_ = new System.Windows.Forms.TextBox();
             this.txtRelationLocation_ = new System.Windows.Forms.TextBox();
             this.cboAddPartner_ = new System.Windows.Forms.ComboBox();
-            this.dateRelationEnd_ = new FamilyTree.Viewer.CompoundDateEditBox();
-            this.dateRelationStart_ = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.dateRelationEnd_ = new family_tree.viewer.CompoundDateEditBox();
+            this.dateRelationStart_ = new family_tree.viewer.CompoundDateEditBox();
             this.lstRelationships_ = new System.Windows.Forms.ListBox();
             this.cboFactType_ = new System.Windows.Forms.ComboBox();
             this.gridFacts_ = new System.Windows.Forms.DataGrid();
@@ -175,7 +175,7 @@ namespace FamilyTree.Viewer
             compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate1.status = 0;
             this.dateDoB_.theDate = compoundDate1;
-            this.dateDoB_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateDoB_evtValueChanged);
+            this.dateDoB_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateDoB_evtValueChanged);
             this.dateDoB_.Enter += new System.EventHandler(this.dateDoB_Enter);
             // 
             // m_dateDoD
@@ -187,7 +187,7 @@ namespace FamilyTree.Viewer
             compoundDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate2.status = 0;
             this.dateDoD_.theDate = compoundDate2;
-            this.dateDoD_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateDoD_evtValueChanged);
+            this.dateDoD_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateDoD_evtValueChanged);
             this.dateDoD_.Enter += new System.EventHandler(this.dateDoD_Enter);
             // 
             // m_txtComments
@@ -436,7 +436,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdDeleteRelationship
             // 
-            cmdDeleteRelationship.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            cmdDeleteRelationship.Image = global::family_tree.viewer.Properties.Resources.delete;
             cmdDeleteRelationship.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdDeleteRelationship.Location = new System.Drawing.Point(114, 160);
             cmdDeleteRelationship.Name = "cmdDeleteRelationship";
@@ -448,7 +448,7 @@ namespace FamilyTree.Viewer
             // 
             // AddRelationship
             // 
-            AddRelationship.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            AddRelationship.Image = global::family_tree.viewer.Properties.Resources.add;
             AddRelationship.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             AddRelationship.Location = new System.Drawing.Point(8, 160);
             AddRelationship.Name = "AddRelationship";
@@ -467,7 +467,7 @@ namespace FamilyTree.Viewer
             compoundDate3.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate3.status = 0;
             this.dateRelationEnd_.theDate = compoundDate3;
-            this.dateRelationEnd_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateRelationEnd_evtValueChanged);
+            this.dateRelationEnd_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateRelationEnd_evtValueChanged);
             // 
             // m_dateRelationStart
             // 
@@ -478,7 +478,7 @@ namespace FamilyTree.Viewer
             compoundDate4.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate4.status = 0;
             this.dateRelationStart_.theDate = compoundDate4;
-            this.dateRelationStart_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateRelationStart_evtValueChanged);
+            this.dateRelationStart_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateRelationStart_evtValueChanged);
             this.dateRelationStart_.Enter += new System.EventHandler(this.dateRelationStart_Enter);
             // 
             // m_lstRelationships
@@ -521,7 +521,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdDeleteFact
             // 
-            cmdDeleteFact.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            cmdDeleteFact.Image = global::family_tree.viewer.Properties.Resources.delete;
             cmdDeleteFact.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdDeleteFact.Location = new System.Drawing.Point(394, 222);
             cmdDeleteFact.Name = "cmdDeleteFact";
@@ -569,7 +569,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdAddFact
             // 
-            cmdAddFact.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            cmdAddFact.Image = global::family_tree.viewer.Properties.Resources.add;
             cmdAddFact.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdAddFact.Location = new System.Drawing.Point(288, 222);
             cmdAddFact.Name = "cmdAddFact";
@@ -706,7 +706,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdDeleteToDo
             // 
-            cmdDeleteToDo.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            cmdDeleteToDo.Image = global::family_tree.viewer.Properties.Resources.delete;
             cmdDeleteToDo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdDeleteToDo.Location = new System.Drawing.Point(564, 222);
             cmdDeleteToDo.Name = "cmdDeleteToDo";
@@ -718,7 +718,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdAddToDo
             // 
-            cmdAddToDo.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            cmdAddToDo.Image = global::family_tree.viewer.Properties.Resources.add;
             cmdAddToDo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdAddToDo.Location = new System.Drawing.Point(458, 222);
             cmdAddToDo.Name = "cmdAddToDo";
@@ -741,7 +741,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdDeleteSource
             // 
-            cmdDeleteSource.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            cmdDeleteSource.Image = global::family_tree.viewer.Properties.Resources.delete;
             cmdDeleteSource.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdDeleteSource.Location = new System.Drawing.Point(490, 180);
             cmdDeleteSource.Name = "cmdDeleteSource";
@@ -753,7 +753,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdAddSource
             // 
-            cmdAddSource.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            cmdAddSource.Image = global::family_tree.viewer.Properties.Resources.add;
             cmdAddSource.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdAddSource.Location = new System.Drawing.Point(384, 180);
             cmdAddSource.Name = "cmdAddSource";
@@ -766,7 +766,7 @@ namespace FamilyTree.Viewer
             // cmdCancel
             // 
             cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCancel.Location = new System.Drawing.Point(482, 627);
             cmdCancel.Name = "cmdCancel";
@@ -778,7 +778,7 @@ namespace FamilyTree.Viewer
             // cmdOK
             // 
             cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOK.Location = new System.Drawing.Point(588, 627);
             cmdOK.Name = "cmdOK";
@@ -849,7 +849,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdRelationshipAddress
             // 
-            cmdRelationshipAddress.Image = global::FamilyTree.Viewer.Properties.Resources.Earth;
+            cmdRelationshipAddress.Image = global::family_tree.viewer.Properties.Resources.Earth;
             cmdRelationshipAddress.Location = new System.Drawing.Point(635, 40);
             cmdRelationshipAddress.Name = "cmdRelationshipAddress";
             cmdRelationshipAddress.Size = new System.Drawing.Size(21, 21);
@@ -919,10 +919,10 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.DataGrid gridFacts_;
         private System.Windows.Forms.DataGrid gridSources_;
         private System.Windows.Forms.ComboBox cboSources_;
-        private FamilyTree.Viewer.CompoundDateEditBox dateDoD_;
-        private FamilyTree.Viewer.CompoundDateEditBox dateDoB_;
-        private FamilyTree.Viewer.CompoundDateEditBox dateRelationStart_;
-        private FamilyTree.Viewer.CompoundDateEditBox dateRelationEnd_;
+        private family_tree.viewer.CompoundDateEditBox dateDoD_;
+        private family_tree.viewer.CompoundDateEditBox dateDoB_;
+        private family_tree.viewer.CompoundDateEditBox dateRelationStart_;
+        private family_tree.viewer.CompoundDateEditBox dateRelationEnd_;
         private System.Windows.Forms.ComboBox cboRelationshipType_;
         private Label labDescription_;
         private GroupBox grpSources_;

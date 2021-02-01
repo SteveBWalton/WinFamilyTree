@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 using System.IO;
 
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Form to edit a media object.  Currently media objects have to be images.</summary>
     public partial class EditMediaDialog : Form
@@ -58,7 +58,7 @@ namespace FamilyTree.Viewer
 
             // Populate the list of people combo box
             int[] attachedPeople = media_.getAttachedPeople();
-            IndexName[] people = database.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE);
+            IndexName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE);
             foreach (IndexName person in people)
             {
                 cboPeople_.Items.Add(person);

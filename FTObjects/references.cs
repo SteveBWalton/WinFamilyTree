@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>
     /// Class to represent the references to a source from a person.

@@ -1,4 +1,4 @@
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     partial class EditMediaDialog
     {
@@ -264,7 +264,7 @@ namespace FamilyTree.Viewer
             // 
             cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCancel.Location = new System.Drawing.Point(85, 469);
             cmdCancel.Name = "cmdCancel";
@@ -278,7 +278,7 @@ namespace FamilyTree.Viewer
             // 
             cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOK.Location = new System.Drawing.Point(4, 469);
             cmdOK.Name = "cmdOK";

@@ -1,4 +1,4 @@
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     partial class EditPlaceDialog
     {
@@ -229,7 +229,7 @@ namespace FamilyTree.Viewer
             // m_cmdOK
             // 
             this.m_cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.m_cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.m_cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.m_cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_cmdOK.Location = new System.Drawing.Point(548, 405);
             this.m_cmdOK.Name = "m_cmdOK";
@@ -243,7 +243,7 @@ namespace FamilyTree.Viewer
             // m_cmdCancel
             // 
             this.m_cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.m_cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            this.m_cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             this.m_cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_cmdCancel.Location = new System.Drawing.Point(442, 405);
             this.m_cmdCancel.Name = "m_cmdCancel";
@@ -255,7 +255,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdRight
             // 
-            cmdRight.Image = global::FamilyTree.Viewer.Properties.Resources.Arrow_Blue_Right;
+            cmdRight.Image = global::family_tree.viewer.Properties.Resources.Arrow_Blue_Right;
             cmdRight.Location = new System.Drawing.Point(183, 189);
             cmdRight.Name = "cmdRight";
             cmdRight.Size = new System.Drawing.Size(30, 30);
@@ -265,7 +265,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdDown
             // 
-            cmdDown.Image = global::FamilyTree.Viewer.Properties.Resources.Arrow_Blue_Down;
+            cmdDown.Image = global::family_tree.viewer.Properties.Resources.Arrow_Blue_Down;
             cmdDown.Location = new System.Drawing.Point(147, 210);
             cmdDown.Name = "cmdDown";
             cmdDown.Size = new System.Drawing.Size(30, 30);
@@ -275,7 +275,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdUp
             // 
-            cmdUp.Image = global::FamilyTree.Viewer.Properties.Resources.Arrow_Blue_Up;
+            cmdUp.Image = global::family_tree.viewer.Properties.Resources.Arrow_Blue_Up;
             cmdUp.Location = new System.Drawing.Point(147, 174);
             cmdUp.Name = "cmdUp";
             cmdUp.Size = new System.Drawing.Size(30, 30);
@@ -285,7 +285,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdLeft
             // 
-            cmdLeft.Image = global::FamilyTree.Viewer.Properties.Resources.Arrow_Blue_Left;
+            cmdLeft.Image = global::family_tree.viewer.Properties.Resources.Arrow_Blue_Left;
             cmdLeft.Location = new System.Drawing.Point(111, 189);
             cmdLeft.Name = "cmdLeft";
             cmdLeft.Size = new System.Drawing.Size(30, 30);
@@ -295,7 +295,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdRefresh
             // 
-            cmdRefresh.Image = global::FamilyTree.Viewer.Properties.Resources.refresh;
+            cmdRefresh.Image = global::family_tree.viewer.Properties.Resources.refresh;
             cmdRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdRefresh.Location = new System.Drawing.Point(113, 246);
             cmdRefresh.Name = "cmdRefresh";

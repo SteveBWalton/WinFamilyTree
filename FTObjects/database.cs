@@ -7,7 +7,7 @@ using System.IO;
 // StringBuilder
 using System.Text;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     #region Supporting types, enums, etc...
 

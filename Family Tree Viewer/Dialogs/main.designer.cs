@@ -7,9 +7,9 @@ using System.Data;
 using System.Text;
 
 // Family tree objects
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class MainWindow : System.Windows.Forms.Form
     {
@@ -98,15 +98,15 @@ namespace FamilyTree.Viewer
             this.openFileDialog_ = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog_ = new System.Windows.Forms.SaveFileDialog();
             this.panelTree_ = new System.Windows.Forms.Panel();
-            this.marMotherParents_ = new FamilyTree.Viewer.RelationshipDisplay();
-            this.marFatherParents_ = new FamilyTree.Viewer.RelationshipDisplay();
-            this.marParents_ = new FamilyTree.Viewer.RelationshipDisplay();
-            this.psnFatherFather_ = new FamilyTree.Viewer.PersonDisplay();
-            this.psnMother_ = new FamilyTree.Viewer.PersonDisplay();
-            this.psnMotherMother_ = new FamilyTree.Viewer.PersonDisplay();
-            this.psnFather_ = new FamilyTree.Viewer.PersonDisplay();
-            this.psnFatherMother_ = new FamilyTree.Viewer.PersonDisplay();
-            this.psnMotherFather_ = new FamilyTree.Viewer.PersonDisplay();
+            this.marMotherParents_ = new family_tree.viewer.RelationshipDisplay();
+            this.marFatherParents_ = new family_tree.viewer.RelationshipDisplay();
+            this.marParents_ = new family_tree.viewer.RelationshipDisplay();
+            this.psnFatherFather_ = new family_tree.viewer.PersonDisplay();
+            this.psnMother_ = new family_tree.viewer.PersonDisplay();
+            this.psnMotherMother_ = new family_tree.viewer.PersonDisplay();
+            this.psnFather_ = new family_tree.viewer.PersonDisplay();
+            this.psnFatherMother_ = new family_tree.viewer.PersonDisplay();
+            this.psnMotherFather_ = new family_tree.viewer.PersonDisplay();
             this.webBrowser_ = new System.Windows.Forms.WebBrowser();
             menuExportGedcom = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
@@ -330,7 +330,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbHome
             // 
-            tsbHome.Image = global::FamilyTree.Viewer.Properties.Resources.Home;
+            tsbHome.Image = global::family_tree.viewer.Properties.Resources.Home;
             tsbHome.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbHome.Name = "tsbHome";
             tsbHome.Size = new System.Drawing.Size(54, 22);
@@ -340,7 +340,7 @@ namespace FamilyTree.Viewer
             // m_tsddbBack
             // 
             this.tsddbBack_.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.tsddbBack_.Image = global::FamilyTree.Viewer.Properties.Resources.Back;
+            this.tsddbBack_.Image = global::family_tree.viewer.Properties.Resources.Back;
             this.tsddbBack_.ImageTransparentColor = System.Drawing.Color.Silver;
             this.tsddbBack_.Name = "m_tsddbBack";
             this.tsddbBack_.Size = new System.Drawing.Size(13, 22);
@@ -348,7 +348,7 @@ namespace FamilyTree.Viewer
             // 
             // m_tsbBack
             // 
-            this.tsbBack_.Image = global::FamilyTree.Viewer.Properties.Resources.Back;
+            this.tsbBack_.Image = global::family_tree.viewer.Properties.Resources.Back;
             this.tsbBack_.ImageTransparentColor = System.Drawing.Color.Silver;
             this.tsbBack_.Name = "m_tsbBack";
             this.tsbBack_.Size = new System.Drawing.Size(49, 22);
@@ -366,7 +366,7 @@ namespace FamilyTree.Viewer
             // 
             // m_tsbForward
             // 
-            this.tsbForward_.Image = global::FamilyTree.Viewer.Properties.Resources.Forward;
+            this.tsbForward_.Image = global::family_tree.viewer.Properties.Resources.Forward;
             this.tsbForward_.ImageTransparentColor = System.Drawing.Color.Silver;
             this.tsbForward_.Name = "m_tsbForward";
             this.tsbForward_.Size = new System.Drawing.Size(67, 22);
@@ -375,7 +375,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbGoto
             // 
-            tsbGoto.Image = global::FamilyTree.Viewer.Properties.Resources.Person;
+            tsbGoto.Image = global::family_tree.viewer.Properties.Resources.Person;
             tsbGoto.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbGoto.Name = "tsbGoto";
             tsbGoto.Size = new System.Drawing.Size(50, 22);
@@ -384,7 +384,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbEdit
             // 
-            tsbEdit.Image = global::FamilyTree.Viewer.Properties.Resources.Textbox;
+            tsbEdit.Image = global::family_tree.viewer.Properties.Resources.Textbox;
             tsbEdit.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbEdit.Name = "tsbEdit";
             tsbEdit.Size = new System.Drawing.Size(45, 22);
@@ -393,7 +393,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbSources
             // 
-            tsbSources.Image = global::FamilyTree.Viewer.Properties.Resources.CardFile;
+            tsbSources.Image = global::family_tree.viewer.Properties.Resources.CardFile;
             tsbSources.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbSources.Name = "tsbSources";
             tsbSources.Size = new System.Drawing.Size(65, 22);
@@ -402,7 +402,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbTree
             // 
-            tsbTree.Image = global::FamilyTree.Viewer.Properties.Resources.Tree;
+            tsbTree.Image = global::family_tree.viewer.Properties.Resources.Tree;
             tsbTree.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbTree.Name = "tsbTree";
             tsbTree.Size = new System.Drawing.Size(49, 22);
@@ -411,7 +411,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbReport
             // 
-            tsbReport.Image = global::FamilyTree.Viewer.Properties.Resources.web;
+            tsbReport.Image = global::family_tree.viewer.Properties.Resources.web;
             tsbReport.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbReport.Name = "tsbReport";
             tsbReport.Size = new System.Drawing.Size(60, 22);
@@ -420,7 +420,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbAge
             // 
-            tsbAge.Image = global::FamilyTree.Viewer.Properties.Resources.Cake;
+            tsbAge.Image = global::family_tree.viewer.Properties.Resources.Cake;
             tsbAge.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbAge.Name = "tsbAge";
             tsbAge.Size = new System.Drawing.Size(46, 22);
@@ -431,7 +431,7 @@ namespace FamilyTree.Viewer
             // 
             this.m_tsbImage.Checked = true;
             this.m_tsbImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.m_tsbImage.Image = global::FamilyTree.Viewer.Properties.Resources.picture;
+            this.m_tsbImage.Image = global::family_tree.viewer.Properties.Resources.picture;
             this.m_tsbImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.m_tsbImage.Name = "m_tsbImage";
             this.m_tsbImage.Size = new System.Drawing.Size(62, 22);
@@ -440,7 +440,7 @@ namespace FamilyTree.Viewer
             // 
             // m_tsbLocation
             // 
-            this.m_tsbLocation.Image = global::FamilyTree.Viewer.Properties.Resources.Earth;
+            this.m_tsbLocation.Image = global::family_tree.viewer.Properties.Resources.Earth;
             this.m_tsbLocation.ImageTransparentColor = System.Drawing.Color.Silver;
             this.m_tsbLocation.Name = "m_tsbLocation";
             this.m_tsbLocation.Size = new System.Drawing.Size(67, 22);
@@ -449,7 +449,7 @@ namespace FamilyTree.Viewer
             // 
             // tsbReduceWidth
             // 
-            tsbReduceWidth.Image = global::FamilyTree.Viewer.Properties.Resources.Width_Reduce;
+            tsbReduceWidth.Image = global::family_tree.viewer.Properties.Resources.Width_Reduce;
             tsbReduceWidth.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbReduceWidth.Name = "tsbReduceWidth";
             tsbReduceWidth.Size = new System.Drawing.Size(63, 22);
@@ -491,7 +491,7 @@ namespace FamilyTree.Viewer
             // 
             // menuOpen
             // 
-            menuOpen.Image = global::FamilyTree.Viewer.Properties.Resources.Open;
+            menuOpen.Image = global::family_tree.viewer.Properties.Resources.Open;
             menuOpen.ImageTransparentColor = System.Drawing.Color.Silver;
             menuOpen.Name = "menuOpen";
             menuOpen.Size = new System.Drawing.Size(180, 22);
@@ -507,7 +507,7 @@ namespace FamilyTree.Viewer
             // 
             // menuOpenTree
             // 
-            menuOpenTree.Image = global::FamilyTree.Viewer.Properties.Resources.Tree;
+            menuOpenTree.Image = global::family_tree.viewer.Properties.Resources.Tree;
             menuOpenTree.ImageTransparentColor = System.Drawing.Color.Silver;
             menuOpenTree.Name = "menuOpenTree";
             menuOpenTree.Size = new System.Drawing.Size(180, 22);
@@ -516,7 +516,7 @@ namespace FamilyTree.Viewer
             // 
             // menuHome
             // 
-            menuHome.Image = global::FamilyTree.Viewer.Properties.Resources.Home;
+            menuHome.Image = global::family_tree.viewer.Properties.Resources.Home;
             menuHome.ImageTransparentColor = System.Drawing.Color.Silver;
             menuHome.Name = "menuHome";
             menuHome.Size = new System.Drawing.Size(180, 22);
@@ -553,7 +553,7 @@ namespace FamilyTree.Viewer
             // 
             // menuExit
             // 
-            menuExit.Image = global::FamilyTree.Viewer.Properties.Resources.Exit;
+            menuExit.Image = global::family_tree.viewer.Properties.Resources.Exit;
             menuExit.ImageTransparentColor = System.Drawing.Color.Silver;
             menuExit.Name = "menuExit";
             menuExit.Size = new System.Drawing.Size(180, 22);
@@ -583,7 +583,7 @@ namespace FamilyTree.Viewer
             // 
             // menuEditCurrent
             // 
-            menuEditCurrent.Image = global::FamilyTree.Viewer.Properties.Resources.Textbox;
+            menuEditCurrent.Image = global::family_tree.viewer.Properties.Resources.Textbox;
             menuEditCurrent.ImageTransparentColor = System.Drawing.Color.Silver;
             menuEditCurrent.Name = "menuEditCurrent";
             menuEditCurrent.Size = new System.Drawing.Size(200, 22);
@@ -592,7 +592,7 @@ namespace FamilyTree.Viewer
             // 
             // editSourcesToolStripMenuItem
             // 
-            editSourcesToolStripMenuItem.Image = global::FamilyTree.Viewer.Properties.Resources.CardFile;
+            editSourcesToolStripMenuItem.Image = global::family_tree.viewer.Properties.Resources.CardFile;
             editSourcesToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             editSourcesToolStripMenuItem.Name = "editSourcesToolStripMenuItem";
             editSourcesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
@@ -601,7 +601,7 @@ namespace FamilyTree.Viewer
             // 
             // menuUserOptions
             // 
-            menuUserOptions.Image = global::FamilyTree.Viewer.Properties.Resources.Wrench;
+            menuUserOptions.Image = global::family_tree.viewer.Properties.Resources.Wrench;
             menuUserOptions.Name = "menuUserOptions";
             menuUserOptions.Size = new System.Drawing.Size(200, 22);
             menuUserOptions.Text = "User Options...";
@@ -628,7 +628,7 @@ namespace FamilyTree.Viewer
             // 
             // menuGoto
             // 
-            menuGoto.Image = global::FamilyTree.Viewer.Properties.Resources.Person;
+            menuGoto.Image = global::family_tree.viewer.Properties.Resources.Person;
             menuGoto.Name = "menuGoto";
             menuGoto.Size = new System.Drawing.Size(218, 22);
             menuGoto.Text = "Goto Person...";
@@ -638,7 +638,7 @@ namespace FamilyTree.Viewer
             // 
             this.m_menuImage.Checked = true;
             this.m_menuImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.m_menuImage.Image = global::FamilyTree.Viewer.Properties.Resources.picture;
+            this.m_menuImage.Image = global::family_tree.viewer.Properties.Resources.picture;
             this.m_menuImage.Name = "m_menuImage";
             this.m_menuImage.Size = new System.Drawing.Size(218, 22);
             this.m_menuImage.Text = "Image";
@@ -646,7 +646,7 @@ namespace FamilyTree.Viewer
             // 
             // m_menuLocation
             // 
-            this.m_menuLocation.Image = global::FamilyTree.Viewer.Properties.Resources.Earth;
+            this.m_menuLocation.Image = global::family_tree.viewer.Properties.Resources.Earth;
             this.m_menuLocation.Name = "m_menuLocation";
             this.m_menuLocation.Size = new System.Drawing.Size(218, 22);
             this.m_menuLocation.Text = "Location";
@@ -654,7 +654,7 @@ namespace FamilyTree.Viewer
             // 
             // menuAge
             // 
-            menuAge.Image = global::FamilyTree.Viewer.Properties.Resources.Cake;
+            menuAge.Image = global::family_tree.viewer.Properties.Resources.Cake;
             menuAge.ImageTransparentColor = System.Drawing.Color.Silver;
             menuAge.Name = "menuAge";
             menuAge.Size = new System.Drawing.Size(218, 22);
@@ -663,7 +663,7 @@ namespace FamilyTree.Viewer
             // 
             // menuBirthday
             // 
-            menuBirthday.Image = global::FamilyTree.Viewer.Properties.Resources.Cake;
+            menuBirthday.Image = global::family_tree.viewer.Properties.Resources.Cake;
             menuBirthday.ImageTransparentColor = System.Drawing.Color.Silver;
             menuBirthday.Name = "menuBirthday";
             menuBirthday.Size = new System.Drawing.Size(218, 22);
@@ -672,7 +672,7 @@ namespace FamilyTree.Viewer
             // 
             // menuReduceWidth
             // 
-            menuReduceWidth.Image = global::FamilyTree.Viewer.Properties.Resources.Width_Reduce;
+            menuReduceWidth.Image = global::family_tree.viewer.Properties.Resources.Width_Reduce;
             menuReduceWidth.ImageTransparentColor = System.Drawing.Color.Silver;
             menuReduceWidth.Name = "menuReduceWidth";
             menuReduceWidth.Size = new System.Drawing.Size(218, 22);
@@ -681,7 +681,7 @@ namespace FamilyTree.Viewer
             // 
             // menuStandardWidth
             // 
-            menuStandardWidth.Image = global::FamilyTree.Viewer.Properties.Resources.Width_Increase;
+            menuStandardWidth.Image = global::family_tree.viewer.Properties.Resources.Width_Increase;
             menuStandardWidth.ImageTransparentColor = System.Drawing.Color.Silver;
             menuStandardWidth.Name = "menuStandardWidth";
             menuStandardWidth.Size = new System.Drawing.Size(218, 22);
@@ -699,7 +699,7 @@ namespace FamilyTree.Viewer
             // 
             // menuToTree
             // 
-            menuToTree.Image = global::FamilyTree.Viewer.Properties.Resources.Tree;
+            menuToTree.Image = global::family_tree.viewer.Properties.Resources.Tree;
             menuToTree.ImageTransparentColor = System.Drawing.Color.Silver;
             menuToTree.Name = "menuToTree";
             menuToTree.Size = new System.Drawing.Size(122, 22);
@@ -708,7 +708,7 @@ namespace FamilyTree.Viewer
             // 
             // menuReportToHtml
             // 
-            menuReportToHtml.Image = global::FamilyTree.Viewer.Properties.Resources.web;
+            menuReportToHtml.Image = global::family_tree.viewer.Properties.Resources.web;
             menuReportToHtml.Name = "menuReportToHtml";
             menuReportToHtml.Size = new System.Drawing.Size(122, 22);
             menuReportToHtml.Text = "To Html";
@@ -728,7 +728,7 @@ namespace FamilyTree.Viewer
             // 
             // m_tslabStatus
             // 
-            this.tslabStatus_.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.tslabStatus_.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.tslabStatus_.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tslabStatus_.Name = "m_tslabStatus";
             this.tslabStatus_.Size = new System.Drawing.Size(697, 20);
@@ -749,7 +749,7 @@ namespace FamilyTree.Viewer
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             tslabUserName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
-            tslabUserName.Image = global::FamilyTree.Viewer.Properties.Resources.Person;
+            tslabUserName.Image = global::family_tree.viewer.Properties.Resources.Person;
             tslabUserName.Name = "tslabUserName";
             tslabUserName.Size = new System.Drawing.Size(92, 20);
             tslabUserName.Text = "Steve Walton";
@@ -920,15 +920,15 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.OpenFileDialog openFileDialog_;
         private System.Windows.Forms.Label labPerson_;
         private System.Windows.Forms.Label labPersonDates_;
-        private FamilyTree.Viewer.PersonDisplay psnFather_;
-        private FamilyTree.Viewer.PersonDisplay psnMother_;
-        private FamilyTree.Viewer.PersonDisplay psnFatherFather_;
-        private FamilyTree.Viewer.PersonDisplay psnFatherMother_;
-        private FamilyTree.Viewer.PersonDisplay psnMotherFather_;
-        private FamilyTree.Viewer.PersonDisplay psnMotherMother_;
-        private FamilyTree.Viewer.RelationshipDisplay marParents_;
-        private FamilyTree.Viewer.RelationshipDisplay marFatherParents_;
-        private FamilyTree.Viewer.RelationshipDisplay marMotherParents_;
+        private family_tree.viewer.PersonDisplay psnFather_;
+        private family_tree.viewer.PersonDisplay psnMother_;
+        private family_tree.viewer.PersonDisplay psnFatherFather_;
+        private family_tree.viewer.PersonDisplay psnFatherMother_;
+        private family_tree.viewer.PersonDisplay psnMotherFather_;
+        private family_tree.viewer.PersonDisplay psnMotherMother_;
+        private family_tree.viewer.RelationshipDisplay marParents_;
+        private family_tree.viewer.RelationshipDisplay marFatherParents_;
+        private family_tree.viewer.RelationshipDisplay marMotherParents_;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_;
         private Panel panelTree_;
         private WebBrowser webBrowser_;

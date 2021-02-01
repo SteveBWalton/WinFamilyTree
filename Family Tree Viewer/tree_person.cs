@@ -1,7 +1,7 @@
 using System;
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Class to represent a person in a tree document.</summary>
     public class TreePerson

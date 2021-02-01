@@ -1,9 +1,9 @@
-using FamilyTree.Objects;
+using family_tree.objects;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Form to allow a person to be edited.</summary>
     public partial class EditPersonDialog : System.Windows.Forms.Form
@@ -39,7 +39,7 @@ namespace FamilyTree.Viewer
             {
                 cboFactType_.Items.Add(factTypes[i]);
             }
-            IndexName[] sources = database.getSources(Objects.SortOrder.DATE);
+            IndexName[] sources = database.getSources(family_tree.objects.SortOrder.DATE);
             for (int i = 0; i < sources.Length; i++)
             {
                 cboSources_.Items.Add(sources[i]);

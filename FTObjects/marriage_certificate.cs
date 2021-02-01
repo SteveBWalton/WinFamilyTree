@@ -5,7 +5,7 @@ using System.Data.OleDb;
 // StringBuilder
 using System.Text;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent the additional information on a marriage certificate source.  This is closely related to the tbl_MarriageCertificates table.</summary>
     public class MarriageCertificate

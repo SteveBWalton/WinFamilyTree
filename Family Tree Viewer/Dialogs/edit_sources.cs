@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 // Family tree objects.
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Dialog to allow the user to edit the complete list of sources.</summary>
     public partial class EditSourcesDialog : System.Windows.Forms.Form
@@ -56,7 +56,7 @@ namespace FamilyTree.Viewer
 
             // Add the sources to the dialog box.
             Source selected = null;
-            sources = database.getSources(Objects.SortOrder.DATE);
+            sources = database.getSources(family_tree.objects.SortOrder.DATE);
             for (int i = 0; i < sources.Length; i++)
             {
                 Source source = new Source(database_, sources[i].index);

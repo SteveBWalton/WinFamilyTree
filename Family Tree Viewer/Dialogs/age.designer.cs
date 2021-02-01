@@ -1,10 +1,10 @@
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class AgeDialog : System.Windows.Forms.Form
     {
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboPerson_;
-        private FamilyTree.Viewer.CompoundDateEditBox ucDate_;
+        private family_tree.viewer.CompoundDateEditBox ucDate_;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -23,7 +23,7 @@ namespace FamilyTree.Viewer
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ImageList oImageList16;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AgeDialog));
-            FamilyTree.Objects.CompoundDate clsDate1 = new FamilyTree.Objects.CompoundDate();
+            family_tree.objects.CompoundDate clsDate1 = new family_tree.objects.CompoundDate();
             this.label1 = new System.Windows.Forms.Label();
             this.cboPerson_ = new System.Windows.Forms.ComboBox();
             this.labDoB_ = new System.Windows.Forms.Label();
@@ -31,7 +31,7 @@ namespace FamilyTree.Viewer
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.labTheAge_ = new System.Windows.Forms.Label();
-            this.ucDate_ = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.ucDate_ = new family_tree.viewer.CompoundDateEditBox();
             this.cmdOK = new System.Windows.Forms.Button();
             oImageList16 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
@@ -118,12 +118,12 @@ namespace FamilyTree.Viewer
             clsDate1.date = new System.DateTime(2008, 2, 20, 0, 0, 0, 0);
             clsDate1.status = 0;
             this.ucDate_.theDate = clsDate1;
-            this.ucDate_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.ucDate1_evtValueChanged);
+            this.ucDate_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.ucDate1_evtValueChanged);
             // 
             // cmdOK
             // 
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdOK.Location = new System.Drawing.Point(317, 92);
             this.cmdOK.Name = "cmdOK";

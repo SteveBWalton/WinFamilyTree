@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Data.OleDb;		// Access database ADO.NET
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a fact about a person.</summary>
     public class Fact

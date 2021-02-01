@@ -6,7 +6,7 @@ using System.Text;
 using System.Data;
 using System.Data.OleDb;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a single to do record in the database.  Each item is linked to a single person.</summary>
     /// <remarks>It would be nice to attach a single ToDo item to a number of person.  But to keep the interface simple, I linked each ToDo to a single person.</remarks>

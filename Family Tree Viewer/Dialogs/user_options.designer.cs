@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class UserOptionsDialog : System.Windows.Forms.Form
     {
@@ -92,7 +92,7 @@ namespace FamilyTree.Viewer
             // 
             // m_cmdChangeHtmlFont
             // 
-            this.m_cmdChangeHtmlFont.Image = global::FamilyTree.Viewer.Properties.Resources.Font;
+            this.m_cmdChangeHtmlFont.Image = global::family_tree.viewer.Properties.Resources.Font;
             this.m_cmdChangeHtmlFont.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_cmdChangeHtmlFont.Location = new System.Drawing.Point(8, 244);
             this.m_cmdChangeHtmlFont.Name = "m_cmdChangeHtmlFont";
@@ -156,7 +156,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdTreeSubFont
             // 
-            cmdTreeSubFont.Image = global::FamilyTree.Viewer.Properties.Resources.Font;
+            cmdTreeSubFont.Image = global::family_tree.viewer.Properties.Resources.Font;
             cmdTreeSubFont.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdTreeSubFont.Location = new System.Drawing.Point(8, 56);
             cmdTreeSubFont.Name = "cmdTreeSubFont";
@@ -168,7 +168,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdTreeMainFont
             // 
-            cmdTreeMainFont.Image = global::FamilyTree.Viewer.Properties.Resources.Font;
+            cmdTreeMainFont.Image = global::family_tree.viewer.Properties.Resources.Font;
             cmdTreeMainFont.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdTreeMainFont.Location = new System.Drawing.Point(8, 16);
             cmdTreeMainFont.Name = "cmdTreeMainFont";
@@ -211,7 +211,7 @@ namespace FamilyTree.Viewer
             // cmdCancel
             // 
             cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCancel.Location = new System.Drawing.Point(440, 8);
             cmdCancel.Name = "cmdCancel";
@@ -223,7 +223,7 @@ namespace FamilyTree.Viewer
             // cmdOK
             // 
             cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOK.Location = new System.Drawing.Point(521, 8);
             cmdOK.Name = "cmdOK";

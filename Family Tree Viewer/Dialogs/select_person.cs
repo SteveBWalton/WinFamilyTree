@@ -4,9 +4,9 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Dialog to allow the user to select a person.</summary>
     public class SelectPersonDialog : System.Windows.Forms.Form
@@ -50,7 +50,7 @@ namespace FamilyTree.Viewer
             database_ = database;
 
             // Load a list of all people into the listbox.
-            IndexName[] people = database.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE, 0, 9999);
+            IndexName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 9999);
 
             // Populate the list box.
             for (int i = 0; i < people.Length; i++)
@@ -151,7 +151,7 @@ namespace FamilyTree.Viewer
             // 
             cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOK.Location = new System.Drawing.Point(114, 331);
             cmdOK.Name = "cmdOK";
@@ -164,7 +164,7 @@ namespace FamilyTree.Viewer
             // 
             cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCancel.Location = new System.Drawing.Point(8, 331);
             cmdCancel.Name = "cmdCancel";
@@ -206,7 +206,7 @@ namespace FamilyTree.Viewer
             if (radioDate_.Checked)
             {
                 // Load a list of all people into the listbox.
-                IndexName[] people = database_.getPeople(ChooseSex.EITHER, Objects.SortOrder.DATE, 0, 3000);
+                IndexName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 3000);
 
                 // Populate the list box.
                 lstPeople_.Items.Clear();
@@ -224,7 +224,7 @@ namespace FamilyTree.Viewer
             if (radioAlpha_.Checked)
             {
                 // Load a list of all people into the listbox.
-                IndexName[] people = database_.getPeople(ChooseSex.EITHER, Objects.SortOrder.ALPHABETICAL, 0, 3000);
+                IndexName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, 0, 3000);
 
                 // Populate the list box
                 lstPeople_.Items.Clear();

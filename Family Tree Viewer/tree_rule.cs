@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Object to represent a modification (rule) to apply to a tree document.  These objects will be contained inside a TreeOptions object.</summary>
     public class TreeRule

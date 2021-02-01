@@ -4,9 +4,9 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Class to represent the edit census dialog.</summary>
     public class EditCensusDialog : System.Windows.Forms.Form
@@ -215,7 +215,7 @@ namespace FamilyTree.Viewer
             // 
             cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOK.Location = new System.Drawing.Point(629, 353);
             cmdOK.Name = "cmdOK";
@@ -228,7 +228,7 @@ namespace FamilyTree.Viewer
             // 
             cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCancel.Location = new System.Drawing.Point(523, 353);
             cmdCancel.Name = "cmdCancel";
@@ -240,7 +240,7 @@ namespace FamilyTree.Viewer
             // cmdSave
             // 
             cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            cmdSave.Image = global::FamilyTree.Viewer.Properties.Resources.Save;
+            cmdSave.Image = global::family_tree.viewer.Properties.Resources.Save;
             cmdSave.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdSave.Location = new System.Drawing.Point(613, 234);
             cmdSave.Name = "cmdSave";
@@ -321,7 +321,7 @@ namespace FamilyTree.Viewer
             // 
             this.cmdRemovePerson_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdRemovePerson_.Enabled = false;
-            this.cmdRemovePerson_.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            this.cmdRemovePerson_.Image = global::family_tree.viewer.Properties.Resources.delete;
             this.cmdRemovePerson_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdRemovePerson_.Location = new System.Drawing.Point(402, 234);
             this.cmdRemovePerson_.Name = "cmdRemovePerson_";
@@ -335,7 +335,7 @@ namespace FamilyTree.Viewer
             // 
             this.cmdAddPerson_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdAddPerson_.Enabled = false;
-            this.cmdAddPerson_.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            this.cmdAddPerson_.Image = global::family_tree.viewer.Properties.Resources.add;
             this.cmdAddPerson_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdAddPerson_.Location = new System.Drawing.Point(296, 234);
             this.cmdAddPerson_.Name = "cmdAddPerson_";
@@ -400,7 +400,7 @@ namespace FamilyTree.Viewer
             // 
             this.cmdCreate_.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCreate_.Enabled = false;
-            this.cmdCreate_.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            this.cmdCreate_.Image = global::family_tree.viewer.Properties.Resources.add;
             this.cmdCreate_.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdCreate_.Location = new System.Drawing.Point(629, 28);
             this.cmdCreate_.Name = "cmdCreate_";
@@ -455,7 +455,7 @@ namespace FamilyTree.Viewer
             }
 
             // Populate the list of people combo.
-            IndexName[] people = database_.getPeople(ChooseSex.EITHER, Objects.SortOrder.ALPHABETICAL, theYear);
+            IndexName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, theYear);
             cboPerson_.Items.Clear();
             foreach (IndexName person in people)
             {

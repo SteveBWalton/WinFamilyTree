@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Delegate type for the Click event.</summary>
     public delegate void FuncClick(object sender);

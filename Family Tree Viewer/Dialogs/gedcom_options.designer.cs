@@ -1,4 +1,4 @@
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     partial class GedcomOptionsDialog
     {
@@ -60,7 +60,7 @@ namespace FamilyTree.Viewer
             // cmdOpen
             // 
             cmdOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            cmdOpen.Image = global::FamilyTree.Viewer.Properties.Resources.Open;
+            cmdOpen.Image = global::family_tree.viewer.Properties.Resources.Open;
             cmdOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOpen.Location = new System.Drawing.Point(592, 12);
             cmdOpen.Name = "cmdOpen";
@@ -75,7 +75,7 @@ namespace FamilyTree.Viewer
             // 
             cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCancel.Location = new System.Drawing.Point(486, 330);
             cmdCancel.Name = "cmdCancel";
@@ -88,7 +88,7 @@ namespace FamilyTree.Viewer
             // 
             cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdOK.Location = new System.Drawing.Point(592, 330);
             cmdOK.Name = "cmdOK";

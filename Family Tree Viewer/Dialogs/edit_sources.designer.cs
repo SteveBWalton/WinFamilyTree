@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     public partial class EditSourcesDialog : System.Windows.Forms.Form
     {
@@ -66,7 +66,7 @@ namespace FamilyTree.Viewer
             System.Windows.Forms.Button buttonAddFreeTableRow;
             System.Windows.Forms.Button buttonRemoveFreeTableRow;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditSourcesDialog));
-            FamilyTree.Objects.CompoundDate compoundDate1 = new FamilyTree.Objects.CompoundDate();
+            family_tree.objects.CompoundDate compoundDate1 = new family_tree.objects.CompoundDate();
             this.lstSources_ = new System.Windows.Forms.ListBox();
             this.imageList16x16 = new System.Windows.Forms.ImageList(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -78,7 +78,7 @@ namespace FamilyTree.Viewer
             this.panel2 = new System.Windows.Forms.Panel();
             this.cboRepository_ = new System.Windows.Forms.ComboBox();
             this.cboAdditionalInfo_ = new System.Windows.Forms.ComboBox();
-            this.dateSourceDate_ = new FamilyTree.Viewer.CompoundDateEditBox();
+            this.dateSourceDate_ = new family_tree.viewer.CompoundDateEditBox();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.txtComments_ = new System.Windows.Forms.TextBox();
@@ -561,7 +561,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdCensusAddress
             // 
-            cmdCensusAddress.Image = global::FamilyTree.Viewer.Properties.Resources.Earth;
+            cmdCensusAddress.Image = global::family_tree.viewer.Properties.Resources.Earth;
             cmdCensusAddress.Location = new System.Drawing.Point(529, 91);
             cmdCensusAddress.Name = "cmdCensusAddress";
             cmdCensusAddress.Size = new System.Drawing.Size(21, 21);
@@ -571,7 +571,7 @@ namespace FamilyTree.Viewer
             // 
             // cmdCensusOpen
             // 
-            cmdCensusOpen.Image = global::FamilyTree.Viewer.Properties.Resources.Open;
+            cmdCensusOpen.Image = global::family_tree.viewer.Properties.Resources.Open;
             cmdCensusOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             cmdCensusOpen.Location = new System.Drawing.Point(8, 191);
             cmdCensusOpen.Name = "cmdCensusOpen";
@@ -583,7 +583,7 @@ namespace FamilyTree.Viewer
             // 
             // buttonAddFreeTableRow
             // 
-            buttonAddFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            buttonAddFreeTableRow.Image = global::family_tree.viewer.Properties.Resources.add;
             buttonAddFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             buttonAddFreeTableRow.Location = new System.Drawing.Point(3, 3);
             buttonAddFreeTableRow.Name = "buttonAddFreeTableRow";
@@ -596,7 +596,7 @@ namespace FamilyTree.Viewer
             // buttonRemoveFreeTableRow
             // 
             buttonRemoveFreeTableRow.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            buttonRemoveFreeTableRow.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            buttonRemoveFreeTableRow.Image = global::family_tree.viewer.Properties.Resources.delete;
             buttonRemoveFreeTableRow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             buttonRemoveFreeTableRow.Location = new System.Drawing.Point(109, 3);
             buttonRemoveFreeTableRow.Name = "buttonRemoveFreeTableRow";
@@ -740,13 +740,13 @@ namespace FamilyTree.Viewer
             compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate1.status = 0;
             this.dateSourceDate_.theDate = compoundDate1;
-            this.dateSourceDate_.eventValueChanged += new FamilyTree.Viewer.FuncValueChanged(this.dateTheDate_evtValueChanged);
+            this.dateSourceDate_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateTheDate_evtValueChanged);
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Image = global::FamilyTree.Viewer.Properties.Resources.Cancel;
+            this.cmdCancel.Image = global::family_tree.viewer.Properties.Resources.Cancel;
             this.cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdCancel.Location = new System.Drawing.Point(362, 464);
             this.cmdCancel.Name = "cmdCancel";
@@ -759,7 +759,7 @@ namespace FamilyTree.Viewer
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Image = global::FamilyTree.Viewer.Properties.Resources.OK;
+            this.cmdOK.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.cmdOK.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdOK.Location = new System.Drawing.Point(468, 464);
             this.cmdOK.Name = "cmdOK";
@@ -1428,7 +1428,7 @@ namespace FamilyTree.Viewer
             // cmdAddSource
             // 
             this.cmdAddSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdAddSource.Image = global::FamilyTree.Viewer.Properties.Resources.add;
+            this.cmdAddSource.Image = global::family_tree.viewer.Properties.Resources.add;
             this.cmdAddSource.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdAddSource.Location = new System.Drawing.Point(4, 464);
             this.cmdAddSource.Name = "cmdAddSource";
@@ -1442,7 +1442,7 @@ namespace FamilyTree.Viewer
             // 
             this.cmdDeleteSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdDeleteSource.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdDeleteSource.Image = global::FamilyTree.Viewer.Properties.Resources.delete;
+            this.cmdDeleteSource.Image = global::family_tree.viewer.Properties.Resources.delete;
             this.cmdDeleteSource.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cmdDeleteSource.Location = new System.Drawing.Point(110, 464);
             this.cmdDeleteSource.Name = "cmdDeleteSource";
@@ -1504,7 +1504,7 @@ namespace FamilyTree.Viewer
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.RadioButton radioAlpha;
         private System.Windows.Forms.RadioButton radioDate;
-        private FamilyTree.Viewer.CompoundDateEditBox dateSourceDate_;
+        private family_tree.viewer.CompoundDateEditBox dateSourceDate_;
         private System.Windows.Forms.Panel m_panList;
         private System.Windows.Forms.ComboBox cboAdditionalInfo_;
         private System.Windows.Forms.GroupBox grpCensus_;

@@ -6,9 +6,7 @@ using System.Collections;
 // StringBuilder
 using System.Text;
 
-using FamilyTree.Objects;
-
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a single source of information.</summary>
     public class Source

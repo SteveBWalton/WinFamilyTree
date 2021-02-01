@@ -10,9 +10,9 @@ using System.Windows.Forms;
 using System.Data.OleDb;
 
 // Family tree objects
-using FamilyTree.Objects;
+using family_tree.objects;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Dialog to allow the user edit an existing place.</summary>
     public partial class EditPlaceDialog : Form

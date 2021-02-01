@@ -12,7 +12,7 @@ using System.IO;
 using System.Collections;
 
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a media object.</summary>
     public class Media

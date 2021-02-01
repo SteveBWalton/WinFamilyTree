@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text;
 
-namespace FamilyTree.Viewer
+namespace family_tree.viewer
 {
     /// <summary>Form to allow the user to change their preferences.  Their preferences are stored in a clsUserOptions object.</summary>
     public partial class UserOptionsDialog : System.Windows.Forms.Form

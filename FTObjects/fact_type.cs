@@ -1,6 +1,6 @@
 using System;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a single fact type.  This is closely related to the <code>tlk_FactTypes</code> table.</summary>
     public class FactType

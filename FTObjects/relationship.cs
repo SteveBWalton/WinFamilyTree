@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.OleDb;	// Access database ADO.NET
 using System.Text;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     #region Supporting Types etc
 

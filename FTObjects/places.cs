@@ -4,7 +4,7 @@ using System.Text;
 
 using System.Collections;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent a collection of places.  The original use for this objects was to be able to draw a googlemap with all the places marked on.</summary>
     public class Places

@@ -5,7 +5,7 @@ using System.Data.OleDb;
 // StringBuilder
 using System.Text;
 
-namespace FamilyTree.Objects
+namespace family_tree.objects
 {
     /// <summary>Class to represent the additional information on a census source.  The CensusPerson records are children of these objects.</summary>
     public class Census
