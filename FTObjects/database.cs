@@ -2142,10 +2142,10 @@ namespace family_tree.objects
             file.WriteLine("-- Insert the table of people.");
             file.WriteLine("--");
             file.WriteLine("DROP TABLE IF EXISTS PEOPLE;");
-            file.WriteLine("CREATE TABLE PEOPLE ('ID' INTEGER PRIMARY KEY,'SURNAME' TEXT,'FORENAMES' TEXT,'MAIDEN_NAME' TEXT);");
+            file.WriteLine("CREATE TABLE PEOPLE ('ID' INTEGER PRIMARY KEY, 'SURNAME' TEXT, 'FORENAMES' TEXT, 'MAIDEN_NAME' TEXT, 'BORN' DATE, BORN_STATUS INTEGER, DIED DATE, DIED_STATUS INTEGER, FATHER_ID INTEGER, MOTHER_ID INTEGER);");
             file.WriteLine("BEGIN TRANSACTION;");
             // Get the list of people.
-            string sql = "SELECT * FROM tbl_People ORDER BY ID;";
+            string sql = "SELECT ID, Surname, Forenames, MaidenName, Born, BornStatusID, Died, DiedStatusID, FatherID, MotherID FROM tbl_People ORDER BY ID;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
@@ -2154,7 +2154,42 @@ namespace family_tree.objects
                 file.Write(walton.Database.toDb(walton.Database.getInt(dataReader, "ID", 0), 0) + ", ");
                 file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "Surname", "")) + ", ");
                 file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "Forenames", "")) + ", ");
-                file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "MaidenName", "")) + "");
+                file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "MaidenName", "")) + ", ");
+                if (dataReader.IsDBNull(4))
+                {
+                    file.Write("NULL, ");
+                }
+                else
+                {
+                    file.Write(dataReader.GetDateTime(4).ToString("yyyy-MM-dd") + ", ");
+                }
+                file.Write(dataReader.GetInt16(5).ToString() + ", ");
+                if (dataReader.IsDBNull(6))
+                {
+                    file.Write("NULL, ");
+                }
+                else
+                {
+                    file.Write(dataReader.GetDateTime(6).ToString("yyyy-MM-dd") + ", ");
+                }
+                file.Write(dataReader.GetInt16(7).ToString() + ", ");
+                if (dataReader.IsDBNull(8))
+                {
+                    file.Write("NULL, ");
+                }
+                else
+                {
+                    file.Write(walton.Database.getInt(dataReader, "FatherID", 0).ToString() + ", ");
+                }
+                if (dataReader.IsDBNull(9))
+                {
+                    file.Write("NULL, ");
+                }
+                else
+                {
+                    file.Write(walton.Database.getInt(dataReader, "MotherID", 0).ToString() + ", ");
+                }
+
                 file.WriteLine(");");
             }
             dataReader.Close();
@@ -2166,23 +2201,23 @@ namespace family_tree.objects
             file.WriteLine("-- Insert the table of places.");
             file.WriteLine("--");
             file.WriteLine("DROP TABLE IF EXISTS PLACES;");
-            file.WriteLine("CREATE TABLE PLACES ('ID' INTEGER PRIMARY KEY,'NAME' TEXT,'PARENT_ID' INTEGER,'STATUS' INTEGER,'LONGITUDE' REAL,'LATITUDE' REAL,'GOOGLE_ZOOM' INTEGER,'USE_PARENT_LOCATION' INTEGER,'PRIVATE_COMMENTS' TEXT);");
+            file.WriteLine("CREATE TABLE PLACES ('ID' INTEGER PRIMARY KEY, 'NAME' TEXT, 'PARENT_ID' INTEGER, 'STATUS' INTEGER, 'LONGITUDE' REAL, 'LATITUDE' REAL, 'GOOGLE_ZOOM' INTEGER, 'USE_PARENT_LOCATION' INTEGER, 'PRIVATE_COMMENTS' TEXT);");
             file.WriteLine("BEGIN TRANSACTION;");
             // Get the list of places.
-            sql = "SELECT ID,Name,ParentID,Status,Longitude,Latitude,GoogleZoom,UseParentLocation,PrivateComments FROM tbl_Places ORDER BY ID;";
+            sql = "SELECT ID, Name, ParentID, Status, Longitude, Latitude, GoogleZoom, UseParentLocation, PrivateComments FROM tbl_Places ORDER BY ID;";
             sqlCommand = new OleDbCommand(sql, cndb_);
             dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                file.Write("INSERT INTO PLACES (ID,NAME,PARENT_ID,STATUS,LONGITUDE,LATITUDE,GOOGLE_ZOOM,USE_PARENT_LOCATION,PRIVATE_COMMENTS) VALUES(");
-                file.Write(toDb(dataReader.GetInt32(0), 0) + ",");
-                file.Write(toDb(dataReader.GetString(1)) + ",");
-                file.Write(toDb(dataReader.GetInt32(2), 0) + ",");
-                file.Write(dataReader.GetInt32(3).ToString() + ",");
-                file.Write(walton.Database.toDb(walton.Database.getFloat(dataReader, "Longitude", -999f), -999f) + ",");
-                file.Write(walton.Database.toDb(walton.Database.getFloat(dataReader, "Latitude", -999f), -999f) + ",");
-                file.Write(walton.Database.toDb(walton.Database.getInt(dataReader, "GoogleZoom", 0), 0) + ",");
-                file.Write(walton.Database.toDb(walton.Database.getBool(dataReader, "UseParentLocation", false)) + ",");
+                file.Write("INSERT INTO PLACES (ID, NAME, PARENT_ID, STATUS, LONGITUDE, LATITUDE, GOOGLE_ZOOM, USE_PARENT_LOCATION, PRIVATE_COMMENTS) VALUES(");
+                file.Write(toDb(dataReader.GetInt32(0), 0) + ", ");
+                file.Write(toDb(dataReader.GetString(1)) + ", ");
+                file.Write(toDb(dataReader.GetInt32(2), 0) + ", ");
+                file.Write(dataReader.GetInt32(3).ToString() + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getFloat(dataReader, "Longitude", -999f), -999f) + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getFloat(dataReader, "Latitude", -999f), -999f) + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getInt(dataReader, "GoogleZoom", 0), 0) + ", ");
+                file.Write(walton.Database.toDb(walton.Database.getBool(dataReader, "UseParentLocation", false)) + ", ");
                 file.Write(walton.Database.toDb(walton.Database.getString(dataReader, "PrivateComments", "")));
                 file.WriteLine(");");
             }
