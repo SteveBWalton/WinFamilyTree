@@ -488,6 +488,48 @@ namespace family_tree.objects
             }
         }
 
+        /// <summary>
+        /// Writes this collection of sources into a Gedcom file.        
+        /// </summary>
+        /// <param name="level">Specifies the level on the tag in the gedcom file.</param>
+        /// <param name="file">Specifies the Gedcom file to write the tag into.</param>
+        /// <param name="already">Specifies the list of sources already used.  The source is added to this list.  Use NULL to ignore.</param>
+        public void writeGedcom
+            (
+            int level,
+            StreamWriter file,
+            ArrayList already
+            )
+        {
+            int[] ids = get();
+            for (int i = 0; i < ids.Length; i++)
+            {
+                bool isInclude = true;
+                if (already != null)
+                {
+                    if (already.Contains(ids[i]))
+                    {
+                        isInclude = false;
+                    }
+                    else
+                    {
+                        already.Add(ids[i]);
+                    }
+                }
+                // I think this function is only used now if 'All Elements' is true.
+                //if (isInclude)
+                //{
+                //    // Check that the source is Gedcom enabled.
+                //    string sql = "SELECT Gedcom FROM tbl_Sources WHERE ID=" + ids[i].ToString() + ";";
+                //    OleDbCommand oSql = new OleDbCommand(sql, database_.cndb);
+                //    isInclude = bool.Parse(oSql.ExecuteScalar().ToString());
+                //}
+                if (isInclude)
+                {
+                    file.WriteLine(level.ToString() + " SOUR @S" + ids[i].ToString("0000") + "@");
+                }
+            }
+        }
 
 
         ///// <summary>

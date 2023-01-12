@@ -1720,7 +1720,14 @@ namespace family_tree.viewer
 
                 // Check that this person is included in the gedcom file.
                 // The person will also need to be excluded from any families that try to reference him.
-                if (person.isIncludeInGedcom)
+                bool isInclude = person.isIncludeInGedcom;
+                if (options.isAllElements)
+                {
+                    isInclude = true;
+                }
+
+                // Export this person in the gedcom file.
+                if (isInclude)
                 {
                     // Create Gedcom record for this person
                     file.WriteLine("0 @I" + person.index.ToString("0000") + "@ INDI");
@@ -1732,29 +1739,13 @@ namespace family_tree.viewer
                     file.WriteLine("1 NAME " + person.forenames + " /" + person.birthSurname + "/");
                     file.WriteLine("2 GIVN " + person.forenames);
                     file.WriteLine("2 SURN " + person.birthSurname);
-                    // oPerson.SourceName.WriteGedcom(2,oFile,null);
-                    person.sourceName.gedcomAdd(personSources);
-
-                    // Get the occupation information.
-                    Fact[] facts = person.getFacts(20);
-                    if (facts.Length > 0)
+                    if (options.isAllElements)
                     {
-                        file.Write("2 OCCU ");
-                        bool isFirst = true;
-                        foreach (Fact fact in facts)
-                        {
-                            if (isFirst)
-                            {
-                                isFirst = false;
-                            }
-                            else
-                            {
-                                file.Write(", ");
-                            }
-                            file.Write(fact.information);
-                            // oFact.Sources.WriteGedcom(3,oFile,null);
-                        }
-                        file.WriteLine();
+                        person.sourceName.writeGedcom(2, file, null);
+                    }
+                    else
+                    {
+                        person.sourceName.gedcomAdd(personSources);
                     }
 
                     file.Write("1 SEX ");
@@ -1770,8 +1761,14 @@ namespace family_tree.viewer
                     file.WriteLine("2 DATE " + person.dob.format(DateFormat.GEDCOM));
                     database_.writeGedcomPlace(file, 2, person.getSimpleFact(10), options);
 
-                    // oPerson.SourceDoB.WriteGedcom(2,oFile,null);
-                    person.sourceDoB.gedcomAdd(personSources);
+                    if (options.isAllElements)
+                    {
+                        person.sourceDoB.writeGedcom(2, file, null);
+                    }
+                    else
+                    {
+                        person.sourceDoB.gedcomAdd(personSources);
+                    }
 
                     if (!person.dod.isEmpty())
                     {
@@ -1786,74 +1783,112 @@ namespace family_tree.viewer
                         {
                             file.WriteLine("2 CAUS " + causeOfDeath);
                         }
-                        // oPerson.SourceDoD.WriteGedcom(2,oFile,null);
-                        person.sourceDoD.gedcomAdd(personSources);
+                        if (options.isAllElements)
+                        {
+                            person.sourceDoD.writeGedcom(2, file, null);
+                        }
+                        else
+                        {
+                            person.sourceDoD.gedcomAdd(personSources);
+                        }
                     }
 
-                    // Create a list of the partners
-                    ArrayList oPartners = new ArrayList();
-
-                    // Get the relationship information				
-                    Relationship[] oRelationships = person.getRelationships();
-                    for (int nJ = 0; nJ < oRelationships.Length; nJ++)
+                    // Get the occupation information.
+                    Fact[] facts = person.getFacts(20);
+                    if (facts.Length > 0)
                     {
-                        // Check that the partner is included in the Gedcom file
-                        Person oPartner = new Person(oRelationships[nJ].partnerIndex, database_);
-                        if (oPartner.isIncludeInGedcom)
+                        foreach (Fact fact in facts)
                         {
-                            Family oMarriage = families.getMarriageFamily(oRelationships[nJ].maleIndex, oRelationships[nJ].femaleIndex, oRelationships[nJ].index);
-                            file.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
+                            file.Write("1 OCCU ");
+                            file.WriteLine(fact.information);
+                            if (options.isAllElements)
+                            {
+                                fact.sources.writeGedcom(2, file, null);
+                            }
+                        }
+                    }
 
-                            // Add to the list of partners
-                            oPartners.Add(oRelationships[nJ].partnerIndex);
+                    if (options.isAllElements)
+                    {
+                        // Education (40).
+                        facts = person.getFacts(40);
+                        if (facts.Length > 0)
+                        {
+                            foreach (Fact fact in facts)
+                            {
+                                file.Write("1 EDUC ");
+                                file.WriteLine(fact.information);
+                                fact.sources.writeGedcom(2, file, null);
+                            }
+                        }
+                        // Interests (30).
+                        // Comments (100).
+                    }
+
+                    // Create a list of the partners.
+                    ArrayList partners = new ArrayList();
+
+                    // Get the relationship information.
+                    Relationship[] relationships = person.getRelationships();
+                    for (int j = 0; j < relationships.Length; j++)
+                    {
+                        // Check that the partner is included in the Gedcom file.
+                        Person partner = new Person(relationships[j].partnerIndex, database_);
+                        if (partner.isIncludeInGedcom)
+                        {
+                            Family family = families.getMarriageFamily(relationships[j].maleIndex, relationships[j].femaleIndex, relationships[j].index);
+                            file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
+
+                            // Add to the list of partners.
+                            partners.Add(relationships[j].partnerIndex);
                         }
                     }
 
                     // Add the partners in children not already picked up
-                    int[] nChildren = person.getChildren();
-                    for (int nJ = 0; nJ < nChildren.Length; nJ++)
+                    int[] children = person.getChildren();
+                    for (int j = 0; j < children.Length; j++)
                     {
-                        Person oChild = database_.getPerson(nChildren[nJ]);
+                        Person child = database_.getPerson(children[j]);
 
                         // Check that the childs parent is already a partner
                         if (person.isMale)
                         {
-                            if (!oPartners.Contains(oChild.motherIndex))
+                            if (!partners.Contains(child.motherIndex))
                             {
-                                int nMotherID = oChild.motherIndex;
-                                Person oMother = new Person(oChild.motherIndex, database_);
-                                if (!oMother.isIncludeInGedcom)
+                                int motherIndex = child.motherIndex;
+                                Person mother = new Person(child.motherIndex, database_);
+                                if (!mother.isIncludeInGedcom && !options.isAllElements)
                                 {
-                                    // Use an unknown mother
-                                    nMotherID = 0;
+                                    // Use an unknown mother.
+                                    motherIndex = 0;
                                 }
 
-                                // Create families for new partner
-                                Family oMarriage = families.getMarriageFamily(person.index, nMotherID, 0);
-                                file.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
+                                // Create families for new partner.
+                                Family family = families.getMarriageFamily(person.index, motherIndex, 0);
+                                file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
 
                                 // Add to the list of partners
-                                oPartners.Add(nMotherID);
+                                partners.Add(motherIndex);
                             }
                         }
                         else
                         {
-                            if (!oPartners.Contains(oChild.fatherIndex))
+                            if (!partners.Contains(child.fatherIndex))
                             {
-                                int nFatherID = oChild.fatherIndex;
-                                Person oFather = new Person(oChild.fatherIndex, database_);
-                                if (!oFather.isIncludeInGedcom)
+                                int fatherIndex = child.fatherIndex;
+                                Person father = new Person(child.fatherIndex, database_);
+                                if (!father.isIncludeInGedcom)
                                 {
                                     // Use an unknown father
-                                    nFatherID = 0;
+                                    fatherIndex = 0;
                                 }
 
                                 // Create families for new partner
-                                Family oMarriage = families.getMarriageFamily(nFatherID, person.index, 0);
-                                file.WriteLine("1 FAMS @F" + oMarriage.gedcomIndex.ToString("0000") + "@");
+                                Family family = families.getMarriageFamily(fatherIndex, person.index, 0);
+                                file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
 
                                 // Add to the list of partners
-                                oPartners.Add(nFatherID);
+                                partners.Add(fatherIndex);
                             }
                         }
                     }
@@ -1862,57 +1897,63 @@ namespace family_tree.viewer
                     if (person.fatherIndex > 0 || person.motherIndex > 0)
                     {
                         // Check that the father is included in the gedcom file.
-                        int nFatherID = person.fatherIndex;
-                        Person oFather = new Person(nFatherID, database_);
-                        if (!oFather.isIncludeInGedcom)
+                        int fatherIndex = person.fatherIndex;
+                        Person father = new Person(fatherIndex, database_);
+                        if (!father.isIncludeInGedcom)
                         {
-                            nFatherID = 0;
+                            fatherIndex = 0;
                         }
 
                         // Check that the mother is included in the gedcom file.
-                        int nMotherID = person.motherIndex;
-                        Person oMother = new Person(nMotherID, database_);
-                        if (!oMother.isIncludeInGedcom)
+                        int motherIndex = person.motherIndex;
+                        Person mother = new Person(motherIndex, database_);
+                        if (!mother.isIncludeInGedcom)
                         {
-                            nMotherID = 0;
+                            motherIndex = 0;
                         }
 
-                        //  Get the parent family information
-                        if (nMotherID != 0 || nFatherID != 0)
+                        //  Get the parent family information.
+                        if (motherIndex != 0 || fatherIndex != 0)
                         {
-                            Family oFamily = families.getParentFamily(person.fatherIndex, person.motherIndex);
-                            oFamily.addChild(person);
-                            file.WriteLine("1 FAMC @F" + oFamily.gedcomIndex.ToString("0000") + "@");
+                            Family family = families.getParentFamily(person.fatherIndex, person.motherIndex);
+                            family.addChild(person);
+                            file.WriteLine("1 FAMC @F" + family.gedcomIndex.ToString("0000") + "@");
                         }
                     }
 
-                    // Get Census records
-                    CensusPerson[] oCensui = database_.censusForPerson(person.index);
-                    foreach (CensusPerson oCensus in oCensui)
+                    // Get Census records.
+                    CensusPerson[] censui = database_.censusForPerson(person.index);
+                    foreach (CensusPerson census in censui)
                     {
                         file.WriteLine("1 CENS");
-                        file.WriteLine("2 DATE " + oCensus.date.ToString("d MMM yyyy"));
-                        database_.writeGedcomPlace(file, 2, oCensus.houseHoldName, options);
-                        if (oCensus.occupation != "")
+                        file.WriteLine("2 DATE " + census.date.ToString("d MMM yyyy"));
+                        database_.writeGedcomPlace(file, 2, census.houseHoldName, options);
+                        if (census.occupation != "")
                         {
-                            file.WriteLine("2 OCCU " + oCensus.occupation);
+                            file.WriteLine("2 OCCU " + census.occupation);
                         }
-                        file.WriteLine("2 NOTE " + oCensus.livingWith(database_));
-                        Sources oSources = oCensus.getSources(database_);
-                        if (oSources != null)
+                        file.WriteLine("2 NOTE " + census.livingWith(database_));
+                        Sources sources = census.getSources(database_);
+                        if (sources != null)
                         {
-                            // oSources.WriteGedcom(2,oFile,null);
-                            oSources.gedcomAdd(personSources);
+                            if (options.isAllElements)
+                            {
+                                sources.writeGedcom(2, file, null);
+                            }
+                            else
+                            {
+                                sources.gedcomAdd(personSources);
+                            }
                         }
                     }
 
-                    // Attach the  media
+                    // Attach the media.
                     database_.gedcomWritePersonMedia(file, person.index, person.mediaIndex);
 
                     // Attached the list of sources
-                    foreach (int nSourceID in personSources)
+                    foreach (int sourceIndex in personSources)
                     {
-                        file.WriteLine("1 SOUR @S" + nSourceID.ToString("0000") + "@");
+                        file.WriteLine("1 SOUR @S" + sourceIndex.ToString("0000") + "@");
                     }
 
                     // Write the last edit information

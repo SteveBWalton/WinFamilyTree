@@ -41,6 +41,7 @@ namespace family_tree.viewer
             this.chkUseCtry_ = new System.Windows.Forms.CheckBox();
             this.chkLongitude_ = new System.Windows.Forms.CheckBox();
             this.chkUseAddr_ = new System.Windows.Forms.CheckBox();
+            this.checkboxIncludeEverything_ = new System.Windows.Forms.CheckBox();
             label1 = new System.Windows.Forms.Label();
             cmdOpen = new System.Windows.Forms.Button();
             cmdCancel = new System.Windows.Forms.Button();
@@ -107,16 +108,16 @@ namespace family_tree.viewer
             label2.Text = "Scheme:";
             label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // m_txtFilename
+            // txtFilename_
             // 
-            this.txtFilename_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilename_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilename_.Location = new System.Drawing.Point(109, 18);
-            this.txtFilename_.Name = "m_txtFilename";
+            this.txtFilename_.Name = "txtFilename_";
             this.txtFilename_.Size = new System.Drawing.Size(477, 21);
             this.txtFilename_.TabIndex = 1;
             // 
-            // m_cboScheme
+            // cboScheme_
             // 
             this.cboScheme_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboScheme_.FormattingEnabled = true;
@@ -124,68 +125,80 @@ namespace family_tree.viewer
             "Custom",
             "Neutral",
             "Php Gedview",
-            "Gramps"});
+            "Gramps",
+            "gedcom-py"});
             this.cboScheme_.Location = new System.Drawing.Point(109, 44);
-            this.cboScheme_.Name = "m_cboScheme";
+            this.cboScheme_.Name = "cboScheme_";
             this.cboScheme_.Size = new System.Drawing.Size(185, 21);
             this.cboScheme_.TabIndex = 6;
             this.cboScheme_.SelectedIndexChanged += new System.EventHandler(this.cboScheme_SelectedIndexChanged);
             // 
-            // m_chkPGVU
+            // chkPgvu_
             // 
             this.chkPgvu_.AutoSize = true;
             this.chkPgvu_.Location = new System.Drawing.Point(35, 158);
-            this.chkPgvu_.Name = "m_chkPGVU";
+            this.chkPgvu_.Name = "chkPgvu_";
             this.chkPgvu_.Size = new System.Drawing.Size(163, 17);
             this.chkPgvu_.TabIndex = 7;
             this.chkPgvu_.Text = "Include _PGVU (Last Edit By)";
             this.chkPgvu_.UseVisualStyleBackColor = true;
             // 
-            // m_chkRemoveAddresses
+            // chkRemoveAddresses_
             // 
             this.chkRemoveAddresses_.AutoSize = true;
             this.chkRemoveAddresses_.Location = new System.Drawing.Point(35, 181);
-            this.chkRemoveAddresses_.Name = "m_chkRemoveAddresses";
+            this.chkRemoveAddresses_.Name = "chkRemoveAddresses_";
             this.chkRemoveAddresses_.Size = new System.Drawing.Size(256, 17);
             this.chkRemoveAddresses_.TabIndex = 8;
             this.chkRemoveAddresses_.Text = "Split address from PLAC tags and add ADDR tag";
             this.chkRemoveAddresses_.UseVisualStyleBackColor = true;
             // 
-            // m_chkUseCTRY
+            // chkUseCtry_
             // 
             this.chkUseCtry_.AutoSize = true;
             this.chkUseCtry_.Location = new System.Drawing.Point(35, 227);
-            this.chkUseCtry_.Name = "m_chkUseCTRY";
+            this.chkUseCtry_.Name = "chkUseCtry_";
             this.chkUseCtry_.Size = new System.Drawing.Size(208, 17);
             this.chkUseCtry_.TabIndex = 9;
             this.chkUseCtry_.Text = "Add CTRY (Country) tag to PLAC tags";
             this.chkUseCtry_.UseVisualStyleBackColor = true;
             // 
-            // m_chkLongitude
+            // chkLongitude_
             // 
             this.chkLongitude_.AutoSize = true;
             this.chkLongitude_.Location = new System.Drawing.Point(35, 250);
-            this.chkLongitude_.Name = "m_chkLongitude";
+            this.chkLongitude_.Name = "chkLongitude_";
             this.chkLongitude_.Size = new System.Drawing.Size(174, 17);
             this.chkLongitude_.TabIndex = 10;
             this.chkLongitude_.Text = "Include Longitude and Latitude";
             this.chkLongitude_.UseVisualStyleBackColor = true;
             // 
-            // m_chkUseADDR
+            // chkUseAddr_
             // 
             this.chkUseAddr_.AutoSize = true;
             this.chkUseAddr_.Location = new System.Drawing.Point(35, 204);
-            this.chkUseAddr_.Name = "m_chkUseADDR";
+            this.chkUseAddr_.Name = "chkUseAddr_";
             this.chkUseAddr_.Size = new System.Drawing.Size(209, 17);
             this.chkUseAddr_.TabIndex = 11;
             this.chkUseAddr_.Text = "Add ADDR (address) tag to PLAC tags";
             this.chkUseAddr_.UseVisualStyleBackColor = true;
             // 
-            // frmGedcomOptions
+            // checkboxIncludeEverything_
+            // 
+            this.checkboxIncludeEverything_.AutoSize = true;
+            this.checkboxIncludeEverything_.Location = new System.Drawing.Point(35, 273);
+            this.checkboxIncludeEverything_.Name = "checkboxIncludeEverything_";
+            this.checkboxIncludeEverything_.Size = new System.Drawing.Size(116, 17);
+            this.checkboxIncludeEverything_.TabIndex = 12;
+            this.checkboxIncludeEverything_.Text = "Include Everything";
+            this.checkboxIncludeEverything_.UseVisualStyleBackColor = true;
+            // 
+            // GedcomOptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 372);
+            this.Controls.Add(this.checkboxIncludeEverything_);
             this.Controls.Add(this.chkUseAddr_);
             this.Controls.Add(this.chkLongitude_);
             this.Controls.Add(this.chkUseCtry_);
@@ -199,7 +212,7 @@ namespace family_tree.viewer
             this.Controls.Add(this.txtFilename_);
             this.Controls.Add(label1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "frmGedcomOptions";
+            this.Name = "GedcomOptionsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Export Gedcom Options";
             this.Load += new System.EventHandler(this.frmGedcomOptions_Load);
@@ -218,5 +231,6 @@ namespace family_tree.viewer
         private System.Windows.Forms.CheckBox chkUseCtry_;
         private System.Windows.Forms.CheckBox chkLongitude_;
         private System.Windows.Forms.CheckBox chkUseAddr_;
+        private System.Windows.Forms.CheckBox checkboxIncludeEverything_;
     }
 }

@@ -19,7 +19,7 @@ namespace family_tree.viewer
         {
             InitializeComponent();
 
-            // Save the Gedcom options object
+            // Save the Gedcom options object.
             options_ = options;
         }
 
@@ -41,6 +41,7 @@ namespace family_tree.viewer
             options_.isUseADDR = chkUseAddr_.Checked;
             options_.isUseCTRY = chkUseCtry_.Checked;
             options_.isUseLongitude = chkLongitude_.Checked;
+            options_.isAllElements = checkboxIncludeEverything_.Checked;
         }
 
 
@@ -62,7 +63,7 @@ namespace family_tree.viewer
             saveFileDialog_.FileName = txtFilename_.Text;
 
             // Allow the user to select the output file
-            if(saveFileDialog_.ShowDialog(this) == DialogResult.OK)
+            if (saveFileDialog_.ShowDialog(this) == DialogResult.OK)
             {
                 txtFilename_.Text = saveFileDialog_.FileName;
             }
@@ -91,6 +92,8 @@ namespace family_tree.viewer
                 chkUseAddr_.Checked = false;
                 chkUseCtry_.Checked = false;
                 chkLongitude_.Checked = false;
+                checkboxIncludeEverything_.Checked = false;
+
                 break;
             
             case 2:// Php GedView.
@@ -99,6 +102,8 @@ namespace family_tree.viewer
                 chkUseAddr_.Checked = true;
                 chkUseCtry_.Checked = true;
                 chkLongitude_.Checked = false;
+                checkboxIncludeEverything_.Checked = false;
+
                 break;
 
             case 3:// Gramps.
@@ -107,6 +112,16 @@ namespace family_tree.viewer
                 chkUseAddr_.Checked = false;
                 chkUseCtry_.Checked = false;
                 chkLongitude_.Checked = true;
+                checkboxIncludeEverything_.Checked = false;
+                break;
+
+            case 4://gedcom-py
+                chkPgvu_.Checked = true;
+                chkRemoveAddresses_.Checked = true;
+                chkUseAddr_.Checked = true;
+                chkUseCtry_.Checked = true;
+                chkLongitude_.Checked = true;
+                checkboxIncludeEverything_.Checked = true;
                 break;
             }
         }

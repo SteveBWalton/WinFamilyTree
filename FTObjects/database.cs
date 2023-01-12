@@ -68,7 +68,8 @@ namespace family_tree.objects
             marriedRange_ = 20;
 
             // Open the connection to the database.
-            cndb_ = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + ";");
+            // cndb_ = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + ";");
+            cndb_ = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + fileName + ";");
             cndb_.Open();
         }
 

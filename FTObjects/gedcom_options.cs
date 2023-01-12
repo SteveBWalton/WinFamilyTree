@@ -25,6 +25,9 @@ namespace family_tree.objects
         /// <summary>Add MAP tags with longitude and latitude to PLAC tags.</summary>
         public bool isUseLongitude;
 
+        /// <summary>True to include everything.</summary>
+        public bool isAllElements;
+
         #region Class Constrcutors etc ...
 
 
