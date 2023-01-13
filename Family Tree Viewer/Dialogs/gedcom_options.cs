@@ -28,6 +28,7 @@ namespace family_tree.viewer
         private void populateForm()
         {
             txtFilename_.Text = options_.fileName;
+            cboScheme_.SelectedIndex = options_.scheme;
         }
 
 
@@ -36,6 +37,7 @@ namespace family_tree.viewer
         private void populateOptions()
         {
             options_.fileName = txtFilename_.Text;
+            options_.scheme = cboScheme_.SelectedIndex;
             options_.isIncludePGVU = chkPgvu_.Checked;
             options_.isRemoveADDRfromPLAC = chkRemoveAddresses_.Checked;
             options_.isUseADDR = chkUseAddr_.Checked;
@@ -74,14 +76,13 @@ namespace family_tree.viewer
         private void frmGedcomOptions_Load(object sender, EventArgs e)
         {
             populateForm();
-            cboScheme_.SelectedIndex = 1;
         }
 
 
 
         private void cboScheme_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(cboScheme_.SelectedIndex)
+            switch (cboScheme_.SelectedIndex)
             {
             case 0:// Custom do nothing.
                 break;
@@ -95,7 +96,7 @@ namespace family_tree.viewer
                 checkboxIncludeEverything_.Checked = false;
 
                 break;
-            
+
             case 2:// Php GedView.
                 chkPgvu_.Checked = true;
                 chkRemoveAddresses_.Checked = true;

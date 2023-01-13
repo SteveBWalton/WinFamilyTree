@@ -28,6 +28,9 @@ namespace family_tree.objects
         /// <summary>True to include everything.</summary>
         public bool isAllElements;
 
+        /// <summary>The current scheme.</summary>
+        public int scheme;
+
         #region Class Constrcutors etc ...
 
 
@@ -60,6 +63,7 @@ namespace family_tree.objects
         public bool save(walton.XmlNode xmlGedcom)
         {
             xmlGedcom.setAttributeValue("filename", fileName);
+            xmlGedcom.setAttributeValue("scheme", scheme);
 
             // Return success.
             return true;
@@ -73,6 +77,7 @@ namespace family_tree.objects
         public bool load(walton.XmlNode xmlGedcom)
         {
             fileName = xmlGedcom.getAttributeValue("filename", "filename.ged", true);
+            scheme = xmlGedcom.getAttributeValue("scheme", 0, true);
 
             // Return success.
             return true;

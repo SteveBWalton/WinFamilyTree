@@ -121,8 +121,12 @@ namespace family_tree.objects
                         if (!marriage.start.isEmpty())
                         {
                             file.WriteLine("2 DATE " + marriage.start.format(DateFormat.GEDCOM));
+                            if (options.isAllElements)
+                            {
+                                marriage.sourceStart.writeGedcom(3, file, null);
+                            }
                         }
-                        database.writeGedcomPlace(file, 2, marriage.location, null,options);
+                        database.writeGedcomPlace(file, 2, marriage.location, marriage.sourceLocation, options);
 
                         // ArrayList oAlready = new ArrayList();
                         //oMarriage.SourceStart.GedcomWrite(2,oFile,oAlready);

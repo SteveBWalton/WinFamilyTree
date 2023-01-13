@@ -169,95 +169,95 @@ namespace family_tree.viewer
             // menuExportGedcom
             // 
             menuExportGedcom.Name = "menuExportGedcom";
-            menuExportGedcom.Size = new System.Drawing.Size(180, 22);
+            menuExportGedcom.Size = new System.Drawing.Size(173, 22);
             menuExportGedcom.Text = "Export Gedcom...";
             menuExportGedcom.Click += new System.EventHandler(this.menuExportGedcom_Click);
             // 
             // toolStripMenuItem9
             // 
             toolStripMenuItem9.Name = "toolStripMenuItem9";
-            toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
+            toolStripMenuItem9.Size = new System.Drawing.Size(170, 6);
             // 
             // toolStripMenuItem10
             // 
             toolStripMenuItem10.Name = "toolStripMenuItem10";
-            toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
+            toolStripMenuItem10.Size = new System.Drawing.Size(170, 6);
             // 
             // toolStripMenuItem11
             // 
             toolStripMenuItem11.Name = "toolStripMenuItem11";
-            toolStripMenuItem11.Size = new System.Drawing.Size(177, 6);
+            toolStripMenuItem11.Size = new System.Drawing.Size(170, 6);
             // 
             // editCensusRecordsToolStripMenuItem
             // 
             editCensusRecordsToolStripMenuItem.Name = "editCensusRecordsToolStripMenuItem";
-            editCensusRecordsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            editCensusRecordsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             editCensusRecordsToolStripMenuItem.Text = "Edit Census Records...";
             editCensusRecordsToolStripMenuItem.Click += new System.EventHandler(this.menuCensus_Click);
             // 
             // toolStripMenuItem12
             // 
             toolStripMenuItem12.Name = "toolStripMenuItem12";
-            toolStripMenuItem12.Size = new System.Drawing.Size(197, 6);
+            toolStripMenuItem12.Size = new System.Drawing.Size(200, 6);
             // 
             // addFatherToolStripMenuItem
             // 
             addFatherToolStripMenuItem.Name = "addFatherToolStripMenuItem";
-            addFatherToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            addFatherToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addFatherToolStripMenuItem.Text = "Add Father...";
             addFatherToolStripMenuItem.Click += new System.EventHandler(this.menuAddFather_Click);
             // 
             // addMotherToolStripMenuItem
             // 
             addMotherToolStripMenuItem.Name = "addMotherToolStripMenuItem";
-            addMotherToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            addMotherToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addMotherToolStripMenuItem.Text = "Add Mother...";
             addMotherToolStripMenuItem.Click += new System.EventHandler(this.menuAddMother_Click);
             // 
             // addSiblingToolStripMenuItem
             // 
             addSiblingToolStripMenuItem.Name = "addSiblingToolStripMenuItem";
-            addSiblingToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            addSiblingToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addSiblingToolStripMenuItem.Text = "Add Sibling...";
             addSiblingToolStripMenuItem.Click += new System.EventHandler(this.menuAddSibling_Click);
             // 
             // addChildToolStripMenuItem
             // 
             addChildToolStripMenuItem.Name = "addChildToolStripMenuItem";
-            addChildToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            addChildToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addChildToolStripMenuItem.Text = "Add Child...";
             addChildToolStripMenuItem.Click += new System.EventHandler(this.menuAddChild_Click);
             // 
             // addPartnerToolStripMenuItem
             // 
             addPartnerToolStripMenuItem.Name = "addPartnerToolStripMenuItem";
-            addPartnerToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            addPartnerToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addPartnerToolStripMenuItem.Text = "Add Partner...";
             addPartnerToolStripMenuItem.Click += new System.EventHandler(this.menuAddPartner_Click);
             // 
             // toolStripMenuItem13
             // 
             toolStripMenuItem13.Name = "toolStripMenuItem13";
-            toolStripMenuItem13.Size = new System.Drawing.Size(197, 6);
+            toolStripMenuItem13.Size = new System.Drawing.Size(200, 6);
             // 
             // menuUnlinkedPlaces
             // 
             menuUnlinkedPlaces.Name = "menuUnlinkedPlaces";
-            menuUnlinkedPlaces.Size = new System.Drawing.Size(200, 22);
+            menuUnlinkedPlaces.Size = new System.Drawing.Size(203, 22);
             menuUnlinkedPlaces.Text = "Remove Unlinked Places";
             menuUnlinkedPlaces.Click += new System.EventHandler(this.menuUnlinkedPlaces_Click);
             // 
             // menuRecentChanges
             // 
             menuRecentChanges.Name = "menuRecentChanges";
-            menuRecentChanges.Size = new System.Drawing.Size(218, 22);
+            menuRecentChanges.Size = new System.Drawing.Size(215, 22);
             menuRecentChanges.Text = "Recent Changes";
             menuRecentChanges.Click += new System.EventHandler(this.menuRecentChanges_Click);
             // 
             // toolStripMenuItem14
             // 
             toolStripMenuItem14.Name = "toolStripMenuItem14";
-            toolStripMenuItem14.Size = new System.Drawing.Size(215, 6);
+            toolStripMenuItem14.Size = new System.Drawing.Size(212, 6);
             // 
             // oImageList16x16
             // 
@@ -277,31 +277,31 @@ namespace family_tree.viewer
             // menuAddMedia
             // 
             menuAddMedia.Name = "menuAddMedia";
-            menuAddMedia.Size = new System.Drawing.Size(200, 22);
+            menuAddMedia.Size = new System.Drawing.Size(203, 22);
             menuAddMedia.Text = "Add Media...";
             menuAddMedia.Click += new System.EventHandler(this.menuAddMedia_Click);
             // 
             // toolStripMenuItem15
             // 
             toolStripMenuItem15.Name = "toolStripMenuItem15";
-            toolStripMenuItem15.Size = new System.Drawing.Size(197, 6);
+            toolStripMenuItem15.Size = new System.Drawing.Size(200, 6);
             // 
             // toolStripMenuItem16
             // 
             toolStripMenuItem16.Name = "toolStripMenuItem16";
-            toolStripMenuItem16.Size = new System.Drawing.Size(215, 6);
+            toolStripMenuItem16.Size = new System.Drawing.Size(212, 6);
             // 
             // menuHtmlSource
             // 
             menuHtmlSource.Name = "menuHtmlSource";
-            menuHtmlSource.Size = new System.Drawing.Size(218, 22);
+            menuHtmlSource.Size = new System.Drawing.Size(215, 22);
             menuHtmlSource.Text = "html Source";
             menuHtmlSource.Click += new System.EventHandler(this.menuHtmlSource_Click);
             // 
             // menuToDo
             // 
             menuToDo.Name = "menuToDo";
-            menuToDo.Size = new System.Drawing.Size(218, 22);
+            menuToDo.Size = new System.Drawing.Size(215, 22);
             menuToDo.Text = "To Do List";
             menuToDo.Click += new System.EventHandler(this.menuToDo_Click);
             // 
@@ -333,43 +333,43 @@ namespace family_tree.viewer
             tsbHome.Image = global::family_tree.viewer.Properties.Resources.Home;
             tsbHome.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbHome.Name = "tsbHome";
-            tsbHome.Size = new System.Drawing.Size(54, 22);
+            tsbHome.Size = new System.Drawing.Size(60, 22);
             tsbHome.Text = "Home";
             tsbHome.Click += new System.EventHandler(this.menuHome_Click);
             // 
-            // m_tsddbBack
+            // tsddbBack_
             // 
             this.tsddbBack_.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.tsddbBack_.Image = global::family_tree.viewer.Properties.Resources.Back;
             this.tsddbBack_.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.tsddbBack_.Name = "m_tsddbBack";
+            this.tsddbBack_.Name = "tsddbBack_";
             this.tsddbBack_.Size = new System.Drawing.Size(13, 22);
             this.tsddbBack_.Text = "Back";
             // 
-            // m_tsbBack
+            // tsbBack_
             // 
             this.tsbBack_.Image = global::family_tree.viewer.Properties.Resources.Back;
             this.tsbBack_.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.tsbBack_.Name = "m_tsbBack";
-            this.tsbBack_.Size = new System.Drawing.Size(49, 22);
+            this.tsbBack_.Name = "tsbBack_";
+            this.tsbBack_.Size = new System.Drawing.Size(52, 22);
             this.tsbBack_.Text = "Back";
             this.tsbBack_.Click += new System.EventHandler(this.menuBack_Click);
             // 
-            // m_tsddbForward
+            // tsddbForward_
             // 
             this.tsddbForward_.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.tsddbForward_.Image = ((System.Drawing.Image)(resources.GetObject("m_tsddbForward.Image")));
+            this.tsddbForward_.Image = ((System.Drawing.Image)(resources.GetObject("tsddbForward_.Image")));
             this.tsddbForward_.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsddbForward_.Name = "m_tsddbForward";
+            this.tsddbForward_.Name = "tsddbForward_";
             this.tsddbForward_.Size = new System.Drawing.Size(13, 22);
             this.tsddbForward_.Text = "Forward";
             // 
-            // m_tsbForward
+            // tsbForward_
             // 
             this.tsbForward_.Image = global::family_tree.viewer.Properties.Resources.Forward;
             this.tsbForward_.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.tsbForward_.Name = "m_tsbForward";
-            this.tsbForward_.Size = new System.Drawing.Size(67, 22);
+            this.tsbForward_.Name = "tsbForward_";
+            this.tsbForward_.Size = new System.Drawing.Size(70, 22);
             this.tsbForward_.Text = "Forward";
             this.tsbForward_.Click += new System.EventHandler(this.menuForward_Click);
             // 
@@ -378,7 +378,7 @@ namespace family_tree.viewer
             tsbGoto.Image = global::family_tree.viewer.Properties.Resources.Person;
             tsbGoto.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbGoto.Name = "tsbGoto";
-            tsbGoto.Size = new System.Drawing.Size(50, 22);
+            tsbGoto.Size = new System.Drawing.Size(53, 22);
             tsbGoto.Text = "Goto";
             tsbGoto.Click += new System.EventHandler(this.menuGoto_Click);
             // 
@@ -387,7 +387,7 @@ namespace family_tree.viewer
             tsbEdit.Image = global::family_tree.viewer.Properties.Resources.Textbox;
             tsbEdit.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbEdit.Name = "tsbEdit";
-            tsbEdit.Size = new System.Drawing.Size(45, 22);
+            tsbEdit.Size = new System.Drawing.Size(47, 22);
             tsbEdit.Text = "Edit";
             tsbEdit.Click += new System.EventHandler(this.menuEdit_Click);
             // 
@@ -396,7 +396,7 @@ namespace family_tree.viewer
             tsbSources.Image = global::family_tree.viewer.Properties.Resources.CardFile;
             tsbSources.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbSources.Name = "tsbSources";
-            tsbSources.Size = new System.Drawing.Size(65, 22);
+            tsbSources.Size = new System.Drawing.Size(68, 22);
             tsbSources.Text = "Sources";
             tsbSources.Click += new System.EventHandler(this.menuEditSources_Click);
             // 
@@ -405,7 +405,7 @@ namespace family_tree.viewer
             tsbTree.Image = global::family_tree.viewer.Properties.Resources.Tree;
             tsbTree.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbTree.Name = "tsbTree";
-            tsbTree.Size = new System.Drawing.Size(49, 22);
+            tsbTree.Size = new System.Drawing.Size(48, 22);
             tsbTree.Text = "Tree";
             tsbTree.Click += new System.EventHandler(this.menuToTree_Click);
             // 
@@ -414,7 +414,7 @@ namespace family_tree.viewer
             tsbReport.Image = global::family_tree.viewer.Properties.Resources.web;
             tsbReport.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbReport.Name = "tsbReport";
-            tsbReport.Size = new System.Drawing.Size(60, 22);
+            tsbReport.Size = new System.Drawing.Size(62, 22);
             tsbReport.Text = "Report";
             tsbReport.Click += new System.EventHandler(this.menuReportToHtml_Click);
             // 
@@ -423,7 +423,7 @@ namespace family_tree.viewer
             tsbAge.Image = global::family_tree.viewer.Properties.Resources.Cake;
             tsbAge.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbAge.Name = "tsbAge";
-            tsbAge.Size = new System.Drawing.Size(46, 22);
+            tsbAge.Size = new System.Drawing.Size(48, 22);
             tsbAge.Text = "Age";
             tsbAge.Click += new System.EventHandler(this.menuCalcAge_Click);
             // 
@@ -434,7 +434,7 @@ namespace family_tree.viewer
             this.m_tsbImage.Image = global::family_tree.viewer.Properties.Resources.picture;
             this.m_tsbImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.m_tsbImage.Name = "m_tsbImage";
-            this.m_tsbImage.Size = new System.Drawing.Size(62, 22);
+            this.m_tsbImage.Size = new System.Drawing.Size(65, 22);
             this.m_tsbImage.Text = "Images";
             this.m_tsbImage.Click += new System.EventHandler(this.menuImage_Click);
             // 
@@ -443,7 +443,7 @@ namespace family_tree.viewer
             this.m_tsbLocation.Image = global::family_tree.viewer.Properties.Resources.Earth;
             this.m_tsbLocation.ImageTransparentColor = System.Drawing.Color.Silver;
             this.m_tsbLocation.Name = "m_tsbLocation";
-            this.m_tsbLocation.Size = new System.Drawing.Size(67, 22);
+            this.m_tsbLocation.Size = new System.Drawing.Size(73, 22);
             this.m_tsbLocation.Text = "Location";
             this.m_tsbLocation.Click += new System.EventHandler(this.menuLocation_Click);
             // 
@@ -452,7 +452,7 @@ namespace family_tree.viewer
             tsbReduceWidth.Image = global::family_tree.viewer.Properties.Resources.Width_Reduce;
             tsbReduceWidth.ImageTransparentColor = System.Drawing.Color.Silver;
             tsbReduceWidth.Name = "tsbReduceWidth";
-            tsbReduceWidth.Size = new System.Drawing.Size(63, 22);
+            tsbReduceWidth.Size = new System.Drawing.Size(66, 22);
             tsbReduceWidth.Text = "Reduce";
             tsbReduceWidth.Click += new System.EventHandler(this.menuReduceWidth_Click);
             // 
@@ -486,7 +486,7 @@ namespace family_tree.viewer
             toolStripMenuItem11,
             menuExit});
             menuFile.Name = "menuFile";
-            menuFile.Size = new System.Drawing.Size(35, 20);
+            menuFile.Size = new System.Drawing.Size(37, 20);
             menuFile.Text = "File";
             // 
             // menuOpen
@@ -494,14 +494,14 @@ namespace family_tree.viewer
             menuOpen.Image = global::family_tree.viewer.Properties.Resources.Open;
             menuOpen.ImageTransparentColor = System.Drawing.Color.Silver;
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new System.Drawing.Size(180, 22);
+            menuOpen.Size = new System.Drawing.Size(173, 22);
             menuOpen.Text = "Open...";
             menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
             // menuExportSQLScript
             // 
             menuExportSQLScript.Name = "menuExportSQLScript";
-            menuExportSQLScript.Size = new System.Drawing.Size(180, 22);
+            menuExportSQLScript.Size = new System.Drawing.Size(173, 22);
             menuExportSQLScript.Text = "Export SQL script...";
             menuExportSQLScript.Click += new System.EventHandler(this.menuExportSQLScript_Click);
             // 
@@ -510,7 +510,7 @@ namespace family_tree.viewer
             menuOpenTree.Image = global::family_tree.viewer.Properties.Resources.Tree;
             menuOpenTree.ImageTransparentColor = System.Drawing.Color.Silver;
             menuOpenTree.Name = "menuOpenTree";
-            menuOpenTree.Size = new System.Drawing.Size(180, 22);
+            menuOpenTree.Size = new System.Drawing.Size(173, 22);
             menuOpenTree.Text = "Open Tree...";
             menuOpenTree.Click += new System.EventHandler(this.menuOpenTree_Click);
             // 
@@ -519,35 +519,35 @@ namespace family_tree.viewer
             menuHome.Image = global::family_tree.viewer.Properties.Resources.Home;
             menuHome.ImageTransparentColor = System.Drawing.Color.Silver;
             menuHome.Name = "menuHome";
-            menuHome.Size = new System.Drawing.Size(180, 22);
+            menuHome.Size = new System.Drawing.Size(173, 22);
             menuHome.Text = "Home";
             menuHome.Click += new System.EventHandler(this.menuHome_Click);
             // 
-            // m_menuRecentFile1
+            // menuRecentFile1_
             // 
-            this.menuRecentFile1_.Name = "m_menuRecentFile1";
-            this.menuRecentFile1_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile1_.Name = "menuRecentFile1_";
+            this.menuRecentFile1_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile1_.Text = "1";
             this.menuRecentFile1_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
-            // m_menuRecentFile2
+            // menuRecentFile2_
             // 
-            this.menuRecentFile2_.Name = "m_menuRecentFile2";
-            this.menuRecentFile2_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile2_.Name = "menuRecentFile2_";
+            this.menuRecentFile2_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile2_.Text = "2";
             this.menuRecentFile2_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
-            // m_menuRecentFile3
+            // menuRecentFile3_
             // 
-            this.menuRecentFile3_.Name = "m_menuRecentFile3";
-            this.menuRecentFile3_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile3_.Name = "menuRecentFile3_";
+            this.menuRecentFile3_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile3_.Text = "3";
             this.menuRecentFile3_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
-            // m_menuRecentFile4
+            // menuRecentFile4_
             // 
-            this.menuRecentFile4_.Name = "m_menuRecentFile4";
-            this.menuRecentFile4_.Size = new System.Drawing.Size(180, 22);
+            this.menuRecentFile4_.Name = "menuRecentFile4_";
+            this.menuRecentFile4_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile4_.Text = "4";
             this.menuRecentFile4_.Click += new System.EventHandler(this.menuRecentFile_Click);
             // 
@@ -556,7 +556,7 @@ namespace family_tree.viewer
             menuExit.Image = global::family_tree.viewer.Properties.Resources.Exit;
             menuExit.ImageTransparentColor = System.Drawing.Color.Silver;
             menuExit.Name = "menuExit";
-            menuExit.Size = new System.Drawing.Size(180, 22);
+            menuExit.Size = new System.Drawing.Size(173, 22);
             menuExit.Text = "Exit";
             menuExit.Click += new System.EventHandler(this.menuExit_Click);
             // 
@@ -578,7 +578,7 @@ namespace family_tree.viewer
             toolStripMenuItem15,
             menuUserOptions});
             menuEdit.Name = "menuEdit";
-            menuEdit.Size = new System.Drawing.Size(37, 20);
+            menuEdit.Size = new System.Drawing.Size(39, 20);
             menuEdit.Text = "Edit";
             // 
             // menuEditCurrent
@@ -586,7 +586,7 @@ namespace family_tree.viewer
             menuEditCurrent.Image = global::family_tree.viewer.Properties.Resources.Textbox;
             menuEditCurrent.ImageTransparentColor = System.Drawing.Color.Silver;
             menuEditCurrent.Name = "menuEditCurrent";
-            menuEditCurrent.Size = new System.Drawing.Size(200, 22);
+            menuEditCurrent.Size = new System.Drawing.Size(203, 22);
             menuEditCurrent.Text = "Edit...";
             menuEditCurrent.Click += new System.EventHandler(this.menuEdit_Click);
             // 
@@ -595,7 +595,7 @@ namespace family_tree.viewer
             editSourcesToolStripMenuItem.Image = global::family_tree.viewer.Properties.Resources.CardFile;
             editSourcesToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             editSourcesToolStripMenuItem.Name = "editSourcesToolStripMenuItem";
-            editSourcesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            editSourcesToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             editSourcesToolStripMenuItem.Text = "Edit Sources...";
             editSourcesToolStripMenuItem.Click += new System.EventHandler(this.menuEditSources_Click);
             // 
@@ -603,7 +603,7 @@ namespace family_tree.viewer
             // 
             menuUserOptions.Image = global::family_tree.viewer.Properties.Resources.Wrench;
             menuUserOptions.Name = "menuUserOptions";
-            menuUserOptions.Size = new System.Drawing.Size(200, 22);
+            menuUserOptions.Size = new System.Drawing.Size(203, 22);
             menuUserOptions.Text = "User Options...";
             menuUserOptions.Click += new System.EventHandler(this.menuOptions_Click);
             // 
@@ -623,14 +623,14 @@ namespace family_tree.viewer
             toolStripMenuItem16,
             menuHtmlSource});
             menuView.Name = "menuView";
-            menuView.Size = new System.Drawing.Size(41, 20);
+            menuView.Size = new System.Drawing.Size(44, 20);
             menuView.Text = "View";
             // 
             // menuGoto
             // 
             menuGoto.Image = global::family_tree.viewer.Properties.Resources.Person;
             menuGoto.Name = "menuGoto";
-            menuGoto.Size = new System.Drawing.Size(218, 22);
+            menuGoto.Size = new System.Drawing.Size(215, 22);
             menuGoto.Text = "Goto Person...";
             menuGoto.Click += new System.EventHandler(this.menuGoto_Click);
             // 
@@ -640,7 +640,7 @@ namespace family_tree.viewer
             this.m_menuImage.CheckState = System.Windows.Forms.CheckState.Checked;
             this.m_menuImage.Image = global::family_tree.viewer.Properties.Resources.picture;
             this.m_menuImage.Name = "m_menuImage";
-            this.m_menuImage.Size = new System.Drawing.Size(218, 22);
+            this.m_menuImage.Size = new System.Drawing.Size(215, 22);
             this.m_menuImage.Text = "Image";
             this.m_menuImage.Click += new System.EventHandler(this.menuImage_Click);
             // 
@@ -648,7 +648,7 @@ namespace family_tree.viewer
             // 
             this.m_menuLocation.Image = global::family_tree.viewer.Properties.Resources.Earth;
             this.m_menuLocation.Name = "m_menuLocation";
-            this.m_menuLocation.Size = new System.Drawing.Size(218, 22);
+            this.m_menuLocation.Size = new System.Drawing.Size(215, 22);
             this.m_menuLocation.Text = "Location";
             this.m_menuLocation.Click += new System.EventHandler(this.menuLocation_Click);
             // 
@@ -657,7 +657,7 @@ namespace family_tree.viewer
             menuAge.Image = global::family_tree.viewer.Properties.Resources.Cake;
             menuAge.ImageTransparentColor = System.Drawing.Color.Silver;
             menuAge.Name = "menuAge";
-            menuAge.Size = new System.Drawing.Size(218, 22);
+            menuAge.Size = new System.Drawing.Size(215, 22);
             menuAge.Text = "Calculate Age...";
             menuAge.Click += new System.EventHandler(this.menuCalcAge_Click);
             // 
@@ -666,7 +666,7 @@ namespace family_tree.viewer
             menuBirthday.Image = global::family_tree.viewer.Properties.Resources.Cake;
             menuBirthday.ImageTransparentColor = System.Drawing.Color.Silver;
             menuBirthday.Name = "menuBirthday";
-            menuBirthday.Size = new System.Drawing.Size(218, 22);
+            menuBirthday.Size = new System.Drawing.Size(215, 22);
             menuBirthday.Text = "Calculate Birthday Range...";
             menuBirthday.Click += new System.EventHandler(this.menuBirthday_Click);
             // 
@@ -675,7 +675,7 @@ namespace family_tree.viewer
             menuReduceWidth.Image = global::family_tree.viewer.Properties.Resources.Width_Reduce;
             menuReduceWidth.ImageTransparentColor = System.Drawing.Color.Silver;
             menuReduceWidth.Name = "menuReduceWidth";
-            menuReduceWidth.Size = new System.Drawing.Size(218, 22);
+            menuReduceWidth.Size = new System.Drawing.Size(215, 22);
             menuReduceWidth.Text = "Reduce Width";
             menuReduceWidth.Click += new System.EventHandler(this.menuReduceWidth_Click);
             // 
@@ -684,7 +684,7 @@ namespace family_tree.viewer
             menuStandardWidth.Image = global::family_tree.viewer.Properties.Resources.Width_Increase;
             menuStandardWidth.ImageTransparentColor = System.Drawing.Color.Silver;
             menuStandardWidth.Name = "menuStandardWidth";
-            menuStandardWidth.Size = new System.Drawing.Size(218, 22);
+            menuStandardWidth.Size = new System.Drawing.Size(215, 22);
             menuStandardWidth.Text = "Standard Width";
             menuStandardWidth.Click += new System.EventHandler(this.menuStandardWidth_Click);
             // 
@@ -694,7 +694,7 @@ namespace family_tree.viewer
             menuToTree,
             menuReportToHtml});
             menuReports.Name = "menuReports";
-            menuReports.Size = new System.Drawing.Size(57, 20);
+            menuReports.Size = new System.Drawing.Size(59, 20);
             menuReports.Text = "Reports";
             // 
             // menuToTree
@@ -702,7 +702,7 @@ namespace family_tree.viewer
             menuToTree.Image = global::family_tree.viewer.Properties.Resources.Tree;
             menuToTree.ImageTransparentColor = System.Drawing.Color.Silver;
             menuToTree.Name = "menuToTree";
-            menuToTree.Size = new System.Drawing.Size(122, 22);
+            menuToTree.Size = new System.Drawing.Size(116, 22);
             menuToTree.Text = "To Tree";
             menuToTree.Click += new System.EventHandler(this.menuToTree_Click);
             // 
@@ -710,7 +710,7 @@ namespace family_tree.viewer
             // 
             menuReportToHtml.Image = global::family_tree.viewer.Properties.Resources.web;
             menuReportToHtml.Name = "menuReportToHtml";
-            menuReportToHtml.Size = new System.Drawing.Size(122, 22);
+            menuReportToHtml.Size = new System.Drawing.Size(116, 22);
             menuReportToHtml.Text = "To Html";
             menuReportToHtml.Click += new System.EventHandler(this.menuReportToHtml_Click);
             // 
@@ -726,18 +726,18 @@ namespace family_tree.viewer
             oStatusStrip.TabIndex = 20;
             oStatusStrip.Text = "statusStrip1";
             // 
-            // m_tslabStatus
+            // tslabStatus_
             // 
             this.tslabStatus_.Image = global::family_tree.viewer.Properties.Resources.OK;
             this.tslabStatus_.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tslabStatus_.Name = "m_tslabStatus";
-            this.tslabStatus_.Size = new System.Drawing.Size(697, 20);
+            this.tslabStatus_.Name = "tslabStatus_";
+            this.tslabStatus_.Size = new System.Drawing.Size(693, 20);
             this.tslabStatus_.Spring = true;
             this.tslabStatus_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // m_tsProgressBar
+            // tsProgressBar_
             // 
-            this.tsProgressBar_.Name = "m_tsProgressBar";
+            this.tsProgressBar_.Name = "tsProgressBar_";
             this.tsProgressBar_.Size = new System.Drawing.Size(200, 19);
             this.tsProgressBar_.Step = 1;
             this.tsProgressBar_.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -745,38 +745,38 @@ namespace family_tree.viewer
             // 
             // tslabUserName
             // 
-            tslabUserName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            tslabUserName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             tslabUserName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
             tslabUserName.Image = global::family_tree.viewer.Properties.Resources.Person;
             tslabUserName.Name = "tslabUserName";
-            tslabUserName.Size = new System.Drawing.Size(92, 20);
+            tslabUserName.Size = new System.Drawing.Size(96, 20);
             tslabUserName.Text = "Steve Walton";
             // 
-            // m_labPerson
+            // labPerson_
             // 
             this.labPerson_.BackColor = System.Drawing.Color.LightPink;
             this.labPerson_.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labPerson_.Location = new System.Drawing.Point(3, 151);
-            this.labPerson_.Name = "m_labPerson";
+            this.labPerson_.Name = "labPerson_";
             this.labPerson_.Size = new System.Drawing.Size(312, 23);
             this.labPerson_.TabIndex = 3;
             this.labPerson_.Text = "label1";
             this.labPerson_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labPerson_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPerson_Paint);
             // 
-            // m_labPersonDates
+            // labPersonDates_
             // 
             this.labPersonDates_.BackColor = System.Drawing.Color.LightPink;
             this.labPersonDates_.Location = new System.Drawing.Point(3, 174);
-            this.labPersonDates_.Name = "m_labPersonDates";
+            this.labPersonDates_.Name = "labPersonDates_";
             this.labPersonDates_.Size = new System.Drawing.Size(312, 41);
             this.labPersonDates_.TabIndex = 5;
             this.labPersonDates_.Text = "label1";
             this.labPersonDates_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPersonDates_Paint);
             // 
-            // m_oPanelTree
+            // panelTree_
             // 
             this.panelTree_.Controls.Add(this.labPersonDates_);
             this.panelTree_.Controls.Add(this.marMotherParents_);
@@ -791,103 +791,103 @@ namespace family_tree.viewer
             this.panelTree_.Controls.Add(this.psnMotherFather_);
             this.panelTree_.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTree_.Location = new System.Drawing.Point(0, 49);
-            this.panelTree_.Name = "m_oPanelTree";
+            this.panelTree_.Name = "panelTree_";
             this.panelTree_.Size = new System.Drawing.Size(804, 338);
             this.panelTree_.TabIndex = 16;
             this.panelTree_.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTree_Paint);
             // 
-            // m_marMotherParents
+            // marMotherParents_
             // 
             this.marMotherParents_.Location = new System.Drawing.Point(403, 109);
-            this.marMotherParents_.Name = "m_marMotherParents";
+            this.marMotherParents_.Name = "marMotherParents_";
             this.marMotherParents_.Size = new System.Drawing.Size(16, 16);
             this.marMotherParents_.TabIndex = 15;
             // 
-            // m_marFatherParents
+            // marFatherParents_
             // 
             this.marFatherParents_.Location = new System.Drawing.Point(440, 109);
-            this.marFatherParents_.Name = "m_marFatherParents";
+            this.marFatherParents_.Name = "marFatherParents_";
             this.marFatherParents_.Size = new System.Drawing.Size(16, 16);
             this.marFatherParents_.TabIndex = 14;
             // 
-            // m_marParents
+            // marParents_
             // 
             this.marParents_.Location = new System.Drawing.Point(316, 79);
-            this.marParents_.Name = "m_marParents";
+            this.marParents_.Name = "marParents_";
             this.marParents_.Size = new System.Drawing.Size(16, 16);
             this.marParents_.TabIndex = 6;
             // 
-            // m_psnFatherFather
+            // psnFatherFather_
             // 
             this.psnFatherFather_.BackColor = System.Drawing.Color.LightSkyBlue;
             this.psnFatherFather_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psnFatherFather_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psnFatherFather_.Location = new System.Drawing.Point(6, 3);
-            this.psnFatherFather_.Name = "m_psnFatherFather";
+            this.psnFatherFather_.Name = "psnFatherFather_";
             this.psnFatherFather_.Size = new System.Drawing.Size(150, 59);
             this.psnFatherFather_.TabIndex = 10;
             // 
-            // m_psnMother
+            // psnMother_
             // 
             this.psnMother_.BackColor = System.Drawing.Color.LightPink;
             this.psnMother_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psnMother_.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psnMother_.Location = new System.Drawing.Point(160, 79);
-            this.psnMother_.Name = "m_psnMother";
+            this.psnMother_.Name = "psnMother_";
             this.psnMother_.Size = new System.Drawing.Size(150, 59);
             this.psnMother_.TabIndex = 2;
             // 
-            // m_psnMotherMother
+            // psnMotherMother_
             // 
             this.psnMotherMother_.BackColor = System.Drawing.Color.LightPink;
             this.psnMotherMother_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psnMotherMother_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psnMotherMother_.Location = new System.Drawing.Point(482, 3);
-            this.psnMotherMother_.Name = "m_psnMotherMother";
+            this.psnMotherMother_.Name = "psnMotherMother_";
             this.psnMotherMother_.Size = new System.Drawing.Size(150, 59);
             this.psnMotherMother_.TabIndex = 13;
             // 
-            // m_psnFather
+            // psnFather_
             // 
             this.psnFather_.BackColor = System.Drawing.Color.LightSkyBlue;
             this.psnFather_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psnFather_.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psnFather_.Location = new System.Drawing.Point(4, 79);
-            this.psnFather_.Name = "m_psnFather";
+            this.psnFather_.Name = "psnFather_";
             this.psnFather_.Size = new System.Drawing.Size(150, 59);
             this.psnFather_.TabIndex = 1;
             // 
-            // m_psnFatherMother
+            // psnFatherMother_
             // 
             this.psnFatherMother_.BackColor = System.Drawing.Color.LightPink;
             this.psnFatherMother_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psnFatherMother_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psnFatherMother_.Location = new System.Drawing.Point(160, 3);
-            this.psnFatherMother_.Name = "m_psnFatherMother";
+            this.psnFatherMother_.Name = "psnFatherMother_";
             this.psnFatherMother_.Size = new System.Drawing.Size(150, 59);
             this.psnFatherMother_.TabIndex = 11;
             // 
-            // m_psnMotherFather
+            // psnMotherFather_
             // 
             this.psnMotherFather_.BackColor = System.Drawing.Color.LightSkyBlue;
             this.psnMotherFather_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.psnMotherFather_.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.psnMotherFather_.Location = new System.Drawing.Point(326, 3);
-            this.psnMotherFather_.Name = "m_psnMotherFather";
+            this.psnMotherFather_.Name = "psnMotherFather_";
             this.psnMotherFather_.Size = new System.Drawing.Size(150, 59);
             this.psnMotherFather_.TabIndex = 12;
             // 
-            // m_oWebBrowser
+            // webBrowser_
             // 
             this.webBrowser_.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowser_.Location = new System.Drawing.Point(0, 387);
             this.webBrowser_.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser_.Name = "m_oWebBrowser";
+            this.webBrowser_.Name = "webBrowser_";
             this.webBrowser_.Size = new System.Drawing.Size(804, 78);
             this.webBrowser_.TabIndex = 18;
             this.webBrowser_.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
             // 
-            // frmMain
+            // MainWindow
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(804, 490);
@@ -899,11 +899,11 @@ namespace family_tree.viewer
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = oMainMenu;
-            this.Name = "frmMain";
+            this.Name = "MainWindow";
             this.Text = "Family Tree Viewer";
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMain_Closing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Shown += new System.EventHandler(this.frmMain_Shown);
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMain_Closing);
             oToolStrip.ResumeLayout(false);
             oToolStrip.PerformLayout();
             oMainMenu.ResumeLayout(false);

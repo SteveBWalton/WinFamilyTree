@@ -1759,19 +1759,18 @@ namespace family_tree.viewer
                     }
                     file.WriteLine("1 BIRT");
                     file.WriteLine("2 DATE " + person.dob.format(DateFormat.GEDCOM));
-                    Fact factLocation = person.getFirstFact(10);
-                    if (factLocation != null)
-                    {
-                        database_.writeGedcomPlace(file, 2, factLocation.information, factLocation.sources, options);
-                    }
-
                     if (options.isAllElements)
                     {
-                        person.sourceDoB.writeGedcom(2, file, null);
+                        person.sourceDoB.writeGedcom(3, file, null);
                     }
                     else
                     {
                         person.sourceDoB.gedcomAdd(personSources);
+                    }
+                    Fact factLocation = person.getFirstFact(10);
+                    if (factLocation != null)
+                    {
+                        database_.writeGedcomPlace(file, 2, factLocation.information, factLocation.sources, options);
                     }
 
                     if (!person.dod.isEmpty())
@@ -1781,19 +1780,23 @@ namespace family_tree.viewer
                         {
                             file.WriteLine("2 DATE " + person.dod.format(DateFormat.GEDCOM));
                         }
-                        database_.writeGedcomPlace(file, 2, person.getSimpleFact(90), null, options);
-                        string causeOfDeath = person.getSimpleFact(92);
-                        if (causeOfDeath != "")
-                        {
-                            file.WriteLine("2 CAUS " + causeOfDeath);
-                        }
                         if (options.isAllElements)
                         {
-                            person.sourceDoD.writeGedcom(2, file, null);
+                            person.sourceDoD.writeGedcom(3, file, null);
                         }
                         else
                         {
                             person.sourceDoD.gedcomAdd(personSources);
+                        }
+                        factLocation = person.getFirstFact(90);
+                        if (factLocation != null)
+                        {
+                            database_.writeGedcomPlace(file, 2, factLocation.information, factLocation.sources, options);
+                        }
+                        string causeOfDeath = person.getSimpleFact(92);
+                        if (causeOfDeath != "")
+                        {
+                            file.WriteLine("2 CAUS " + causeOfDeath);
                         }
                     }
 
@@ -2207,13 +2210,16 @@ namespace family_tree.viewer
                     }
                 }
 
-                // Draw a line down from the children who have descendants
-                for (int nI = 0; nI < psnChildren_.Length; nI++)
+                // Draw a line down from the children who have descendants.
+                for (int i = 0; i < psnChildren_.Length; i++)
                 {
-                    Person oChild = database_.getPerson(psnChildren_[nI].getPersonIndex());
-                    if (oChild.hasChildren())
+                    if (psnChildren_[i] != null)
                     {
-                        e.Graphics.DrawLine(pen, psnChildren_[nI].Left + psnChildren_[nI].Width / 2, psnChildren_[nI].Top + psnChildren_[nI].Height, psnChildren_[nI].Left + psnChildren_[nI].Width / 2, psnChildren_[nI].Top + psnChildren_[nI].Height + 5);
+                        Person child = database_.getPerson(psnChildren_[i].getPersonIndex());
+                        if (child.hasChildren())
+                        {
+                            e.Graphics.DrawLine(pen, psnChildren_[i].Left + psnChildren_[i].Width / 2, psnChildren_[i].Top + psnChildren_[i].Height, psnChildren_[i].Left + psnChildren_[i].Width / 2, psnChildren_[i].Top + psnChildren_[i].Height + 5);
+                        }
                     }
                 }
             }
