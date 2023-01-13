@@ -1963,6 +1963,16 @@ namespace family_tree.viewer
                         file.WriteLine("1 SOUR @S" + sourceIndex.ToString("0000") + "@");
                     }
 
+                    // Write the To Do items in the all output mode.
+                    if (options.isAllElements)
+                    {
+                        ToDo[] todos = person.getToDo();
+                        foreach (ToDo todo in todos)
+                        {
+                            file.WriteLine("1 _TODO " + todo.priority.ToString() + " " + todo.description);
+                        }
+                    }
+
                     // Write the last edit information
                     if (person.lastEditBy != "")
                     {
@@ -1976,7 +1986,7 @@ namespace family_tree.viewer
                     }
                 }
 
-                // Progress Bar
+                // Progress Bar.
                 progressBarPerformStep();
             }
 

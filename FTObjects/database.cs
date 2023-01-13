@@ -573,7 +573,7 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                if (GetBool(dataReader, "Gedcom", true))
+                if (GetBool(dataReader, "Gedcom", true) || options.isAllElements)
                 {
                     int index = dataReader.GetInt32(0);
                     file.WriteLine("0 @S" + index.ToString("0000") + "@ SOUR");
@@ -584,7 +584,7 @@ namespace family_tree.objects
                         CompoundDate compoundDate = new CompoundDate();
                         compoundDate.date = dataReader.GetDateTime(2);
                         compoundDate.status = dataReader.GetInt32(3);
-                        file.WriteLine("2 DATE " + compoundDate.format(DateFormat.GEDCOM));
+                        file.WriteLine("1 DATE " + compoundDate.format(DateFormat.GEDCOM));
                     }
 
                     // Additional Information for the source.
@@ -632,54 +632,53 @@ namespace family_tree.objects
             return true;
         }
 
-        // Write the additional birth certificate information for a source.
-        /// <summary>
-        /// Write the additional birth certificate information for a source.
-        /// </summary>
-		/// <param name="oFile">Specifies the file to write the information into.</param>
-		/// <param name="nID">Specifies the ID of the birth certificate (and the parent source record).</param>
-        private void sourceBirthCertificate(StreamWriter oFile, int nID)
+
+        
+        /// <summary>Write the additional birth certificate information for a source.</summary>
+		/// <param name="file">Specifies the file to write the information into.</param>
+		/// <param name="index">Specifies the ID of the birth certificate (and the parent source record).</param>
+        private void sourceBirthCertificate(StreamWriter file, int index)
         {
             // Connect to the database again (to open a second datareader)
             OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
             cnDb.Open();
 
             // Create a birth certificate object
-            BirthCertificate oBirth = new BirthCertificate(nID, cnDb);
+            BirthCertificate birth = new BirthCertificate(index, cnDb);
 
             // Close the database
             cnDb.Close();
 
             // Write the details from the birth certificate
-            bool bFirst = true;
-            if (oBirth.registrationDistrict != "")
+            bool isFirst = true;
+            if (birth.registrationDistrict != "")
             {
                 // oFile.WriteLine("2 PLAC "+oBirth.RegistrationDistrict);
-                gedcomLongNote(ref bFirst, oFile, "Registration District: " + oBirth.registrationDistrict);
+                gedcomLongNote(ref isFirst, file, "Registration District: " + birth.registrationDistrict);
             }
-            if (oBirth.whenAndWhere != "")
+            if (birth.whenAndWhere != "")
             {
-                gedcomLongNote(ref bFirst, oFile, "When and Where: " + oBirth.when.ToString("d MMM yyyy") + oBirth.whenAndWhere);
+                gedcomLongNote(ref isFirst, file, "When and Where: " + birth.when.ToString("d MMM yyyy") + birth.whenAndWhere);
             }
-            if (oBirth.name != "")
+            if (birth.name != "")
             {
-                gedcomLongNote(ref bFirst, oFile, "Name: " + oBirth.name + " (" + oBirth.sex + ")");
+                gedcomLongNote(ref isFirst, file, "Name: " + birth.name + " (" + birth.sex + ")");
             }
-            if (oBirth.mother != "")
+            if (birth.mother != "")
             {
-                gedcomLongNote(ref bFirst, oFile, "Mother: " + oBirth.mother);
+                gedcomLongNote(ref isFirst, file, "Mother: " + birth.mother);
             }
-            if (oBirth.father != "")
+            if (birth.father != "")
             {
-                gedcomLongNote(ref bFirst, oFile, "Father: " + oBirth.father + " (" + oBirth.fatherOccupation + ")");
+                gedcomLongNote(ref isFirst, file, "Father: " + birth.father + " (" + birth.fatherOccupation + ")");
             }
-            if (oBirth.informant != "")
+            if (birth.informant != "")
             {
-                gedcomLongNote(ref bFirst, oFile, "Informant: " + oBirth.informant);
+                gedcomLongNote(ref isFirst, file, "Informant: " + birth.informant);
             }
-            if (oBirth.whenRegistered != "")
+            if (birth.whenRegistered != "")
             {
-                gedcomLongNote(ref bFirst, oFile, "When Registered: " + oBirth.whenRegistered);
+                gedcomLongNote(ref isFirst, file, "When Registered: " + birth.whenRegistered);
             }
         }
 
