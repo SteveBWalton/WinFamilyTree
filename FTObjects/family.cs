@@ -122,7 +122,7 @@ namespace family_tree.objects
                         {
                             file.WriteLine("2 DATE " + marriage.start.format(DateFormat.GEDCOM));
                         }
-                        database.writeGedcomPlace(file, 2, marriage.location, options);
+                        database.writeGedcomPlace(file, 2, marriage.location, null,options);
 
                         // ArrayList oAlready = new ArrayList();
                         //oMarriage.SourceStart.GedcomWrite(2,oFile,oAlready);

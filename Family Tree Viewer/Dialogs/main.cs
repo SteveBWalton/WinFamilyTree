@@ -1759,7 +1759,11 @@ namespace family_tree.viewer
                     }
                     file.WriteLine("1 BIRT");
                     file.WriteLine("2 DATE " + person.dob.format(DateFormat.GEDCOM));
-                    database_.writeGedcomPlace(file, 2, person.getSimpleFact(10), options);
+                    Fact factLocation = person.getFirstFact(10);
+                    if (factLocation != null)
+                    {
+                        database_.writeGedcomPlace(file, 2, factLocation.information, factLocation.sources, options);
+                    }
 
                     if (options.isAllElements)
                     {
@@ -1777,7 +1781,7 @@ namespace family_tree.viewer
                         {
                             file.WriteLine("2 DATE " + person.dod.format(DateFormat.GEDCOM));
                         }
-                        database_.writeGedcomPlace(file, 2, person.getSimpleFact(90), options);
+                        database_.writeGedcomPlace(file, 2, person.getSimpleFact(90), null, options);
                         string causeOfDeath = person.getSimpleFact(92);
                         if (causeOfDeath != "")
                         {
@@ -1927,7 +1931,7 @@ namespace family_tree.viewer
                     {
                         file.WriteLine("1 CENS");
                         file.WriteLine("2 DATE " + census.date.ToString("d MMM yyyy"));
-                        database_.writeGedcomPlace(file, 2, census.houseHoldName, options);
+                        database_.writeGedcomPlace(file, 2, census.houseHoldName,null, options);
                         if (census.occupation != "")
                         {
                             file.WriteLine("2 OCCU " + census.occupation);

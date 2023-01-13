@@ -702,7 +702,7 @@ namespace family_tree.objects
 
             // Write the details of the marriage certificate.
             StringBuilder text;
-            writeGedcomPlace(file, 2, marriageCertificate.location, options);
+            writeGedcomPlace(file, 2, marriageCertificate.location, null,options);
             bool isFirst = true;
             if (marriageCertificate.groomName != "")
             {
@@ -857,7 +857,7 @@ namespace family_tree.objects
             if (sqlAddress != null)
             {
                 string address = sqlAddress.ToString();
-                writeGedcomPlace(file, 2, address, options);
+                writeGedcomPlace(file, 2, address, null,options);
 
                 // Write the information about the members of this census record.
                 sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation FROM tbl_CensusPeople WHERE HouseHoldID=" + censusHouseholdIndex.ToString() + " ORDER BY ID;";
@@ -1625,7 +1625,7 @@ namespace family_tree.objects
         /// <param name="fullPlace">Specifies the database place record to be decoded into gedcom PLAC and ADDR records.</param>
         /// <param name="options">Specifies the Gedcom options to apply to this place.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool writeGedcomPlace(StreamWriter file, int level, string fullPlace, GedcomOptions options)
+        public bool writeGedcomPlace(StreamWriter file, int level, string fullPlace, Sources sources, GedcomOptions options)
         {
             // Optionally split the address off from the PLAC tag.
             if (options.isRemoveADDRfromPLAC)
@@ -1692,6 +1692,15 @@ namespace family_tree.objects
                 {
                     string country = fullPlace.Substring(comma + 2);
                     file.WriteLine((level + 1).ToString() + " CTRY " + country);
+                }
+            }
+
+            if (options.isAllElements && sources != null)
+            {
+                int[] indexes = sources.get();
+                foreach (int index in indexes)
+                {
+                    file.WriteLine((level + 1).ToString() + " SOUR @S" + index.ToString("0000") + "@");
                 }
             }
 

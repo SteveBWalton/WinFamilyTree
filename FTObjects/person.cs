@@ -844,15 +844,31 @@ namespace family_tree.objects
         /// <returns>The information field as a string.</returns>
         public string getSimpleFact(int factTypeIndex)
         {
-            Fact[] fact = getFacts(factTypeIndex);
-            if (fact.Length == 0)
+            Fact[] facts = getFacts(factTypeIndex);
+            if (facts.Length == 0)
             {
                 return "";
             }
-            return fact[0].information;
+            return facts[0].information;
         }
 
 
+
+        /// <summary>Returns the first fact of the specified type or null.</summary>
+        /// <param name="factTypeIndex">Specifies the type of fact to return.</param>
+        /// <returns>The first fact of the specified type or null.</returns>
+        public Fact getFirstFact(int factTypeIndex)
+        {
+            Fact[] facts = getFacts(factTypeIndex);
+            // Check that some facts exist.
+            if (facts.Length == 0)
+            {
+                return null;
+            }
+
+            return facts[0];
+
+        }
 
         #endregion
 
