@@ -701,8 +701,12 @@ namespace family_tree.objects
 
             // Write the details of the marriage certificate.
             StringBuilder text;
-            writeGedcomPlace(file, 2, marriageCertificate.location, null,options);
+            writeGedcomPlace(file, 1, marriageCertificate.location, null,options);
             bool isFirst = true;
+            if (marriageCertificate.groReference != "")
+            {
+                gedcomLongNote(ref isFirst, file, "Gro Reference: " + marriageCertificate.groReference);
+            }
             if (marriageCertificate.groomName != "")
             {
                 text = new StringBuilder();
