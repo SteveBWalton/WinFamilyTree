@@ -981,7 +981,7 @@ namespace family_tree.objects
             {
                 if (relationships[i].isValid() && relationships[i].isMarried())
                 {
-                    Person oRelation = database_.getPerson(relationships[i].partnerIndex);
+                    Person relation = database_.getPerson(relationships[i].partnerIndex);
                     if (relationships[i].start.isEmpty())
                     {
                         description.Append(thirdPerson(true));
@@ -1002,9 +1002,9 @@ namespace family_tree.objects
                     description.Append(" married ");
                     if (isHtml)
                     {
-                        description.Append("<a href=\"Person:" + oRelation.index.ToString() + "\">");
+                        description.Append("<a href=\"Person:" + relation.index.ToString() + "\">");
                     }
-                    description.Append(oRelation.getName(false, true));
+                    description.Append(relation.getName(false, true));
                     if (isHtml)
                     {
                         description.Append("</a>");

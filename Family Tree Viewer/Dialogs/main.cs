@@ -1845,6 +1845,7 @@ namespace family_tree.viewer
                         {
                             Family family = families.getMarriageFamily(relationships[j].maleIndex, relationships[j].femaleIndex, relationships[j].index);
                             file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
+                            relationships[j].sourcePartner.writeGedcom(2, file, null);
 
                             // Add to the list of partners.
                             partners.Add(relationships[j].partnerIndex);
