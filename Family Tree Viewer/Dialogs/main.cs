@@ -1800,38 +1800,6 @@ namespace family_tree.viewer
                         }
                     }
 
-                    // Get the occupation information.
-                    Fact[] facts = person.getFacts(20);
-                    if (facts.Length > 0)
-                    {
-                        foreach (Fact fact in facts)
-                        {
-                            file.Write("1 OCCU ");
-                            file.WriteLine(fact.information);
-                            if (options.isAllElements)
-                            {
-                                fact.sources.writeGedcom(2, file, null);
-                            }
-                        }
-                    }
-
-                    if (options.isAllElements)
-                    {
-                        // Education (40).
-                        facts = person.getFacts(40);
-                        if (facts.Length > 0)
-                        {
-                            foreach (Fact fact in facts)
-                            {
-                                file.Write("1 EDUC ");
-                                file.WriteLine(fact.information);
-                                fact.sources.writeGedcom(2, file, null);
-                            }
-                        }
-                        // Interests (30).
-                        // Comments (100).
-                    }
-
                     // Create a list of the partners.
                     ArrayList partners = new ArrayList();
 
@@ -1935,7 +1903,7 @@ namespace family_tree.viewer
                     {
                         file.WriteLine("1 CENS");
                         file.WriteLine("2 DATE " + census.date.ToString("d MMM yyyy"));
-                        database_.writeGedcomPlace(file, 2, census.houseHoldName,null, options);
+                        database_.writeGedcomPlace(file, 2, census.houseHoldName, null, options);
                         if (census.occupation != "")
                         {
                             file.WriteLine("2 OCCU " + census.occupation);
@@ -1951,6 +1919,53 @@ namespace family_tree.viewer
                             else
                             {
                                 sources.gedcomAdd(personSources);
+                            }
+                        }
+                    }
+
+                    Fact[] facts;
+                    if (options.isAllElements)
+                    {
+                        // Education (40).
+                        facts = person.getFacts(40);
+                        if (facts.Length > 0)
+                        {
+                            foreach (Fact fact in facts)
+                            {
+                                file.Write("1 EDUC ");
+                                file.WriteLine(fact.information);
+                                fact.sources.writeGedcom(2, file, null);
+                            }
+                        }
+                    }
+
+                    // Get the occupation information.
+                    facts = person.getFacts(20);
+                    if (facts.Length > 0)
+                    {
+                        foreach (Fact fact in facts)
+                        {
+                            file.Write("1 OCCU ");
+                            file.WriteLine(fact.information);
+                            if (options.isAllElements)
+                            {
+                                fact.sources.writeGedcom(2, file, null);
+                            }
+                        }
+                    }
+
+                    if (options.isAllElements)
+                    {
+                        // Interests (30).
+                        // Comments (100).
+                        facts = person.getFacts(100);
+                        if (facts.Length > 0)
+                        {
+                            foreach (Fact fact in facts)
+                            {
+                                file.Write("1 NOTE ");
+                                file.WriteLine(fact.information);
+                                fact.sources.writeGedcom(2, file, null);
                             }
                         }
                     }

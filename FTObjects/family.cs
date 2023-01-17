@@ -154,6 +154,15 @@ namespace family_tree.objects
                         }
                     }
 
+                    // Write the children for this family.
+                    if (children != null)
+                    {
+                        foreach (Person child in children)
+                        {
+                            file.WriteLine("1 CHIL @I" + child.index.ToString("0000") + "@");
+                        }
+                    }
+
                     // Write the sources for this family.
                     foreach (int sourceIndex in familySources)
                     {
@@ -173,12 +182,14 @@ namespace family_tree.objects
                     }
                 }
             }
-
-            if (children != null)
+            else
             {
-                foreach (Person child in children)
+                if (children != null)
                 {
-                    file.WriteLine("1 CHIL @I" + child.index.ToString("0000") + "@");
+                    foreach (Person child in children)
+                    {
+                        file.WriteLine("1 CHIL @I" + child.index.ToString("0000") + "@");
+                    }
                 }
             }
         }
