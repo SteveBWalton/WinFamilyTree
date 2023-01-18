@@ -107,14 +107,14 @@ namespace family_tree.objects
 
                     if (marriage.isMarried())
                     {
-                        file.WriteLine("1 MARR");
+                        file.WriteLine("1 MARR Y");
                         switch (marriage.typeIndex)
                         {
                         case 1:
-                            file.WriteLine("2 TYPE Religious");
+                            file.WriteLine("2 TYPE RELIGIOUS");
                             break;
                         case 2:
-                            file.WriteLine("2 TYPE Civil");
+                            file.WriteLine("2 TYPE CIVIL");
                             break;
                         }
 
@@ -127,28 +127,37 @@ namespace family_tree.objects
                             }
                         }
                         database.writeGedcomPlace(file, 2, marriage.location, marriage.sourceLocation, options);
-
-                        // ArrayList oAlready = new ArrayList();
-                        //oMarriage.SourceStart.GedcomWrite(2,oFile,oAlready);
-                        //oMarriage.SourceLocation.GedcomWrite(2,oFile,oAlready);
-                        marriage.sourceStart.gedcomAdd(familySources);
-                        marriage.sourceLocation.gedcomAdd(familySources);
-
-                        // Did the marriage end with a divorce.
-                        if (marriage.terminatedIndex == 2)
+                        if (options.isAllElements)
                         {
-                            if (marriage.end.isEmpty())
-                            {
-                                file.WriteLine("1 DIV Y");
-                            }
-                            else
-                            {
-                                file.WriteLine("1 DIV");
-                                file.WriteLine("2 DATE " + marriage.end.format(DateFormat.GEDCOM));
-                            }
+                            // Nothing to do.  Done above.
+                        }
+                        else
+                        {
+                            marriage.sourceStart.gedcomAdd(familySources);
+                            marriage.sourceLocation.gedcomAdd(familySources);
+                        }
+                    }
+
+                    // Did the marriage end with a divorce.
+                    if (marriage.terminatedIndex == 2)
+                    {
+                        if (marriage.end.isEmpty())
+                        {
+                            file.WriteLine("1 DIV Y");
+                        }
+                        else
+                        {
+                            file.WriteLine("1 DIV");
+                            file.WriteLine("2 DATE " + marriage.end.format(DateFormat.GEDCOM));
+                        }
+                        if (options.isAllElements)
+                        {
                             // oAlready = new ArrayList();
-                            // oMarriage.SourceTerminated.GedcomWrite(2,oFile,oAlready);
-                            // oMarriage.SourceEnd.GedcomWrite(2,oFile,oAlready);
+                            marriage.sourceEnd.writeGedcom(3, file, null);
+                            marriage.sourceTerminated.writeGedcom(2, file, null);
+                        }
+                        else
+                        {
                             marriage.sourceTerminated.gedcomAdd(familySources);
                             marriage.sourceEnd.gedcomAdd(familySources);
                         }
@@ -164,9 +173,17 @@ namespace family_tree.objects
                     }
 
                     // Write the sources for this family.
-                    foreach (int sourceIndex in familySources)
+                    if (options.isAllElements)
                     {
-                        file.WriteLine("1 SOUR @S" + sourceIndex.ToString("0000") + "@");
+                        marriage.sourcePartner.writeGedcom(1, file, null);
+                    }
+                    else
+                    {
+                        marriage.sourcePartner.gedcomAdd(familySources);
+                        foreach (int sourceIndex in familySources)
+                        {
+                            file.WriteLine("1 SOUR @S" + sourceIndex.ToString("0000") + "@");
+                        }
                     }
 
                     // Last Edit.

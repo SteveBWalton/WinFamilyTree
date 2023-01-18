@@ -1186,6 +1186,21 @@ namespace family_tree.viewer
 
 
 
+        /// <summary>Signal handler for the focus in the relationship end date control.</summary>
+        private void dateRelationEndEnter(object sender, EventArgs e)
+        {
+            if (activeRelationship_ == null)
+            {
+                refreshSources();
+            }
+            else
+            {
+                refreshSources(activeRelationship_.sourceEnd, "Relationship End Date");
+            }
+        }
+
+
+
         #endregion
 
     }
