@@ -569,7 +569,7 @@ namespace family_tree.objects
         public bool writeSourcesGedcom(StreamWriter file, FuncVoid lpfnProgressBar, GedcomOptions options)
         {
             // Select all the sources.
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, Name, TheDate, TheDateStatusID, Comments, AdditionalInfoTypeID, Gedcom, RepositoryID FROM tbl_Sources ORDER BY ID;", cndb_);
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, Name, TheDate, TheDateStatusID, Comments, AdditionalInfoTypeID, Gedcom, RepositoryID, LastEditBy, LastEditDate FROM tbl_Sources ORDER BY ID;", cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
@@ -618,6 +618,17 @@ namespace family_tree.objects
                     if (repositoryIndex > 0)
                     {
                         file.WriteLine("1 REPO @R" + repositoryIndex.ToString("0000") + "@");
+                    }
+
+                    // Last Edit.
+                    file.WriteLine("1 CHAN");
+                    DateTime lastEditDate = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
+                    file.WriteLine("2 DATE " + lastEditDate.ToString("d MMM yyyy"));
+                    file.WriteLine("3 TIME " + lastEditDate.ToString("HH:mm:ss"));
+                    if (options.isIncludePGVU)
+                    {
+                        string lastEditBy = Database.getString(dataReader, "LastEditBy", "unknown");
+                        file.WriteLine("2 _PGVU " + lastEditBy);
                     }
                 }
 
