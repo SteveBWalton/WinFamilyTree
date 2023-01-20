@@ -1757,7 +1757,7 @@ namespace family_tree.viewer
                     {
                         file.WriteLine("F");
                     }
-                    file.WriteLine("1 BIRT");
+                    file.WriteLine("1 BIRT Y");
                     file.WriteLine("2 DATE " + person.dob.format(DateFormat.GEDCOM));
                     if (options.isAllElements)
                     {
@@ -1797,6 +1797,34 @@ namespace family_tree.viewer
                         if (causeOfDeath != "")
                         {
                             file.WriteLine("2 CAUS " + causeOfDeath);
+                        }
+                    }
+
+                    // Add this person to the parents family.
+                    if (person.fatherIndex > 0 || person.motherIndex > 0)
+                    {
+                        // Check that the father is included in the gedcom file.
+                        int fatherIndex = person.fatherIndex;
+                        Person father = new Person(fatherIndex, database_);
+                        if (!father.isIncludeInGedcom)
+                        {
+                            fatherIndex = 0;
+                        }
+
+                        // Check that the mother is included in the gedcom file.
+                        int motherIndex = person.motherIndex;
+                        Person mother = new Person(motherIndex, database_);
+                        if (!mother.isIncludeInGedcom)
+                        {
+                            motherIndex = 0;
+                        }
+
+                        //  Get the parent family information.
+                        if (motherIndex != 0 || fatherIndex != 0)
+                        {
+                            Family family = families.getParentFamily(person.fatherIndex, person.motherIndex);
+                            family.addChild(person);
+                            file.WriteLine("1 FAMC @F" + family.gedcomIndex.ToString("0000") + "@");
                         }
                     }
 
@@ -1866,34 +1894,6 @@ namespace family_tree.viewer
                                 // Add to the list of partners
                                 partners.Add(fatherIndex);
                             }
-                        }
-                    }
-
-                    // Add this person to the parents family
-                    if (person.fatherIndex > 0 || person.motherIndex > 0)
-                    {
-                        // Check that the father is included in the gedcom file.
-                        int fatherIndex = person.fatherIndex;
-                        Person father = new Person(fatherIndex, database_);
-                        if (!father.isIncludeInGedcom)
-                        {
-                            fatherIndex = 0;
-                        }
-
-                        // Check that the mother is included in the gedcom file.
-                        int motherIndex = person.motherIndex;
-                        Person mother = new Person(motherIndex, database_);
-                        if (!mother.isIncludeInGedcom)
-                        {
-                            motherIndex = 0;
-                        }
-
-                        //  Get the parent family information.
-                        if (motherIndex != 0 || fatherIndex != 0)
-                        {
-                            Family family = families.getParentFamily(person.fatherIndex, person.motherIndex);
-                            family.addChild(person);
-                            file.WriteLine("1 FAMC @F" + family.gedcomIndex.ToString("0000") + "@");
                         }
                     }
 
