@@ -371,6 +371,7 @@ namespace family_tree.viewer
             this.cboYear_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboYear_.Items.AddRange(new object[] {
             "1939",
+            "1921",
             "1911",
             "1901",
             "1891",

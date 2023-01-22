@@ -790,6 +790,7 @@ namespace family_tree.viewer
             "Death Certificate:",
             "Census 1861:",
             "Census 1901:",
+            "Census:",
             "1939 Register:",
             "Interview:",
             "Letter:"});

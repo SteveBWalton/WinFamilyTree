@@ -498,8 +498,8 @@ namespace family_tree.objects
                 int index = Database.getInt(dataReader, "ID", 0);
                 file.WriteLine("0 @M" + index.ToString("0000") + "@ OBJE");
                 string fileName = Database.getString(dataReader, "Filename", "Undefined");
-                file.WriteLine("1 FILE media/" + fileName);
-                file.WriteLine("2 FORM");
+                file.WriteLine("1 FILE Media/" + fileName);
+                file.WriteLine("2 FORM " + fileName.Substring(fileName.Length - 3));
                 file.WriteLine("3 TYPE photo");
                 string title = Database.getString(dataReader, "Title", "Undefined");
                 file.WriteLine("2 TITL " + title);
@@ -782,7 +782,7 @@ namespace family_tree.objects
                 gedcomLongNote(ref isFirst, file, "GRID: Reference: " + reference);
 
                 // Write the information about the members of this census record.
-                sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation FROM tbl_CensusPeople WHERE HouseHoldID = " + censusHouseholdIndex.ToString() + " ORDER BY ID;";
+                sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation, PersonID FROM tbl_CensusPeople WHERE HouseHoldID = " + censusHouseholdIndex.ToString() + " ORDER BY ID;";
                 sqlCommand = new OleDbCommand(sql, cndb);
                 dataReader = sqlCommand.ExecuteReader();                
                 while (dataReader.Read())
@@ -792,9 +792,16 @@ namespace family_tree.objects
                     string relation = getString(dataReader, "RelationToHead", "");
                     string occupation = getString(dataReader, "Occupation", "");
                     string born = getString(dataReader, "BornLocation", "");
+                    string actualPerson = "";
+                    int actualPersonIndex = getInt(dataReader, "PersonID", 0);
+                    if (actualPersonIndex != 0)
+                    {
+                        actualPerson = "I" + actualPersonIndex.ToString("0000");
+                    }
 
                     StringBuilder member = new StringBuilder();
                     member.Append(name);
+                    member.Append(": " + actualPerson);
                     member.Append(": " + age);
                     member.Append(": " + relation);
                     member.Append(": " + occupation);
