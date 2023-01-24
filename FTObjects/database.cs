@@ -696,20 +696,24 @@ namespace family_tree.objects
             gedcomLongNote(ref isFirst, file, "GRID: GRO Reference: " + marriageCertificate.groReference);
             StringBuilder text = new StringBuilder();
             text.Append(marriageCertificate.groomName);
+            text.Append(": ");  // This would be the identity of the groom in the database but the source does not know it.
             text.Append(": " + marriageCertificate.groomAge);
             text.Append(": " + marriageCertificate.groomOccupation);
             text.Append(": " + marriageCertificate.groomLiving);
             gedcomLongNote(ref isFirst, file, "Groom: " + text.ToString());
             text = new StringBuilder();
             text.Append(marriageCertificate.brideName);
+            text.Append(": ");  // This would be the identity of the bride in the database but the source does not know it.
             text.Append(": " + marriageCertificate.brideAge);
             text.Append(": " + marriageCertificate.brideOccupation);
             text.Append(": " + marriageCertificate.brideLiving);
             gedcomLongNote(ref isFirst, file, "Bride: " + text.ToString());
             text = new StringBuilder(marriageCertificate.groomFather);
+            text.Append(": ");  // This would be the identity of the groom father in the database but the source does not know it.
             text.Append(": " + marriageCertificate.groomFatherOccupation);
             gedcomLongNote(ref isFirst, file, "Groom's Father: " + text.ToString());
             text = new StringBuilder(marriageCertificate.brideFather);
+            text.Append(": ");  // This would be the identity of the bride father in the database but the source does not know it.
             text.Append(": " + marriageCertificate.brideFatherOccupation);
             gedcomLongNote(ref isFirst, file, "Bride's Father: " + text.ToString());
             gedcomLongNote(ref isFirst, file, "Witness: " + marriageCertificate.witness);
