@@ -1631,6 +1631,10 @@ namespace family_tree.objects
                     string country = fullPlace.Substring(comma + 2);
                     file.WriteLine((level + 1).ToString() + " CTRY " + country);
                 }
+                else if (fullPlace != "")
+                {
+                    file.WriteLine((level + 1).ToString() + " CTRY " + fullPlace);
+                }
             }
 
             if (options.isAllElements && sources != null)
