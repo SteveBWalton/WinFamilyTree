@@ -488,7 +488,7 @@ namespace family_tree.objects
 		/// <remarks>This should not be in this section move somewhere else.</remarks>
 		/// <param name="file"></param>
 		/// <returns></returns>
-        public bool gedcomWriteMedia(StreamWriter file)
+        public bool gedcomWriteMedia(StreamWriter file, GedcomOptions options)
         {
             // Select all the media objects.
             OleDbCommand sqlCommand = new OleDbCommand("SELECT * FROM tbl_Media ORDER BY ID;", cndb_);
@@ -520,6 +520,19 @@ namespace family_tree.objects
                 else
                 {
                     file.WriteLine("1 _THUM N");
+                }
+                // Write the last edit information
+                string lastEditBy = Database.getString(dataReader, "LastEditBy", "Steve Walton");
+                DateTime lastEditDate = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
+                if (lastEditBy != "")
+                {
+                    file.WriteLine("1 CHAN");
+                    file.WriteLine("2 DATE " + lastEditDate.ToString("d MMM yyyy"));
+                    file.WriteLine("3 TIME " + lastEditDate.ToString("HH:mm:ss"));
+                    if (options.isIncludePGVU)
+                    {
+                        file.WriteLine("2 _PGVU " + lastEditBy);
+                    }
                 }
             }
             dataReader.Close();

@@ -1989,7 +1989,7 @@ namespace family_tree.viewer
                         }
                     }
 
-                    // Write the last edit information
+                    // Write the last edit information.
                     if (person.lastEditBy != "")
                     {
                         file.WriteLine("1 CHAN");
@@ -2013,7 +2013,7 @@ namespace family_tree.viewer
             database_.writeSourcesGedcom(file, progressBarPerformStep, options);
 
             // Write all the media records @M1@ etc...
-            database_.gedcomWriteMedia(file);
+            database_.gedcomWriteMedia(file, options);
 
             // Write the repository records @R1@ etc ...
             database_.writeRepositoriesGedcom(file);

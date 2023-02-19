@@ -49,6 +49,13 @@ namespace family_tree.objects
         /// <summary>The list of indexes of people who are attached to this media object.</summary>
         private ArrayList attachedPeople_;
 
+        /// <summary>Name of the user who wrote the last edit.</summary>
+        private string lastEditBy_;
+
+        /// <summary>Date and time of the last edit.</summary>
+        private DateTime lastEditDate_;
+
+
         #endregion
 
         #region Class constructor
@@ -97,6 +104,8 @@ namespace family_tree.objects
                 isThumbnail = walton.Database.getBool(dataReader, "Thumbnail", true);
                 width = walton.Database.getInt(dataReader, "Width", -1);
                 height = walton.Database.getInt(dataReader, "Height", -1);
+                lastEditBy_ = Database.getString(dataReader, "LastEditBy", "Steve Walton");
+                lastEditDate_ = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
             }
             dataReader.Close();
 
@@ -129,7 +138,9 @@ namespace family_tree.objects
                 sql.Append("Width = " + walton.Database.toDb(width, -1) + ", ");
                 sql.Append("Height = " + walton.Database.toDb(height, -1) + ", ");
                 sql.Append("[Primary] = " + walton.Database.toDb(isPrimary) + ", ");
-                sql.Append("Thumbnail = " + walton.Database.toDb(isThumbnail) + " ");
+                sql.Append("Thumbnail = " + walton.Database.toDb(isThumbnail) + ", ");
+                sql.Append("LastEditBy = " + Database.toDb(lastEditBy_) + ", ");
+                sql.Append("LastEditDate = #" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "# ");
                 sql.Append("WHERE ID = ");
                 sql.Append(index_);
                 sql.Append(";");
@@ -141,14 +152,16 @@ namespace family_tree.objects
                 index_ = 1 + int.Parse(sqlCommand.ExecuteScalar().ToString());
 
                 // Insert a new media object.
-                sql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail) VALUES (");
+                sql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail, LastEditBy, LastEditDate) VALUES (");
                 sql.Append(index_.ToString() + ",");
                 sql.Append(walton.Database.toDb(fileName) + ", ");
                 sql.Append(walton.Database.toDb(title) + ", ");
                 sql.Append(walton.Database.toDb(width, -1) + ", ");
                 sql.Append(walton.Database.toDb(height, -1) + ", ");
                 sql.Append(walton.Database.toDb(isPrimary) + ", ");
-                sql.Append(walton.Database.toDb(isThumbnail) + ");");
+                sql.Append(walton.Database.toDb(isThumbnail) + ", ");
+                sql.Append(walton.Database.toDb(lastEditBy_) + ", ");
+                sql.Append(walton.Database.toDb("#" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss")) + "#);");
             }
             sqlCommand = new OleDbCommand(sql.ToString(), database_.cndb);
             try
