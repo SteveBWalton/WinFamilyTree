@@ -894,7 +894,20 @@ namespace family_tree.objects
             if (lineBreak > 0)
             {
                 gedcomLongNote(file, level, tag, message.Substring(0, lineBreak - 1));
-                gedcomLongNote(file, level+1, "CONT", message.Substring(lineBreak + 1));
+
+                string[] contLines = message.Substring(lineBreak + 1).Split('\n');
+                foreach (string line in contLines)
+                {
+                    if (line.EndsWith("\r"))
+                    {
+                        // Often Windows uses "\r\n" as linefeed character.
+                        gedcomLongNote(file, level + 1, "CONT", line.Substring(0, line.Length - 1));
+                    }
+                    else
+                    {
+                        gedcomLongNote(file, level + 1, "CONT", line);
+                    }
+                }
             }
             else
             {
