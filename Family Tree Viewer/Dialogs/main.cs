@@ -1908,7 +1908,21 @@ namespace family_tree.viewer
                         {
                             file.WriteLine("2 OCCU " + census.occupation);
                         }
-                        file.WriteLine("2 NOTE " + census.livingWith(database_));
+                        // file.WriteLine("2 NOTE " + census.livingWith(database_));
+                        string[] livingWithPeople = census.livingWith(database_).Split(',');
+                        bool isFirst = true;
+                        foreach (string livingWithPerson in livingWithPeople)
+                        {
+                            if (isFirst)
+                            {
+                                isFirst = false;
+                                file.WriteLine("2 NOTE " + livingWithPerson);
+                            }
+                            else
+                            {
+                                file.WriteLine("3 CONT " + livingWithPerson.Trim());
+                            }
+                        }
                         Sources sources = census.getSources(database_);
                         if (sources != null)
                         {

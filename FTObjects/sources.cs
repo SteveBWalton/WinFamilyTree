@@ -494,12 +494,7 @@ namespace family_tree.objects
         /// <param name="level">Specifies the level on the tag in the gedcom file.</param>
         /// <param name="file">Specifies the Gedcom file to write the tag into.</param>
         /// <param name="already">Specifies the list of sources already used.  The source is added to this list.  Use NULL to ignore.</param>
-        public void writeGedcom
-            (
-            int level,
-            StreamWriter file,
-            ArrayList already
-            )
+        public void writeGedcom(int level, StreamWriter file, ArrayList already)
         {
             int[] ids = get();
             for (int i = 0; i < ids.Length; i++)

@@ -674,16 +674,14 @@ namespace family_tree.objects
             cnDb.Close();
 
             // Write the details from the birth certificate.
-            bool isFirst = true;
-            gedcomLongNote(ref isFirst, file, "GRID: GRO Reference: " + birth.groReference);
-            // oFile.WriteLine("2 PLAC "+oBirth.RegistrationDistrict);
-            gedcomLongNote(ref isFirst, file, "Registration District: " + birth.registrationDistrict);
-            gedcomLongNote(ref isFirst, file, "When and Where: " + birth.when.ToString("d MMM yyyy") + ": " + birth.whenAndWhere);
-            gedcomLongNote(ref isFirst, file, "Name: " + birth.name + ": " + birth.sex );
-            gedcomLongNote(ref isFirst, file, "Mother: " + birth.mother + ": " + birth.motherDetails);
-            gedcomLongNote(ref isFirst, file, "Father: " + birth.father + ": " + birth.fatherOccupation);
-            gedcomLongNote(ref isFirst, file, "Informant: " + birth.informant + ": " + birth.informantAddress);
-            gedcomLongNote(ref isFirst, file, "When Registered: " + birth.whenRegistered);
+            gedcomLongNote(file, 1, "NOTE", "GRID: GRO Reference: " + birth.groReference);
+            gedcomLongNote(file, 2, "CONT", "Registration District: " + birth.registrationDistrict);
+            gedcomLongNote(file, 2, "CONT", "When and Where: " + birth.when.ToString("d MMM yyyy") + ": " + birth.whenAndWhere);
+            gedcomLongNote(file, 2, "CONT", "Name: " + birth.name + ": " + birth.sex);
+            gedcomLongNote(file, 2, "CONT", "Mother: " + birth.mother + ": " + birth.motherDetails);
+            gedcomLongNote(file, 2, "CONT", "Father: " + birth.father + ": " + birth.fatherOccupation);
+            gedcomLongNote(file, 2, "CONT", "Informant: " + birth.informant + ": " + birth.informantAddress);
+            gedcomLongNote(file, 2, "CONT", "When Registered: " + birth.whenRegistered);
         }
 
 
@@ -703,33 +701,32 @@ namespace family_tree.objects
             // Close the database.
             cndb.Close();
 
-            // Write the details of the marriage certificate.             
+            // Write the details of the marriage certificate.
             writeGedcomPlace(file, 1, marriageCertificate.location, null, options);
-            bool isFirst = true;
-            gedcomLongNote(ref isFirst, file, "GRID: GRO Reference: " + marriageCertificate.groReference);
+            gedcomLongNote( file, 1, "NOTE", "GRID: GRO Reference: " + marriageCertificate.groReference);
             StringBuilder text = new StringBuilder();
             text.Append(marriageCertificate.groomName);
             text.Append(": ");  // This would be the identity of the groom in the database but the source does not know it.
             text.Append(": " + marriageCertificate.groomAge);
             text.Append(": " + marriageCertificate.groomOccupation);
             text.Append(": " + marriageCertificate.groomLiving);
-            gedcomLongNote(ref isFirst, file, "Groom: " + text.ToString());
+            gedcomLongNote(file, 2, "CONT", "Groom: " + text.ToString());
             text = new StringBuilder();
             text.Append(marriageCertificate.brideName);
             text.Append(": ");  // This would be the identity of the bride in the database but the source does not know it.
             text.Append(": " + marriageCertificate.brideAge);
             text.Append(": " + marriageCertificate.brideOccupation);
             text.Append(": " + marriageCertificate.brideLiving);
-            gedcomLongNote(ref isFirst, file, "Bride: " + text.ToString());
+            gedcomLongNote(file, 2, "CONT", "Bride: " + text.ToString());
             text = new StringBuilder(marriageCertificate.groomFather);
             text.Append(": ");  // This would be the identity of the groom father in the database but the source does not know it.
             text.Append(": " + marriageCertificate.groomFatherOccupation);
-            gedcomLongNote(ref isFirst, file, "Groom's Father: " + text.ToString());
+            gedcomLongNote(file, 2, "CONT", "Groom's Father: " + text.ToString());
             text = new StringBuilder(marriageCertificate.brideFather);
             text.Append(": ");  // This would be the identity of the bride father in the database but the source does not know it.
             text.Append(": " + marriageCertificate.brideFatherOccupation);
-            gedcomLongNote(ref isFirst, file, "Bride's Father: " + text.ToString());
-            gedcomLongNote(ref isFirst, file, "Witness: " + marriageCertificate.witness);
+            gedcomLongNote(file, 2, "CONT", "Bride's Father: " + text.ToString());
+            gedcomLongNote(file, 2, "CONT", "Witness: " + marriageCertificate.witness);
         }
 
 
@@ -750,20 +747,18 @@ namespace family_tree.objects
             cndb.Close();
 
             // Write the details of the marriage certificate.
-            bool isFirst = true;
-            gedcomLongNote(ref isFirst, file, "GRID: GRO Reference: " + deathCertificate.groReference);
-            // oFile.WriteLine("2 PLAC "+oDeath.RegistrationDistrict);
-            gedcomLongNote(ref isFirst, file, "Registration District: " + deathCertificate.registrationDistrict);
-            gedcomLongNote(ref isFirst, file, "When: " + deathCertificate.when);
-            gedcomLongNote(ref isFirst, file, "Where: " + deathCertificate.place);
-            gedcomLongNote(ref isFirst, file, "Name: " + deathCertificate.name + ": " + deathCertificate.sex);
-            gedcomLongNote(ref isFirst, file, "Date & Place of Birth: " + deathCertificate.datePlaceOfBirth);
-            gedcomLongNote(ref isFirst, file, "Occupation: " + deathCertificate.occupation);
-            gedcomLongNote(ref isFirst, file, "Usual Address: " + deathCertificate.usualAddress);
-            gedcomLongNote(ref isFirst, file, "Cause of Death: " + encodeLineBreaks(deathCertificate.causeOfDeath));
-            gedcomLongNote(ref isFirst, file, "Informant: " + deathCertificate.informant + ": " + deathCertificate.informantDescription);
-            gedcomLongNote(ref isFirst, file, "Informant Address: " + deathCertificate.informantAddress);
-            gedcomLongNote(ref isFirst, file, "When Registered: " + deathCertificate.whenRegistered);
+            gedcomLongNote(file, 1, "NOTE", "GRID: GRO Reference: " + deathCertificate.groReference);            
+            gedcomLongNote(file, 2, "CONT", "Registration District: " + deathCertificate.registrationDistrict);
+            gedcomLongNote(file, 2, "CONT", "When: " + deathCertificate.when);
+            gedcomLongNote(file, 2, "CONT", "Where: " + deathCertificate.place);
+            gedcomLongNote(file, 2, "CONT", "Name: " + deathCertificate.name + ": " + deathCertificate.sex);
+            gedcomLongNote(file, 2, "CONT", "Date & Place of Birth: " + deathCertificate.datePlaceOfBirth+": ");
+            gedcomLongNote(file, 2, "CONT", "Occupation: " + deathCertificate.occupation);
+            gedcomLongNote(file, 2, "CONT", "Usual Address: " + deathCertificate.usualAddress);
+            gedcomLongNote(file, 2, "CONT", "Cause of Death: " + deathCertificate.causeOfDeath);
+            gedcomLongNote(file, 2, "CONT", "Informant: " + deathCertificate.informant + ": " + deathCertificate.informantDescription);
+            gedcomLongNote(file, 2, "CONT", "Informant Address: " + deathCertificate.informantAddress);
+            gedcomLongNote(file, 2, "CONT", "When Registered: " + deathCertificate.whenRegistered);
         }
 
 
@@ -795,13 +790,12 @@ namespace family_tree.objects
                 string address = sqlAddress.ToString();
                 writeGedcomPlace(file, 1, address, null, options);
 
-                bool isFirst = true;
-                gedcomLongNote(ref isFirst, file, "GRID: Reference: " + reference);
+                gedcomLongNote(file, 1, "NOTE", "GRID: Reference: " + reference);
 
                 // Write the information about the members of this census record.
                 sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation, PersonID FROM tbl_CensusPeople WHERE HouseHoldID = " + censusHouseholdIndex.ToString() + " ORDER BY ID;";
                 sqlCommand = new OleDbCommand(sql, cndb);
-                dataReader = sqlCommand.ExecuteReader();                
+                dataReader = sqlCommand.ExecuteReader();
                 while (dataReader.Read())
                 {
                     string name = getString(dataReader, "NameGiven", "");
@@ -824,9 +818,8 @@ namespace family_tree.objects
                     member.Append(": " + occupation);
                     member.Append(": " + born);
 
-                    // I would prefer a better tag than NOTE but this works for now.
-                    gedcomLongNote(ref isFirst, file, member.ToString());
-                    // oFile.WriteLine("2 NOTE "+sbMember.ToString());
+                    // Write the person details.
+                    gedcomLongNote(file, 2, "CONT", member.ToString());
                 }
                 dataReader.Close();
             }
@@ -890,20 +883,22 @@ namespace family_tree.objects
 
 
         /// <summary>Write a series of lines into a single note.  The first line is tagged 1 NOTE, subsequent lines are tagged 2 CONT.</summary>
-		/// <param name="isFirst">True for the first line and then reset.</param>
 		/// <param name="file">Specifies the gedcom file to write the note into.</param>
+        /// <param name="level">Specifies the level of the tag.  Expected to be 1.</param>
+        /// <param name="tag">Specifies the name of the tag.  Expected to be 'NOTE'.</param>
 		/// <param name="message">Specifies the line of text for the gedcom file.</param>
-        private void gedcomLongNote(ref bool isFirst, StreamWriter file, string message)
+        private void gedcomLongNote(StreamWriter file, int level, string tag,  string message)
         {
             // Deal with multiple lines recurisively.
             int lineBreak = message.IndexOf("\n");
             if (lineBreak > 0)
             {
-                gedcomLongNote(ref isFirst, file, message.Substring(0, lineBreak - 1));
-                gedcomLongNote(ref isFirst, file, message.Substring(lineBreak + 1));
+                gedcomLongNote(file, level, tag, message.Substring(0, lineBreak - 1));
+                gedcomLongNote(file, level+1, "CONT", message.Substring(lineBreak + 1));
             }
             else
             {
+                /*
                 if (isFirst)
                 {
                     file.Write("1 NOTE ");
@@ -914,6 +909,8 @@ namespace family_tree.objects
                     file.Write("2 CONT ");
                 }
                 file.WriteLine(message);
+                */
+                file.WriteLine(level.ToString() + " " + tag + " " + message);
             }
         }
 
