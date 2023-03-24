@@ -444,7 +444,7 @@ namespace family_tree.objects
         {
             StringBuilder html = new StringBuilder();
 
-            html.AppendLine("<script type=\"text/javascript\" src=\"http://www.google.com/jsapi?key=ABQIAAAAELN21ukYS-dXUgY1q2-cYBRi_j0U6kJrkFvY4-OX2XYmEAa76BSTo1rKlErW-r00FyfvS8W-w8OnPg\"></script>");
+            html.AppendLine("<script type=\"text/javascript\" src=\"http://www.google.com/jsapi?key=" + database_.googleMapsKey + "\"></script>");
             html.AppendLine("<script type=\"text/javascript\">");
             html.AppendLine("google.load(\"maps\", \"2.x\");");
             html.AppendLine("// Call this function when the page has been loaded");

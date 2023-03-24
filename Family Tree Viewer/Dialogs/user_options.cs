@@ -68,6 +68,7 @@ namespace family_tree.viewer
             labTreeSubFont_.Font = new System.Drawing.Font(userOptions.treeSubFontName, userOptions.treeSubFontSize);
             labTreeSubFont_.Text = userOptions.treeSubFontName + " " + userOptions.treeSubFontSize.ToString();
             chkTreePersonBox_.Checked = userOptions.isTreePersonBox;
+            textBoxGoogleMapsKey.Text = userOptions.googleMapsKey;
 
             // Populate the html preview.
             populateHtmlPreview();
@@ -88,6 +89,8 @@ namespace family_tree.viewer
                 userOptions.fontHeader = userOptions_.fontHeader;
                 userOptions.fontSmall = userOptions_.fontSmall;
                 userOptions.fontHtmlSuperscript = userOptions_.fontHtmlSuperscript;
+
+                userOptions.googleMapsKey = textBoxGoogleMapsKey.Text;
 
                 userOptions.save();
 

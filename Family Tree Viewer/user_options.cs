@@ -50,6 +50,9 @@ namespace family_tree.viewer
         /// <summary>The options for the Gedcom export.</summary>
         private GedcomOptions gedcomOptions_;
 
+        /// <summary>The key to use google maps.</summary>
+        private string googleMapsKey_;
+
         #endregion
 
         #region Constructors etc...
@@ -94,6 +97,10 @@ namespace family_tree.viewer
             walton.XmlNode xmlGedcomOptions = xmlUserOptions.getNode("gedcom");
             gedcomOptions_ = new GedcomOptions();
             gedcomOptions_.load(xmlGedcomOptions);
+
+            // Save the google options.
+            walton.XmlNode xmlGoogle = xmlUserOptions.getNode("google");
+            googleMapsKey_ = xmlGoogle.getAttributeValue("maps_key", "missing", true);
         }
 
 
@@ -123,6 +130,9 @@ namespace family_tree.viewer
 
             // Gedcom options.
             gedcomOptions_ = new GedcomOptions(userOptions.gedcomOptions);
+
+            // Google.
+            googleMapsKey_ = userOptions.googleMapsKey_;            
         }
 
 
@@ -143,37 +153,41 @@ namespace family_tree.viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool save()
         {
-            walton.XmlNode oUserOptions = config_.getNode("useroptions");
+            walton.XmlNode xmlUserOptions = config_.getNode("useroptions");
 
             // Tree options.
-            walton.XmlNode oMainFont = oUserOptions.getNode("tree/mainfont");
-            oMainFont.setAttributeValue("name", treeMainFontName);
-            oMainFont.setAttributeValue("size", treeMainFontSize);
-            walton.XmlNode oSubFont = oUserOptions.getNode("tree/subfont");
-            oSubFont.setAttributeValue("name", treeSubFontName);
-            oSubFont.setAttributeValue("size", treeSubFontSize);
-            walton.XmlNode oPerson = oUserOptions.getNode("tree/person");
-            oPerson.setAttributeValue("boxaround", isTreePersonBox);
+            walton.XmlNode xmlMainFont = xmlUserOptions.getNode("tree/mainfont");
+            xmlMainFont.setAttributeValue("name", treeMainFontName);
+            xmlMainFont.setAttributeValue("size", treeMainFontSize);
+            walton.XmlNode xmlSubFont = xmlUserOptions.getNode("tree/subfont");
+            xmlSubFont.setAttributeValue("name", treeSubFontName);
+            xmlSubFont.setAttributeValue("size", treeSubFontSize);
+            walton.XmlNode xmlPerson = xmlUserOptions.getNode("tree/person");
+            xmlPerson.setAttributeValue("boxaround", isTreePersonBox);
 
             // Main window options.
-            walton.XmlNode oBaseFont = oUserOptions.getNode("mainwindow/basefont");
-            fontBase.save(oBaseFont);
-            walton.XmlNode oBaseFontTitle = oUserOptions.getNode("mainwindow/basefonttitle");
-            fontBaseTitle.save(oBaseFontTitle);
+            walton.XmlNode xmlBaseFont = xmlUserOptions.getNode("mainwindow/basefont");
+            fontBase.save(xmlBaseFont);
+            walton.XmlNode xmlBaseFontTitle = xmlUserOptions.getNode("mainwindow/basefonttitle");
+            fontBaseTitle.save(xmlBaseFontTitle);
 
             // Write the html options.
-            walton.XmlNode oBodyFont = oUserOptions.getNode("html/bodyfont");
-            fontBody.save(oBodyFont);
-            walton.XmlNode oHeaderFont = oUserOptions.getNode("html/headerfont");
-            fontHeader.save(oHeaderFont);
-            walton.XmlNode oSmallFont = oUserOptions.getNode("html/smallfont");
-            fontSmall.save(oSmallFont);
-            walton.XmlNode oSuperscriptFont = oUserOptions.getNode("html/superscript");
-            fontHtmlSuperscript.save(oSuperscriptFont);
+            walton.XmlNode xmlBodyFont = xmlUserOptions.getNode("html/bodyfont");
+            fontBody.save(xmlBodyFont);
+            walton.XmlNode xmlHeaderFont = xmlUserOptions.getNode("html/headerfont");
+            fontHeader.save(xmlHeaderFont);
+            walton.XmlNode xmlSmallFont = xmlUserOptions.getNode("html/smallfont");
+            fontSmall.save(xmlSmallFont);
+            walton.XmlNode xmlSuperscriptFont = xmlUserOptions.getNode("html/superscript");
+            fontHtmlSuperscript.save(xmlSuperscriptFont);
 
             // Save the gedcom options.
-            walton.XmlNode xmlGedcomOptions = oUserOptions.getNode("gedcom");
+            walton.XmlNode xmlGedcomOptions = xmlUserOptions.getNode("gedcom");
             gedcomOptions_.save(xmlGedcomOptions);
+
+            // Save the google options.
+            walton.XmlNode xmlGoogle = xmlUserOptions.getNode("google");
+            xmlGoogle.setAttributeValue("maps_key", googleMapsKey_);
 
             // Save the configuration file to disk.
             config_.save();
@@ -303,8 +317,24 @@ namespace family_tree.viewer
 
 
 
+        #endregion
+
+        #region Properties
+
+
+
         /// <summary>The gedcom options.</summary>
         public GedcomOptions gedcomOptions { get { return gedcomOptions_; } }
+
+
+
+
+        /// <summary>The key to use google maps.</summary>
+        public string googleMapsKey
+        {
+            get { return googleMapsKey_; }
+            set { googleMapsKey_ = value; }
+        }
 
 
 

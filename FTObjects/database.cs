@@ -53,6 +53,9 @@ namespace family_tree.objects
         /// <summary>Filename of the database.</summary>
         private string fileName_;
 
+        /// <summary>This should really be something like user options.</summary>
+        private string googleMapsKey_;
+
         #endregion
 
         #region Constructors Destructors etc...
@@ -61,11 +64,12 @@ namespace family_tree.objects
 
         /// <summary>Class constructor.  Opens the specified database.  Call Dispose() to close the database.</summary>
         /// <param name="fileName">Specifies the filename of the family tree access database</param>
-        public Database(string fileName)
+        public Database(string fileName, string googleMapsKey)
         {
             fileName_ = fileName;
             factTypes_ = null;
             marriedRange_ = 20;
+            googleMapsKey_ = googleMapsKey;
 
             // Open the connection to the database.
             // cndb_ = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + ";");
@@ -2092,6 +2096,8 @@ namespace family_tree.objects
 
         #region Public Properties
 
+
+
         /// <summary>Connection to the database.</summary>
         internal OleDbConnection cndb { get { return cndb_; } }
 
@@ -2100,6 +2106,11 @@ namespace family_tree.objects
 
         /// <summary>The filename of the source database file.</summary>
         public string fileName { get { return fileName_; } }
+
+        /// <summary>This should really be something like user options.</summary>
+        public string googleMapsKey { get { return googleMapsKey_; } }
+
+
 
         #endregion
 

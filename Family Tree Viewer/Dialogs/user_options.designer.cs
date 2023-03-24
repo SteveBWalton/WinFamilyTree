@@ -32,6 +32,7 @@ namespace family_tree.viewer
             System.Windows.Forms.Panel oBottomPanel;
             System.Windows.Forms.Button cmdCancel;
             System.Windows.Forms.Button cmdOK;
+            System.Windows.Forms.Label labelGoogleMaps;
             this.m_cmdChangeHtmlFont = new System.Windows.Forms.Button();
             this.labHtmlStyleFont_ = new System.Windows.Forms.Label();
             this.cboFont_ = new System.Windows.Forms.ComboBox();
@@ -40,6 +41,8 @@ namespace family_tree.viewer
             this.labTreeSubFont_ = new System.Windows.Forms.Label();
             this.labTreeMainFont_ = new System.Windows.Forms.Label();
             this.fontDialog_ = new System.Windows.Forms.FontDialog();
+            this.tabUser = new System.Windows.Forms.TabPage();
+            this.textBoxGoogleMapsKey = new System.Windows.Forms.TextBox();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             tabControl = new System.Windows.Forms.TabControl();
             tabMain = new System.Windows.Forms.TabPage();
@@ -49,10 +52,12 @@ namespace family_tree.viewer
             oBottomPanel = new System.Windows.Forms.Panel();
             cmdCancel = new System.Windows.Forms.Button();
             cmdOK = new System.Windows.Forms.Button();
+            labelGoogleMaps = new System.Windows.Forms.Label();
             tabControl.SuspendLayout();
             tabMain.SuspendLayout();
             tabTree.SuspendLayout();
             oBottomPanel.SuspendLayout();
+            this.tabUser.SuspendLayout();
             this.SuspendLayout();
             // 
             // oImageList16x16
@@ -68,6 +73,7 @@ namespace family_tree.viewer
             // 
             tabControl.Controls.Add(tabMain);
             tabControl.Controls.Add(tabTree);
+            tabControl.Controls.Add(this.tabUser);
             tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             tabControl.ImageList = oImageList16x16;
             tabControl.Location = new System.Drawing.Point(0, 0);
@@ -102,31 +108,31 @@ namespace family_tree.viewer
             this.m_cmdChangeHtmlFont.UseVisualStyleBackColor = true;
             this.m_cmdChangeHtmlFont.Click += new System.EventHandler(this.cmdChangeHtmlFont_Click);
             // 
-            // m_labHtmlStyleFont
+            // labHtmlStyleFont_
             // 
             this.labHtmlStyleFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labHtmlStyleFont_.Location = new System.Drawing.Point(161, 218);
-            this.labHtmlStyleFont_.Name = "m_labHtmlStyleFont";
+            this.labHtmlStyleFont_.Name = "labHtmlStyleFont_";
             this.labHtmlStyleFont_.Size = new System.Drawing.Size(423, 60);
             this.labHtmlStyleFont_.TabIndex = 2;
             this.labHtmlStyleFont_.Text = "Main Font: Tahoma 11";
             this.labHtmlStyleFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // m_cboFont
+            // cboFont_
             // 
             this.cboFont_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFont_.FormattingEnabled = true;
             this.cboFont_.Location = new System.Drawing.Point(8, 218);
-            this.cboFont_.Name = "m_cboFont";
+            this.cboFont_.Name = "cboFont_";
             this.cboFont_.Size = new System.Drawing.Size(147, 21);
             this.cboFont_.TabIndex = 1;
             this.cboFont_.SelectedIndexChanged += new System.EventHandler(this.cboFont_SelectedIndexChanged);
             // 
-            // m_WebBrowser
+            // webBrowser_
             // 
             this.webBrowser_.Location = new System.Drawing.Point(8, 3);
             this.webBrowser_.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser_.Name = "m_WebBrowser";
+            this.webBrowser_.Name = "webBrowser_";
             this.webBrowser_.Size = new System.Drawing.Size(576, 209);
             this.webBrowser_.TabIndex = 0;
             this.webBrowser_.TabStop = false;
@@ -146,10 +152,10 @@ namespace family_tree.viewer
             tabTree.Text = "Tree";
             tabTree.UseVisualStyleBackColor = true;
             // 
-            // m_chkTreePersonBox
+            // chkTreePersonBox_
             // 
             this.chkTreePersonBox_.Location = new System.Drawing.Point(8, 112);
-            this.chkTreePersonBox_.Name = "m_chkTreePersonBox";
+            this.chkTreePersonBox_.Name = "chkTreePersonBox_";
             this.chkTreePersonBox_.Size = new System.Drawing.Size(224, 24);
             this.chkTreePersonBox_.TabIndex = 4;
             this.chkTreePersonBox_.Text = "Box around people";
@@ -178,21 +184,21 @@ namespace family_tree.viewer
             cmdTreeMainFont.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdTreeMainFont.Click += new System.EventHandler(this.cmdTreeMainFont_Click);
             // 
-            // m_labTreeSubFont
+            // labTreeSubFont_
             // 
             this.labTreeSubFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labTreeSubFont_.Location = new System.Drawing.Point(96, 56);
-            this.labTreeSubFont_.Name = "m_labTreeSubFont";
+            this.labTreeSubFont_.Name = "labTreeSubFont_";
             this.labTreeSubFont_.Size = new System.Drawing.Size(336, 32);
             this.labTreeSubFont_.TabIndex = 1;
             this.labTreeSubFont_.Text = "Sub Font: Tahoma 8";
             this.labTreeSubFont_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // m_labTreeMainFont
+            // labTreeMainFont_
             // 
             this.labTreeMainFont_.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labTreeMainFont_.Location = new System.Drawing.Point(96, 16);
-            this.labTreeMainFont_.Name = "m_labTreeMainFont";
+            this.labTreeMainFont_.Name = "labTreeMainFont_";
             this.labTreeMainFont_.Size = new System.Drawing.Size(336, 32);
             this.labTreeMainFont_.TabIndex = 0;
             this.labTreeMainFont_.Text = "Main Font: Tahoma 11";
@@ -232,7 +238,38 @@ namespace family_tree.viewer
             cmdOK.Text = "OK";
             cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // frmUserOptions
+            // tabUser
+            // 
+            this.tabUser.Controls.Add(this.textBoxGoogleMapsKey);
+            this.tabUser.Controls.Add(labelGoogleMaps);
+            this.tabUser.ImageIndex = 2;
+            this.tabUser.Location = new System.Drawing.Point(4, 23);
+            this.tabUser.Name = "tabUser";
+            this.tabUser.Size = new System.Drawing.Size(592, 373);
+            this.tabUser.TabIndex = 2;
+            this.tabUser.Text = "User";
+            this.tabUser.UseVisualStyleBackColor = true;
+            // 
+            // labelGoogleMaps
+            // 
+            labelGoogleMaps.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelGoogleMaps.Location = new System.Drawing.Point(10, 12);
+            labelGoogleMaps.Name = "labelGoogleMaps";
+            labelGoogleMaps.Size = new System.Drawing.Size(100, 21);
+            labelGoogleMaps.TabIndex = 0;
+            labelGoogleMaps.Text = "Google Maps Key";
+            labelGoogleMaps.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxGoogleMapsKey
+            // 
+            this.textBoxGoogleMapsKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxGoogleMapsKey.Location = new System.Drawing.Point(112, 12);
+            this.textBoxGoogleMapsKey.Name = "textBoxGoogleMapsKey";
+            this.textBoxGoogleMapsKey.Size = new System.Drawing.Size(472, 21);
+            this.textBoxGoogleMapsKey.TabIndex = 1;
+            // 
+            // UserOptionsDialog
             // 
             this.AcceptButton = cmdOK;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
@@ -244,7 +281,7 @@ namespace family_tree.viewer
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmUserOptions";
+            this.Name = "UserOptionsDialog";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "User Options";
@@ -253,6 +290,8 @@ namespace family_tree.viewer
             tabMain.ResumeLayout(false);
             tabTree.ResumeLayout(false);
             oBottomPanel.ResumeLayout(false);
+            this.tabUser.ResumeLayout(false);
+            this.tabUser.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -266,6 +305,7 @@ namespace family_tree.viewer
         private Label labHtmlStyleFont_;
         private WebBrowser webBrowser_;
         private ComboBox cboFont_;
-
+        private TabPage tabUser;
+        private TextBox textBoxGoogleMapsKey;
     }
 }

@@ -1569,7 +1569,7 @@ namespace family_tree.viewer
             }
 
             // Open the new database.
-            database_ = new Database(fileName);
+            database_ = new Database(fileName, userOptions_.googleMapsKey);
 
             // Update the recent files.
             recentFiles_.openFile(fileName);
