@@ -3,10 +3,13 @@
 _UpgradeReport_Files/
 bin/
 obj/
+x86/
+packages/
 
 # File types to ignore.
 *.suo
 *.user
+*.config
 
 # Files to ignore.
 Family Tree.ndoc

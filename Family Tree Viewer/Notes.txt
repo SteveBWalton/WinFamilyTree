@@ -1,2 +1,12 @@
 
 Lets try and use a button size of 100 x 30.
+
+To use sqlite3 as the database.
+
+    Right click on the solution.
+    Click Manage NuGet packages.
+    Search for sqlite
+    Install System.Data.SQLite by SQLite Development Team
+	    (or Microsoft.Data.Sqlite by Microsoft)
+    Use System.Data.SQLite; in the project.
+    Add SQLite.Interop.dll to a x86 folder to the application with always copy set.

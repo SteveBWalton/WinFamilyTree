@@ -238,6 +238,9 @@
     <Compile Include="walton\datapaths.cs" />
     <Compile Include="walton\filelist.cs" />
     <Content Include="App.ico" />
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="Resources\Tick.png" />
     <None Include="Resources\Save.png" />

@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 // Access database ADO.NET
 using System.Data.OleDb;
+// Sqlite3 database.  This is via Manage NuGet Packages.
+using System.Data.SQLite;
 using System.IO;
 // StringBuilder
 using System.Text;
@@ -41,8 +43,11 @@ namespace family_tree.objects
     {
         #region Member Variables
 
-        /// <summary>Connection to a database.</summary>
+        /// <summary>Connection to an Access database.</summary>
         private OleDbConnection cndb_;
+
+        /// <summary>Connection to a sqlite3 database.</summary>
+        private SQLiteConnection sqlite_;
 
         /// <summary>List of fact types.</summary>
         private FactType[] factTypes_;
@@ -75,6 +80,10 @@ namespace family_tree.objects
             // cndb_ = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + ";");
             cndb_ = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + fileName + ";");
             cndb_.Open();
+
+            // Open the connection to a sqlite3 database.
+            sqlite_ = new SQLiteConnection("Data Source=" + fileName + ".db;Version=3;Compress=True;");
+            sqlite_.Open();
         }
 
 
@@ -94,6 +103,11 @@ namespace family_tree.objects
             {
                 cndb_.Close();
                 cndb_ = null;
+            }
+            if (sqlite_ != null)
+            {
+                sqlite_.Close();
+                sqlite_ = null;
             }
         }
 
@@ -1948,9 +1962,9 @@ namespace family_tree.objects
 
 
 
-        /// <summary>Returns a string that can be inserted into a SQL command as the value for a date time field.</summary>
+        /// <summary>Returns a string that can be inserted into an Access SQL command as the value for a date time field.</summary>
         /// <param name="value">Specifies the value for a SQL date/time field.</param>
-        /// <returns>A string that can be inserted into a SQL command.</returns>
+        /// <returns>A string that can be inserted into an Access SQL command.</returns>
         public static string toDb(CompoundDate value)
         {
             // Check for a NULL date
@@ -1959,15 +1973,15 @@ namespace family_tree.objects
                 return "NULL";
             }
 
-            // return the date
+            // Return the date.
             return "#" + value.date.ToString("d-MMM-yyyy") + "#";
         }
 
 
 
-        /// <summary>Returns a string that can be inserted into a Sql command as the value for a date field.</summary>
+        /// <summary>Returns a string that can be inserted into an Access Sql command as the value for a date field.</summary>
         /// <param name="value">Specifies the value for a Sql date field.</param>
-        /// <returns>A string that can be inserted into a Sql command.</returns>
+        /// <returns>A string that can be inserted into an Access Sql command.</returns>
         public static string toDb(DateTime value)
         {
             return "#" + value.ToString("d-MMM-yyyy") + "#";
@@ -2000,6 +2014,23 @@ namespace family_tree.objects
                 return "NULL";
             }
             return value.ToString();
+        }
+
+
+
+        /// <summary>Returns a string that can be inserted into a sqlite3 SQL command as the value for a date time field.</summary>
+        /// <param name="value">Specifies the value for a SQL date/time field.</param>
+        /// <returns>A string that can be inserted into an sqlite3 SQL command.</returns>
+        public static string toDate(CompoundDate value)
+        {
+            // Check for a NULL date
+            if (value.status == 15)
+            {
+                return "NULL";
+            }
+
+            // Return the date.
+            return "'" + value.date.ToString("yyyy-MM-dd") + "'";
         }
 
 
@@ -2100,6 +2131,9 @@ namespace family_tree.objects
 
         /// <summary>Connection to the database.</summary>
         internal OleDbConnection cndb { get { return cndb_; } }
+
+        /// <summary>Connection to the sqlite3 database.</summary>
+        internal SQLiteConnection sqlite { get { return sqlite_; } }
 
         /// <summary>Range of differing ages to present people as possible marriage partners.</summary>
         public int relationshipRange { get { return marriedRange_; } set { marriedRange_ = value; } }
