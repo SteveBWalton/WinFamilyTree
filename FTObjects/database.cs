@@ -82,7 +82,8 @@ namespace family_tree.objects
             cndb_.Open();
 
             // Open the connection to a sqlite3 database.
-            sqlite_ = new SQLiteConnection("Data Source=" + fileName + ".db;Version=3;Compress=True;");
+            string sqliteFileName = Path.GetDirectoryName(fileName_) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(fileName_) + ".db";
+            sqlite_ = new SQLiteConnection("Data Source=" + sqliteFileName + ";Version=3;Compress=True;");
             sqlite_.Open();
         }
 
