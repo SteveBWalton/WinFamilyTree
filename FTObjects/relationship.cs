@@ -1,7 +1,13 @@
 using System;
+// Database.
 using System.Data;
-using System.Data.OleDb;	// Access database ADO.NET
+// Access database via ADO.NET.
+using System.Data.OleDb;	
+// Sqlite database.
+using System.Data.SQLite;
 using System.Text;
+
+
 
 namespace family_tree.objects
 {
@@ -238,11 +244,13 @@ namespace family_tree.objects
             sql.Append("Location = " + Database.toDb(location_) + ", ");
 
             // Not really sure that the data has changed so don't update the written by record.
+            bool isDirtyInSqlite = false;
             if (isDirty_)
             {
                 sql.Append("LastEditBy=" + Database.toDb(lastEditBy_) + ", ");
                 sql.Append("LastEditDate=#" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#, ");
                 isDirty_ = false;
+                isDirtyInSqlite = true;
             }
             sql.Append("Comments = " + Database.toDb(comments_) + " ");
             sql.Append("WHERE ID = " + index_.ToString() + ";");
@@ -250,6 +258,40 @@ namespace family_tree.objects
             // Update the relationship in the database.
             sqlCommand = new OleDbCommand(sql.ToString(), owner_.database.cndb);
             sqlCommand.ExecuteNonQuery();
+
+            // Update the relationship in the sqlite database.
+            SQLiteCommand sqliteCommand = owner_.database.sqlite.CreateCommand();
+            sqliteCommand.CommandText = "INSERT INTO RELATIONSHIPS (ID, RELATIONSHIP_ID, START_DATE, START_STATUS_ID, TERMINATED, TERMINATED_DATE, TERMINATED_STATUS_ID, LOCATION, COMMENTS, LAST_EDIT_BY, LAST_EDIT_DATE) VALUES (" + index_.ToString() + ", " + typeIndex_.ToString() + ", " + Database.toDate(start_) + ", " + start_.status.ToString() + ", " + terminated_.ToString() + ", " + Database.toDate(end_) + ", " + end_.status.ToString() + ", " + Database.toDb(location_) + ", " + Database.toDb(comments_) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "');";            
+            try
+            {
+                sqliteCommand.ExecuteNonQuery();
+            }
+            catch (System.Data.SQLite.SQLiteException error)
+            {
+                if (error.ErrorCode == 19)
+                {
+                    // Update the existing record in the sqlite3 database.
+                    sql = new StringBuilder();
+                    sql.Append("UPDATE RELATIONSHIPS SET ");
+                    sql.Append("RELATIONSHIP_ID = " + typeIndex_.ToString() + ", ");
+                    sql.Append("START_DATE = " + Database.toDate(start_) + ", ");
+                    sql.Append("START_STATUS_ID = " + start_.status.ToString() + ", ");
+                    sql.Append("TERMINATED_DATE = " + Database.toDate(end_) + ", ");
+                    sql.Append("TERMINATED_STATUS_ID = " + end_.status.ToString() + ", ");
+                    sql.Append("TERMINATED = " + terminated_.ToString() + ", ");
+                    sql.Append("LOCATION = " + Database.toDb(location_) + ", ");
+                    sql.Append("COMMENTS = " + Database.toDb(comments_));
+                    if (isDirtyInSqlite)
+                    {
+                        sql.Append(", LAST_EDIT_BY = " + Database.toDb(lastEditBy_) + ", ");
+                        sql.Append(", LAST_EDIT_DATE = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        isDirty_ = false;
+                    }
+                    sql.Append(" WHERE ID = " + index_.ToString() + ";");
+                    sqliteCommand.CommandText = sql.ToString();
+                    sqliteCommand.ExecuteNonQuery();
+                }
+            }
 
             // Save the source information.
             if (sourcesStart_ != null)
