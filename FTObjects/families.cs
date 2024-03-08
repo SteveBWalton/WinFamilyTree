@@ -27,16 +27,16 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the clsFamily (Gedcom) object that represents the specified mother and father.  The object is attached to the specifed clsRelationship object.</summary>
-        /// <param name="fatherIndex">Specifies the ID of the father.</param>
-        /// <param name="motherIndex">Specifies the ID of the mother.</param>
-        /// <param name="relationshipIndex">Specifies the ID of the clsRelationship object.</param>
+        /// <param name="fatherIdx">Specifies the ID of the father.</param>
+        /// <param name="motherIdx">Specifies the ID of the mother.</param>
+        /// <param name="relationshipIdx">Specifies the ID of the clsRelationship object.</param>
         /// <returns>A clsFamily (Gedcom) object.</returns>
-        public Family getMarriageFamily(int fatherIndex, int motherIndex, int relationshipIndex)
+        public Family getMarriageFamily(int fatherIdx, int motherIdx, int relationshipIdx)
         {
             // Search for a matching family.
             foreach (Family family in collection_)
             {
-                if (family.fatherIndex == fatherIndex && family.motherIndex == motherIndex)
+                if (family.fatherIdx == fatherIdx && family.motherIdx == motherIdx)
                 {
                     return family;
                 }
@@ -44,11 +44,11 @@ namespace family_tree.objects
 
             // Create a new family to match these conditions.
             Family newFamily = new Family();
-            newFamily.motherIndex = motherIndex;
-            newFamily.fatherIndex = fatherIndex;
-            newFamily.relationshipIndex = relationshipIndex;
+            newFamily.motherIdx = motherIdx;
+            newFamily.fatherIdx = fatherIdx;
+            newFamily.relationshipIdx = relationshipIdx;
             count_++;
-            newFamily.gedcomIndex = count_;
+            newFamily.gedcomIdx = count_;
 
             // Add this family to the collection.
             collection_.Add(newFamily);
@@ -60,12 +60,12 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the clsFamily (Gedcom) object that represents the specified mother and father.  The object is not attached to any clsRelationship object.</summary>
-        /// <param name="fatherIndex">Specifies the ID of the father.</param>
-        /// <param name="motherIndex">Specifies the ID of the mother.</param>
+        /// <param name="fatherIdx">Specifies the ID of the father.</param>
+        /// <param name="motherIdx">Specifies the ID of the mother.</param>
         /// <returns>A clsFamily (Gedcom) object.</returns>
-        public Family getParentFamily(int fatherIndex, int motherIndex)
+        public Family getParentFamily(int fatherIdx, int motherIdx)
         {
-            return getMarriageFamily(fatherIndex, motherIndex, 0);
+            return getMarriageFamily(fatherIdx, motherIdx, 0);
         }
 
 

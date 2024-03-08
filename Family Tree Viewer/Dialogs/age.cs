@@ -35,11 +35,11 @@ namespace family_tree.viewer
             database_ = database;
 
             // Load a list of all people into the combo box.
-            IndexName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 3000);
+            IdxName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 3000);
             for (int i = 0; i < people.Length; i++)
             {
                 cboPerson_.Items.Add(people[i]);
-                if (people[i].index == personIndex)
+                if (people[i].idx == personIndex)
                 {
                     cboPerson_.SelectedItem = people[i];
                 }
@@ -88,8 +88,8 @@ namespace family_tree.viewer
         /// <summary>Message handler for the seleted person value changed event.  Update the displayed age of the person, since the person has just changed.</summary>
         private void cboPerson_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            IndexName person = (IndexName)this.cboPerson_.SelectedItem;
-            person_ = new Person(person.index, database_);
+            IdxName person = (IdxName)this.cboPerson_.SelectedItem;
+            person_ = new Person(person.idx, database_);
             labDoB_.Text = person_.dob.format(DateFormat.FULL_LONG);
             labTheAge_.Text = person_.getAge(this.ucDate_.theDate);
         }

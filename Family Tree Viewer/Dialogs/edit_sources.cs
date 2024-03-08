@@ -31,8 +31,8 @@ namespace family_tree.viewer
 
         /// <summary>Class constructor.  Specify the specific source to start editting.</summary>
         /// <param name="database">Specify the database to show the sources from.</param>
-        /// <param name="sourceIndex">Specify the ID of the source to edit initially.</param>
-        public EditSourcesDialog(Database database, int sourceIndex)
+        /// <param name="sourceIdx">Specify the ID of the source to edit initially.</param>
+        public EditSourcesDialog(Database database, int sourceIdx)
         {
             // Required for Windows Form Designer support
             InitializeComponent();
@@ -41,15 +41,15 @@ namespace family_tree.viewer
             database_ = database;
 
             // Show the additional information types.
-            IndexName[] sources = database_.getSourceAdditionalTypes();
-            foreach (IndexName additional in sources)
+            IdxName[] sources = database_.getSourceAdditionalTypes();
+            foreach (IdxName additional in sources)
             {
                 cboAdditionalInfo_.Items.Add(additional);
             }
 
             // Add the repositories.
             sources = database_.getRepositories();
-            foreach (IndexName repository in sources)
+            foreach (IdxName repository in sources)
             {
                 cboRepository_.Items.Add(repository);
             }
@@ -59,9 +59,9 @@ namespace family_tree.viewer
             sources = database.getSources(family_tree.objects.SortOrder.DATE);
             for (int i = 0; i < sources.Length; i++)
             {
-                Source source = new Source(database_, sources[i].index);
+                Source source = new Source(database_, sources[i].idx);
                 lstSources_.Items.Add(source);
-                if (sources[i].index == sourceIndex)
+                if (sources[i].idx == sourceIdx)
                 {
                     selected = source;
                 }
@@ -116,7 +116,7 @@ namespace family_tree.viewer
             isAllowEvents_ = false;
 
             // Activate the additional information.
-            switch (activeSource_.additionalInfoTypeIndex)
+            switch (activeSource_.additionalInfoTypeIdx)
             {
             case 0: // None
             default: // Unknown.
@@ -400,8 +400,8 @@ namespace family_tree.viewer
                 txtDescription_.Text = activeSource_.description;
                 dateSourceDate_.theDate = activeSource_.theDate;
                 txtComments_.Text = activeSource_.comments;
-                cboAdditionalInfo_.SelectedIndex = activeSource_.additionalInfoTypeIndex;
-                cboRepository_.SelectedIndex = activeSource_.repository; // This is not really correct.
+                cboAdditionalInfo_.SelectedIndex = activeSource_.additionalInfoTypeIdx;
+                cboRepository_.SelectedIndex = activeSource_.repositoryIdx; // This is not really correct.
 
                 DataGridTableStyle tableStyle = new DataGridTableStyle
                 {
@@ -545,8 +545,8 @@ namespace family_tree.viewer
                 return;
             }
 
-            IndexName additionalType = (IndexName)cboAdditionalInfo_.SelectedItem;
-            activeSource_.additionalInfoTypeIndex = additionalType.index;
+            IdxName additionalType = (IdxName)cboAdditionalInfo_.SelectedItem;
+            activeSource_.additionalInfoTypeIdx = additionalType.idx;
 
             showAdditionalInfo();
         }
@@ -594,7 +594,7 @@ namespace family_tree.viewer
             }
 
             // Create a dialog to show the full census record.
-            EditCensusDialog censusDialog = new EditCensusDialog(database_, activeSource_.index);
+            EditCensusDialog censusDialog = new EditCensusDialog(database_, activeSource_.idx);
 
             // Show the dialog and wait for the dialog to close.
             censusDialog.ShowDialog(this);
@@ -715,8 +715,8 @@ namespace family_tree.viewer
                 return;
             }
 
-            IndexName repository = (IndexName)this.cboRepository_.SelectedItem;
-            activeSource_.repository = repository.index;
+            IdxName repository = (IdxName)this.cboRepository_.SelectedItem;
+            activeSource_.repositoryIdx = repository.idx;
         }
 
 

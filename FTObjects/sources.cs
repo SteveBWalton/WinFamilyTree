@@ -27,10 +27,10 @@ namespace family_tree.objects
         private class QuickSource
         {
             /// <summary>ID of the source link in the source link table.</summary>
-            public int index;
+            public int idx;
 
             /// <summary>ID of the source record in the database.</summary>
-            public int sourceIndex;
+            public int sourceIdx;
 
             /// <summary>The ranking of the source in this list.</summary>
             public int ranking;
@@ -41,28 +41,28 @@ namespace family_tree.objects
             /// <summary>Class constructor for an empty clsQuickSource object.</summary>
             public QuickSource()
             {
-                index = 0;
-                sourceIndex = 0;
+                idx = 0;
+                sourceIdx = 0;
                 ranking = 1;
                 isDelete = false;
             }
             /// <summary>Class constructor for a clsQuickSource object where the SourceID is known.</summary>
-            /// <param name="paraSourceIndex">Specify the SourceID value.</param>
-            public QuickSource(int paraSourceIndex)
+            /// <param name="paraSourceIdx">Specify the SourceID value.</param>
+            public QuickSource(int paraSourceIdx)
             {
-                index = 0;
-                sourceIndex = paraSourceIndex;
+                idx = 0;
+                sourceIdx = paraSourceIdx;
                 ranking = 1;
                 isDelete = false;
             }
             /// <summary>Class constructor for a clsQuickSource object where the ID and sourceID are known.</summary>
-            /// <param name="paraIndex">Specify the ID of the source link in the source link table.</param>
-            /// <param name="paraSourceIndex">Specify the sourceID of the clsQuickSource object.</param>
+            /// <param name="paraIdx">Specify the ID of the source link in the source link table.</param>
+            /// <param name="paraSourceIdx">Specify the sourceID of the clsQuickSource object.</param>
             /// <param name="paraRanking">Specify the ranking for the source.</param>
-            public QuickSource(int paraIndex, int paraSourceIndex, int paraRanking)
+            public QuickSource(int paraIdx, int paraSourceIdx, int paraRanking)
             {
-                index = paraIndex;
-                sourceIndex = paraSourceIndex;
+                idx = paraIdx;
+                sourceIdx = paraSourceIdx;
                 ranking = paraRanking;
                 isDelete = false;
             }
@@ -87,16 +87,16 @@ namespace family_tree.objects
         private SourceTable sourceTable_;
 
         /// <summary>Person that sources refer to.</summary>
-        private int personIndex_;
+        private int personIdx_;
 
         /// <summary>Relationship that sources refer to.</summary>
-		private int relationIndex_;
+		private int relationIdx_;
 
         /// <summary>Fact that this source refers to.</summary>
-        private int factIndex_;
+        private int factIdx_;
 
         /// <summary>Census record that this source refers to.</summary>
-        private int censusHouseholdIndex_;
+        private int censusHouseholdIdx_;
 
         /// <summary>Database that these sources are attached to.</summary>
         private Database database_;
@@ -111,47 +111,47 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor to initialise the clsSources object to look at the tbl_FactsToSources table.</summary>
-        /// <param name="factIndex">Specify ID of the fact that these sources are attached to</param>
+        /// <param name="factIdx">Specify ID of the fact that these sources are attached to</param>
         /// <param name="database">Specify the database that these sources are attached to</param>
-        public Sources(int factIndex, Database database)
+        public Sources(int factIdx, Database database)
         {
             sourceTable_ = SourceTable.FACTS_TO_SOURCES;
             sources_ = null;
-            personIndex_ = 0;
-            relationIndex_ = 0;
-            factIndex_ = factIndex;
+            personIdx_ = 0;
+            relationIdx_ = 0;
+            factIdx_ = factIdx;
             database_ = database;
         }
 
 
 
         /// <summary>Class constructor to initialise the clsSources object to look at the tbl_PeopleToSources table.</summary>
-        /// <param name="personIndex">Specifiy the ID of the person these sources are attached to</param>
-        /// <param name="factIndex">Specifiy the fact that these sources are attached to.  1-Name, 2-DoB, 3-DoD</param>
+        /// <param name="personIdx">Specifiy the ID of the person these sources are attached to</param>
+        /// <param name="factIdx">Specifiy the fact that these sources are attached to.  1-Name, 2-DoB, 3-DoD</param>
         /// <param name="database">Specify the database that these sources are attached to</param>
-        public Sources(int personIndex, int factIndex, Database database)
+        public Sources(int personIdx, int factIdx, Database database)
         {
             sourceTable_ = SourceTable.PEOPLE_TO_SOURCES;
             sources_ = null;
-            personIndex_ = personIndex;
-            factIndex_ = factIndex;
-            relationIndex_ = 0;
+            personIdx_ = personIdx;
+            factIdx_ = factIdx;
+            relationIdx_ = 0;
             database_ = database;
         }
 
 
 
         /// <summary>Class constructor to initialise the clsSources object to look at the tbl_RelationshipsToSources table.</summary>
-        /// <param name="relationshipIndex">Specifiy the ID of the relationship these sources are attached to</param>
-        /// <param name="factIndex">Specifiy the fact that these sources are attached to.  1-Date, 2-Location, 3-TerminationStatus, 4-TerminationDate, 5-Partner</param>
+        /// <param name="relationshipIdx">Specifiy the ID of the relationship these sources are attached to</param>
+        /// <param name="factIdx">Specifiy the fact that these sources are attached to.  1-Date, 2-Location, 3-TerminationStatus, 4-TerminationDate, 5-Partner</param>
         /// <param name="database">Specify the database that these sources are attached to</param>
-        public Sources(Database database, int relationshipIndex, int factIndex)
+        public Sources(Database database, int relationshipIdx, int factIdx)
         {
             sourceTable_ = SourceTable.RELATIONSHIPS_TO_SOURCES;
             sources_ = null;
-            personIndex_ = 0;
-            factIndex_ = factIndex;
-            relationIndex_ = relationshipIndex;
+            personIdx_ = 0;
+            factIdx_ = factIdx;
+            relationIdx_ = relationshipIdx;
             database_ = database;
         }
 
@@ -163,7 +163,7 @@ namespace family_tree.objects
         public Sources(CensusPerson censusPerson, Database database)
         {
             sourceTable_ = SourceTable.CENSUS_RECORDS;
-            censusHouseholdIndex_ = censusPerson.houseHoldIndex;
+            censusHouseholdIdx_ = censusPerson.houseHoldIdx;
             database_ = database;
         }
 
@@ -188,21 +188,21 @@ namespace family_tree.objects
             {
             case SourceTable.FACTS_TO_SOURCES:
                 // Open the specified fact.
-                sql = "SELECT ID, SourceID FROM tbl_FactsToSources WHERE FactID = " + factIndex_.ToString() + " ORDER BY Rank;";
+                sql = "SELECT ID, SourceID FROM tbl_FactsToSources WHERE FactID = " + factIdx_.ToString() + " ORDER BY Rank;";
                 break;
 
             case SourceTable.PEOPLE_TO_SOURCES:
                 // Open the specified person.
-                sql = "SELECT ID, SourceID FROM tbl_PeopleToSources WHERE PersonID = " + personIndex_.ToString() + " AND FactID = " + factIndex_.ToString() + " ORDER BY Rank;";
+                sql = "SELECT ID, SourceID FROM tbl_PeopleToSources WHERE PersonID = " + personIdx_.ToString() + " AND FactID = " + factIdx_.ToString() + " ORDER BY Rank;";
                 break;
 
             case SourceTable.CENSUS_RECORDS:
-                sql = "SELECT 1 AS Ingnore, ID FROM tbl_Sources WHERE AdditionalInfoTypeID = 4 AND ID = " + censusHouseholdIndex_ + ";";
+                sql = "SELECT 1 AS Ingnore, ID FROM tbl_Sources WHERE AdditionalInfoTypeID = 4 AND ID = " + censusHouseholdIdx_ + ";";
                 break;
 
             case SourceTable.RELATIONSHIPS_TO_SOURCES:
             default:
-                sql = "SELECT ID, SourceID FROM tbl_RelationshipsToSources WHERE RelationshipID = " + relationIndex_.ToString() + " AND FactID = " + factIndex_.ToString() + " ORDER BY Rank;";
+                sql = "SELECT ID, SourceID FROM tbl_RelationshipsToSources WHERE RelationshipID = " + relationIdx_.ToString() + " AND FactID = " + factIdx_.ToString() + " ORDER BY Rank;";
                 break;
             }
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
@@ -212,10 +212,10 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int index = dataReader.GetInt32(0);
-                int sourceIndex = dataReader.GetInt32(1);
+                int idx = dataReader.GetInt32(0);
+                int sourceIdx = dataReader.GetInt32(1);
                 ranking++;
-                add(index, sourceIndex, ranking);
+                add(idx, sourceIdx, ranking);
             }
             dataReader.Close();
 
@@ -237,22 +237,22 @@ namespace family_tree.objects
                 quickSource = (QuickSource)sources_[i];
                 if (quickSource.isDelete)
                 {
-                    if (quickSource.index != 0)
+                    if (quickSource.idx != 0)
                     {
                         switch (sourceTable_)
                         {
                         case SourceTable.FACTS_TO_SOURCES:
-                            sqlCommand = new OleDbCommand("DELETE FROM tbl_FactsToSources WHERE ID = " + quickSource.index.ToString() + ";", database_.cndb);
+                            sqlCommand = new OleDbCommand("DELETE FROM tbl_FactsToSources WHERE ID = " + quickSource.idx.ToString() + ";", database_.cndb);
                             sqlCommand.ExecuteNonQuery();
                             break;
 
                         case SourceTable.PEOPLE_TO_SOURCES:
-                            sqlCommand = new OleDbCommand("DELETE FROM tbl_PeopleToSources WHERE ID = " + quickSource.index.ToString() + ";", database_.cndb);
+                            sqlCommand = new OleDbCommand("DELETE FROM tbl_PeopleToSources WHERE ID = " + quickSource.idx.ToString() + ";", database_.cndb);
                             sqlCommand.ExecuteNonQuery();
                             break;
 
                         case SourceTable.RELATIONSHIPS_TO_SOURCES:
-                            sqlCommand = new OleDbCommand("DELETE FROM tbl_RelationshipsToSources WHERE ID = " + quickSource.index.ToString() + ";", database_.cndb);
+                            sqlCommand = new OleDbCommand("DELETE FROM tbl_RelationshipsToSources WHERE ID = " + quickSource.idx.ToString() + ";", database_.cndb);
                             sqlCommand.ExecuteNonQuery();
                             break;
                         }
@@ -260,37 +260,37 @@ namespace family_tree.objects
                 }
                 else
                 {
-                    if (quickSource.index == 0)
+                    if (quickSource.idx == 0)
                     {
                         // Add a record.
                         switch (sourceTable_)
                         {
                         case SourceTable.FACTS_TO_SOURCES:
-                            sqlCommand = new OleDbCommand("INSERT INTO tbl_FactsToSources (FactID, Rank, SourceID) VALUES (" + factIndex_.ToString() + ", " + quickSource.ranking.ToString() + ", " + quickSource.sourceIndex.ToString() + ");", database_.cndb);
+                            sqlCommand = new OleDbCommand("INSERT INTO tbl_FactsToSources (FactID, Rank, SourceID) VALUES (" + factIdx_.ToString() + ", " + quickSource.ranking.ToString() + ", " + quickSource.sourceIdx.ToString() + ");", database_.cndb);
                             sqlCommand.ExecuteNonQuery();
 
                             sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_FactsToSources;", database_.cndb);
-                            quickSource.index = (int)sqlCommand.ExecuteScalar();
+                            quickSource.idx = (int)sqlCommand.ExecuteScalar();
                             break;
                         case SourceTable.PEOPLE_TO_SOURCES:
-                            sqlCommand = new OleDbCommand("INSERT INTO tbl_PeopleToSources (PersonID, FactID, Rank, SourceID) VALUES (" + personIndex_.ToString() + ", " + factIndex_.ToString() + ", " + quickSource.ranking.ToString() + ", " + quickSource.sourceIndex.ToString() + ");", database_.cndb);
+                            sqlCommand = new OleDbCommand("INSERT INTO tbl_PeopleToSources (PersonID, FactID, Rank, SourceID) VALUES (" + personIdx_.ToString() + ", " + factIdx_.ToString() + ", " + quickSource.ranking.ToString() + ", " + quickSource.sourceIdx.ToString() + ");", database_.cndb);
                             sqlCommand.ExecuteNonQuery();
 
                             sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_PeopleToSources;", database_.cndb);
-                            quickSource.index = (int)sqlCommand.ExecuteScalar();
+                            quickSource.idx = (int)sqlCommand.ExecuteScalar();
                             break;
 
                         case SourceTable.RELATIONSHIPS_TO_SOURCES:
-                            sqlCommand = new OleDbCommand("INSERT INTO tbl_RelationshipsToSources (RelationshipID, FactID, Rank, SourceID) VALUES (" + relationIndex_.ToString() + ", " + factIndex_.ToString() + ", " + quickSource.ranking.ToString() + ", " + quickSource.sourceIndex.ToString() + ");", database_.cndb);
+                            sqlCommand = new OleDbCommand("INSERT INTO tbl_RelationshipsToSources (RelationshipID, FactID, Rank, SourceID) VALUES (" + relationIdx_.ToString() + ", " + factIdx_.ToString() + ", " + quickSource.ranking.ToString() + ", " + quickSource.sourceIdx.ToString() + ");", database_.cndb);
                             sqlCommand.ExecuteNonQuery();
 
                             sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_RelationshipsToSources;", database_.cndb);
-                            quickSource.index = (int)sqlCommand.ExecuteScalar();
+                            quickSource.idx = (int)sqlCommand.ExecuteScalar();
                             break;
                         }
 
                         // Update the actual source with last used date.
-                        sqlCommand = new OleDbCommand("UPDATE tbl_Sources SET LastUsed = Now() WHERE ID = " + quickSource.sourceIndex.ToString() + ";", database_.cndb);
+                        sqlCommand = new OleDbCommand("UPDATE tbl_Sources SET LastUsed = Now() WHERE ID = " + quickSource.sourceIdx.ToString() + ";", database_.cndb);
                         sqlCommand.ExecuteNonQuery();
                     }
                     else
@@ -301,15 +301,15 @@ namespace family_tree.objects
                         switch (sourceTable_)
                         {
                         case SourceTable.FACTS_TO_SOURCES:
-                            sql = "UPDATE tbl_FactsToSources SET Rank = " + quickSource.ranking.ToString() + " WHERE ID = " + quickSource.index.ToString() + ";";
+                            sql = "UPDATE tbl_FactsToSources SET Rank = " + quickSource.ranking.ToString() + " WHERE ID = " + quickSource.idx.ToString() + ";";
                             break;
 
                         case SourceTable.PEOPLE_TO_SOURCES:
-                            sql = "UPDATE tbl_PeopleToSources SET Rank = " + quickSource.ranking.ToString() + " WHERE ID = " + quickSource.index.ToString() + ";";
+                            sql = "UPDATE tbl_PeopleToSources SET Rank = " + quickSource.ranking.ToString() + " WHERE ID = " + quickSource.idx.ToString() + ";";
                             break;
 
                         case SourceTable.RELATIONSHIPS_TO_SOURCES:
-                            sql = "UPDATE tbl_RelationshipsToSources SET Rank = " + quickSource.ranking.ToString() + " WHERE ID = " + quickSource.index.ToString() + ";";
+                            sql = "UPDATE tbl_RelationshipsToSources SET Rank = " + quickSource.ranking.ToString() + " WHERE ID = " + quickSource.idx.ToString() + ";";
                             break;
                         }
                         if (sql != "")
@@ -353,7 +353,7 @@ namespace family_tree.objects
                 }
                 else
                 {
-                    results[i] = quickSource.sourceIndex;
+                    results[i] = quickSource.sourceIdx;
                 }
             }
 
@@ -386,7 +386,7 @@ namespace family_tree.objects
                 }
                 else
                 {
-                    sources[i] = new Source(database_, (int)quickSource.sourceIndex);
+                    sources[i] = new Source(database_, (int)quickSource.sourceIdx);
                     sources[i].ranking = quickSource.ranking;
                 }
             }
@@ -398,21 +398,21 @@ namespace family_tree.objects
 
 
         /// <summary>Adds a source ID to the collection of sources for this information.</summary>
-        /// <param name="sourceIndex"></param>
-        /// <returns></returns>
-        public bool add(int sourceIndex)
+        /// <param name="sourceIdx">Specifies the index of the source to add.</param>
+        /// <returns>True if the source is added to the collection.  False, otherwise.</returns>
+        public bool add(int sourceIdx)
         {
-            return add(0, sourceIndex, 100);
+            return add(0, sourceIdx, 100);
         }
 
 
 
         /// <summary>Adds a sourceIndex and index to the collection of sources for this.</summary>
-        /// <param name="index">Specify the information key to add.</param>
-        /// <param name="sourceIndex">Specify the ID of the source to add.</param>
+        /// <param name="idx">Specify the information key to add.</param>
+        /// <param name="sourceIdx">Specify the ID of the source to add.</param>
         /// <param name="ranking">Specify the ranking for the new source.</param>
         /// <returns>True if the source is added to the collection.  False, otherwise.</returns>
-        public bool add(int index, int sourceIndex, int ranking)
+        public bool add(int idx, int sourceIdx, int ranking)
         {
             // Check if there are any existing members
             if (sources_ == null)
@@ -421,7 +421,7 @@ namespace family_tree.objects
             }
 
             // Check that the source is a valid source
-            if (sourceIndex <= 0)
+            if (sourceIdx <= 0)
             {
                 return false;
             }
@@ -429,14 +429,14 @@ namespace family_tree.objects
             // Check if the source is already in this collection.
             foreach (QuickSource existing in sources_)
             {
-                if (existing.sourceIndex == sourceIndex)
+                if (existing.sourceIdx == sourceIdx)
                 {
                     return false;
                 }
             }
 
             // Add the source ID to the collection.
-            QuickSource quickSource = new QuickSource(index, sourceIndex, ranking);
+            QuickSource quickSource = new QuickSource(idx, sourceIdx, ranking);
             sources_.Add(quickSource);
 
             // return success.
@@ -446,22 +446,22 @@ namespace family_tree.objects
 
 
         /// <summary>Marks the connection between the fact and the specified source for deletion.  The actual source will not be deleted.</summary>
-        /// <param name="sourceIndex">Specify the source to be removed from this collection.</param>
+        /// <param name="sourceIdx">Specify the source to be removed from this collection.</param>
         /// <returns>True if a source is removed.  False, otherwise.</returns>
-        public bool delete(int sourceIndex)
+        public bool delete(int sourceIdx)
         {
             // Validate the index.
             if (sources_ == null)
             {
                 return false;
             }
-            if (sourceIndex < 0 || sourceIndex >= sources_.Count)
+            if (sourceIdx < 0 || sourceIdx >= sources_.Count)
             {
                 return false;
             }
 
             // Mark the entry as deleted.
-            QuickSource quickSource = (QuickSource)sources_[sourceIndex];
+            QuickSource quickSource = (QuickSource)sources_[sourceIdx];
             quickSource.isDelete = true;
 
             // Return success.
@@ -474,15 +474,15 @@ namespace family_tree.objects
         /// <param name="sources">Specifies the list to receive the addtional sources.</param>
         public void gedcomAdd(ArrayList sources)
         {
-            int[] indexes = get();
-            for (int i = 0; i < indexes.Length; i++)
+            int[] idxs = get();
+            for (int i = 0; i < idxs.Length; i++)
             {
-                if (!sources.Contains(indexes[i]))
+                if (!sources.Contains(idxs[i]))
                 {
                     // Check that the source is Gedcom enabled.
-                    if (isGedcomEnabled(indexes[i]))
+                    if (isGedcomEnabled(idxs[i]))
                     {
-                        sources.Add(indexes[i]);
+                        sources.Add(idxs[i]);
                     }
                 }
             }
@@ -496,19 +496,19 @@ namespace family_tree.objects
         /// <param name="already">Specifies the list of sources already used.  The source is added to this list.  Use NULL to ignore.</param>
         public void writeGedcom(int level, StreamWriter file, ArrayList already)
         {
-            int[] ids = get();
-            for (int i = 0; i < ids.Length; i++)
+            int[] idxs = get();
+            for (int i = 0; i < idxs.Length; i++)
             {
                 bool isInclude = true;
                 if (already != null)
                 {
-                    if (already.Contains(ids[i]))
+                    if (already.Contains(idxs[i]))
                     {
                         isInclude = false;
                     }
                     else
                     {
-                        already.Add(ids[i]);
+                        already.Add(idxs[i]);
                     }
                 }
                 // I think this function is only used now if 'All Elements' is true.
@@ -521,7 +521,7 @@ namespace family_tree.objects
                 //}
                 if (isInclude)
                 {
-                    file.WriteLine(level.ToString() + " SOUR @S" + ids[i].ToString("0000") + "@");
+                    file.WriteLine(level.ToString() + " SOUR @S" + idxs[i].ToString("0000") + "@");
                 }
             }
         }
@@ -573,11 +573,11 @@ namespace family_tree.objects
 
 
         /// <summary>Returns true if the specified sourceID is allowed into Gedcom files.  Returns false otherwise.</summary>
-        /// <param name="sourceIndex">Specifies the ID of the source to test for Gedcom export.</param>
+        /// <param name="sourceIdx">Specifies the ID of the source to test for Gedcom export.</param>
         /// <returns>True, if the source is allowed into Gedcom files.  False, otherwise.</returns>
-        private bool isGedcomEnabled(int sourceIndex)
+        private bool isGedcomEnabled(int sourceIdx)
         {
-            string sql = "SELECT Gedcom FROM tbl_Sources WHERE ID = " + sourceIndex.ToString() + ";";
+            string sql = "SELECT Gedcom FROM tbl_Sources WHERE ID = " + sourceIdx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             return bool.Parse(sqlCommand.ExecuteScalar().ToString());
         }
@@ -585,23 +585,23 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the current ranking for the source at the specified index.</summary>
-        /// <param name="sourceIndex">Specifies the index of the source that the index is required for.</param>
+        /// <param name="sourceIdx">Specifies the index of the source that the index is required for.</param>
         /// <returns>The ranking of the specified source.</returns>
-        public int getRanking(int sourceIndex)
+        public int getRanking(int sourceIdx)
         {
-            return ((QuickSource)sources_[sourceIndex]).ranking;
+            return ((QuickSource)sources_[sourceIdx]).ranking;
         }
 
 
 
         /// <summary>Change the ranking on the specified (by index) source to the ranking specified.</summary>
         /// <remarks>The ranking is written to the database immediately because the source object may lose the focus and the changes are not cached in this case.</remarks>
-        /// <param name="sourceIndex">Specifies the index of the source to change the ranking of.</param>
+        /// <param name="sourceIdx">Specifies the index of the source to change the ranking of.</param>
         /// <param name="newRanking">Specifies the new ranking to give to the specified source.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool changeRanking(int sourceIndex, int newRanking)
+        public bool changeRanking(int sourceIdx, int newRanking)
         {
-            QuickSource quickSource = (QuickSource)sources_[sourceIndex];
+            QuickSource quickSource = (QuickSource)sources_[sourceIdx];
             quickSource.ranking = newRanking;
 
             /*
@@ -631,28 +631,28 @@ namespace family_tree.objects
 
 
         /// <summary>This is only really intended to be used by facts that enter the database.  That is their ID changes from 0 to a valid ID.</summary>
-        public int factIndex
+        public int factIdx
         {
-            get { return factIndex_; }
-            set { factIndex_ = value; }
+            get { return factIdx_; }
+            set { factIdx_ = value; }
         }
 
 
 
         /// <summary>This is only really intended to be used by people that enter the database.  That is their ID changes from 0 to a valid ID.</summary>
-        public int personIndex
+        public int personIdx
         {
-            get { return personIndex_; }
-            set { personIndex_ = value; }
+            get { return personIdx_; }
+            set { personIdx_ = value; }
         }
 
 
 
         /// <summary>This is only really intended to be used by relationships that enter the database.  That is their ID changes from 0 to a valid ID.</summary>
-        public int relationshipIndex
+        public int relationshipIdx
         {
-            get { return relationIndex_; }
-            set { relationIndex_ = value; }
+            get { return relationIdx_; }
+            set { relationIdx_ = value; }
         }
 
 

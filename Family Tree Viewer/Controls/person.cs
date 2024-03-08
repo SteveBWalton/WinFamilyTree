@@ -53,7 +53,7 @@ namespace family_tree.viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool setPerson(Person person)
         {
-            personIndex_ = person.index;
+            personIndex_ = person.idx;
             labName_.Text = person.getName(false, true);
             labBorn_.Text = person.shortDescription(true);
 

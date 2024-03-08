@@ -16,13 +16,13 @@ namespace family_tree.objects
         private Database database_;
 
         /// <summary>ID of this place in the database.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>Name of this place.</summary>
         private string name_;
 
         /// <summary>ID of the parent place for this place.  Zero indicates top level, no parent.</summary>
-        private int parentIndex_;
+        private int parentIdx_;
 
         /// <summary>The status of this place.  0 - Place, 1 - Address.</summary>
         private int status_;
@@ -57,14 +57,14 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor to load a place from the database.  If the place is not found in the database then a new object is created.</summary>
-        /// <param name="index">Specifies the ID of the place.</param>
+        /// <param name="idx">Specifies the ID of the place.</param>
         /// <param name="database">Specifies the database that contains the place.</param>
-        public Place(int index, Database database)
+        public Place(int idx, Database database)
         {
             database_ = database;
-            index_ = index;
+            idx_ = idx;
 
-            string sql = "SELECT ID, Name, ParentID, Status, Longitude, Latitude, GoogleZoom, UseParentLocation, PrivateComments FROM tbl_Places WHERE ID = " + index_.ToString() + ";";
+            string sql = "SELECT ID, Name, ParentID, Status, Longitude, Latitude, GoogleZoom, UseParentLocation, PrivateComments FROM tbl_Places WHERE ID = " + idx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
@@ -74,7 +74,7 @@ namespace family_tree.objects
             else
             {
                 name_ = "";
-                parentIndex_ = 0;
+                parentIdx_ = 0;
                 status_ = 0;
                 longitude_ = -999;
                 latitude_ = -999;
@@ -92,7 +92,7 @@ namespace family_tree.objects
         public bool save()
         {
             // Update the tbl_Places table.
-            if (index_ > 0)
+            if (idx_ > 0)
             {
                 StringBuilder sql = new StringBuilder("UPDATE tbl_Places SET ");
                 sql.Append("Status = " + status_.ToString() + ", ");
@@ -101,7 +101,7 @@ namespace family_tree.objects
                 sql.Append("GoogleZoom = " + googleZoom_.ToString() + ", ");
                 sql.Append("UseParentLocation = " + walton.Database.toDb(isUseParentLocation_) + ", ");
                 sql.Append("PrivateComments = " + walton.Database.toDb(privateComments_) + " ");
-                sql.Append("WHERE ID = " + index_.ToString() + ";");
+                sql.Append("WHERE ID = " + idx_.ToString() + ";");
                 OleDbCommand sqlCommand = new OleDbCommand(sql.ToString(), database_.cndb);
                 sqlCommand.ExecuteNonQuery();
             }
@@ -114,9 +114,9 @@ namespace family_tree.objects
 
         private void read(OleDbDataReader dataReader)
         {
-            index_ = Database.getInt(dataReader, "ID", 0);
+            idx_ = Database.getInt(dataReader, "ID", 0);
             name_ = Database.getString(dataReader, "Name", "Error");
-            parentIndex_ = Database.getInt(dataReader, "ParentID", 0);
+            parentIdx_ = Database.getInt(dataReader, "ParentID", 0);
             status_ = Database.getInt(dataReader, "Status", 0);
             longitude_ = walton.Database.getFloat(dataReader, "Longitude", -999);
             latitude_ = walton.Database.getFloat(dataReader, "Latitude", -999);
@@ -132,24 +132,24 @@ namespace family_tree.objects
         #region Public Properties
 
         /// <summary>The ID of this place in the database.</summary>
-        public int index { get { return index_; } }
+        public int idx { get { return idx_; } }
 
         /// <summary>The short name of this place.</summary>
         public string name { get { return name_; } }
 
         /// <summary>The ID of the parent place.  Zero is top level and no parent.</summary>
-        public int parentIndex { get { return parentIndex_; } }
+        public int parentIdx { get { return parentIdx_; } }
 
         /// <summary>The parent place of this place.</summary>
         public Place parent
         {
             get
             {
-                if (parentIndex_ == 0)
+                if (parentIdx_ == 0)
                 {
                     return null;
                 }
-                return new Place(parentIndex_, database_);
+                return new Place(parentIdx_, database_);
             }
         }
 
@@ -171,7 +171,7 @@ namespace family_tree.objects
             {
                 if (isUseParentLocation_)
                 {
-                    if (parentIndex_ != 0)
+                    if (parentIdx_ != 0)
                     {
                         return parent.longitude;
                     }
@@ -194,7 +194,7 @@ namespace family_tree.objects
             {
                 if (isUseParentLocation_)
                 {
-                    if (parentIndex_ != 0)
+                    if (parentIdx_ != 0)
                     {
                         return parent.latitude;
                     }
@@ -217,7 +217,7 @@ namespace family_tree.objects
             {
                 if (isUseParentLocation_)
                 {
-                    if (parentIndex_ != 0)
+                    if (parentIdx_ != 0)
                     {
                         return parent.googleZoom;
                     }
@@ -260,12 +260,12 @@ namespace family_tree.objects
 
             // Build a name for the place.
             StringBuilder fullName = new StringBuilder();
-            int parentIndex = parentIndex_;
-            while (parentIndex != 0)
+            int parentIdx = parentIdx_;
+            while (parentIdx != 0)
             {
-                Place parent = new Place(parentIndex, database_);
-                fullName.Insert(0, "<a href=\"place:" + parentIndex.ToString() + "\">" + parent.name + "</a>, ");
-                parentIndex = parent.parentIndex;
+                Place parent = new Place(parentIdx, database_);
+                fullName.Insert(0, "<a href=\"place:" + parentIdx.ToString() + "\">" + parent.name + "</a>, ");
+                parentIdx = parent.parentIdx;
             }
             fullName.Insert(0, "<a href=\"place:0\">Top Level</a>, ");
 
@@ -300,7 +300,7 @@ namespace family_tree.objects
             html.AppendLine("<table border=\"0\">\n<tr valign=\"top\">");
 
             // Show the child places from this place.
-            string sql = "SELECT ID, Name, Status FROM tbl_Places WHERE ParentID = " + index_.ToString() + " ORDER BY Status, Name;";
+            string sql = "SELECT ID, Name, Status FROM tbl_Places WHERE ParentID = " + idx_.ToString() + " ORDER BY Status, Name;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             bool isFirst = true;
@@ -338,7 +338,7 @@ namespace family_tree.objects
             dataReader.Close();
 
             // Show the people with a connection to this place.
-            sql = "SELECT tbl_ToPlaces.ObjectID, tbl_People.Forenames, tbl_People.MaidenName, tbl_People.Surname, tbl_People.Born, tbl_People.Died FROM tbl_ToPlaces INNER JOIN tbl_People ON tbl_ToPlaces.ObjectID = tbl_People.ID WHERE tbl_ToPlaces.PlaceID = " + index_.ToString() + " AND tbl_ToPlaces.TypeID = 1 ORDER BY tbl_People.Born;";
+            sql = "SELECT tbl_ToPlaces.ObjectID, tbl_People.Forenames, tbl_People.MaidenName, tbl_People.Surname, tbl_People.Born, tbl_People.Died FROM tbl_ToPlaces INNER JOIN tbl_People ON tbl_ToPlaces.ObjectID = tbl_People.ID WHERE tbl_ToPlaces.PlaceID = " + idx_.ToString() + " AND tbl_ToPlaces.TypeID = 1 ORDER BY tbl_People.Born;";
             sqlCommand = new OleDbCommand(sql, database_.cndb);
             dataReader = sqlCommand.ExecuteReader();
             isFirst = true;
@@ -401,7 +401,7 @@ namespace family_tree.objects
             // Show the sources with a connection to this place.
             sql = "SELECT tbl_Sources.ID, tbl_Sources.Name " +
                 "FROM tbl_ToPlaces INNER JOIN tbl_Sources ON tbl_ToPlaces.ObjectID = tbl_Sources.ID " +
-                "WHERE (((tbl_ToPlaces.PlaceID)=" + index_.ToString() + ") AND ((tbl_ToPlaces.TypeID)=2)) " +
+                "WHERE (((tbl_ToPlaces.PlaceID)=" + idx_.ToString() + ") AND ((tbl_ToPlaces.TypeID)=2)) " +
                 "ORDER BY tbl_Sources.Name;";
             sqlCommand = new OleDbCommand(sql, database_.cndb);
             dataReader = sqlCommand.ExecuteReader();

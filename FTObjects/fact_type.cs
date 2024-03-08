@@ -8,7 +8,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>ID of the fact type in the database.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>Human readable name of the fact type.</summary>
         private string name_;
@@ -24,7 +24,7 @@ namespace family_tree.objects
         /// <param name="name">Specifies the human readable name of the fact type.</param>
         public FactType(int index, string name)
         {
-            index_ = index;
+            idx_ = index;
             name_ = name;
         }
 
@@ -46,7 +46,7 @@ namespace family_tree.objects
 
 
         /// <summary>ID of the fact type.</summary>
-        public int index { get { return index_; } }
+        public int index { get { return idx_; } }
 
 
 

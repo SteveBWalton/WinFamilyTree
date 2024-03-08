@@ -26,7 +26,7 @@ namespace family_tree.viewer
         private System.Windows.Forms.NumericUpDown nudYear_;
         private System.Windows.Forms.ComboBox cboMonth_;
         private TextBox txtWholeThing_;
-        private ContextMenuStrip m_ContextMenuStrip;
+        private ContextMenuStrip contextMenuStrip_;
         private ToolStripMenuItem tsmDayUnknown_;
         private ToolStripMenuItem tsmMonthUnknown_;
         private ToolStripMenuItem tsmYearUnknown_;
@@ -412,7 +412,7 @@ namespace family_tree.viewer
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
             System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
             this.nudDay_ = new System.Windows.Forms.NumericUpDown();
-            this.m_ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip_ = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmDayUnknown_ = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmMonthUnknown_ = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmYearUnknown_ = new System.Windows.Forms.ToolStripMenuItem();
@@ -426,7 +426,7 @@ namespace family_tree.viewer
             toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.nudDay_)).BeginInit();
-            this.m_ContextMenuStrip.SuspendLayout();
+            this.contextMenuStrip_.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudYear_)).BeginInit();
             this.SuspendLayout();
             // 
@@ -442,7 +442,7 @@ namespace family_tree.viewer
             // 
             // m_nudDay
             // 
-            this.nudDay_.ContextMenuStrip = this.m_ContextMenuStrip;
+            this.nudDay_.ContextMenuStrip = this.contextMenuStrip_;
             this.nudDay_.Location = new System.Drawing.Point(0, 0);
             this.nudDay_.Maximum = new decimal(new int[] {
             31,
@@ -461,7 +461,7 @@ namespace family_tree.viewer
             // 
             // m_ContextMenuStrip
             // 
-            this.m_ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip_.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmDayUnknown_,
             this.tsmMonthUnknown_,
             this.tsmYearUnknown_,
@@ -471,8 +471,8 @@ namespace family_tree.viewer
             toolStripMenuItem4,
             this.tsmQuarter_,
             this.tsmNull_});
-            this.m_ContextMenuStrip.Name = "m_ContextMenuStrip";
-            this.m_ContextMenuStrip.Size = new System.Drawing.Size(174, 192);
+            this.contextMenuStrip_.Name = "m_ContextMenuStrip";
+            this.contextMenuStrip_.Size = new System.Drawing.Size(174, 192);
             // 
             // m_tsmDayUnknown
             // 
@@ -518,7 +518,7 @@ namespace family_tree.viewer
             // 
             // m_nudYear
             // 
-            this.nudYear_.ContextMenuStrip = this.m_ContextMenuStrip;
+            this.nudYear_.ContextMenuStrip = this.contextMenuStrip_;
             this.nudYear_.Location = new System.Drawing.Point(96, 0);
             this.nudYear_.Maximum = new decimal(new int[] {
             2100,
@@ -542,7 +542,7 @@ namespace family_tree.viewer
             // 
             // m_cboMonth
             // 
-            this.cboMonth_.ContextMenuStrip = this.m_ContextMenuStrip;
+            this.cboMonth_.ContextMenuStrip = this.contextMenuStrip_;
             this.cboMonth_.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMonth_.Items.AddRange(new object[] {
             "Jan",
@@ -566,7 +566,7 @@ namespace family_tree.viewer
             // 
             // m_txtWholeThing
             // 
-            this.txtWholeThing_.ContextMenuStrip = this.m_ContextMenuStrip;
+            this.txtWholeThing_.ContextMenuStrip = this.contextMenuStrip_;
             this.txtWholeThing_.Location = new System.Drawing.Point(0, 24);
             this.txtWholeThing_.Name = "m_txtWholeThing";
             this.txtWholeThing_.Size = new System.Drawing.Size(144, 20);
@@ -582,7 +582,7 @@ namespace family_tree.viewer
             // 
             // ucDate
             // 
-            this.ContextMenuStrip = this.m_ContextMenuStrip;
+            this.ContextMenuStrip = this.contextMenuStrip_;
             this.Controls.Add(this.txtWholeThing_);
             this.Controls.Add(this.cboMonth_);
             this.Controls.Add(this.nudYear_);
@@ -592,7 +592,7 @@ namespace family_tree.viewer
             this.Leave += new System.EventHandler(this.compoundDate_Leave);
             this.Enter += new System.EventHandler(this.compoundDate_Enter);
             ((System.ComponentModel.ISupportInitialize)(this.nudDay_)).EndInit();
-            this.m_ContextMenuStrip.ResumeLayout(false);
+            this.contextMenuStrip_.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudYear_)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -50,7 +50,7 @@ namespace family_tree.viewer
             database_ = database;
 
             // Load a list of all people into the listbox.
-            IndexName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 9999);
+            IdxName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 9999);
 
             // Populate the list box.
             for (int i = 0; i < people.Length; i++)
@@ -71,13 +71,13 @@ namespace family_tree.viewer
             }
 
             // Find the selected person.
-            IndexName selectedPerson = (IndexName)this.lstPeople_.SelectedItem;
+            IdxName selectedPerson = (IdxName)this.lstPeople_.SelectedItem;
 
             // Close the form.
             Dispose();
 
             // Return the selected person.
-            return selectedPerson.index;
+            return selectedPerson.idx;
         }
 
 
@@ -206,7 +206,7 @@ namespace family_tree.viewer
             if (radioDate_.Checked)
             {
                 // Load a list of all people into the listbox.
-                IndexName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 3000);
+                IdxName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE, 0, 3000);
 
                 // Populate the list box.
                 lstPeople_.Items.Clear();
@@ -224,7 +224,7 @@ namespace family_tree.viewer
             if (radioAlpha_.Checked)
             {
                 // Load a list of all people into the listbox.
-                IndexName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, 0, 3000);
+                IdxName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, 0, 3000);
 
                 // Populate the list box
                 lstPeople_.Items.Clear();

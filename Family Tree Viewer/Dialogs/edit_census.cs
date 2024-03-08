@@ -55,9 +55,9 @@ namespace family_tree.viewer
                 }
 
                 // Show the options in the address combo box.
-                foreach (IndexName address in cboAddress_.Items)
+                foreach (IdxName address in cboAddress_.Items)
                 {
-                    if (address.index == initialRecord)
+                    if (address.idx == initialRecord)
                     {
                         cboAddress_.SelectedItem = address;
                     }
@@ -446,19 +446,19 @@ namespace family_tree.viewer
             // Find the selected year.
             int theYear = int.Parse(cboYear_.Text);
 
-            IndexName[] houseHolds = database_.cenusGetHouseholds(theYear);
+            IdxName[] houseHolds = database_.cenusGetHouseholds(theYear);
 
             // Add the available options to the address combo.
             cboAddress_.Items.Clear();
-            foreach (IndexName houseHold in houseHolds)
+            foreach (IdxName houseHold in houseHolds)
             {
                 cboAddress_.Items.Add(houseHold);
             }
 
             // Populate the list of people combo.
-            IndexName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, theYear);
+            IdxName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, theYear);
             cboPerson_.Items.Clear();
-            foreach (IndexName person in people)
+            foreach (IdxName person in people)
             {
                 cboPerson_.Items.Add(person);
             }
@@ -479,8 +479,8 @@ namespace family_tree.viewer
                 cmdRemovePerson_.Enabled = true;
 
                 // Find the ID of the household.
-                IndexName address = (IndexName)cboAddress_.SelectedItem;
-                int householdIndex = address.index;
+                IdxName address = (IdxName)cboAddress_.SelectedItem;
+                int householdIndex = address.idx;
 
                 // Display the members of this household.
                 peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(householdIndex), "");
@@ -516,7 +516,7 @@ namespace family_tree.viewer
                 // No one is selected.
                 return;
             }
-            IndexName selectedPerson = (IndexName)cboPerson_.SelectedItem;
+            IdxName selectedPerson = (IdxName)cboPerson_.SelectedItem;
 
             // Find the ID of the current household.
             if (cboAddress_.SelectedIndex < 0)
@@ -524,23 +524,23 @@ namespace family_tree.viewer
                 // No Household is selected
                 return;
             }
-            IndexName household = (IndexName)cboAddress_.SelectedItem;
+            IdxName household = (IdxName)cboAddress_.SelectedItem;
 
             // Load the person to get his name.
-            Person person = new Person(selectedPerson.index, database_);
+            Person person = new Person(selectedPerson.idx, database_);
 
             // Create a new object to add to the list box.
             CensusPerson censusPerson = new CensusPerson();
-            censusPerson.index = 0;
-            censusPerson.houseHoldIndex = household.index;
-            censusPerson.personIndex = person.index;
+            censusPerson.idx = 0;
+            censusPerson.houseHoldIdx = household.idx;
+            censusPerson.personIdx = person.idx;
             censusPerson.personName = person.getName(true, true);
             censusPerson.censusName = person.getName(false, true);
 
             censusPerson.save(database_);
 
             // Display the members of this household.
-            peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(household.index), "");
+            peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(household.idx), "");
         }
 
 
@@ -555,7 +555,7 @@ namespace family_tree.viewer
 
             // Find the fact
             CensusPerson censusPerson = ((CensusPerson[])peopleGrid_.DataSource)[peopleGrid_.CurrentCell.RowNumber];
-            int householdIndex = censusPerson.houseHoldIndex;
+            int householdIndex = censusPerson.houseHoldIdx;
             censusPerson.delete();
             save();
 

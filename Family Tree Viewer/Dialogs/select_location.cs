@@ -57,7 +57,7 @@ namespace family_tree.viewer
         /// <param name="place">Specifies the place to add to the node.</param>
         private void addTreeNode(TreeNode parent, Place place)
         {
-            Place[] children = database_.getPlaces(place.index);
+            Place[] children = database_.getPlaces(place.idx);
             foreach (Place child in children)
             {
                 TreeNode childNode = parent.Nodes.Add(child.name, child.name, child.status, child.status);

@@ -71,9 +71,9 @@ namespace family_tree.viewer
         public bool setRelationship(Relationship relationship)
         {
             // Save the values that this control needs.
-            terminated_ = relationship.terminatedIndex;
-            fatherIndex_ = relationship.maleIndex;
-            motherIndex_ = relationship.femaleIndex;
+            terminated_ = relationship.terminatedIdx;
+            fatherIndex_ = relationship.maleIdx;
+            motherIndex_ = relationship.femaleIdx;
 
             // Return success.
             return true;

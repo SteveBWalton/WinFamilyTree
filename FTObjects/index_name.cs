@@ -3,12 +3,12 @@ using System;
 namespace family_tree.objects
 {
     /// <summary>Class to represent generic index, Name pairs from a database.  This is most often to used create a list of lookups.</summary>
-    public class IndexName
+    public class IdxName
     {
         #region Member Variables
 
         /// <summary>ID of the object.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>Human readable name of the object.</summary>
         private string name_;
@@ -17,12 +17,12 @@ namespace family_tree.objects
 
         #region Constructors etc ...
 
-        /// <summary>Class constructors.  Creates a new IndexName object with the specified properties.</summary>
-        /// <param name="index">Specifies the ID of the object.</param>
+        /// <summary>Class constructors.  Creates a new IdxName object with the specified properties.</summary>
+        /// <param name="idx">Specifies the ID of the object.</param>
         /// <param name="name">Specifies the name of the object.</param>
-        public IndexName(int index, string name)
+        public IdxName(int idx, string name)
         {
-            index_ = index;
+            idx_ = idx;
             name_ = name;
         }
 
@@ -40,7 +40,7 @@ namespace family_tree.objects
         }
 
         /// <summary>The ID of the clsIDName object.</summary>
-        public int index { get { return index_; } }
+        public int idx { get { return idx_; } }
 
         /// <summary>The human readable label for the clsIDName object.</summary>
         public string name { get { return name_; } }

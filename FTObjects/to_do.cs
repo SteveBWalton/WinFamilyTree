@@ -15,7 +15,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>ID of the record in the database.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>Human readable description of the item.</summary>
         private string description_;
@@ -41,7 +41,7 @@ namespace family_tree.objects
         /// <summary>Empty class constructor.</summary>
         public ToDo()
         {
-            index_ = -1;
+            idx_ = -1;
             isDirty_ = true;
             isDelete_ = false;
         }
@@ -49,22 +49,16 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor with ID specification.  This is intended to be used where a ToDo record has been read from the database.</summary>
-        /// <param name="index">Specifies the value of the ID.</param>
-        /// <param name="personIndex">Specifies the ID of the person that owns this item.</param>
+        /// <param name="idx">Specifies the value of the ID.</param>
+        /// <param name="personIdx">Specifies the ID of the person that owns this item.</param>
         /// <param name="priority">Specifies the priority of the item.</param>
         /// <param name="description">Specifies the description of the item.</param>
-        public ToDo
-            (
-            int index,
-            int personIndex,
-            int priority,
-            string description
-            )
+        public ToDo(int idx, int personIdx, int priority, string description)
         {
             isDirty_ = false;
             isDelete_ = false;
-            index_ = index;
-            personIndex_ = personIndex;
+            idx_ = idx;
+            personIndex_ = personIdx;
             priority_ = priority;
             description_ = description;
         }
@@ -94,6 +88,8 @@ namespace family_tree.objects
             set { priority_ = value; isDirty_ = true; }
         }
 
+
+
         /// <summary>Write the ToDo item into the specified database.</summary>
         /// <param name="cndb">Specifies an open connection to the database.</param>
         /// <returns>True for a write to the database, false otherwise.</returns>
@@ -108,15 +104,15 @@ namespace family_tree.objects
             string sql = "";
             if (isDelete_)
             {
-                if (index_ != -1)
+                if (idx_ != -1)
                 {
                     // Delete this record.
-                    sql = "DELETE FROM tbl_ToDo WHERE ID = " + index_.ToString() + ";";
+                    sql = "DELETE FROM tbl_ToDo WHERE ID = " + idx_.ToString() + ";";
                 }
             }
             else
             {
-                if (index_ == -1)
+                if (idx_ == -1)
                 {
                     // Create a new record.
                     sql = "INSERT INTO tbl_ToDo (PersonID, Priority, Description) VALUES (" + personIndex_.ToString() + ", " + priority_.ToString() + ", \"" + description_ + "\");";
@@ -124,7 +120,7 @@ namespace family_tree.objects
                 else
                 {
                     // Update the existing record.
-                    sql = "UPDATE tbl_ToDo SET Priority = " + priority_.ToString() + ", Description = \"" + description_ + "\" WHERE ID = " + index_.ToString() + ";";
+                    sql = "UPDATE tbl_ToDo SET Priority = " + priority_.ToString() + ", Description = \"" + description_ + "\" WHERE ID = " + idx_.ToString() + ";";
                 }
             }
             if (sql != "")

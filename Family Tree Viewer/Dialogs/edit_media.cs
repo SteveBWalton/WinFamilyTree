@@ -58,13 +58,13 @@ namespace family_tree.viewer
 
             // Populate the list of people combo box
             int[] attachedPeople = media_.getAttachedPeople();
-            IndexName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE);
-            foreach (IndexName person in people)
+            IdxName[] people = database.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.DATE);
+            foreach (IdxName person in people)
             {
                 cboPeople_.Items.Add(person);
                 foreach (int attachedIndex in attachedPeople)
                 {
-                    if (attachedIndex == person.index)
+                    if (attachedIndex == person.idx)
                     {
                         lstPeople_.Items.Add(person);
                     }
@@ -117,7 +117,7 @@ namespace family_tree.viewer
         /// <summary>The ID of the media object on the form.</summary>
         public int mediaIndex
         {
-            get { return media_.index_; }
+            get { return media_.idx_; }
         }
 
 
@@ -153,9 +153,9 @@ namespace family_tree.viewer
 
             // Update the attached people.
             media_.removeAllPeople();
-            foreach (IndexName person in lstPeople_.Items)
+            foreach (IdxName person in lstPeople_.Items)
             {
-                media_.addPerson(person.index);
+                media_.addPerson(person.idx);
             }
 
             // Save this media object.
@@ -193,7 +193,7 @@ namespace family_tree.viewer
         /// <summary>Message handler for the Add person button click.</summary>
         private void cmdAddPerson_Click(object sender, EventArgs e)
         {
-            IndexName person = (IndexName)cboPeople_.SelectedItem;
+            IdxName person = (IdxName)cboPeople_.SelectedItem;
             if (person != null)
             {
                 lstPeople_.Items.Add(person);

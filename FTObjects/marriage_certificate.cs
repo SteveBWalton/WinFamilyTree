@@ -13,7 +13,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>The ID of the marriage certificate record.  This should match with the ID the parent source.</summary>
-		private int index_;
+		private int idx_;
 
         /// <summary>The date of the marriage.</summary>
         public DateTime when;
@@ -70,20 +70,20 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor.</summary>
-		/// <param name="sourceIndex">Specifies the ID of the parent source record and the ID of this object.</param>
-		public MarriageCertificate(int sourceIndex)
+		/// <param name="sourceIdx">Specifies the ID of the parent source record and the ID of this object.</param>
+		public MarriageCertificate(int sourceIdx)
         {
-            index_ = sourceIndex;
+            idx_ = sourceIdx;
         }
 
 
 
         /// <summary>Class constructor that loads the current values from the database.</summary>
-        /// <param name="sourceIndex">Specifies the ID of the parent source record and the ID of this object.</param>
+        /// <param name="sourceIdx">Specifies the ID of the parent source record and the ID of this object.</param>
         /// <param name="cndb">Specifies the database to load the values from.</param>
-        public MarriageCertificate(int sourceIndex, OleDbConnection cndb) : this(sourceIndex)
+        public MarriageCertificate(int sourceIdx, OleDbConnection cndb) : this(sourceIdx)
         {
-            string sql = "SELECT * FROM tbl_MarriageCertificates WHERE ID=" + index_.ToString() + ";";
+            string sql = "SELECT * FROM tbl_MarriageCertificates WHERE ID=" + idx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
@@ -118,7 +118,7 @@ namespace family_tree.objects
 		public bool save(Database database)
         {
             // Validate the ID.
-            if (index_ == 0)
+            if (idx_ == 0)
             {
                 return false;
             }
@@ -141,13 +141,13 @@ namespace family_tree.objects
                 + ", BrideFather=" + Database.toDb(brideFather)
                 + ", BrideFatherOccupation=" + Database.toDb(brideFatherOccupation)
                 + ", Witness=" + Database.toDb(witness)
-                + " WHERE ID=" + index_.ToString() + ";";
+                + " WHERE ID=" + idx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             int numRows = sqlCommand.ExecuteNonQuery();
             if (numRows == 0)
             {
                 sql = "INSERT INTO tbl_MarriageCertificates (ID, GroReference, WhenMarried, Location, GroomName, GroomAge, GroomOccupation, GroomLiving, GroomFather, GroomFatherOccupation, BrideName, BrideAge, BrideOccupation, BrideLiving, BrideFather, BrideFatherOccupation, Witness) VALUES (" +
-                    index_.ToString() + "," +
+                    idx_.ToString() + "," +
                     Database.toDb(groReference) + ", " +
                     Database.toDb(when) + ", " +
                     Database.toDb(location)
@@ -172,7 +172,7 @@ namespace family_tree.objects
             // Add the place (and links to this source) to the database.
             if (location != "")
             {
-                database.addPlace(location, 2, index_);
+                database.addPlace(location, 2, idx_);
             }
 
             // Return success.
@@ -279,7 +279,7 @@ namespace family_tree.objects
 
 
         /// <summary>The ID of the marraige record.  This should match with the ID the parent source.</summary>
-        public int index { get { return index_; } set { index_ = value; } }
+        public int idx { get { return idx_; } set { idx_ = value; } }
 
     }
 }

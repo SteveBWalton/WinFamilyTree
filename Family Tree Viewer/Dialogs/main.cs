@@ -489,7 +489,7 @@ namespace family_tree.viewer
                 {
                     for (int i = marriages.Length - 1; i >= 0; i--)
                     {
-                        Person relationPerson = database_.getPerson(marriages[i].partnerIndex);
+                        Person relationPerson = database_.getPerson(marriages[i].partnerIdx);
 
                         // Create a person control to show the partner
                         psnPartners_[i] = new family_tree.viewer.PersonDisplay();
@@ -530,7 +530,7 @@ namespace family_tree.viewer
                 {
                     for (int i = 0; i < marriages.Length; i++)
                     {
-                        Person relationPerson = database_.getPerson(marriages[i].partnerIndex);
+                        Person relationPerson = database_.getPerson(marriages[i].partnerIdx);
 
                         // Create a relationship control to show the relationship to the partner.
                         partnersConntections_[i] = new family_tree.viewer.RelationshipDisplay();
@@ -669,7 +669,7 @@ namespace family_tree.viewer
             Font font = userOptions_.fontBase.getFont();
 
             // Show the father.
-            if (person.fatherIndex == 0)
+            if (person.fatherIdx == 0)
             {
                 psnFather_.Visible = false;
                 psnFatherFather_.Visible = false;
@@ -678,7 +678,7 @@ namespace family_tree.viewer
             }
             else
             {
-                Person father = database_.getPerson(person.fatherIndex);
+                Person father = database_.getPerson(person.fatherIdx);
                 psnFather_.Width = personSize_.x;
                 psnFather_.Height = personSize_.y;
                 psnFather_.setPerson(father);
@@ -687,13 +687,13 @@ namespace family_tree.viewer
                 psnFather_.Visible = true;
 
                 // Show the father's father.
-                if (father.fatherIndex == 0)
+                if (father.fatherIdx == 0)
                 {
                     psnFatherFather_.Visible = false;
                 }
                 else
                 {
-                    Person grandFather = database_.getPerson(father.fatherIndex);
+                    Person grandFather = database_.getPerson(father.fatherIdx);
                     psnFatherFather_.Width = personSize_.x;
                     psnFatherFather_.Height = personSize_.y;
                     psnFatherFather_.setPerson(grandFather);
@@ -703,13 +703,13 @@ namespace family_tree.viewer
                 }
 
                 // Show the father's mother.
-                if (father.motherIndex == 0)
+                if (father.motherIdx == 0)
                 {
                     psnFatherMother_.Visible = false;
                 }
                 else
                 {
-                    Person grandMother = database_.getPerson(father.motherIndex);
+                    Person grandMother = database_.getPerson(father.motherIdx);
                     psnFatherMother_.Width = personSize_.x;
                     psnFatherMother_.Height = personSize_.y;
                     psnFatherMother_.setPerson(grandMother);
@@ -719,7 +719,7 @@ namespace family_tree.viewer
                 }
 
                 // Show the relationship between these two.
-                if (father.fatherIndex == 0 || father.motherIndex == 0)
+                if (father.fatherIdx == 0 || father.motherIdx == 0)
                 {
                     marFatherParents_.Visible = false;
                 }
@@ -732,7 +732,7 @@ namespace family_tree.viewer
             }
 
             // Show the mother.
-            if (person.motherIndex == 0)
+            if (person.motherIdx == 0)
             {
                 psnMother_.Visible = false;
                 psnMotherFather_.Visible = false;
@@ -741,7 +741,7 @@ namespace family_tree.viewer
             }
             else
             {
-                Person mother = database_.getPerson(person.motherIndex);
+                Person mother = database_.getPerson(person.motherIdx);
                 psnMother_.Width = personSize_.x;
                 psnMother_.Height = personSize_.y;
                 psnMother_.setPerson(mother);
@@ -750,13 +750,13 @@ namespace family_tree.viewer
                 psnMother_.Visible = true;
 
                 // Show the mother's father.
-                if (mother.fatherIndex == 0)
+                if (mother.fatherIdx == 0)
                 {
                     psnMotherFather_.Visible = false;
                 }
                 else
                 {
-                    Person grandFather = database_.getPerson(mother.fatherIndex);
+                    Person grandFather = database_.getPerson(mother.fatherIdx);
                     psnMotherFather_.Width = personSize_.x;
                     psnMotherFather_.Height = personSize_.y;
                     psnMotherFather_.setPerson(grandFather);
@@ -766,13 +766,13 @@ namespace family_tree.viewer
                 }
 
                 // Show the mother's mother.
-                if (mother.motherIndex == 0)
+                if (mother.motherIdx == 0)
                 {
                     psnMotherMother_.Visible = false;
                 }
                 else
                 {
-                    Person grandMother = database_.getPerson(mother.motherIndex);
+                    Person grandMother = database_.getPerson(mother.motherIdx);
                     psnMotherMother_.Width = personSize_.x;
                     psnMotherMother_.Height = personSize_.y;
                     psnMotherMother_.setPerson(grandMother);
@@ -782,7 +782,7 @@ namespace family_tree.viewer
                 }
 
                 // Show the relationship between these two.
-                if (mother.fatherIndex == 0 || mother.motherIndex == 0)
+                if (mother.fatherIdx == 0 || mother.motherIdx == 0)
                 {
                     marMotherParents_.Visible = false;
                 }
@@ -859,11 +859,11 @@ namespace family_tree.viewer
 
                     // Build a tag value that represents which parents this sibling shares.
                     int tag = 0;
-                    if (relation.fatherIndex == person.fatherIndex)
+                    if (relation.fatherIdx == person.fatherIdx)
                     {
                         tag |= 1;
                     }
-                    if (relation.motherIndex == person.motherIndex)
+                    if (relation.motherIdx == person.motherIdx)
                     {
                         tag |= 2;
                     }
@@ -952,7 +952,7 @@ namespace family_tree.viewer
                     {
                         for (int j = 0; j < partnersConntections_.Length; j++)
                         {
-                            if (partnersConntections_[j].motherIndex == relation.motherIndex && partnersConntections_[j].fatherIndex == relation.fatherIndex)
+                            if (partnersConntections_[j].motherIndex == relation.motherIdx && partnersConntections_[j].fatherIndex == relation.fatherIdx)
                             {
                                 tag = j;
                             }
@@ -1277,21 +1277,21 @@ namespace family_tree.viewer
                 {
                 case RelatedPerson.FATHER:
                     person = new Person(currentPage.index, database_);
-                    person.fatherIndex = newPersonIndex;
+                    person.fatherIdx = newPersonIndex;
                     person.save();
                     break;
 
                 case RelatedPerson.MOTHER:
                     person = new Person(currentPage.index, database_);
-                    person.motherIndex = newPersonIndex;
+                    person.motherIdx = newPersonIndex;
                     person.save();
                     break;
 
                 case RelatedPerson.SIBLING:
                     Person newPerson = new Person(newPersonIndex, database_);
                     person = new Person(currentPage.index, database_);
-                    newPerson.fatherIndex = person.fatherIndex;
-                    newPerson.motherIndex = person.motherIndex;
+                    newPerson.fatherIdx = person.fatherIdx;
+                    newPerson.motherIdx = person.motherIdx;
                     newPerson.save();
                     break;
 
@@ -1307,11 +1307,11 @@ namespace family_tree.viewer
                     person = new Person(currentPage.index, database_);
                     if (person.isMale)
                     {
-                        newPerson.fatherIndex = currentPage.index;
+                        newPerson.fatherIdx = currentPage.index;
                     }
                     else
                     {
-                        newPerson.motherIndex = currentPage.index;
+                        newPerson.motherIdx = currentPage.index;
                     }
                     newPerson.save();
                     break;
@@ -1712,11 +1712,11 @@ namespace family_tree.viewer
             Families families = new Families();
 
             // Write the individuals.
-            IndexName[] allPeople = database_.getPeople();
+            IdxName[] allPeople = database_.getPeople();
             for (int i = 0; i < allPeople.Length; i++)
             {
                 // Create an object for this person.
-                Person person = database_.getPerson(allPeople[i].index);
+                Person person = database_.getPerson(allPeople[i].idx);
 
                 // Check that this person is included in the gedcom file.
                 // The person will also need to be excluded from any families that try to reference him.
@@ -1730,7 +1730,7 @@ namespace family_tree.viewer
                 if (isInclude)
                 {
                     // Create Gedcom record for this person
-                    file.WriteLine("0 @I" + person.index.ToString("0000") + "@ INDI");
+                    file.WriteLine("0 @I" + person.idx.ToString("0000") + "@ INDI");
 
                     // Create an intial list of sources for this person
                     ArrayList personSources = new ArrayList();
@@ -1801,10 +1801,10 @@ namespace family_tree.viewer
                     }
 
                     // Add this person to the parents family.
-                    if (person.fatherIndex > 0 || person.motherIndex > 0)
+                    if (person.fatherIdx > 0 || person.motherIdx > 0)
                     {
                         // Check that the father is included in the gedcom file.
-                        int fatherIndex = person.fatherIndex;
+                        int fatherIndex = person.fatherIdx;
                         Person father = new Person(fatherIndex, database_);
                         if (!father.isIncludeInGedcom)
                         {
@@ -1812,7 +1812,7 @@ namespace family_tree.viewer
                         }
 
                         // Check that the mother is included in the gedcom file.
-                        int motherIndex = person.motherIndex;
+                        int motherIndex = person.motherIdx;
                         Person mother = new Person(motherIndex, database_);
                         if (!mother.isIncludeInGedcom)
                         {
@@ -1822,9 +1822,9 @@ namespace family_tree.viewer
                         //  Get the parent family information.
                         if (motherIndex != 0 || fatherIndex != 0)
                         {
-                            Family family = families.getParentFamily(person.fatherIndex, person.motherIndex);
+                            Family family = families.getParentFamily(person.fatherIdx, person.motherIdx);
                             family.addChild(person);
-                            file.WriteLine("1 FAMC @F" + family.gedcomIndex.ToString("0000") + "@");
+                            file.WriteLine("1 FAMC @F" + family.gedcomIdx.ToString("0000") + "@");
                         }
                     }
 
@@ -1836,15 +1836,15 @@ namespace family_tree.viewer
                     for (int j = 0; j < relationships.Length; j++)
                     {
                         // Check that the partner is included in the Gedcom file.
-                        Person partner = new Person(relationships[j].partnerIndex, database_);
+                        Person partner = new Person(relationships[j].partnerIdx, database_);
                         if (partner.isIncludeInGedcom)
                         {
-                            Family family = families.getMarriageFamily(relationships[j].maleIndex, relationships[j].femaleIndex, relationships[j].index);
-                            file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
+                            Family family = families.getMarriageFamily(relationships[j].maleIdx, relationships[j].femaleIdx, relationships[j].idx);
+                            file.WriteLine("1 FAMS @F" + family.gedcomIdx.ToString("0000") + "@");
                             relationships[j].sourcePartner.writeGedcom(2, file, null);
 
                             // Add to the list of partners.
-                            partners.Add(relationships[j].partnerIndex);
+                            partners.Add(relationships[j].partnerIdx);
                         }
                     }
 
@@ -1857,10 +1857,10 @@ namespace family_tree.viewer
                         // Check that the childs parent is already a partner
                         if (person.isMale)
                         {
-                            if (!partners.Contains(child.motherIndex))
+                            if (!partners.Contains(child.motherIdx))
                             {
-                                int motherIndex = child.motherIndex;
-                                Person mother = new Person(child.motherIndex, database_);
+                                int motherIndex = child.motherIdx;
+                                Person mother = new Person(child.motherIdx, database_);
                                 if (!mother.isIncludeInGedcom && !options.isAllElements)
                                 {
                                     // Use an unknown mother.
@@ -1868,8 +1868,8 @@ namespace family_tree.viewer
                                 }
 
                                 // Create families for new partner.
-                                Family family = families.getMarriageFamily(person.index, motherIndex, 0);
-                                file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
+                                Family family = families.getMarriageFamily(person.idx, motherIndex, 0);
+                                file.WriteLine("1 FAMS @F" + family.gedcomIdx.ToString("0000") + "@");
 
                                 // Add to the list of partners
                                 partners.Add(motherIndex);
@@ -1877,10 +1877,10 @@ namespace family_tree.viewer
                         }
                         else
                         {
-                            if (!partners.Contains(child.fatherIndex))
+                            if (!partners.Contains(child.fatherIdx))
                             {
-                                int fatherIndex = child.fatherIndex;
-                                Person father = new Person(child.fatherIndex, database_);
+                                int fatherIndex = child.fatherIdx;
+                                Person father = new Person(child.fatherIdx, database_);
                                 if (!father.isIncludeInGedcom)
                                 {
                                     // Use an unknown father
@@ -1888,8 +1888,8 @@ namespace family_tree.viewer
                                 }
 
                                 // Create families for new partner
-                                Family family = families.getMarriageFamily(fatherIndex, person.index, 0);
-                                file.WriteLine("1 FAMS @F" + family.gedcomIndex.ToString("0000") + "@");
+                                Family family = families.getMarriageFamily(fatherIndex, person.idx, 0);
+                                file.WriteLine("1 FAMS @F" + family.gedcomIdx.ToString("0000") + "@");
 
                                 // Add to the list of partners
                                 partners.Add(fatherIndex);
@@ -1898,7 +1898,7 @@ namespace family_tree.viewer
                     }
 
                     // Get Census records.
-                    CensusPerson[] censui = database_.censusForPerson(person.index);
+                    CensusPerson[] censui = database_.censusForPerson(person.idx);
                     foreach (CensusPerson census in censui)
                     {
                         file.WriteLine("1 CENS");
@@ -1985,7 +1985,7 @@ namespace family_tree.viewer
                     }
 
                     // Attach the media.
-                    database_.gedcomWritePersonMedia(file, person.index, person.mediaIndex);
+                    database_.gedcomWritePersonMedia(file, person.idx, person.mediaIdx);
 
                     // Attached the list of sources
                     foreach (int sourceIndex in personSources)

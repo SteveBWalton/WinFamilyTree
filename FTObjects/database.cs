@@ -121,12 +121,12 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the person object specified by nPersonID.</summary>
-        /// <param name="personIndex">Specifies the ID of the person required</param>
+        /// <param name="personIdx">Specifies the ID of the person required</param>
         /// <returns>The person objects co-responding the the ID specified by nPersonID</returns>
-        public Person getPerson(int personIndex)
+        public Person getPerson(int personIdx)
         {
             // Open the specified person ID.
-            Person person = new Person(personIndex, this);
+            Person person = new Person(personIdx, this);
 
             // Return the person object.
             return person;
@@ -134,13 +134,13 @@ namespace family_tree.objects
 
 
 
-        /// <summary>Returns a list of people in an array of clsIDName pairs who match the specfied criteria.</summary>
+        /// <summary>Returns a list of people in an array of IdxName pairs who match the specfied criteria.</summary>
         /// <param name="sex">Specify the sex of the required people</param>
         /// <param name="order">Specify the order of the returned array.</param>
         /// <param name="startYear">Specify the earliest birth year of the required people</param>
         /// <param name="endYear">Specify the latest birth year of the required people.</param>
         /// <returns>An array of IDName pairs representing people who match the specified criteria.</returns>
-        public IndexName[] getPeople(ChooseSex sex, SortOrder order, int startYear, int endYear)
+        public IdxName[] getPeople(ChooseSex sex, SortOrder order, int startYear, int endYear)
         {
             // Build the SQL command.
             string sql = "SELECT ID, Forenames, Surname, Maidenname, Born, BornStatusID, Died, DiedStatusID FROM tbl_People WHERE ";
@@ -174,7 +174,7 @@ namespace family_tree.objects
         /// <summary>Returns a list of people in an array of clsIDName objects who are returned by the specified Sql command.</summary>
         /// <param name="sql">Specifies an Sql command that will return a list of people.</param>
         /// <returns>An array of clsIDName objects representing the people in the specified Sql command.</returns>
-        public IndexName[] getPeople(string sql)
+        public IdxName[] getPeople(string sql)
         {
             // Initialise the list of people to return
             ArrayList items = new ArrayList();
@@ -228,20 +228,20 @@ namespace family_tree.objects
                     }
                 }
                 name.Append(")");
-                IndexName item = new IndexName(people.GetInt32(0), name.ToString());
+                IdxName item = new IdxName(people.GetInt32(0), name.ToString());
                 items.Add(item);
             }
             people.Close();
 
             // Return success
-            return (IndexName[])items.ToArray(typeof(IndexName));
+            return (IdxName[])items.ToArray(typeof(IdxName));
         }
 
 
 
-        /// <summary>Returns a list of all the people in an array of clsIDName objects.</summary>
+        /// <summary>Returns a list of all the people in an array of IdxName objects.</summary>
         /// <returns>An array of clsIDName objects representing all the people.</returns>
-        public IndexName[] getPeople()
+        public IdxName[] getPeople()
         {
             return getPeople("SELECT ID,Forenames,Surname,Maidenname,Born,BornStatusID,Died,DiedStatusID FROM tbl_People ORDER BY ID;");
         }
@@ -253,7 +253,7 @@ namespace family_tree.objects
         /// <param name="order">Specifies the order of the array to return.</param>
         /// <param name="yearAlive">Specifies the year when the returned people must have been alive.</param>
         /// <returns>An array of clsIDName objects representing the people alive at the specified year.</returns>
-        public IndexName[] getPeople(ChooseSex sex, SortOrder order, int yearAlive)
+        public IdxName[] getPeople(ChooseSex sex, SortOrder order, int yearAlive)
         {
             // Build the SQL command.
             string sql = "SELECT ID, Forenames, Surname, Maidenname, Born, BornStatusID, Died, DiedStatusID FROM tbl_People WHERE ";
@@ -288,7 +288,7 @@ namespace family_tree.objects
         /// <param name="sex">Specifies the sex of the required people.</param>
         /// <param name="order">Specifies the order of the array to return.</param>
         /// <returns>An array of clsIDName objects representing the specified people in the specified order.</returns>
-        public IndexName[] getPeople(ChooseSex sex, SortOrder order)
+        public IdxName[] getPeople(ChooseSex sex, SortOrder order)
         {
             // Build the SQL command.
             string sql = "SELECT ID, Forenames, Surname, Maidenname, Born, BornStatusID, Died, DiedStatusID FROM tbl_People ";
@@ -326,20 +326,20 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the relationship between the 2 specified people.  Returns null if there is no relationship.  This is a slightly strange relationship object because it has no owner.</summary>
-        /// <param name="maleIndex">Specifies the male person in the relationship.</param>
-        /// <param name="femaleIndex">Specifies the female person in the relationship.</param>
+        /// <param name="maleIdx">Specifies the male person in the relationship.</param>
+        /// <param name="femaleIdx">Specifies the female person in the relationship.</param>
         /// <returns>The relationship object for the 2 people.  NULL if no relationshp exists between the 2 specified people.</returns>
-        public Relationship getRelationship(int maleIndex, int femaleIndex)
+        public Relationship getRelationship(int maleIdx, int femaleIdx)
         {
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE MaleID = " + maleIndex.ToString() + " AND FemaleID = " + femaleIndex.ToString() + " ORDER BY TheDate DESC;", cndb);
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE MaleID = " + maleIdx.ToString() + " AND FemaleID = " + femaleIdx.ToString() + " ORDER BY TheDate DESC;", cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             Relationship relationship = null;
             if (dataReader.Read())
             {
                 relationship = new Relationship(dataReader.GetInt32(0));
-                relationship.maleIndex = maleIndex;
-                relationship.femaleIndex = femaleIndex;
-                relationship.terminatedIndex = dataReader.GetInt32(1);
+                relationship.maleIdx = maleIdx;
+                relationship.femaleIdx = femaleIdx;
+                relationship.terminatedIdx = dataReader.GetInt32(1);
                 if (dataReader.IsDBNull(2))
                 {
                     relationship.start.status = CompoundDate.EMPTY;
@@ -374,7 +374,7 @@ namespace family_tree.objects
                 {
                     relationship.comments = dataReader.GetString(7);
                 }
-                relationship.typeIndex = dataReader.GetInt16(8);
+                relationship.typeIdx = dataReader.GetInt16(8);
 
                 if (dataReader.IsDBNull(9))
                 {
@@ -407,9 +407,9 @@ namespace family_tree.objects
 
 
 
-        /// <summary>Returns all the repositories as an array of IndexName pairs.  This can be used directly in combo boxes etc ...</summary>
-        /// <returns>An array of IndexName objects.</returns>
-        public IndexName[] getRepositories()
+        /// <summary>Returns all the repositories as an array of IdxName pairs.  This can be used directly in combo boxes etc ...</summary>
+        /// <returns>An array of IdxName objects.</returns>
+        public IdxName[] getRepositories()
         {
             // Create a list of repositories
             ArrayList repositories = new ArrayList();
@@ -419,20 +419,20 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                IndexName repository = new IndexName(dataReader.GetInt32(0), dataReader.GetString(1));
+                IdxName repository = new IdxName(dataReader.GetInt32(0), dataReader.GetString(1));
                 repositories.Add(repository);
             }
             dataReader.Close();
 
             // Get the list of fact types.
-            return (IndexName[])(repositories.ToArray(typeof(IndexName)));
+            return (IdxName[])(repositories.ToArray(typeof(IdxName)));
         }
 
 
 
-        /// <summary>Returns all the sources as an array of IndexName pairs.  This can be used directly in comboboxes etc.</summary>
+        /// <summary>Returns all the sources as an array of IdxName pairs.  This can be used directly in comboboxes etc.</summary>
 		/// <returns>An array of clsIDName objects</returns>
-        public IndexName[] getSources(SortOrder sortOrder)
+        public IdxName[] getSources(SortOrder sortOrder)
         {
             // Build a list of relivant facts
             ArrayList sources = new ArrayList();
@@ -459,40 +459,40 @@ namespace family_tree.objects
                 {
                     name = dataReader.GetString(1) + " (" + dataReader.GetDateTime(2).Year.ToString() + ")";
                 }
-                IndexName source = new IndexName(dataReader.GetInt32(0), name);
+                IdxName source = new IdxName(dataReader.GetInt32(0), name);
                 sources.Add(source);
             }
             dataReader.Close();
 
             // Get the list of fact types.
-            return (IndexName[])(sources.ToArray(typeof(IndexName)));
+            return (IdxName[])(sources.ToArray(typeof(IdxName)));
         }
 
 
 
         /// <summary>Writes a list of references to additional media objects (gedcom OBJE @M1@) attached to the specified person into the specified Gedcom file.  The primary media is not written again.  It is assumed to be already written into the Gedcom file.</summary>
 		/// <param name="file">Specifies the gedcom file to write the media references into. </param>
-		/// <param name="personIndex">Specifies the ID of person to write the media references for.</param>
-        /// <param name="primaryIndex">Specifies the ID of the primary media reference for this person.</param>
+		/// <param name="personIdx">Specifies the ID of person to write the media references for.</param>
+        /// <param name="primaryIdx">Specifies the ID of the primary media reference for this person.</param>
 		/// <returns>True for success, false otherwise.</returns>
-        public bool gedcomWritePersonMedia(StreamWriter file, int personIndex, int primaryIndex)
+        public bool gedcomWritePersonMedia(StreamWriter file, int personIdx, int primaryIdx)
         {
             // Write the primary media first
-            if (primaryIndex != 0)
+            if (primaryIdx != 0)
             {
-                file.WriteLine("1 OBJE @M" + primaryIndex.ToString("0000") + "@");
+                file.WriteLine("1 OBJE @M" + primaryIdx.ToString("0000") + "@");
             }
 
             // Now write any additional media objects do not repeat the primary media
-            string sql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIndex.ToString() + ";";
+            string sql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIdx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int mediaIndex = getInt(dataReader, "MediaID", 0);
-                if (mediaIndex != 0 && mediaIndex != primaryIndex)
+                int mediaIdx = getInt(dataReader, "MediaID", 0);
+                if (mediaIdx != 0 && mediaIdx != primaryIdx)
                 {
-                    file.WriteLine("1 OBJE @M" + mediaIndex.ToString("0000") + "@");
+                    file.WriteLine("1 OBJE @M" + mediaIdx.ToString("0000") + "@");
                 }
             }
             dataReader.Close();
@@ -514,8 +514,8 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int index = Database.getInt(dataReader, "ID", 0);
-                file.WriteLine("0 @M" + index.ToString("0000") + "@ OBJE");
+                int idx = Database.getInt(dataReader, "ID", 0);
+                file.WriteLine("0 @M" + idx.ToString("0000") + "@ OBJE");
                 string fileName = Database.getString(dataReader, "Filename", "Undefined");
                 file.WriteLine("1 FILE Media/" + fileName);
                 file.WriteLine("2 FORM " + fileName.Substring(fileName.Length - 3));
@@ -572,8 +572,8 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int index = getInt(dataReader, "ID", 0);
-                file.WriteLine("0 @R" + index.ToString("0000") + "@ REPO");
+                int idx = getInt(dataReader, "ID", 0);
+                file.WriteLine("0 @R" + idx.ToString("0000") + "@ REPO");
                 string name = getString(dataReader, "Name", "");
                 file.WriteLine("1 NAME " + name);
                 string address = getString(dataReader, "Address", "");
@@ -607,8 +607,8 @@ namespace family_tree.objects
             {
                 if (GetBool(dataReader, "Gedcom", true) || options.isAllElements)
                 {
-                    int index = dataReader.GetInt32(0);
-                    file.WriteLine("0 @S" + index.ToString("0000") + "@ SOUR");
+                    int idx = dataReader.GetInt32(0);
+                    file.WriteLine("0 @S" + idx.ToString("0000") + "@ SOUR");
                     string name = dataReader.GetString(1);
                     file.WriteLine("1 TITL " + name);
                     if (!dataReader.IsDBNull(2))
@@ -625,16 +625,16 @@ namespace family_tree.objects
                         switch (dataReader.GetInt32(5))
                         {
                         case 1: // Birth Certifcate.
-                            sourceBirthCertificate(file, index);
+                            sourceBirthCertificate(file, idx);
                             break;
                         case 2: // Marriage Certifcate.
-                            sourceMarriageCertificate(file, index, options);
+                            sourceMarriageCertificate(file, idx, options);
                             break;
                         case 3: // Death Certificate.
-                            sourceDeathCertificate(file, index);
+                            sourceDeathCertificate(file, idx);
                             break;
                         case 4: // Census Information.
-                            sourceCensusInfo(file, index, options);
+                            sourceCensusInfo(file, idx, options);
                             break;
                         }
                     }
@@ -646,10 +646,10 @@ namespace family_tree.objects
                     }
 
                     // The repository for this source.
-                    int repositoryIndex = Database.getInt(dataReader, "RepositoryID", 0);
-                    if (repositoryIndex > 0)
+                    int repositoryIdx = Database.getInt(dataReader, "RepositoryID", 0);
+                    if (repositoryIdx > 0)
                     {
-                        file.WriteLine("1 REPO @R" + repositoryIndex.ToString("0000") + "@");
+                        file.WriteLine("1 REPO @R" + repositoryIdx.ToString("0000") + "@");
                     }
 
                     // Last Edit.
@@ -679,15 +679,15 @@ namespace family_tree.objects
 
         /// <summary>Write the additional birth certificate information for a source.</summary>
         /// <param name="file">Specifies the file to write the information into.</param>
-        /// <param name="index">Specifies the ID of the birth certificate (and the parent source record).</param>
-        private void sourceBirthCertificate(StreamWriter file, int index)
+        /// <param name="idx">Specifies the ID of the birth certificate (and the parent source record).</param>
+        private void sourceBirthCertificate(StreamWriter file, int idx)
         {
             // Connect to the database again (to open a second datareader).
             OleDbConnection cnDb = new OleDbConnection(cndb_.ConnectionString);
             cnDb.Open();
 
             // Create a birth certificate object.
-            BirthCertificate birth = new BirthCertificate(index, cnDb);
+            BirthCertificate birth = new BirthCertificate(idx, cnDb);
 
             // Close the database
             cnDb.Close();
@@ -707,15 +707,15 @@ namespace family_tree.objects
 
         /// <summary>Write the additional marriage certificate information for a source.</summary>
 		/// <param name="file">Specifies the file to write the information into.</param>
-		/// <param name="sourceIndex">Specifies the ID of the marriage certificate (and the parent source record).</param>
-        private void sourceMarriageCertificate(StreamWriter file, int sourceIndex, GedcomOptions options)
+		/// <param name="sourceIdx">Specifies the ID of the marriage certificate (and the parent source record).</param>
+        private void sourceMarriageCertificate(StreamWriter file, int sourceIdx, GedcomOptions options)
         {
             // Connect to the database again (to open a second datareader).
             OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
             cndb.Open();
 
             // Create a Marriage Certificate object.
-            MarriageCertificate marriageCertificate = new MarriageCertificate(sourceIndex, cndb);
+            MarriageCertificate marriageCertificate = new MarriageCertificate(sourceIdx, cndb);
 
             // Close the database.
             cndb.Close();
@@ -752,15 +752,15 @@ namespace family_tree.objects
 
         /// <summary>Write the additional death certificate information for a source.</summary>
 		/// <param name="file">Specifies the file to write the information into.</param>
-		/// <param name="index">Specifies the ID of the marriage certificate (and the parent source record).</param>
-        private void sourceDeathCertificate(StreamWriter file, int index)
+		/// <param name="idx">Specifies the ID of the marriage certificate (and the parent source record).</param>
+        private void sourceDeathCertificate(StreamWriter file, int idx)
         {
             // Connect to the database again (to open a second datareader).
             OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
             cndb.Open();
 
             // Create a Marriage Certificate object.
-            DeathCertificate deathCertificate = new DeathCertificate(index, cndb);
+            DeathCertificate deathCertificate = new DeathCertificate(idx, cndb);
 
             // Close the database.
             cndb.Close();
@@ -784,15 +784,15 @@ namespace family_tree.objects
 
         /// <summary>Write the additional census information for the source.</summary>
 		/// <param name="file">Specifies the Gedcom file to write the additional information into.</param>
-		/// <param name="censusHouseholdIndex">Specifies the additional census information to use.</param>
-        private void sourceCensusInfo(StreamWriter file, int censusHouseholdIndex, GedcomOptions options)
+		/// <param name="censusHouseholdIdx">Specifies the additional census information to use.</param>
+        private void sourceCensusInfo(StreamWriter file, int censusHouseholdIdx, GedcomOptions options)
         {
             // Connect to the database again (to open a second datareader)
             OleDbConnection cndb = new OleDbConnection(cndb_.ConnectionString);
             cndb.Open();
 
             // Write the information from the census header.
-            string sql = "SELECT Address, Series, Piece, Folio, Page FROM tbl_CensusHouseholds WHERE ID = " + censusHouseholdIndex.ToString() + ";";
+            string sql = "SELECT Address, Series, Piece, Folio, Page FROM tbl_CensusHouseholds WHERE ID = " + censusHouseholdIdx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             string sqlAddress = "";
@@ -812,7 +812,7 @@ namespace family_tree.objects
                 gedcomLongNote(file, 1, "NOTE", "GRID: Reference: " + reference);
 
                 // Write the information about the members of this census record.
-                sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation, PersonID FROM tbl_CensusPeople WHERE HouseHoldID = " + censusHouseholdIndex.ToString() + " ORDER BY ID;";
+                sql = "SELECT NameGiven, Age, RelationToHead, Occupation, BornLocation, PersonID FROM tbl_CensusPeople WHERE HouseHoldID = " + censusHouseholdIdx.ToString() + " ORDER BY ID;";
                 sqlCommand = new OleDbCommand(sql, cndb);
                 dataReader = sqlCommand.ExecuteReader();
                 while (dataReader.Read())
@@ -823,10 +823,10 @@ namespace family_tree.objects
                     string occupation = getString(dataReader, "Occupation", "");
                     string born = getString(dataReader, "BornLocation", "");
                     string actualPerson = "";
-                    int actualPersonIndex = getInt(dataReader, "PersonID", 0);
-                    if (actualPersonIndex != 0)
+                    int actualPersonIdx = getInt(dataReader, "PersonID", 0);
+                    if (actualPersonIdx != 0)
                     {
-                        actualPerson = "I" + actualPersonIndex.ToString("0000");
+                        actualPerson = "I" + actualPersonIdx.ToString("0000");
                     }
 
                     StringBuilder member = new StringBuilder();
@@ -948,9 +948,9 @@ namespace family_tree.objects
 
 
 
-        /// <summary>Returns an array of IndexName objects that represent the available additional information types for sources.  This is intended to populate a combo box.</summary>
+        /// <summary>Returns an array of IdxName objects that represent the available additional information types for sources.  This is intended to populate a combo box.</summary>
 		/// <returns>An array of clsIDName objects that represent the available additonal information types.</returns>
-		public IndexName[] getSourceAdditionalTypes()
+		public IdxName[] getSourceAdditionalTypes()
         {
             // Build a list of additional information types.
             ArrayList types = new ArrayList();
@@ -961,13 +961,13 @@ namespace family_tree.objects
             while (dataReader.Read())
             {
 
-                IndexName type = new IndexName(dataReader.GetInt32(0), dataReader.GetString(1));
+                IdxName type = new IdxName(dataReader.GetInt32(0), dataReader.GetString(1));
                 types.Add(type);
             }
             dataReader.Close();
 
             // Get the list of fact types.
-            return (IndexName[])(types.ToArray(typeof(IndexName)));
+            return (IdxName[])(types.ToArray(typeof(IdxName)));
         }
 
 
@@ -995,9 +995,9 @@ namespace family_tree.objects
 
 
         /// <summary>Returns a clsFactType object with the specified ID or null if no matching object can be found.</summary>
-        /// <param name="index">Specifies the ID of the fact type object required.</param>
+        /// <param name="idx">Specifies the ID of the fact type object required.</param>
         /// <returns>A clsFactType object or null.</returns>
-        public FactType getFactType(int index)
+        public FactType getFactType(int idx)
         {
             // Open the fact types (if required).
             if (factTypes_ == null)
@@ -1008,7 +1008,7 @@ namespace family_tree.objects
             // Return a matching fact type (if possible).
             for (int i = 0; i < factTypes_.Length; i++)
             {
-                if (factTypes_[i].index == index)
+                if (factTypes_[i].index == idx)
                 {
                     return factTypes_[i];
                 }
@@ -1055,7 +1055,7 @@ namespace family_tree.objects
         /// <summary>Return all the households in the specified year.  This is intended to populate combo box etc...</summary>
         /// <param name="theYear">Specify the year to return the households of.</param>
         /// <returns>An array of ID and names of house records.</returns>
-        public IndexName[] cenusGetHouseholds(int theYear)
+        public IdxName[] cenusGetHouseholds(int theYear)
         {
             // Build a list of relivant facts.
             ArrayList houseHolds = new ArrayList();
@@ -1065,25 +1065,25 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                IndexName houseHold = new IndexName(dataReader.GetInt32(0), dataReader.GetString(1));
+                IdxName houseHold = new IdxName(dataReader.GetInt32(0), dataReader.GetString(1));
                 houseHolds.Add(houseHold);
             }
             dataReader.Close();
 
             // Return the households found.
-            return (IndexName[])houseHolds.ToArray(typeof(IndexName));
+            return (IdxName[])houseHolds.ToArray(typeof(IdxName));
         }
 
 
 
         /// <summary>Returns an array CensusPerson objects representing the member of the specified census household.</summary>
-        /// <param name="houseHoldIndex">Specifies the ID of the census household.</param>
+        /// <param name="houseHoldIdx">Specifies the ID of the census household.</param>
         /// <returns>An array of CensusPerson objects representing the members of the specified census household.</returns>
-        public CensusPerson[] censusHouseholdMembers(int houseHoldIndex)
+        public CensusPerson[] censusHouseholdMembers(int houseHoldIdx)
         {
             string sql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
                 "FROM (tbl_CensusPeople LEFT JOIN tbl_People ON tbl_CensusPeople.PersonID = tbl_People.ID) INNER JOIN tbl_CensusHouseholds ON tbl_CensusPeople.HouseHoldID = tbl_CensusHouseholds.ID " +
-                "WHERE (((tbl_CensusPeople.HouseHoldID)=" + houseHoldIndex.ToString() + ")) " +
+                "WHERE (((tbl_CensusPeople.HouseHoldID)=" + houseHoldIdx.ToString() + ")) " +
                 "ORDER BY tbl_CensusPeople.ID;";
             return censusGetRecords(sql);
         }
@@ -1103,11 +1103,11 @@ namespace family_tree.objects
             while (dataReader.Read())
             {
                 CensusPerson censusPerson = new CensusPerson();
-                censusPerson.index = dataReader.GetInt32(0);
-                censusPerson.houseHoldIndex = dataReader.GetInt32(1);
+                censusPerson.idx = dataReader.GetInt32(0);
+                censusPerson.houseHoldIdx = dataReader.GetInt32(1);
                 if (!dataReader.IsDBNull(2))
                 {
-                    censusPerson.personIndex = dataReader.GetInt32(2);
+                    censusPerson.personIdx = dataReader.GetInt32(2);
                 }
                 if (!dataReader.IsDBNull(3))
                 {
@@ -1166,23 +1166,23 @@ namespace family_tree.objects
             // Delete this person if required.
             if (!censusPerson.isValid())
             {
-                if (censusPerson.index != 0)
+                if (censusPerson.idx != 0)
                 {
-                    OleDbCommand sqlCommand = new OleDbCommand("DELETE FROM tbl_CensusPeople WHERE ID = " + censusPerson.index.ToString() + ";", cndb_);
+                    OleDbCommand sqlCommand = new OleDbCommand("DELETE FROM tbl_CensusPeople WHERE ID = " + censusPerson.idx.ToString() + ";", cndb_);
                     sqlCommand.ExecuteNonQuery();
                 }
                 return true;
             }
 
             // Create a new record if required.
-            if (censusPerson.index == 0)
+            if (censusPerson.idx == 0)
             {
                 string sql = "SELECT MAX(ID) AS MaxID FROM tbl_CensusPeople;";
                 OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
-                censusPerson.index = int.Parse(sqlCommand.ExecuteScalar().ToString()) + 1;
+                censusPerson.idx = int.Parse(sqlCommand.ExecuteScalar().ToString()) + 1;
 
                 // Create a new record.
-                sql = "INSERT INTO tbl_CensusPeople (ID, HouseholdID) VALUES (" + censusPerson.index.ToString() + ", " + censusPerson.houseHoldIndex.ToString() + ");";
+                sql = "INSERT INTO tbl_CensusPeople (ID, HouseholdID) VALUES (" + censusPerson.idx.ToString() + ", " + censusPerson.houseHoldIdx.ToString() + ");";
                 sqlCommand = new OleDbCommand(sql, cndb_);
                 sqlCommand.ExecuteNonQuery();
             }
@@ -1190,7 +1190,7 @@ namespace family_tree.objects
             // Update the record.
             StringBuilder updateSql = new StringBuilder();
             updateSql.Append("UPDATE tbl_CensusPeople SET ");
-            updateSql.Append("PersonID=" + censusPerson.personIndex.ToString() + ", ");
+            updateSql.Append("PersonID=" + censusPerson.personIdx.ToString() + ", ");
             updateSql.Append("NameGiven=" + toDb(censusPerson.censusName) + ", ");
             updateSql.Append("RelationToHead=" + toDb(censusPerson.relationToHead) + ", ");
             updateSql.Append("Age=" + toDb(censusPerson.age) + ", ");
@@ -1199,16 +1199,16 @@ namespace family_tree.objects
             updateSql.Append("DATE_OF_BIRTH = " + toDb(censusPerson.dateOfBirth) + ", ");
             updateSql.Append("SEX = " + toDb(censusPerson.sex) + ", ");
             updateSql.Append("MARITAL_STATUS = " + toDb(censusPerson.maritalStatus) + " ");
-            updateSql.Append("WHERE ID=" + censusPerson.index.ToString() + ";");
+            updateSql.Append("WHERE ID=" + censusPerson.idx.ToString() + ";");
             OleDbCommand updateCommand = new OleDbCommand(updateSql.ToString(), cndb_);
             updateCommand.ExecuteNonQuery();
 
             // Add a reference to the place.
             {
-                Census census = new Census(censusPerson.houseHoldIndex, this);
+                Census census = new Census(censusPerson.houseHoldIdx, this);
                 string address = census.address;
                 Place place = this.getPlace(address);
-                string sql = "INSERT INTO tbl_ToPlaces (PlaceID, TypeID, ObjectID) VALUES (" + place.index.ToString() + ", 1, " + censusPerson.personIndex.ToString() + ");";
+                string sql = "INSERT INTO tbl_ToPlaces (PlaceID, TypeID, ObjectID) VALUES (" + place.idx.ToString() + ", 1, " + censusPerson.personIdx.ToString() + ");";
                 OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
                 try
                 {
@@ -1228,13 +1228,13 @@ namespace family_tree.objects
 
 
         /// <summary>Returns an array of census records that contain the specified person.</summary>
-        /// <param name="personIndex"></param>
+        /// <param name="personIdx"></param>
         /// <returns></returns>
-        public CensusPerson[] censusForPerson(int personIndex)
+        public CensusPerson[] censusForPerson(int personIdx)
         {
             string sSql = "SELECT tbl_CensusPeople.*, tbl_People.Forenames+' '+ Iif(IsNull(tbl_People.MaidenName),tbl_People.Surname, tbl_People.MaidenName) AS Name, tbl_CensusHouseholds.Address, tbl_CensusHouseholds.CensusDate " +
                 "FROM (tbl_CensusPeople LEFT JOIN tbl_People ON tbl_CensusPeople.PersonID = tbl_People.ID) INNER JOIN tbl_CensusHouseholds ON tbl_CensusPeople.HouseHoldID = tbl_CensusHouseholds.ID " +
-                "WHERE tbl_CensusPeople.PersonID=" + personIndex.ToString() + " " +
+                "WHERE tbl_CensusPeople.PersonID=" + personIdx.ToString() + " " +
                 "ORDER BY tbl_CensusHouseholds.CensusDate;";
             return censusGetRecords(sSql);
         }
@@ -1247,7 +1247,7 @@ namespace family_tree.objects
         public string censusLivingWith(CensusPerson censusPerson)
         {
             StringBuilder livingWith = new StringBuilder();
-            string sql = "SELECT NameGiven, Age FROM tbl_CensusPeople WHERE HouseHoldID=" + censusPerson.houseHoldIndex.ToString() + " AND PersonID<>" + censusPerson.personIndex.ToString() + " ORDER BY tbl_CensusPeople.ID;";
+            string sql = "SELECT NameGiven, Age FROM tbl_CensusPeople WHERE HouseHoldID=" + censusPerson.houseHoldIdx.ToString() + " AND PersonID<>" + censusPerson.personIdx.ToString() + " ORDER BY tbl_CensusPeople.ID;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
@@ -1302,9 +1302,9 @@ namespace family_tree.objects
 
         /// <summary>Returns the place object with the specified compound name under the specified parent.</summary>
         /// <param name="placeName">Specifies the compound name of the place.</param>
-        /// <param name="parentIndex">Specifies the index of the parent place of the compound name.</param>
+        /// <param name="parentIdx">Specifies the index of the parent place of the compound name.</param>
         /// <returns>The place object or null.</returns>
-        private Place getPlace(string placeName, int parentIndex)
+        private Place getPlace(string placeName, int parentIdx)
         {
             // Get the head and tail.
             string head = placeName.Trim();
@@ -1317,8 +1317,8 @@ namespace family_tree.objects
             }
 
             // Get the ID of this place.
-            int placeIndex = getPlaceIndex(head, parentIndex);
-            if (placeIndex == 0)
+            int placeIdx = getPlaceIdx(head, parentIdx);
+            if (placeIdx == 0)
             {
                 return null;
             }
@@ -1326,11 +1326,11 @@ namespace family_tree.objects
             // Return this place if at the end of the string.
             if (tail == string.Empty)
             {
-                return new Place(placeIndex, this);
+                return new Place(placeIdx, this);
             }
 
             // Search further down the string.
-            return getPlace(tail, placeIndex);
+            return getPlace(tail, placeIdx);
         }
 
 
@@ -1347,50 +1347,50 @@ namespace family_tree.objects
 
         /// <summary>Returns the ID of the required place.  Returns 0 if the required place does not exist.</summary>
         /// <param name="placeName">Specifies the name of the place.  This is not the compound name with , characters.</param>
-        /// <param name="parentIndex">Specifies the parent of the place.</param>
+        /// <param name="parentIdx">Specifies the parent of the place.</param>
         /// <returns>The ID of the requested place.  0 if no matching place can be found.</returns>
-        private int getPlaceIndex(string placeName, int parentIndex)
+        private int getPlaceIdx(string placeName, int parentIdx)
         {
             // Clean the place name.
             placeName = cleanPlaceName(placeName);
 
             // Look for this place in the database.
-            string sql = "SELECT ID FROM tbl_Places WHERE Name = " + walton.Database.toDb(placeName) + " AND ParentID = " + parentIndex.ToString() + ";";
+            string sql = "SELECT ID FROM tbl_Places WHERE Name = " + walton.Database.toDb(placeName) + " AND ParentID = " + parentIdx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
-            int placeIndex = 0;
+            int placeIdx = 0;
             try
             {
-                placeIndex = int.Parse(sqlCommand.ExecuteScalar().ToString());
+                placeIdx = int.Parse(sqlCommand.ExecuteScalar().ToString());
             }
             catch { }
 
             // Return the ID found.
-            return placeIndex;
+            return placeIdx;
         }
 
 
 
         /// <summary>Adds a compound place to the database.  This might result in a number of place records in the tbl_Places table.  It will create a link from the reference object to add the related tbl_Places records.</summary>
         /// <param name="placeName">Specifies the compound place separated by , and starting at the top level.</param>
-        /// <param name="objectTypeIndex">Specifies the type of object that created this compound place.</param>
-        /// <param name="objectIndex">Specifies the ID of the reference object.</param>
+        /// <param name="objectTypeIdx">Specifies the type of object that created this compound place.</param>
+        /// <param name="objectIdx">Specifies the ID of the reference object.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool addPlace(string placeName, int objectTypeIndex, int objectIndex)
+        public bool addPlace(string placeName, int objectTypeIdx, int objectIdx)
         {
             // Add this place and link to the specified object.
-            return addPlace(placeName, objectTypeIndex, objectIndex, 0, 0);
+            return addPlace(placeName, objectTypeIdx, objectIdx, 0, 0);
         }
 
 
 
         /// <summary>Adds a compound place to the database.  This results in a number of place records in the tbl_Places table.</summary>
         /// <param name="placeName">Specifies the compound place separated by , but not nessercary starting with the top level.</param>
-        /// <param name="objectTypeIndex">Specifies the type of object that created this compound place.</param>
-        /// <param name="objectIndex">Specifies the ID of the reference object.</param>
-        /// <param name="parentIndex">Specifies the ID of the place that is the parent above the compound place string.</param>
+        /// <param name="objectTypeIdx">Specifies the type of object that created this compound place.</param>
+        /// <param name="objectIdx">Specifies the ID of the reference object.</param>
+        /// <param name="parentIdx">Specifies the ID of the place that is the parent above the compound place string.</param>
         /// <param name="level">Specifies the level from the top level.</param>
         /// <returns></returns>
-        private bool addPlace(string placeName, int objectTypeIndex, int objectIndex, int parentIndex, int level)
+        private bool addPlace(string placeName, int objectTypeIdx, int objectIdx, int parentIdx, int level)
         {
             // Validate the inputs.
             if (placeName == null)
@@ -1409,16 +1409,16 @@ namespace family_tree.objects
             }
 
             // Get the ID of this place.
-            int placeIndex = getPlaceIndex(head, parentIndex);
+            int placeIdx = getPlaceIdx(head, parentIdx);
 
             // Add this place (if required).
-            if (placeIndex == 0)
+            if (placeIdx == 0)
             {
-                placeIndex = addPlace(parentIndex, head);
+                placeIdx = addPlace(parentIdx, head);
             }
 
             // Link the object to this place.
-            string sql = "INSERT INTO tbl_ToPlaces (PlaceID, TypeID, ObjectID) VALUES(" + placeIndex.ToString() + ", " + objectTypeIndex.ToString() + ", " + objectIndex.ToString() + ");";
+            string sql = "INSERT INTO tbl_ToPlaces (PlaceID, TypeID, ObjectID) VALUES(" + placeIdx.ToString() + ", " + objectTypeIdx.ToString() + ", " + objectIdx.ToString() + ");";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             try
             {
@@ -1429,7 +1429,7 @@ namespace family_tree.objects
             // Deal with the tail if any.
             if (tail != "")
             {
-                addPlace(tail, objectTypeIndex, objectIndex, placeIndex, level + 1);
+                addPlace(tail, objectTypeIdx, objectIdx, placeIdx, level + 1);
             }
 
             // Return success.
@@ -1439,41 +1439,41 @@ namespace family_tree.objects
 
 
         /// <summary>Add the specified place to the database.</summary>
-        /// <param name="parentIndex">Specifies the ID of the parent place.</param>
+        /// <param name="parentIdx">Specifies the ID of the parent place.</param>
         /// <param name="placeName">Specifies the name of the place.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private int addPlace(int parentIndex, string placeName)
+        private int addPlace(int parentIdx, string placeName)
         {
             // Find the ID of the next available place record.
             string sql = "SELECT MAX(ID) AS NewID FROM tbl_Places;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
-            int placeIndex = 0;
+            int placeIdx = 0;
             try
             {
-                placeIndex = int.Parse(sqlCommand.ExecuteScalar().ToString());
+                placeIdx = int.Parse(sqlCommand.ExecuteScalar().ToString());
             }
             catch { }
-            placeIndex++;
+            placeIdx++;
 
             // Clean the name.
             placeName = cleanPlaceName(placeName);
 
             // Insert the new place.
-            sql = "INSERT INTO tbl_Places (ID, Name, ParentID, Status) VALUES (" + placeIndex.ToString() + ", \"" + placeName + "\", " + parentIndex.ToString() + ", 0);";
+            sql = "INSERT INTO tbl_Places (ID, Name, ParentID, Status) VALUES (" + placeIdx.ToString() + ", \"" + placeName + "\", " + parentIdx.ToString() + ", 0);";
             sqlCommand = new OleDbCommand(sql, cndb_);
             sqlCommand.ExecuteNonQuery();
 
             // Return the ID of this new place.
-            return placeIndex;
+            return placeIdx;
         }
 
 
 
         /// <summary>Returns the specified compound place string in html format.  Each place in the compound place with have a html link.</summary>
         /// <param name="placeName">Specifies the compound place string.</param>
-        /// <param name="parentIndex">Specifies the ID of the place above the compound place string.</param>
+        /// <param name="parentIdx">Specifies the ID of the place above the compound place string.</param>
         /// <returns>A html string to represent the specified compound place.</returns>
-        private string placeToHtml(string placeName, int parentIndex)
+        private string placeToHtml(string placeName, int parentIdx)
         {
             // Get the head and tail.
             string head = placeName.Trim();
@@ -1486,10 +1486,10 @@ namespace family_tree.objects
             }
 
             // Get the ID of this place.
-            int placeIndex = getPlaceIndex(head, parentIndex);
+            int placeIdx = getPlaceIdx(head, parentIdx);
 
             // Can not encode this place.
-            if (placeIndex == 0)
+            if (placeIdx == 0)
             {
                 if (tail == "")
                 {
@@ -1499,12 +1499,12 @@ namespace family_tree.objects
             }
 
             // Encode this place into linked html.
-            string placeHtml = "<a href=\"place:" + placeIndex.ToString() + "\">" + head + "</a>";
+            string placeHtml = "<a href=\"place:" + placeIdx.ToString() + "\">" + head + "</a>";
 
             // Deal with the tail.
             if (tail != "")
             {
-                return placeToHtml(tail, placeIndex) + ", " + placeHtml;
+                return placeToHtml(tail, placeIdx) + ", " + placeHtml;
             }
 
             // Return the place in html format.
@@ -1526,9 +1526,9 @@ namespace family_tree.objects
         /// <summary>Returns the specified compound place string in Gedcom format.  The full compound place will not be returned.  The portion of the compound place will depend if a place record or an address record is required.</summary>
         /// <param name="placeName">Specifies the compound location string.</param>
         /// <param name="status">Specify 0 to use the place in a PLAC record.  Specify 1 to use the place in an ADDR record.</param>
-        /// <param name="parentIndex">Specifies the ID parent place above the compound location string.</param>
+        /// <param name="parentIdx">Specifies the ID parent place above the compound location string.</param>
         /// <returns>A string to represent the place in a gedcom file.</returns>
-        private string placeToGedcom(string placeName, int status, int parentIndex)
+        private string placeToGedcom(string placeName, int status, int parentIdx)
         {
             // Get the head and tail.
             string head = placeName.Trim();
@@ -1541,16 +1541,16 @@ namespace family_tree.objects
             }
 
             // Get the ID of this place.
-            int placeIndex = getPlaceIndex(head, parentIndex);
+            int placeIdx = getPlaceIdx(head, parentIdx);
 
             // Can not encode this place.
-            if (placeIndex == 0)
+            if (placeIdx == 0)
             {
                 return "";
             }
 
             // Get the status of this place.
-            string sql = "SELECT Status FROM tbl_Places WHERE ID = " + placeIndex.ToString() + ";";
+            string sql = "SELECT Status FROM tbl_Places WHERE ID = " + placeIdx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             int placeStatus = 0;
             try
@@ -1562,7 +1562,7 @@ namespace family_tree.objects
             // Deal with the tail.
             if (tail != "")
             {
-                tail = placeToGedcom(tail, status, placeIndex);
+                tail = placeToGedcom(tail, status, placeIdx);
             }
 
             // If the status is correct then return the head.
@@ -1681,10 +1681,10 @@ namespace family_tree.objects
 
             if (options.isAllElements && sources != null)
             {
-                int[] indexes = sources.get();
-                foreach (int index in indexes)
+                int[] idxs = sources.get();
+                foreach (int idx in idxs)
                 {
-                    file.WriteLine((level + 1).ToString() + " SOUR @S" + index.ToString("0000") + "@");
+                    file.WriteLine((level + 1).ToString() + " SOUR @S" + idx.ToString("0000") + "@");
                 }
             }
 
@@ -1695,11 +1695,11 @@ namespace family_tree.objects
 
 
         /// <summary>Removes all the place links for the specified object.</summary>
-        /// <param name="objectTypeIndex">Specifies the type of object.</param>
-        /// <param name="objectIndex">Specifies the ID of the object.</param>
-        public void placeDelink(int objectTypeIndex, int objectIndex)
+        /// <param name="objectTypeIdx">Specifies the type of object.</param>
+        /// <param name="objectIdx">Specifies the ID of the object.</param>
+        public void placeDelink(int objectTypeIdx, int objectIdx)
         {
-            string sql = "DELETE FROM tbl_ToPlaces WHERE TypeID = " + objectTypeIndex.ToString() + " AND ObjectID = " + objectIndex.ToString() + ";";
+            string sql = "DELETE FROM tbl_ToPlaces WHERE TypeID = " + objectTypeIdx.ToString() + " AND ObjectID = " + objectIdx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             try
             {
@@ -1728,9 +1728,9 @@ namespace family_tree.objects
             dataReader.Close();
 
             // Delete the places.
-            foreach (int placeIndex in placesDelete)
+            foreach (int placeIdx in placesDelete)
             {
-                sql = "DELETE FROM tbl_Places WHERE ID = " + placeIndex.ToString() + ";";
+                sql = "DELETE FROM tbl_Places WHERE ID = " + placeIdx.ToString() + ";";
                 sqlCommand = new OleDbCommand(sql, cndb_);
                 sqlCommand.ExecuteNonQuery();
             }
@@ -1741,13 +1741,13 @@ namespace family_tree.objects
 
 
 
-        public Place[] getPlaces(int placeIndex)
+        public Place[] getPlaces(int placeIdx)
         {
             // Build a list to contain the places.
             ArrayList places = new ArrayList();
 
             // Build the list of child places.
-            string sql = "SELECT * FROM tbl_Places WHERE ParentID = " + placeIndex.ToString() + " ORDER BY Name;";
+            string sql = "SELECT * FROM tbl_Places WHERE ParentID = " + placeIdx.ToString() + " ORDER BY Name;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb_);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
@@ -1805,10 +1805,10 @@ namespace family_tree.objects
             {
                 html.Append("<tr bgcolor=\"silver\">");
                 html.Append("<td><span class=\"Small\">");
-                int nPersonID = getInt(dataReader, "PersonID", 0);
-                html.Append("<a href=\"person:" + nPersonID.ToString() + "\">");
-                Person oPerson = new Person(nPersonID, this);
-                html.Append(oPerson.getName(true, true));
+                int personIdx = getInt(dataReader, "PersonID", 0);
+                html.Append("<a href=\"person:" + personIdx.ToString() + "\">");
+                Person person = new Person(personIdx, this);
+                html.Append(person.getName(true, true));
                 html.Append("</a>");
                 html.Append("</span></td>");
                 //sbHtml.Append("<td><span class=\"Small\">" + GetInt(drChanges,"Priority",0).ToString() + "</span></td>");

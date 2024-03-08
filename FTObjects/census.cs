@@ -13,7 +13,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>The ID of the census record.  This should match with the ID the parent source.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>The source database for this census record.</summary>
         private Database database_;
@@ -43,25 +43,25 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor.  Can not have an empty constructor since these must always be attached to a source object.</summary>
-        /// <param name="index">Specifies the ID of the parent source record and hence the ID of this census object.</param>
-        public Census(int index)
+        /// <param name="idx">Specifies the ID of the parent source record and hence the ID of this census object.</param>
+        public Census(int idx)
         {
-            index_ = index;
+            idx_ = idx;
             database_ = null;
         }
 
 
 
         /// <summary>Class constructor where the current data is loaded from the specified database.</summary>
-        /// <param name="index">Specifies the ID of the parent source record and hence the ID of this census object.</param>
+        /// <param name="idx">Specifies the ID of the parent source record and hence the ID of this census object.</param>
         /// <param name="database">Specifies the database to load the information from.</param>
-        public Census(int index, Database database) : this(index)
+        public Census(int idx, Database database) : this(idx)
         {
             database_ = database;
 
-            if (index_ != 0)
+            if (idx_ != 0)
             {
-                string sql = "SELECT CensusDate, Address, Series, Piece, Folio, Page FROM tbl_CensusHouseholds WHERE ID = " + index_.ToString() + ";";
+                string sql = "SELECT CensusDate, Address, Series, Piece, Folio, Page FROM tbl_CensusHouseholds WHERE ID = " + idx_.ToString() + ";";
                 OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
                 OleDbDataReader dataReader = sqlCommand.ExecuteReader();
                 if (dataReader.Read())
@@ -91,18 +91,18 @@ namespace family_tree.objects
         public bool save(Database database)
         {
             // Validate the ID.
-            if (index_ == 0)
+            if (idx_ == 0)
             {
                 return false;
             }
 
             // Write the record into the database.
-            string sql = "UPDATE tbl_CensusHouseholds SET CensusDate = #" + censusDate.ToString("d-MMM-yyyy") + "#, Address = '" + address + "', " + "Series = " + walton.Database.toDb(series) + "," + "Piece = " + walton.Database.toDb(piece) + "," + "Folio = " + walton.Database.toDb(folio) + "," + "Page = " + walton.Database.toDb(page) + " " + "WHERE ID = " + index_.ToString() + ";";
+            string sql = "UPDATE tbl_CensusHouseholds SET CensusDate = #" + censusDate.ToString("d-MMM-yyyy") + "#, Address = '" + address + "', " + "Series = " + walton.Database.toDb(series) + "," + "Piece = " + walton.Database.toDb(piece) + "," + "Folio = " + walton.Database.toDb(folio) + "," + "Page = " + walton.Database.toDb(page) + " " + "WHERE ID = " + idx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             int numRows = sqlCommand.ExecuteNonQuery();
             if (numRows == 0)
             {
-                sql = "INSERT INTO tbl_CensusHouseholds (ID, CensusDate, Address, Series, Piece, Folio, Page) VALUES (" + index_.ToString() + ", #" + censusDate.ToString("d-MMM-yyyy") + "#, '" + address + "', " + walton.Database.toDb(series) + ", " + walton.Database.toDb(piece) + ", " + walton.Database.toDb(folio) + ", " + walton.Database.toDb(page) + ");";
+                sql = "INSERT INTO tbl_CensusHouseholds (ID, CensusDate, Address, Series, Piece, Folio, Page) VALUES (" + idx_.ToString() + ", #" + censusDate.ToString("d-MMM-yyyy") + "#, '" + address + "', " + walton.Database.toDb(series) + ", " + walton.Database.toDb(piece) + ", " + walton.Database.toDb(folio) + ", " + walton.Database.toDb(page) + ");";
                 sqlCommand = new OleDbCommand(sql, database.cndb);
                 sqlCommand.ExecuteNonQuery();
             }
@@ -110,7 +110,7 @@ namespace family_tree.objects
             // Add the place (and links to this source) to the database.
             if (address != "")
             {
-                database.addPlace(address, 2, index_);
+                database.addPlace(address, 2, idx_);
             }
 
             // Return success.
@@ -180,12 +180,12 @@ namespace family_tree.objects
             {
                 html.Append("<tr>");
                 html.Append("<td>");
-                if (member.personIndex > 0)
+                if (member.personIdx > 0)
                 {
-                    html.Append("<a href=\"Person:" + member.personIndex.ToString() + "\">");
+                    html.Append("<a href=\"Person:" + member.personIdx.ToString() + "\">");
                 }
                 html.Append(member.censusName);
-                if (member.personIndex > 0)
+                if (member.personIdx > 0)
                 {
                     html.Append("</a>");
                 }
@@ -305,13 +305,13 @@ namespace family_tree.objects
         /// <returns>A collection of CensusPerson records representing people in the census record.</returns>
         public CensusPerson[] getMembers()
         {
-            return database_.censusHouseholdMembers(index_);
+            return database_.censusHouseholdMembers(idx_);
         }
 
 
 
         /// <summary>The ID of the census record.  This should match with the ID the parent source.</summary>
-        public int index { get { return index_; } set { index_ = value; } }
+        public int idx { get { return idx_; } set { idx_ = value; } }
 
         #endregion
     }

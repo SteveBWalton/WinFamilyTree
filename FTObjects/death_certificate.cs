@@ -13,7 +13,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>The ID of the death certificate record.  This should match with the ID the parent source.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>The registration district as specified on the birth certificate.</summary>
         public string registrationDistrict;
@@ -62,20 +62,20 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor.</summary>
-        /// <param name="index">Specifies the ID of the source record.</param>
-        public DeathCertificate(int index)
+        /// <param name="idx">Specifies the ID of the source record.</param>
+        public DeathCertificate(int idx)
         {
-            index_ = index;
+            idx_ = idx;
         }
 
 
 
         /// <summary>Class constructor that loads the current values from the specified database.</summary>
-        /// <param name="index">Specifies the ID of the parent source record.</param>
+        /// <param name="idx">Specifies the ID of the parent source record.</param>
         /// <param name="cndb">Specifies the database connection to load the information from.</param>
-        public DeathCertificate(int index, OleDbConnection cndb) : this(index)
+        public DeathCertificate(int idx, OleDbConnection cndb) : this(idx)
         {
-            string sql = "SELECT * FROM tbl_DeathCertificates WHERE ID=" + index_.ToString() + ";";
+            string sql = "SELECT * FROM tbl_DeathCertificates WHERE ID=" + idx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
@@ -106,7 +106,7 @@ namespace family_tree.objects
         public bool save(Database database)
         {
             // Validate the ID.
-            if (index_ == 0)
+            if (idx_ == 0)
             {
                 return false;
             }
@@ -127,13 +127,13 @@ namespace family_tree.objects
                 + ", InformantAddress = " + Database.toDb(informantAddress)
                 + ", WhenRegistered = " + Database.toDb(whenRegistered)
                 + ", GroReference = " + Database.toDb(groReference)
-                + " WHERE ID = " + index_.ToString() + ";";
+                + " WHERE ID = " + idx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database.cndb);
             int numRows = sqlCommand.ExecuteNonQuery();
             if (numRows == 0)
             {
                 sql = "INSERT INTO tbl_DeathCertificates (ID, RegistrationDistrict, WhenWhere, Place, Name, Sex, DatePlaceOfBirth, Occupation, UsualAddress, CauseOfDeath, Informant, InformantDescription, InformantAddress, WhenRegistered) VALUES ("
-                    + index_.ToString()
+                    + idx_.ToString()
                     + ", " + Database.toDb(registrationDistrict)
                     + ", " + Database.toDb(when)
                     + ", " + Database.toDb(place)
@@ -218,7 +218,7 @@ namespace family_tree.objects
 
 
         /// <summary>The ID of the birth certificate record.  This should match with the ID the parent source.</summary>
-        public int index { get { return index_; } set { index_ = value; } }
+        public int idx { get { return idx_; } set { idx_ = value; } }
 
     }
 }

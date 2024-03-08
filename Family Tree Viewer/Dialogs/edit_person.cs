@@ -39,7 +39,7 @@ namespace family_tree.viewer
             {
                 cboFactType_.Items.Add(factTypes[i]);
             }
-            IndexName[] sources = database.getSources(family_tree.objects.SortOrder.DATE);
+            IdxName[] sources = database.getSources(family_tree.objects.SortOrder.DATE);
             for (int i = 0; i < sources.Length; i++)
             {
                 cboSources_.Items.Add(sources[i]);
@@ -90,7 +90,7 @@ namespace family_tree.viewer
             }
 
             // Add the possible people to the relationship combo box.
-            IndexName[] possiblePartners = person_.possiblePartners();
+            IdxName[] possiblePartners = person_.possiblePartners();
             for (int i = 0; i < possiblePartners.Length; i++)
             {
                 cboAddPartner_.Items.Add(possiblePartners[i]);
@@ -132,7 +132,7 @@ namespace family_tree.viewer
         /// <returns>The ID of the person on the form.</returns>
         public int getPersonIndex()
         {
-            return person_.index;
+            return person_.idx;
         }
 
 
@@ -399,10 +399,10 @@ namespace family_tree.viewer
             }
 
             // Find the Source index.
-            IndexName source = (IndexName)cboSources_.Items[cboSources_.SelectedIndex];
+            IdxName source = (IdxName)cboSources_.Items[cboSources_.SelectedIndex];
 
             // Add the source to this fact.
-            sources_.add(source.index);
+            sources_.add(source.idx);
 
             // Update the display.
             refreshSources(sources_);
@@ -506,11 +506,11 @@ namespace family_tree.viewer
                 // Populate the advance tab.
                 if (cboFather_.Items.Count == 0)
                 {
-                    IndexName[] possibleFathers = person_.possibleFathers();
+                    IdxName[] possibleFathers = person_.possibleFathers();
                     for (int i = 0; i < possibleFathers.Length; i++)
                     {
                         cboFather_.Items.Add(possibleFathers[i]);
-                        if (possibleFathers[i].index == person_.fatherIndex)
+                        if (possibleFathers[i].idx == person_.fatherIdx)
                         {
                             cboFather_.SelectedItem = possibleFathers[i];
                         }
@@ -518,11 +518,11 @@ namespace family_tree.viewer
                 }
                 if (cboMother_.Items.Count == 0)
                 {
-                    IndexName[] possibleMothers = person_.possibleMothers();
+                    IdxName[] possibleMothers = person_.possibleMothers();
                     for (int i = 0; i < possibleMothers.Length; i++)
                     {
                         cboMother_.Items.Add(possibleMothers[i]);
-                        if (possibleMothers[i].index == person_.motherIndex)
+                        if (possibleMothers[i].idx == person_.motherIdx)
                         {
                             cboMother_.SelectedItem = possibleMothers[i];
                         }
@@ -535,7 +535,7 @@ namespace family_tree.viewer
                     foreach (Media media in medias)
                     {
                         cboMainImage_.Items.Add(media);
-                        if (media.index_ == person_.mediaIndex)
+                        if (media.idx_ == person_.mediaIdx)
                         {
                             cboMainImage_.SelectedIndex = cboMainImage_.Items.Count - 1;
                         }
@@ -784,7 +784,7 @@ namespace family_tree.viewer
             // Update the active relationship.
             if (activeRelationship_ != null)
             {
-                activeRelationship_.terminatedIndex = cboTerminated_.SelectedIndex + 1;
+                activeRelationship_.terminatedIdx = cboTerminated_.SelectedIndex + 1;
                 activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
             }
         }
@@ -797,7 +797,7 @@ namespace family_tree.viewer
             // Update the active relationship.
             if (activeRelationship_ != null)
             {
-                activeRelationship_.typeIndex = cboRelationshipType_.SelectedIndex + 1;
+                activeRelationship_.typeIdx = cboRelationshipType_.SelectedIndex + 1;
                 activeRelationship_.lastEditBy = cboEditor_.SelectedItem.ToString();
             }
         }
@@ -827,11 +827,11 @@ namespace family_tree.viewer
             // Update the form.
             dateRelationStart_.theDate = activeRelationship_.start;
             //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
-            cboTerminated_.SelectedIndex = activeRelationship_.terminatedIndex - 1;
+            cboTerminated_.SelectedIndex = activeRelationship_.terminatedIdx - 1;
             txtRelationLocation_.Text = activeRelationship_.location;
             dateRelationEnd_.theDate = activeRelationship_.end;
             txtRelationComments_.Text = activeRelationship_.comments;
-            cboRelationshipType_.SelectedIndex = activeRelationship_.typeIndex - 1;
+            cboRelationshipType_.SelectedIndex = activeRelationship_.typeIdx - 1;
 
             refreshSources(activeRelationship_.sourcePartner, "Relationship Partner");
         }
@@ -973,10 +973,10 @@ namespace family_tree.viewer
             }
 
             // Find the person that is selected.
-            IndexName partner = (IndexName)cboAddPartner_.SelectedItem;
+            IdxName partner = (IdxName)cboAddPartner_.SelectedItem;
 
             // Create a relationship object.
-            Relationship relationship = new Relationship(person_, partner.index);
+            Relationship relationship = new Relationship(person_, partner.idx);
 
             // Add the relationship to the persons collection.
             person_.addRelationship(relationship);
@@ -1023,10 +1023,10 @@ namespace family_tree.viewer
         private void cboFather_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the index of the selected father.
-            IndexName father = (IndexName)cboFather_.SelectedItem;
+            IdxName father = (IdxName)cboFather_.SelectedItem;
 
             // Save the ID in the person object.
-            person_.fatherIndex = father.index;
+            person_.fatherIdx = father.idx;
         }
 
 
@@ -1035,10 +1035,10 @@ namespace family_tree.viewer
         private void cboMother_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the ID the selected mother
-            IndexName mother = (IndexName)cboMother_.SelectedItem;
+            IdxName mother = (IdxName)cboMother_.SelectedItem;
 
             // Save the index in the person object.
-            person_.motherIndex = mother.index;
+            person_.motherIdx = mother.idx;
         }
 
 
@@ -1086,7 +1086,7 @@ namespace family_tree.viewer
             Media media = (Media)cboMainImage_.SelectedItem;
 
             // Save the index in the person object.
-            person_.mediaIndex = media.index_;
+            person_.mediaIdx = media.idx_;
 
             // Display the image on the form.
             showImage();
@@ -1108,7 +1108,7 @@ namespace family_tree.viewer
 
         private void cmdAddToDo_Click(object sender, EventArgs e)
         {
-            ToDo toDo = new ToDo { personIndex_ = person_.index, priority = 50, description = "New ToDo item." };
+            ToDo toDo = new ToDo { personIndex_ = person_.idx, priority = 50, description = "New ToDo item." };
             person_.addToDo(toDo);
             gridToDo_.SetDataBinding(person_.getToDo(), "");
         }

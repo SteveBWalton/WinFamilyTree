@@ -27,15 +27,15 @@ namespace family_tree.objects
             // Only add places with different latitude and longitude.
             bool isNewPlace = true;
             Place[] places = (Place[])places_.ToArray(typeof(Place));
-            foreach(Place existingPlace in places)
+            foreach (Place existingPlace in places)
             {
-                if(existingPlace.latitude == place.latitude && existingPlace.longitude == place.longitude)
+                if (existingPlace.latitude == place.latitude && existingPlace.longitude == place.longitude)
                 {
                     isNewPlace = false;
                 }
             }
 
-            if(isNewPlace)
+            if (isNewPlace)
             {
                 places_.Add(place);
             }
@@ -54,9 +54,9 @@ namespace family_tree.objects
             float longitudeMax = 0;
             float longitudeMin = 0;
             Place[] places = (Place[])places_.ToArray(typeof(Place));
-            foreach(Place place in places)
+            foreach (Place place in places)
             {
-                if(!isAnyKnownPlace)
+                if (!isAnyKnownPlace)
                 {
                     isAnyKnownPlace = true;
                     latitudeMax = place.latitude;
@@ -64,26 +64,26 @@ namespace family_tree.objects
                     longitudeMax = place.longitude;
                     longitudeMin = place.longitude;
                 }
-                if(place.latitude > latitudeMax)
+                if (place.latitude > latitudeMax)
                 {
                     latitudeMax = place.latitude;
                 }
-                if(place.latitude < latitudeMin)
+                if (place.latitude < latitudeMin)
                 {
                     latitudeMin = place.latitude;
                 }
-                if(place.longitude > longitudeMax)
+                if (place.longitude > longitudeMax)
                 {
                     longitudeMax = place.longitude;
                 }
-                if(place.longitude < longitudeMin)
+                if (place.longitude < longitudeMin)
                 {
                     longitudeMin = place.longitude;
                 }
             }
 
             // If nowhere is known then do nothing.
-            if(!isAnyKnownPlace)
+            if (!isAnyKnownPlace)
             {
                 return "";
             }
@@ -95,28 +95,28 @@ namespace family_tree.objects
 
             // Decide on the zoom factor.
             int googleZoom = 1;
-            if(maxRange < 0.5)
+            if (maxRange < 0.5)
             {
                 googleZoom = 10;
-                if(Math.Abs((longitudeMax + longitudeMin) / 2) > 3)
+                if (Math.Abs((longitudeMax + longitudeMin) / 2) > 3)
                 {
                     // This is not the UK so lets zoom out a bit.
                     googleZoom = 4;
                 }
             }
-            else if(maxRange < 2.4)
+            else if (maxRange < 2.4)
             {
                 googleZoom = 8;
             }
-            else if(maxRange < 5)
+            else if (maxRange < 5)
             {
                 googleZoom = 7;
             }
-            else if(maxRange < 6)
+            else if (maxRange < 6)
             {
                 googleZoom = 6;
             }
-            else if(maxRange < 9)
+            else if (maxRange < 9)
             {
                 googleZoom = 5;
             }
@@ -139,7 +139,7 @@ namespace family_tree.objects
             html.AppendLine("map.setCenter(point," + googleZoom.ToString() + ");");
 
             // Display a marker at the each point.
-            foreach(Place place in places)
+            foreach (Place place in places)
             {
                 html.AppendLine("map.addOverlay(new google.maps.Marker(new google.maps.LatLng(" + place.latitude.ToString() + "," + place.longitude.ToString() + ")));");
             }

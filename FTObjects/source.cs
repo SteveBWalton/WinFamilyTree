@@ -17,7 +17,7 @@ namespace family_tree.objects
         private Database database_;
 
         /// <summary>ID of the source in the database.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>Text to display for the source.</summary>
         private string description_;
@@ -38,7 +38,7 @@ namespace family_tree.objects
         private bool isDelete_;
 
         /// <summary>The type of additional information available for this source.  0 - None.</summary>
-        private int additionalInfoTypeIndex_;
+        private int additionalInfoTypeIdx_;
 
         /// <summary>Name of the user who wrote the last edit.</summary>
         private string lastEditBy_;
@@ -62,7 +62,7 @@ namespace family_tree.objects
         private SourceFreeTable freeTable_;
 
         /// <summary>The index for the source.  Zero represents no repository.</summary>
-        private int repositoryIndex_;
+        private int repositoryIdx_;
 
         /// <summary>This is the ranking of the source within a collection.  This is not the property of the source but of the source collection table.</summary>
         private int ranking_;
@@ -83,11 +83,11 @@ namespace family_tree.objects
             theDate_ = new CompoundDate();
             isDirty_ = false;
             isDelete_ = false;
-            additionalInfoTypeIndex_ = 0;
+            additionalInfoTypeIdx_ = 0;
             lastEditBy_ = "Steve Walton";
             lastEditDate_ = DateTime.Now;
             additionCensus_ = null;
-            repositoryIndex_ = 0;
+            repositoryIdx_ = 0;
             ranking_ = 1;
         }
 
@@ -103,7 +103,7 @@ namespace family_tree.objects
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
             {
-                index_ = index;
+                idx_ = index;
                 if (dataReader.IsDBNull(0))
                 {
                     description_ = "";
@@ -138,11 +138,11 @@ namespace family_tree.objects
                 }
                 if (dataReader.IsDBNull(5))
                 {
-                    additionalInfoTypeIndex_ = 0;
+                    additionalInfoTypeIdx_ = 0;
                 }
                 else
                 {
-                    additionalInfoTypeIndex_ = dataReader.GetInt32(5);
+                    additionalInfoTypeIdx_ = dataReader.GetInt32(5);
                 }
                 if (dataReader.IsDBNull(6))
                 {
@@ -160,7 +160,7 @@ namespace family_tree.objects
                 {
                     lastEditDate_ = dataReader.GetDateTime(7);
                 }
-                repositoryIndex_ = Database.getInt(dataReader, "RepositoryID", 0);
+                repositoryIdx_ = Database.getInt(dataReader, "RepositoryID", 0);
             }
             dataReader.Close();
         }
@@ -182,15 +182,15 @@ namespace family_tree.objects
             // Check if a delete is required.
             if (isDelete_)
             {
-                if (index_ != 0)
+                if (idx_ != 0)
                 {
                     // Remove the links to places from this source.
-                    database_.placeDelink(2, index_);
+                    database_.placeDelink(2, idx_);
 
                     // Delete the sources that contain this source.
 
                     // Delete this source.
-                    sqlCommand = new OleDbCommand("DELETE FROM tbl_Sources WHERE ID = " + index_ + ";", database_.cndb);
+                    sqlCommand = new OleDbCommand("DELETE FROM tbl_Sources WHERE ID = " + idx_ + ";", database_.cndb);
                     sqlCommand.ExecuteNonQuery();
                 }
 
@@ -202,7 +202,7 @@ namespace family_tree.objects
             if (isDirty_)
             {
                 // Create a new record if required.
-                if (index_ == 0)
+                if (idx_ == 0)
                 {
                     // Create a new record.
                     sqlCommand = new OleDbCommand("INSERT INTO tbl_Sources (LastUsed) VALUES(Now());", database_.cndb);
@@ -210,7 +210,7 @@ namespace family_tree.objects
 
                     // Get the ID of the new record.
                     sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Sources;", database_.cndb);
-                    index_ = (int)sqlCommand.ExecuteScalar();
+                    idx_ = (int)sqlCommand.ExecuteScalar();
                 }
 
                 // Update the record.
@@ -220,26 +220,26 @@ namespace family_tree.objects
                     + ", TheDate = " + Database.toDb(theDate_)
                     + ", TheDateStatusID = " + theDate_.status.ToString()
                     + ", Comments = " + Database.toDb(comments_)
-                    + ", AdditionalInfoTypeID = " + additionalInfoTypeIndex_.ToString()
-                    + ", RepositoryID = " + repositoryIndex_.ToString()
+                    + ", AdditionalInfoTypeID = " + additionalInfoTypeIdx_.ToString()
+                    + ", RepositoryID = " + repositoryIdx_.ToString()
                     + ", LastEditBy = 'Steve Walton'"
                     + ", LastEditDate = Now()"
-                    + " WHERE ID = " + index_.ToString() + ";"
+                    + " WHERE ID = " + idx_.ToString() + ";"
                     , database_.cndb
                     );
                 sqlCommand.ExecuteNonQuery();
                 isDirty_ = false;
 
                 // Remove the link to places from this source.
-                database_.placeDelink(2, index_);
+                database_.placeDelink(2, idx_);
             }
 
-            switch (additionalInfoTypeIndex_)
+            switch (additionalInfoTypeIdx_)
             {
             case 1:
                 if (additionalBirth_ != null)
                 {
-                    additionalBirth_.index = index_;
+                    additionalBirth_.idx = idx_;
                     additionalBirth_.save(database_);
                 }
                 break;
@@ -247,7 +247,7 @@ namespace family_tree.objects
             case 2:
                 if (additionMarriage_ != null)
                 {
-                    additionMarriage_.index = index_;
+                    additionMarriage_.idx = idx_;
                     additionMarriage_.save(database_);
                 }
                 break;
@@ -255,7 +255,7 @@ namespace family_tree.objects
             case 3:
                 if (additionalDeath_ != null)
                 {
-                    additionalDeath_.index = index_;
+                    additionalDeath_.idx = idx_;
                     additionalDeath_.save(database_);
                 }
                 break;
@@ -263,7 +263,7 @@ namespace family_tree.objects
             case 4:
                 if (additionCensus_ != null)
                 {
-                    additionCensus_.index = index_;
+                    additionCensus_.idx = idx_;
                     additionCensus_.censusDate = theDate_.date;
                     additionCensus_.save(database_);
                 }
@@ -312,7 +312,7 @@ namespace family_tree.objects
             html.Append("</p>");
 
             // Show the document specified information.
-            switch (additionalInfoTypeIndex_)
+            switch (additionalInfoTypeIdx_)
             {
             case 1:
                 if (additionalBirth != null)
@@ -358,7 +358,7 @@ namespace family_tree.objects
             foreach (References reference in references)
             {
                 html.Append("<TR>");
-                html.Append("<TD bgcolor=silver><SPAN class=\"Small\"><A href=\"Person:" + reference.personIndex.ToString() + "\">" + reference.personName + "</A></SPAN></TD>");
+                html.Append("<TD bgcolor=silver><SPAN class=\"Small\"><A href=\"Person:" + reference.personIdx.ToString() + "\">" + reference.personName + "</A></SPAN></TD>");
                 html.Append("<TD bgcolor=silver><SPAN class=\"Small\">" + reference.references + "</SPAN></TD>");
                 html.Append("</TR>");
             }
@@ -368,7 +368,7 @@ namespace family_tree.objects
             // Show a version of this document in the format that we will use on webtrees.
             if (false)
             {
-                switch (additionalInfoTypeIndex_)
+                switch (additionalInfoTypeIdx_)
                 {
                 case 1:
                     if (additionalBirth != null)
@@ -447,42 +447,42 @@ namespace family_tree.objects
             // Get all the references in the people objects.
             string sql = "SELECT tbl_PeopleToSources.PersonID, tlk_PeopleInfo.Name AS FactName, tbl_PeopleToSources.FactID " +
                 "FROM tbl_People INNER JOIN (tbl_PeopleToSources INNER JOIN tlk_PeopleInfo ON tbl_PeopleToSources.FactID = tlk_PeopleInfo.ID) ON tbl_People.ID = tbl_PeopleToSources.PersonID " +
-                "WHERE (((tbl_PeopleToSources.SourceID)=" + index_.ToString() + ")) " +
+                "WHERE (((tbl_PeopleToSources.SourceID)=" + idx_.ToString() + ")) " +
                 "ORDER BY tbl_People.Born;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int index = getReferenceIndex(references, dataReader.GetInt32(0));
+                int idx = getReferenceIdx(references, dataReader.GetInt32(0));
                 // Don't add the non specific references.
                 if (Database.getInt(dataReader, "FactID", 0) != 0)
                 {
-                    ((References)references[index]).addReference(dataReader.GetString(1));
+                    ((References)references[idx]).addReference(dataReader.GetString(1));
                 }
             }
             dataReader.Close();
 
             // Get all the references in the fact objects.
-            sql = "SELECT tbl_Facts.PersonID, tlk_FactTypes.Name FROM tlk_FactTypes INNER JOIN (tbl_Facts INNER JOIN tbl_FactsToSources ON tbl_Facts.ID = tbl_FactsToSources.FactID) ON tlk_FactTypes.ID = tbl_Facts.TypeID WHERE (((tbl_FactsToSources.SourceID)=" + index_.ToString() + "));";
+            sql = "SELECT tbl_Facts.PersonID, tlk_FactTypes.Name FROM tlk_FactTypes INNER JOIN (tbl_Facts INNER JOIN tbl_FactsToSources ON tbl_Facts.ID = tbl_FactsToSources.FactID) ON tlk_FactTypes.ID = tbl_Facts.TypeID WHERE (((tbl_FactsToSources.SourceID)=" + idx_.ToString() + "));";
             sqlCommand = new OleDbCommand(sql, database_.cndb);
             dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int index = getReferenceIndex(references, dataReader.GetInt32(0));
-                ((References)references[index]).addReference(dataReader.GetString(1));
+                int idx = getReferenceIdx(references, dataReader.GetInt32(0));
+                ((References)references[idx]).addReference(dataReader.GetString(1));
             }
             dataReader.Close();
 
             // Get all the references in the relationship objects.
-            sql = "SELECT tbl_Relationships.MaleID, tbl_Relationships.FemaleID, tlk_RelationshipInfo.Name FROM tbl_Relationships INNER JOIN (tbl_RelationshipsToSources INNER JOIN tlk_RelationshipInfo ON tbl_RelationshipsToSources.FactID = tlk_RelationshipInfo.ID) ON tbl_Relationships.ID = tbl_RelationshipsToSources.RelationshipID WHERE (((tbl_RelationshipsToSources.SourceID)=" + index_.ToString() + "));";
+            sql = "SELECT tbl_Relationships.MaleID, tbl_Relationships.FemaleID, tlk_RelationshipInfo.Name FROM tbl_Relationships INNER JOIN (tbl_RelationshipsToSources INNER JOIN tlk_RelationshipInfo ON tbl_RelationshipsToSources.FactID = tlk_RelationshipInfo.ID) ON tbl_Relationships.ID = tbl_RelationshipsToSources.RelationshipID WHERE (((tbl_RelationshipsToSources.SourceID)=" + idx_.ToString() + "));";
             sqlCommand = new OleDbCommand(sql, database_.cndb);
             dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int nIndex = getReferenceIndex(references, dataReader.GetInt32(0));
-                ((References)references[nIndex]).addReference("Relationship " + dataReader.GetString(2));
-                nIndex = getReferenceIndex(references, dataReader.GetInt32(1));
-                ((References)references[nIndex]).addReference("Relationship " + dataReader.GetString(2));
+                int idx = getReferenceIdx(references, dataReader.GetInt32(0));
+                ((References)references[idx]).addReference("Relationship " + dataReader.GetString(2));
+                idx = getReferenceIdx(references, dataReader.GetInt32(1));
+                ((References)references[idx]).addReference("Relationship " + dataReader.GetString(2));
             }
             dataReader.Close();
 
@@ -490,7 +490,7 @@ namespace family_tree.objects
             for (int i = 0; i < references.Count; i++)
             {
                 References reference = (References)references[i];
-                Person person = new Person(reference.personIndex, database_);
+                Person person = new Person(reference.personIdx, database_);
                 reference.personName = person.getName(true, false);
             }
 
@@ -502,32 +502,32 @@ namespace family_tree.objects
 
         /// <summary>Returns the index of the specified person in the specified list of references.  Added the person to the specified list if required.</summary>
         /// <param name="references">Specifies the list of existing references.</param>
-        /// <param name="personIndex">Specifies the person to locate in / add to the reference list.</param>
+        /// <param name="personIdx">Specifies the person to locate in / add to the reference list.</param>
         /// <returns>The index of the specified person in the specified list.</returns>
-        private int getReferenceIndex(ArrayList references, int personIndex)
+        private int getReferenceIdx(ArrayList references, int personIdx)
         {
-            int index;
+            int idx;
 
             // Find the index of the person.
-            index = -1;
+            idx = -1;
             for (int i = 0; i < references.Count; i++)
             {
-                if (personIndex == ((References)references[i]).personIndex)
+                if (personIdx == ((References)references[i]).personIdx)
                 {
-                    index = i;
+                    idx = i;
                     break;
                 }
             }
-            if (index == -1)
+            if (idx == -1)
             {
                 // Add a new reference.
-                References reference = new References(personIndex);
+                References reference = new References(personIdx);
 
                 references.Add(reference);
-                index = references.Count - 1;
+                idx = references.Count - 1;
             }
 
-            return index;
+            return idx;
         }
 
 
@@ -535,7 +535,7 @@ namespace family_tree.objects
         #region Public Properties
 
         /// <summary>ID to this source record in the database.</summary>
-        public int index { get { return index_; } }
+        public int idx { get { return idx_; } }
 
         /// <summary>The database that contains this source.</summary>
         public Database database {  get { return database_; } }
@@ -556,7 +556,7 @@ namespace family_tree.objects
         public DateTime lastUsed { get { return lastUsed_; } set { lastUsed_ = value; isDirty_ = true; } }
 
         /// <summary>The type of additional information available for this source.  0 - None.</summary>
-        public int additionalInfoTypeIndex { get { return additionalInfoTypeIndex_; } set { additionalInfoTypeIndex_ = value; isDirty_ = true; } }
+        public int additionalInfoTypeIdx { get { return additionalInfoTypeIdx_; } set { additionalInfoTypeIdx_ = value; isDirty_ = true; } }
 
         /// <summary>Name of the user who wrote the last edit.</summary>
         public string lastEditBy { get { return lastEditBy_; } set { lastEditBy_ = value; } }
@@ -576,7 +576,7 @@ namespace family_tree.objects
             {
                 if (additionCensus_ == null)
                 {
-                    additionCensus_ = new Census(index_, database_);
+                    additionCensus_ = new Census(idx_, database_);
                 }
                 return additionCensus_;
             }
@@ -591,7 +591,7 @@ namespace family_tree.objects
             {
                 if (additionMarriage_ == null)
                 {
-                    additionMarriage_ = new MarriageCertificate(index_, database_.cndb);
+                    additionMarriage_ = new MarriageCertificate(idx_, database_.cndb);
                 }
                 return additionMarriage_;
             }
@@ -606,7 +606,7 @@ namespace family_tree.objects
             {
                 if (additionalBirth_ == null)
                 {
-                    additionalBirth_ = new BirthCertificate(index_, database_.cndb);
+                    additionalBirth_ = new BirthCertificate(idx_, database_.cndb);
                 }
                 return additionalBirth_;
             }
@@ -621,7 +621,7 @@ namespace family_tree.objects
             {
                 if (additionalDeath_ == null)
                 {
-                    additionalDeath_ = new DeathCertificate(index_, database_.cndb);
+                    additionalDeath_ = new DeathCertificate(idx_, database_.cndb);
                 }
                 return additionalDeath_;
             }
@@ -629,7 +629,7 @@ namespace family_tree.objects
 
 
 
-        /// <summary>The optional additional free table information.  Only valid if the additionalTypeIndex == Free Table (5).</summary>
+        /// <summary>The optional additional free table information.  Only valid if the additionalTypeIdx == Free Table (5).</summary>
         public SourceFreeTable freeTable
         {
             get 
@@ -644,8 +644,8 @@ namespace family_tree.objects
 
 
 
-        /// <summary>The index for the source.  Zero represents no repository.</summary>
-        public int repository { get { return repositoryIndex_; } set { repositoryIndex_ = value; } }
+        /// <summary>The ID for repository of the the source.  Zero represents no repository.</summary>
+        public int repositoryIdx { get { return repositoryIdx_; } set { repositoryIdx_ = value; } }
 
         #endregion
     }

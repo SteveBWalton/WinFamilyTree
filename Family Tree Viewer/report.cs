@@ -78,9 +78,9 @@ namespace family_tree.viewer
         private void addForebears(Person person, ref SortedList people)
         {
             // Add the father to the list.
-            if (person.fatherIndex != 0)
+            if (person.fatherIdx != 0)
             {
-                Person father = new Person(person.fatherIndex, database_);
+                Person father = new Person(person.fatherIdx, database_);
                 father.tag = person.tag + "F";
                 addPerson(father, ref people);
 
@@ -89,9 +89,9 @@ namespace family_tree.viewer
             }
 
             // Add the mother to the list.
-            if (person.motherIndex != 0)
+            if (person.motherIdx != 0)
             {
-                Person mother = new Person(person.motherIndex, database_);
+                Person mother = new Person(person.motherIdx, database_);
                 mother.tag = person.tag + "M";
                 addPerson(mother, ref people);
 

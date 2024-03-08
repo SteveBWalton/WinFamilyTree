@@ -4,20 +4,20 @@ using System.IO;
 
 namespace family_tree.objects
 {
-    /// <summary>Class to represent a GEDCOM family.  These are like clsRelationship objects but more frequent.</summary>
+    /// <summary>Class to represent a GEDCOM family.  These are like Relationship objects but more frequent.</summary>
     public class Family
     {
         /// <summary>ID of the father in the family. 0 or negative indicates no father.</summary>
-        public int fatherIndex;
+        public int fatherIdx;
 
         /// <summary>ID of the mother in the family.  0 or negative indicates no mother.</summary>
-        public int motherIndex;
+        public int motherIdx;
 
         /// <summary>Unique index for the gedcom file.</summary>
-        public int gedcomIndex;
+        public int gedcomIdx;
 
         /// <summary>ID of the relationship object between the mother and father.  0 indicates no relationship object.</summary>
-        public int relationshipIndex;
+        public int relationshipIdx;
 
         /// <summary>Collection of the children in this family.</summary>
         private ArrayList children;
@@ -27,10 +27,10 @@ namespace family_tree.objects
         /// <summary>Empty class constructor.</summary>
         public Family()
         {
-            fatherIndex = 0;
-            motherIndex = 0;
-            gedcomIndex = 0;
-            relationshipIndex = 0;
+            fatherIdx = 0;
+            motherIdx = 0;
+            gedcomIdx = 0;
+            relationshipIdx = 0;
             children = null;
         }
 
@@ -48,8 +48,8 @@ namespace family_tree.objects
             }
             else
             {
-                int index = children.Count - 1;
-                Person insert = (Person)children[index];
+                int idx = children.Count - 1;
+                Person insert = (Person)children[idx];
                 if (child.dob.date > insert.dob.date)
                 {
                     // Add the child to the end of the list.
@@ -57,22 +57,22 @@ namespace family_tree.objects
                 }
                 else
                 {
-                    index = 0;
-                    insert = (Person)children[index];
+                    idx = 0;
+                    insert = (Person)children[idx];
                     if (child.dob.date < insert.dob.date)
                     {
                         // Add the child to the start of the list.
-                        children.Insert(index, child);
+                        children.Insert(idx, child);
                     }
                     else
                     {
                         // Find the existing child to add this child in front of.
                         while (child.dob.date > insert.dob.date)
                         {
-                            index++;
-                            insert = (Person)children[index];
+                            idx++;
+                            insert = (Person)children[idx];
                         }
-                        children.Insert(index, child);
+                        children.Insert(idx, child);
                     }
                 }
             }
@@ -88,19 +88,19 @@ namespace family_tree.objects
             // Create a list of the sources.
             ArrayList familySources = new ArrayList();
 
-            file.WriteLine("0 @F" + gedcomIndex.ToString("0000") + "@ FAM");
-            if (motherIndex > 0)
+            file.WriteLine("0 @F" + gedcomIdx.ToString("0000") + "@ FAM");
+            if (motherIdx > 0)
             {
-                file.WriteLine("1 WIFE @I" + motherIndex.ToString("0000") + "@");
+                file.WriteLine("1 WIFE @I" + motherIdx.ToString("0000") + "@");
             }
-            if (fatherIndex > 0)
+            if (fatherIdx > 0)
             {
-                file.WriteLine("1 HUSB @I" + fatherIndex.ToString("0000") + "@");
+                file.WriteLine("1 HUSB @I" + fatherIdx.ToString("0000") + "@");
             }
 
-            if (motherIndex > 0 && fatherIndex > 0)
+            if (motherIdx > 0 && fatherIdx > 0)
             {
-                Relationship marriage = database.getRelationship(fatherIndex, motherIndex);
+                Relationship marriage = database.getRelationship(fatherIdx, motherIdx);
                 if (marriage != null)
                 {
                     marriage.setDatabase(database);
@@ -108,7 +108,7 @@ namespace family_tree.objects
                     if (marriage.isMarried())
                     {
                         file.WriteLine("1 MARR Y");
-                        switch (marriage.typeIndex)
+                        switch (marriage.typeIdx)
                         {
                         case 1:
                             file.WriteLine("2 TYPE RELIGIOUS");
@@ -139,7 +139,7 @@ namespace family_tree.objects
                     }
 
                     // Did the marriage end with a divorce.
-                    if (marriage.terminatedIndex == 2)
+                    if (marriage.terminatedIdx == 2)
                     {
                         if (marriage.end.isEmpty())
                         {
@@ -168,7 +168,7 @@ namespace family_tree.objects
                     {
                         foreach (Person child in children)
                         {
-                            file.WriteLine("1 CHIL @I" + child.index.ToString("0000") + "@");
+                            file.WriteLine("1 CHIL @I" + child.idx.ToString("0000") + "@");
                         }
                     }
 
@@ -180,9 +180,9 @@ namespace family_tree.objects
                     else
                     {
                         marriage.sourcePartner.gedcomAdd(familySources);
-                        foreach (int sourceIndex in familySources)
+                        foreach (int sourceIdx in familySources)
                         {
-                            file.WriteLine("1 SOUR @S" + sourceIndex.ToString("0000") + "@");
+                            file.WriteLine("1 SOUR @S" + sourceIdx.ToString("0000") + "@");
                         }
                     }
 
@@ -205,7 +205,7 @@ namespace family_tree.objects
                 {
                     foreach (Person child in children)
                     {
-                        file.WriteLine("1 CHIL @I" + child.index.ToString("0000") + "@");
+                        file.WriteLine("1 CHIL @I" + child.idx.ToString("0000") + "@");
                     }
                 }
             }

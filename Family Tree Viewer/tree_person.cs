@@ -502,17 +502,17 @@ namespace family_tree.viewer
                 tree_.addFamily(descendants_[i]);
                 if (person.isMale)
                 {
-                    TreePerson mother = new TreePerson(tree_, relationships[relationshipIndex].partnerIndex);
+                    TreePerson mother = new TreePerson(tree_, relationships[relationshipIndex].partnerIdx);
                     descendants_[i].addMother(mother);
                     tree_.addPerson(mother);
                 }
                 else
                 {
-                    TreePerson father = new TreePerson(tree_, relationships[relationshipIndex].partnerIndex);
+                    TreePerson father = new TreePerson(tree_, relationships[relationshipIndex].partnerIdx);
                     descendants_[i].addFather(father);
                     tree_.addPerson(father);
                 }
-                if (relationships[relationshipIndex].terminatedIndex == 2)
+                if (relationships[relationshipIndex].terminatedIdx == 2)
                 {
                     descendants_[i].status = RelationshipStatus.DIVORCED;
                 }
@@ -586,7 +586,7 @@ namespace family_tree.viewer
                     }
                 }
                 */
-                if (child.motherIndex == descendants_[i].getMotherIndex() && child.fatherIndex == descendants_[i].getFatherIndex())
+                if (child.motherIdx == descendants_[i].getMotherIndex() && child.fatherIdx == descendants_[i].getFatherIndex())
                 {
                     return i;
                 }
@@ -623,7 +623,7 @@ namespace family_tree.viewer
         {
             // Get this person.
             Person person = new Person(personIndex_, tree_.database);
-            if (person.fatherIndex == 0 && person.motherIndex == 0)
+            if (person.fatherIdx == 0 && person.motherIdx == 0)
             {
                 // Nothing to do.
                 return;
@@ -645,9 +645,9 @@ namespace family_tree.viewer
             tree_.addFamily(ancestors_);
 
             // Add the father of this person.
-            if (person.fatherIndex != 0)
+            if (person.fatherIdx != 0)
             {
-                TreePerson father = new TreePerson(tree_, person.fatherIndex);
+                TreePerson father = new TreePerson(tree_, person.fatherIdx);
                 tree_.addPerson(father);
                 ancestors_.addFather(father);
 
@@ -656,9 +656,9 @@ namespace family_tree.viewer
             }
 
             // Add the mother of this person.
-            if (person.motherIndex != 0)
+            if (person.motherIdx != 0)
             {
-                TreePerson mother = new TreePerson(tree_, person.motherIndex);
+                TreePerson mother = new TreePerson(tree_, person.motherIdx);
                 tree_.addPerson(mother);
                 ancestors_.addMother(mother);
 
@@ -667,13 +667,13 @@ namespace family_tree.viewer
             }
 
             // Add the relationship between the father and mother.
-            if (person.fatherIndex != 0 && person.motherIndex != 0)
+            if (person.fatherIdx != 0 && person.motherIdx != 0)
             {
-                Relationship relationship = tree_.database.getRelationship(person.fatherIndex, person.motherIndex);
+                Relationship relationship = tree_.database.getRelationship(person.fatherIdx, person.motherIdx);
                 if (relationship != null)
                 {
                     ancestors_.start = relationship.start;
-                    if (relationship.terminatedIndex == 2)
+                    if (relationship.terminatedIdx == 2)
                     {
                         ancestors_.status = RelationshipStatus.DIVORCED;
                     }
@@ -697,11 +697,11 @@ namespace family_tree.viewer
                 tree_.addPerson(sibling);
 
                 Person halfSibling = new Person(siblings[siblingIndex], tree_.database);
-                if (halfSibling.fatherIndex != person.fatherIndex)
+                if (halfSibling.fatherIdx != person.fatherIdx)
                 {
                     sibling.connection = ParentConnection.MOTHER_ONLY;
                 }
-                if (halfSibling.motherIndex != person.motherIndex)
+                if (halfSibling.motherIdx != person.motherIdx)
                 {
                     sibling.connection = ParentConnection.FATHER_ONLY;
                 }

@@ -26,7 +26,7 @@ namespace family_tree.objects
         private Database database_;
 
         /// <summary>ID of the person.</summary>
-        private int personIndex_;
+        private int personIdx_;
 
         /// <summary>Surname of the person.</summary>
         private string personSurname_;
@@ -44,10 +44,10 @@ namespace family_tree.objects
         private CompoundDate dod_;
 
         /// <summary>ID of the person's father.</summary>
-        private int fatherIndex_;
+        private int fatherIdx_;
 
         /// <summary>ID of the person's mother.</summary>
-        private int motherIndex_;
+        private int motherIdx_;
 
         /// <summary>True if the person is male.</summary>
         private bool isMale_;
@@ -55,8 +55,8 @@ namespace family_tree.objects
         /// <summary>True if all the children of the person are known.</summary>
         private bool isAllChildrenKnown_;
 
-        /// <summary>Index of the media object attached to this person.</summary>
-        private int mediaIndex_;
+        /// <summary>ID of the media object attached to this person.</summary>
+        private int mediaIdx_;
 
         /// <summary>User comments for the person.</summary>
         private string comments_;
@@ -103,8 +103,8 @@ namespace family_tree.objects
         /// <summary>Creates an empty person object.</summary>
         public Person()
         {
-            fatherIndex_ = 0;
-            motherIndex_ = 0;
+            fatherIdx_ = 0;
+            motherIdx_ = 0;
             isAllChildrenKnown_ = false;
             facts_ = null;
             dob_ = new CompoundDate();
@@ -136,16 +136,16 @@ namespace family_tree.objects
 
 
         /// <summary>Create a person object from the specified database record.  Loads the specified person from the specified database.</summary>
-        /// <param name="personIndex">Specify the ID of the person to load.</param>
+        /// <param name="personIdx">Specify the ID of the person to load.</param>
         /// <param name="database">Specify the family tree database to load the person from.</param>
-        public Person(int personIndex, Database database) : this(database) // This makes the program call the (Database) constructor before the code is called.
+        public Person(int personIdx, Database database) : this(database) // This makes the program call the (Database) constructor before the code is called.
         {
             // Open the specified person.
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT Surname, Forenames, MaidenName, Born, BornStatusID, Died, DiedStatusID, FatherID, MotherID, Sex, ChildrenKnown, GedCom, Comments, MediaID, LastEditBy, LastEditDate FROM tbl_People WHERE ID = " + personIndex.ToString() + ";", database.cndb);
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT Surname, Forenames, MaidenName, Born, BornStatusID, Died, DiedStatusID, FatherID, MotherID, Sex, ChildrenKnown, GedCom, Comments, MediaID, LastEditBy, LastEditDate FROM tbl_People WHERE ID = " + personIdx.ToString() + ";", database.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
             {
-                personIndex_ = personIndex;
+                personIdx_ = personIdx;
                 if (dataReader.IsDBNull(0))
                 {
                     personSurname_ = "";
@@ -191,19 +191,19 @@ namespace family_tree.objects
                 }
                 if (dataReader.IsDBNull(7))
                 {
-                    fatherIndex_ = 0;
+                    fatherIdx_ = 0;
                 }
                 else
                 {
-                    fatherIndex_ = dataReader.GetInt32(7);
+                    fatherIdx_ = dataReader.GetInt32(7);
                 }
                 if (dataReader.IsDBNull(8))
                 {
-                    motherIndex_ = 0;
+                    motherIdx_ = 0;
                 }
                 else
                 {
-                    motherIndex_ = dataReader.GetInt32(8);
+                    motherIdx_ = dataReader.GetInt32(8);
                 }
                 if (dataReader.IsDBNull(9))
                 {
@@ -224,7 +224,7 @@ namespace family_tree.objects
                 isAllChildrenKnown_ = dataReader.GetBoolean(10);
                 isIncludeGedcom_ = walton.Database.getBool(dataReader, "Gedcom", true);
                 comments_ = Database.getString(dataReader, "Comments", "");
-                mediaIndex_ = Database.getInt(dataReader, "MediaID", 0);
+                mediaIdx_ = Database.getInt(dataReader, "MediaID", 0);
                 lastEditBy_ = Database.getString(dataReader, "LastEditBy", "Steve Walton");
                 lastEditDate_ = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
             }
@@ -243,38 +243,38 @@ namespace family_tree.objects
         {
             // If you create a new record (ID changes from 0) then (does no harm in any case).
             OleDbCommand sqlCommand;
-            if (personIndex_ == 0)
+            if (personIdx_ == 0)
             {
                 // Find the new ID.
                 sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_People;", database_.cndb);
-                personIndex_ = (int)sqlCommand.ExecuteScalar() + 1;
+                personIdx_ = (int)sqlCommand.ExecuteScalar() + 1;
 
                 // Create a new person record.
-                sqlCommand = new OleDbCommand("INSERT INTO tbl_People (ID,Surname) VALUES (" + personIndex_.ToString() + "," + Database.toDb(personSurname_) + ");", database_.cndb);
+                sqlCommand = new OleDbCommand("INSERT INTO tbl_People (ID,Surname) VALUES (" + personIdx_.ToString() + "," + Database.toDb(personSurname_) + ");", database_.cndb);
                 sqlCommand.ExecuteNonQuery();
 
                 // Update the related child records.
                 if (sourcesName_ != null)
                 {
-                    sourcesName_.personIndex = personIndex_;
+                    sourcesName_.personIdx = personIdx_;
                 }
                 if (sourcesDoB_ != null)
                 {
-                    sourcesDoB_.personIndex = personIndex_;
+                    sourcesDoB_.personIdx = personIdx_;
                 }
                 if (sourcesDoD_ != null)
                 {
-                    sourcesDoD_.personIndex = personIndex_;
+                    sourcesDoD_.personIdx = personIdx_;
                 }
                 if (sourcesNonSpecific_ != null)
                 {
-                    sourcesNonSpecific_.personIndex = personIndex_;
+                    sourcesNonSpecific_.personIdx = personIdx_;
                 }
             }
             else
             {
                 // Update the places associated with this person.
-                database_.placeDelink(1, personIndex_);
+                database_.placeDelink(1, personIdx_);
             }
 
             // Update the existing record.
@@ -289,22 +289,22 @@ namespace family_tree.objects
                     "Died = " + Database.toDb(dod_) + ", " +
                     "DiedStatusID = " + dod_.status.ToString() + ", " +
                     "ChildrenKnown = " + Database.toDb(isAllChildrenKnown_) + ", " +
-                    "FatherID = " + Database.toDb(fatherIndex_, 0) + ", " +
-                    "MotherID = " + Database.toDb(motherIndex_, 0) + ", " +
+                    "FatherID = " + Database.toDb(fatherIdx_, 0) + ", " +
+                    "MotherID = " + Database.toDb(motherIdx_, 0) + ", " +
                     "Sex = " + Database.iif(isMale_, "'M'", "'F'") + ", " +
                     "GedCom = " + walton.Database.toDb(isIncludeGedcom_) + ", " +
-                    "MediaID = " + Database.toDb(mediaIndex_, 0) + ", " +
+                    "MediaID = " + Database.toDb(mediaIdx_, 0) + ", " +
                     "LastEditBy = " + Database.toDb(lastEditBy_) + ", " +
                     "LastEditDate = #" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "#, " +
                     "Comments = " + Database.toDb(comments_) + " " +
-                    "WHERE ID = " + personIndex_.ToString() + ";",
+                    "WHERE ID = " + personIdx_.ToString() + ";",
                     database_.cndb
                 );
             sqlCommand.ExecuteNonQuery();
 
             // Insert a new record into the sqlite3 database.
             SQLiteCommand sqliteCommand = database.sqlite.CreateCommand();
-            sqliteCommand.CommandText = "INSERT INTO INDIVIDUALS (ID, SURNAME, FORENAMES, MAIDEN_NAME, BORN, BORN_STATUS, DIED, DIED_STATUS, CHILDREN_KNOWN, FATHER_ID, MOTHER_ID, SEX, GEDCOM, MEDIA_ID, LAST_EDIT_BY, LAST_EDIT_DATE, COMMENTS) VALUES (" + personIndex_.ToString() + ", " + Database.toDb(personSurname_) + ", " + Database.toDb(foreNames_) + ", " + Database.toDb(maidenName_) + ", " + Database.toDate(dob_) + ", " + dob_.status.ToString() + ", " + Database.toDate(dod_) + ", " + dod_.status.ToString() + ", " + Database.toDb(isAllChildrenKnown_) + ", " + Database.toDb(fatherIndex_, 0) + ", " + Database.toDb(motherIndex_, 0) + ", " + Database.iif(isMale_, "'M'", "'F'") + ", " + Database.toDb(isIncludeGedcom_) + ", " + Database.toDb(mediaIndex_, 0) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', " + Database.toDb(comments_) + ")";
+            sqliteCommand.CommandText = "INSERT INTO INDIVIDUALS (ID, SURNAME, FORENAMES, MAIDEN_NAME, BORN, BORN_STATUS, DIED, DIED_STATUS, CHILDREN_KNOWN, FATHER_ID, MOTHER_ID, SEX, GEDCOM, MEDIA_ID, LAST_EDIT_BY, LAST_EDIT_DATE, COMMENTS) VALUES (" + personIdx_.ToString() + ", " + Database.toDb(personSurname_) + ", " + Database.toDb(foreNames_) + ", " + Database.toDb(maidenName_) + ", " + Database.toDate(dob_) + ", " + dob_.status.ToString() + ", " + Database.toDate(dod_) + ", " + dod_.status.ToString() + ", " + Database.toDb(isAllChildrenKnown_) + ", " + Database.toDb(fatherIdx_, 0) + ", " + Database.toDb(motherIdx_, 0) + ", " + Database.iif(isMale_, "'M'", "'F'") + ", " + Database.toDb(isIncludeGedcom_) + ", " + Database.toDb(mediaIdx_, 0) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', " + Database.toDb(comments_) + ")";
             try
             {
                 sqliteCommand.ExecuteNonQuery();
@@ -314,7 +314,7 @@ namespace family_tree.objects
                 if (error.ErrorCode == 19)
                 {
                     // Update the existing record in the sqlite3 database.
-                    sqliteCommand.CommandText = "UPDATE INDIVIDUALS SET SURNAME = " + Database.toDb(personSurname_) + ", FORENAMES = " + Database.toDb(foreNames_) + ", MAIDEN_NAME = " + Database.toDb(maidenName_) + ", BORN = " + Database.toDate(dob_) + ", BORN_STATUS = " + dob_.status.ToString() + ", DIED = " + Database.toDate(dod_) + ", DIED_STATUS = " + dod_.status.ToString()+", CHILDREN_KNOWN = " + Database.toDb(isAllChildrenKnown_) + ", FATHER_ID = " + Database.toDb(fatherIndex_, 0) + ", MOTHER_ID = " + Database.toDb(motherIndex_, 0) + ", SEX = " + Database.iif(isMale_, "'M'", "'F'") + ", GEDCOM = " + Database.toDb(isIncludeGedcom_) + ", MEDIA_ID = " + Database.toDb(mediaIndex_, 0) + ", LAST_EDIT_BY = " + Database.toDb(lastEditBy_) + ", LAST_EDIT_DATE = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', COMMENTS = " + Database.toDb(comments_) + " WHERE ID = " + personIndex_.ToString() + ";";
+                    sqliteCommand.CommandText = "UPDATE INDIVIDUALS SET SURNAME = " + Database.toDb(personSurname_) + ", FORENAMES = " + Database.toDb(foreNames_) + ", MAIDEN_NAME = " + Database.toDb(maidenName_) + ", BORN = " + Database.toDate(dob_) + ", BORN_STATUS = " + dob_.status.ToString() + ", DIED = " + Database.toDate(dod_) + ", DIED_STATUS = " + dod_.status.ToString()+", CHILDREN_KNOWN = " + Database.toDb(isAllChildrenKnown_) + ", FATHER_ID = " + Database.toDb(fatherIdx_, 0) + ", MOTHER_ID = " + Database.toDb(motherIdx_, 0) + ", SEX = " + Database.iif(isMale_, "'M'", "'F'") + ", GEDCOM = " + Database.toDb(isIncludeGedcom_) + ", MEDIA_ID = " + Database.toDb(mediaIdx_, 0) + ", LAST_EDIT_BY = " + Database.toDb(lastEditBy_) + ", LAST_EDIT_DATE = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', COMMENTS = " + Database.toDb(comments_) + " WHERE ID = " + personIdx_.ToString() + ";";
                     sqliteCommand.ExecuteNonQuery();
                 }
                 else
@@ -357,9 +357,9 @@ namespace family_tree.objects
                     fact.save();
 
                     // Make sure that all the fact sources are included in the non specific sources for this person.
-                    foreach (int sourceIndex in fact.sources.get())
+                    foreach (int sourceIdx in fact.sources.get())
                     {
-                        sourceNonSpecific.add(sourceIndex);
+                        sourceNonSpecific.add(sourceIdx);
                     }
                 }
             }
@@ -383,29 +383,29 @@ namespace family_tree.objects
                     // Add the location of this relationship.
                     if (relationship.location != "")
                     {
-                        database_.addPlace(relationship.location, 1, personIndex_);
+                        database_.addPlace(relationship.location, 1, personIdx_);
                     }
 
                     // Make sure that all the relationship sources are included in the non specific source for this person.
-                    foreach (int sourceIndex in relationship.sourcePartner.get())
+                    foreach (int sourceIdx in relationship.sourcePartner.get())
                     {
-                        sourceNonSpecific.add(sourceIndex);
+                        sourceNonSpecific.add(sourceIdx);
                     }
-                    foreach (int sourceIndex in relationship.sourceStart.get())
+                    foreach (int sourceIdx in relationship.sourceStart.get())
                     {
-                        sourceNonSpecific.add(sourceIndex);
+                        sourceNonSpecific.add(sourceIdx);
                     }
-                    foreach (int sourceIndex in relationship.sourceLocation.get())
+                    foreach (int sourceIdx in relationship.sourceLocation.get())
                     {
-                        sourceNonSpecific.add(sourceIndex);
+                        sourceNonSpecific.add(sourceIdx);
                     }
-                    foreach (int sourceIndex in relationship.sourceTerminated.get())
+                    foreach (int sourceIdx in relationship.sourceTerminated.get())
                     {
-                        sourceNonSpecific.add(sourceIndex);
+                        sourceNonSpecific.add(sourceIdx);
                     }
-                    foreach (int sourceIndex in relationship.sourceEnd.get())
+                    foreach (int sourceIdx in relationship.sourceEnd.get())
                     {
-                        sourceNonSpecific.add(sourceIndex);
+                        sourceNonSpecific.add(sourceIdx);
                     }
                 }
             }
@@ -414,17 +414,17 @@ namespace family_tree.objects
             string bornLocation = getBornLocation(false, "");
             if (bornLocation != "")
             {
-                database_.addPlace(bornLocation, 1, personIndex_);
+                database_.addPlace(bornLocation, 1, personIdx_);
             }
             string diedLocation = getSimpleFact(90);
             if (diedLocation != "")
             {
-                database_.addPlace(diedLocation, 1, personIndex_);
+                database_.addPlace(diedLocation, 1, personIdx_);
             }
-            CensusPerson[] censusPeople = database_.censusForPerson(personIndex_);
+            CensusPerson[] censusPeople = database_.censusForPerson(personIdx_);
             foreach (CensusPerson censusPerson in censusPeople)
             {
-                database_.addPlace(censusPerson.houseHoldName, 1, personIndex_);
+                database_.addPlace(censusPerson.houseHoldName, 1, personIdx_);
             }
 
             // Save the non specifiic sources.  This list may have been added to in the above.
@@ -503,9 +503,9 @@ namespace family_tree.objects
 
 
 
-        /// <summary>Gets a collection of IndexName pairs representing the peiple who could possibly be the father of this person.  It is intended that this function will populate a list box.</summary>
+        /// <summary>Gets a collection of IdxName pairs representing the peiple who could possibly be the father of this person.  It is intended that this function will populate a list box.</summary>
         /// <returns>An array of clsIDName pairs representing people.</returns>
-        public IndexName[] possibleFathers()
+        public IdxName[] possibleFathers()
         {
             int startYear = dob_.date.Year - 100;
             int endYear = dob_.date.Year - 10;
@@ -515,8 +515,8 @@ namespace family_tree.objects
 
 
         /// <summary>Gets a collection of clsIDName pairs representing the peiple who could possibly be the father of this person.  It is intended that this function will populate a list box.</summary>
-        /// <returns>An array of IndexName pairs representing people.</returns>
-        public IndexName[] possibleMothers()
+        /// <returns>An array of IdxName pairs representing people.</returns>
+        public IdxName[] possibleMothers()
         {
             int startYear = dob_.date.Year - 100;
             int endYear = dob_.date.Year - 10;
@@ -542,11 +542,11 @@ namespace family_tree.objects
             OleDbCommand sqlCommand;
             if (isMale_)
             {
-                sqlCommand = new OleDbCommand("SELECT ID FROM tbl_People WHERE FatherID = " + personIndex_.ToString() + " ORDER BY Born;", database_.cndb);
+                sqlCommand = new OleDbCommand("SELECT ID FROM tbl_People WHERE FatherID = " + personIdx_.ToString() + " ORDER BY Born;", database_.cndb);
             }
             else
             {
-                sqlCommand = new OleDbCommand("SELECT ID FROM tbl_People WHERE MotherID = " + personIndex_.ToString() + " ORDER BY Born;", database_.cndb);
+                sqlCommand = new OleDbCommand("SELECT ID FROM tbl_People WHERE MotherID = " + personIdx_.ToString() + " ORDER BY Born;", database_.cndb);
             }
 
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
@@ -576,7 +576,7 @@ namespace family_tree.objects
             {
                 sql.Append("MotherID");
             }
-            sql.Append(" = " + personIndex_.ToString() + ";");
+            sql.Append(" = " + personIdx_.ToString() + ";");
             OleDbCommand sqlCommand = new OleDbCommand(sql.ToString(), database_.cndb);
             Object children = sqlCommand.ExecuteScalar();
             if (children == null)
@@ -602,7 +602,7 @@ namespace family_tree.objects
             ArrayList siblings = new ArrayList();
 
             // Open the list of siblings of this person.
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID FROM tbl_People WHERE ID <> " + personIndex_.ToString() + " AND (FatherID = " + fatherIndex_.ToString() + " OR MotherID = " + motherIndex_.ToString() + ") ORDER BY Born;", database_.cndb);
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID FROM tbl_People WHERE ID <> " + personIdx_.ToString() + " AND (FatherID = " + fatherIdx_.ToString() + " OR MotherID = " + motherIdx_.ToString() + ") ORDER BY Born;", database_.cndb);
 
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
@@ -627,7 +627,7 @@ namespace family_tree.objects
         /// It is intended that this function will populate a list box.
         /// </summary>
         /// <returns>An array clsIDName[] pairs representing people</returns>
-        public IndexName[] possiblePartners()
+        public IdxName[] possiblePartners()
         {
             ChooseSex sex = isMale_ ? ChooseSex.FEMALE : ChooseSex.MALE;
             int startYear = dob_.date.Year - database_.relationshipRange;
@@ -685,18 +685,18 @@ namespace family_tree.objects
             OleDbCommand sqlCommand = null;
             if (isMale_)
             {
-                sqlCommand = new OleDbCommand("SELECT ID, FemaleID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE MaleID = " + personIndex_.ToString() + " ORDER BY TheDate DESC;", database_.cndb);
+                sqlCommand = new OleDbCommand("SELECT ID, FemaleID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE MaleID = " + personIdx_.ToString() + " ORDER BY TheDate DESC;", database_.cndb);
             }
             else
             {
-                sqlCommand = new OleDbCommand("SELECT ID, MaleID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE FemaleID = " + personIndex_.ToString() + " ORDER BY TheDate DESC;", database_.cndb);
+                sqlCommand = new OleDbCommand("SELECT ID, MaleID, TerminatedID, TheDate, StartStatusID, TerminateDate, TerminateStatusID, Location, Comments, RelationshipID, LastEditBy, LastEditDate FROM tbl_Relationships WHERE FemaleID = " + personIdx_.ToString() + " ORDER BY TheDate DESC;", database_.cndb);
             }
 
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
                 Relationship relationship = new Relationship(dataReader.GetInt32(0), this, dataReader.GetInt32(1));
-                relationship.terminatedIndex = dataReader.GetInt32(2);
+                relationship.terminatedIdx = dataReader.GetInt32(2);
                 if (dataReader.IsDBNull(3))
                 {
                     relationship.start.status = CompoundDate.EMPTY;
@@ -731,7 +731,7 @@ namespace family_tree.objects
                 {
                     relationship.comments = dataReader.GetString(8);
                 }
-                relationship.typeIndex = dataReader.GetInt16(9);
+                relationship.typeIdx = dataReader.GetInt16(9);
                 if (dataReader.IsDBNull(10))
                 {
                     relationship.lastEditBy = "Steve Walton";
@@ -794,7 +794,7 @@ namespace family_tree.objects
             facts_ = new ArrayList();
 
             // Get the list of facts from the database.
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, TypeID, Rank, Information FROM tbl_Facts WHERE PersonID = " + personIndex_.ToString() + " ORDER BY Rank;", database_.cndb);
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT ID, TypeID, Rank, Information FROM tbl_Facts WHERE PersonID = " + personIdx_.ToString() + " ORDER BY Rank;", database_.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             int rank = 0;
             while (dataReader.Read())
@@ -819,9 +819,9 @@ namespace family_tree.objects
 
 
         /// <summary>Returns an array of facts of the specified type.</summary>
-        /// <param name="factTypeIndex">Specify the type of fact.</param>
+        /// <param name="factTypeIdx">Specify the type of fact.</param>
         /// <returns>An array of facts of the required type.</returns>
-        public Fact[] getFacts(int factTypeIndex)
+        public Fact[] getFacts(int factTypeIdx)
         {
             // Check that some facts exist.
             if (facts_ == null)
@@ -834,7 +834,7 @@ namespace family_tree.objects
             ArrayList result = new ArrayList();
             foreach (Fact fact in facts_)
             {
-                if (fact.typeIndex == factTypeIndex && fact.isValid())
+                if (fact.typeIdx == factTypeIdx && fact.isValid())
                 {
                     result.Add(fact);
                 }
@@ -863,11 +863,11 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the information field from the first fact of the specified type.  This is intended to be used where a fact type only has a single value.</summary>
-        /// <param name="factTypeIndex">Specifies the type of fact to return.</param>
+        /// <param name="factTypeIdx">Specifies the type of fact to return.</param>
         /// <returns>The information field as a string.</returns>
-        public string getSimpleFact(int factTypeIndex)
+        public string getSimpleFact(int factTypeIdx)
         {
-            Fact[] facts = getFacts(factTypeIndex);
+            Fact[] facts = getFacts(factTypeIdx);
             if (facts.Length == 0)
             {
                 return "";
@@ -878,11 +878,11 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the first fact of the specified type or null.</summary>
-        /// <param name="factTypeIndex">Specifies the type of fact to return.</param>
+        /// <param name="factTypeIdx">Specifies the type of fact to return.</param>
         /// <returns>The first fact of the specified type or null.</returns>
-        public Fact getFirstFact(int factTypeIndex)
+        public Fact getFirstFact(int factTypeIdx)
         {
-            Fact[] facts = getFacts(factTypeIndex);
+            Fact[] facts = getFacts(factTypeIdx);
             // Check that some facts exist.
             if (facts.Length == 0)
             {
@@ -910,7 +910,7 @@ namespace family_tree.objects
             StringBuilder description = new StringBuilder();
 
             // Initialise the footnotes.
-            IndexName[] sources = null;
+            IdxName[] sources = null;
             char[] footnoteCharacter = null;
             StringBuilder footnote = null;
             char nextChar = 'A';
@@ -940,10 +940,10 @@ namespace family_tree.objects
                 // Primary image.
                 if (isShowImages)
                 {
-                    if (mediaIndex_ != 0)
+                    if (mediaIdx_ != 0)
                     {
-                        Media primaryMedia = new Media(database_, mediaIndex_);
-                        description.Append("<a href=\"media:" + mediaIndex_.ToString() + "\">");
+                        Media primaryMedia = new Media(database_, mediaIdx_);
+                        description.Append("<a href=\"media:" + mediaIdx_.ToString() + "\">");
                         description.Append("<img align=\"right\" src=\"" + primaryMedia.fullFileName + "\" border=\"no\" alt=\"" + primaryMedia.title + "\" height=\"" + primaryMedia.heightForSpecifiedWidth(150) + "\" width=\"150\" />");
                         description.Append("</a>");
                     }
@@ -953,7 +953,7 @@ namespace family_tree.objects
             // Name.
             if (isHtml)
             {
-                description.Append("<a href=\"Person:" + personIndex_.ToString() + "\">");
+                description.Append("<a href=\"Person:" + personIdx_.ToString() + "\">");
             }
             description.Append(getName(false, true));
             if (isHtml)
@@ -1004,7 +1004,7 @@ namespace family_tree.objects
             {
                 if (relationships[i].isValid() && relationships[i].isMarried())
                 {
-                    Person relation = database_.getPerson(relationships[i].partnerIndex);
+                    Person relation = database_.getPerson(relationships[i].partnerIdx);
                     if (relationships[i].start.isEmpty())
                     {
                         description.Append(thirdPerson(true));
@@ -1025,7 +1025,7 @@ namespace family_tree.objects
                     description.Append(" married ");
                     if (isHtml)
                     {
-                        description.Append("<a href=\"Person:" + relation.index.ToString() + "\">");
+                        description.Append("<a href=\"Person:" + relation.idx.ToString() + "\">");
                     }
                     description.Append(relation.getName(false, true));
                     if (isHtml)
@@ -1056,10 +1056,10 @@ namespace family_tree.objects
 
                     description.Append(". ");
 
-                    if (relationships[i].terminatedIndex != 1)
+                    if (relationships[i].terminatedIdx != 1)
                     {
                         bool bTerminated = true;
-                        switch (relationships[i].terminatedIndex)
+                        switch (relationships[i].terminatedIdx)
                         {
                         case 2:
                             description.Append("They got divorced");
@@ -1107,19 +1107,19 @@ namespace family_tree.objects
                 }
             }
 
-            // Education
+            // Education.
             description.Append(showFacts(40, " was educated at ", "and", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
-            // Occupation
+            // Occupation.
             description.Append(showFacts(20, " worked as a ", "and", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
-            // Interests
+            // Interests.
             description.Append(showFacts(30, " was interested in ", "", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
-            // Comments
+            // Comments.
             description.Append(showFacts(100, " ", "", isHtml, isFootnotes, sources, footnoteCharacter, footnote, ref nextChar));
 
-            // Children
+            // Children.
             // Don't display children information for people who are known be less than 14 years old.
             int age = 15;
             if (!dod.isEmpty())
@@ -1165,7 +1165,7 @@ namespace family_tree.objects
             }
 
             // Census information.
-            CensusPerson[] censuses = database_.censusForPerson(personIndex_);
+            CensusPerson[] censuses = database_.censusForPerson(personIdx_);
             string lastLocation = "";
             foreach (CensusPerson census in censuses)
             {
@@ -1192,7 +1192,7 @@ namespace family_tree.objects
                 description.Append(" on " + census.date.ToString("d MMMM yyyy"));
                 if (isFootnotes)
                 {
-                    description.Append(getFootnote(census.houseHoldIndex, sources, footnoteCharacter, footnote, ref nextChar, true));
+                    description.Append(getFootnote(census.houseHoldIdx, sources, footnoteCharacter, footnote, ref nextChar, true));
                 }
                 description.Append(". ");
             }
@@ -1261,16 +1261,16 @@ namespace family_tree.objects
             // Show all the non primary images.
             if (isHtml && isShowImages)
             {
-                int[] mediaIndexes = getMediaIndexes(true);
-                if (mediaIndexes.Length > 0)
+                int[] mediaIdxs = getMediaIdxs(true);
+                if (mediaIdxs.Length > 0)
                 {
                     description.AppendLine("<table>");
-                    foreach (int mediaIndex in mediaIndexes)
+                    foreach (int mediaIdx in mediaIdxs)
                     {
-                        Media media = new Media(database_, mediaIndex);
+                        Media media = new Media(database_, mediaIdx);
                         description.Append("<tr valign=\"top\">");
                         description.Append("<td>");
-                        description.Append("<a href=\"media:" + mediaIndex.ToString() + "\">");
+                        description.Append("<a href=\"media:" + mediaIdx.ToString() + "\">");
                         description.Append("<img src=\"" + media.fullFileName + "\" border=\"no\" height=\"" + media.heightForSpecifiedWidth(150) + "\" width=\"150\">");
                         description.Append("</a>");
                         description.Append("</td>");
@@ -1307,7 +1307,7 @@ namespace family_tree.objects
 
 
         /// <summary>Adds all the facts of the specified type to the description in human readable form.</summary>
-		/// <param name="factTypeIndex">Specifies the fact type to add.</param>
+		/// <param name="factTypeIdx">Specifies the fact type to add.</param>
 		/// <param name="prefix">Specifies the prefix to make the fact human readable</param>
 		/// <param name="joinWord">Specifies the join word for the last fact in a single sentence.  Use "" for a separate sentence for each fact.</param>
 		/// <param name="isHtml">Specify true for a description in Html, false for plain ASCII text.</param>
@@ -1317,13 +1317,13 @@ namespace family_tree.objects
 		/// <param name="footnote">Footnote sources text for the bottom of the page.</param>
 		/// <param name="nextChar">Character to use for the next footnote marker.</param>
 		/// <returns>Human readable string about the fact</returns>
-		private string showFacts(int factTypeIndex, string prefix, string joinWord, bool isHtml, bool isFootnotes, IndexName[] sources, char[] footnoteCharacter, StringBuilder footnote, ref char nextChar)
+		private string showFacts(int factTypeIdx, string prefix, string joinWord, bool isHtml, bool isFootnotes, IdxName[] sources, char[] footnoteCharacter, StringBuilder footnote, ref char nextChar)
         {
             // Start to build a string to return as the result.
             StringBuilder description = new StringBuilder();
 
             // Get the collection of facts and loop through them.
-            Fact[] facts = this.getFacts(factTypeIndex);
+            Fact[] facts = this.getFacts(factTypeIdx);
             bool isFirst = true;
             bool isFullStop = false;
             for (int factCount = 0; factCount < facts.Length; factCount++)
@@ -1388,13 +1388,13 @@ namespace family_tree.objects
         /// <param name="footnote">Returns the text to include at the bottom of the description.</param>
         /// <param name="nextChar">Returns the next character to use as footnote marker.</param>
         /// <returns>The footnote to include in the description</returns>
-        private string getFootnote(Sources sources, IndexName[] allSources, char[] footnoteCharacters, StringBuilder footnote, ref char nextChar)
+        private string getFootnote(Sources sources, IdxName[] allSources, char[] footnoteCharacters, StringBuilder footnote, ref char nextChar)
         {
             StringBuilder result = new StringBuilder();
-            int[] sourceIndexes = sources.get();
-            for (int i = 0; i < sourceIndexes.Length; i++)
+            int[] sourceIdxs = sources.get();
+            for (int i = 0; i < sourceIdxs.Length; i++)
             {
-                result.Append(getFootnote(sourceIndexes[i], allSources, footnoteCharacters, footnote, ref nextChar, false));
+                result.Append(getFootnote(sourceIdxs[i], allSources, footnoteCharacters, footnote, ref nextChar, false));
             }
 
             if (result.Length == 0)
@@ -1405,23 +1405,23 @@ namespace family_tree.objects
             return "<span class=\"superscript\">" + result.ToString() + "</span> ";
         }
 
-        private string getFootnote(int sourceIndex, IndexName[] allSources, char[] footnoteCharacters, StringBuilder footnote, ref char nextChar, bool isHtml)
+        private string getFootnote(int sourceIdx, IdxName[] allSources, char[] footnoteCharacters, StringBuilder footnote, ref char nextChar, bool isHtml)
         {
-            int index = 0;
-            for (index = 0; allSources[index].index != sourceIndex; index++) ;
-            if (footnoteCharacters[index] == ' ')
+            int idx = 0;
+            for (idx = 0; allSources[idx].idx != sourceIdx; idx++) ;
+            if (footnoteCharacters[idx] == ' ')
             {
-                footnoteCharacters[index] = nextChar;
+                footnoteCharacters[idx] = nextChar;
                 nextChar++;
 
-                footnote.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">" + footnoteCharacters[index].ToString() + "</span></td><td><a href=\"Source:" + allSources[index].index.ToString() + "\"><span class=\"Small\">" + allSources[index].name + "</span></a></td></tr>");
+                footnote.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">" + footnoteCharacters[idx].ToString() + "</span></td><td><a href=\"Source:" + allSources[idx].idx.ToString() + "\"><span class=\"Small\">" + allSources[idx].name + "</span></a></td></tr>");
             }
 
             if (isHtml)
             {
-                return "<span class=\"superscript\">" + footnoteCharacters[index].ToString() + "</span> ";
+                return "<span class=\"superscript\">" + footnoteCharacters[idx].ToString() + "</span> ";
             }
-            return footnoteCharacters[index].ToString();
+            return footnoteCharacters[idx].ToString();
         }
 
 
@@ -1626,10 +1626,10 @@ namespace family_tree.objects
                 }
 
                 // Add the location of born children.
-                int[] childrenIndexes = getChildren();
-                foreach (int childIndex in childrenIndexes)
+                int[] childrenIdxs = getChildren();
+                foreach (int childIdx in childrenIdxs)
                 {
-                    Person child = new Person(childIndex, database_);
+                    Person child = new Person(childIdx, database_);
                     Fact[] childFacts = child.getFacts(10);
                     if (childFacts.Length > 0)
                     {
@@ -1643,7 +1643,7 @@ namespace family_tree.objects
                 }
 
                 // Add the census places.
-                CensusPerson[] censuses = database_.censusForPerson(personIndex_);
+                CensusPerson[] censuses = database_.censusForPerson(personIdx_);
                 // string sLastLocation = "";
                 foreach (CensusPerson census in censuses)
                 {
@@ -1677,29 +1677,26 @@ namespace family_tree.objects
         /// <summary>Returns an array of media object indexes associated with this person.</summary>
         /// <param name="isExcludePrimary">Specify true not to include the primary media object index.</param>
         /// <returns>An array of indexes of media objects.</returns>
-        public int[] getMediaIndexes
-            (
-            bool isExcludePrimary
-            )
+        public int[] getMediaIdxs(bool isExcludePrimary)
         {
             // Decide if to exclude the primary media object
-            int excludeIndex = -1;
+            int excludeIdx = -1;
             if (isExcludePrimary)
             {
-                excludeIndex = mediaIndex_;
+                excludeIdx = mediaIdx_;
             }
 
             ArrayList media = new ArrayList();
 
-            string sql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIndex_.ToString() + ";";
+            string sql = "SELECT MediaID FROM tbl_AdditionalMediaForPeople WHERE PersonID=" + personIdx_.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                int mediaIndex = walton.Database.getInt(dataReader, "MediaID", 0);
-                if (mediaIndex != 0 && mediaIndex != excludeIndex)
+                int mediaIdx = walton.Database.getInt(dataReader, "MediaID", 0);
+                if (mediaIdx != 0 && mediaIdx != excludeIdx)
                 {
-                    media.Add(mediaIndex);
+                    media.Add(mediaIdx);
                 }
             }
             dataReader.Close();
@@ -1715,12 +1712,12 @@ namespace family_tree.objects
         /// <returns>An array of media objects.</returns>
         public Media[] getMedia(bool isExcludePrimary)
         {
-            int[] mediaIndexes = getMediaIndexes(isExcludePrimary);
-            Media[] result = new Media[mediaIndexes.Length];
+            int[] mediaIdxs = getMediaIdxs(isExcludePrimary);
+            Media[] result = new Media[mediaIdxs.Length];
             int i = 0;
-            foreach (int mediaIndex in mediaIndexes)
+            foreach (int mediaIdx in mediaIdxs)
             {
-                Media media = new Media(database_, mediaIndex);
+                Media media = new Media(database_, mediaIdx);
                 result[i++] = media;
             }
 
@@ -1756,12 +1753,12 @@ namespace family_tree.objects
             // Create a list to hold the ToDo items.
             toDo_ = new ArrayList();
 
-            string sql = "SELECT * FROM tbl_ToDo WHERE PersonID = " + this.index + " ORDER BY Priority, ID;";
+            string sql = "SELECT * FROM tbl_ToDo WHERE PersonID = " + this.idx + " ORDER BY Priority, ID;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, database_.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                ToDo toDo = new ToDo(walton.Database.getInt(dataReader, "ID", -1), index, walton.Database.getInt(dataReader, "Priority", 0), walton.Database.getString(dataReader, "Description", ""));
+                ToDo toDo = new ToDo(walton.Database.getInt(dataReader, "ID", -1), idx, walton.Database.getInt(dataReader, "Priority", 0), walton.Database.getString(dataReader, "Description", ""));
 
                 // Add this item to the collection.
                 toDo_.Add(toDo);
@@ -1798,8 +1795,8 @@ namespace family_tree.objects
 
 
 
-        /// <summary>Index of the media object attached to this person.</summary>
-		public int mediaIndex { get { return mediaIndex_; } set { mediaIndex_ = value; } }
+        /// <summary>ID of the media object attached to this person.</summary>
+		public int mediaIdx { get { return mediaIdx_; } set { mediaIdx_ = value; } }
 
 
 
@@ -1807,13 +1804,13 @@ namespace family_tree.objects
         public string getImageFilename()
         {
             // Check that a media object is attached to this person
-            if (mediaIndex_ == 0)
+            if (mediaIdx_ == 0)
             {
                 return "";
             }
 
             // Find the full filename of the media object
-            Media media = new Media(database_, mediaIndex_);
+            Media media = new Media(database_, mediaIdx_);
             return media.fullFileName;
         }
 
@@ -1822,7 +1819,7 @@ namespace family_tree.objects
         #endregion
 
         /// <summary>The ID of the person in the database.</summary>
-        public int index { get { return personIndex_; } set { personIndex_ = value; } }
+        public int idx { get { return personIdx_; } set { personIdx_ = value; } }
 
         /// <summary>Database that this person is stored in.</summary>
         public Database database { get { return database_; } }
@@ -1866,10 +1863,10 @@ namespace family_tree.objects
         public CompoundDate dod { get { return dod_; } }
 
         /// <summary>ID of the father of this person.  Zero is unknown father.</summary>
-		public int fatherIndex { get { return fatherIndex_; } set { fatherIndex_ = value; } }
+		public int fatherIdx { get { return fatherIdx_; } set { fatherIdx_ = value; } }
 
         /// <summary>ID of the mother of this person.  Zero is unknown mother.</summary>
-		public int motherIndex { get { return motherIndex_; } set { motherIndex_ = value; } }
+		public int motherIdx { get { return motherIdx_; } set { motherIdx_ = value; } }
 
         /// <summary>True if this person is male.  False, otherwise.</summary>
         public bool isMale { get { return isMale_; } set { isMale_ = value; } }
@@ -1895,7 +1892,7 @@ namespace family_tree.objects
             {
                 if (sourcesName_ == null)
                 {
-                    sourcesName_ = new Sources(personIndex_, 1, database_);
+                    sourcesName_ = new Sources(personIdx_, 1, database_);
                 }
                 return sourcesName_;
             }
@@ -1910,7 +1907,7 @@ namespace family_tree.objects
             {
                 if (sourcesDoB_ == null)
                 {
-                    sourcesDoB_ = new Sources(personIndex_, 2, database_);
+                    sourcesDoB_ = new Sources(personIdx_, 2, database_);
                 }
                 return sourcesDoB_;
             }
@@ -1925,7 +1922,7 @@ namespace family_tree.objects
             {
                 if (sourcesDoD_ == null)
                 {
-                    sourcesDoD_ = new Sources(personIndex_, 3, database_);
+                    sourcesDoD_ = new Sources(personIdx_, 3, database_);
                 }
                 return sourcesDoD_;
             }
@@ -1940,7 +1937,7 @@ namespace family_tree.objects
             {
                 if (sourcesNonSpecific_ == null)
                 {
-                    sourcesNonSpecific_ = new Sources(personIndex_, 0, database_);
+                    sourcesNonSpecific_ = new Sources(personIdx_, 0, database_);
                 }
                 return sourcesNonSpecific_;
             }

@@ -1,5 +1,3 @@
-using System;
-using System.Data;
 using System.Data.OleDb;		// Access database ADO.NET
 
 namespace family_tree.objects
@@ -10,10 +8,10 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>Database key for the fact.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>Type of fact.</summary>
-        private int typeIndex_;
+        private int typeIdx_;
 
         /// <summary>An ordering for the facts attached to the person.</summary>
         private int rank_;
@@ -46,7 +44,7 @@ namespace family_tree.objects
         {
             person_ = null;
             sources_ = null;
-            index_ = 0;
+            idx_ = 0;
             rank_ = 0;
             isDirty_ = true;
             isDelete_ = false;
@@ -55,27 +53,20 @@ namespace family_tree.objects
         /// Creates a populated fact object attached to a person object.
         /// It is intended that this fact will have come from the database.
         /// </summary>
-        /// <param name="nID">Specifies the ID of the fact in the database.</param>
-        /// <param name="oPerson">Specifies the person this fact is attached to.</param>
-        /// <param name="nTypeID">Specifies the type of this fact.</param>
-        /// <param name="nRank">Specifies the rank order of the fact within the specified person.</param>
-        /// <param name="sDescription">Specifies the description (data) for this fact.</param>
-        public Fact
-            (
-            int nID,
-            Person oPerson,
-            int nTypeID,
-            int nRank,
-            string sDescription
-            )
+        /// <param name="idx">Specifies the ID of the fact in the database.</param>
+        /// <param name="person">Specifies the person this fact is attached to.</param>
+        /// <param name="typeIdx">Specifies the type of this fact.</param>
+        /// <param name="rank">Specifies the rank order of the fact within the specified person.</param>
+        /// <param name="description">Specifies the description (data) for this fact.</param>
+        public Fact(int idx, Person person, int typeIdx, int rank, string description)
         {
             isDirty_ = false;
-            person_ = oPerson;
+            person_ = person;
             sources_ = null;
-            index_ = nID;
-            typeIndex_ = nTypeID;
-            rank_ = nRank;
-            description_ = sDescription;
+            idx_ = idx;
+            typeIdx_ = typeIdx;
+            rank_ = rank;
+            description_ = description;
             isDelete_ = false;
         }
 
@@ -93,7 +84,7 @@ namespace family_tree.objects
             if (isDelete_)
             {
                 // Check if the fact is actually in the database.
-                if (index_ == 0)
+                if (idx_ == 0)
                 {
                     // Nothing to do
                     return true;
@@ -102,12 +93,12 @@ namespace family_tree.objects
                 // Delete any child records.
 
                 // Delete the sources for this fact.
-                string sql = "DELETE FROM tbl_FactsToSources WHERE FactID = " + index_.ToString() + ";";
+                string sql = "DELETE FROM tbl_FactsToSources WHERE FactID = " + idx_.ToString() + ";";
                 OleDbCommand sqlCommand = new OleDbCommand(sql, person_.database.cndb);
                 sqlCommand.ExecuteNonQuery();
 
                 // Delete the record
-                sql = "DELETE FROM tbl_Facts WHERE ID=" + index_.ToString() + ";";
+                sql = "DELETE FROM tbl_Facts WHERE ID=" + idx_.ToString() + ";";
                 sqlCommand = new OleDbCommand(sql, person_.database.cndb);
                 sqlCommand.ExecuteNonQuery();
 
@@ -118,26 +109,26 @@ namespace family_tree.objects
             // Save this fact (if required).
             if (isDirty_)
             {
-                if (index_ == 0)
+                if (idx_ == 0)
                 {
                     // Create a new record.
-                    OleDbCommand sqlCommand = new OleDbCommand("INSERT INTO tbl_Facts (PersonID, TypeID, Rank, Information) VALUES (" + person_.index.ToString() + ", " + typeIndex_.ToString() + ", " + rank_.ToString() + ", \"" + description_ + "\");", person_.database.cndb);
+                    OleDbCommand sqlCommand = new OleDbCommand("INSERT INTO tbl_Facts (PersonID, TypeID, Rank, Information) VALUES (" + person_.idx.ToString() + ", " + typeIdx_.ToString() + ", " + rank_.ToString() + ", \"" + description_ + "\");", person_.database.cndb);
                     sqlCommand.ExecuteNonQuery();
 
                     // Find the ID of the new record.
                     sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Facts;", person_.database.cndb);
-                    index_ = (int)sqlCommand.ExecuteScalar();
+                    idx_ = (int)sqlCommand.ExecuteScalar();
 
                     // Update the child sources before they are saved.
                     if (sources_ != null)
                     {
-                        sources_.factIndex = index_;
+                        sources_.factIdx = idx_;
                     }
                 }
                 else
                 {
                     // Update add existing record				
-                    OleDbCommand sqlCommand = new OleDbCommand("UPDATE tbl_Facts SET Information = \"" + description_ + "\", Rank = " + rank_.ToString() + " WHERE ID = " + index_.ToString() + ";", person_.database.cndb);
+                    OleDbCommand sqlCommand = new OleDbCommand("UPDATE tbl_Facts SET Information = \"" + description_ + "\", Rank = " + rank_.ToString() + " WHERE ID = " + idx_.ToString() + ";", person_.database.cndb);
                     sqlCommand.ExecuteNonQuery();
                 }
                 isDirty_ = false;
@@ -186,7 +177,7 @@ namespace family_tree.objects
             {
                 if (sources_ == null)
                 {
-                    sources_ = new Sources(index_, person_.database);
+                    sources_ = new Sources(idx_, person_.database);
                 }
                 return sources_;
             }
@@ -201,7 +192,7 @@ namespace family_tree.objects
 
 
         /// <summary>ID of the fact in the database.</summary>
-        public int index { get { return index_; } set { index_ = value; } }
+        public int idx { get { return idx_; } set { idx_ = value; } }
 
 
 
@@ -211,7 +202,7 @@ namespace family_tree.objects
 
 
         /// <summary>Type of this fact.  eg Location of Birth, Occupartion.</summary>
-        public int typeIndex { get { return typeIndex_; } set { typeIndex_ = value; } }
+        public int typeIdx { get { return typeIdx_; } set { typeIdx_ = value; } }
 
 
 
@@ -240,7 +231,7 @@ namespace family_tree.objects
         {
             get
             {
-                FactType factType = person_.database.getFactType(typeIndex_);
+                FactType factType = person_.database.getFactType(typeIdx_);
                 if (factType == null)
                 {
                     return null;

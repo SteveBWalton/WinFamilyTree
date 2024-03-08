@@ -8,18 +8,18 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>The Key ID of this record in the database.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>The key ID of the parent Census household record that this person is a member of.</summary>
-        private int houseHoldIndex_;
+        private int houseHoldIdx_;
 
         /// <summary>The name of the parent census household record.</summary>
         private string houseHoldName_;
 
         /// <summary>The key ID of the person that this record refers too.  Can be 0 (null in database) for someone in the census report but not the database.</summary>
-        private int personIndex_;
+        private int personIdx_;
 
-        /// <summary>The name of the person specified in m_nPersonID.  Can be empty.</summary>
+        /// <summary>The name of the person specified in personIdx_.  Can be empty.</summary>
         private string personName_;
 
         /// <summary>The name of the person as written in the census record.</summary>
@@ -125,16 +125,16 @@ namespace family_tree.objects
         #region Properties
 
         /// <summary>The Key ID of this record in the database.</summary>
-        public int index { get { return index_; } set { index_ = value; } }
+        public int idx { get { return idx_; } set { idx_ = value; } }
 
         /// <summary>The key ID of the parent Census household record that this person is a member of.</summary>
-        public int houseHoldIndex { get { return houseHoldIndex_; } set { houseHoldIndex_ = value; } }
+        public int houseHoldIdx { get { return houseHoldIdx_; } set { houseHoldIdx_ = value; } }
 
         /// <summary>The name of the parent census household record.</summary>
         public string houseHoldName { get { return houseHoldName_; } set { houseHoldName_ = value; } }
 
         /// <summary>The key ID of the person that this record refers too.  Can be 0 (null in database) for someone in the census report but not the database.</summary>
-        public int personIndex { get { return personIndex_; } set { personIndex_ = value; } }
+        public int personIdx { get { return personIdx_; } set { personIdx_ = value; } }
 
         /// <summary>The name of the person specified in PersonID.  Can be empty.</summary>
         public string personName { get { return personName_; } set { personName_ = value; } }

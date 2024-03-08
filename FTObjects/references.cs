@@ -14,7 +14,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>ID of the person.</summary>
-        private int personIndex_;
+        private int personIdx_;
 
         /// <summary>Human readable name for the person.</summary>
         private string personName_;
@@ -29,10 +29,10 @@ namespace family_tree.objects
 
 
         /// <summary>Class constructor.  Creates a new clsReferences object attached to the specified person.</summary>
-        /// <param name="personIndex">Specifies the ID of the person that this references collection is attached to.</param>
-        public References(int personIndex)
+        /// <param name="personIdx">Specifies the ID of the person that this references collection is attached to.</param>
+        public References(int personIdx)
         {
-            personIndex_ = personIndex;
+            personIdx_ = personIdx;
             references_ = new StringBuilder();
         }
 
@@ -60,7 +60,7 @@ namespace family_tree.objects
         #region Public Properties
 
         /// <summary>ID of the person.</summary>
-        public int personIndex { get { return personIndex_; } }
+        public int personIdx { get { return personIdx_; } }
 
         /// <summary>Human readable name for the person.</summary>
         public string personName { get { return personName_; } set { personName_ = value; } }

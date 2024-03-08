@@ -34,7 +34,7 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>ID of the record in the database.</summary>
-        private int index_;
+        private int idx_;
 
         /// <summary>True if this record should be removed from the database.</summary>
         private bool isDelete_;
@@ -43,16 +43,16 @@ namespace family_tree.objects
         private Person owner_;
 
         /// <summary>ID of the partner.</summary>
-        private int partnerIndex_;
+        private int partnerIdx_;
 
         /// <summary>Is the relationship terminated.</summary>
         private int terminated_;
 
         /// <summary>ID of the male member of the relationship.</summary>
-        private int maleIndex_;
+        private int maleIdx_;
 
         /// <summary>ID of the female member of the relationship.</summary>
-        private int femaleIndex_;
+        private int femaleIdx_;
 
         /// <summary>Start date of the relationship.</summary>
         private CompoundDate start_;
@@ -85,7 +85,7 @@ namespace family_tree.objects
         private Database database_;
 
         /// <summary>Type of relationship. 1- Religious, 2-Civil, 3-CoHabit.  This is stored as RelationshipID in the database.</summary>
-        private int typeIndex_;
+        private int typeIdx_;
 
         /// <summary>Name of the user who wrote the last edit.</summary>
         private string lastEditBy_;
@@ -101,17 +101,17 @@ namespace family_tree.objects
         #region Constructors
 
         /// <summary>Class Constructor.  Builds an empty relationship object.  This can be used to create relationship objects with no owner.</summary>
-        /// <param name="index">Specifies the ID of the relationship object.</param>
-        public Relationship(int index)
+        /// <param name="idx">Specifies the ID of the relationship object.</param>
+        public Relationship(int idx)
         {
-            index_ = index;
+            idx_ = idx;
             isDelete_ = false;
             owner_ = null;
-            partnerIndex_ = 0;
+            partnerIdx_ = 0;
 
             start_ = new CompoundDate();
             end_ = new CompoundDate();
-            typeIndex_ = 1;
+            typeIdx_ = 1;
             terminated_ = 1;
             sourcesStart_ = null;
             sourcesLocation_ = null;
@@ -127,27 +127,27 @@ namespace family_tree.objects
 
         /// <summary>Class Constructor.  Creates a new relationship object for the specified person with the specified partner.  It is intended that this is a new relationship not in the database (yet) hence the ID is unknown.</summary>
         /// <param name="owner">Specifies the owner of this relationship object.</param>
-        /// <param name="partnerIndex">Specifies the partner in this relationship..</param>
-        public Relationship(Person owner, int partnerIndex)
+        /// <param name="partnerIdx">Specifies the partner in this relationship..</param>
+        public Relationship(Person owner, int partnerIdx)
         {
-            index_ = 0;
+            idx_ = 0;
             isDelete_ = false;
             owner_ = owner;
-            partnerIndex_ = partnerIndex;
+            partnerIdx_ = partnerIdx;
             if (owner_.isMale)
             {
-                maleIndex_ = owner_.index;
-                femaleIndex_ = partnerIndex;
+                maleIdx_ = owner_.idx;
+                femaleIdx_ = partnerIdx;
             }
             else
             {
-                femaleIndex_ = owner_.index;
-                maleIndex_ = partnerIndex;
+                femaleIdx_ = owner_.idx;
+                maleIdx_ = partnerIdx;
             }
 
             start_ = new CompoundDate();
             end_ = new CompoundDate();
-            typeIndex_ = 1;
+            typeIdx_ = 1;
             terminated_ = 1;
             sourcesStart_ = null;
             sourcesLocation_ = null;
@@ -161,13 +161,13 @@ namespace family_tree.objects
 
 
         /// <summary>Class Constuctor.  Builds a relationship object for the specified person with the specified partner and the specified ID.  It is intended that this relationship should have been read from the database hence the ID is known.</summary>
-        /// <param name="index">Specifies the ID of the relationship in the database.</param>
+        /// <param name="idx">Specifies the ID of the relationship in the database.</param>
         /// <param name="owner">Specifies the owner of this relationship object.</param>
-        /// <param name="partnerIndex">Specifies the partner in this relationship..</param>
-        public Relationship(int index, Person owner, int partnerIndex)
-            : this(owner, partnerIndex)
+        /// <param name="partnerIdx">Specifies the partner in this relationship..</param>
+        public Relationship(int idx, Person owner, int partnerIdx)
+            : this(owner, partnerIdx)
         {
-            index_ = index;
+            idx_ = idx;
             isDirty_ = false;
         }
 
@@ -186,7 +186,7 @@ namespace family_tree.objects
             if (isDelete_)
             {
                 // Check if the relationship is actually in the database.
-                if (index_ == 0)
+                if (idx_ == 0)
                 {
                     // Nothing to do.
                     return true;
@@ -195,7 +195,7 @@ namespace family_tree.objects
                 // Delete any child records.
 
                 // Delete this record.
-                sqlCommand = new OleDbCommand("DELETE FROM tbl_Relationships WHERE ID = " + index_.ToString() + ";", owner_.database.cndb);
+                sqlCommand = new OleDbCommand("DELETE FROM tbl_Relationships WHERE ID = " + idx_.ToString() + ";", owner_.database.cndb);
                 sqlCommand.ExecuteNonQuery();
 
                 // Return success.
@@ -203,39 +203,39 @@ namespace family_tree.objects
             }
 
             // Create a new record.
-            if (index_ == 0)
+            if (idx_ == 0)
             {
                 // Find the new ID for this relationship.
                 sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Relationships;", owner_.database.cndb);
-                index_ = (int)sqlCommand.ExecuteScalar() + 1;
+                idx_ = (int)sqlCommand.ExecuteScalar() + 1;
 
                 // Add this relationship to the datbase.
-                sqlCommand = new OleDbCommand("INSERT INTO tbl_Relationships (ID, MaleID, FemaleID) VALUES (" + index_.ToString() + ", " + maleIndex_ + ", " + femaleIndex_ + ");", owner_.database.cndb);
+                sqlCommand = new OleDbCommand("INSERT INTO tbl_Relationships (ID, MaleID, FemaleID) VALUES (" + idx_.ToString() + ", " + maleIdx_ + ", " + femaleIdx_ + ");", owner_.database.cndb);
                 sqlCommand.ExecuteNonQuery();
 
                 // Update the sources with the new relationship ID.
                 if (sourcesStart_ != null)
                 {
-                    sourcesStart_.relationshipIndex = index_;
+                    sourcesStart_.relationshipIdx = idx_;
                 }
                 if (sourcesLocation_ != null)
                 {
-                    sourcesLocation_.relationshipIndex = index_;
+                    sourcesLocation_.relationshipIdx = idx_;
                 }
                 if (sourcesTerminated_ != null)
                 {
-                    sourcesTerminated_.relationshipIndex = index_;
+                    sourcesTerminated_.relationshipIdx = idx_;
                 }
                 if (sourcesPartner_ != null)
                 {
-                    sourcesPartner_.relationshipIndex = index_;
+                    sourcesPartner_.relationshipIdx = idx_;
                 }
                 isDirty_ = true;
             }
 
             StringBuilder sql = new StringBuilder();
             sql.Append("UPDATE tbl_Relationships SET ");
-            sql.Append("RelationshipID = " + typeIndex_.ToString() + ", ");
+            sql.Append("RelationshipID = " + typeIdx_.ToString() + ", ");
             sql.Append("TheDate = " + Database.toDb(start_) + ", ");
             sql.Append("StartStatusID = " + start_.status.ToString() + ", ");
             sql.Append("TerminatedID = " + terminated_.ToString() + ", ");
@@ -253,7 +253,7 @@ namespace family_tree.objects
                 isDirtyInSqlite = true;
             }
             sql.Append("Comments = " + Database.toDb(comments_) + " ");
-            sql.Append("WHERE ID = " + index_.ToString() + ";");
+            sql.Append("WHERE ID = " + idx_.ToString() + ";");
 
             // Update the relationship in the database.
             sqlCommand = new OleDbCommand(sql.ToString(), owner_.database.cndb);
@@ -261,7 +261,7 @@ namespace family_tree.objects
 
             // Update the relationship in the sqlite database.
             SQLiteCommand sqliteCommand = owner_.database.sqlite.CreateCommand();
-            sqliteCommand.CommandText = "INSERT INTO RELATIONSHIPS (ID, RELATIONSHIP_ID, START_DATE, START_STATUS_ID, TERMINATED, TERMINATED_DATE, TERMINATED_STATUS_ID, LOCATION, COMMENTS, LAST_EDIT_BY, LAST_EDIT_DATE) VALUES (" + index_.ToString() + ", " + typeIndex_.ToString() + ", " + Database.toDate(start_) + ", " + start_.status.ToString() + ", " + terminated_.ToString() + ", " + Database.toDate(end_) + ", " + end_.status.ToString() + ", " + Database.toDb(location_) + ", " + Database.toDb(comments_) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "');";            
+            sqliteCommand.CommandText = "INSERT INTO RELATIONSHIPS (ID, RELATIONSHIP_ID, START_DATE, START_STATUS_ID, TERMINATED, TERMINATED_DATE, TERMINATED_STATUS_ID, LOCATION, COMMENTS, LAST_EDIT_BY, LAST_EDIT_DATE) VALUES (" + idx_.ToString() + ", " + typeIdx_.ToString() + ", " + Database.toDate(start_) + ", " + start_.status.ToString() + ", " + terminated_.ToString() + ", " + Database.toDate(end_) + ", " + end_.status.ToString() + ", " + Database.toDb(location_) + ", " + Database.toDb(comments_) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "');";            
             try
             {
                 sqliteCommand.ExecuteNonQuery();
@@ -273,7 +273,7 @@ namespace family_tree.objects
                     // Update the existing record in the sqlite3 database.
                     sql = new StringBuilder();
                     sql.Append("UPDATE RELATIONSHIPS SET ");
-                    sql.Append("RELATIONSHIP_ID = " + typeIndex_.ToString() + ", ");
+                    sql.Append("RELATIONSHIP_ID = " + typeIdx_.ToString() + ", ");
                     sql.Append("START_DATE = " + Database.toDate(start_) + ", ");
                     sql.Append("START_STATUS_ID = " + start_.status.ToString() + ", ");
                     sql.Append("TERMINATED_DATE = " + Database.toDate(end_) + ", ");
@@ -287,7 +287,7 @@ namespace family_tree.objects
                         sql.Append(", LAST_EDIT_DATE = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         isDirty_ = false;
                     }
-                    sql.Append(" WHERE ID = " + index_.ToString() + ";");
+                    sql.Append(" WHERE ID = " + idx_.ToString() + ";");
                     sqliteCommand.CommandText = sql.ToString();
                     sqliteCommand.ExecuteNonQuery();
                 }
@@ -354,7 +354,7 @@ namespace family_tree.objects
         /// <returns>True for a married relationship, false otherwise.</returns>
         public bool isMarried()
         {
-            if (typeIndex_ == 1 || typeIndex_ == 2)
+            if (typeIdx_ == 1 || typeIdx_ == 2)
             {
                 return true;
             }
@@ -367,26 +367,26 @@ namespace family_tree.objects
         /// <returns></returns>
         public override string ToString()
         {
-            Person partner = owner_.database.getPerson(partnerIndex_);
+            Person partner = owner_.database.getPerson(partnerIdx_);
             return partner.getName(false, true);
         }
 
 
 
         /// <summary>The ID of the record in the database.</summary>
-        public int index { get { return index_; } }
+        public int idx { get { return idx_; } }
 
         /// <summary>The ID of the person in the relationship who is not the owner.</summary>
-        public int partnerIndex { get { return partnerIndex_; } set { partnerIndex_ = value; } }
+        public int partnerIdx { get { return partnerIdx_; } set { partnerIdx_ = value; } }
 
         /// <summary>The ID of the male person in this relationship.</summary>
-        public int maleIndex { get { return maleIndex_; } set { maleIndex_ = value; } }
+        public int maleIdx { get { return maleIdx_; } set { maleIdx_ = value; } }
 
         /// <summary>The ID the female person in this relationship.</summary>
-        public int femaleIndex { get { return femaleIndex_; } set { femaleIndex_ = value; } }
+        public int femaleIdx { get { return femaleIdx_; } set { femaleIdx_ = value; } }
 
         /// <summary>The termination status of the relationship.  (2 - Divorced).</summary>
-        public int terminatedIndex { get { return terminated_; } set { terminated_ = value; } }
+        public int terminatedIdx { get { return terminated_; } set { terminated_ = value; } }
 
         /// <summary>The start date of the relationship.</summary>
         public CompoundDate start { get { return start_; } }
@@ -403,16 +403,10 @@ namespace family_tree.objects
 
 
         /// <summary>Type of relationship. 1- Religious, 2-Civil, 3-CoHabit.  This is stored as RelationshipID in the database.</summary>
-        public int typeIndex
+        public int typeIdx
         {
-            get
-            {
-                return typeIndex_;
-            }
-            set
-            {
-                typeIndex_ = value;
-            }
+            get { return typeIdx_; }
+            set { typeIdx_ = value; }
         }
 
 
@@ -436,14 +430,8 @@ namespace family_tree.objects
         /// <summary>Date and time of the last edit.</summary>
         public DateTime lastEditDate
         {
-            get
-            {
-                return lastEditDate_;
-            }
-            set
-            {
-                lastEditDate_ = value;
-            }
+            get { return lastEditDate_; }
+            set { lastEditDate_ = value; }
         }
 
 
@@ -457,11 +445,11 @@ namespace family_tree.objects
                 {
                     if (database_ == null)
                     {
-                        sourcesStart_ = new Sources(owner_.database, index_, 1);
+                        sourcesStart_ = new Sources(owner_.database, idx_, 1);
                     }
                     else
                     {
-                        sourcesStart_ = new Sources(database_, index_, 1);
+                        sourcesStart_ = new Sources(database_, idx_, 1);
                     }
                 }
                 return sourcesStart_;
@@ -479,11 +467,11 @@ namespace family_tree.objects
                 {
                     if (database_ == null)
                     {
-                        sourcesLocation_ = new Sources(owner_.database, index_, 2);
+                        sourcesLocation_ = new Sources(owner_.database, idx_, 2);
                     }
                     else
                     {
-                        sourcesLocation_ = new Sources(database_, index_, 2);
+                        sourcesLocation_ = new Sources(database_, idx_, 2);
                     }
                 }
                 return sourcesLocation_;
@@ -501,11 +489,11 @@ namespace family_tree.objects
                 {
                     if (database_ == null)
                     {
-                        sourcesTerminated_ = new Sources(owner_.database, index_, 3);
+                        sourcesTerminated_ = new Sources(owner_.database, idx_, 3);
                     }
                     else
                     {
-                        sourcesTerminated_ = new Sources(database_, index_, 3);
+                        sourcesTerminated_ = new Sources(database_, idx_, 3);
                     }
                 }
                 return sourcesTerminated_;
@@ -523,11 +511,11 @@ namespace family_tree.objects
                 {
                     if (database_ == null)
                     {
-                        sourcesEnd_ = new Sources(owner_.database, index_, 4);
+                        sourcesEnd_ = new Sources(owner_.database, idx_, 4);
                     }
                     else
                     {
-                        sourcesEnd_ = new Sources(database_, index_, 4);
+                        sourcesEnd_ = new Sources(database_, idx_, 4);
                     }
                 }
                 return sourcesEnd_;
@@ -545,11 +533,11 @@ namespace family_tree.objects
                 {
                     if (database_ == null)
                     {
-                        sourcesPartner_ = new Sources(owner_.database, index_, 5);
+                        sourcesPartner_ = new Sources(owner_.database, idx_, 5);
                     }
                     else
                     {
-                        sourcesPartner_ = new Sources(database_, index_, 5);
+                        sourcesPartner_ = new Sources(database_, idx_, 5);
                     }
                 }
                 return sourcesPartner_;
@@ -559,7 +547,13 @@ namespace family_tree.objects
 
 
         /// <summary>Returns the dirty state of the relationship record.</summary>
-        public bool isDirty { get { return isDirty_; } set { isDirty_ = value; } }
+        public bool isDirty
+        {
+            get { return isDirty_; }
+            set { isDirty_ = value; }
+        }
+
+
 
         #endregion
     }

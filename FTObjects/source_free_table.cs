@@ -35,7 +35,7 @@ namespace family_tree.objects
             rows_ = new ArrayList();
 
             // Fetch any existing rows in the database.
-            string sql = "SELECT LABEL, FREE_TEXT FROM SOURCES_FREE_TABLE_ROWS WHERE SOURCE_ID = " + source.index.ToString() + " ORDER BY ROW;";
+            string sql = "SELECT LABEL, FREE_TEXT FROM SOURCES_FREE_TABLE_ROWS WHERE SOURCE_ID = " + source.idx.ToString() + " ORDER BY ROW;";
             OleDbCommand sqlCommand = new OleDbCommand(sql, source.database.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
@@ -52,7 +52,7 @@ namespace family_tree.objects
         public void save()
         {
             // Remove the existing rows.
-            string sql = "DELETE FROM SOURCES_FREE_TABLE_ROWS WHERE SOURCE_ID = " + source_.index.ToString() + ";";
+            string sql = "DELETE FROM SOURCES_FREE_TABLE_ROWS WHERE SOURCE_ID = " + source_.idx.ToString() + ";";
             OleDbCommand sqlCommand = new OleDbCommand(sql, source_.database.cndb);
             sqlCommand.ExecuteNonQuery();
 
@@ -60,7 +60,7 @@ namespace family_tree.objects
             SourceFreeTableRow[] rows = getRows();
             for (int i = 0; i < rows.Length; i++)
             {
-                sql = "INSERT INTO SOURCES_FREE_TABLE_ROWS (SOURCE_ID, ROW, LABEL, FREE_TEXT) VALUES (" + source_.index.ToString() + ", " + (i + 1).ToString() + ", " + Database.toDb(rows[i].labelText) + ", +" + Database.toDb(rows[i].freeText) + ")";
+                sql = "INSERT INTO SOURCES_FREE_TABLE_ROWS (SOURCE_ID, ROW, LABEL, FREE_TEXT) VALUES (" + source_.idx.ToString() + ", " + (i + 1).ToString() + ", " + Database.toDb(rows[i].labelText) + ", +" + Database.toDb(rows[i].freeText) + ")";
                 sqlCommand = new OleDbCommand(sql, source_.database.cndb);
                 sqlCommand.ExecuteNonQuery();
             }
@@ -94,11 +94,11 @@ namespace family_tree.objects
 
 
         /// <summary>Remove the specified free table row.</summary>
-        /// <param name="index">Specifies the free table row to remove.</param>
+        /// <param name="idx">Specifies the free table row to remove.</param>
         /// <returns>True for success, false otherwise.</returns>
-        public bool deleteRow(int index)
+        public bool deleteRow(int idx)
         {
-            rows_.RemoveAt(index);
+            rows_.RemoveAt(idx);
             return true;
         }
 
@@ -135,7 +135,7 @@ namespace family_tree.objects
         #region Properties
 
         /// <summary>The ID of this source free table.  It is also the ID of the parent source object.</summary>
-        public int index { get { return source_.index; } }
+        public int idx { get { return source_.idx; } }
 
         #endregion
     }
@@ -246,7 +246,7 @@ namespace family_tree.objects
         #region Properties
 
         /// <summary>The ID of the parent source free table and the parent source object.</summary>
-        public int sourceIndex { get { return sourceFreeTable_.index; } }
+        public int sourceIdx { get { return sourceFreeTable_.idx; } }
 
         /// <summary>The label for the row of free text.</summary>
         public string labelText { get { return labelText_; } set { labelText_ = value; } }
