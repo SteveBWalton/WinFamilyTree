@@ -134,11 +134,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\FTObjects\FTObjects.csproj">
-      <Name>FTObjects</Name>
-      <Project>{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clipboard_metafile_helper.cs" />
@@ -348,7 +343,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FTObjects\FTObjects.csproj">
+      <Project>{b2f77a84-0237-4bb1-a5be-91e7ed87080b}</Project>
+      <Name>FTObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

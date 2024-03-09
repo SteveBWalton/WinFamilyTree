@@ -18,10 +18,10 @@ namespace family_tree.viewer
         private int terminated_;
 
         /// <summary>ID of the male in the relationship.</summary>
-        private int fatherIndex_;
+        private int fatherIdx_;
 
         /// <summary>ID of the female in the relationship.</summary>
-        private int motherIndex_;
+        private int motherIdx_;
 
         /// <summary>Required designer variable.</summary>
         private System.ComponentModel.Container components = null;
@@ -72,8 +72,8 @@ namespace family_tree.viewer
         {
             // Save the values that this control needs.
             terminated_ = relationship.terminatedIdx;
-            fatherIndex_ = relationship.maleIdx;
-            motherIndex_ = relationship.femaleIdx;
+            fatherIdx_ = relationship.maleIdx;
+            motherIdx_ = relationship.femaleIdx;
 
             // Return success.
             return true;
@@ -86,10 +86,10 @@ namespace family_tree.viewer
         #region Properties
 
         /// <summary>ID of the male in the relationship.</summary>
-        public int fatherIndex { get { return fatherIndex_; } }
+        public int fatherIdx { get { return fatherIdx_; } }
 
         /// <summary>ID of the female in the relationship.</summary>
-        public int motherIndex { get { return motherIndex_; } }
+        public int motherIdx { get { return motherIdx_; } }
 
         #endregion
 

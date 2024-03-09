@@ -94,7 +94,7 @@ namespace family_tree.viewer
         private Page[] history_;
 
         /// <summary>Position in the history array</summary>
-        private int historyIndex_;
+        private int historyIdx_;
 
         /// <summary>Last valid position in the history array.</summary>
         private int historyLast_;
@@ -180,7 +180,7 @@ namespace family_tree.viewer
             database_ = null;
             userOptions_ = new UserOptions(config_);
             history_ = new Page[5];
-            historyIndex_ = -1;
+            historyIdx_ = -1;
 
             psnSiblings_ = null;
             psnChildren_ = null;
@@ -195,13 +195,13 @@ namespace family_tree.viewer
             marriedWidth_ = 8;
             fontSize_ = userOptions_.fontBase.size;
 
-            string document = "";
+            string documentFileName = "";
             treeToOpen_ = "";
 
             // Open the most recent database.
             if (recentFiles_.getRecentFilename(0) != "")
             {
-                document = recentFiles_.getRecentFilename(0);
+                documentFileName = recentFiles_.getRecentFilename(0);
             }
 
             // Loop through the program arguments.
@@ -220,9 +220,9 @@ namespace family_tree.viewer
             }
 
             // Open the database.
-            if (document != "")
+            if (documentFileName != "")
             {
-                openDatabase(document);
+                openDatabase(documentFileName);
             }
         }
 
@@ -564,20 +564,20 @@ namespace family_tree.viewer
 
 
         /// <summary>Show the specified media object on the main window.</summary>
-        /// <param name="mediaIndex">Specifies the ID of the media object.</param>
+        /// <param name="mediaIdx">Specifies the ID of the media object.</param>
         /// <param name="isAddHistory">Specifies true to add the page to history.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private bool showMedia(int mediaIndex, bool isAddHistory)
+        private bool showMedia(int mediaIdx, bool isAddHistory)
         {
             // Hide the person tree panel
             panelTree_.Visible = false;
 
             // Find the place
-            Media media = new Media(database_, mediaIndex);
+            Media media = new Media(database_, mediaIdx);
             Text = media.fileName + " - Family Tree Viewer";
             if (isAddHistory)
             {
-                historyAdd(Pages.MEDIA, mediaIndex, "Media: " + media.fileName);
+                historyAdd(Pages.MEDIA, mediaIdx, "Media: " + media.fileName);
             }
 
             // Display the Html description of the source.
@@ -590,20 +590,20 @@ namespace family_tree.viewer
 
 
         /// <summary>Show the specifed place on the main window.</summary>
-        /// <param name="placeIndex">Specifies the ID of the place to show.</param>
+        /// <param name="placeIdx">Specifies the ID of the place to show.</param>
         /// <param name="isAddHistory">Specifies true to add the page to history.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private bool showPlace(int placeIndex, bool isAddHistory)
+        private bool showPlace(int placeIdx, bool isAddHistory)
         {
             // Hide the person tree panel.
             panelTree_.Visible = false;
 
             // Find the place.
-            Place place = new Place(placeIndex, database_);
+            Place place = new Place(placeIdx, database_);
             Text = place.name + " - Family Tree Viewer";
             if (isAddHistory)
             {
-                historyAdd(Pages.PLACE, placeIndex, "Place: " + place.name);
+                historyAdd(Pages.PLACE, placeIdx, "Place: " + place.name);
             }
 
             // Display the Html description of the source.
@@ -617,20 +617,20 @@ namespace family_tree.viewer
 
 
         /// <summary>Show the specified source on the main window.</summary>
-        /// <param name="sourceIndex">Specifies the ID of the source to show.</param>
+        /// <param name="sourceIdx">Specifies the ID of the source to show.</param>
         /// <param name="isAddHistory">Specifies true to add the page to history.</param>
         /// <returns>True for success, false otherwise.</returns>
-        private bool showSource(int sourceIndex, bool isAddHistory)
+        private bool showSource(int sourceIdx, bool isAddHistory)
         {
             // Hide the person tree panel.
             panelTree_.Visible = false;
 
             // Find the source.
-            Source source = new Source(database_, sourceIndex);
+            Source source = new Source(database_, sourceIdx);
             Text = source.description + " - Family Tree Viewer";
             if (isAddHistory)
             {
-                historyAdd(Pages.SOURCE, sourceIndex, "Source: " + source.description);
+                historyAdd(Pages.SOURCE, sourceIdx, "Source: " + source.description);
             }
 
             // Display the Html description of the source.
@@ -643,10 +643,10 @@ namespace family_tree.viewer
 
 
         /// <summary>Show the specified person.</summary>
-		/// <param name="personIndex">Specifies the ID of the person to show.</param>
+		/// <param name="personIdx">Specifies the ID of the person to show.</param>
         /// <param name="isAddHistory">Specifies to add this page to the Back / Forward list.</param>
         /// <returns>True for sucess, false for failure.</returns>
-        private bool showPerson(int personIndex, bool isAddHistory)
+        private bool showPerson(int personIdx, bool isAddHistory)
         {
             const int TOP = 2;
 
@@ -654,7 +654,7 @@ namespace family_tree.viewer
             panelTree_.Visible = true;
 
             // Show the specified person.
-            Person person = database_.getPerson(personIndex);
+            Person person = database_.getPerson(personIdx);
             Text = person.getName(true, false) + " - Family Tree Viewer";
 
             // Build the rich text file description of the person
@@ -663,7 +663,7 @@ namespace family_tree.viewer
             // Update the back button.
             if (isAddHistory)
             {
-                historyAdd(Pages.PERSON, personIndex, person.getName(true, false));
+                historyAdd(Pages.PERSON, personIdx, person.getName(true, false));
             }
             // Font oFont = new System.Drawing.Font("Tahoma",m_dFontSize,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((System.Byte)(0)));
             Font font = userOptions_.fontBase.getFont();
@@ -952,7 +952,7 @@ namespace family_tree.viewer
                     {
                         for (int j = 0; j < partnersConntections_.Length; j++)
                         {
-                            if (partnersConntections_[j].motherIndex == relation.motherIdx && partnersConntections_[j].fatherIndex == relation.fatherIdx)
+                            if (partnersConntections_[j].motherIdx == relation.motherIdx && partnersConntections_[j].fatherIdx == relation.fatherIdx)
                             {
                                 tag = j;
                             }
@@ -1001,9 +1001,9 @@ namespace family_tree.viewer
         {
             get
             {
-                if (historyIndex_ >= 0)
+                if (historyIdx_ >= 0)
                 {
-                    return history_[historyIndex_];
+                    return history_[historyIdx_];
                 }
                 return history_[0];
             }
@@ -1013,19 +1013,19 @@ namespace family_tree.viewer
 
         /// <summary>Add the current page to the history.</summary>
         /// <param name="pageType">Specifies the type of page.</param>
-        /// <param name="pageIndex">Specifies the ID of the page.</param>
+        /// <param name="pageIdx">Specifies the ID of the page.</param>
         /// <param name="pageLabel">Specifies a human readable label for the page.</param>
-        private void historyAdd(Pages pageType, int pageIndex, string pageLabel)
+        private void historyAdd(Pages pageType, int pageIdx, string pageLabel)
         {
             // Check that some thing has changed.
-            if (currentPage.content == pageType && currentPage.index == pageIndex)
+            if (currentPage.content == pageType && currentPage.index == pageIdx)
             {
                 return;
             }
 
             // Add to the history.
-            historyIndex_++;
-            if (historyIndex_ >= history_.Length)
+            historyIdx_++;
+            if (historyIdx_ >= history_.Length)
             {
                 // Move all the page down one.
                 for (int i = 0; i < history_.Length - 1; i++)
@@ -1034,14 +1034,14 @@ namespace family_tree.viewer
                 }
 
                 // Move back to the end of the history.
-                historyIndex_--;
+                historyIdx_--;
             }
 
             // Set the current page.
-            history_[historyIndex_].index = pageIndex;
-            history_[historyIndex_].content = pageType;
-            history_[historyIndex_].label = pageLabel;
-            historyLast_ = historyIndex_;
+            history_[historyIdx_].index = pageIdx;
+            history_[historyIdx_].content = pageType;
+            history_[historyIdx_].label = pageLabel;
+            historyLast_ = historyIdx_;
 
             // Update the back button.
             updateBackButton();
@@ -1053,13 +1053,13 @@ namespace family_tree.viewer
         private void historyBack()
         {
             // Check that there is some history to move back into.
-            if (historyIndex_ < 1)
+            if (historyIdx_ < 1)
             {
                 return;
             }
 
             // Move back in the history.
-            historyIndex_--;
+            historyIdx_--;
             showCurrentPage();
         }
 
@@ -1069,13 +1069,13 @@ namespace family_tree.viewer
         private void historyForward()
         {
             // Check that there is some history to move into.
-            if (historyIndex_ == historyLast_)
+            if (historyIdx_ == historyLast_)
             {
                 return;
             }
 
             // Move forward in the history.
-            historyIndex_++;
+            historyIdx_++;
             showCurrentPage();
         }
 
@@ -1085,16 +1085,16 @@ namespace family_tree.viewer
         private void showCurrentPage()
         {
             // Show the current page
-            switch (history_[historyIndex_].content)
+            switch (history_[historyIdx_].content)
             {
             case Pages.PERSON:
-                showPerson(history_[historyIndex_].index, false);
+                showPerson(history_[historyIdx_].index, false);
                 break;
             case Pages.SOURCE:
-                showSource(history_[historyIndex_].index, false);
+                showSource(history_[historyIdx_].index, false);
                 break;
             case Pages.PLACE:
-                showPlace(history_[historyIndex_].index, false);
+                showPlace(history_[historyIdx_].index, false);
                 break;
             }
 
@@ -1108,13 +1108,13 @@ namespace family_tree.viewer
         private void updateBackButton()
         {
             // Update the back button
-            if (historyIndex_ > 0)
+            if (historyIdx_ > 0)
             {
                 tsbBack_.Enabled = true;
                 tsddbBack_.Enabled = true;
 
                 tsddbBack_.DropDownItems.Clear();
-                for (int i = historyIndex_ - 1; i >= 0; i--)
+                for (int i = historyIdx_ - 1; i >= 0; i--)
                 {
                     tsddbBack_.DropDownItems.Add(history_[i].label, null, individualBackItem_Click);
                 }
@@ -1126,7 +1126,7 @@ namespace family_tree.viewer
             }
 
             // Update the forward button
-            if (historyIndex_ == historyLast_)
+            if (historyIdx_ == historyLast_)
             {
                 tsbForward_.Enabled = false;
                 tsddbForward_.Enabled = false;
@@ -1136,7 +1136,7 @@ namespace family_tree.viewer
                 tsbForward_.Enabled = true;
                 tsddbForward_.Enabled = true;
                 tsddbForward_.DropDownItems.Clear();
-                for (int i = historyIndex_ + 1; i <= historyLast_; i++)
+                for (int i = historyIdx_ + 1; i <= historyLast_; i++)
                 {
                     tsddbForward_.DropDownItems.Add(history_[i].label, null, individualBackItem_Click);
                 }
@@ -1155,8 +1155,8 @@ namespace family_tree.viewer
         {
             // Find the home person and display them.
             walton.XmlNode xmlHome = config_.getNode("useroptions/home");
-            int homePersonIndex = xmlHome.getAttributeValue("id", 1, true);
-            showPerson(homePersonIndex, true);
+            int homePersonIdx = xmlHome.getAttributeValue("id", 1, true);
+            showPerson(homePersonIdx, true);
 
             // Return success.
             return true;
@@ -1170,12 +1170,12 @@ namespace family_tree.viewer
         {
             // Allow the user to select a person.
             SelectPersonDialog selectPersonDialog = new SelectPersonDialog();
-            int personIndex = selectPersonDialog.selectPerson(this, database_);
+            int personIdx = selectPersonDialog.selectPerson(this, database_);
 
             // If the user did select a person then show that person.
-            if (personIndex >= 0)
+            if (personIdx >= 0)
             {
-                showPerson(personIndex, true);
+                showPerson(personIdx, true);
             }
 
             // Return success
@@ -1270,25 +1270,25 @@ namespace family_tree.viewer
             if (editPersonDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // A new person was created.  Link to the current person in the required way.
-                int newPersonIndex = editPersonDialog.getPersonIndex();
+                int newPersonIdx = editPersonDialog.getPersonIdx();
 
                 Person person;
                 switch (relation)
                 {
                 case RelatedPerson.FATHER:
                     person = new Person(currentPage.index, database_);
-                    person.fatherIdx = newPersonIndex;
+                    person.fatherIdx = newPersonIdx;
                     person.save();
                     break;
 
                 case RelatedPerson.MOTHER:
                     person = new Person(currentPage.index, database_);
-                    person.motherIdx = newPersonIndex;
+                    person.motherIdx = newPersonIdx;
                     person.save();
                     break;
 
                 case RelatedPerson.SIBLING:
-                    Person newPerson = new Person(newPersonIndex, database_);
+                    Person newPerson = new Person(newPersonIdx, database_);
                     person = new Person(currentPage.index, database_);
                     newPerson.fatherIdx = person.fatherIdx;
                     newPerson.motherIdx = person.motherIdx;
@@ -1297,13 +1297,13 @@ namespace family_tree.viewer
 
                 case RelatedPerson.PARTNER:
                     person = new Person(currentPage.index, database_);
-                    Relationship relationship = new Relationship(person, newPersonIndex);
+                    Relationship relationship = new Relationship(person, newPersonIdx);
                     relationship.save();
                     person.addRelationship(relationship);
                     break;
 
                 case RelatedPerson.CHILD:
-                    newPerson = new Person(newPersonIndex, database_);
+                    newPerson = new Person(newPersonIdx, database_);
                     person = new Person(currentPage.index, database_);
                     if (person.isMale)
                     {
@@ -1804,23 +1804,23 @@ namespace family_tree.viewer
                     if (person.fatherIdx > 0 || person.motherIdx > 0)
                     {
                         // Check that the father is included in the gedcom file.
-                        int fatherIndex = person.fatherIdx;
-                        Person father = new Person(fatherIndex, database_);
+                        int fatherIdx = person.fatherIdx;
+                        Person father = new Person(fatherIdx, database_);
                         if (!father.isIncludeInGedcom)
                         {
-                            fatherIndex = 0;
+                            fatherIdx = 0;
                         }
 
                         // Check that the mother is included in the gedcom file.
-                        int motherIndex = person.motherIdx;
-                        Person mother = new Person(motherIndex, database_);
+                        int motherIdx = person.motherIdx;
+                        Person mother = new Person(motherIdx, database_);
                         if (!mother.isIncludeInGedcom)
                         {
-                            motherIndex = 0;
+                            motherIdx = 0;
                         }
 
                         //  Get the parent family information.
-                        if (motherIndex != 0 || fatherIndex != 0)
+                        if (motherIdx != 0 || fatherIdx != 0)
                         {
                             Family family = families.getParentFamily(person.fatherIdx, person.motherIdx);
                             family.addChild(person);
@@ -1859,40 +1859,40 @@ namespace family_tree.viewer
                         {
                             if (!partners.Contains(child.motherIdx))
                             {
-                                int motherIndex = child.motherIdx;
+                                int motherIdx = child.motherIdx;
                                 Person mother = new Person(child.motherIdx, database_);
                                 if (!mother.isIncludeInGedcom && !options.isAllElements)
                                 {
                                     // Use an unknown mother.
-                                    motherIndex = 0;
+                                    motherIdx = 0;
                                 }
 
                                 // Create families for new partner.
-                                Family family = families.getMarriageFamily(person.idx, motherIndex, 0);
+                                Family family = families.getMarriageFamily(person.idx, motherIdx, 0);
                                 file.WriteLine("1 FAMS @F" + family.gedcomIdx.ToString("0000") + "@");
 
                                 // Add to the list of partners
-                                partners.Add(motherIndex);
+                                partners.Add(motherIdx);
                             }
                         }
                         else
                         {
                             if (!partners.Contains(child.fatherIdx))
                             {
-                                int fatherIndex = child.fatherIdx;
+                                int fatherIdx = child.fatherIdx;
                                 Person father = new Person(child.fatherIdx, database_);
                                 if (!father.isIncludeInGedcom)
                                 {
                                     // Use an unknown father
-                                    fatherIndex = 0;
+                                    fatherIdx = 0;
                                 }
 
                                 // Create families for new partner
-                                Family family = families.getMarriageFamily(fatherIndex, person.idx, 0);
+                                Family family = families.getMarriageFamily(fatherIdx, person.idx, 0);
                                 file.WriteLine("1 FAMS @F" + family.gedcomIdx.ToString("0000") + "@");
 
                                 // Add to the list of partners
-                                partners.Add(fatherIndex);
+                                partners.Add(fatherIdx);
                             }
                         }
                     }
@@ -1988,9 +1988,9 @@ namespace family_tree.viewer
                     database_.gedcomWritePersonMedia(file, person.idx, person.mediaIdx);
 
                     // Attached the list of sources
-                    foreach (int sourceIndex in personSources)
+                    foreach (int sourceIdx in personSources)
                     {
-                        file.WriteLine("1 SOUR @S" + sourceIndex.ToString("0000") + "@");
+                        file.WriteLine("1 SOUR @S" + sourceIdx.ToString("0000") + "@");
                     }
 
                     // Write the To Do items in the all output mode.
@@ -2153,7 +2153,7 @@ namespace family_tree.viewer
                 {
                     if (psnSiblings_[i] != null)
                     {
-                        Person sibling = database_.getPerson(psnSiblings_[i].getPersonIndex());
+                        Person sibling = database_.getPerson(psnSiblings_[i].getPersonIdx());
                         if (sibling.hasChildren())
                         {
                             e.Graphics.DrawLine(pen, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height, psnSiblings_[i].Left + psnSiblings_[i].Width / 2, psnSiblings_[i].Top + psnSiblings_[i].Height + 3);
@@ -2192,16 +2192,16 @@ namespace family_tree.viewer
                     numMarriages = partnersConntections_.Length;
                 }
 
-                for (int marriageIndex = -1; marriageIndex < numMarriages; marriageIndex++)
+                for (int m = -1; m < numMarriages; m++)
                 {
                     bool isDrawBar = false;
-                    if (marriageIndex == -1)
+                    if (m == -1)
                     {
                         pos = labPerson_.Left + labPerson_.Width / 2;
                     }
                     else
                     {
-                        pos = partnersConntections_[marriageIndex].Left + partnersConntections_[marriageIndex].Width / 2;
+                        pos = partnersConntections_[m].Left + partnersConntections_[m].Width / 2;
                     }
                     int minPos = pos;
                     int maxPos = pos;
@@ -2211,7 +2211,7 @@ namespace family_tree.viewer
                         // TODO: check this, it crashes.
                         if (psnChildren_[i] != null && psnChildren_[i].Tag != null)
                         {
-                            if ((int)psnChildren_[i].Tag == marriageIndex)
+                            if ((int)psnChildren_[i].Tag == m)
                             {
                                 isDrawBar = true;
                                 pos = psnChildren_[i].Left + psnChildren_[i].Width / 2;
@@ -2234,15 +2234,15 @@ namespace family_tree.viewer
                         e.Graphics.DrawLine(pen, minPos, barHeight, maxPos, barHeight);
 
                         int nHeight;
-                        if (marriageIndex == -1)
+                        if (m == -1)
                         {
                             pos = labPerson_.Left + labPerson_.Width / 2;
                             nHeight = labPerson_.Top + labPerson_.Height;
                         }
                         else
                         {
-                            pos = partnersConntections_[marriageIndex].Left + partnersConntections_[marriageIndex].Width / 2;
-                            nHeight = partnersConntections_[marriageIndex].Top + partnersConntections_[marriageIndex].Height;
+                            pos = partnersConntections_[m].Left + partnersConntections_[m].Width / 2;
+                            nHeight = partnersConntections_[m].Top + partnersConntections_[m].Height;
                         }
                         e.Graphics.DrawLine(pen, pos, barHeight, pos, nHeight);
 
@@ -2255,7 +2255,7 @@ namespace family_tree.viewer
                 {
                     if (psnChildren_[i] != null)
                     {
-                        Person child = database_.getPerson(psnChildren_[i].getPersonIndex());
+                        Person child = database_.getPerson(psnChildren_[i].getPersonIdx());
                         if (child.hasChildren())
                         {
                             e.Graphics.DrawLine(pen, psnChildren_[i].Left + psnChildren_[i].Width / 2, psnChildren_[i].Top + psnChildren_[i].Height, psnChildren_[i].Left + psnChildren_[i].Width / 2, psnChildren_[i].Top + psnChildren_[i].Height + 5);
@@ -2398,14 +2398,14 @@ namespace family_tree.viewer
         private void menuRecentFile_Click(object oSender, System.EventArgs e)
         {
             // Find the index of the recent file menu.
-            ToolStripMenuItem oMenu = (ToolStripMenuItem)oSender;
-            int nIndex = int.Parse(oMenu.Text.Substring(0, 1)) - 1;
+            ToolStripMenuItem menuItem = (ToolStripMenuItem)oSender;
+            int i = int.Parse(menuItem.Text.Substring(0, 1)) - 1;
 
             // Find the selected file.
-            string sFilename = recentFiles_.getRecentFilename(nIndex);
+            string fileName = recentFiles_.getRecentFilename(i);
 
             // Open this file.
-            openDatabase(sFilename);
+            openDatabase(fileName);
         }
 
 
@@ -2561,8 +2561,8 @@ namespace family_tree.viewer
             EditMediaDialog editMediaDialog = new EditMediaDialog(database_);
             if (editMediaDialog.ShowDialog(this) == DialogResult.OK)
             {
-                int mediaIndex = editMediaDialog.mediaIndex;
-                showMedia(mediaIndex, true);
+                int mediaIdx = editMediaDialog.mediaIdx;
+                showMedia(mediaIdx, true);
             }
         }
 
@@ -2751,44 +2751,48 @@ namespace family_tree.viewer
 
         #region Natigation (WebBrowser and Person Tree clicks)
 
+
+
         /// <summary>Message handler for the click on a ucPerson object event.  Responds the user clicking on a person object by displaying the person shown in the person object.  This is a bit like a message handler, but for my own event with my own signiture.</summary>
 		private void ucPerson_evtClick(object oSender)
         {
             family_tree.viewer.PersonDisplay psnPerson = (family_tree.viewer.PersonDisplay)oSender;
-            showPerson(psnPerson.getPersonIndex(), true);
+            showPerson(psnPerson.getPersonIdx(), true);
         }
+
+
 
         /// <summary>Message handler for the web browser trying to follow a link.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
-            string sNewUrl = e.Url.ToString();
-            int nColon = sNewUrl.IndexOf(':');
-            if (nColon > 0)
+            string newUrl = e.Url.ToString();
+            int colonPos = newUrl.IndexOf(':');
+            if (colonPos > 0)
             {
-                string sType = sNewUrl.Substring(0, nColon).ToLower();
-                switch (sType)
+                string urlType = newUrl.Substring(0, colonPos).ToLower();
+                switch (urlType)
                 {
                 case "person":
                     e.Cancel = true;
-                    int nPersonID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    showPerson(nPersonID, true);
+                    int personIdx = int.Parse(newUrl.Substring(colonPos + 1));
+                    showPerson(personIdx, true);
                     break;
                 case "source":
                     e.Cancel = true;
-                    int nSourceID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    showSource(nSourceID, true);
+                    int sourceIdx = int.Parse(newUrl.Substring(colonPos + 1));
+                    showSource(sourceIdx, true);
                     break;
                 case "place":
                     e.Cancel = true;
-                    int nPlaceID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    showPlace(nPlaceID, true);
+                    int placeIdx = int.Parse(newUrl.Substring(colonPos + 1));
+                    showPlace(placeIdx, true);
                     break;
                 case "media":
                     e.Cancel = true;
-                    int nMediaID = int.Parse(sNewUrl.Substring(nColon + 1));
-                    showMedia(nMediaID, true);
+                    int mediaIdx = int.Parse(newUrl.Substring(colonPos + 1));
+                    showMedia(mediaIdx, true);
                     break;
                 }
             }
@@ -2803,33 +2807,33 @@ namespace family_tree.viewer
             string buttonLabel = sender.ToString();
 
             // Find the index of the button in the back section.
-            int buttonIndex = -1;
-            for (int i = historyIndex_ - 1; i >= 0; i--)
+            int buttonIdx = -1;
+            for (int i = historyIdx_ - 1; i >= 0; i--)
             {
                 if (history_[i].label == buttonLabel)
                 {
-                    buttonIndex = i;
+                    buttonIdx = i;
                     i = -1;
                 }
             }
 
             // Search in the forward section if nothing found so far.
-            if (buttonIndex < 0)
+            if (buttonIdx < 0)
             {
-                for (int i = historyIndex_; i <= historyLast_; i++)
+                for (int i = historyIdx_; i <= historyLast_; i++)
                 {
                     if (history_[i].label == buttonLabel)
                     {
-                        buttonIndex = i;
+                        buttonIdx = i;
                         i = historyLast_ + 1;
                     }
                 }
             }
 
             // Show the specified page.
-            if (buttonIndex >= 0)
+            if (buttonIdx >= 0)
             {
-                historyIndex_ = buttonIndex;
+                historyIdx_ = buttonIdx;
                 showCurrentPage();
             }
         }

@@ -130,7 +130,7 @@ namespace family_tree.viewer
 
         /// <summary>Returns the ID of the person on the form.</summary>
         /// <returns>The ID of the person on the form.</returns>
-        public int getPersonIndex()
+        public int getPersonIdx()
         {
             return person_.idx;
         }

@@ -18,7 +18,7 @@ namespace family_tree.viewer
         #region Member Variables
 
         /// <summary>ID of the person to display.</summary>
-        private int personIndex_;
+        private int personIdx_;
 
         /// <summary>This is the click event for the control.</summary>
         public event FuncClick eventClick;
@@ -53,7 +53,7 @@ namespace family_tree.viewer
         /// <returns>True for success, false otherwise.</returns>
         public bool setPerson(Person person)
         {
-            personIndex_ = person.idx;
+            personIdx_ = person.idx;
             labName_.Text = person.getName(false, true);
             labBorn_.Text = person.shortDescription(true);
 
@@ -65,9 +65,9 @@ namespace family_tree.viewer
 
         /// <summary>Gets the ID of the person displayed.</summary>
         /// <returns></returns>
-        public int getPersonIndex()
+        public int getPersonIdx()
         {
-            return personIndex_;
+            return personIdx_;
         }
 
 

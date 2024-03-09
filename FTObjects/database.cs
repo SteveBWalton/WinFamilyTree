@@ -77,14 +77,15 @@ namespace family_tree.objects
             googleMapsKey_ = googleMapsKey;
 
             // Open the connection to the database.
-            // cndb_ = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + ";");
             cndb_ = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + fileName + ";");
             cndb_.Open();
 
             // Open the connection to a sqlite3 database.
+            /*
             string sqliteFileName = Path.GetDirectoryName(fileName_) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(fileName_) + ".db";
             sqlite_ = new SQLiteConnection("Data Source=" + sqliteFileName + ";Version=3;Compress=True;");
             sqlite_.Open();
+            */
         }
 
 
