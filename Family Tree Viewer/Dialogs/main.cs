@@ -53,16 +53,12 @@ namespace family_tree.viewer
         {
             /// <summary>The main page is displaying a person.</summary>
             PERSON,
-
             /// <summary>The main page is displaying a source document.</summary>
             SOURCE,
-
             /// <summary>The main page is displayed a place.</summary>
             PLACE,
-
             /// <summary>The main page is displaying a media object.</summary>
             MEDIA,
-
             /// <summary>The main page is displaying something else.</summary>
             OTHER
         }
@@ -72,10 +68,8 @@ namespace family_tree.viewer
         {
             /// <summary>The type content on the page.</summary>
             public Pages content;
-
             /// <summary>The key to the type of content.</summary>
-            public int index;
-
+            public int idx;
             /// <summary>A human readable label for the page.</summary>
             public string label;
         }
@@ -89,8 +83,7 @@ namespace family_tree.viewer
             public int y;
         }
 
-        /// <summary>ID of the current person.</summary>
-        // private int m_nID;
+        /// <summary>The page history.</summary>
         private Page[] history_;
 
         /// <summary>Position in the history array</summary>
@@ -156,27 +149,27 @@ namespace family_tree.viewer
         /// <summary>Constructor for the main form.</summary>
         public MainWindow(string[] args)
         {
-            // Required for Windows Form Designer support
+            // Required for Windows Form Designer support.
             InitializeComponent();
 
-            // Add any constructor code after InitializeComponent call
-            psnFather_.eventClick += new FuncClick(ucPerson_evtClick);
-            psnMother_.eventClick += new FuncClick(ucPerson_evtClick);
-            psnFatherFather_.eventClick += new FuncClick(ucPerson_evtClick);
-            psnFatherMother_.eventClick += new FuncClick(ucPerson_evtClick);
-            psnMotherFather_.eventClick += new FuncClick(ucPerson_evtClick);
-            psnMotherMother_.eventClick += new FuncClick(ucPerson_evtClick);
+            // Add any constructor code after InitializeComponent call.
+            psnFather_.eventClick += new FuncClick(ucPersonEvtClick);
+            psnMother_.eventClick += new FuncClick(ucPersonEvtClick);
+            psnFatherFather_.eventClick += new FuncClick(ucPersonEvtClick);
+            psnFatherMother_.eventClick += new FuncClick(ucPersonEvtClick);
+            psnMotherFather_.eventClick += new FuncClick(ucPersonEvtClick);
+            psnMotherMother_.eventClick += new FuncClick(ucPersonEvtClick);
 
-            // Open the configuration file			
+            // Open the configuration file.
             string configFile = walton.DataPaths.getUserDirectory("Walton", "Family Tree Viewer", "1.0");
             configFile += "\\config.xml";
             config_ = new walton.XmlDocument(configFile);
 
-            // Open the recent files list
+            // Open the recent files list.
             recentFiles_ = new walton.FileList(4, config_);
             updateRecentFiles();
 
-            // Initialise objects / variables
+            // Initialise objects / variables.
             database_ = null;
             userOptions_ = new UserOptions(config_);
             history_ = new Page[5];
@@ -229,7 +222,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Clean up any resources being used.</summary>
-		protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -253,13 +246,13 @@ namespace family_tree.viewer
 
         /// <summary>The main entry point for the application.</summary>
         [STAThread]
-        static void Main(string[] sArgs)
+        static void Main(string[] args)
         {
             // The following 2 lines enable XP styles in the applicaiton
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new MainWindow(sArgs));
+            Application.Run(new MainWindow(args));
         }
 
 
@@ -305,7 +298,6 @@ namespace family_tree.viewer
             // Now we are on the UI thread.
             // Important that the application wait cursor is reset before the form cursor and Tee chart cursor            
             Application.UseWaitCursor = false;
-            // Cursor = Cursors.Default;
             Cursor.Current = Cursors.Default;
         }
 
@@ -324,14 +316,13 @@ namespace family_tree.viewer
             // Now we are on the UI thread.
             Application.UseWaitCursor = true;
             Cursor.Current = Cursors.WaitCursor;
-            // Cursor = Cursors.WaitCursor;
         }
 
 
 
         /// <summary>Thread safe writes a message to the status bar.</summary>
-        /// <param name="text"></param>
-        /// <param name="isError"></param>
+        /// <param name="text">Specifies the text for the status bar.</param>
+        /// <param name="isError">Specifies true for an error message, false otherwise.</param>
         public void setStatusBarText(string text, bool isError)
         {
             if (InvokeRequired)
@@ -363,7 +354,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Thread safe, show / hide the progress bar on the status bar.</summary>
-        /// <param name="isVisible"></param>
+        /// <param name="isVisible">Specifies true to show the progress bar, false to hide the progress bar.</param>
         private void progressBarVisible(bool isVisible)
         {
             // Check that we are on the UI thread.
@@ -405,8 +396,8 @@ namespace family_tree.viewer
 
 
         /// <summary>Releases the resources for the dynamic controls on the form.  Ready for the controls to be reallocated to another person.</summary>
-		/// <returns>True for success.  False for an error.</returns>
-		private bool cleanupDynamicControls()
+        /// <returns>True for success.  False for an error.</returns>
+        private bool cleanupDynamicControls()
         {
             // Release the controls for siblings.
             if (psnSiblings_ != null)
@@ -475,9 +466,9 @@ namespace family_tree.viewer
 
 
         /// <summary>Draws the specified main person and their relationships.</summary>
-		/// <param name="person">Specifies the person to be drawn</param>
-		/// <param name="marriages">Specifies the relationships for the person</param>
-		/// <param name="pos">Specifies the position to draw the person (number of older siblings)</param>
+        /// <param name="person">Specifies the person to be drawn</param>
+        /// <param name="marriages">Specifies the relationships for the person</param>
+        /// <param name="pos">Specifies the position to draw the person (number of older siblings)</param>
         /// <param name="font">Specifies the font to use for the standard text.</param>
         /// <returns>True for success, false otherwise</returns>
         private bool drawMainPerson(ref Person person, ref Relationship[] marriages, ref int pos, Font font)
@@ -496,7 +487,7 @@ namespace family_tree.viewer
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                         psnPartners_[i].setPerson(relationPerson);
-                        psnPartners_[i].eventClick += new FuncClick(ucPerson_evtClick);
+                        psnPartners_[i].eventClick += new FuncClick(ucPersonEvtClick);
                         psnPartners_[i].BackColor = backgroundBoy_;
                         psnPartners_[i].Font = font;
                         psnPartners_[i].setPerson(relationPerson);
@@ -545,7 +536,7 @@ namespace family_tree.viewer
                         psnPartners_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                         psnPartners_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                         psnPartners_[i].setPerson(relationPerson);
-                        psnPartners_[i].eventClick += new FuncClick(ucPerson_evtClick);
+                        psnPartners_[i].eventClick += new FuncClick(ucPersonEvtClick);
                         psnPartners_[i].BackColor = backgroundGirl_;
                         psnPartners_[i].Font = font;
                         psnPartners_[i].setPerson(relationPerson);
@@ -569,10 +560,10 @@ namespace family_tree.viewer
         /// <returns>True for success, false otherwise.</returns>
         private bool showMedia(int mediaIdx, bool isAddHistory)
         {
-            // Hide the person tree panel
+            // Hide the person tree panel.
             panelTree_.Visible = false;
 
-            // Find the place
+            // Find the place.
             Media media = new Media(database_, mediaIdx);
             Text = media.fileName + " - Family Tree Viewer";
             if (isAddHistory)
@@ -643,7 +634,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Show the specified person.</summary>
-		/// <param name="personIdx">Specifies the ID of the person to show.</param>
+        /// <param name="personIdx">Specifies the ID of the person to show.</param>
         /// <param name="isAddHistory">Specifies to add this page to the Back / Forward list.</param>
         /// <returns>True for sucess, false for failure.</returns>
         private bool showPerson(int personIdx, bool isAddHistory)
@@ -665,7 +656,6 @@ namespace family_tree.viewer
             {
                 historyAdd(Pages.PERSON, personIdx, person.getName(true, false));
             }
-            // Font oFont = new System.Drawing.Font("Tahoma",m_dFontSize,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((System.Byte)(0)));
             Font font = userOptions_.fontBase.getFont();
 
             // Show the father.
@@ -855,7 +845,7 @@ namespace family_tree.viewer
                     psnSiblings_[i].Location = new System.Drawing.Point(pos, labPerson_.Top);
                     psnSiblings_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                     psnSiblings_[i].setPerson(relation);
-                    psnSiblings_[i].eventClick += new FuncClick(ucPerson_evtClick);
+                    psnSiblings_[i].eventClick += new FuncClick(ucPersonEvtClick);
 
                     // Build a tag value that represents which parents this sibling shares.
                     int tag = 0;
@@ -944,7 +934,7 @@ namespace family_tree.viewer
                     psnChildren_[i].Location = new System.Drawing.Point(pos, height);
                     psnChildren_[i].Size = new System.Drawing.Size(personSize_.x, personSize_.y);
                     psnChildren_[i].setPerson(relation);
-                    psnChildren_[i].eventClick += new FuncClick(ucPerson_evtClick);
+                    psnChildren_[i].eventClick += new FuncClick(ucPersonEvtClick);
 
                     // Decide which relationship this child belongs to.
                     int tag = -1;
@@ -1018,7 +1008,7 @@ namespace family_tree.viewer
         private void historyAdd(Pages pageType, int pageIdx, string pageLabel)
         {
             // Check that some thing has changed.
-            if (currentPage.content == pageType && currentPage.index == pageIdx)
+            if (currentPage.content == pageType && currentPage.idx == pageIdx)
             {
                 return;
             }
@@ -1038,7 +1028,7 @@ namespace family_tree.viewer
             }
 
             // Set the current page.
-            history_[historyIdx_].index = pageIdx;
+            history_[historyIdx_].idx = pageIdx;
             history_[historyIdx_].content = pageType;
             history_[historyIdx_].label = pageLabel;
             historyLast_ = historyIdx_;
@@ -1088,13 +1078,13 @@ namespace family_tree.viewer
             switch (history_[historyIdx_].content)
             {
             case Pages.PERSON:
-                showPerson(history_[historyIdx_].index, false);
+                showPerson(history_[historyIdx_].idx, false);
                 break;
             case Pages.SOURCE:
-                showSource(history_[historyIdx_].index, false);
+                showSource(history_[historyIdx_].idx, false);
                 break;
             case Pages.PLACE:
-                showPlace(history_[historyIdx_].index, false);
+                showPlace(history_[historyIdx_].idx, false);
                 break;
             }
 
@@ -1116,7 +1106,7 @@ namespace family_tree.viewer
                 tsddbBack_.DropDownItems.Clear();
                 for (int i = historyIdx_ - 1; i >= 0; i--)
                 {
-                    tsddbBack_.DropDownItems.Add(history_[i].label, null, individualBackItem_Click);
+                    tsddbBack_.DropDownItems.Add(history_[i].label, null, individualBackItemClick);
                 }
             }
             else
@@ -1138,7 +1128,7 @@ namespace family_tree.viewer
                 tsddbForward_.DropDownItems.Clear();
                 for (int i = historyIdx_ + 1; i <= historyLast_; i++)
                 {
-                    tsddbForward_.DropDownItems.Add(history_[i].label, null, individualBackItem_Click);
+                    tsddbForward_.DropDownItems.Add(history_[i].label, null, individualBackItemClick);
                 }
             }
         }
@@ -1205,48 +1195,48 @@ namespace family_tree.viewer
             {
             case Pages.PERSON:
                 // Create a dialog to edit this person.
-                EditPersonDialog editPersonDialog = new EditPersonDialog(currentPage.index, database_);
+                EditPersonDialog editPersonDialog = new EditPersonDialog(currentPage.idx, database_);
 
                 // Show the dialog and wait for the dialog to close.
                 if (editPersonDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of the current person
-                    showPerson(currentPage.index, false);
+                    showPerson(currentPage.idx, false);
                 }
                 editPersonDialog.Dispose();
                 break;
 
             case Pages.PLACE:
                 // Create a dialog to edit this place.
-                EditPlaceDialog editPlaceDialog = new EditPlaceDialog(currentPage.index, database_);
+                EditPlaceDialog editPlaceDialog = new EditPlaceDialog(currentPage.idx, database_);
 
                 // Show the dialog and wait for the dialog to close.
                 if (editPlaceDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this place.
-                    showPlace(currentPage.index, false);
+                    showPlace(currentPage.idx, false);
                 }
                 editPlaceDialog.Dispose();
                 break;
 
             case Pages.SOURCE:
                 // Create a dialog to edit this source.
-                EditSourcesDialog editSourceDialog = new EditSourcesDialog(database_, currentPage.index);
+                EditSourcesDialog editSourceDialog = new EditSourcesDialog(database_, currentPage.idx);
                 if (editSourceDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source.
-                    showSource(currentPage.index, false);
+                    showSource(currentPage.idx, false);
                 }
                 editSourceDialog.Dispose();
                 break;
 
             case Pages.MEDIA:
                 // Create a dialog to edit this media.
-                EditMediaDialog editMediaDialog = new EditMediaDialog(database_, currentPage.index);
+                EditMediaDialog editMediaDialog = new EditMediaDialog(database_, currentPage.idx);
                 if (editMediaDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // Refresh the display of this source.
-                    showMedia(currentPage.index, false);
+                    showMedia(currentPage.idx, false);
                 }
                 editMediaDialog.Dispose();
                 break;
@@ -1276,27 +1266,27 @@ namespace family_tree.viewer
                 switch (relation)
                 {
                 case RelatedPerson.FATHER:
-                    person = new Person(currentPage.index, database_);
+                    person = new Person(currentPage.idx, database_);
                     person.fatherIdx = newPersonIdx;
                     person.save();
                     break;
 
                 case RelatedPerson.MOTHER:
-                    person = new Person(currentPage.index, database_);
+                    person = new Person(currentPage.idx, database_);
                     person.motherIdx = newPersonIdx;
                     person.save();
                     break;
 
                 case RelatedPerson.SIBLING:
                     Person newPerson = new Person(newPersonIdx, database_);
-                    person = new Person(currentPage.index, database_);
+                    person = new Person(currentPage.idx, database_);
                     newPerson.fatherIdx = person.fatherIdx;
                     newPerson.motherIdx = person.motherIdx;
                     newPerson.save();
                     break;
 
                 case RelatedPerson.PARTNER:
-                    person = new Person(currentPage.index, database_);
+                    person = new Person(currentPage.idx, database_);
                     Relationship relationship = new Relationship(person, newPersonIdx);
                     relationship.save();
                     person.addRelationship(relationship);
@@ -1304,14 +1294,14 @@ namespace family_tree.viewer
 
                 case RelatedPerson.CHILD:
                     newPerson = new Person(newPersonIdx, database_);
-                    person = new Person(currentPage.index, database_);
+                    person = new Person(currentPage.idx, database_);
                     if (person.isMale)
                     {
-                        newPerson.fatherIdx = currentPage.index;
+                        newPerson.fatherIdx = currentPage.idx;
                     }
                     else
                     {
-                        newPerson.motherIdx = currentPage.index;
+                        newPerson.motherIdx = currentPage.idx;
                     }
                     newPerson.save();
                     break;
@@ -1319,7 +1309,7 @@ namespace family_tree.viewer
                 }
 
                 // Refresh the display of the current person.
-                showPerson(currentPage.index, false);
+                showPerson(currentPage.idx, false);
             }
             editPersonDialog.Dispose();
 
@@ -1372,7 +1362,7 @@ namespace family_tree.viewer
         private bool createTree()
         {
             // Create the tree document.
-            TreeDocument tree = new TreeDocument(database_, userOptions_, currentPage.index);
+            TreeDocument tree = new TreeDocument(database_, userOptions_, currentPage.idx);
 
             // Create a tree preview window.
             TreeViewDialog treeWindow = new TreeViewDialog(tree);
@@ -1436,7 +1426,7 @@ namespace family_tree.viewer
         private bool reportToHtml()
         {
             // Create a report object.
-            Report report = new Report(currentPage.index, database_, userOptions_);
+            Report report = new Report(currentPage.idx, database_, userOptions_);
 
             // Hide the person tree panel.
             panelTree_.Visible = false;
@@ -1450,28 +1440,12 @@ namespace family_tree.viewer
 
 
 
-        ///// <summary>
-        ///// Create a report in Microsoft Word about the current person.
-        ///// </summary>
-        ///// <returns>True for success, false otherwise.</returns>
-        //private bool ToWord()
-        //{
-        //    /*
-        //    clsMSWord oReportToWord = new clsMSWord(Current.ID, m_oDb, m_oOptions);
-        //    oReportToWord.Show();
-        //    */
-        //    // Return success
-        //    return true;
-        //}
-
-
-
         /// <summary>Displays a dialog that allows the age of a person to be calculated on specified dates.</summary>
         /// <returns>True of success, false otherwise.</returns>
         private bool showAgeDialog()
         {
             // Create and show the age dialog.
-            AgeDialog ageDialog = new AgeDialog(database_, currentPage.index);
+            AgeDialog ageDialog = new AgeDialog(database_, currentPage.idx);
             ageDialog.ShowDialog(this);
             ageDialog.Dispose();
 
@@ -2021,7 +1995,7 @@ namespace family_tree.viewer
             }
 
             // Write the family records @F1@...
-            families.WriteGedcom(file, database_, progressBarPerformStep, options);
+            families.writeGedcom(file, database_, progressBarPerformStep, options);
 
             // Write all the source records @S1@ etc...
             database_.writeSourcesGedcom(file, progressBarPerformStep, options);
@@ -2056,9 +2030,7 @@ namespace family_tree.viewer
 
         /// <summary>Message handler for the paint event on the Panel tree control.  Draw the lines from parents to children etc ...</summary>
         /// <remarks>This is basically the paint event for the form.</remarks>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PanelTree_Paint(object sender, PaintEventArgs e)
+        private void panelTreePaint(object sender, PaintEventArgs e)
         {
             // Create a pen to draw connections.
             Pen pen = new Pen(Color.Black, 2);
@@ -2265,13 +2237,13 @@ namespace family_tree.viewer
             }
         }
 
+
+
         /// <summary>Message handler for the main person title paint event.
         /// Draw a border around three sides of the control.
         /// This is here because it is really to do with form painting.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void labPerson_Paint(object sender, PaintEventArgs e)
+        private void labPersonPaint(object sender, PaintEventArgs e)
         {
             Pen oPen = new Pen(Color.Black, 1);
             e.Graphics.DrawLine(oPen, 0, labPerson_.Height, 0, 0);
@@ -2279,13 +2251,13 @@ namespace family_tree.viewer
             e.Graphics.DrawLine(oPen, labPerson_.Width - 1, 0, labPerson_.Width - 1, labPerson_.Height);
         }
 
+
+
         /// <summary>Message handler for the main person details paint event.
         /// Draw a border around three sides of the control
         /// This is here because it is really to do with form painting.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void labPersonDates_Paint(object sender, PaintEventArgs e)
+        private void labPersonDatesPaint(object sender, PaintEventArgs e)
         {
             Pen oPen = new Pen(Color.Black, 1);
             e.Graphics.DrawLine(oPen, 0, 0, 0, labPersonDates_.Height - 1);
@@ -2296,9 +2268,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the main form loading.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void frmMain_Load(object sender, System.EventArgs e)
+        private void frmMainLoad(object sender, System.EventArgs e)
         {
             // Size the main window
             walton.XmlNode oMain = config_.getNode("windows/main");
@@ -2310,9 +2280,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the shown event.  This is like the post appear load event.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void frmMain_Shown(object sender, EventArgs e)
+        private void frmMainShown(object sender, EventArgs e)
         {
             // Open the tree document if specified.
             if (treeToOpen_ != "")
@@ -2325,9 +2293,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the main window closing.  Save the size of the window.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void frmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void frmMainClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (WindowState != FormWindowState.Minimized)
             {
@@ -2353,9 +2319,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the File → Open menu point click.  Open a family tree database.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuOpen_Click(object sender, EventArgs e)
+        private void menuOpenClick(object sender, EventArgs e)
         {
             openDatabase();
         }
@@ -2363,9 +2327,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the File → Home menu point click and the "Home" toolbar button.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuHome_Click(object sender, EventArgs e)
+        private void menuHomeClick(object sender, EventArgs e)
         {
             goHome();
         }
@@ -2373,9 +2335,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "Back" button click event.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuBack_Click(object sender, EventArgs e)
+        private void menuBackClick(object sender, EventArgs e)
         {
             historyBack();
         }
@@ -2383,9 +2343,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the forward button click event.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuForward_Click(object sender, EventArgs e)
+        private void menuForwardClick(object sender, EventArgs e)
         {
             historyForward();
         }
@@ -2393,12 +2351,12 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the all the recent file menu points.  Opens the file specified on the recent file menu point.</summary>
-        /// <param name="oSender"></param>
+        /// <param name="sender">Specifies the menu item that sends this signal.</param>
         /// <param name="e"></param>
-        private void menuRecentFile_Click(object oSender, System.EventArgs e)
+        private void menuRecentFileClick(object sender, System.EventArgs e)
         {
             // Find the index of the recent file menu.
-            ToolStripMenuItem menuItem = (ToolStripMenuItem)oSender;
+            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
             int i = int.Parse(menuItem.Text.Substring(0, 1)) - 1;
 
             // Find the selected file.
@@ -2411,9 +2369,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "File" → "Export Gedom" menu point.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuExportGedcom_Click(object sender, EventArgs e)
+        private void menuExportGedcomClick(object sender, EventArgs e)
         {
             exportGedcom();
         }
@@ -2421,9 +2377,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the 'File' → 'Export SQL script' menu item.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuExportSQLScript_Click(object sender, EventArgs e)
+        private void menuExportSqlScriptClick(object sender, EventArgs e)
         {
             exportSql();
         }
@@ -2431,9 +2385,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the File → Open Tree menu point click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuOpenTree_Click(object sender, EventArgs e)
+        private void menuOpenTreeClick(object sender, EventArgs e)
         {
             openTree();
         }
@@ -2441,9 +2393,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for File → Exit menu point click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuExit_Click(object sender, EventArgs e)
+        private void menuExitClick(object sender, EventArgs e)
         {
             absoluteEnd();
         }
@@ -2452,94 +2402,74 @@ namespace family_tree.viewer
 
         #region Edit Menu
 
-        // Message handler for the "Edit" -> "Edit..." menu point click
-        /// <summary>
-        /// Message handler for the "Edit" -> "Edit..." menu point click
-        /// and the "Edit" toolbar button click.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuEdit_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the "Edit" -> "Edit..." menu point click and the "Edit" toolbar button click.</summary>
+        private void menuEditClick(object sender, EventArgs e)
         {
             edit();
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Edit Sources... menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuEditSources_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Edit Sources... menu point click.</summary>
+        private void menuEditSourcesClick(object sender, EventArgs e)
         {
             showEditSourcesDialog();
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Add Father menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuAddFather_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Add Father menu point click.</summary>
+        private void menuAddFatherClick(object sender, EventArgs e)
         {
             addPerson(RelatedPerson.FATHER);
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Add Mother menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuAddMother_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Add Mother menu point click.</summary>
+        private void menuAddMotherClick(object sender, EventArgs e)
         {
             addPerson(RelatedPerson.MOTHER);
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Add Sibling menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuAddSibling_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Add Sibling menu point click.</summary>
+        private void menuAddSiblingClick(object sender, EventArgs e)
         {
             addPerson(RelatedPerson.SIBLING);
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Add Child menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuAddChild_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Add Child menu point click.</summary>
+        private void menuAddChildClick(object sender, EventArgs e)
         {
             addPerson(RelatedPerson.CHILD);
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Add Partner menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuAddPartner_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Add Partner menu point click.</summary>
+        private void menuAddPartnerClick(object sender, EventArgs e)
         {
             addPerson(RelatedPerson.PARTNER);
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Edit Census Records... menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuCensus_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Edit Census Records... menu point click.</summary>
+        private void menuCensusClick(object sender, EventArgs e)
         {
             showEditCensusDialog();
         }
 
-        /// <summary>
-        /// Message handler for the Edit -> Remove Unlinked Places menu point click
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuUnlinkedPlaces_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the Edit -> Remove Unlinked Places menu point click.</summary>
+        private void menuUnlinkedPlacesClick(object sender, EventArgs e)
         {
             int nCount = database_.placeRemoveUnlinked();
             MessageBox.Show(this, nCount.ToString() + " unlinked place(s) were removed.", "Unlinked Places", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2548,7 +2478,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Edit -> User Options... menu point click.</summary>
-        private void menuOptions_Click(object sender, EventArgs e)
+        private void menuOptionsClick(object sender, EventArgs e)
         {
             showUserOptions();
         }
@@ -2556,7 +2486,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Edit -> Add Media menu point click.</summary>
-        private void menuAddMedia_Click(object sender, EventArgs e)
+        private void menuAddMediaClick(object sender, EventArgs e)
         {
             EditMediaDialog editMediaDialog = new EditMediaDialog(database_);
             if (editMediaDialog.ShowDialog(this) == DialogResult.OK)
@@ -2575,9 +2505,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Goto Person" menu point click.  Also the Goto person toolbar button click event.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuGoto_Click(object sender, EventArgs e)
+        private void menuGotoClick(object sender, EventArgs e)
         {
             gotoPerson();
         }
@@ -2585,15 +2513,13 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Image" menu point click and the images toolbar button.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuImage_Click(object sender, EventArgs e)
+        private void menuImageClick(object sender, EventArgs e)
         {
             m_menuImage.Checked = !m_menuImage.Checked;
             m_tsbImage.Checked = m_menuImage.Checked;
             if (currentPage.content == Pages.PERSON)
             {
-                Person oPerson = new Person(currentPage.index, database_);
+                Person oPerson = new Person(currentPage.idx, database_);
                 webBrowser_.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
             }
         }
@@ -2601,9 +2527,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Location" menu point click and the location toolbar button.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuLocation_Click(object sender, EventArgs e)
+        private void menuLocationClick(object sender, EventArgs e)
         {
             m_menuLocation.Checked = !m_menuLocation.Checked;
             m_tsbLocation.Checked = m_menuLocation.Checked;
@@ -2611,12 +2535,12 @@ namespace family_tree.viewer
             switch (currentPage.content)
             {
             case Pages.PERSON:
-                Person oPerson = new Person(currentPage.index, database_);
+                Person oPerson = new Person(currentPage.idx, database_);
                 webBrowser_.DocumentText = userOptions_.renderHtml(oPerson.getDescription(true, true, m_menuImage.Checked, m_menuLocation.Checked, true));
                 break;
 
             case Pages.PLACE:
-                showPlace(currentPage.index, false);
+                showPlace(currentPage.idx, false);
                 break;
             }
         }
@@ -2624,9 +2548,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Recent Changes" menu point click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuRecentChanges_Click(object sender, EventArgs e)
+        private void menuRecentChangesClick(object sender, EventArgs e)
         {
             showRecentChanges();
         }
@@ -2634,9 +2556,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the View → ToDo menu point click.  Display the To Do on the main window.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuToDo_Click(object sender, EventArgs e)
+        private void menuToDoClick(object sender, EventArgs e)
         {
             showToDo();
         }
@@ -2644,9 +2564,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the View → Calculate age menu point click and the Age toolbar button click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuCalcAge_Click(object sender, EventArgs e)
+        private void menuCalcAgeClick(object sender, EventArgs e)
         {
             showAgeDialog();
         }
@@ -2654,7 +2572,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the View → Calculate Birthday menu point click.</summary>
-        private void menuBirthday_Click(object sender, EventArgs e)
+        private void menuBirthdayClick(object sender, EventArgs e)
         {
             // Display the birthday dialog.
             BirthdayDialog birthdayDialog = new BirthdayDialog();
@@ -2665,53 +2583,47 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the View → Reduce Width menu point click and the reduce width toolbar button.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuReduceWidth_Click(object sender, EventArgs e)
+        private void menuReduceWidthClick(object sender, EventArgs e)
         {
             if (currentPage.content == Pages.PERSON)
             {
                 personSize_.x -= 8;
                 fontSize_ = 7.0f;
-                showPerson(currentPage.index, false);
+                showPerson(currentPage.idx, false);
             }
         }
 
 
 
         /// <summary>Message handler for the View → Standard Width menu point click.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuStandardWidth_Click(object sender, EventArgs e)
+        private void menuStandardWidthClick(object sender, EventArgs e)
         {
             if (currentPage.content == Pages.PERSON)
             {
                 personSize_.x = 130;
                 fontSize_ = userOptions_.fontBase.size;
-                showPerson(currentPage.index, false);
+                showPerson(currentPage.idx, false);
             }
         }
 
 
 
         /// <summary>Message handler for the "View" → "html Source" menu point.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuHtmlSource_Click(object sender, EventArgs e)
+        private void menuHtmlSourceClick(object sender, EventArgs e)
         {
             // Create a file to hold the html source
 
-            string sFilename = walton.DataPaths.getMyDocuments() + "\\family tree source.html";
+            string fileName = walton.DataPaths.getMyDocuments() + "\\family tree source.html";
 
             // Open the filename for output.
-            StreamWriter oFile = new StreamWriter(sFilename, false);
-            oFile.Write(webBrowser_.DocumentText);
-            oFile.Close();
+            StreamWriter streamWriter = new StreamWriter(fileName, false);
+            streamWriter.Write(webBrowser_.DocumentText);
+            streamWriter.Close();
 
             // Open the new file in notepad.
             try
             {
-                System.Diagnostics.Process.Start("notepad.exe", "\"" + sFilename + "\"");
+                System.Diagnostics.Process.Start("notepad.exe", "\"" + fileName + "\"");
             }
             catch { }
         }
@@ -2722,28 +2634,23 @@ namespace family_tree.viewer
 
         #region Reports Menu
 
-        // Message handler for the "Reports" -> "To Tree" menu point click
-        /// <summary>
-        /// Message handler for the "Reports" -> "To Tree" menu point click
-        /// and the "Tree" toolbar button click.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuToTree_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the "Reports" -> "To Tree" menu point click and the "Tree" toolbar button click.</summary>
+        private void menuToTreeClick(object sender, EventArgs e)
         {
             createTree();
         }
 
-        // Message handler for the "Reports" -> "To Html" menu point click.
-        /// <summary>
-        /// Message handler for the "Reports" -> "To Html" menu point click.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuReportToHtml_Click(object sender, EventArgs e)
+
+
+        /// <summary>Message handler for the "Reports" -> "To Html" menu point click.</summary>
+        private void menuReportToHtmlClick(object sender, EventArgs e)
         {
             reportToHtml();
         }
+
+
 
         #endregion
 
@@ -2754,18 +2661,16 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the click on a ucPerson object event.  Responds the user clicking on a person object by displaying the person shown in the person object.  This is a bit like a message handler, but for my own event with my own signiture.</summary>
-		private void ucPerson_evtClick(object oSender)
+		private void ucPersonEvtClick(object sender)
         {
-            family_tree.viewer.PersonDisplay psnPerson = (family_tree.viewer.PersonDisplay)oSender;
+            family_tree.viewer.PersonDisplay psnPerson = (family_tree.viewer.PersonDisplay)sender;
             showPerson(psnPerson.getPersonIdx(), true);
         }
 
 
 
         /// <summary>Message handler for the web browser trying to follow a link.</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        private void webBrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             string newUrl = e.Url.ToString();
             int colonPos = newUrl.IndexOf(':');
@@ -2801,7 +2706,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for a individual back (or forward) item click.  This is the drop down combo next to the back and forward buttons.</summary>
-        private void individualBackItem_Click(object sender, EventArgs e)
+        private void individualBackItemClick(object sender, EventArgs e)
         {
             // Find the label of the sending button.
             string buttonLabel = sender.ToString();

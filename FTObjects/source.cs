@@ -366,6 +366,7 @@ namespace family_tree.objects
 
             // Development Only.
             // Show a version of this document in the format that we will use on webtrees.
+#pragma warning disable 162
             if (false)
             {
                 switch (additionalInfoTypeIdx_)
@@ -404,6 +405,7 @@ namespace family_tree.objects
                     break;
                 }
             }
+#pragma warning restore 162
 
             // Finish the html document.
             html.Append("<p style=\"text-align: right;\"><span class=\"small\">Last edit by " + lastEditBy_ + " on " + lastEditDate_.ToString("d-MMM-yyyy HH:mm:ss") + "</span></p>");

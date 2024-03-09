@@ -171,7 +171,7 @@ namespace family_tree.viewer
             menuExportGedcom.Name = "menuExportGedcom";
             menuExportGedcom.Size = new System.Drawing.Size(173, 22);
             menuExportGedcom.Text = "Export Gedcom...";
-            menuExportGedcom.Click += new System.EventHandler(this.menuExportGedcom_Click);
+            menuExportGedcom.Click += new System.EventHandler(this.menuExportGedcomClick);
             // 
             // toolStripMenuItem9
             // 
@@ -193,7 +193,7 @@ namespace family_tree.viewer
             editCensusRecordsToolStripMenuItem.Name = "editCensusRecordsToolStripMenuItem";
             editCensusRecordsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             editCensusRecordsToolStripMenuItem.Text = "Edit Census Records...";
-            editCensusRecordsToolStripMenuItem.Click += new System.EventHandler(this.menuCensus_Click);
+            editCensusRecordsToolStripMenuItem.Click += new System.EventHandler(this.menuCensusClick);
             // 
             // toolStripMenuItem12
             // 
@@ -205,35 +205,35 @@ namespace family_tree.viewer
             addFatherToolStripMenuItem.Name = "addFatherToolStripMenuItem";
             addFatherToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addFatherToolStripMenuItem.Text = "Add Father...";
-            addFatherToolStripMenuItem.Click += new System.EventHandler(this.menuAddFather_Click);
+            addFatherToolStripMenuItem.Click += new System.EventHandler(this.menuAddFatherClick);
             // 
             // addMotherToolStripMenuItem
             // 
             addMotherToolStripMenuItem.Name = "addMotherToolStripMenuItem";
             addMotherToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addMotherToolStripMenuItem.Text = "Add Mother...";
-            addMotherToolStripMenuItem.Click += new System.EventHandler(this.menuAddMother_Click);
+            addMotherToolStripMenuItem.Click += new System.EventHandler(this.menuAddMotherClick);
             // 
             // addSiblingToolStripMenuItem
             // 
             addSiblingToolStripMenuItem.Name = "addSiblingToolStripMenuItem";
             addSiblingToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addSiblingToolStripMenuItem.Text = "Add Sibling...";
-            addSiblingToolStripMenuItem.Click += new System.EventHandler(this.menuAddSibling_Click);
+            addSiblingToolStripMenuItem.Click += new System.EventHandler(this.menuAddSiblingClick);
             // 
             // addChildToolStripMenuItem
             // 
             addChildToolStripMenuItem.Name = "addChildToolStripMenuItem";
             addChildToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addChildToolStripMenuItem.Text = "Add Child...";
-            addChildToolStripMenuItem.Click += new System.EventHandler(this.menuAddChild_Click);
+            addChildToolStripMenuItem.Click += new System.EventHandler(this.menuAddChildClick);
             // 
             // addPartnerToolStripMenuItem
             // 
             addPartnerToolStripMenuItem.Name = "addPartnerToolStripMenuItem";
             addPartnerToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             addPartnerToolStripMenuItem.Text = "Add Partner...";
-            addPartnerToolStripMenuItem.Click += new System.EventHandler(this.menuAddPartner_Click);
+            addPartnerToolStripMenuItem.Click += new System.EventHandler(this.menuAddPartnerClick);
             // 
             // toolStripMenuItem13
             // 
@@ -245,14 +245,14 @@ namespace family_tree.viewer
             menuUnlinkedPlaces.Name = "menuUnlinkedPlaces";
             menuUnlinkedPlaces.Size = new System.Drawing.Size(203, 22);
             menuUnlinkedPlaces.Text = "Remove Unlinked Places";
-            menuUnlinkedPlaces.Click += new System.EventHandler(this.menuUnlinkedPlaces_Click);
+            menuUnlinkedPlaces.Click += new System.EventHandler(this.menuUnlinkedPlacesClick);
             // 
             // menuRecentChanges
             // 
             menuRecentChanges.Name = "menuRecentChanges";
             menuRecentChanges.Size = new System.Drawing.Size(215, 22);
             menuRecentChanges.Text = "Recent Changes";
-            menuRecentChanges.Click += new System.EventHandler(this.menuRecentChanges_Click);
+            menuRecentChanges.Click += new System.EventHandler(this.menuRecentChangesClick);
             // 
             // toolStripMenuItem14
             // 
@@ -279,7 +279,7 @@ namespace family_tree.viewer
             menuAddMedia.Name = "menuAddMedia";
             menuAddMedia.Size = new System.Drawing.Size(203, 22);
             menuAddMedia.Text = "Add Media...";
-            menuAddMedia.Click += new System.EventHandler(this.menuAddMedia_Click);
+            menuAddMedia.Click += new System.EventHandler(this.menuAddMediaClick);
             // 
             // toolStripMenuItem15
             // 
@@ -296,14 +296,14 @@ namespace family_tree.viewer
             menuHtmlSource.Name = "menuHtmlSource";
             menuHtmlSource.Size = new System.Drawing.Size(215, 22);
             menuHtmlSource.Text = "html Source";
-            menuHtmlSource.Click += new System.EventHandler(this.menuHtmlSource_Click);
+            menuHtmlSource.Click += new System.EventHandler(this.menuHtmlSourceClick);
             // 
             // menuToDo
             // 
             menuToDo.Name = "menuToDo";
             menuToDo.Size = new System.Drawing.Size(215, 22);
             menuToDo.Text = "To Do List";
-            menuToDo.Click += new System.EventHandler(this.menuToDo_Click);
+            menuToDo.Click += new System.EventHandler(this.menuToDoClick);
             // 
             // oToolStrip
             // 
@@ -335,7 +335,7 @@ namespace family_tree.viewer
             tsbHome.Name = "tsbHome";
             tsbHome.Size = new System.Drawing.Size(60, 22);
             tsbHome.Text = "Home";
-            tsbHome.Click += new System.EventHandler(this.menuHome_Click);
+            tsbHome.Click += new System.EventHandler(this.menuHomeClick);
             // 
             // tsddbBack_
             // 
@@ -353,7 +353,7 @@ namespace family_tree.viewer
             this.tsbBack_.Name = "tsbBack_";
             this.tsbBack_.Size = new System.Drawing.Size(52, 22);
             this.tsbBack_.Text = "Back";
-            this.tsbBack_.Click += new System.EventHandler(this.menuBack_Click);
+            this.tsbBack_.Click += new System.EventHandler(this.menuBackClick);
             // 
             // tsddbForward_
             // 
@@ -371,7 +371,7 @@ namespace family_tree.viewer
             this.tsbForward_.Name = "tsbForward_";
             this.tsbForward_.Size = new System.Drawing.Size(70, 22);
             this.tsbForward_.Text = "Forward";
-            this.tsbForward_.Click += new System.EventHandler(this.menuForward_Click);
+            this.tsbForward_.Click += new System.EventHandler(this.menuForwardClick);
             // 
             // tsbGoto
             // 
@@ -380,7 +380,7 @@ namespace family_tree.viewer
             tsbGoto.Name = "tsbGoto";
             tsbGoto.Size = new System.Drawing.Size(53, 22);
             tsbGoto.Text = "Goto";
-            tsbGoto.Click += new System.EventHandler(this.menuGoto_Click);
+            tsbGoto.Click += new System.EventHandler(this.menuGotoClick);
             // 
             // tsbEdit
             // 
@@ -389,7 +389,7 @@ namespace family_tree.viewer
             tsbEdit.Name = "tsbEdit";
             tsbEdit.Size = new System.Drawing.Size(47, 22);
             tsbEdit.Text = "Edit";
-            tsbEdit.Click += new System.EventHandler(this.menuEdit_Click);
+            tsbEdit.Click += new System.EventHandler(this.menuEditClick);
             // 
             // tsbSources
             // 
@@ -398,7 +398,7 @@ namespace family_tree.viewer
             tsbSources.Name = "tsbSources";
             tsbSources.Size = new System.Drawing.Size(68, 22);
             tsbSources.Text = "Sources";
-            tsbSources.Click += new System.EventHandler(this.menuEditSources_Click);
+            tsbSources.Click += new System.EventHandler(this.menuEditSourcesClick);
             // 
             // tsbTree
             // 
@@ -407,7 +407,7 @@ namespace family_tree.viewer
             tsbTree.Name = "tsbTree";
             tsbTree.Size = new System.Drawing.Size(48, 22);
             tsbTree.Text = "Tree";
-            tsbTree.Click += new System.EventHandler(this.menuToTree_Click);
+            tsbTree.Click += new System.EventHandler(this.menuToTreeClick);
             // 
             // tsbReport
             // 
@@ -416,7 +416,7 @@ namespace family_tree.viewer
             tsbReport.Name = "tsbReport";
             tsbReport.Size = new System.Drawing.Size(62, 22);
             tsbReport.Text = "Report";
-            tsbReport.Click += new System.EventHandler(this.menuReportToHtml_Click);
+            tsbReport.Click += new System.EventHandler(this.menuReportToHtmlClick);
             // 
             // tsbAge
             // 
@@ -425,7 +425,7 @@ namespace family_tree.viewer
             tsbAge.Name = "tsbAge";
             tsbAge.Size = new System.Drawing.Size(48, 22);
             tsbAge.Text = "Age";
-            tsbAge.Click += new System.EventHandler(this.menuCalcAge_Click);
+            tsbAge.Click += new System.EventHandler(this.menuCalcAgeClick);
             // 
             // m_tsbImage
             // 
@@ -436,7 +436,7 @@ namespace family_tree.viewer
             this.m_tsbImage.Name = "m_tsbImage";
             this.m_tsbImage.Size = new System.Drawing.Size(65, 22);
             this.m_tsbImage.Text = "Images";
-            this.m_tsbImage.Click += new System.EventHandler(this.menuImage_Click);
+            this.m_tsbImage.Click += new System.EventHandler(this.menuImageClick);
             // 
             // m_tsbLocation
             // 
@@ -445,7 +445,7 @@ namespace family_tree.viewer
             this.m_tsbLocation.Name = "m_tsbLocation";
             this.m_tsbLocation.Size = new System.Drawing.Size(73, 22);
             this.m_tsbLocation.Text = "Location";
-            this.m_tsbLocation.Click += new System.EventHandler(this.menuLocation_Click);
+            this.m_tsbLocation.Click += new System.EventHandler(this.menuLocationClick);
             // 
             // tsbReduceWidth
             // 
@@ -454,7 +454,7 @@ namespace family_tree.viewer
             tsbReduceWidth.Name = "tsbReduceWidth";
             tsbReduceWidth.Size = new System.Drawing.Size(66, 22);
             tsbReduceWidth.Text = "Reduce";
-            tsbReduceWidth.Click += new System.EventHandler(this.menuReduceWidth_Click);
+            tsbReduceWidth.Click += new System.EventHandler(this.menuReduceWidthClick);
             // 
             // oMainMenu
             // 
@@ -496,14 +496,14 @@ namespace family_tree.viewer
             menuOpen.Name = "menuOpen";
             menuOpen.Size = new System.Drawing.Size(173, 22);
             menuOpen.Text = "Open...";
-            menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
+            menuOpen.Click += new System.EventHandler(this.menuOpenClick);
             // 
             // menuExportSQLScript
             // 
             menuExportSQLScript.Name = "menuExportSQLScript";
             menuExportSQLScript.Size = new System.Drawing.Size(173, 22);
             menuExportSQLScript.Text = "Export SQL script...";
-            menuExportSQLScript.Click += new System.EventHandler(this.menuExportSQLScript_Click);
+            menuExportSQLScript.Click += new System.EventHandler(this.menuExportSqlScriptClick);
             // 
             // menuOpenTree
             // 
@@ -512,7 +512,7 @@ namespace family_tree.viewer
             menuOpenTree.Name = "menuOpenTree";
             menuOpenTree.Size = new System.Drawing.Size(173, 22);
             menuOpenTree.Text = "Open Tree...";
-            menuOpenTree.Click += new System.EventHandler(this.menuOpenTree_Click);
+            menuOpenTree.Click += new System.EventHandler(this.menuOpenTreeClick);
             // 
             // menuHome
             // 
@@ -521,35 +521,35 @@ namespace family_tree.viewer
             menuHome.Name = "menuHome";
             menuHome.Size = new System.Drawing.Size(173, 22);
             menuHome.Text = "Home";
-            menuHome.Click += new System.EventHandler(this.menuHome_Click);
+            menuHome.Click += new System.EventHandler(this.menuHomeClick);
             // 
             // menuRecentFile1_
             // 
             this.menuRecentFile1_.Name = "menuRecentFile1_";
             this.menuRecentFile1_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile1_.Text = "1";
-            this.menuRecentFile1_.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile1_.Click += new System.EventHandler(this.menuRecentFileClick);
             // 
             // menuRecentFile2_
             // 
             this.menuRecentFile2_.Name = "menuRecentFile2_";
             this.menuRecentFile2_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile2_.Text = "2";
-            this.menuRecentFile2_.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile2_.Click += new System.EventHandler(this.menuRecentFileClick);
             // 
             // menuRecentFile3_
             // 
             this.menuRecentFile3_.Name = "menuRecentFile3_";
             this.menuRecentFile3_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile3_.Text = "3";
-            this.menuRecentFile3_.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile3_.Click += new System.EventHandler(this.menuRecentFileClick);
             // 
             // menuRecentFile4_
             // 
             this.menuRecentFile4_.Name = "menuRecentFile4_";
             this.menuRecentFile4_.Size = new System.Drawing.Size(173, 22);
             this.menuRecentFile4_.Text = "4";
-            this.menuRecentFile4_.Click += new System.EventHandler(this.menuRecentFile_Click);
+            this.menuRecentFile4_.Click += new System.EventHandler(this.menuRecentFileClick);
             // 
             // menuExit
             // 
@@ -558,7 +558,7 @@ namespace family_tree.viewer
             menuExit.Name = "menuExit";
             menuExit.Size = new System.Drawing.Size(173, 22);
             menuExit.Text = "Exit";
-            menuExit.Click += new System.EventHandler(this.menuExit_Click);
+            menuExit.Click += new System.EventHandler(this.menuExitClick);
             // 
             // menuEdit
             // 
@@ -588,7 +588,7 @@ namespace family_tree.viewer
             menuEditCurrent.Name = "menuEditCurrent";
             menuEditCurrent.Size = new System.Drawing.Size(203, 22);
             menuEditCurrent.Text = "Edit...";
-            menuEditCurrent.Click += new System.EventHandler(this.menuEdit_Click);
+            menuEditCurrent.Click += new System.EventHandler(this.menuEditClick);
             // 
             // editSourcesToolStripMenuItem
             // 
@@ -597,7 +597,7 @@ namespace family_tree.viewer
             editSourcesToolStripMenuItem.Name = "editSourcesToolStripMenuItem";
             editSourcesToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             editSourcesToolStripMenuItem.Text = "Edit Sources...";
-            editSourcesToolStripMenuItem.Click += new System.EventHandler(this.menuEditSources_Click);
+            editSourcesToolStripMenuItem.Click += new System.EventHandler(this.menuEditSourcesClick);
             // 
             // menuUserOptions
             // 
@@ -605,7 +605,7 @@ namespace family_tree.viewer
             menuUserOptions.Name = "menuUserOptions";
             menuUserOptions.Size = new System.Drawing.Size(203, 22);
             menuUserOptions.Text = "User Options...";
-            menuUserOptions.Click += new System.EventHandler(this.menuOptions_Click);
+            menuUserOptions.Click += new System.EventHandler(this.menuOptionsClick);
             // 
             // menuView
             // 
@@ -632,7 +632,7 @@ namespace family_tree.viewer
             menuGoto.Name = "menuGoto";
             menuGoto.Size = new System.Drawing.Size(215, 22);
             menuGoto.Text = "Goto Person...";
-            menuGoto.Click += new System.EventHandler(this.menuGoto_Click);
+            menuGoto.Click += new System.EventHandler(this.menuGotoClick);
             // 
             // m_menuImage
             // 
@@ -642,7 +642,7 @@ namespace family_tree.viewer
             this.m_menuImage.Name = "m_menuImage";
             this.m_menuImage.Size = new System.Drawing.Size(215, 22);
             this.m_menuImage.Text = "Image";
-            this.m_menuImage.Click += new System.EventHandler(this.menuImage_Click);
+            this.m_menuImage.Click += new System.EventHandler(this.menuImageClick);
             // 
             // m_menuLocation
             // 
@@ -650,7 +650,7 @@ namespace family_tree.viewer
             this.m_menuLocation.Name = "m_menuLocation";
             this.m_menuLocation.Size = new System.Drawing.Size(215, 22);
             this.m_menuLocation.Text = "Location";
-            this.m_menuLocation.Click += new System.EventHandler(this.menuLocation_Click);
+            this.m_menuLocation.Click += new System.EventHandler(this.menuLocationClick);
             // 
             // menuAge
             // 
@@ -659,7 +659,7 @@ namespace family_tree.viewer
             menuAge.Name = "menuAge";
             menuAge.Size = new System.Drawing.Size(215, 22);
             menuAge.Text = "Calculate Age...";
-            menuAge.Click += new System.EventHandler(this.menuCalcAge_Click);
+            menuAge.Click += new System.EventHandler(this.menuCalcAgeClick);
             // 
             // menuBirthday
             // 
@@ -668,7 +668,7 @@ namespace family_tree.viewer
             menuBirthday.Name = "menuBirthday";
             menuBirthday.Size = new System.Drawing.Size(215, 22);
             menuBirthday.Text = "Calculate Birthday Range...";
-            menuBirthday.Click += new System.EventHandler(this.menuBirthday_Click);
+            menuBirthday.Click += new System.EventHandler(this.menuBirthdayClick);
             // 
             // menuReduceWidth
             // 
@@ -677,7 +677,7 @@ namespace family_tree.viewer
             menuReduceWidth.Name = "menuReduceWidth";
             menuReduceWidth.Size = new System.Drawing.Size(215, 22);
             menuReduceWidth.Text = "Reduce Width";
-            menuReduceWidth.Click += new System.EventHandler(this.menuReduceWidth_Click);
+            menuReduceWidth.Click += new System.EventHandler(this.menuReduceWidthClick);
             // 
             // menuStandardWidth
             // 
@@ -686,7 +686,7 @@ namespace family_tree.viewer
             menuStandardWidth.Name = "menuStandardWidth";
             menuStandardWidth.Size = new System.Drawing.Size(215, 22);
             menuStandardWidth.Text = "Standard Width";
-            menuStandardWidth.Click += new System.EventHandler(this.menuStandardWidth_Click);
+            menuStandardWidth.Click += new System.EventHandler(this.menuStandardWidthClick);
             // 
             // menuReports
             // 
@@ -704,7 +704,7 @@ namespace family_tree.viewer
             menuToTree.Name = "menuToTree";
             menuToTree.Size = new System.Drawing.Size(116, 22);
             menuToTree.Text = "To Tree";
-            menuToTree.Click += new System.EventHandler(this.menuToTree_Click);
+            menuToTree.Click += new System.EventHandler(this.menuToTreeClick);
             // 
             // menuReportToHtml
             // 
@@ -712,7 +712,7 @@ namespace family_tree.viewer
             menuReportToHtml.Name = "menuReportToHtml";
             menuReportToHtml.Size = new System.Drawing.Size(116, 22);
             menuReportToHtml.Text = "To Html";
-            menuReportToHtml.Click += new System.EventHandler(this.menuReportToHtml_Click);
+            menuReportToHtml.Click += new System.EventHandler(this.menuReportToHtmlClick);
             // 
             // oStatusStrip
             // 
@@ -764,7 +764,7 @@ namespace family_tree.viewer
             this.labPerson_.TabIndex = 3;
             this.labPerson_.Text = "label1";
             this.labPerson_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labPerson_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPerson_Paint);
+            this.labPerson_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPersonPaint);
             // 
             // labPersonDates_
             // 
@@ -774,7 +774,7 @@ namespace family_tree.viewer
             this.labPersonDates_.Size = new System.Drawing.Size(312, 41);
             this.labPersonDates_.TabIndex = 5;
             this.labPersonDates_.Text = "label1";
-            this.labPersonDates_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPersonDates_Paint);
+            this.labPersonDates_.Paint += new System.Windows.Forms.PaintEventHandler(this.labPersonDatesPaint);
             // 
             // panelTree_
             // 
@@ -794,7 +794,7 @@ namespace family_tree.viewer
             this.panelTree_.Name = "panelTree_";
             this.panelTree_.Size = new System.Drawing.Size(804, 338);
             this.panelTree_.TabIndex = 16;
-            this.panelTree_.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelTree_Paint);
+            this.panelTree_.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTreePaint);
             // 
             // marMotherParents_
             // 
@@ -885,7 +885,7 @@ namespace family_tree.viewer
             this.webBrowser_.Name = "webBrowser_";
             this.webBrowser_.Size = new System.Drawing.Size(804, 78);
             this.webBrowser_.TabIndex = 18;
-            this.webBrowser_.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
+            this.webBrowser_.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserNavigating);
             // 
             // MainWindow
             // 
@@ -901,9 +901,9 @@ namespace family_tree.viewer
             this.MainMenuStrip = oMainMenu;
             this.Name = "MainWindow";
             this.Text = "Family Tree Viewer";
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMain_Closing);
-            this.Load += new System.EventHandler(this.frmMain_Load);
-            this.Shown += new System.EventHandler(this.frmMain_Shown);
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmMainClosing);
+            this.Load += new System.EventHandler(this.frmMainLoad);
+            this.Shown += new System.EventHandler(this.frmMainShown);
             oToolStrip.ResumeLayout(false);
             oToolStrip.PerformLayout();
             oMainMenu.ResumeLayout(false);
