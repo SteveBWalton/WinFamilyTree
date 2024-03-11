@@ -46,7 +46,7 @@ namespace family_tree.objects
 
 
         /// <summary>ID of the fact type.</summary>
-        public int index { get { return idx_; } }
+        public int idx { get { return idx_; } }
 
 
 

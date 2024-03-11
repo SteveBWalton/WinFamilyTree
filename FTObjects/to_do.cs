@@ -24,7 +24,7 @@ namespace family_tree.objects
         private int priority_;
 
         /// <summary>The ID of the person that this item is attached to.</summary>
-        public int personIndex_;
+        public int personIdx_;
 
         /// <summary>True when the fact needs saving to the database.  False when the fact is in synchronised with the database.</summary>
         private bool isDirty_;
@@ -58,7 +58,7 @@ namespace family_tree.objects
             isDirty_ = false;
             isDelete_ = false;
             idx_ = idx;
-            personIndex_ = personIdx;
+            personIdx_ = personIdx;
             priority_ = priority;
             description_ = description;
         }
@@ -115,7 +115,7 @@ namespace family_tree.objects
                 if (idx_ == -1)
                 {
                     // Create a new record.
-                    sql = "INSERT INTO tbl_ToDo (PersonID, Priority, Description) VALUES (" + personIndex_.ToString() + ", " + priority_.ToString() + ", \"" + description_ + "\");";
+                    sql = "INSERT INTO tbl_ToDo (PersonID, Priority, Description) VALUES (" + personIdx_.ToString() + ", " + priority_.ToString() + ", \"" + description_ + "\");";
                 }
                 else
                 {

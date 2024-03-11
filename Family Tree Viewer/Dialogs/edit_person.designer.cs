@@ -175,8 +175,8 @@ namespace family_tree.viewer
             compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate1.status = 0;
             this.dateDoB_.theDate = compoundDate1;
-            this.dateDoB_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateDoB_evtValueChanged);
-            this.dateDoB_.Enter += new System.EventHandler(this.dateDoB_Enter);
+            this.dateDoB_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateDoBEvtValueChanged);
+            this.dateDoB_.Enter += new System.EventHandler(this.dateDoBEnter);
             // 
             // dateDoD_
             // 
@@ -187,8 +187,8 @@ namespace family_tree.viewer
             compoundDate2.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate2.status = 0;
             this.dateDoD_.theDate = compoundDate2;
-            this.dateDoD_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateDoD_evtValueChanged);
-            this.dateDoD_.Enter += new System.EventHandler(this.dateDoD_Enter);
+            this.dateDoD_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateDoDEvtValueChanged);
+            this.dateDoD_.Enter += new System.EventHandler(this.dateDoDEnter);
             // 
             // txtComments_
             // 
@@ -198,7 +198,7 @@ namespace family_tree.viewer
             this.txtComments_.Size = new System.Drawing.Size(656, 112);
             this.txtComments_.TabIndex = 33;
             this.txtComments_.Text = "textBox1";
-            this.txtComments_.TextChanged += new System.EventHandler(this.txtComments_TextChanged);
+            this.txtComments_.TextChanged += new System.EventHandler(this.txtCommentsTextChanged);
             this.txtComments_.Enter += new System.EventHandler(this.evtNonSpecificSource);
             // 
             // chkChildrenKnown_
@@ -208,7 +208,7 @@ namespace family_tree.viewer
             this.chkChildrenKnown_.Size = new System.Drawing.Size(136, 24);
             this.chkChildrenKnown_.TabIndex = 32;
             this.chkChildrenKnown_.Text = "All Children Known";
-            this.chkChildrenKnown_.CheckedChanged += new System.EventHandler(this.chkChildrenKnown_CheckedChanged);
+            this.chkChildrenKnown_.CheckedChanged += new System.EventHandler(this.chkChildrenKnownCheckedChanged);
             // 
             // label7
             // 
@@ -256,8 +256,8 @@ namespace family_tree.viewer
             this.cboSex_.Name = "cboSex_";
             this.cboSex_.Size = new System.Drawing.Size(128, 21);
             this.cboSex_.TabIndex = 25;
-            this.cboSex_.SelectedValueChanged += new System.EventHandler(this.cboSex_SelectedValueChanged);
-            this.cboSex_.Enter += new System.EventHandler(this.cboSex_Enter);
+            this.cboSex_.SelectedValueChanged += new System.EventHandler(this.cboSexSelectedValueChanged);
+            this.cboSex_.Enter += new System.EventHandler(this.cboSexEnter);
             // 
             // labMaidenName_
             // 
@@ -275,8 +275,8 @@ namespace family_tree.viewer
             this.txtMaidenName_.Size = new System.Drawing.Size(128, 21);
             this.txtMaidenName_.TabIndex = 23;
             this.txtMaidenName_.Text = "txtSurname";
-            this.txtMaidenName_.TextChanged += new System.EventHandler(this.txtMaidenName_TextChanged);
-            this.txtMaidenName_.Enter += new System.EventHandler(this.txtName_Enter);
+            this.txtMaidenName_.TextChanged += new System.EventHandler(this.txtMaidenNameTextChanged);
+            this.txtMaidenName_.Enter += new System.EventHandler(this.txtNameEnter);
             // 
             // txtForename_
             // 
@@ -285,8 +285,8 @@ namespace family_tree.viewer
             this.txtForename_.Size = new System.Drawing.Size(128, 21);
             this.txtForename_.TabIndex = 22;
             this.txtForename_.Text = "txtSurname";
-            this.txtForename_.TextChanged += new System.EventHandler(this.txtForename_TextChanged);
-            this.txtForename_.Enter += new System.EventHandler(this.txtName_Enter);
+            this.txtForename_.TextChanged += new System.EventHandler(this.txtForenameTextChanged);
+            this.txtForename_.Enter += new System.EventHandler(this.txtNameEnter);
             // 
             // txtSurname_
             // 
@@ -295,8 +295,8 @@ namespace family_tree.viewer
             this.txtSurname_.Size = new System.Drawing.Size(128, 21);
             this.txtSurname_.TabIndex = 20;
             this.txtSurname_.Text = "txtSurname";
-            this.txtSurname_.TextChanged += new System.EventHandler(this.txtSurname_TextChanged);
-            this.txtSurname_.Enter += new System.EventHandler(this.txtName_Enter);
+            this.txtSurname_.TextChanged += new System.EventHandler(this.txtSurnameTextChanged);
+            this.txtSurname_.Enter += new System.EventHandler(this.txtNameEnter);
             // 
             // label2
             // 
@@ -349,7 +349,7 @@ namespace family_tree.viewer
             cmdRelationshipAddress.Size = new System.Drawing.Size(21, 21);
             cmdRelationshipAddress.TabIndex = 17;
             cmdRelationshipAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdRelationshipAddress.Click += new System.EventHandler(this.cmdRelationshipAddress_Click);
+            cmdRelationshipAddress.Click += new System.EventHandler(this.cmdRelationshipAddressClick);
             // 
             // cboRelationshipType_
             // 
@@ -362,8 +362,8 @@ namespace family_tree.viewer
             this.cboRelationshipType_.Name = "cboRelationshipType_";
             this.cboRelationshipType_.Size = new System.Drawing.Size(184, 21);
             this.cboRelationshipType_.TabIndex = 16;
-            this.cboRelationshipType_.SelectedIndexChanged += new System.EventHandler(this.cboRelationshipType_SelectedIndexChanged);
-            this.cboRelationshipType_.Enter += new System.EventHandler(this.cboRelationshipType_Enter);
+            this.cboRelationshipType_.SelectedIndexChanged += new System.EventHandler(this.cboRelationshipTypeSelectedIndexChanged);
+            this.cboRelationshipType_.Enter += new System.EventHandler(this.cboRelationshipTypeEnter);
             // 
             // label11
             // 
@@ -386,8 +386,8 @@ namespace family_tree.viewer
             this.cboTerminated_.Name = "cboTerminated_";
             this.cboTerminated_.Size = new System.Drawing.Size(184, 21);
             this.cboTerminated_.TabIndex = 12;
-            this.cboTerminated_.SelectedIndexChanged += new System.EventHandler(this.cboTerminated_SelectedIndexChanged);
-            this.cboTerminated_.Enter += new System.EventHandler(this.cboTerminated_Enter);
+            this.cboTerminated_.SelectedIndexChanged += new System.EventHandler(this.cboTerminatedSelectedIndexChanged);
+            this.cboTerminated_.Enter += new System.EventHandler(this.cboTerminatedEnter);
             // 
             // txtRelationComments_
             // 
@@ -397,7 +397,7 @@ namespace family_tree.viewer
             this.txtRelationComments_.Size = new System.Drawing.Size(328, 96);
             this.txtRelationComments_.TabIndex = 10;
             this.txtRelationComments_.Text = "textBox1";
-            this.txtRelationComments_.TextChanged += new System.EventHandler(this.txtRelationComments_TextChanged);
+            this.txtRelationComments_.TextChanged += new System.EventHandler(this.txtRelationCommentsTextChanged);
             // 
             // label10
             // 
@@ -415,8 +415,8 @@ namespace family_tree.viewer
             this.txtRelationLocation_.Size = new System.Drawing.Size(306, 21);
             this.txtRelationLocation_.TabIndex = 7;
             this.txtRelationLocation_.Text = "textBox1";
-            this.txtRelationLocation_.TextChanged += new System.EventHandler(this.txtRelationLocation_TextChanged);
-            this.txtRelationLocation_.Enter += new System.EventHandler(this.txtRelationLocation_Enter);
+            this.txtRelationLocation_.TextChanged += new System.EventHandler(this.txtRelationLocationTextChanged);
+            this.txtRelationLocation_.Enter += new System.EventHandler(this.txtRelationLocationEnter);
             // 
             // label9
             // 
@@ -454,7 +454,7 @@ namespace family_tree.viewer
             cmdDeleteRelationship.TabIndex = 11;
             cmdDeleteRelationship.Text = "Delete";
             cmdDeleteRelationship.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdDeleteRelationship.Click += new System.EventHandler(this.cmdDeleteRelationship_Click);
+            cmdDeleteRelationship.Click += new System.EventHandler(this.cmdDeleteRelationshipClick);
             // 
             // AddRelationship
             // 
@@ -466,7 +466,7 @@ namespace family_tree.viewer
             AddRelationship.TabIndex = 2;
             AddRelationship.Text = "Add";
             AddRelationship.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            AddRelationship.Click += new System.EventHandler(this.addRelationship_Click);
+            AddRelationship.Click += new System.EventHandler(this.addRelationshipClick);
             // 
             // dateRelationEnd_
             // 
@@ -477,7 +477,7 @@ namespace family_tree.viewer
             compoundDate3.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate3.status = 0;
             this.dateRelationEnd_.theDate = compoundDate3;
-            this.dateRelationEnd_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateRelationEnd_evtValueChanged);
+            this.dateRelationEnd_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateRelationEndEvtValueChanged);
             this.dateRelationEnd_.Enter += new System.EventHandler(this.dateRelationEndEnter);
             // 
             // dateRelationStart_
@@ -489,8 +489,8 @@ namespace family_tree.viewer
             compoundDate4.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate4.status = 0;
             this.dateRelationStart_.theDate = compoundDate4;
-            this.dateRelationStart_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateRelationStart_evtValueChanged);
-            this.dateRelationStart_.Enter += new System.EventHandler(this.dateRelationStart_Enter);
+            this.dateRelationStart_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateRelationStartEvtValueChanged);
+            this.dateRelationStart_.Enter += new System.EventHandler(this.dateRelationStartEnter);
             // 
             // lstRelationships_
             // 
@@ -498,8 +498,8 @@ namespace family_tree.viewer
             this.lstRelationships_.Name = "lstRelationships_";
             this.lstRelationships_.Size = new System.Drawing.Size(206, 121);
             this.lstRelationships_.TabIndex = 0;
-            this.lstRelationships_.SelectedIndexChanged += new System.EventHandler(this.lstRelationships_SelectedIndexChanged);
-            this.lstRelationships_.Enter += new System.EventHandler(this.lstRelationships_Enter);
+            this.lstRelationships_.SelectedIndexChanged += new System.EventHandler(this.lstRelationshipsSelectedIndexChanged);
+            this.lstRelationships_.Enter += new System.EventHandler(this.lstRelationshipsEnter);
             // 
             // oImageList16x16
             // 
@@ -540,7 +540,7 @@ namespace family_tree.viewer
             cmdDeleteFact.TabIndex = 3;
             cmdDeleteFact.Text = "Delete";
             cmdDeleteFact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdDeleteFact.Click += new System.EventHandler(this.cmdDeleteFact_Click);
+            cmdDeleteFact.Click += new System.EventHandler(this.cmdDeleteFactClick);
             // 
             // cboFactType_
             // 
@@ -560,9 +560,9 @@ namespace family_tree.viewer
             this.gridFacts_.Name = "gridFacts_";
             this.gridFacts_.Size = new System.Drawing.Size(656, 208);
             this.gridFacts_.TabIndex = 0;
-            this.gridFacts_.CurrentCellChanged += new System.EventHandler(this.gridFacts_CurrentCellChanged);
-            this.gridFacts_.Enter += new System.EventHandler(this.gridFacts_CurrentCellChanged);
-            this.gridFacts_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridFacts_MouseUp);
+            this.gridFacts_.CurrentCellChanged += new System.EventHandler(this.gridFactsCurrentCellChanged);
+            this.gridFacts_.Enter += new System.EventHandler(this.gridFactsCurrentCellChanged);
+            this.gridFacts_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridFactsMouseUp);
             // 
             // contextMenuStrip1
             // 
@@ -576,7 +576,7 @@ namespace family_tree.viewer
             menuEditLocation.Name = "menuEditLocation";
             menuEditLocation.Size = new System.Drawing.Size(129, 22);
             menuEditLocation.Text = "Location...";
-            menuEditLocation.Click += new System.EventHandler(this.menuEditLocation_Click);
+            menuEditLocation.Click += new System.EventHandler(this.menuEditLocationClick);
             // 
             // cmdAddFact
             // 
@@ -588,7 +588,7 @@ namespace family_tree.viewer
             cmdAddFact.TabIndex = 1;
             cmdAddFact.Text = "Add";
             cmdAddFact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdAddFact.Click += new System.EventHandler(this.cmdAddFact_Click);
+            cmdAddFact.Click += new System.EventHandler(this.cmdAddFactClick);
             // 
             // tabAdvanced
             // 
@@ -618,7 +618,7 @@ namespace family_tree.viewer
             this.chkGedcom_.TabIndex = 13;
             this.chkGedcom_.Text = "Include in Gedcom file";
             this.chkGedcom_.UseVisualStyleBackColor = true;
-            this.chkGedcom_.CheckedChanged += new System.EventHandler(this.chkGedcom_CheckedChanged);
+            this.chkGedcom_.CheckedChanged += new System.EventHandler(this.chkGedcomCheckedChanged);
             // 
             // label3
             // 
@@ -636,7 +636,7 @@ namespace family_tree.viewer
             this.cboMainImage_.Name = "cboMainImage_";
             this.cboMainImage_.Size = new System.Drawing.Size(272, 21);
             this.cboMainImage_.TabIndex = 11;
-            this.cboMainImage_.SelectedIndexChanged += new System.EventHandler(this.cboMainImage_SelectedIndexChanged);
+            this.cboMainImage_.SelectedIndexChanged += new System.EventHandler(this.cboMainImageSelectedIndexChanged);
             // 
             // cboMother_
             // 
@@ -645,7 +645,7 @@ namespace family_tree.viewer
             this.cboMother_.Name = "cboMother_";
             this.cboMother_.Size = new System.Drawing.Size(272, 21);
             this.cboMother_.TabIndex = 3;
-            this.cboMother_.SelectedIndexChanged += new System.EventHandler(this.cboMother_SelectedIndexChanged);
+            this.cboMother_.SelectedIndexChanged += new System.EventHandler(this.cboMotherSelectedIndexChanged);
             // 
             // cboFather_
             // 
@@ -654,7 +654,7 @@ namespace family_tree.viewer
             this.cboFather_.Name = "cboFather_";
             this.cboFather_.Size = new System.Drawing.Size(272, 21);
             this.cboFather_.TabIndex = 2;
-            this.cboFather_.SelectedIndexChanged += new System.EventHandler(this.cboFather_SelectedIndexChanged);
+            this.cboFather_.SelectedIndexChanged += new System.EventHandler(this.cboFatherSelectedIndexChanged);
             // 
             // label13
             // 
@@ -725,7 +725,7 @@ namespace family_tree.viewer
             cmdDeleteToDo.TabIndex = 5;
             cmdDeleteToDo.Text = "Delete";
             cmdDeleteToDo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdDeleteToDo.Click += new System.EventHandler(this.cmdDeleteToDo_Click);
+            cmdDeleteToDo.Click += new System.EventHandler(this.cmdDeleteToDoClick);
             // 
             // cmdAddToDo
             // 
@@ -737,7 +737,7 @@ namespace family_tree.viewer
             cmdAddToDo.TabIndex = 4;
             cmdAddToDo.Text = "Add";
             cmdAddToDo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdAddToDo.Click += new System.EventHandler(this.cmdAddToDo_Click);
+            cmdAddToDo.Click += new System.EventHandler(this.cmdAddToDoClick);
             // 
             // gridToDo_
             // 
@@ -760,7 +760,7 @@ namespace family_tree.viewer
             cmdDeleteSource.TabIndex = 14;
             cmdDeleteSource.Text = "Delete";
             cmdDeleteSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdDeleteSource.Click += new System.EventHandler(this.cmdDeleteSource_Click);
+            cmdDeleteSource.Click += new System.EventHandler(this.cmdDeleteSourceClick);
             // 
             // cmdAddSource
             // 
@@ -772,7 +772,7 @@ namespace family_tree.viewer
             cmdAddSource.TabIndex = 12;
             cmdAddSource.Text = "Add";
             cmdAddSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdAddSource.Click += new System.EventHandler(this.cmdAddSource_Click);
+            cmdAddSource.Click += new System.EventHandler(this.cmdAddSourceClick);
             // 
             // cmdCancel
             // 
@@ -797,7 +797,7 @@ namespace family_tree.viewer
             cmdOK.TabIndex = 0;
             cmdOK.Text = "OK";
             cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // grpSources_
             // 
@@ -830,7 +830,7 @@ namespace family_tree.viewer
             this.gridSources_.Name = "gridSources_";
             this.gridSources_.Size = new System.Drawing.Size(664, 152);
             this.gridSources_.TabIndex = 11;
-            this.gridSources_.Leave += new System.EventHandler(this.gridSources_Leave);
+            this.gridSources_.Leave += new System.EventHandler(this.gridSourcesLeave);
             // 
             // tabControl_
             // 
@@ -846,7 +846,7 @@ namespace family_tree.viewer
             this.tabControl_.SelectedIndex = 0;
             this.tabControl_.Size = new System.Drawing.Size(680, 284);
             this.tabControl_.TabIndex = 23;
-            this.tabControl_.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl_.SelectedIndexChanged += new System.EventHandler(this.tabControl1SelectedIndexChanged);
             this.tabControl_.Enter += new System.EventHandler(this.evtNonSpecificSource);
             // 
             // cboEditor_
@@ -876,9 +876,9 @@ namespace family_tree.viewer
             this.Name = "EditPersonDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "frmEditPerson";
-            this.Load += new System.EventHandler(this.frmEditPerson_Load);
-            this.Shown += new System.EventHandler(this.frmEditPerson_Shown);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmEditPerson_DragEnter);
+            this.Load += new System.EventHandler(this.frmEditPersonLoad);
+            this.Shown += new System.EventHandler(this.frmEditPersonShown);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmEditPersonDragEnter);
             tabBasic.ResumeLayout(false);
             tabBasic.PerformLayout();
             tabRelationships.ResumeLayout(false);

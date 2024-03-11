@@ -26,9 +26,9 @@ namespace family_tree.viewer
 
 
         /// <summary>Initialises the edit person dialog with the specified person in the specified database.</summary>
-        /// <param name="personIndex">Specifies the ID of the person to edit.</param>
+        /// <param name="personIdx">Specifies the ID of the person to edit.</param>
         /// <param name="database">Specifies the database to save the person into.</param>
-        public EditPersonDialog(int personIndex, Database database)
+        public EditPersonDialog(int personIdx, Database database)
         {
             // Required for Windows Form Designer support.
             InitializeComponent();
@@ -46,13 +46,13 @@ namespace family_tree.viewer
             }
 
             // Create the person object to edit.
-            if (personIndex == 0)
+            if (personIdx == 0)
             {
                 person_ = new Person(database);
             }
             else
             {
-                person_ = database.getPerson(personIndex);
+                person_ = database.getPerson(personIdx);
             }
 
             // Update the values in the dialog.
@@ -348,7 +348,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Form load event.</summary>
-        private void frmEditPerson_Load(object sender, System.EventArgs e)
+        private void frmEditPersonLoad(object sender, System.EventArgs e)
         {
             // Label for the dialog.
             Text = person_.getName(true, false);
@@ -357,7 +357,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the form shown event.</summary>
-        private void frmEditPerson_Shown(object sender, EventArgs e)
+        private void frmEditPersonShown(object sender, EventArgs e)
         {
             // Initialise the editor combo with the possible editors.
             string[] editors = person_.database.getEditors();
@@ -374,7 +374,7 @@ namespace family_tree.viewer
 
 
         /// <summary>This is called when the user clicks the OK button.  It saves the data on the form into a person record.  If does not handle closing the form that is handled by .NET.</summary>
-        private void cmdOK_Click(object sender, System.EventArgs e)
+        private void cmdOkClick(object sender, System.EventArgs e)
         {
             // Save the record to the database.
             person_.lastEditBy = cboEditor_.SelectedItem.ToString();
@@ -384,7 +384,7 @@ namespace family_tree.viewer
 
 
         /// <summary>This is called when the user clicks the add source button.  This adds a source to the active source collection.  The active source is defined when each control adds it source to the dialog.  The last source is active.</summary>
-        private void cmdAddSource_Click(object sender, System.EventArgs e)
+        private void cmdAddSourceClick(object sender, System.EventArgs e)
         {
             // Check that a source is selected.
             if (cboSources_.SelectedIndex < 0)
@@ -411,7 +411,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdDeleteSource_Click(object sender, System.EventArgs e)
+        private void cmdDeleteSourceClick(object sender, System.EventArgs e)
         {
             // Validate the active cell.
             if (gridSources_.CurrentCell.RowNumber < 0)
@@ -429,7 +429,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for a drag-drop object passing over the window.</summary>
-        private void frmEditPerson_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        private void frmEditPersonDragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             // If the data is a file, display the copy cursor.
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -459,7 +459,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the sources grid losing the focus.  Write any changes to the database.</summary>
-        private void gridSources_Leave(object sender, System.EventArgs e)
+        private void gridSourcesLeave(object sender, System.EventArgs e)
         {
             if (sources_ != null)
             {
@@ -487,7 +487,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the tab control changing the active tab.  Populate the Advanced tab if it is displayed.</summary>
-        private void tabControl1_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void tabControl1SelectedIndexChanged(object sender, System.EventArgs e)
         {
             switch (tabControl_.SelectedIndex)
             {
@@ -564,7 +564,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Update the sources when the any of the name fields are active.</summary>
-        private void txtName_Enter(object sender, System.EventArgs e)
+        private void txtNameEnter(object sender, System.EventArgs e)
         {
             refreshSources(person_.sourceName, "Name");
         }
@@ -572,7 +572,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Update the sources when the sex field is active.</summary>
-        private void cboSex_Enter(object sender, System.EventArgs e)
+        private void cboSexEnter(object sender, System.EventArgs e)
         {
             refreshSources();
         }
@@ -580,7 +580,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Update the sources when the DoB field is active.</summary>
-        private void dateDoB_Enter(object sender, System.EventArgs e)
+        private void dateDoBEnter(object sender, System.EventArgs e)
         {
             refreshSources(person_.sourceDoB, "Date of Birth");
         }
@@ -588,7 +588,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Update the sources when the DoD field is active.</summary>
-        private void dateDoD_Enter(object sender, System.EventArgs e)
+        private void dateDoDEnter(object sender, System.EventArgs e)
         {
             refreshSources(person_.sourceDoD, "Date of Death");
         }
@@ -596,7 +596,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the surname changing.  Update the person object and display the person description.</summary>
-        private void txtSurname_TextChanged(object sender, System.EventArgs e)
+        private void txtSurnameTextChanged(object sender, System.EventArgs e)
         {
             person_.surname = this.txtSurname_.Text;
 
@@ -607,7 +607,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the forename changing.  Update the person object and display the person description.</summary>
-        private void txtForename_TextChanged(object sender, System.EventArgs e)
+        private void txtForenameTextChanged(object sender, System.EventArgs e)
         {
             person_.forenames = this.txtForename_.Text;
 
@@ -618,7 +618,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the maiden name changing.  Update the person object and display the person description.</summary>
-        private void txtMaidenName_TextChanged(object sender, System.EventArgs e)
+        private void txtMaidenNameTextChanged(object sender, System.EventArgs e)
         {
             person_.maidenname = this.txtMaidenName_.Text;
 
@@ -629,7 +629,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the sex of the person changing.  Update the person object and display the person description.</summary>
-        private void cboSex_SelectedValueChanged(object sender, System.EventArgs e)
+        private void cboSexSelectedValueChanged(object sender, System.EventArgs e)
         {
             if (cboSex_.SelectedIndex == 0)
             {
@@ -651,7 +651,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the all children known check box changing value.  Update the person object and display the person description.</summary>
-        private void chkChildrenKnown_CheckedChanged(object sender, System.EventArgs e)
+        private void chkChildrenKnownCheckedChanged(object sender, System.EventArgs e)
         {
             person_.isAllChildrenKnown = this.chkChildrenKnown_.Checked;
 
@@ -662,7 +662,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the date of birth control changing value.  Update the person object and display the person description.</summary>
-        private void dateDoB_evtValueChanged(object oSender)
+        private void dateDoBEvtValueChanged(object sender)
         {
             person_.dob.date = dateDoB_.getDate();
             person_.dob.status = dateDoB_.getStatus();
@@ -674,7 +674,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the date of death control changing value.  Update the person object and display the person description.</summary>
-        private void dateDoD_evtValueChanged(object oSender)
+        private void dateDoDEvtValueChanged(object sender)
         {
             person_.dod.date = dateDoD_.getDate();
             person_.dod.status = dateDoD_.getStatus();
@@ -686,7 +686,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the comments text box contents changing.  Update the comments property of the person object.</summary>
-        private void txtComments_TextChanged(object sender, System.EventArgs e)
+        private void txtCommentsTextChanged(object sender, System.EventArgs e)
         {
             person_.comments = this.txtComments_.Text;
         }
@@ -700,7 +700,7 @@ namespace family_tree.viewer
 
 
         /// <summary>This is called when the current cell changes within the facts grid and when the grid first gets the focus.</summary>
-        private void gridFacts_CurrentCellChanged(object sender, System.EventArgs e)
+        private void gridFactsCurrentCellChanged(object sender, System.EventArgs e)
         {
             Fact[] facts = (Fact[])gridFacts_.DataSource;
             refreshSources(facts[gridFacts_.CurrentCell.RowNumber].sources, facts[gridFacts_.CurrentCell.RowNumber].information);
@@ -712,7 +712,7 @@ namespace family_tree.viewer
 
 
         /// <summary>This is called when the user clicks the Add Fact button.  This adds a fact to the form control (not the person).</summary>
-        private void cmdAddFact_Click(object sender, System.EventArgs e)
+        private void cmdAddFactClick(object sender, System.EventArgs e)
         {
             // Check that a fact type is selected.
             if (cboFactType_.SelectedIndex < 0)
@@ -728,7 +728,7 @@ namespace family_tree.viewer
             int newRank = facts.Length + 1;
 
             // Create the new fact.
-            Fact fact = new Fact(0, person_, factType.index, newRank, "Empty");
+            Fact fact = new Fact(0, person_, factType.idx, newRank, "Empty");
 
             // Add the fact	to the person
             person_.addFact(fact);
@@ -739,7 +739,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdDeleteFact_Click(object sender, System.EventArgs e)
+        private void cmdDeleteFactClick(object sender, System.EventArgs e)
         {
             // Check that a fact is selected in the grid.
             if (gridFacts_.CurrentCell.RowNumber < 0)
@@ -764,7 +764,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the marriage terminated combo box getting the focus.  Display the sources for the marriage termination status.</summary>
-        private void cboTerminated_Enter(object sender, System.EventArgs e)
+        private void cboTerminatedEnter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
             {
@@ -779,7 +779,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the marriage terminated combo box chaning value.</summary>
-        private void cboTerminated_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboTerminatedSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Update the active relationship.
             if (activeRelationship_ != null)
@@ -792,7 +792,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the relationship type value change event.  Update the value in the active relationship.</summary>
-        private void cboRelationshipType_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboRelationshipTypeSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Update the active relationship.
             if (activeRelationship_ != null)
@@ -805,14 +805,14 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the relationship type getting the focus.  Do not record the source for this information (currently) so just clear the sources area.</summary>
-        private void cboRelationshipType_Enter(object sender, System.EventArgs e)
+        private void cboRelationshipTypeEnter(object sender, System.EventArgs e)
         {
             refreshSources();
         }
 
 
 
-        private void lstRelationships_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void lstRelationshipsSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Validate the selected index.
             if (lstRelationships_.SelectedIndex < 0)
@@ -826,7 +826,7 @@ namespace family_tree.viewer
 
             // Update the form.
             dateRelationStart_.theDate = activeRelationship_.start;
-            //			this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
+            // this.chkTerminated.Checked = m_oActiveRelationship.Terminated;
             cboTerminated_.SelectedIndex = activeRelationship_.terminatedIdx - 1;
             txtRelationLocation_.Text = activeRelationship_.location;
             dateRelationEnd_.theDate = activeRelationship_.end;
@@ -838,7 +838,7 @@ namespace family_tree.viewer
 
 
 
-        private void dateRelationStart_Enter(object sender, System.EventArgs e)
+        private void dateRelationStartEnter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
             {
@@ -852,7 +852,7 @@ namespace family_tree.viewer
 
 
 
-        private void chkTerminated_Enter(object sender, System.EventArgs e)
+        private void chkTerminatedEnter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
             {
@@ -866,7 +866,7 @@ namespace family_tree.viewer
 
 
 
-        private void txtRelationLocation_Enter(object sender, System.EventArgs e)
+        private void txtRelationLocationEnter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
             {
@@ -880,20 +880,7 @@ namespace family_tree.viewer
 
 
 
-        private void dateRelationEnd_Enter(object sender, System.EventArgs e)
-        {
-            if (activeRelationship_ == null)
-            {
-                refreshSources();
-            }
-            else
-            {
-                refreshSources(activeRelationship_.sourceEnd, "Relationship End Date");
-            }
-        }
-
-
-        private void lstRelationships_Enter(object sender, System.EventArgs e)
+        private void lstRelationshipsEnter(object sender, System.EventArgs e)
         {
             if (activeRelationship_ == null)
             {
@@ -906,7 +893,7 @@ namespace family_tree.viewer
         }
 
 
-        private void txtRelationLocation_TextChanged(object sender, System.EventArgs e)
+        private void txtRelationLocationTextChanged(object sender, System.EventArgs e)
         {
             // Update the active relationship.
             if (activeRelationship_ != null)
@@ -921,7 +908,7 @@ namespace family_tree.viewer
 
 
 
-        private void dateRelationStart_evtValueChanged(object oSender)
+        private void dateRelationStartEvtValueChanged(object oSender)
         {
             // Update the active relationship.
             if (activeRelationship_ != null)
@@ -937,7 +924,7 @@ namespace family_tree.viewer
 
 
 
-        private void dateRelationEnd_evtValueChanged(object oSender)
+        private void dateRelationEndEvtValueChanged(object oSender)
         {
             // Update the active relationship.
             if (activeRelationship_ != null)
@@ -953,7 +940,7 @@ namespace family_tree.viewer
 
 
 
-        private void txtRelationComments_TextChanged(object sender, System.EventArgs e)
+        private void txtRelationCommentsTextChanged(object sender, System.EventArgs e)
         {
             // Update the active relationship.
             if (activeRelationship_ != null)
@@ -964,7 +951,7 @@ namespace family_tree.viewer
         }
 
 
-        private void addRelationship_Click(object sender, System.EventArgs e)
+        private void addRelationshipClick(object sender, System.EventArgs e)
         {
             // Check that a person is selected.
             if (cboAddPartner_.SelectedIndex == -1)
@@ -990,7 +977,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdDeleteRelationship_Click(object sender, System.EventArgs e)
+        private void cmdDeleteRelationshipClick(object sender, System.EventArgs e)
         {
             // Get the selected relationship.
             if (activeRelationship_ == null)
@@ -1020,7 +1007,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the father combo box changing value.</summary>
-        private void cboFather_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboFatherSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the index of the selected father.
             IdxName father = (IdxName)cboFather_.SelectedItem;
@@ -1032,7 +1019,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the mother combo box changing value.</summary>
-        private void cboMother_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboMotherSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the ID the selected mother
             IdxName mother = (IdxName)cboMother_.SelectedItem;
@@ -1080,7 +1067,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the main image combo box changing value.</summary>
-        private void cboMainImage_SelectedIndexChanged(object sender, EventArgs e)
+        private void cboMainImageSelectedIndexChanged(object sender, EventArgs e)
         {
             // Find the index the selected media.
             Media media = (Media)cboMainImage_.SelectedItem;
@@ -1095,7 +1082,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the include in Gedcom check box value changing.</summary>
-        private void chkGedcom_CheckedChanged(object sender, EventArgs e)
+        private void chkGedcomCheckedChanged(object sender, EventArgs e)
         {
             person_.isIncludeInGedcom = chkGedcom_.Checked;
         }
@@ -1106,16 +1093,16 @@ namespace family_tree.viewer
 
 
 
-        private void cmdAddToDo_Click(object sender, EventArgs e)
+        private void cmdAddToDoClick(object sender, EventArgs e)
         {
-            ToDo toDo = new ToDo { personIndex_ = person_.idx, priority = 50, description = "New ToDo item." };
+            ToDo toDo = new ToDo { personIdx_ = person_.idx, priority = 50, description = "New ToDo item." };
             person_.addToDo(toDo);
             gridToDo_.SetDataBinding(person_.getToDo(), "");
         }
 
 
 
-        private void cmdDeleteToDo_Click(object sender, System.EventArgs e)
+        private void cmdDeleteToDoClick(object sender, System.EventArgs e)
         {
             // Check that a fact is selected in the grid.
             if (gridToDo_.CurrentCell.RowNumber < 0)
@@ -1138,7 +1125,7 @@ namespace family_tree.viewer
 
 
 
-        private void menuEditLocation_Click(object sender, EventArgs e)
+        private void menuEditLocationClick(object sender, EventArgs e)
         {
             if (hitTestInfo_ == null)
             {
@@ -1164,7 +1151,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the mouse up event of the facts grid.  Store the location of any right clicks for the context menu to use.</summary>
-        private void gridFacts_MouseUp(object sender, MouseEventArgs e)
+        private void gridFactsMouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -1175,7 +1162,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the relationship location lookup button click.</summary>
-        private void cmdRelationshipAddress_Click(object sender, EventArgs e)
+        private void cmdRelationshipAddressClick(object sender, EventArgs e)
         {
             SelectLocationDialog selectLocationDialog = new SelectLocationDialog(person_.database, txtRelationLocation_.Text);
             if (selectLocationDialog.ShowDialog(this) == DialogResult.OK)

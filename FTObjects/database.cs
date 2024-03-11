@@ -1009,7 +1009,7 @@ namespace family_tree.objects
             // Return a matching fact type (if possible).
             for (int i = 0; i < factTypes_.Length; i++)
             {
-                if (factTypes_[i].index == idx)
+                if (factTypes_[i].idx == idx)
                 {
                     return factTypes_[i];
                 }
