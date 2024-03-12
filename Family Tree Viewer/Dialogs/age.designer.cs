@@ -58,7 +58,7 @@ namespace family_tree.viewer
             this.cboPerson_.Name = "cboPerson";
             this.cboPerson_.Size = new System.Drawing.Size(280, 21);
             this.cboPerson_.TabIndex = 1;
-            this.cboPerson_.SelectedIndexChanged += new System.EventHandler(this.cboPerson_SelectedIndexChanged);
+            this.cboPerson_.SelectedIndexChanged += new System.EventHandler(this.cboPersonSelectedIndexChanged);
             // 
             // labDoB
             // 
@@ -118,7 +118,7 @@ namespace family_tree.viewer
             clsDate1.date = new System.DateTime(2008, 2, 20, 0, 0, 0, 0);
             clsDate1.status = 0;
             this.ucDate_.theDate = clsDate1;
-            this.ucDate_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.ucDate1_evtValueChanged);
+            this.ucDate_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.ucDate1EvtValueChanged);
             // 
             // cmdOK
             // 

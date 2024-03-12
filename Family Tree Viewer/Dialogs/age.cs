@@ -26,8 +26,8 @@ namespace family_tree.viewer
 
         /// <summary>Class constructor for the dialog.</summary>
         /// <param name="database">Specify the database to connect this dialog to.</param>
-        /// <param name="personIndex">Specify the person to calculate the age of.</param>
-        public AgeDialog(Database database, int personIndex)
+        /// <param name="personIdx">Specify the person to calculate the age of.</param>
+        public AgeDialog(Database database, int personIdx)
         {
             InitializeComponent();
 
@@ -39,14 +39,14 @@ namespace family_tree.viewer
             for (int i = 0; i < people.Length; i++)
             {
                 cboPerson_.Items.Add(people[i]);
-                if (people[i].idx == personIndex)
+                if (people[i].idx == personIdx)
                 {
                     cboPerson_.SelectedItem = people[i];
                 }
             }
 
             // Find the current person.
-            person_ = new Person(personIndex, database_);
+            person_ = new Person(personIdx, database_);
             labDoB_.Text = person_.dob.format(DateFormat.FULL_LONG);
 
             // Default date.
@@ -78,7 +78,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Date1 value changed event.  Update the displayed age of the person, since the date has just changed.</summary>
-        private void ucDate1_evtValueChanged(object sender)
+        private void ucDate1EvtValueChanged(object sender)
         {
             labTheAge_.Text = person_.getAge(this.ucDate_.theDate);
         }
@@ -86,7 +86,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the seleted person value changed event.  Update the displayed age of the person, since the person has just changed.</summary>
-        private void cboPerson_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboPersonSelectedIndexChanged(object sender, System.EventArgs e)
         {
             IdxName person = (IdxName)this.cboPerson_.SelectedItem;
             person_ = new Person(person.idx, database_);
