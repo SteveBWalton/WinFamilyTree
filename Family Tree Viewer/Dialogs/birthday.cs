@@ -27,8 +27,10 @@ namespace family_tree.viewer
 
         #region Event Handlers
 
+
+
         /// <summary>Message handler for any control that wants to recalcule the age if it's value changes.</summary>
-        private void CalculateBirthday(object sender, EventArgs e)
+        private void calculateBirthday(object sender, EventArgs e)
         {
             // Initialise a couple variables to hold the result.
             DateTime minDate = DateTime.MinValue;
@@ -116,7 +118,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Copy button click event.</summary>
-        private void cmdCopy_Click(object sender, EventArgs e)
+        private void cmdCopyClick(object sender, EventArgs e)
         {
             Clipboard.Clear();
             Clipboard.SetText(labReport_.Text);

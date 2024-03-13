@@ -136,7 +136,7 @@ namespace family_tree.viewer
             cmdCopy.Text = "Copy";
             cmdCopy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdCopy.UseVisualStyleBackColor = true;
-            cmdCopy.Click += new System.EventHandler(this.cmdCopy_Click);
+            cmdCopy.Click += new System.EventHandler(this.cmdCopyClick);
             // 
             // m_nudAge1
             // 
@@ -144,7 +144,7 @@ namespace family_tree.viewer
             this.nudAge1_.Name = "m_nudAge1";
             this.nudAge1_.Size = new System.Drawing.Size(48, 21);
             this.nudAge1_.TabIndex = 10;
-            this.nudAge1_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.nudAge1_.ValueChanged += new System.EventHandler(this.calculateBirthday);
             // 
             // m_dtpDate1
             // 
@@ -152,7 +152,7 @@ namespace family_tree.viewer
             this.dtpDate1_.Name = "m_dtpDate1";
             this.dtpDate1_.Size = new System.Drawing.Size(200, 21);
             this.dtpDate1_.TabIndex = 13;
-            this.dtpDate1_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.dtpDate1_.ValueChanged += new System.EventHandler(this.calculateBirthday);
             // 
             // m_dtpDate2
             // 
@@ -160,7 +160,7 @@ namespace family_tree.viewer
             this.dtpDate2_.Name = "m_dtpDate2";
             this.dtpDate2_.Size = new System.Drawing.Size(200, 21);
             this.dtpDate2_.TabIndex = 17;
-            this.dtpDate2_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.dtpDate2_.ValueChanged += new System.EventHandler(this.calculateBirthday);
             // 
             // m_nudAge2
             // 
@@ -168,7 +168,7 @@ namespace family_tree.viewer
             this.nudAge2_.Name = "m_nudAge2";
             this.nudAge2_.Size = new System.Drawing.Size(48, 21);
             this.nudAge2_.TabIndex = 14;
-            this.nudAge2_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.nudAge2_.ValueChanged += new System.EventHandler(this.calculateBirthday);
             // 
             // m_labReport
             // 
@@ -227,7 +227,7 @@ namespace family_tree.viewer
             this.dtpDate3_.Name = "m_dtpDate3";
             this.dtpDate3_.Size = new System.Drawing.Size(200, 21);
             this.dtpDate3_.TabIndex = 24;
-            this.dtpDate3_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.dtpDate3_.ValueChanged += new System.EventHandler(this.calculateBirthday);
             // 
             // m_nudAge3
             // 
@@ -235,7 +235,7 @@ namespace family_tree.viewer
             this.nudAge3_.Name = "m_nudAge3";
             this.nudAge3_.Size = new System.Drawing.Size(48, 21);
             this.nudAge3_.TabIndex = 21;
-            this.nudAge3_.ValueChanged += new System.EventHandler(this.CalculateBirthday);
+            this.nudAge3_.ValueChanged += new System.EventHandler(this.calculateBirthday);
             // 
             // frmBirthday
             // 
