@@ -248,7 +248,7 @@ namespace family_tree.viewer
             cmdSave.TabIndex = 10;
             cmdSave.Text = "Save";
             cmdSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdSave.Click += new System.EventHandler(this.cmdSave_Click);
+            cmdSave.Click += new System.EventHandler(this.cmdSaveClick);
             // 
             // label1
             // 
@@ -329,7 +329,7 @@ namespace family_tree.viewer
             this.cmdRemovePerson_.TabIndex = 9;
             this.cmdRemovePerson_.Text = "Delete";
             this.cmdRemovePerson_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdRemovePerson_.Click += new System.EventHandler(this.cmdRemovePerson_Click);
+            this.cmdRemovePerson_.Click += new System.EventHandler(this.cmdRemovePersonClick);
             // 
             // cmdAddPerson_
             // 
@@ -343,7 +343,7 @@ namespace family_tree.viewer
             this.cmdAddPerson_.TabIndex = 8;
             this.cmdAddPerson_.Text = "Add";
             this.cmdAddPerson_.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdAddPerson_.Click += new System.EventHandler(this.cmdAddPerson_Click);
+            this.cmdAddPerson_.Click += new System.EventHandler(this.cmdAddPersonClick);
             // 
             // cboPerson_
             // 
@@ -384,7 +384,7 @@ namespace family_tree.viewer
             this.cboYear_.Name = "cboYear_";
             this.cboYear_.Size = new System.Drawing.Size(80, 21);
             this.cboYear_.TabIndex = 0;
-            this.cboYear_.SelectedIndexChanged += new System.EventHandler(this.cboYear_SelectedIndexChanged);
+            this.cboYear_.SelectedIndexChanged += new System.EventHandler(this.cboYearSelectedIndexChanged);
             // 
             // cboAddress_
             // 
@@ -395,7 +395,7 @@ namespace family_tree.viewer
             this.cboAddress_.Size = new System.Drawing.Size(423, 21);
             this.cboAddress_.TabIndex = 3;
             this.cboAddress_.Text = "comboBox1";
-            this.cboAddress_.TextChanged += new System.EventHandler(this.cboAddress_TextChanged);
+            this.cboAddress_.TextChanged += new System.EventHandler(this.cboAddressTextChanged);
             // 
             // cmdCreate_
             // 
@@ -441,7 +441,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the year combo value changing.</summary>
-        private void cboYear_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboYearSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Find the selected year.
             int theYear = int.Parse(cboYear_.Text);
@@ -467,7 +467,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the text in the household address combo changing.  If the text if the from the combo box then display the contents of the existing census household.  Otherwise, enable the creation of a new census household.</summary>
-        private void cboAddress_TextChanged(object sender, System.EventArgs e)
+        private void cboAddressTextChanged(object sender, System.EventArgs e)
         {
             if (cboAddress_.SelectedIndex >= 0)
             {
@@ -480,10 +480,10 @@ namespace family_tree.viewer
 
                 // Find the ID of the household.
                 IdxName address = (IdxName)cboAddress_.SelectedItem;
-                int householdIndex = address.idx;
+                int householdIdx = address.idx;
 
                 // Display the members of this household.
-                peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(householdIndex), "");
+                peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(householdIdx), "");
             }
             else
             {
@@ -500,7 +500,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the save button.</summary>
-        private void cmdSave_Click(object sender, System.EventArgs e)
+        private void cmdSaveClick(object sender, System.EventArgs e)
         {
             save();
         }
@@ -508,7 +508,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the add person to the census button.</summary>
-        private void cmdAddPerson_Click(object sender, System.EventArgs e)
+        private void cmdAddPersonClick(object sender, System.EventArgs e)
         {
             // Find the ID of the person selected
             if (cboPerson_.SelectedItem == null)
@@ -544,8 +544,9 @@ namespace family_tree.viewer
         }
 
 
+
         /// <summary>Signal handler for the remove person button click.</summary>
-        private void cmdRemovePerson_Click(object sender, System.EventArgs e)
+        private void cmdRemovePersonClick(object sender, System.EventArgs e)
         {
             // Check that a person is selected in the grid
             if (peopleGrid_.CurrentCell.RowNumber < 0)
@@ -555,12 +556,12 @@ namespace family_tree.viewer
 
             // Find the fact
             CensusPerson censusPerson = ((CensusPerson[])peopleGrid_.DataSource)[peopleGrid_.CurrentCell.RowNumber];
-            int householdIndex = censusPerson.houseHoldIdx;
+            int householdIdx = censusPerson.houseHoldIdx;
             censusPerson.delete();
             save();
 
             // Display the members of this household.
-            peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(householdIndex), "");
+            peopleGrid_.SetDataBinding(database_.censusHouseholdMembers(householdIdx), "");
         }
     }
 }
