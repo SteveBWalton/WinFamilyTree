@@ -98,6 +98,7 @@ namespace family_tree.objects
             // Check that the record needs saving.
             if (!isDirty_)
             {
+                // Return no write to database.
                 return false;
             }
 
