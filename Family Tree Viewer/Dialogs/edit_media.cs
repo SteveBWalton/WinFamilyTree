@@ -34,15 +34,15 @@ namespace family_tree.viewer
 
         /// <summary>Initialise the form to edit an existing media object.</summary>
         /// <param name="database">Specifies the database to load / save the media object in.</param>
-        /// <param name="mediaIndex">Specifies the ID of an existing media object.</param>
-        public EditMediaDialog(Database database, int mediaIndex)
+        /// <param name="mediaIdx">Specifies the ID of an existing media object.</param>
+        public EditMediaDialog(Database database, int mediaIdx)
         {
             InitializeComponent();
 
             // Save the input parameters
-            if (mediaIndex > 0)
+            if (mediaIdx > 0)
             {
-                media_ = new Media(database, mediaIndex);
+                media_ = new Media(database, mediaIdx);
             }
             else
             {
@@ -50,10 +50,10 @@ namespace family_tree.viewer
             }
             mediaDirectory_ = database.getMediaDirectory();
 
-            m_txtTitle.Text = media_.title;
+            txtTitle_.Text = media_.title;
             txtFilename_.Text = media_.fileName;
-            m_chkPrimary.Checked = media_.isPrimary;
-            m_chkThumbnail.Checked = media_.isThumbnail;
+            chkPrimary_.Checked = media_.isPrimary;
+            chkThumbnail_.Checked = media_.isThumbnail;
             openImage(media_.fullFileName);
 
             // Populate the list of people combo box
@@ -62,9 +62,9 @@ namespace family_tree.viewer
             foreach (IdxName person in people)
             {
                 cboPeople_.Items.Add(person);
-                foreach (int attachedIndex in attachedPeople)
+                foreach (int attachedIdx in attachedPeople)
                 {
-                    if (attachedIndex == person.idx)
+                    if (attachedIdx == person.idx)
                     {
                         lstPeople_.Items.Add(person);
                     }
@@ -127,11 +127,11 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the OK button click.  Update the media object in the database.  The Framework handles closing the form etc.</summary>
-        private void cmdOK_Click(object sender, EventArgs e)
+        private void cmdOkClick(object sender, EventArgs e)
         {
             // Update the media object.
             media_.fileName = txtFilename_.Text;
-            media_.title = m_txtTitle.Text;
+            media_.title = txtTitle_.Text;
             try
             {
                 media_.width = int.Parse(txtWidth_.Text);
@@ -148,8 +148,8 @@ namespace family_tree.viewer
             {
                 media_.height = -1;
             }
-            media_.isPrimary = m_chkPrimary.Checked;
-            media_.isThumbnail = m_chkThumbnail.Checked;
+            media_.isPrimary = chkPrimary_.Checked;
+            media_.isThumbnail = chkThumbnail_.Checked;
 
             // Update the attached people.
             media_.removeAllPeople();
@@ -165,7 +165,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the open button click.</summary>
-        private void cmdOpen_Click(object sender, EventArgs e)
+        private void cmdOpenClick(object sender, EventArgs e)
         {
             // Initialise the Open File Dialog
             openFileDialog_.Title = "Select Media File";
@@ -184,14 +184,14 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the form load event.</summary>
-        private void frmEditMedia_Load(object sender, EventArgs e)
+        private void frmEditMediaLoad(object sender, EventArgs e)
         {
         }
 
 
 
         /// <summary>Message handler for the Add person button click.</summary>
-        private void cmdAddPerson_Click(object sender, EventArgs e)
+        private void cmdAddPersonClick(object sender, EventArgs e)
         {
             IdxName person = (IdxName)cboPeople_.SelectedItem;
             if (person != null)
@@ -203,7 +203,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the remove person button click.</summary>
-        private void cmdRemovePerson_Click(object sender, EventArgs e)
+        private void cmdRemovePersonClick(object sender, EventArgs e)
         {
             if (lstPeople_.SelectedIndex >= 0)
             {

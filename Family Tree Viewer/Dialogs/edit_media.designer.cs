@@ -47,9 +47,9 @@ namespace family_tree.viewer
             this.txtFilename_ = new System.Windows.Forms.TextBox();
             this.txtHeight_ = new System.Windows.Forms.TextBox();
             this.txtWidth_ = new System.Windows.Forms.TextBox();
-            this.m_chkThumbnail = new System.Windows.Forms.CheckBox();
-            this.m_chkPrimary = new System.Windows.Forms.CheckBox();
-            this.m_txtTitle = new System.Windows.Forms.TextBox();
+            this.chkThumbnail_ = new System.Windows.Forms.CheckBox();
+            this.chkPrimary_ = new System.Windows.Forms.CheckBox();
+            this.txtTitle_ = new System.Windows.Forms.TextBox();
             this.pictureBox_ = new System.Windows.Forms.PictureBox();
             this.openFileDialog_ = new System.Windows.Forms.OpenFileDialog();
             LeftPanel = new System.Windows.Forms.Panel();
@@ -82,9 +82,9 @@ namespace family_tree.viewer
             LeftPanel.Controls.Add(this.txtHeight_);
             LeftPanel.Controls.Add(this.txtWidth_);
             LeftPanel.Controls.Add(label2);
-            LeftPanel.Controls.Add(this.m_chkThumbnail);
-            LeftPanel.Controls.Add(this.m_chkPrimary);
-            LeftPanel.Controls.Add(this.m_txtTitle);
+            LeftPanel.Controls.Add(this.chkThumbnail_);
+            LeftPanel.Controls.Add(this.chkPrimary_);
+            LeftPanel.Controls.Add(this.txtTitle_);
             LeftPanel.Controls.Add(label1);
             LeftPanel.Controls.Add(cmdCancel);
             LeftPanel.Controls.Add(cmdOK);
@@ -107,7 +107,7 @@ namespace family_tree.viewer
             cmdRemovePerson.Text = "Remove";
             cmdRemovePerson.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdRemovePerson.UseVisualStyleBackColor = true;
-            cmdRemovePerson.Click += new System.EventHandler(this.cmdRemovePerson_Click);
+            cmdRemovePerson.Click += new System.EventHandler(this.cmdRemovePersonClick);
             // 
             // oImageList16x16
             // 
@@ -141,7 +141,7 @@ namespace family_tree.viewer
             cmdAddPerson.Text = "Add";
             cmdAddPerson.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdAddPerson.UseVisualStyleBackColor = true;
-            cmdAddPerson.Click += new System.EventHandler(this.cmdAddPerson_Click);
+            cmdAddPerson.Click += new System.EventHandler(this.cmdAddPersonClick);
             // 
             // m_cboPeople
             // 
@@ -167,7 +167,7 @@ namespace family_tree.viewer
             cmdOpen.Text = "Open";
             cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdOpen.UseVisualStyleBackColor = true;
-            cmdOpen.Click += new System.EventHandler(this.cmdOpen_Click);
+            cmdOpen.Click += new System.EventHandler(this.cmdOpenClick);
             // 
             // m_txtFilename
             // 
@@ -223,33 +223,33 @@ namespace family_tree.viewer
             // 
             // m_chkThumbnail
             // 
-            this.m_chkThumbnail.AutoSize = true;
-            this.m_chkThumbnail.Location = new System.Drawing.Point(8, 193);
-            this.m_chkThumbnail.Name = "m_chkThumbnail";
-            this.m_chkThumbnail.Size = new System.Drawing.Size(74, 17);
-            this.m_chkThumbnail.TabIndex = 5;
-            this.m_chkThumbnail.Text = "Thumbnail";
-            this.m_chkThumbnail.UseVisualStyleBackColor = true;
+            this.chkThumbnail_.AutoSize = true;
+            this.chkThumbnail_.Location = new System.Drawing.Point(8, 193);
+            this.chkThumbnail_.Name = "m_chkThumbnail";
+            this.chkThumbnail_.Size = new System.Drawing.Size(74, 17);
+            this.chkThumbnail_.TabIndex = 5;
+            this.chkThumbnail_.Text = "Thumbnail";
+            this.chkThumbnail_.UseVisualStyleBackColor = true;
             // 
             // m_chkPrimary
             // 
-            this.m_chkPrimary.AutoSize = true;
-            this.m_chkPrimary.Location = new System.Drawing.Point(8, 170);
-            this.m_chkPrimary.Name = "m_chkPrimary";
-            this.m_chkPrimary.Size = new System.Drawing.Size(62, 17);
-            this.m_chkPrimary.TabIndex = 4;
-            this.m_chkPrimary.Text = "Primary";
-            this.m_chkPrimary.UseVisualStyleBackColor = true;
+            this.chkPrimary_.AutoSize = true;
+            this.chkPrimary_.Location = new System.Drawing.Point(8, 170);
+            this.chkPrimary_.Name = "m_chkPrimary";
+            this.chkPrimary_.Size = new System.Drawing.Size(62, 17);
+            this.chkPrimary_.TabIndex = 4;
+            this.chkPrimary_.Text = "Primary";
+            this.chkPrimary_.UseVisualStyleBackColor = true;
             // 
             // m_txtTitle
             // 
-            this.m_txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtTitle_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_txtTitle.Location = new System.Drawing.Point(8, 94);
-            this.m_txtTitle.Multiline = true;
-            this.m_txtTitle.Name = "m_txtTitle";
-            this.m_txtTitle.Size = new System.Drawing.Size(160, 70);
-            this.m_txtTitle.TabIndex = 3;
+            this.txtTitle_.Location = new System.Drawing.Point(8, 94);
+            this.txtTitle_.Multiline = true;
+            this.txtTitle_.Name = "m_txtTitle";
+            this.txtTitle_.Size = new System.Drawing.Size(160, 70);
+            this.txtTitle_.TabIndex = 3;
             // 
             // label1
             // 
@@ -287,7 +287,7 @@ namespace family_tree.viewer
             cmdOK.Text = "OK";
             cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdOK.UseVisualStyleBackColor = true;
-            cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // oSplitter
             // 
@@ -325,7 +325,7 @@ namespace family_tree.viewer
             this.Name = "frmEditMedia";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Media";
-            this.Load += new System.EventHandler(this.frmEditMedia_Load);
+            this.Load += new System.EventHandler(this.frmEditMediaLoad);
             LeftPanel.ResumeLayout(false);
             LeftPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_)).EndInit();
@@ -336,11 +336,11 @@ namespace family_tree.viewer
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox_;
-        private System.Windows.Forms.CheckBox m_chkPrimary;
-        private System.Windows.Forms.TextBox m_txtTitle;
+        private System.Windows.Forms.CheckBox chkPrimary_;
+        private System.Windows.Forms.TextBox txtTitle_;
         private System.Windows.Forms.TextBox txtHeight_;
         private System.Windows.Forms.TextBox txtWidth_;
-        private System.Windows.Forms.CheckBox m_chkThumbnail;
+        private System.Windows.Forms.CheckBox chkThumbnail_;
         private System.Windows.Forms.TextBox txtFilename_;
         private System.Windows.Forms.OpenFileDialog openFileDialog_;
         private System.Windows.Forms.ListBox lstPeople_;
