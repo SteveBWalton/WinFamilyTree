@@ -44,7 +44,7 @@ namespace family_tree.viewer
             this.nudLongitude_ = new System.Windows.Forms.NumericUpDown();
             this.nudZoom_ = new System.Windows.Forms.NumericUpDown();
             this.txtPrivateComments_ = new System.Windows.Forms.TextBox();
-            this.m_webBrowser = new System.Windows.Forms.WebBrowser();
+            this.webBrowser_ = new System.Windows.Forms.WebBrowser();
             this.chkUseParentLocation_ = new System.Windows.Forms.CheckBox();
             this.m_cmdOK = new System.Windows.Forms.Button();
             this.m_cmdCancel = new System.Windows.Forms.Button();
@@ -197,7 +197,7 @@ namespace family_tree.viewer
             0,
             0,
             0});
-            this.nudZoom_.ValueChanged += new System.EventHandler(this.nudZoom_ValueChanged);
+            this.nudZoom_.ValueChanged += new System.EventHandler(this.nudZoomValueChanged);
             // 
             // m_txtPrivateComments
             // 
@@ -209,12 +209,12 @@ namespace family_tree.viewer
             // 
             // m_webBrowser
             // 
-            this.m_webBrowser.Location = new System.Drawing.Point(230, 49);
-            this.m_webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.m_webBrowser.Name = "m_webBrowser";
-            this.m_webBrowser.ScrollBarsEnabled = false;
-            this.m_webBrowser.Size = new System.Drawing.Size(418, 227);
-            this.m_webBrowser.TabIndex = 13;
+            this.webBrowser_.Location = new System.Drawing.Point(230, 49);
+            this.webBrowser_.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser_.Name = "m_webBrowser";
+            this.webBrowser_.ScrollBarsEnabled = false;
+            this.webBrowser_.Size = new System.Drawing.Size(418, 227);
+            this.webBrowser_.TabIndex = 13;
             // 
             // m_chkUseParentLocation
             // 
@@ -238,7 +238,7 @@ namespace family_tree.viewer
             this.m_cmdOK.Text = "OK";
             this.m_cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.m_cmdOK.UseVisualStyleBackColor = true;
-            this.m_cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            this.m_cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // m_cmdCancel
             // 
@@ -261,7 +261,7 @@ namespace family_tree.viewer
             cmdRight.Size = new System.Drawing.Size(30, 30);
             cmdRight.TabIndex = 19;
             cmdRight.UseVisualStyleBackColor = true;
-            cmdRight.Click += new System.EventHandler(this.cmdRight_Click);
+            cmdRight.Click += new System.EventHandler(this.cmdRightClick);
             // 
             // cmdDown
             // 
@@ -271,7 +271,7 @@ namespace family_tree.viewer
             cmdDown.Size = new System.Drawing.Size(30, 30);
             cmdDown.TabIndex = 18;
             cmdDown.UseVisualStyleBackColor = true;
-            cmdDown.Click += new System.EventHandler(this.cmdDown_Click);
+            cmdDown.Click += new System.EventHandler(this.cmdDownClick);
             // 
             // cmdUp
             // 
@@ -281,7 +281,7 @@ namespace family_tree.viewer
             cmdUp.Size = new System.Drawing.Size(30, 30);
             cmdUp.TabIndex = 17;
             cmdUp.UseVisualStyleBackColor = true;
-            cmdUp.Click += new System.EventHandler(this.cmdUp_Click);
+            cmdUp.Click += new System.EventHandler(this.cmdUpClick);
             // 
             // cmdLeft
             // 
@@ -291,7 +291,7 @@ namespace family_tree.viewer
             cmdLeft.Size = new System.Drawing.Size(30, 30);
             cmdLeft.TabIndex = 16;
             cmdLeft.UseVisualStyleBackColor = true;
-            cmdLeft.Click += new System.EventHandler(this.cmdLeft_Click);
+            cmdLeft.Click += new System.EventHandler(this.cmdLeftClick);
             // 
             // cmdRefresh
             // 
@@ -304,7 +304,7 @@ namespace family_tree.viewer
             cmdRefresh.Text = "Refresh";
             cmdRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdRefresh.UseVisualStyleBackColor = true;
-            cmdRefresh.Click += new System.EventHandler(this.cmdRefresh_Click);
+            cmdRefresh.Click += new System.EventHandler(this.cmdRefreshClick);
             // 
             // frmEditPlace
             // 
@@ -319,7 +319,7 @@ namespace family_tree.viewer
             this.Controls.Add(cmdLeft);
             this.Controls.Add(this.chkUseParentLocation_);
             this.Controls.Add(cmdRefresh);
-            this.Controls.Add(this.m_webBrowser);
+            this.Controls.Add(this.webBrowser_);
             this.Controls.Add(this.txtPrivateComments_);
             this.Controls.Add(this.nudZoom_);
             this.Controls.Add(label5);
@@ -355,7 +355,7 @@ namespace family_tree.viewer
         private System.Windows.Forms.NumericUpDown nudLongitude_;
         private System.Windows.Forms.NumericUpDown nudZoom_;
         private System.Windows.Forms.TextBox txtPrivateComments_;
-        private System.Windows.Forms.WebBrowser m_webBrowser;
+        private System.Windows.Forms.WebBrowser webBrowser_;
         private System.Windows.Forms.CheckBox chkUseParentLocation_;
     }
 }

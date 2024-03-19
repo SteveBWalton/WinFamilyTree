@@ -23,12 +23,12 @@ namespace family_tree.viewer
 
 
         /// <summary>Class constructor.</summary>
-        public EditPlaceDialog(int placeIndex, Database database)
+        public EditPlaceDialog(int placeIdx, Database database)
         {
             InitializeComponent();
 
             // Find the name and type of the specified place.
-            place_ = new Place(placeIndex, database);
+            place_ = new Place(placeIdx, database);
 
             labName_.Text = place_.name;
             cboType_.SelectedIndex = place_.status;
@@ -42,7 +42,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the OK button click event.  The form will close itself just update the place here.</summary>
-        private void cmdOK_Click(object sender, EventArgs e)
+        private void cmdOkClick(object sender, EventArgs e)
         {
             getValues();
             place_.save();
@@ -64,16 +64,16 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the refresh button click event.  Redraw the google map of this place.</summary>
-        private void cmdRefresh_Click(object sender, EventArgs e)
+        private void cmdRefreshClick(object sender, EventArgs e)
         {
             getValues();
-            m_webBrowser.DocumentText = "<html>\n<head></head>\n<body bgcolor=#" + (this.BackColor.ToArgb() & 0xFFFFFF).ToString("X000000") + ">\n" + place_.googleMap(400, 200) + "</body>\n</html>";
+            webBrowser_.DocumentText = "<html>\n<head></head>\n<body bgcolor=#" + (this.BackColor.ToArgb() & 0xFFFFFF).ToString("X000000") + ">\n" + place_.googleMap(400, 200) + "</body>\n</html>";
         }
 
 
 
         /// <summary>Message handler for the zoom level changing.  Change the step size on the longitude and latitude controls.</summary>
-        private void nudZoom_ValueChanged(object sender, EventArgs e)
+        private void nudZoomValueChanged(object sender, EventArgs e)
         {
             int zoom = (int)nudZoom_.Value;
             switch (zoom)
@@ -118,7 +118,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the left button click.</summary>
-        private void cmdLeft_Click(object sender, EventArgs e)
+        private void cmdLeftClick(object sender, EventArgs e)
         {
             nudLongitude_.Value -= nudLongitude_.Increment;
         }
@@ -126,7 +126,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the up button click.</summary>
-        private void cmdUp_Click(object sender, EventArgs e)
+        private void cmdUpClick(object sender, EventArgs e)
         {
             nudLatitude_.Value += nudLatitude_.Increment;
         }
@@ -134,7 +134,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the down button click.</summary>
-        private void cmdDown_Click(object sender, EventArgs e)
+        private void cmdDownClick(object sender, EventArgs e)
         {
             nudLatitude_.Value -= nudLatitude_.Increment;
         }
@@ -142,7 +142,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the right button click.</summary>
-        private void cmdRight_Click(object sender, EventArgs e)
+        private void cmdRightClick(object sender, EventArgs e)
         {
             nudLongitude_.Value += nudLongitude_.Increment;
         }
