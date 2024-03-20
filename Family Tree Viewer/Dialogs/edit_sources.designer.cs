@@ -567,7 +567,7 @@ namespace family_tree.viewer
             cmdCensusAddress.Size = new System.Drawing.Size(21, 21);
             cmdCensusAddress.TabIndex = 12;
             cmdCensusAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdCensusAddress.Click += new System.EventHandler(this.cmdCensusAddress_Click);
+            cmdCensusAddress.Click += new System.EventHandler(this.cmdCensusAddressClick);
             // 
             // cmdCensusOpen
             // 
@@ -579,7 +579,7 @@ namespace family_tree.viewer
             cmdCensusOpen.TabIndex = 2;
             cmdCensusOpen.Text = "Open";
             cmdCensusOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdCensusOpen.Click += new System.EventHandler(this.cmdCensusOpen_Click);
+            cmdCensusOpen.Click += new System.EventHandler(this.cmdCensusOpenClick);
             // 
             // buttonAddFreeTableRow
             // 
@@ -591,7 +591,7 @@ namespace family_tree.viewer
             buttonAddFreeTableRow.TabIndex = 17;
             buttonAddFreeTableRow.Text = "Add";
             buttonAddFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonAddFreeTableRow.Click += new System.EventHandler(this.buttonAddFreeTableRow_Click);
+            buttonAddFreeTableRow.Click += new System.EventHandler(this.buttonAddFreeTableRowClick);
             // 
             // buttonRemoveFreeTableRow
             // 
@@ -604,7 +604,7 @@ namespace family_tree.viewer
             buttonRemoveFreeTableRow.TabIndex = 18;
             buttonRemoveFreeTableRow.Text = "Delete";
             buttonRemoveFreeTableRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonRemoveFreeTableRow.Click += new System.EventHandler(this.buttonRemoveFreeTableRow_Click);
+            buttonRemoveFreeTableRow.Click += new System.EventHandler(this.buttonRemoveFreeTableRowClick);
             // 
             // lstSources_
             // 
@@ -615,7 +615,7 @@ namespace family_tree.viewer
             this.lstSources_.Name = "lstSources_";
             this.lstSources_.Size = new System.Drawing.Size(400, 433);
             this.lstSources_.TabIndex = 0;
-            this.lstSources_.SelectedIndexChanged += new System.EventHandler(this.lstSources_SelectedIndexChanged);
+            this.lstSources_.SelectedIndexChanged += new System.EventHandler(this.lstSourcesSelectedIndexChanged);
             // 
             // imageList16x16
             // 
@@ -718,7 +718,7 @@ namespace family_tree.viewer
             this.cboRepository_.Name = "cboRepository_";
             this.cboRepository_.Size = new System.Drawing.Size(152, 21);
             this.cboRepository_.TabIndex = 30;
-            this.cboRepository_.SelectedIndexChanged += new System.EventHandler(this.cboRepository_SelectedIndexChanged);
+            this.cboRepository_.SelectedIndexChanged += new System.EventHandler(this.cboRepositorySelectedIndexChanged);
             // 
             // cboAdditionalInfo_
             // 
@@ -728,7 +728,7 @@ namespace family_tree.viewer
             this.cboAdditionalInfo_.Name = "cboAdditionalInfo_";
             this.cboAdditionalInfo_.Size = new System.Drawing.Size(121, 21);
             this.cboAdditionalInfo_.TabIndex = 25;
-            this.cboAdditionalInfo_.SelectedIndexChanged += new System.EventHandler(this.cboAdditionalInfo_SelectedIndexChanged);
+            this.cboAdditionalInfo_.SelectedIndexChanged += new System.EventHandler(this.cboAdditionalInfoSelectedIndexChanged);
             // 
             // dateSourceDate_
             // 
@@ -740,7 +740,7 @@ namespace family_tree.viewer
             compoundDate1.date = new System.DateTime(2007, 10, 11, 0, 0, 0, 0);
             compoundDate1.status = 0;
             this.dateSourceDate_.theDate = compoundDate1;
-            this.dateSourceDate_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateTheDate_evtValueChanged);
+            this.dateSourceDate_.eventValueChanged += new family_tree.viewer.FuncValueChanged(this.dateTheDateEvtValueChanged);
             // 
             // cmdCancel
             // 
@@ -767,7 +767,7 @@ namespace family_tree.viewer
             this.cmdOK.TabIndex = 20;
             this.cmdOK.Text = "OK";
             this.cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            this.cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // txtComments_
             // 
@@ -779,7 +779,7 @@ namespace family_tree.viewer
             this.txtComments_.Size = new System.Drawing.Size(488, 64);
             this.txtComments_.TabIndex = 19;
             this.txtComments_.Text = "textBox2";
-            this.txtComments_.TextChanged += new System.EventHandler(this.txtComments_TextChanged);
+            this.txtComments_.TextChanged += new System.EventHandler(this.txtCommentsTextChanged);
             // 
             // cboPrefix_
             // 
@@ -798,7 +798,7 @@ namespace family_tree.viewer
             this.cboPrefix_.Name = "cboPrefix_";
             this.cboPrefix_.Size = new System.Drawing.Size(208, 21);
             this.cboPrefix_.TabIndex = 18;
-            this.cboPrefix_.SelectedIndexChanged += new System.EventHandler(this.cboPrefix_SelectedIndexChanged);
+            this.cboPrefix_.SelectedIndexChanged += new System.EventHandler(this.cboPrefixSelectedIndexChanged);
             // 
             // txtDescription_
             // 
@@ -809,7 +809,7 @@ namespace family_tree.viewer
             this.txtDescription_.Size = new System.Drawing.Size(488, 21);
             this.txtDescription_.TabIndex = 17;
             this.txtDescription_.Text = "txtDescription";
-            this.txtDescription_.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
+            this.txtDescription_.TextChanged += new System.EventHandler(this.txtDescriptionTextChanged);
             // 
             // grpBirth_
             // 
@@ -853,7 +853,7 @@ namespace family_tree.viewer
             this.txtBirthReference_.Size = new System.Drawing.Size(288, 21);
             this.txtBirthReference_.TabIndex = 27;
             this.txtBirthReference_.Text = "textBox1";
-            this.txtBirthReference_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthReference_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthMotherDetails_
             // 
@@ -863,7 +863,7 @@ namespace family_tree.viewer
             this.txtBirthMotherDetails_.TabIndex = 16;
             this.txtBirthMotherDetails_.Text = "textBox1";
             this.toolTip1.SetToolTip(this.txtBirthMotherDetails_, "Mother details");
-            this.txtBirthMotherDetails_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthMotherDetails_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthInformantAddress_
             // 
@@ -873,7 +873,7 @@ namespace family_tree.viewer
             this.txtBirthInformantAddress_.TabIndex = 19;
             this.txtBirthInformantAddress_.Text = "textBox1";
             this.toolTip1.SetToolTip(this.txtBirthInformantAddress_, "Informant address");
-            this.txtBirthInformantAddress_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthInformantAddress_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // dtpBirthWhen_
             // 
@@ -883,7 +883,7 @@ namespace family_tree.viewer
             this.dtpBirthWhen_.Name = "dtpBirthWhen_";
             this.dtpBirthWhen_.Size = new System.Drawing.Size(136, 21);
             this.dtpBirthWhen_.TabIndex = 1;
-            this.dtpBirthWhen_.ValueChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.dtpBirthWhen_.ValueChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthWhenReg_
             // 
@@ -892,7 +892,7 @@ namespace family_tree.viewer
             this.txtBirthWhenReg_.Size = new System.Drawing.Size(160, 21);
             this.txtBirthWhenReg_.TabIndex = 20;
             this.txtBirthWhenReg_.Text = "textBox1";
-            this.txtBirthWhenReg_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthWhenReg_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthInformant_
             // 
@@ -901,7 +901,7 @@ namespace family_tree.viewer
             this.txtBirthInformant_.Size = new System.Drawing.Size(136, 21);
             this.txtBirthInformant_.TabIndex = 17;
             this.txtBirthInformant_.Text = "textBox1";
-            this.txtBirthInformant_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthInformant_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthMother_
             // 
@@ -910,7 +910,7 @@ namespace family_tree.viewer
             this.txtBirthMother_.Size = new System.Drawing.Size(136, 21);
             this.txtBirthMother_.TabIndex = 15;
             this.txtBirthMother_.Text = "textBox1";
-            this.txtBirthMother_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthMother_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthFatherOccupation_
             // 
@@ -919,7 +919,7 @@ namespace family_tree.viewer
             this.txtBirthFatherOccupation_.Size = new System.Drawing.Size(160, 21);
             this.txtBirthFatherOccupation_.TabIndex = 14;
             this.txtBirthFatherOccupation_.Text = "textBox1";
-            this.txtBirthFatherOccupation_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthFatherOccupation_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthFather_
             // 
@@ -928,7 +928,7 @@ namespace family_tree.viewer
             this.txtBirthFather_.Size = new System.Drawing.Size(136, 21);
             this.txtBirthFather_.TabIndex = 13;
             this.txtBirthFather_.Text = "textBox1";
-            this.txtBirthFather_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthFather_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthSex_
             // 
@@ -937,7 +937,7 @@ namespace family_tree.viewer
             this.txtBirthSex_.Size = new System.Drawing.Size(160, 21);
             this.txtBirthSex_.TabIndex = 7;
             this.txtBirthSex_.Text = "textBox1";
-            this.txtBirthSex_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthSex_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthName_
             // 
@@ -946,7 +946,7 @@ namespace family_tree.viewer
             this.txtBirthName_.Size = new System.Drawing.Size(136, 21);
             this.txtBirthName_.TabIndex = 5;
             this.txtBirthName_.Text = "textBox1";
-            this.txtBirthName_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthName_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthWhenWhere_
             // 
@@ -955,7 +955,7 @@ namespace family_tree.viewer
             this.txtBirthWhenWhere_.Size = new System.Drawing.Size(277, 21);
             this.txtBirthWhenWhere_.TabIndex = 2;
             this.txtBirthWhenWhere_.Text = "textBox1";
-            this.txtBirthWhenWhere_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthWhenWhere_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // txtBirthDistrict_
             // 
@@ -964,7 +964,7 @@ namespace family_tree.viewer
             this.txtBirthDistrict_.Size = new System.Drawing.Size(424, 21);
             this.txtBirthDistrict_.TabIndex = 0;
             this.txtBirthDistrict_.Text = "textBox1";
-            this.txtBirthDistrict_.TextChanged += new System.EventHandler(this.evtAdditionalBirth_Changed);
+            this.txtBirthDistrict_.TextChanged += new System.EventHandler(this.evtAdditionalBirthChanged);
             // 
             // grpMarriage_
             // 
@@ -1009,7 +1009,7 @@ namespace family_tree.viewer
             this.txtMarrGro_.Size = new System.Drawing.Size(288, 21);
             this.txtMarrGro_.TabIndex = 25;
             this.txtMarrGro_.Text = "textBox1";
-            this.txtMarrGro_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGro_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // dtpMarrWhen_
             // 
@@ -1019,7 +1019,7 @@ namespace family_tree.viewer
             this.dtpMarrWhen_.Name = "dtpMarrWhen_";
             this.dtpMarrWhen_.Size = new System.Drawing.Size(136, 21);
             this.dtpMarrWhen_.TabIndex = 22;
-            this.dtpMarrWhen_.ValueChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.dtpMarrWhen_.ValueChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrWitness_
             // 
@@ -1028,7 +1028,7 @@ namespace family_tree.viewer
             this.txtMarrWitness_.Size = new System.Drawing.Size(288, 21);
             this.txtMarrWitness_.TabIndex = 18;
             this.txtMarrWitness_.Text = "textBox1";
-            this.txtMarrWitness_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrWitness_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrLocation_
             // 
@@ -1037,7 +1037,7 @@ namespace family_tree.viewer
             this.txtMarrLocation_.Size = new System.Drawing.Size(464, 21);
             this.txtMarrLocation_.TabIndex = 0;
             this.txtMarrLocation_.Text = "m_txtMarrLocation";
-            this.txtMarrLocation_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrLocation_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrBrideFatherOcc_
             // 
@@ -1046,7 +1046,7 @@ namespace family_tree.viewer
             this.txtMarrBrideFatherOcc_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrBrideFatherOcc_.TabIndex = 12;
             this.txtMarrBrideFatherOcc_.Text = "textBox1";
-            this.txtMarrBrideFatherOcc_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideFatherOcc_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrBrideFather_
             // 
@@ -1055,7 +1055,7 @@ namespace family_tree.viewer
             this.txtMarrBrideFather_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrBrideFather_.TabIndex = 11;
             this.txtMarrBrideFather_.Text = "textBox1";
-            this.txtMarrBrideFather_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideFather_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrBrideLoca_
             // 
@@ -1064,7 +1064,7 @@ namespace family_tree.viewer
             this.txtMarrBrideLoca_.Size = new System.Drawing.Size(168, 21);
             this.txtMarrBrideLoca_.TabIndex = 8;
             this.txtMarrBrideLoca_.Text = "textBox1";
-            this.txtMarrBrideLoca_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideLoca_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrBrideOccu_
             // 
@@ -1073,7 +1073,7 @@ namespace family_tree.viewer
             this.txtMarrBrideOccu_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrBrideOccu_.TabIndex = 7;
             this.txtMarrBrideOccu_.Text = "textBox1";
-            this.txtMarrBrideOccu_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideOccu_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrBrideAge_
             // 
@@ -1082,7 +1082,7 @@ namespace family_tree.viewer
             this.txtMarrBrideAge_.Size = new System.Drawing.Size(32, 21);
             this.txtMarrBrideAge_.TabIndex = 6;
             this.txtMarrBrideAge_.Text = "textBox1";
-            this.txtMarrBrideAge_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBrideAge_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrBride_
             // 
@@ -1091,7 +1091,7 @@ namespace family_tree.viewer
             this.txtMarrBride_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrBride_.TabIndex = 5;
             this.txtMarrBride_.Text = "textBox1";
-            this.txtMarrBride_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrBride_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrGroomFatherOcc_
             // 
@@ -1100,7 +1100,7 @@ namespace family_tree.viewer
             this.txtMarrGroomFatherOcc_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrGroomFatherOcc_.TabIndex = 10;
             this.txtMarrGroomFatherOcc_.Text = "textBox1";
-            this.txtMarrGroomFatherOcc_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomFatherOcc_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrGroomFather_
             // 
@@ -1109,7 +1109,7 @@ namespace family_tree.viewer
             this.txtMarrGroomFather_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrGroomFather_.TabIndex = 9;
             this.txtMarrGroomFather_.Text = "textBox1";
-            this.txtMarrGroomFather_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomFather_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrGroomLoca_
             // 
@@ -1118,7 +1118,7 @@ namespace family_tree.viewer
             this.txtMarrGroomLoca_.Size = new System.Drawing.Size(168, 21);
             this.txtMarrGroomLoca_.TabIndex = 4;
             this.txtMarrGroomLoca_.Text = "textBox1";
-            this.txtMarrGroomLoca_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomLoca_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrGroomOccu_
             // 
@@ -1127,7 +1127,7 @@ namespace family_tree.viewer
             this.txtMarrGroomOccu_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrGroomOccu_.TabIndex = 3;
             this.txtMarrGroomOccu_.Text = "textBox1";
-            this.txtMarrGroomOccu_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomOccu_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrGroomAge_
             // 
@@ -1136,7 +1136,7 @@ namespace family_tree.viewer
             this.txtMarrGroomAge_.Size = new System.Drawing.Size(32, 21);
             this.txtMarrGroomAge_.TabIndex = 2;
             this.txtMarrGroomAge_.Text = "textBox1";
-            this.txtMarrGroomAge_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroomAge_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // txtMarrGroom_
             // 
@@ -1145,7 +1145,7 @@ namespace family_tree.viewer
             this.txtMarrGroom_.Size = new System.Drawing.Size(120, 21);
             this.txtMarrGroom_.TabIndex = 1;
             this.txtMarrGroom_.Text = "textBox1";
-            this.txtMarrGroom_.TextChanged += new System.EventHandler(this.evtAdditionalMarriage_Changed);
+            this.txtMarrGroom_.TextChanged += new System.EventHandler(this.evtAdditionalMarriageChanged);
             // 
             // grpCensus_
             // 
@@ -1180,7 +1180,7 @@ namespace family_tree.viewer
             this.txtCensusPage_.Size = new System.Drawing.Size(75, 21);
             this.txtCensusPage_.TabIndex = 6;
             this.txtCensusPage_.Text = "textBox1";
-            this.txtCensusPage_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            this.txtCensusPage_.TextChanged += new System.EventHandler(this.evtAdditionalCensusChanged);
             // 
             // txtCensusFolio_
             // 
@@ -1191,7 +1191,7 @@ namespace family_tree.viewer
             this.txtCensusFolio_.Size = new System.Drawing.Size(75, 21);
             this.txtCensusFolio_.TabIndex = 5;
             this.txtCensusFolio_.Text = "textBox1";
-            this.txtCensusFolio_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            this.txtCensusFolio_.TextChanged += new System.EventHandler(this.evtAdditionalCensusChanged);
             // 
             // txtCensusPiece_
             // 
@@ -1202,7 +1202,7 @@ namespace family_tree.viewer
             this.txtCensusPiece_.Size = new System.Drawing.Size(75, 21);
             this.txtCensusPiece_.TabIndex = 4;
             this.txtCensusPiece_.Text = "textBox1";
-            this.txtCensusPiece_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            this.txtCensusPiece_.TextChanged += new System.EventHandler(this.evtAdditionalCensusChanged);
             // 
             // txtCensusSeries_
             // 
@@ -1213,7 +1213,7 @@ namespace family_tree.viewer
             this.txtCensusSeries_.Size = new System.Drawing.Size(75, 21);
             this.txtCensusSeries_.TabIndex = 3;
             this.txtCensusSeries_.Text = "textBox1";
-            this.txtCensusSeries_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            this.txtCensusSeries_.TextChanged += new System.EventHandler(this.evtAdditionalCensusChanged);
             // 
             // txtCensusAddress_
             // 
@@ -1224,7 +1224,7 @@ namespace family_tree.viewer
             this.txtCensusAddress_.Size = new System.Drawing.Size(520, 21);
             this.txtCensusAddress_.TabIndex = 1;
             this.txtCensusAddress_.Text = "textBox1";
-            this.txtCensusAddress_.TextChanged += new System.EventHandler(this.evtAdditionalCensus_Changed);
+            this.txtCensusAddress_.TextChanged += new System.EventHandler(this.evtAdditionalCensusChanged);
             // 
             // grpDeath_
             // 
@@ -1272,7 +1272,7 @@ namespace family_tree.viewer
             this.txtDeathReference_.Size = new System.Drawing.Size(288, 21);
             this.txtDeathReference_.TabIndex = 33;
             this.txtDeathReference_.Text = "textBox1";
-            this.txtDeathReference_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathReference_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathWhere_
             // 
@@ -1281,7 +1281,7 @@ namespace family_tree.viewer
             this.txtDeathWhere_.Size = new System.Drawing.Size(44, 21);
             this.txtDeathWhere_.TabIndex = 12;
             this.txtDeathWhere_.Text = "Where";
-            this.txtDeathWhere_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathWhere_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathWhenReg_
             // 
@@ -1290,7 +1290,7 @@ namespace family_tree.viewer
             this.txtDeathWhenReg_.Size = new System.Drawing.Size(208, 21);
             this.txtDeathWhenReg_.TabIndex = 30;
             this.txtDeathWhenReg_.Text = "textBox2";
-            this.txtDeathWhenReg_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathWhenReg_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathInformantDescription_
             // 
@@ -1299,7 +1299,7 @@ namespace family_tree.viewer
             this.txtDeathInformantDescription_.Size = new System.Drawing.Size(208, 21);
             this.txtDeathInformantDescription_.TabIndex = 28;
             this.txtDeathInformantDescription_.Text = "textBox2";
-            this.txtDeathInformantDescription_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathInformantDescription_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathInformantAddress_
             // 
@@ -1308,7 +1308,7 @@ namespace family_tree.viewer
             this.txtDeathInformantAddress_.Size = new System.Drawing.Size(136, 21);
             this.txtDeathInformantAddress_.TabIndex = 25;
             this.txtDeathInformantAddress_.Text = "textBox1";
-            this.txtDeathInformantAddress_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathInformantAddress_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathInformant_
             // 
@@ -1317,7 +1317,7 @@ namespace family_tree.viewer
             this.txtDeathInformant_.Size = new System.Drawing.Size(136, 21);
             this.txtDeathInformant_.TabIndex = 24;
             this.txtDeathInformant_.Text = "textBox1";
-            this.txtDeathInformant_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathInformant_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathUsualAddress_
             // 
@@ -1326,7 +1326,7 @@ namespace family_tree.viewer
             this.txtDeathUsualAddress_.Size = new System.Drawing.Size(208, 21);
             this.txtDeathUsualAddress_.TabIndex = 19;
             this.txtDeathUsualAddress_.Text = "textBox2";
-            this.txtDeathUsualAddress_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathUsualAddress_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathCause_
             // 
@@ -1337,7 +1337,7 @@ namespace family_tree.viewer
             this.txtDeathCause_.Size = new System.Drawing.Size(424, 72);
             this.txtDeathCause_.TabIndex = 18;
             this.txtDeathCause_.Text = "textBox1";
-            this.txtDeathCause_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathCause_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathOccupation_
             // 
@@ -1346,7 +1346,7 @@ namespace family_tree.viewer
             this.txtDeathOccupation_.Size = new System.Drawing.Size(136, 21);
             this.txtDeathOccupation_.TabIndex = 17;
             this.txtDeathOccupation_.Text = "textBox2";
-            this.txtDeathOccupation_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathOccupation_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathDatePlace_
             // 
@@ -1355,7 +1355,7 @@ namespace family_tree.viewer
             this.txtDeathDatePlace_.Size = new System.Drawing.Size(424, 21);
             this.txtDeathDatePlace_.TabIndex = 16;
             this.txtDeathDatePlace_.Text = "m_txtDeathDatePlace";
-            this.txtDeathDatePlace_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathDatePlace_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathSex_
             // 
@@ -1364,7 +1364,7 @@ namespace family_tree.viewer
             this.txtDeathSex_.Size = new System.Drawing.Size(160, 21);
             this.txtDeathSex_.TabIndex = 15;
             this.txtDeathSex_.Text = "m_txtDeathSex";
-            this.txtDeathSex_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathSex_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathName_
             // 
@@ -1373,7 +1373,7 @@ namespace family_tree.viewer
             this.txtDeathName_.Size = new System.Drawing.Size(136, 21);
             this.txtDeathName_.TabIndex = 13;
             this.txtDeathName_.Text = "m_txtDeathName";
-            this.txtDeathName_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathName_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathWhen_
             // 
@@ -1382,7 +1382,7 @@ namespace family_tree.viewer
             this.txtDeathWhen_.Size = new System.Drawing.Size(374, 21);
             this.txtDeathWhen_.TabIndex = 11;
             this.txtDeathWhen_.Text = "When";
-            this.txtDeathWhen_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathWhen_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // txtDeathDistrict_
             // 
@@ -1391,7 +1391,7 @@ namespace family_tree.viewer
             this.txtDeathDistrict_.Size = new System.Drawing.Size(424, 21);
             this.txtDeathDistrict_.TabIndex = 8;
             this.txtDeathDistrict_.Text = "m_txtDeathDistrict";
-            this.txtDeathDistrict_.TextChanged += new System.EventHandler(this.evtAdditionalDeath_Changed);
+            this.txtDeathDistrict_.TextChanged += new System.EventHandler(this.evtAdditionalDeathChanged);
             // 
             // radioDate
             // 
@@ -1402,7 +1402,7 @@ namespace family_tree.viewer
             this.radioDate.TabIndex = 23;
             this.radioDate.TabStop = true;
             this.radioDate.Text = "Date Order";
-            this.radioDate.CheckedChanged += new System.EventHandler(this.radioDate_CheckedChanged);
+            this.radioDate.CheckedChanged += new System.EventHandler(this.radioDateCheckedChanged);
             // 
             // radioAlpha
             // 
@@ -1411,7 +1411,7 @@ namespace family_tree.viewer
             this.radioAlpha.Size = new System.Drawing.Size(128, 24);
             this.radioAlpha.TabIndex = 22;
             this.radioAlpha.Text = "Alphabetical Order";
-            this.radioAlpha.CheckedChanged += new System.EventHandler(this.radioAlpha_CheckedChanged);
+            this.radioAlpha.CheckedChanged += new System.EventHandler(this.radioAlphaCheckedChanged);
             // 
             // m_panList
             // 
@@ -1437,7 +1437,7 @@ namespace family_tree.viewer
             this.cmdAddSource.TabIndex = 16;
             this.cmdAddSource.Text = "Add";
             this.cmdAddSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdAddSource.Click += new System.EventHandler(this.cmdAddSource_Click);
+            this.cmdAddSource.Click += new System.EventHandler(this.cmdAddSourceClick);
             // 
             // cmdDeleteSource
             // 
@@ -1451,7 +1451,7 @@ namespace family_tree.viewer
             this.cmdDeleteSource.TabIndex = 15;
             this.cmdDeleteSource.Text = "Delete";
             this.cmdDeleteSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdDeleteSource.Click += new System.EventHandler(this.cmdDeleteSource_Click);
+            this.cmdDeleteSource.Click += new System.EventHandler(this.cmdDeleteSourceClick);
             // 
             // EditSourcesDialog
             // 
@@ -1469,7 +1469,7 @@ namespace family_tree.viewer
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Sources";
-            this.Shown += new System.EventHandler(this.frmEditSources_Shown);
+            this.Shown += new System.EventHandler(this.frmEditSourcesShown);
             ((System.ComponentModel.ISupportInitialize)(this.gridReferences_)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

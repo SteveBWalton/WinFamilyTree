@@ -324,7 +324,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the form shown event.</summary>
-        private void frmEditSources_Shown(object sender, EventArgs e)
+        private void frmEditSourcesShown(object sender, EventArgs e)
         {
             // Select the first source if nothing is already selected
             if (lstSources_.SelectedIndex < 0)
@@ -338,7 +338,7 @@ namespace family_tree.viewer
 
 
 
-        private void radioDate_CheckedChanged(object sender, System.EventArgs e)
+        private void radioDateCheckedChanged(object sender, System.EventArgs e)
         {
             if (radioDate.Checked)
             {
@@ -348,7 +348,7 @@ namespace family_tree.viewer
 
 
 
-        private void radioAlpha_CheckedChanged(object sender, System.EventArgs e)
+        private void radioAlphaCheckedChanged(object sender, System.EventArgs e)
         {
             if (radioAlpha.Checked)
             {
@@ -387,7 +387,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the selection on the list of sources changing.  Load and display the selected source object.</summary>
-        private void lstSources_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void lstSourcesSelectedIndexChanged(object sender, System.EventArgs e)
         {
             activeSource_ = (Source)this.lstSources_.SelectedItem;
             if (activeSource_ == null)
@@ -457,7 +457,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the description text box changing value.  Update the active source.</summary>
-        private void txtDescription_TextChanged(object sender, System.EventArgs e)
+        private void txtDescriptionTextChanged(object sender, System.EventArgs e)
         {
             if (activeSource_ == null)
             {
@@ -469,7 +469,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the date of the source control changing value.  Update the active source.</summary>
-        private void dateTheDate_evtValueChanged(object oSender)
+        private void dateTheDateEvtValueChanged(object sender)
         {
             if (activeSource_ == null)
             {
@@ -482,7 +482,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the comments textbox changing value.  Update the active source.</summary>
-        private void txtComments_TextChanged(object sender, System.EventArgs e)
+        private void txtCommentsTextChanged(object sender, System.EventArgs e)
         {
             if (activeSource_ == null)
             {
@@ -493,7 +493,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdOK_Click(object sender, System.EventArgs e)
+        private void cmdOkClick(object sender, System.EventArgs e)
         {
             // Save all the sources
             for (int i = 0; i < lstSources_.Items.Count; i++)
@@ -505,7 +505,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdDeleteSource_Click(object sender, System.EventArgs e)
+        private void cmdDeleteSourceClick(object sender, System.EventArgs e)
         {
             if (activeSource_ == null)
             {
@@ -516,7 +516,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdAddSource_Click(object sender, System.EventArgs e)
+        private void cmdAddSourceClick(object sender, System.EventArgs e)
         {
             Source newSource = new Source(database_) { description = "New Source" };
             int newIndex = lstSources_.Items.Add(newSource);
@@ -525,7 +525,7 @@ namespace family_tree.viewer
 
 
 
-        private void cboPrefix_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboPrefixSelectedIndexChanged(object sender, System.EventArgs e)
         {
             if (cboPrefix_.SelectedIndex >= 0)
             {
@@ -537,7 +537,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the addition information type combo box changing.</summary>
-        private void cboAdditionalInfo_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboAdditionalInfoSelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Check that a source is selected.
             if (activeSource_ == null)
@@ -554,7 +554,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the census address changing.  Update the census object inside the current source.</summary>
-        private void evtAdditionalCensus_Changed(object sender, System.EventArgs e)
+        private void evtAdditionalCensusChanged(object sender, System.EventArgs e)
         {
             // Allow events.
             if (!isAllowEvents_)
@@ -585,7 +585,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the launch census editor button click.  Open the frmEditCensus dialog display the census data for this source.</summary>
-        private void cmdCensusOpen_Click(object sender, System.EventArgs e)
+        private void cmdCensusOpenClick(object sender, System.EventArgs e)
         {
             // Check that a source is selected.
             if (activeSource_ == null)
@@ -604,7 +604,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for any of the additional information Marriage fields changing.</summary>
-        private void evtAdditionalMarriage_Changed(object sender, System.EventArgs e)
+        private void evtAdditionalMarriageChanged(object sender, System.EventArgs e)
         {
             // Allow events.
             if (!isAllowEvents_)
@@ -640,7 +640,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for any of the additional information birth fields changing.</summary>
-        private void evtAdditionalBirth_Changed(object sender, System.EventArgs e)
+        private void evtAdditionalBirthChanged(object sender, System.EventArgs e)
         {
             // Allow events.
             if (!isAllowEvents_)
@@ -673,7 +673,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for any of the additional information death fields changing.</summary>
-        private void evtAdditionalDeath_Changed(object sender, System.EventArgs e)
+        private void evtAdditionalDeathChanged(object sender, System.EventArgs e)
         {
             // Allow events.
             if (!isAllowEvents_)
@@ -707,7 +707,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the repository combo box value changed event.</summary>
-        private void cboRepository_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void cboRepositorySelectedIndexChanged(object sender, System.EventArgs e)
         {
             // Check that a source is selected.
             if (activeSource_ == null)
@@ -722,7 +722,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "Census Address" button click.</summary>
-        private void cmdCensusAddress_Click(object sender, EventArgs e)
+        private void cmdCensusAddressClick(object sender, EventArgs e)
         {
             SelectLocationDialog selectLocationDialog = new SelectLocationDialog(database_, txtCensusAddress_.Text);
             if (selectLocationDialog.ShowDialog(this) == DialogResult.OK)
@@ -735,7 +735,9 @@ namespace family_tree.viewer
 
         #endregion
 
-        private void buttonAddFreeTableRow_Click(object sender, EventArgs e)
+
+
+        private void buttonAddFreeTableRowClick(object sender, EventArgs e)
         {
             // Add a new row to the free table.
             activeSource_.freeTable.addRow("New", "New");
@@ -746,7 +748,9 @@ namespace family_tree.viewer
 
         }
 
-        private void buttonRemoveFreeTableRow_Click(object sender, EventArgs e)
+
+
+        private void buttonRemoveFreeTableRowClick(object sender, EventArgs e)
         {
             // Find the active row in the free table.
             int row = dataGridViewSourceFreeTable_.CurrentCell.RowIndex;
