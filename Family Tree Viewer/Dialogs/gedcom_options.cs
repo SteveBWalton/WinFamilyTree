@@ -48,7 +48,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdOK_Click(object sender, EventArgs e)
+        private void cmdOkClick(object sender, EventArgs e)
         {
             populateOptions();
         }
@@ -56,7 +56,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "Open" button click.</summary>
-        private void cmdOpen_Click(object sender, EventArgs e)
+        private void cmdOpenClick(object sender, EventArgs e)
         {
             // Initialise the select save file dialog
             saveFileDialog_.Title = "Select output file";
@@ -73,14 +73,15 @@ namespace family_tree.viewer
 
 
 
-        private void frmGedcomOptions_Load(object sender, EventArgs e)
+        private void frmGedcomOptionsLoad(object sender, EventArgs e)
         {
             populateForm();
         }
 
 
 
-        private void cboScheme_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>Signal handler for the scheme combobox value changing.</summary>
+        private void cboSchemeSelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cboScheme_.SelectedIndex)
             {
@@ -94,7 +95,6 @@ namespace family_tree.viewer
                 chkUseCtry_.Checked = false;
                 chkLongitude_.Checked = false;
                 checkboxIncludeEverything_.Checked = false;
-
                 break;
 
             case 2:// Php GedView.
@@ -104,7 +104,6 @@ namespace family_tree.viewer
                 chkUseCtry_.Checked = true;
                 chkLongitude_.Checked = false;
                 checkboxIncludeEverything_.Checked = false;
-
                 break;
 
             case 3:// Gramps.
@@ -116,7 +115,7 @@ namespace family_tree.viewer
                 checkboxIncludeEverything_.Checked = false;
                 break;
 
-            case 4://gedcom-py
+            case 4:// gedcom-py
                 chkPgvu_.Checked = true;
                 chkRemoveAddresses_.Checked = true;
                 chkUseAddr_.Checked = true;

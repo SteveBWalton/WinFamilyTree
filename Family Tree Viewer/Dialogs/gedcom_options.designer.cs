@@ -70,7 +70,7 @@ namespace family_tree.viewer
             cmdOpen.Text = "Open";
             cmdOpen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             cmdOpen.UseVisualStyleBackColor = true;
-            cmdOpen.Click += new System.EventHandler(this.cmdOpen_Click);
+            cmdOpen.Click += new System.EventHandler(this.cmdOpenClick);
             // 
             // cmdCancel
             // 
@@ -97,7 +97,7 @@ namespace family_tree.viewer
             cmdOK.TabIndex = 3;
             cmdOK.Text = "Save";
             cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // label2
             // 
@@ -131,7 +131,7 @@ namespace family_tree.viewer
             this.cboScheme_.Name = "cboScheme_";
             this.cboScheme_.Size = new System.Drawing.Size(185, 21);
             this.cboScheme_.TabIndex = 6;
-            this.cboScheme_.SelectedIndexChanged += new System.EventHandler(this.cboScheme_SelectedIndexChanged);
+            this.cboScheme_.SelectedIndexChanged += new System.EventHandler(this.cboSchemeSelectedIndexChanged);
             // 
             // chkPgvu_
             // 
@@ -215,7 +215,7 @@ namespace family_tree.viewer
             this.Name = "GedcomOptionsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Export Gedcom Options";
-            this.Load += new System.EventHandler(this.frmGedcomOptions_Load);
+            this.Load += new System.EventHandler(this.frmGedcomOptionsLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 
