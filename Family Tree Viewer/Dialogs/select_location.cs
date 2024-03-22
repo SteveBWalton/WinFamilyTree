@@ -36,7 +36,7 @@ namespace family_tree.viewer
 
 
         /// <summary>The message handler for the form shown event.</summary>
-        private void frmSelectLocation_Shown(object sender, EventArgs e)
+        private void frmSelectLocationShown(object sender, EventArgs e)
         {
             Place[] places = database_.getPlaces(0);
             foreach (Place place in places)
@@ -128,7 +128,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "OK" button click event.</summary>
-        private void cmdOK_Click(object sender, EventArgs e)
+        private void cmdOkClick(object sender, EventArgs e)
         {
             locationName_ = pathToLocation(treeView_.SelectedNode.FullPath);
         }
@@ -136,7 +136,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "After Select" event on the tree control.</summary>
-        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void treeViewAfterSelect(object sender, TreeViewEventArgs e)
         {
             txtLocation_.Text = pathToLocation(treeView_.SelectedNode.FullPath);
         }

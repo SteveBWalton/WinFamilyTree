@@ -64,7 +64,7 @@ namespace family_tree.viewer
             cmdOK.TabIndex = 5;
             cmdOK.Text = "OK";
             cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // m_TreeView
             // 
@@ -80,7 +80,7 @@ namespace family_tree.viewer
             this.treeView_.SelectedImageIndex = 0;
             this.treeView_.Size = new System.Drawing.Size(268, 338);
             this.treeView_.TabIndex = 7;
-            this.treeView_.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            this.treeView_.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewAfterSelect);
             // 
             // m_txtLocation
             // 
@@ -113,7 +113,7 @@ namespace family_tree.viewer
             this.Name = "frmSelectLocation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Location";
-            this.Shown += new System.EventHandler(this.frmSelectLocation_Shown);
+            this.Shown += new System.EventHandler(this.frmSelectLocationShown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
