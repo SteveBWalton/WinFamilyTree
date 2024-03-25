@@ -1160,7 +1160,7 @@ namespace family_tree.viewer
         {
             // Allow the user to select a person.
             SelectPersonDialog selectPersonDialog = new SelectPersonDialog();
-            int personIdx = selectPersonDialog.selectPerson(this, database_);
+            int personIdx = selectPersonDialog.selectPersonIdx(this, database_);
 
             // If the user did select a person then show that person.
             if (personIdx >= 0)

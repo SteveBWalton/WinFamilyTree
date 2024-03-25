@@ -30,6 +30,7 @@ namespace family_tree.viewer
         #region Constructors
 
 
+
         /// <summary>Class constructor.</summary>
         public SelectPersonDialog()
         {
@@ -44,7 +45,7 @@ namespace family_tree.viewer
         /// <param name="parentWindow">Specify the parent window</param>
         /// <param name="database">Specify the database to select a person from</param>
         /// <returns>ID of the person selected, or -1 for cancel</returns>
-        public int selectPerson(IWin32Window parentWindow, Database database)
+        public int selectPersonIdx(IWin32Window parentWindow, Database database)
         {
             // Store the parameters.
             database_ = database;
@@ -125,7 +126,7 @@ namespace family_tree.viewer
             this.lstPeople_.Name = "lstPeople_";
             this.lstPeople_.Size = new System.Drawing.Size(280, 277);
             this.lstPeople_.TabIndex = 0;
-            this.lstPeople_.DoubleClick += new System.EventHandler(this.lstPeople_DoubleClick);
+            this.lstPeople_.DoubleClick += new System.EventHandler(this.lstPeopleDoubleClick);
             // 
             // radioDate_
             // 
@@ -136,7 +137,7 @@ namespace family_tree.viewer
             this.radioDate_.TabIndex = 3;
             this.radioDate_.TabStop = true;
             this.radioDate_.Text = "Date Order";
-            this.radioDate_.CheckedChanged += new System.EventHandler(this.radioDate_CheckedChanged);
+            this.radioDate_.CheckedChanged += new System.EventHandler(this.radioDateCheckedChanged);
             // 
             // radioAlpha_
             // 
@@ -145,7 +146,7 @@ namespace family_tree.viewer
             this.radioAlpha_.Size = new System.Drawing.Size(128, 24);
             this.radioAlpha_.TabIndex = 4;
             this.radioAlpha_.Text = "Alphabetical Order";
-            this.radioAlpha_.CheckedChanged += new System.EventHandler(this.radioAlpha_CheckedChanged);
+            this.radioAlpha_.CheckedChanged += new System.EventHandler(this.radioAlphaCheckedChanged);
             // 
             // cmdOK
             // 
@@ -201,7 +202,7 @@ namespace family_tree.viewer
 
 
 
-        private void radioDate_CheckedChanged(object sender, System.EventArgs e)
+        private void radioDateCheckedChanged(object sender, System.EventArgs e)
         {
             if (radioDate_.Checked)
             {
@@ -219,14 +220,14 @@ namespace family_tree.viewer
 
 
 
-        private void radioAlpha_CheckedChanged(object sender, System.EventArgs e)
+        private void radioAlphaCheckedChanged(object sender, System.EventArgs e)
         {
             if (radioAlpha_.Checked)
             {
                 // Load a list of all people into the listbox.
                 IdxName[] people = database_.getPeople(ChooseSex.EITHER, family_tree.objects.SortOrder.ALPHABETICAL, 0, 3000);
 
-                // Populate the list box
+                // Populate the list box.
                 lstPeople_.Items.Clear();
                 for (int i = 0; i < people.Length; i++)
                 {
@@ -237,7 +238,8 @@ namespace family_tree.viewer
 
 
 
-        private void lstPeople_DoubleClick(object sender, System.EventArgs e)
+        /// <summary>Signal handler for double click on the list box.  Select the person, as if OK had been selected.</summary>
+        private void lstPeopleDoubleClick(object sender, System.EventArgs e)
         {
             DialogResult = DialogResult.OK;
         }
