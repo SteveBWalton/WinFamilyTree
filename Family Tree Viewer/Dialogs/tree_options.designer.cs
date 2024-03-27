@@ -101,7 +101,7 @@ namespace family_tree.viewer
             this.m_cmdOK.Text = "OK";
             this.m_cmdOK.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.m_cmdOK.UseVisualStyleBackColor = true;
-            this.m_cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
+            this.m_cmdOK.Click += new System.EventHandler(this.cmdOkClick);
             // 
             // tabControl1
             // 
@@ -150,7 +150,7 @@ namespace family_tree.viewer
             this.cmdTreeSubFont.TabIndex = 8;
             this.cmdTreeSubFont.Text = "Sub Font";
             this.cmdTreeSubFont.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdTreeSubFont.Click += new System.EventHandler(this.cmdTreeSubFont_Click);
+            this.cmdTreeSubFont.Click += new System.EventHandler(this.cmdTreeSubFontClick);
             // 
             // cmdTreeMainFont
             // 
@@ -163,7 +163,7 @@ namespace family_tree.viewer
             this.cmdTreeMainFont.TabIndex = 7;
             this.cmdTreeMainFont.Text = "Main Font";
             this.cmdTreeMainFont.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdTreeMainFont.Click += new System.EventHandler(this.cmdTreeMainFont_Click);
+            this.cmdTreeMainFont.Click += new System.EventHandler(this.cmdTreeMainFontClick);
             // 
             // labTreeSubFont
             // 
@@ -213,7 +213,7 @@ namespace family_tree.viewer
             this.m_cmdAdd.Text = "Add";
             this.m_cmdAdd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.m_cmdAdd.UseVisualStyleBackColor = true;
-            this.m_cmdAdd.Click += new System.EventHandler(this.cmdAdd_Click);
+            this.m_cmdAdd.Click += new System.EventHandler(this.cmdAddClick);
             // 
             // m_txtRuleParameter
             // 
@@ -260,7 +260,7 @@ namespace family_tree.viewer
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmTreeOptions";
             this.Text = "Tree Options";
-            this.Load += new System.EventHandler(this.frmTreeOptions_Load);
+            this.Load += new System.EventHandler(this.frmTreeOptionsLoad);
             this.panel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

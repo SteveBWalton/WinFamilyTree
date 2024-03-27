@@ -77,7 +77,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the form loading event.</summary>
-        private void frmTreeOptions_Load(object sender, EventArgs e)
+        private void frmTreeOptionsLoad(object sender, EventArgs e)
         {
             // Populate the type of rules combo box.
             for (TreeRule.RuleAction action = TreeRule.RuleAction.INCLUDE_DESCENDANTS; action <= TreeRule.RuleAction.HORIZONTAL_OFFSET; action++)
@@ -99,7 +99,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdTreeMainFont_Click(object sender, System.EventArgs e)
+        private void cmdTreeMainFontClick(object sender, System.EventArgs e)
         {
             fontDialog_.Font = labTreeMainFont_.Font;
             fontDialog_.ShowDialog(this);
@@ -109,7 +109,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdTreeSubFont_Click(object sender, System.EventArgs e)
+        private void cmdTreeSubFontClick(object sender, System.EventArgs e)
         {
             fontDialog_.Font = this.labTreeSubFont_.Font;
             fontDialog_.ShowDialog(this);
@@ -119,7 +119,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdOK_Click(object sender, EventArgs e)
+        private void cmdOkClick(object sender, EventArgs e)
         {
             tree_.options.mainFontName_ = labTreeMainFont_.Font.Name;
             tree_.options.subFontName_ = labTreeSubFont_.Font.Name;
@@ -131,7 +131,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the action rule button click.</summary>
-        private void cmdAdd_Click(object sender, EventArgs e)
+        private void cmdAddClick(object sender, EventArgs e)
         {
             // Check that there is a selection.
             if (cboRules_.SelectedIndex == -1)
