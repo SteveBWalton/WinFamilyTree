@@ -147,7 +147,7 @@ namespace family_tree.viewer
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             optionsToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             optionsToolStripMenuItem.Text = "Options...";
-            optionsToolStripMenuItem.Click += new System.EventHandler(this.menuOptions_Click);
+            optionsToolStripMenuItem.Click += new System.EventHandler(this.menuOptionsClick);
             // 
             // menuView
             // 
@@ -194,7 +194,7 @@ namespace family_tree.viewer
             // 
             // m_oPrintDocument
             // 
-            this.printDocument_.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument_PrintPage);
+            this.printDocument_.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocumentPrintPage);
             // 
             // m_hScrollBar
             // 
@@ -203,7 +203,7 @@ namespace family_tree.viewer
             this.horizontalScrollBar_.Name = "m_hScrollBar";
             this.horizontalScrollBar_.Size = new System.Drawing.Size(535, 18);
             this.horizontalScrollBar_.TabIndex = 3;
-            this.horizontalScrollBar_.ValueChanged += new System.EventHandler(this.horizontalScrollBar_ValueChanged);
+            this.horizontalScrollBar_.ValueChanged += new System.EventHandler(this.horizontalScrollBarValueChanged);
             // 
             // m_vScrollBar
             // 
@@ -212,7 +212,7 @@ namespace family_tree.viewer
             this.verticalScrollBar_.Name = "m_vScrollBar";
             this.verticalScrollBar_.Size = new System.Drawing.Size(18, 264);
             this.verticalScrollBar_.TabIndex = 4;
-            this.verticalScrollBar_.ValueChanged += new System.EventHandler(this.verticalScrollBar_ValueChanged);
+            this.verticalScrollBar_.ValueChanged += new System.EventHandler(this.verticalScrollBarValueChanged);
             // 
             // m_PictureBox
             // 
@@ -224,10 +224,10 @@ namespace family_tree.viewer
             this.pictureBox_.Size = new System.Drawing.Size(517, 264);
             this.pictureBox_.TabIndex = 0;
             this.pictureBox_.TabStop = false;
-            this.pictureBox_.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
-            this.pictureBox_.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBox_.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
-            this.pictureBox_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            this.pictureBox_.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMouseMove);
+            this.pictureBox_.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMouseDown);
+            this.pictureBox_.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxPaint);
+            this.pictureBox_.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMouseUp);
             // 
             // tsbSave
             // 
@@ -236,7 +236,7 @@ namespace family_tree.viewer
             tsbSave.Name = "tsbSave";
             tsbSave.Size = new System.Drawing.Size(51, 22);
             tsbSave.Text = "Save";
-            tsbSave.Click += new System.EventHandler(this.menuSave_Click);
+            tsbSave.Click += new System.EventHandler(this.menuSaveClick);
             // 
             // tsbCopy
             // 
@@ -245,7 +245,7 @@ namespace family_tree.viewer
             tsbCopy.Name = "tsbCopy";
             tsbCopy.Size = new System.Drawing.Size(52, 22);
             tsbCopy.Text = "Copy";
-            tsbCopy.Click += new System.EventHandler(this.menuCopy_Click);
+            tsbCopy.Click += new System.EventHandler(this.menuCopyClick);
             // 
             // tsbPrintPreview
             // 
@@ -254,7 +254,7 @@ namespace family_tree.viewer
             tsbPrintPreview.Name = "tsbPrintPreview";
             tsbPrintPreview.Size = new System.Drawing.Size(65, 22);
             tsbPrintPreview.Text = "Preview";
-            tsbPrintPreview.Click += new System.EventHandler(this.menuPrintPreview_Click);
+            tsbPrintPreview.Click += new System.EventHandler(this.menuPrintPreviewClick);
             // 
             // tsbMagnifyPlus
             // 
@@ -263,7 +263,7 @@ namespace family_tree.viewer
             tsbMagnifyPlus.Name = "tsbMagnifyPlus";
             tsbMagnifyPlus.Size = new System.Drawing.Size(58, 22);
             tsbMagnifyPlus.Text = "Larger";
-            tsbMagnifyPlus.Click += new System.EventHandler(this.menuZoomIn_Click);
+            tsbMagnifyPlus.Click += new System.EventHandler(this.menuZoomInClick);
             // 
             // tsbMagnifyMinus
             // 
@@ -272,7 +272,7 @@ namespace family_tree.viewer
             tsbMagnifyMinus.Name = "tsbMagnifyMinus";
             tsbMagnifyMinus.Size = new System.Drawing.Size(61, 22);
             tsbMagnifyMinus.Text = "Smaller";
-            tsbMagnifyMinus.Click += new System.EventHandler(this.menuZoomOut_Click);
+            tsbMagnifyMinus.Click += new System.EventHandler(this.menuZoomOutClick);
             // 
             // saveToolStripMenuItem
             // 
@@ -281,7 +281,7 @@ namespace family_tree.viewer
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             saveToolStripMenuItem.Text = "Save...";
-            saveToolStripMenuItem.Click += new System.EventHandler(this.menuSave_Click);
+            saveToolStripMenuItem.Click += new System.EventHandler(this.menuSaveClick);
             // 
             // printPreviewToolStripMenuItem
             // 
@@ -290,7 +290,7 @@ namespace family_tree.viewer
             printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
             printPreviewToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             printPreviewToolStripMenuItem.Text = "Print Preview...";
-            printPreviewToolStripMenuItem.Click += new System.EventHandler(this.menuPrintPreview_Click);
+            printPreviewToolStripMenuItem.Click += new System.EventHandler(this.menuPrintPreviewClick);
             // 
             // printToolStripMenuItem
             // 
@@ -307,7 +307,7 @@ namespace family_tree.viewer
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             closeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             closeToolStripMenuItem.Text = "Close";
-            closeToolStripMenuItem.Click += new System.EventHandler(this.menuClose_Click);
+            closeToolStripMenuItem.Click += new System.EventHandler(this.menuCloseClick);
             // 
             // menuCopy
             // 
@@ -316,7 +316,7 @@ namespace family_tree.viewer
             menuCopy.Name = "menuCopy";
             menuCopy.Size = new System.Drawing.Size(134, 22);
             menuCopy.Text = "Copy";
-            menuCopy.Click += new System.EventHandler(this.menuCopy_Click);
+            menuCopy.Click += new System.EventHandler(this.menuCopyClick);
             // 
             // menuZoomIn
             // 
@@ -324,7 +324,7 @@ namespace family_tree.viewer
             menuZoomIn.Name = "menuZoomIn";
             menuZoomIn.Size = new System.Drawing.Size(152, 22);
             menuZoomIn.Text = "Zoom In";
-            menuZoomIn.Click += new System.EventHandler(this.menuZoomIn_Click);
+            menuZoomIn.Click += new System.EventHandler(this.menuZoomInClick);
             // 
             // menuZoomOut
             // 
@@ -332,7 +332,7 @@ namespace family_tree.viewer
             menuZoomOut.Name = "menuZoomOut";
             menuZoomOut.Size = new System.Drawing.Size(152, 22);
             menuZoomOut.Text = "Zoom Out";
-            menuZoomOut.Click += new System.EventHandler(this.menuZoomOut_Click);
+            menuZoomOut.Click += new System.EventHandler(this.menuZoomOutClick);
             // 
             // menuZoomReset
             // 
@@ -340,7 +340,7 @@ namespace family_tree.viewer
             menuZoomReset.Name = "menuZoomReset";
             menuZoomReset.Size = new System.Drawing.Size(152, 22);
             menuZoomReset.Text = "Zoom Reset";
-            menuZoomReset.Click += new System.EventHandler(this.menuZoomReset_Click);
+            menuZoomReset.Click += new System.EventHandler(this.menuZoomResetClick);
             // 
             // tsbMagnifyReset
             // 
@@ -349,7 +349,7 @@ namespace family_tree.viewer
             tsbMagnifyReset.Name = "tsbMagnifyReset";
             tsbMagnifyReset.Size = new System.Drawing.Size(55, 22);
             tsbMagnifyReset.Text = "Reset";
-            tsbMagnifyReset.Click += new System.EventHandler(this.menuZoomReset_Click);
+            tsbMagnifyReset.Click += new System.EventHandler(this.menuZoomResetClick);
             // 
             // frmViewTree
             // 
@@ -369,8 +369,8 @@ namespace family_tree.viewer
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "frmViewTree";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Shown += new System.EventHandler(this.frmViewTree_Shown);
-            this.Resize += new System.EventHandler(this.frmViewTree_Resize);
+            this.Shown += new System.EventHandler(this.frmViewTreeShown);
+            this.Resize += new System.EventHandler(this.frmViewTreeResize);
             oMainMenu.ResumeLayout(false);
             oMainMenu.PerformLayout();
             oToolBar.ResumeLayout(false);

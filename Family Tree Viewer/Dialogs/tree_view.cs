@@ -259,7 +259,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the form Shown event.  This is post appear load event.</summary>
-        private void frmViewTree_Shown(object sender, EventArgs e)
+        private void frmViewTreeShown(object sender, EventArgs e)
         {
             // Resize the tree now the window has appeared.
             treeResized();
@@ -268,7 +268,7 @@ namespace family_tree.viewer
 
 
         /// <summary>When the form resizes, resize the tree document.</summary>
-        private void frmViewTree_Resize(object sender, System.EventArgs e)
+        private void frmViewTreeResize(object sender, System.EventArgs e)
         {
             // Well the tree sizing is the same difference.
             treeResized();
@@ -283,7 +283,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the File → Save menu point click.  Prompt the user for a filename and save the tree settings.</summary>
-        private void menuSave_Click(object sender, EventArgs e)
+        private void menuSaveClick(object sender, EventArgs e)
         {
             save();
         }
@@ -291,7 +291,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the File → Print Preview menu point.  And the print preview toolbar button click.</summary>
-        private void menuPrintPreview_Click(object sender, System.EventArgs e)
+        private void menuPrintPreviewClick(object sender, System.EventArgs e)
         {
             displayPrintPreview();
         }
@@ -299,7 +299,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the File → Close menu point click.</summary>
-        private void menuClose_Click(object sender, System.EventArgs e)
+        private void menuCloseClick(object sender, System.EventArgs e)
         {
             // Close this window
             Close();
@@ -308,7 +308,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Edit → Options menu point click.  Display the edit options dialog and enact any changes made.</summary>
-        private void menuOptions_Click(object sender, EventArgs e)
+        private void menuOptionsClick(object sender, EventArgs e)
         {
             // Show the tree options dialog.
             TreeOptionsDialog treeOptionsDialog = new TreeOptionsDialog(tree_);
@@ -322,7 +322,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Edit → Copy menu point click and the toolbar Copy button.</summary>
-        private void menuCopy_Click(object sender, EventArgs e)
+        private void menuCopyClick(object sender, EventArgs e)
         {
             copy();
         }
@@ -334,7 +334,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Zoom Reset" menu point click.</summary>
-        private void menuZoomReset_Click(object sender, EventArgs e)
+        private void menuZoomResetClick(object sender, EventArgs e)
         {
             setNewZoomLevel(100);
         }
@@ -342,7 +342,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Zoom Out" menu point click.</summary>
-        private void menuZoomOut_Click(object sender, EventArgs e)
+        private void menuZoomOutClick(object sender, EventArgs e)
         {
             setNewZoomLevel(tree_.screenZoom - 10);
         }
@@ -350,7 +350,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the "View" → "Zoom In" menu point click.</summary>
-        private void menuZoomIn_Click(object sender, EventArgs e)
+        private void menuZoomInClick(object sender, EventArgs e)
         {
             setNewZoomLevel(tree_.screenZoom + 10);
         }
@@ -371,13 +371,10 @@ namespace family_tree.viewer
 
 
         /// <summary>This function is called for each page in a print document.  The static variable m_nPageNum counts the page.  When the function decides that the current page is the last in the document then it sets m_nPageNum back to zero, assuming that the next time the function is called is a new print job starting from on page 1.</summary>
-        private void printDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        private void printDocumentPrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             // This switches the document into printer mode if not already in printer mode.
             tree_.calculatePositions(e.Graphics, DisplayDevice.PRINTER);
-
-            //			// This gives the page width
-            //			nPageWidth = e.PageSettings.PaperSize.Height; 
 
             // This give the width in the centre of the page that should be used.
             int pageWidth = e.MarginBounds.Width;
@@ -449,7 +446,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Draw the tree document on the picture box.</summary>
-        private void pictureBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        private void pictureBoxPaint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             if (tree_.lastDevice != DisplayDevice.SCREEN)
             {
@@ -462,7 +459,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the horizontal scroll bar value changing.</summary>
-        private void horizontalScrollBar_ValueChanged(object sender, System.EventArgs e)
+        private void horizontalScrollBarValueChanged(object sender, System.EventArgs e)
         {
             tree_.offsetX = horizontalScrollBar_.Value;
             pictureBox_.Refresh();
@@ -471,7 +468,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the vertical scroll bar value chaning.</summary>
-        private void verticalScrollBar_ValueChanged(object sender, System.EventArgs e)
+        private void verticalScrollBarValueChanged(object sender, System.EventArgs e)
         {
             tree_.offsetY = verticalScrollBar_.Value;
             pictureBox_.Refresh();
@@ -480,7 +477,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the picturebox mouse down event.</summary>
-        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
+        private void pictureBoxMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -492,7 +489,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the picturebox mouse up event.</summary>
-        private void pictureBox_MouseUp(object sender, MouseEventArgs e)
+        private void pictureBoxMouseUp(object sender, MouseEventArgs e)
         {
             isDragging_ = false;
         }
@@ -500,7 +497,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the picturebox mouse move event.</summary>
-        private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBoxMouseMove(object sender, MouseEventArgs e)
         {
             if (isDragging_)
             {
