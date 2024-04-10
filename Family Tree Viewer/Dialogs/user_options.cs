@@ -68,7 +68,7 @@ namespace family_tree.viewer
             labTreeSubFont_.Font = new System.Drawing.Font(userOptions.treeSubFontName, userOptions.treeSubFontSize);
             labTreeSubFont_.Text = userOptions.treeSubFontName + " " + userOptions.treeSubFontSize.ToString();
             chkTreePersonBox_.Checked = userOptions.isTreePersonBox;
-            textBoxGoogleMapsKey.Text = userOptions.googleMapsKey;
+            textBoxGoogleMapsKey_.Text = userOptions.googleMapsKey;
 
             // Populate the html preview.
             populateHtmlPreview();
@@ -90,7 +90,7 @@ namespace family_tree.viewer
                 userOptions.fontSmall = userOptions_.fontSmall;
                 userOptions.fontHtmlSuperscript = userOptions_.fontHtmlSuperscript;
 
-                userOptions.googleMapsKey = textBoxGoogleMapsKey.Text;
+                userOptions.googleMapsKey = textBoxGoogleMapsKey_.Text;
 
                 userOptions.save();
 
@@ -125,7 +125,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdTreeMainFont_Click(object sender, System.EventArgs e)
+        private void cmdTreeMainFontClick(object sender, System.EventArgs e)
         {
             fontDialog_.Font = labTreeMainFont_.Font;
             fontDialog_.ShowDialog(this);
@@ -135,7 +135,7 @@ namespace family_tree.viewer
 
 
 
-        private void cmdTreeSubFont_Click(object sender, System.EventArgs e)
+        private void cmdTreeSubFontClick(object sender, System.EventArgs e)
         {
             fontDialog_.Font = labTreeSubFont_.Font;
             fontDialog_.ShowDialog(this);
@@ -150,7 +150,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the form load event.</summary>
-        private void frmUserOptions_Load(object sender, EventArgs e)
+        private void frmUserOptionsLoad(object sender, EventArgs e)
         {
             // Load the available fonts
             for (int i = 0; i < userOptions_.numFonts; i++)
@@ -170,7 +170,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the selected index changing on the style selector combo.</summary>
-        private void cboFont_SelectedIndexChanged(object sender, EventArgs e)
+        private void cboFontSelectedIndexChanged(object sender, EventArgs e)
         {
             // Get the selected font
             SimpleFont simpleFont = userOptions_.getFont(cboFont_.SelectedIndex);
@@ -183,7 +183,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the change html style font button click.</summary>
-        private void cmdChangeHtmlFont_Click(object sender, EventArgs e)
+        private void cmdChangeHtmlFontClick(object sender, EventArgs e)
         {
             fontDialog_.Font = labHtmlStyleFont_.Font;
             if (fontDialog_.ShowDialog(this) == DialogResult.OK)

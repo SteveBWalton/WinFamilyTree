@@ -42,7 +42,7 @@ namespace family_tree.viewer
             this.labTreeMainFont_ = new System.Windows.Forms.Label();
             this.fontDialog_ = new System.Windows.Forms.FontDialog();
             this.tabUser = new System.Windows.Forms.TabPage();
-            this.textBoxGoogleMapsKey = new System.Windows.Forms.TextBox();
+            this.textBoxGoogleMapsKey_ = new System.Windows.Forms.TextBox();
             oImageList16x16 = new System.Windows.Forms.ImageList(this.components);
             tabControl = new System.Windows.Forms.TabControl();
             tabMain = new System.Windows.Forms.TabPage();
@@ -106,7 +106,7 @@ namespace family_tree.viewer
             this.m_cmdChangeHtmlFont.TabIndex = 3;
             this.m_cmdChangeHtmlFont.Text = "Change...";
             this.m_cmdChangeHtmlFont.UseVisualStyleBackColor = true;
-            this.m_cmdChangeHtmlFont.Click += new System.EventHandler(this.cmdChangeHtmlFont_Click);
+            this.m_cmdChangeHtmlFont.Click += new System.EventHandler(this.cmdChangeHtmlFontClick);
             // 
             // labHtmlStyleFont_
             // 
@@ -126,7 +126,7 @@ namespace family_tree.viewer
             this.cboFont_.Name = "cboFont_";
             this.cboFont_.Size = new System.Drawing.Size(147, 21);
             this.cboFont_.TabIndex = 1;
-            this.cboFont_.SelectedIndexChanged += new System.EventHandler(this.cboFont_SelectedIndexChanged);
+            this.cboFont_.SelectedIndexChanged += new System.EventHandler(this.cboFontSelectedIndexChanged);
             // 
             // webBrowser_
             // 
@@ -170,7 +170,7 @@ namespace family_tree.viewer
             cmdTreeSubFont.TabIndex = 3;
             cmdTreeSubFont.Text = "Sub Font";
             cmdTreeSubFont.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdTreeSubFont.Click += new System.EventHandler(this.cmdTreeSubFont_Click);
+            cmdTreeSubFont.Click += new System.EventHandler(this.cmdTreeSubFontClick);
             // 
             // cmdTreeMainFont
             // 
@@ -182,7 +182,7 @@ namespace family_tree.viewer
             cmdTreeMainFont.TabIndex = 2;
             cmdTreeMainFont.Text = "Main Font";
             cmdTreeMainFont.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            cmdTreeMainFont.Click += new System.EventHandler(this.cmdTreeMainFont_Click);
+            cmdTreeMainFont.Click += new System.EventHandler(this.cmdTreeMainFontClick);
             // 
             // labTreeSubFont_
             // 
@@ -240,7 +240,7 @@ namespace family_tree.viewer
             // 
             // tabUser
             // 
-            this.tabUser.Controls.Add(this.textBoxGoogleMapsKey);
+            this.tabUser.Controls.Add(this.textBoxGoogleMapsKey_);
             this.tabUser.Controls.Add(labelGoogleMaps);
             this.tabUser.ImageIndex = 2;
             this.tabUser.Location = new System.Drawing.Point(4, 23);
@@ -262,12 +262,12 @@ namespace family_tree.viewer
             // 
             // textBoxGoogleMapsKey
             // 
-            this.textBoxGoogleMapsKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxGoogleMapsKey_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxGoogleMapsKey.Location = new System.Drawing.Point(112, 12);
-            this.textBoxGoogleMapsKey.Name = "textBoxGoogleMapsKey";
-            this.textBoxGoogleMapsKey.Size = new System.Drawing.Size(472, 21);
-            this.textBoxGoogleMapsKey.TabIndex = 1;
+            this.textBoxGoogleMapsKey_.Location = new System.Drawing.Point(112, 12);
+            this.textBoxGoogleMapsKey_.Name = "textBoxGoogleMapsKey";
+            this.textBoxGoogleMapsKey_.Size = new System.Drawing.Size(472, 21);
+            this.textBoxGoogleMapsKey_.TabIndex = 1;
             // 
             // UserOptionsDialog
             // 
@@ -285,7 +285,7 @@ namespace family_tree.viewer
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "User Options";
-            this.Load += new System.EventHandler(this.frmUserOptions_Load);
+            this.Load += new System.EventHandler(this.frmUserOptionsLoad);
             tabControl.ResumeLayout(false);
             tabMain.ResumeLayout(false);
             tabTree.ResumeLayout(false);
@@ -306,6 +306,6 @@ namespace family_tree.viewer
         private WebBrowser webBrowser_;
         private ComboBox cboFont_;
         private TabPage tabUser;
-        private TextBox textBoxGoogleMapsKey;
+        private TextBox textBoxGoogleMapsKey_;
     }
 }
