@@ -95,8 +95,8 @@ namespace family_tree.viewer
                 {
                     cboMonth_.SelectedIndex = value.date.Month - 1;
                 }
-                int nYear = CompoundDate.getYear(value.date);
-                nudYear_.Value = (decimal)nYear;
+                int theYear = CompoundDate.getYear(value.date);
+                nudYear_.Value = (decimal)theYear;
 
                 // Deal with the status.
                 if ((value.status & 8) == 8)
@@ -479,14 +479,14 @@ namespace family_tree.viewer
             this.tsmDayUnknown_.Name = "m_tsmDayUnknown";
             this.tsmDayUnknown_.Size = new System.Drawing.Size(173, 22);
             this.tsmDayUnknown_.Text = "Day Unknown";
-            this.tsmDayUnknown_.Click += new System.EventHandler(this.menuDayUnknown_Click);
+            this.tsmDayUnknown_.Click += new System.EventHandler(this.menuDayUnknownClick);
             // 
             // m_tsmMonthUnknown
             // 
             this.tsmMonthUnknown_.Name = "m_tsmMonthUnknown";
             this.tsmMonthUnknown_.Size = new System.Drawing.Size(173, 22);
             this.tsmMonthUnknown_.Text = "Month Unknown";
-            this.tsmMonthUnknown_.Click += new System.EventHandler(this.menuMonthUnknown_Click);
+            this.tsmMonthUnknown_.Click += new System.EventHandler(this.menuMonthUnknownClick);
             // 
             // m_tsmYearUnknown
             // 
@@ -605,7 +605,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Day Unknown context menu click.</summary>
-        private void menuDayUnknown_Click(object sender, System.EventArgs e)
+        private void menuDayUnknownClick(object sender, System.EventArgs e)
         {
             // Toggle the status of the menu button.
             isDayKnown = tsmDayUnknown_.Checked;
@@ -620,7 +620,7 @@ namespace family_tree.viewer
 
 
         /// <summary>Message handler for the Month unknown context menu click.</summary>
-        private void menuMonthUnknown_Click(object sender, System.EventArgs e)
+        private void menuMonthUnknownClick(object sender, System.EventArgs e)
         {
             // Toggle the month known status.
             isMonthKnown = tsmMonthUnknown_.Checked;
