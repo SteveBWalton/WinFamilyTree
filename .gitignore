@@ -9,7 +9,6 @@ packages/
 # File types to ignore.
 *.suo
 *.user
-*.config
 
 # Files to ignore.
 Family Tree.ndoc
