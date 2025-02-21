@@ -10,17 +10,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Family Tree Viewer", "Famil
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Debug|x64.ActiveCfg = Debug|x64
+		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Debug|x64.Build.0 = Debug|x64
 		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Debug|x86.ActiveCfg = Debug|x86
 		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Debug|x86.Build.0 = Debug|x86
+		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Release|x64.ActiveCfg = Release|x64
+		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Release|x64.Build.0 = Release|x64
 		{B2F77A84-0237-4BB1-A5BE-91E7ED87080B}.Release|x86.ActiveCfg = Release|Any CPU
+		{511A9FA1-D011-4334-917E-A28BFB0AC5E8}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{511A9FA1-D011-4334-917E-A28BFB0AC5E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{511A9FA1-D011-4334-917E-A28BFB0AC5E8}.Release|x64.ActiveCfg = Release|Any CPU
 		{511A9FA1-D011-4334-917E-A28BFB0AC5E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Debug|x64.ActiveCfg = Debug|x64
+		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Debug|x64.Build.0 = Debug|x64
 		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Debug|x86.ActiveCfg = Debug|x86
 		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Debug|x86.Build.0 = Debug|x86
+		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Release|x64.ActiveCfg = Release|x64
+		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Release|x64.Build.0 = Release|x64
 		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Release|x86.ActiveCfg = Release|x86
 		{C67F9D98-E8CD-4EF4-8E8E-D212F37FFC73}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

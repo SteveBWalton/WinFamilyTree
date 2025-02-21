@@ -78,6 +78,7 @@ namespace family_tree.objects
 
             // Open the connection to the database.
             cndb_ = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + fileName + ";");
+            // cndb_ = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.16.0; Data Source=" + fileName + ";");
             cndb_.Open();
 
             // Open the connection to a sqlite3 database.
