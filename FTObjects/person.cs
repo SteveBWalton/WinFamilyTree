@@ -10,7 +10,7 @@ using System.Collections;
 using System.Data;
 using System.Data.OleDb;
 // Sqlite database.
-using System.Data.SQLite;
+// using System.Data.SQLite;
 
 // File
 using System.IO;
@@ -303,25 +303,25 @@ namespace family_tree.objects
             sqlCommand.ExecuteNonQuery();
 
             // Insert a new record into the sqlite3 database.
-            SQLiteCommand sqliteCommand = database.sqlite.CreateCommand();
-            sqliteCommand.CommandText = "INSERT INTO INDIVIDUALS (ID, SURNAME, FORENAMES, MAIDEN_NAME, BORN, BORN_STATUS, DIED, DIED_STATUS, CHILDREN_KNOWN, FATHER_ID, MOTHER_ID, SEX, GEDCOM, MEDIA_ID, LAST_EDIT_BY, LAST_EDIT_DATE, COMMENTS) VALUES (" + personIdx_.ToString() + ", " + Database.toDb(personSurname_) + ", " + Database.toDb(foreNames_) + ", " + Database.toDb(maidenName_) + ", " + Database.toDate(dob_) + ", " + dob_.status.ToString() + ", " + Database.toDate(dod_) + ", " + dod_.status.ToString() + ", " + Database.toDb(isAllChildrenKnown_) + ", " + Database.toDb(fatherIdx_, 0) + ", " + Database.toDb(motherIdx_, 0) + ", " + Database.iif(isMale_, "'M'", "'F'") + ", " + Database.toDb(isIncludeGedcom_) + ", " + Database.toDb(mediaIdx_, 0) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', " + Database.toDb(comments_) + ")";
-            try
-            {
-                sqliteCommand.ExecuteNonQuery();
-            }
-            catch (System.Data.SQLite.SQLiteException error)
-            {
-                if (error.ErrorCode == 19)
-                {
-                    // Update the existing record in the sqlite3 database.
-                    sqliteCommand.CommandText = "UPDATE INDIVIDUALS SET SURNAME = " + Database.toDb(personSurname_) + ", FORENAMES = " + Database.toDb(foreNames_) + ", MAIDEN_NAME = " + Database.toDb(maidenName_) + ", BORN = " + Database.toDate(dob_) + ", BORN_STATUS = " + dob_.status.ToString() + ", DIED = " + Database.toDate(dod_) + ", DIED_STATUS = " + dod_.status.ToString()+", CHILDREN_KNOWN = " + Database.toDb(isAllChildrenKnown_) + ", FATHER_ID = " + Database.toDb(fatherIdx_, 0) + ", MOTHER_ID = " + Database.toDb(motherIdx_, 0) + ", SEX = " + Database.iif(isMale_, "'M'", "'F'") + ", GEDCOM = " + Database.toDb(isIncludeGedcom_) + ", MEDIA_ID = " + Database.toDb(mediaIdx_, 0) + ", LAST_EDIT_BY = " + Database.toDb(lastEditBy_) + ", LAST_EDIT_DATE = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', COMMENTS = " + Database.toDb(comments_) + " WHERE ID = " + personIdx_.ToString() + ";";
-                    sqliteCommand.ExecuteNonQuery();
-                }
-                else
-                {
-                    throw (error);
-                }
-            }
+            //SQLiteCommand sqliteCommand = database.sqlite.CreateCommand();
+            //sqliteCommand.CommandText = "INSERT INTO INDIVIDUALS (ID, SURNAME, FORENAMES, MAIDEN_NAME, BORN, BORN_STATUS, DIED, DIED_STATUS, CHILDREN_KNOWN, FATHER_ID, MOTHER_ID, SEX, GEDCOM, MEDIA_ID, LAST_EDIT_BY, LAST_EDIT_DATE, COMMENTS) VALUES (" + personIdx_.ToString() + ", " + Database.toDb(personSurname_) + ", " + Database.toDb(foreNames_) + ", " + Database.toDb(maidenName_) + ", " + Database.toDate(dob_) + ", " + dob_.status.ToString() + ", " + Database.toDate(dod_) + ", " + dod_.status.ToString() + ", " + Database.toDb(isAllChildrenKnown_) + ", " + Database.toDb(fatherIdx_, 0) + ", " + Database.toDb(motherIdx_, 0) + ", " + Database.iif(isMale_, "'M'", "'F'") + ", " + Database.toDb(isIncludeGedcom_) + ", " + Database.toDb(mediaIdx_, 0) + ", " + Database.toDb(lastEditBy_) + ", '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', " + Database.toDb(comments_) + ")";
+            //try
+            //{
+            //    sqliteCommand.ExecuteNonQuery();
+            //}
+            //catch (System.Data.SQLite.SQLiteException error)
+            //{
+            //    if (error.ErrorCode == 19)
+            //    {
+            //        // Update the existing record in the sqlite3 database.
+            //        sqliteCommand.CommandText = "UPDATE INDIVIDUALS SET SURNAME = " + Database.toDb(personSurname_) + ", FORENAMES = " + Database.toDb(foreNames_) + ", MAIDEN_NAME = " + Database.toDb(maidenName_) + ", BORN = " + Database.toDate(dob_) + ", BORN_STATUS = " + dob_.status.ToString() + ", DIED = " + Database.toDate(dod_) + ", DIED_STATUS = " + dod_.status.ToString()+", CHILDREN_KNOWN = " + Database.toDb(isAllChildrenKnown_) + ", FATHER_ID = " + Database.toDb(fatherIdx_, 0) + ", MOTHER_ID = " + Database.toDb(motherIdx_, 0) + ", SEX = " + Database.iif(isMale_, "'M'", "'F'") + ", GEDCOM = " + Database.toDb(isIncludeGedcom_) + ", MEDIA_ID = " + Database.toDb(mediaIdx_, 0) + ", LAST_EDIT_BY = " + Database.toDb(lastEditBy_) + ", LAST_EDIT_DATE = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', COMMENTS = " + Database.toDb(comments_) + " WHERE ID = " + personIdx_.ToString() + ";";
+            //        sqliteCommand.ExecuteNonQuery();
+            //    }
+            //    else
+            //    {
+            //        throw (error);
+            //    }
+            //}
 
             // Save the sources.
             if (sourcesName_ != null)

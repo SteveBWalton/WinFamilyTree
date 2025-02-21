@@ -4,7 +4,7 @@ using System.Collections;
 // Access database ADO.NET
 using System.Data.OleDb;
 // Sqlite3 database.  This is via Manage NuGet Packages.
-using System.Data.SQLite;
+// using System.Data.SQLite;
 using System.IO;
 // StringBuilder
 using System.Text;
@@ -47,7 +47,7 @@ namespace family_tree.objects
         private OleDbConnection cndb_;
 
         /// <summary>Connection to a sqlite3 database.</summary>
-        private SQLiteConnection sqlite_;
+        // private SQLiteConnection sqlite_;
 
         /// <summary>List of fact types.</summary>
         private FactType[] factTypes_;
@@ -106,11 +106,11 @@ namespace family_tree.objects
                 cndb_.Close();
                 cndb_ = null;
             }
-            if (sqlite_ != null)
-            {
-                sqlite_.Close();
-                sqlite_ = null;
-            }
+            //if (sqlite_ != null)
+            //{
+            //    sqlite_.Close();
+            //    sqlite_ = null;
+            //}
         }
 
 
@@ -2135,7 +2135,7 @@ namespace family_tree.objects
         internal OleDbConnection cndb { get { return cndb_; } }
 
         /// <summary>Connection to the sqlite3 database.</summary>
-        internal SQLiteConnection sqlite { get { return sqlite_; } }
+        // internal SQLiteConnection sqlite { get { return sqlite_; } }
 
         /// <summary>Range of differing ages to present people as possible marriage partners.</summary>
         public int relationshipRange { get { return marriedRange_; } set { marriedRange_ = value; } }

@@ -12,7 +12,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Steve Walton")]
 [assembly: AssemblyProduct("Family Tree Viewer")]
-[assembly: AssemblyCopyright("© 2004 - 2007 Steve Walton")]
+[assembly: AssemblyCopyright("© 2004-2007 Steve Walton")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
