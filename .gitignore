@@ -1,20 +1,30 @@
+#
 # Folders to ignore.
+#
 .vs/
 _UpgradeReport_Files/
 bin/
 obj/
 x86/
 packages/
+MigrationBackup/
+WebSiteBuilder/
 
+#
 # File types to ignore.
+#
 *.suo
 *.user
 
+#
 # Files to ignore.
+#
 Family Tree.ndoc
 UpgradeLog.XML
 keysync.xml
 Family Tree Viewer/clsGedcomOptions.cs
 Family Tree Viewer/clsMSWord.cs
 Family Tree Viewer/clsRegistry.cs
+FTObjects/FTObjects.xml
+Family Tree Viewer/Family Tree Viewer.xml
 
