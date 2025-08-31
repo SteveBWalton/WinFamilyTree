@@ -20,10 +20,10 @@ namespace family_tree.objects
         #region Member Variables
 
         /// <summary>The ID of the media object.</summary>
-        public int idx_;
+        public int _idx;
 
         /// <summary>The database that this media object is attached to.</summary>
-        private Database database_;
+        private Database _database;
 
         /// <summary>The human readable title for the the media object.</summary>
         public string title;
@@ -47,30 +47,28 @@ namespace family_tree.objects
         public int height;
 
         /// <summary>The list of indexes of people who are attached to this media object.</summary>
-        private ArrayList attachedPeople_;
+        private ArrayList _attachedPeople;
 
         /// <summary>Name of the user who wrote the last edit.</summary>
-        private string lastEditBy_;
+        private string _lastEditBy;
 
         /// <summary>Date and time of the last edit.</summary>
-        private DateTime lastEditDate_;
+        private DateTime _lastEditDate;
 
 
         #endregion
 
-        #region Class constructor
+        #region Constructors
 
-
-
-        /// <summary>Empty class constructor in the specified database.</summary>
+        /// <summary>Constructor in the specified database.</summary>
         /// <param name="database">Specifies the database that contains the media object.</param>
         public Media(Database database)
         {
             // Save the input parameters.
-            database_ = database;
+            _database = database;
 
             // Default values for the media object.
-            idx_ = 0;
+            _idx = 0;
             title = "";
             fileName = "";
             typeIdx = 1;
@@ -78,25 +76,25 @@ namespace family_tree.objects
             isThumbnail = true;
             width = -1;
             height = -1;
-            attachedPeople_ = null;
+            _attachedPeople = null;
         }
 
 
 
-        /// <summary>Creates a clsMedia object that represents the specified media object in the specified database.</summary>
+        /// <summary>Creates a media object that represents the specified media object in the specified database.</summary>
         /// <param name="database">Specifies the database that contains the media object.</param>
         /// <param name="mediaIdx">Specifies the ID of the media object.</param>
         public Media(Database database, int mediaIdx)
         {
             // Save the input parameters.
-            database_ = database;
+            _database = database;
 
             // Open the specified media object.
             OleDbCommand sqlCommand = new OleDbCommand("SELECT * FROM tbl_Media WHERE ID=" + mediaIdx.ToString() + ";", database.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             if (dataReader.Read())
             {
-                idx_ = mediaIdx;
+                _idx = mediaIdx;
                 title = walton.Database.getString(dataReader, "Title", "Title");
                 fileName = walton.Database.getString(dataReader, "Filename", "Filename");
                 typeIdx = walton.Database.getInt(dataReader, "TypeID", 1);
@@ -104,15 +102,40 @@ namespace family_tree.objects
                 isThumbnail = walton.Database.getBool(dataReader, "Thumbnail", true);
                 width = walton.Database.getInt(dataReader, "Width", -1);
                 height = walton.Database.getInt(dataReader, "Height", -1);
-                lastEditBy_ = Database.getString(dataReader, "LastEditBy", "Steve Walton");
-                lastEditDate_ = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
+                _lastEditBy = Database.getString(dataReader, "LastEditBy", "Steve Walton");
+                _lastEditDate = Database.getDateTime(dataReader, "LastEditDate", DateTime.Now);
             }
             dataReader.Close();
 
-            attachedPeople_ = null;
+            _attachedPeople = null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>The string description of the object.</summary>
+        /// <returns>A string description of the object.</returns>
+        public override string ToString()
+        {
+            return title;
         }
 
 
+
+        /// <summary>The full path and filename for the media object.</summary>
+        public string fullFileName
+        {
+            get
+            {
+                string fullFileName = _database.getMediaDirectory() + "\\" + fileName;
+                if (File.Exists(fullFileName))
+                {
+                    return fullFileName;
+                }
+                return "";
+            }
+        }
 
         #endregion
 
@@ -130,7 +153,7 @@ namespace family_tree.objects
             // Build the Sql command to update the media object
             StringBuilder sql = new StringBuilder();
             OleDbCommand sqlCommand;
-            if (idx_ > 0)
+            if (_idx > 0)
             {
                 // Update an existing media object
                 sql.Append("UPDATE tbl_Media SET ");
@@ -139,31 +162,31 @@ namespace family_tree.objects
                 sql.Append("Height = " + walton.Database.toDb(height, -1) + ", ");
                 sql.Append("[Primary] = " + walton.Database.toDb(isPrimary) + ", ");
                 sql.Append("Thumbnail = " + walton.Database.toDb(isThumbnail) + ", ");
-                sql.Append("LastEditBy = " + Database.toDb(lastEditBy_) + ", ");
+                sql.Append("LastEditBy = " + Database.toDb(_lastEditBy) + ", ");
                 sql.Append("LastEditDate = #" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss") + "# ");
                 sql.Append("WHERE ID = ");
-                sql.Append(idx_);
+                sql.Append(_idx);
                 sql.Append(";");
             }
             else
             {
                 // Find the ID for the new Media object.
-                sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Media;", database_.cndb);
-                idx_ = 1 + int.Parse(sqlCommand.ExecuteScalar().ToString());
+                sqlCommand = new OleDbCommand("SELECT MAX(ID) AS NewID FROM tbl_Media;", _database.cndb);
+                _idx = 1 + int.Parse(sqlCommand.ExecuteScalar().ToString());
 
                 // Insert a new media object.
                 sql.Append("INSERT INTO tbl_Media (ID, Filename, Title, Width, Height, [Primary], Thumbnail, LastEditBy, LastEditDate) VALUES (");
-                sql.Append(idx_.ToString() + ",");
+                sql.Append(_idx.ToString() + ",");
                 sql.Append(walton.Database.toDb(fileName) + ", ");
                 sql.Append(walton.Database.toDb(title) + ", ");
                 sql.Append(walton.Database.toDb(width, -1) + ", ");
                 sql.Append(walton.Database.toDb(height, -1) + ", ");
                 sql.Append(walton.Database.toDb(isPrimary) + ", ");
                 sql.Append(walton.Database.toDb(isThumbnail) + ", ");
-                sql.Append(walton.Database.toDb(lastEditBy_) + ", ");
+                sql.Append(walton.Database.toDb(_lastEditBy) + ", ");
                 sql.Append(walton.Database.toDb("#" + DateTime.Now.ToString("d-MMM-yyyy HH:mm:ss")) + "#);");
             }
-            sqlCommand = new OleDbCommand(sql.ToString(), database_.cndb);
+            sqlCommand = new OleDbCommand(sql.ToString(), _database.cndb);
             try
             {
                 sqlCommand.ExecuteNonQuery();
@@ -175,17 +198,17 @@ namespace family_tree.objects
             }
 
             // Save the attached people.
-            if (attachedPeople_ != null)
+            if (_attachedPeople != null)
             {
                 // Remove all the previous people.
-                sqlCommand = new OleDbCommand("DELETE FROM tbl_AdditionalMediaForPeople WHERE MediaID = " + idx_.ToString() + ";",database_.cndb);
+                sqlCommand = new OleDbCommand("DELETE FROM tbl_AdditionalMediaForPeople WHERE MediaID = " + _idx.ToString() + ";",_database.cndb);
                 sqlCommand.ExecuteNonQuery();
 
                 // Attach the new people.
                 int[] peopleIdxs = getAttachedPeople();
                 foreach (int personIdx in peopleIdxs)
                 {
-                    sqlCommand = new OleDbCommand("INSERT INTO tbl_AdditionalMediaForPeople (PersonID, MediaID) VALUES (" + personIdx.ToString() + "," + idx_.ToString() + ");", database_.cndb);
+                    sqlCommand = new OleDbCommand("INSERT INTO tbl_AdditionalMediaForPeople (PersonID, MediaID) VALUES (" + personIdx.ToString() + "," + _idx.ToString() + ");", _database.cndb);
                     try
                     {
                         sqlCommand.ExecuteNonQuery();
@@ -264,7 +287,7 @@ namespace family_tree.objects
                 html.Append("<table>");
                 foreach (int personIdx in peopleIdxs)
                 {
-                    Person person = new Person(personIdx, database_);
+                    Person person = new Person(personIdx, _database);
                     html.Append("<tr bgcolor=\"silver\"><td><span class=\"Small\">");
                     html.Append("<a href=\"person:" + personIdx.ToString() + "\">");
                     html.Append(person.getName(true, false));
@@ -293,12 +316,12 @@ namespace family_tree.objects
         private void loadAttachedPeople()
         {
             // Find the people attached to this media object
-            attachedPeople_ = new ArrayList();
-            OleDbCommand sqlCommand = new OleDbCommand("SELECT PersonID FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + idx_.ToString() + ";", database_.cndb);
+            _attachedPeople = new ArrayList();
+            OleDbCommand sqlCommand = new OleDbCommand("SELECT PersonID FROM tbl_AdditionalMediaForPeople WHERE MediaID=" + _idx.ToString() + ";", _database.cndb);
             OleDbDataReader dataReader = sqlCommand.ExecuteReader();
             while (dataReader.Read())
             {
-                attachedPeople_.Add(dataReader.GetInt32(0));
+                _attachedPeople.Add(dataReader.GetInt32(0));
             }
             dataReader.Close();
         }
@@ -310,13 +333,13 @@ namespace family_tree.objects
         public int[] getAttachedPeople()
         {
             // Check that the attached people are loaded
-            if (attachedPeople_ == null)
+            if (_attachedPeople == null)
             {
                 loadAttachedPeople();
             }
 
             // Return the attached people.
-            return (int[])attachedPeople_.ToArray(typeof(int));
+            return (int[])_attachedPeople.ToArray(typeof(int));
         }
 
 
@@ -326,13 +349,13 @@ namespace family_tree.objects
         public void addPerson(int personIdx)
         {
             // Check that the attached people are loaded.
-            if (attachedPeople_ == null)
+            if (_attachedPeople == null)
             {
                 loadAttachedPeople();
             }
 
             // Add the specified person.
-            attachedPeople_.Add(personIdx);
+            _attachedPeople.Add(personIdx);
         }
 
 
@@ -340,42 +363,12 @@ namespace family_tree.objects
         /// <summary>Remove all the people attached to this media object.</summary>
         public void removeAllPeople()
         {
-            attachedPeople_ = new ArrayList();
+            _attachedPeople = new ArrayList();
         }
 
 
 
         #endregion
 
-        #region Public Properties
-
-
-
-        /// <summary>The string description of the object.</summary>
-        /// <returns>A string description of the object.</returns>
-        public override string ToString()
-        {
-            return title;
-        }
-
-
-
-        /// <summary>The full path and filename for the media object.</summary>
-        public string fullFileName
-        {
-            get
-            {
-                string fullFileName = database_.getMediaDirectory() + "\\" + fileName;
-                if (File.Exists(fullFileName))
-                {
-                    return fullFileName;
-                }
-                return "";
-            }
-        }
-
-
-
-        #endregion
     }
 }

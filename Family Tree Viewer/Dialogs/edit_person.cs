@@ -535,7 +535,7 @@ namespace family_tree.viewer
                     foreach (Media media in medias)
                     {
                         cboMainImage_.Items.Add(media);
-                        if (media.idx_ == person_.mediaIdx)
+                        if (media._idx == person_.mediaIdx)
                         {
                             cboMainImage_.SelectedIndex = cboMainImage_.Items.Count - 1;
                         }
@@ -1073,7 +1073,7 @@ namespace family_tree.viewer
             Media media = (Media)cboMainImage_.SelectedItem;
 
             // Save the index in the person object.
-            person_.mediaIdx = media.idx_;
+            person_.mediaIdx = media._idx;
 
             // Display the image on the form.
             showImage();

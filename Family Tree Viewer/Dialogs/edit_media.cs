@@ -117,7 +117,7 @@ namespace family_tree.viewer
         /// <summary>The ID of the media object on the form.</summary>
         public int mediaIdx
         {
-            get { return media_.idx_; }
+            get { return media_._idx; }
         }
 
 
